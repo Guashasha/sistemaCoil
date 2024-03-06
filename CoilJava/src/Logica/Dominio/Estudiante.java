@@ -1,2 +1,4 @@
-package Logica.Dominio;public class Estudiante {
+package Logica.Dominio;
+
+public class Estudiante extends Persona {
 }

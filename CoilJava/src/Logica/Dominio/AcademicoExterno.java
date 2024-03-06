@@ -1,2 +1,4 @@
-package Logica.Dominio;public class AcademicoExterno {
+package Logica.Dominio;
+
+public class AcademicoExterno extends Academico {
 }

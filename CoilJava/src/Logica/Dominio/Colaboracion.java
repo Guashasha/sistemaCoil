@@ -1,2 +1,4 @@
-package Logica.Dominio;public class Colaboracion {
+package Logica.Dominio;
+
+public class Colaboracion {
 }

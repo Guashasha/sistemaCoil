@@ -1,2 +1,4 @@
-package Logica.Dominio;public class Universidad {
+package Logica.Dominio;
+
+public class Universidad {
 }

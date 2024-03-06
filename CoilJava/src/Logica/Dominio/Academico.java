@@ -1,4 +1,4 @@
 package Logica.Dominio;
 
-public class Academico {
+public abstract class Academico extends Persona {
 }
