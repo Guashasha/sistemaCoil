@@ -20,6 +20,15 @@ public abstract class Persona {
         return this.apellidoMaterno;
     }
 
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
+    public void setApellidoPaterno(String apellidoPaterno) {
+        this.apellidoPaterno = apellidoPaterno;
+    }
 
+    public void setApellidoMaterno(String apellidoMaterno) {
+        this.apellidoMaterno = apellidoMaterno;
+    }
 }
