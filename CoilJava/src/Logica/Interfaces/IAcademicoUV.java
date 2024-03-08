@@ -10,7 +10,6 @@ public interface IAcademicoUV {
     int modificarAcademicoUV(String cedulaProfesional) throws SQLException;
     int academicoPorCedula(int cedulaProfesional) throws SQLException;
     ArrayList<AcademicoUV> academicosPorContrato(String categoriaContratacion) throws SQLException;
-
     ArrayList<AcademicoUV> academicosPorRegion(String region) throws SQLException;
 
 }
