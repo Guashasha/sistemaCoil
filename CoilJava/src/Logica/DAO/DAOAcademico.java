@@ -4,8 +4,6 @@ import AccesoADatos.ConexionBaseDatos;
 import Logica.Dominio.Academico;
 import Logica.Dominio.Universidad;
 import Logica.Interfaces.IAcademicoDAO;
-
-import java.net.http.HttpResponse;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
