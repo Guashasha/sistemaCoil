@@ -5,10 +5,7 @@ public abstract class Persona {
     private String apellidoPaterno;
     private String apellidoMaterno;
 
-    public Persona (String apellidoPaterno, String apellidoMaterno, String nombre) {
-        this.apellidoPaterno = apellidoPaterno;
-        this.apellidoMaterno = apellidoMaterno;
-        this.nombre = nombre;
+    public Persona() {
     }
 
     public String getNombre () {
@@ -23,6 +20,15 @@ public abstract class Persona {
         return this.apellidoMaterno;
     }
 
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
+    public void setApellidoPaterno(String apellidoPaterno) {
+        this.apellidoPaterno = apellidoPaterno;
+    }
 
+    public void setApellidoMaterno(String apellidoMaterno) {
+        this.apellidoMaterno = apellidoMaterno;
+    }
 }
