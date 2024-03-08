@@ -62,12 +62,4 @@ public class Colaboracion {
     public void setPerfilEstudiante(String perfilEstudiante) {
         this.perfilEstudiante = perfilEstudiante;
     }
-
-    public Date getFechaFin() {
-        return fechaFin;
-    }
-
-    public void setFechaFin(Date fechaFin) {
-        this.fechaFin = fechaFin;
-    }
 }
