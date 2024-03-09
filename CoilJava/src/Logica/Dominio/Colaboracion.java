@@ -12,13 +12,17 @@ public class Colaboracion {
     private String temaInteres;
     private String idioma;
     private String objetivo;
-    private Date fechaInicio;
-    private Date fechaFin;
+    private Periodo periodo;
     private String perfilEstudiante;
 
-    public Colaboracion () {
-
+    public Colaboracion(tipoColaboracion tipo, String temaInteres, String idioma, String objetivo, String perfilEstudiante) {
+        this.tipo = tipo;
+        this.temaInteres = temaInteres;
+        this.idioma = idioma;
+        this.objetivo = objetivo;
+        this.perfilEstudiante = perfilEstudiante;
     }
+
     public tipoColaboracion getTipo() {
         return tipo;
     }
@@ -51,27 +55,11 @@ public class Colaboracion {
         this.objetivo = objetivo;
     }
 
-    public Date getFechaInicio() {
-        return fechaInicio;
-    }
-
-    public void setFechaInicio(Date fechaInicio) {
-        this.fechaInicio = fechaInicio;
-    }
-
     public String getPerfilEstudiante() {
         return perfilEstudiante;
     }
 
     public void setPerfilEstudiante(String perfilEstudiante) {
         this.perfilEstudiante = perfilEstudiante;
-    }
-
-    public Date getFechaFin() {
-        return fechaFin;
-    }
-
-    public void setFechaFin(Date fechaFin) {
-        this.fechaFin = fechaFin;
     }
 }

@@ -18,21 +18,41 @@ CREATE TABLE `persona` (
 CREATE TABLE `estudiante` (
   `idEstudiante` int AUTO_INCREMENT,
   `idPersona` int,
-  `universidad` varchar(30) NOT NULL,
-  `paisOrigen` varchar(30) NOT NULL,
   PRIMARY KEY (`idEstudiante`, `idPersona`)
 );
 
+CREATE TABLE `estudianteExterno` (
+  `matricula` varchar(15) PRIMARY KEY,
+  `idEstudiante` int,
+  `universidad` int
+);
+
+CREATE TABLE `estudianteUV` (
+  `matricula` char(9) PRIMARY KEY NOT NULL,
+  `idEstudiante` int,
+  `facultad` int
+);
+
 CREATE TABLE `universidad` (
-  `idUniversidad` int PRIMARY KEY NOT NULL,
+  `idUniversidad` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
   `paisOrigen` varchar(40) NOT NULL
+);
+
+CREATE TABLE `facultad` (
+  `idFacultad` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(40) NOT NULL,
+  `region` int
+);
+
+CREATE TABLE `region` (
+  `idRegion` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(30)
 );
 
 CREATE TABLE `academico` (
   `cedulaProfesional` int AUTO_INCREMENT,
   `idPersona` int,
-  `institucion` int NOT NULL,
   `areaEstudios` varchar(40) NOT NULL,
   `correoElectronico` varchar(30) NOT NULL,
   `numeroTelefonico` char(12) NOT NULL,
@@ -40,13 +60,14 @@ CREATE TABLE `academico` (
 );
 
 CREATE TABLE `academicoExterno` (
-  `cedulaProfesional` int PRIMARY KEY
+  `cedulaProfesional` int PRIMARY KEY,
+  `universidad` int
 );
 
 CREATE TABLE `academicoUV` (
   `cedulaProfesional` int PRIMARY KEY,
   `categoriaContratacion` varchar(30) NOT NULL,
-  `region` varchar(30) NOT NULL
+  `facultad` int
 );
 
 CREATE TABLE `cursoTaller` (
@@ -92,13 +113,25 @@ CREATE TABLE `cuenta` (
 
 ALTER TABLE `estudiante` ADD FOREIGN KEY (`idPersona`) REFERENCES `persona` (`idPersona`);
 
-ALTER TABLE `academico` ADD FOREIGN KEY (`idPersona`) REFERENCES `persona` (`idPersona`);
+ALTER TABLE `estudianteExterno` ADD FOREIGN KEY (`idEstudiante`) REFERENCES `estudiante` (`idEstudiante`);
 
-ALTER TABLE `academico` ADD FOREIGN KEY (`institucion`) REFERENCES `universidad` (`idUniversidad`);
+ALTER TABLE `estudianteExterno` ADD FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`);
+
+ALTER TABLE `estudianteUV` ADD FOREIGN KEY (`idEstudiante`) REFERENCES `estudiante` (`idEstudiante`);
+
+ALTER TABLE `estudianteUV` ADD FOREIGN KEY (`facultad`) REFERENCES `facultad` (`idFacultad`);
+
+ALTER TABLE `facultad` ADD FOREIGN KEY (`region`) REFERENCES `region` (`idRegion`);
+
+ALTER TABLE `academico` ADD FOREIGN KEY (`idPersona`) REFERENCES `persona` (`idPersona`);
 
 ALTER TABLE `academicoExterno` ADD FOREIGN KEY (`cedulaProfesional`) REFERENCES `academico` (`cedulaProfesional`);
 
+ALTER TABLE `academicoExterno` ADD FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`);
+
 ALTER TABLE `academicoUV` ADD FOREIGN KEY (`cedulaProfesional`) REFERENCES `academico` (`cedulaProfesional`);
+
+ALTER TABLE `academicoUV` ADD FOREIGN KEY (`facultad`) REFERENCES `facultad` (`idFacultad`);
 
 ALTER TABLE `estudiantesColaboracion` ADD FOREIGN KEY (`idEstudiante`) REFERENCES `estudiante` (`idEstudiante`);
 
