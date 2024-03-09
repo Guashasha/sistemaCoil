@@ -2,8 +2,7 @@ package Logica.Dominio;
 
 public class AcademicoUV extends Academico {
     private String categoriaContracion;
-    private String region;
-    private String facultad;
+    private Facultad facultad;
 
     public AcademicoUV() {
     }
@@ -16,19 +15,11 @@ public class AcademicoUV extends Academico {
         this.categoriaContracion = categoriaContracion;
     }
 
-    public String getRegion() {
-        return region;
-    }
-
-    public void setRegion(String region) {
-        this.region = region;
-    }
-
-    public String getFacultad() {
+    public Facultad getFacultad() {
         return facultad;
     }
 
-    public void setFacultad(String facultad) {
+    public void setFacultad(Facultad facultad) {
         this.facultad = facultad;
     }
 }
