@@ -3,31 +3,40 @@ package Logica.Dominio;
 import java.sql.Date;
 
 public class Colaboracion {
-    private enum tipoColaboracion {
+    public Periodo getPeriodo() {
+        return periodo;
+    }
+
+    public void setPeriodo(Periodo periodo) {
+        this.periodo = periodo;
+    }
+
+    private enum TipoColaboracion {
         claseEspejo,
         COIL
     }
 
-    private tipoColaboracion tipo;
+    private TipoColaboracion tipo;
     private String temaInteres;
     private String idioma;
     private String objetivo;
     private Periodo periodo;
     private String perfilEstudiante;
 
-    public Colaboracion(tipoColaboracion tipo, String temaInteres, String idioma, String objetivo, String perfilEstudiante) {
+    public Colaboracion(TipoColaboracion tipo, String temaInteres, String idioma, String objetivo, String perfilEstudiante, Periodo periodo) {
         this.tipo = tipo;
         this.temaInteres = temaInteres;
         this.idioma = idioma;
         this.objetivo = objetivo;
         this.perfilEstudiante = perfilEstudiante;
+        this.periodo = periodo;
     }
 
-    public tipoColaboracion getTipo() {
+    public TipoColaboracion getTipo() {
         return tipo;
     }
 
-    public void setTipo(tipoColaboracion tipo) {
+    public void setTipo(TipoColaboracion tipo) {
         this.tipo = tipo;
     }
 
