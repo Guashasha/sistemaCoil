@@ -2,6 +2,7 @@ package Logica.Dominio;
 
 public abstract class Academico extends Persona {
     private int cedulaProfesional;
+    private Universidad institucion;
     private String areaEstudios;
     private String correoElectronico;
     private String numeroTelefono;
@@ -10,15 +11,23 @@ public abstract class Academico extends Persona {
     }
 
     public int getCedulaProfesional() {
-        return cedulaProfesional;
+        return this.cedulaProfesional;
     }
 
     public void setCedulaProfesional(int cedulaProfesional) {
         this.cedulaProfesional = cedulaProfesional;
     }
 
+    public Universidad getInstitucion() {
+        return this.institucion;
+    }
+
+    public void setInstitucion(Universidad institucion) {
+        this.institucion = institucion;
+    }
+
     public String getAreaEstudios() {
-        return areaEstudios;
+        return this.areaEstudios;
     }
 
     public void setAreaEstudios(String areaEstudios) {
@@ -26,7 +35,7 @@ public abstract class Academico extends Persona {
     }
 
     public String getCorreoElectronico() {
-        return correoElectronico;
+        return this.correoElectronico;
     }
 
     public void setCorreoElectronico(String correoElectronico) {
@@ -34,7 +43,7 @@ public abstract class Academico extends Persona {
     }
 
     public String getNumeroTelefono() {
-        return numeroTelefono;
+        return this.numeroTelefono;
     }
 
     public void setNumeroTelefono(String numeroTelefono) {
