@@ -1,12 +1,18 @@
 package Logica.Dominio;
 
 public class CursoTaller {
+    private enum Modalidad {
+        virtual,
+        presencial,
+        mixto
+    }
+
     private String nombre;
     private String expositor;
     private Periodo periodo;
-    private String modalidad;
+    private Modalidad modalidad;
 
-    public CursoTaller(String nombre, String expositor, Periodo periodo, String modalidad) {
+    public CursoTaller(String nombre, String expositor, Periodo periodo, Modalidad modalidad) {
         this.nombre = nombre;
         this.expositor = expositor;
         this.periodo = periodo;
@@ -37,11 +43,11 @@ public class CursoTaller {
         this.periodo = periodo;
     }
 
-    public String getModalidad() {
+    public Modalidad getModalidad() {
         return modalidad;
     }
 
-    public void setModalidad(String modalidad) {
+    public void setModalidad(Modalidad modalidad) {
         this.modalidad = modalidad;
     }
 }
