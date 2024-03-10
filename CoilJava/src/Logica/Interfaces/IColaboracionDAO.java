@@ -7,11 +7,9 @@ import Logica.ErrorDAO;
 
 import java.util.List;
 
-public interface IColaboracionDAO {
-    public List<Estudiante> getListaEstudiantes (Colaboracion colaboracion) throws ErrorDAO;
-    public List<Colaboracion> getColaboracionesTerminadas () throws ErrorDAO;
-    public List<Colaboracion> getColaboracionesVigentes () throws ErrorDAO;
-    public void registrarColaboracion (Colaboracion colaboracion) throws ErrorDAO;
-    public Colaboracion getColaboracionPorId (int idColaboracion) throws ErrorDAO;
+public interface IColaboracionDAO extends IDAO<Colaboracion> {
     public Colaboracion getColaboracionPorAcademicosParticipantes (Academico academico1, Academico academico2) throws ErrorDAO;
+    public Colaboracion getColaboracionPorId (int idColaboracion) throws ErrorDAO;
+    public List<Estudiante> getListaDeEstudiantes (Colaboracion colaboracion) throws ErrorDAO;
+    public List<Academico> getAcademicosParticipantes (Colaboracion colaboracion) throws ErrorDAO;
 }
