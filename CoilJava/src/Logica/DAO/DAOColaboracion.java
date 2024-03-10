@@ -5,17 +5,18 @@ import Logica.Dominio.Colaboracion;
 import Logica.Dominio.Estudiante;
 import Logica.ErrorDAO;
 import Logica.Interfaces.IColaboracionDAO;
-
+import AccesoADatos.ColaboracionDb;
 import java.util.List;
+import java.util.Optional;
 
 public class DAOColaboracion implements IColaboracionDAO {
     @Override
-    public Colaboracion getColaboracionPorAcademicosParticipantes(Academico academico1, Academico academico2) throws ErrorDAO {
-        return null;
+    public Optional<Colaboracion> getColaboracionPorAcademicosParticipantes(Academico academico1, Academico academico2) throws ErrorDAO {
+        return Optional.ofNullable(ColaboracionDb.getColaboracionPorAcademicos(academico1, academico2));
     }
 
     @Override
-    public Colaboracion getColaboracionPorId(int idColaboracion) throws ErrorDAO {
+    public Optional<Colaboracion> getColaboracionPorId(int idColaboracion) throws ErrorDAO {
         return null;
     }
 

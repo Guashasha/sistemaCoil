@@ -11,4 +11,5 @@ public interface ICursoTallerDAO extends IDAO<CursoTaller> {
     public Optional<CursoTaller> getCursoTallerPorId (int idCursoTaller) throws ErrorDAO;
     public CursoTaller getCursoTallerPorNombre (String nombreCurso) throws ErrorDAO;
     public List<Academico> getAcademicosParticipantes (CursoTaller cursoTaller) throws ErrorDAO;
+    public List<Academico> getAcademicosAprobados () throws ErrorDAO;
 }

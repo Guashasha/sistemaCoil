@@ -25,6 +25,11 @@ public class DAOCursoTaller implements ICursoTallerDAO {
     }
 
     @Override
+    public List<Academico> getAcademicosAprobados() throws ErrorDAO {
+        return null;
+    }
+
+    @Override
     public int agregar(CursoTaller cursoTaller) throws ErrorDAO {
         return 0;
     }

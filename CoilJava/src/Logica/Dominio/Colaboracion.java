@@ -3,19 +3,12 @@ package Logica.Dominio;
 import java.sql.Date;
 
 public class Colaboracion {
-    public Periodo getPeriodo() {
-        return periodo;
-    }
-
-    public void setPeriodo(Periodo periodo) {
-        this.periodo = periodo;
-    }
-
     private enum TipoColaboracion {
         claseEspejo,
         COIL
     }
 
+    private int idColaboracion;
     private TipoColaboracion tipo;
     private String temaInteres;
     private String idioma;
@@ -23,12 +16,29 @@ public class Colaboracion {
     private Periodo periodo;
     private String perfilEstudiante;
 
-    public Colaboracion(TipoColaboracion tipo, String temaInteres, String idioma, String objetivo, String perfilEstudiante, Periodo periodo) {
+    public Colaboracion(int idColaboracion, TipoColaboracion tipo, String temaInteres, String idioma, String objetivo, String perfilEstudiante, Periodo periodo) {
+        this.idColaboracion = idColaboracion;
         this.tipo = tipo;
         this.temaInteres = temaInteres;
         this.idioma = idioma;
         this.objetivo = objetivo;
         this.perfilEstudiante = perfilEstudiante;
+        this.periodo = periodo;
+    }
+
+    public int getIdColaboracion() {
+        return idColaboracion;
+    }
+
+    public void setIdColaboracion(int idColaboracion) {
+        this.idColaboracion = idColaboracion;
+    }
+
+    public Periodo getPeriodo() {
+        return periodo;
+    }
+
+    public void setPeriodo(Periodo periodo) {
         this.periodo = periodo;
     }
 
