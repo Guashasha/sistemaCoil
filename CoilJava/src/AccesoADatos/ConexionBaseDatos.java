@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class ConexionBaseDatos {
     private Connection conexion;
-    private final String NOMBRE_BASE_DE_DATOS = "jdbc:mysql://192.168.100.216:3307/coil";
+    private final String NOMBRE_BASE_DE_DATOS = "jdbc:mysql://192.168.1.57:3307/coil";
     private final String USUARIO_BASE_DE_DATOS = "admin_COIL";
     private final String CLAVE_BASE_DE_DATOS = "habitacionDeVuelo";
 

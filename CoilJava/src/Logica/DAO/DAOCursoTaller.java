@@ -3,7 +3,6 @@ package Logica.DAO;
 import Logica.Dominio.Academico;
 import Logica.Dominio.CursoTaller;
 import Logica.ErrorDAO;
-import Logica.Interfaces.IColaboracionDAO;
 import Logica.Interfaces.ICursoTallerDAO;
 
 import java.util.List;
