@@ -13,7 +13,7 @@ public class DAOAcademico implements IAcademicoDAO {
     private final ConexionBaseDatos conexionBaseDatos = new ConexionBaseDatos();
 
     @Override
-    public int registrarAcademicoExterno (Academico academicoExterno, int idUniversidad) throws SQLTimeoutException, SQLException {
+    public int registrarAcademicoExterno (Academico academicoExterno) throws SQLTimeoutException, SQLException {
         String nombre = academicoExterno.getNombre();
         String apellidoPaterno = academicoExterno.getApellidoPaterno();
         String apellidoMaterno = academicoExterno.getApellidoMaterno();
@@ -33,7 +33,7 @@ public class DAOAcademico implements IAcademicoDAO {
         insercionAcademico.setInt(1, cedulaProfesional);
 
         //SE USARÁN PROCEDURES PARA REGISTRAR EN VARIAS TABLAS AL MISMO TIEMPO?
-
+        return 0;
     }
 
     @Override
