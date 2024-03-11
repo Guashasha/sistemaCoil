@@ -25,7 +25,7 @@ public class DAOUniversidad implements IDAO<Universidad>, IUniversidadDAO {
             resultado = stmInsertar.executeUpdate();
         }
         catch (SQLException e){
-            throw new ErrorDAO("Error al registrar al academico" + e.getMessage());
+            throw new ErrorDAO("Error al registrar la universidad" + e.getMessage());
         }
         return resultado;
     }
@@ -57,7 +57,7 @@ public class DAOUniversidad implements IDAO<Universidad>, IUniversidadDAO {
 
         }
         catch (SQLException e) {
-            throw new ErrorDAO("Error al realizar la consulta por contrato" + e.getMessage());
+            throw new ErrorDAO("Error al realizar la consulta por nombre" + e.getMessage());
         }
         return universidad;
     }
