@@ -1,6 +1,6 @@
 package Logica.Dominio;
 
-public abstract class Academico extends Persona {
+public class Academico extends Persona {
     private int cedulaProfesional;
     private Universidad institucion;
     private String areaEstudios;
