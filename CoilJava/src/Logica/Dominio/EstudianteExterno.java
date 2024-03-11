@@ -1,8 +1,8 @@
 package Logica.Dominio;
 
-public class EstudianteExterno {
+public class EstudianteExterno extends Estudiante{
     private String matricula;
-    private Facultad facultad;
+    private Universidad universidad;
 
     public String getMatricula() {
         return matricula;
@@ -12,11 +12,11 @@ public class EstudianteExterno {
         this.matricula = matricula;
     }
 
-    public Facultad getFacultad() {
-        return facultad;
+    public Universidad getUniversidad() {
+        return universidad;
     }
 
-    public void setFacultad(Facultad facultad) {
-        this.facultad = facultad;
+    public void setUniversidad(Universidad universidad) {
+        this.universidad = universidad;
     }
 }

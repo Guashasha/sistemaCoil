@@ -1,10 +1,12 @@
 package Logica.Interfaces;
 
 import Logica.Dominio.Facultad;
-
-import java.sql.SQLException;
+import Logica.ErrorDAO;
+import java.util.List;
 
 public interface IFacultadDAO {
-    int agregarFacultad(Facultad facultad) throws SQLException;
-    Facultad consultarPorNombre(String nombre) throws SQLException;
+
+    Facultad getFacultadPorNombre(String nombre) throws ErrorDAO;
+
+    List<Facultad> getFacultadPorRegion(String region) throws ErrorDAO;
 }

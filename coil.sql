@@ -146,3 +146,76 @@ ALTER TABLE `academicoDesarrolla` ADD FOREIGN KEY (`idAcademico`) REFERENCES `ac
 ALTER TABLE `academicoDesarrolla` ADD FOREIGN KEY (`idColaboracion`) REFERENCES `colaboracionCOIL` (`idColaboracion`);
 
 ALTER TABLE `cuenta` ADD FOREIGN KEY (`idAcademico`) REFERENCES `academico` (`cedulaProfesional`);
+
+DELIMITER //
+
+CREATE PROCEDURE `insertarEstudianteUV`(
+    IN `matricula` CHAR(9),
+    IN `nombre` VARCHAR(20),
+    IN `apellidoPaterno` VARCHAR(20),
+    IN `apellidoMaterno` VARCHAR(20),
+    IN `facultad` INT
+)
+LANGUAGE SQL
+NOT DETERMINISTIC
+CONTAINS SQL
+SQL SECURITY INVOKER
+COMMENT 'Inserta Estudiante: Persona -> Estudiante -> EstudianteUV'
+BEGIN
+    INSERT INTO Persona (nombre, apellidoPaterno, apellidoMaterno) VALUES (nombre, apellidoPaterno, apellidoMaterno);
+    INSERT INTO Estudiante (idPersona) VALUES (LAST_INSERT_ID());
+    INSERT INTO EstudianteUV (matricula, idEstudiante, facultad) VALUES (matricula, LAST_INSERT_ID(), facultad);
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE `insertarEstudianteExterno`(
+    IN `matricula` CHAR(9),
+    IN `nombre` VARCHAR(20),
+    IN `apellidoPaterno` VARCHAR(20),
+    IN `apellidoMaterno` VARCHAR(20),
+    IN `universidad` INT
+)
+LANGUAGE SQL
+NOT DETERMINISTIC
+CONTAINS SQL
+SQL SECURITY INVOKER
+COMMENT 'Inserta EstudianteExtranjero: Persona-> Estudiante -> EstudianteExtranjero'
+BEGIN
+    INSERT INTO Persona (nombre, apellidoPaterno, apellidoMaterno) VALUES (nombre, apellidoPaterno, apellidoMaterno);
+    INSERT INTO Estudiante (idPersona) VALUES (LAST_INSERT_ID());
+    INSERT INTO estudianteExterno(matricula, idEstudiante, universidad) VALUES (matricula, LAST_INSERT_ID(), universidad);
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE `insertarAcademicoUV`(
+    IN `nombre` VARCHAR(20),
+    IN `apellidoPaterno` VARCHAR(20),
+    IN `apellidoMaterno` VARCHAR(20),
+    IN `cedulaProfesional` INT,
+    IN `areaEstudios` VARCHAR(40),
+    IN `correoElectronico` VARCHAR(30),
+    IN `numeroTelefonico` CHAR(12),
+    IN `categoriaContratacion` VARCHAR(30),
+    IN `facultad` INT
+)
+LANGUAGE SQL
+NOT DETERMINISTIC
+CONTAINS SQL
+SQL SECURITY INVOKER
+COMMENT 'Inserta un AcademicoUV: Persona -> Academico -> AcademicoUV'
+BEGIN
+    INSERT INTO Persona (nombre, apellidoPaterno, apellidoMaterno) VALUES (nombre, apellidoPaterno, apellidoMaterno);
+    INSERT INTO Academico (cedulaProfesional, idPersona, areaEstudios, correoElectronico, numeroTelefonico) VALUES (cedulaProfesional, LAST_INSERT_ID(), areaEstudios, correoElectronico, numeroTelefonico);
+    INSERT INTO academicouv (cedulaProfesional, categoriaContratacion, facultad) VALUES (cedulaProfesional, categoriaContratacion, facultad);
+END //
+
+DELIMITER ;
+
+
+
