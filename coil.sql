@@ -219,3 +219,24 @@ DELIMITER ;
 
 
 
+CREATE VIEW vista_academico_uv AS
+SELECT
+  p.nombre,
+  p.apellidoPaterno,
+  p.apellidoMaterno,
+  auv.cedulaProfesional AS cedulaProfesional,
+  a.areaEstudios,
+  a.correoElectronico,
+  a.numeroTelefonico,
+  auv.categoriaContratacion,
+  auv.facultad AS idFacultad,
+  f.nombre AS nombreFacultad,
+  r.nombre AS nombreRegion
+FROM
+  academicoUV auv
+  INNER JOIN academico a ON auv.cedulaProfesional = a.cedulaProfesional
+  INNER JOIN persona p ON a.idPersona = p.idPersona
+  INNER JOIN facultad f ON auv.facultad = f.idFacultad
+  INNER JOIN region r ON f.region = r.idRegion;
+
+
