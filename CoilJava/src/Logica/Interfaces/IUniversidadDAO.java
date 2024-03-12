@@ -1,14 +1,10 @@
 package Logica.Interfaces;
 
 import Logica.Dominio.Universidad;
-
-import java.sql.SQLException;
-import java.util.ArrayList;
+import Logica.ErrorDAO;
+import java.util.List;
 
 public interface IUniversidadDAO {
-    int agregarUniversidad(Universidad universidad) throws SQLException;
-    int modificarUniversidad(int idUniversiad) throws SQLException;
-    ArrayList<Universidad> universiadesPorPaisOrigen(String paisOrigen) throws SQLException;
-
-
+    Universidad getUniversidadPorNombre(String nombreUniversidad) throws ErrorDAO;
+    List<Universidad> getUniversiadesPorPaisOrigen(String paisOrigen) throws ErrorDAO;
 }
