@@ -17,7 +17,7 @@ public class DAOColaboracion implements IColaboracionDAO {
 
     @Override
     public Optional<Colaboracion> getColaboracionPorId(int idColaboracion) throws ErrorDAO {
-        return null;
+        return Optional.ofNullable(ColaboracionDb.getColaboracionPorId(idColaboracion));
     }
 
     @Override
