@@ -70,11 +70,11 @@ CREATE TABLE `estudiantesColaboracion` (
 
 CREATE TABLE `academicoDesarrolla` (
   `idColaboracion` int,
-  `idAcademico` int
+  `idAcademico` varchar(30)
 );
 
 CREATE TABLE `cuenta` (
-  `idAcademico` int,
+  `idAcademico` varchar(30),
   `nombreUsuario` varchar(50) NOT NULL,
   `contrasena` varchar(30) NOT NULL
 );
@@ -108,6 +108,7 @@ CREATE TABLE `actividad` (
   `idActividad` int PRIMARY KEY AUTO_INCREMENT,
   `titulo` varchar(50) NOT NULL,
   `descripcion` varchar(200) NOT NULL,
+  `tipo` ENUM ('rompehielo', 'intercultural', 'disciplinar', 'cierre') NOT NULL,
   `colaboracion` int NOT NULL
 );
 
