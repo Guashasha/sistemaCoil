@@ -54,6 +54,7 @@ CREATE TABLE `academico` (
 
 CREATE TABLE `colaboracion` (
   `idColaboracion` int PRIMARY KEY AUTO_INCREMENT,
+  `estado` ENUM ('propuesta', 'aceptada', 'rechazada', 'disponible', 'vinculada', 'activa', 'en revision', 'finalizada') NOT NULL,
   `tipo` ENUM ('claseEspejo', 'COIl') NOT NULL,
   `temaInteres` varchar(80) NOT NULL,
   `idioma` varchar(30) NOT NULL,
@@ -70,19 +71,31 @@ CREATE TABLE `estudiantesColaboracion` (
 
 CREATE TABLE `academicoDesarrolla` (
   `idColaboracion` int,
-  `idAcademico` varchar(30)
+  `idAcademico` int
+);
+
+CREATE TABLE `solicitaCuenta` (
+  `idAcademico` varchar(30) NOT NULL,
+  `idCuenta` int NOT NULL
+);
+
+CREATE TABLE `solicitaParticiparColaboracion` (
+  `idAcademico` varchar(30) NOT NULL,
+  `idColaboracion` int NOT NULL
 );
 
 CREATE TABLE `cuenta` (
   `idAcademico` varchar(30),
   `nombreUsuario` varchar(50) NOT NULL,
-  `contrasena` varchar(30) NOT NULL
+  `contrasena` varchar(30) NOT NULL,
+  `estado` ENUM ('aceptada', 'rechazada') NOT NULL
 );
 
 CREATE TABLE `retroalimentacion` (
   `idRetroalimentacion` int PRIMARY KEY AUTO_INCREMENT,
   `interaccionPar` int NOT NULL,
-  `comentario` varchar(200)
+  `comentario` varchar(200),
+  `usuario` int NOT NULL
 );
 
 CREATE TABLE `retroalimentacionActividad` (
@@ -130,7 +143,17 @@ ALTER TABLE `academicoDesarrolla` ADD FOREIGN KEY (`idColaboracion`) REFERENCES 
 
 ALTER TABLE `academicoDesarrolla` ADD FOREIGN KEY (`idAcademico`) REFERENCES `academico` (`cedulaProfesional`);
 
+ALTER TABLE `solicitaCuenta` ADD FOREIGN KEY (`idAcademico`) REFERENCES `academico` (`cedulaProfesional`);
+
+ALTER TABLE `solicitaCuenta` ADD FOREIGN KEY (`idCuenta`) REFERENCES `cuenta` (`idAcademico`);
+
+ALTER TABLE `solicitaParticiparColaboracion` ADD FOREIGN KEY (`idAcademico`) REFERENCES `academico` (`cedulaProfesional`);
+
+ALTER TABLE `solicitaParticiparColaboracion` ADD FOREIGN KEY (`idColaboracion`) REFERENCES `colaboracion` (`idColaboracion`);
+
 ALTER TABLE `cuenta` ADD FOREIGN KEY (`idAcademico`) REFERENCES `academico` (`cedulaProfesional`);
+
+ALTER TABLE `retroalimentacion` ADD FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`);
 
 ALTER TABLE `retroalimentacionActividad` ADD FOREIGN KEY (`idRetroalimentacion`) REFERENCES `retroalimentacion` (`idRetroalimentacion`);
 
