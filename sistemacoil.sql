@@ -103,7 +103,6 @@ CREATE TABLE `retroalimentacionActividad` (
   `idRetroalimentacion` int PRIMARY KEY,
   `dificultad` int NOT NULL,
   `interes` int NOT NULL,
-  `facilidadAprendizaje` int NOT NULL,
   `actividad` int NOT NULL
 );
 
