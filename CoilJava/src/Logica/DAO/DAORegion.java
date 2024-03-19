@@ -10,24 +10,24 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class DAORegion implements IRegionDAO {
-    private final ConexionBaseDatos conexionBaseDatos = new ConexionBaseDatos();
+    private final ConexionBaseDatos CONEXION_BASE_DATOS = new ConexionBaseDatos();
 
     @Override
-    public List<Region> getRegiones() throws ErrorDAO {
+    public List<Region> getTodasAlfabeticamente() throws ErrorDAO {
         List<Region> listaRegiones;
         String consultaRegionesSQL = "SELECT nombre FROM region";
         PreparedStatement consultaRegiones;
         ResultSet resultadoConsulta;
 
         try {
-            this.conexionBaseDatos.conectar();
-            consultaRegiones = this.conexionBaseDatos.getConexion()
+            this.CONEXION_BASE_DATOS.conectar();
+            consultaRegiones = this.CONEXION_BASE_DATOS.getConexion()
                     .prepareStatement(consultaRegionesSQL);
             resultadoConsulta = consultaRegiones.executeQuery();
 
             listaRegiones = convertirListaRegiones(resultadoConsulta);
 
-            this.conexionBaseDatos.desconectar();
+            this.CONEXION_BASE_DATOS.desconectar();
             consultaRegiones.close();
             resultadoConsulta.close();
         } catch (SQLException excepcionSQL) {
@@ -49,4 +49,5 @@ public class DAORegion implements IRegionDAO {
 
         return listaRegiones;
     }
+
 }

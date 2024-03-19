@@ -7,6 +7,11 @@ public class Universidad {
     public Universidad() {
     }
 
+    public Universidad (String nombre, String paisOrigen) {
+        this.nombre = nombre;
+        this.paisOrigen = paisOrigen;
+    }
+
     public String getNombre() {
         return nombre;
     }

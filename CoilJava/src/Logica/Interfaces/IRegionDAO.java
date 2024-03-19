@@ -5,5 +5,5 @@ import Logica.Dominio.Region;
 import java.util.List;
 
 public interface IRegionDAO {
-    public List<Region> getRegiones() throws ErrorDAO;
+    public List<Region> getTodasAlfabeticamente () throws ErrorDAO;
 }

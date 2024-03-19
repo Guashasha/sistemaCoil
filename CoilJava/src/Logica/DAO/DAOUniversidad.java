@@ -66,4 +66,9 @@ public class DAOUniversidad implements IDAO<Universidad>, IUniversidadDAO {
     public List<Universidad> getUniversiadesPorPaisOrigen(String paisOrigen) throws ErrorDAO {
         return null;
     }
+
+    @Override
+    public List<Universidad> getTodasAlfabeticamente() throws ErrorDAO {
+        return null;
+    }
 }

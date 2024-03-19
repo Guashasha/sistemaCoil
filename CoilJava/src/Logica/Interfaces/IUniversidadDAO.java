@@ -7,4 +7,5 @@ import java.util.List;
 public interface IUniversidadDAO {
     Universidad getUniversidadPorNombre(String nombreUniversidad) throws ErrorDAO;
     List<Universidad> getUniversiadesPorPaisOrigen(String paisOrigen) throws ErrorDAO;
+    List<Universidad> getTodasAlfabeticamente() throws ErrorDAO;
 }
