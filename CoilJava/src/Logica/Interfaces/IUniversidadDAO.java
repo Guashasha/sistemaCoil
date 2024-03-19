@@ -2,10 +2,13 @@ package Logica.Interfaces;
 
 import Logica.Dominio.Universidad;
 import Logica.ErrorDAO;
-import java.util.List;
+import java.util.ArrayList;
+
 
 public interface IUniversidadDAO {
-    Universidad getUniversidadPorNombre(String nombreUniversidad) throws ErrorDAO;
-    List<Universidad> getUniversiadesPorPaisOrigen(String paisOrigen) throws ErrorDAO;
-    List<Universidad> getTodasAlfabeticamente() throws ErrorDAO;
+    public int registrarUniversidad(Universidad universidad) throws ErrorDAO;
+    public int editarUniversidad(Universidad universidad, int id) throws ErrorDAO;
+    Universidad getUniversidadPorNombre(String nombre) throws ErrorDAO;
+    ArrayList<Universidad> getUniversidadesPorPaisOrigen(String paisOrigen) throws ErrorDAO;
+    ArrayList<Universidad> getTodasAlfabeticamente() throws ErrorDAO;
 }

@@ -23,5 +23,6 @@ public class ColaboracionDb {
 
     public static Colaboracion getColaboracionPorId(int idColaboracion) throws ErrorDAO {
         // TODO ---------------------------
+        return null; //QUITAR ESTA LINEA
     }
 }

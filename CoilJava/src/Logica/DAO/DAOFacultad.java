@@ -4,7 +4,7 @@ import AccesoADatos.ConexionBaseDatos;
 import Logica.Dominio.Facultad;
 import Logica.ErrorDAO;
 import Logica.Interfaces.IFacultadDAO;
-import java.util.List;
+import java.util.ArrayList;
 
 public class DAOFacultad implements IFacultadDAO {
     private final ConexionBaseDatos CONEXION_BASE_DATOS = new ConexionBaseDatos();
@@ -15,12 +15,12 @@ public class DAOFacultad implements IFacultadDAO {
     }
 
     @Override
-    public List<Facultad> getFacultadPorRegion(String region) throws ErrorDAO {
+    public ArrayList<Facultad> getFacultadPorRegion(String region) throws ErrorDAO {
         return null;
     }
 
     @Override
-    public List<Facultad> getTodasAlfabeticamente() throws ErrorDAO {
+    public ArrayList<Facultad> getTodasAlfabeticamente() throws ErrorDAO {
         return null;
     }
 }

@@ -2,8 +2,9 @@ package Logica.Interfaces;
 
 import Logica.ErrorDAO;
 import Logica.Dominio.Region;
-import java.util.List;
+
+import java.util.ArrayList;
 
 public interface IRegionDAO {
-    public List<Region> getTodasAlfabeticamente () throws ErrorDAO;
+    public ArrayList<Region> getTodasAlfabeticamente () throws ErrorDAO;
 }

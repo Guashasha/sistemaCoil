@@ -7,14 +7,15 @@ import Logica.Interfaces.IRegionDAO;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DAORegion implements IRegionDAO {
     private final ConexionBaseDatos CONEXION_BASE_DATOS = new ConexionBaseDatos();
 
     @Override
-    public List<Region> getTodasAlfabeticamente() throws ErrorDAO {
-        List<Region> listaRegiones;
+    public ArrayList<Region> getTodasAlfabeticamente() throws ErrorDAO {
+        ArrayList<Region> listaRegiones;
         String consultaRegionesSQL = "SELECT nombre FROM region";
         PreparedStatement consultaRegiones;
         ResultSet resultadoConsulta;
@@ -38,8 +39,8 @@ public class DAORegion implements IRegionDAO {
         return listaRegiones;
     }
 
-    public List<Region> convertirListaRegiones(ResultSet resultado) throws SQLException {
-        List<Region> listaRegiones = null;
+    public ArrayList<Region> convertirListaRegiones(ResultSet resultado) throws SQLException {
+        ArrayList<Region> listaRegiones = new ArrayList<>();
         Region region = new Region();
 
         while (resultado.next()) {
