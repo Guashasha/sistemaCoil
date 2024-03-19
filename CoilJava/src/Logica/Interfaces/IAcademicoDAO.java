@@ -2,12 +2,15 @@ package Logica.Interfaces;
 
 import Logica.Dominio.Academico;
 import Logica.ErrorDAO;
-import java.util.ArrayList;
 import java.util.List;
 
-public interface IAcademicoDAO {
-    public boolean academicoRegistrado(int cedulaProfesional) throws ErrorDAO;
-    public ArrayList<Academico> getAcademicosPorAreaEstudios(String areaEstudios) throws ErrorDAO;
-    public int cambiarCorreoElectronico(String correo, int cedulaProfesional) throws ErrorDAO;
-    public int cambiarTelefono(String telefono, int cedulaProfesional) throws ErrorDAO;
+public interface IAcademicoDAO extends IDAO<Academico>{
+    List<Academico> getAcademicosPorFacultad (String nombrefacultad) throws ErrorDAO;
+    Academico getAcademicoPorCedula (int cedula) throws ErrorDAO;
+    List<Academico> getAcademicosPorUniversidad (String nombreUniversidad) throws ErrorDAO;
+    List<Academico> getAcademicosPorAreaEstudios (String areaEstudios) throws ErrorDAO;
+    List<Academico> getAcademicosPorCategoriaContratacion (String categoriaContratacion) throws ErrorDAO;
+    List<Academico> getAcademicosPorRegion (String region) throws ErrorDAO;
+    Academico getAcademicoPorIdPersona (int idPersona) throws ErrorDAO;
+
 }
