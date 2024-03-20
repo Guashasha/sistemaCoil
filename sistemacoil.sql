@@ -48,7 +48,7 @@ CREATE TABLE `academico` (
   `correoElectronico` varchar(30) NOT NULL,
   `numeroTelefonico` char(12) NOT NULL,
   `categoriaContratacion` varchar(40),
-  `facultad` int,
+  `facultad` int NOT NULL,
   PRIMARY KEY (`cedulaProfesional`, `numeroDePersonal`)
 );
 
@@ -74,11 +74,6 @@ CREATE TABLE `academicoDesarrolla` (
   `idAcademico` varchar(30)
 );
 
-CREATE TABLE `solicitaCuenta` (
-  `idAcademico` varchar(30) NOT NULL,
-  `idCuenta` int NOT NULL
-);
-
 CREATE TABLE `solicitaParticiparColaboracion` (
   `idAcademico` varchar(30) NOT NULL,
   `idColaboracion` int NOT NULL
@@ -89,7 +84,7 @@ CREATE TABLE `cuenta` (
   `idAcademico` varchar(30),
   `nombreUsuario` varchar(50) NOT NULL,
   `contrasena` varchar(30) NOT NULL,
-  `estado` ENUM ('aceptada', 'rechazada') NOT NULL
+  `estado` ENUM ('pendiente', 'aceptada', 'rechazada') NOT NULL
 );
 
 CREATE TABLE `retroalimentacion` (
