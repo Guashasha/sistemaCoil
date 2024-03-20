@@ -2,7 +2,6 @@ package Logica.Interfaces;
 
 import Logica.Dominio.Retroalimentacion;
 
-public interface IRetroalimentacionDAO {
+public interface IRetroalimentacionDAO extends IDAO<Retroalimentacion, Integer> {
     int subirCalificación ();
-    Retroalimentacion descargarPorId (int idRetroalimentacion);
 }
