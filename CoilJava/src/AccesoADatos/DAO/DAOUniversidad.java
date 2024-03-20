@@ -30,7 +30,7 @@ public class DAOUniversidad implements IUniversidadDAO {
             insertarUniversidad.close();
             this.CONEXION_BASE_DATOS.desconectar();
         }
-        catch (SQLException e){
+        catch (SQLException e) {
             throw new ErrorDAO("SQLExcption: Error al registrar la universidad" + e.getMessage());
         }
 
