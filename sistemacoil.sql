@@ -138,10 +138,6 @@ ALTER TABLE `academicoDesarrolla` ADD FOREIGN KEY (`idColaboracion`) REFERENCES 
 
 ALTER TABLE `academicoDesarrolla` ADD FOREIGN KEY (`idAcademico`) REFERENCES `academico` (`cedulaProfesional`);
 
-ALTER TABLE `solicitaCuenta` ADD FOREIGN KEY (`idAcademico`) REFERENCES `academico` (`cedulaProfesional`);
-
-ALTER TABLE `solicitaCuenta` ADD FOREIGN KEY (`idCuenta`) REFERENCES `cuenta` (`idCuenta`);
-
 ALTER TABLE `solicitaParticiparColaboracion` ADD FOREIGN KEY (`idAcademico`) REFERENCES `academico` (`cedulaProfesional`);
 
 ALTER TABLE `solicitaParticiparColaboracion` ADD FOREIGN KEY (`idColaboracion`) REFERENCES `colaboracion` (`idColaboracion`);
