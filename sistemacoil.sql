@@ -71,13 +71,14 @@ CREATE TABLE `estudiantesColaboracion` (
 
 CREATE TABLE `academicoDesarrolla` (
   `idColaboracion` int,
-  `idAcademico` varchar(30)
+  `idAcademico` varchar(30),
+  estado ENUM ('anfitrion', 'pendiente', 'aceptado', 'rechazado')
 );
 
-CREATE TABLE `solicitaParticiparColaboracion` (
-  `idAcademico` varchar(30) NOT NULL,
-  `idColaboracion` int NOT NULL
-);
+-- CREATE TABLE `solicitaParticiparColaboracion` (
+--   `idAcademico` varchar(30) NOT NULL,
+--   `idColaboracion` int NOT NULL
+-- );
 
 CREATE TABLE `cuenta` (
   idCuenta int PRIMARY KEY AUTO_INCREMENT,

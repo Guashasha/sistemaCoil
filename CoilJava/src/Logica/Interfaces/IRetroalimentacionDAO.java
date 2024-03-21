@@ -1,7 +1,10 @@
 package Logica.Interfaces;
 
 import Logica.Dominio.Retroalimentacion;
+import Logica.ErrorDAO;
 
 public interface IRetroalimentacionDAO extends IDAO<Retroalimentacion, Integer> {
-    int subirCalificación ();
+    Retroalimentacion getPorIdAcademico(String idAcademico) throws ErrorDAO;
+    Retroalimentacion getPorIdEstudiante(int idEstudiante) throws ErrorDAO;
+    Retroalimentacion getPorIdPersona (int idPersona) throws ErrorDAO;
 }
