@@ -7,9 +7,20 @@ public class Colaboracion {
         claseEspejo,
         COIL
     }
+    private enum EstadoColaboracion {
+        propuesta,
+        aceptada,
+        rechazada,
+        disponible,
+        vinculada,
+        activa,
+        enRevision,
+        finalizada,
+    }
 
     private int idColaboracion;
     private TipoColaboracion tipo;
+    private EstadoColaboracion estado;
     private String temaInteres;
     private String idioma;
     private String objetivo;
@@ -81,4 +92,12 @@ public class Colaboracion {
     public void setPerfilEstudiante(String perfilEstudiante) {
         this.perfilEstudiante = perfilEstudiante;
     }
+    public EstadoColaboracion getEstado () {
+        return estado;
+    }
+
+    public void setEstado (EstadoColaboracion estado) {
+        this.estado = estado;
+    }
+
 }
