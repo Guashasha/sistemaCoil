@@ -41,7 +41,7 @@ public class DAOAcademico implements IAcademicoDAO {
 
     @Override
     public Optional<Academico> getAcademicoPorIdPersona (int idPersona) throws ErrorDAO {
-        return null;
+        return Optional.ofNullable(AcademicoBD.getAcademicoPorId(idPersona));
     }
 
     @Override
@@ -55,7 +55,7 @@ public class DAOAcademico implements IAcademicoDAO {
     }
 
     @Override
-    public Academico getPorId (String y) throws ErrorDAO {
+    public Academico getPorId (String matricula) throws ErrorDAO {
         return null;
     }
 

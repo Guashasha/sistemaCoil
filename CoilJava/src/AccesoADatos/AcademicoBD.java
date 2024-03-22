@@ -45,6 +45,7 @@ public class AcademicoBD {
 
     public static Academico getAcademicoPorCampo (String campo, String valor) {
         String procedimientoSQL = "{CALL obtener_academicos_campos(?,?)}";
+        Academico academico = null;
         try {
             CONEXION_BASE_DATOS.conectar();
             CallableStatement obtenerPorCampo = CONEXION_BASE_DATOS.getConexion().
@@ -54,10 +55,7 @@ public class AcademicoBD {
             ResultSet resultadoLLamada = obtenerPorCampo.executeQuery();
 
             if (resultadoLLamada.next()) {
-                Academico academico = convertirAcademico(resultadoLLamada);
-                obtenerPorCampo.close();
-                CONEXION_BASE_DATOS.desconectar();
-                return academico;
+                academico = convertirAcademico(resultadoLLamada);
             }
 
             obtenerPorCampo.close();
@@ -67,7 +65,7 @@ public class AcademicoBD {
         catch (SQLException e) {
             throw new ErrorDAO(e.getMessage());
         }
-        return null;
+        return academico;
     }
 
     public static int agregarAcademico (Academico academico) {
@@ -97,6 +95,50 @@ public class AcademicoBD {
             throw new ErrorDAO(e.getMessage());
         }
         return resultado;
+    }
+    public static Academico getAcademicoPorId (int id) {
+        String consulta = "SELECT * from vista_Academico WHERE idPersona = ?";
+        Academico academico = null;
+        try {
+            CONEXION_BASE_DATOS.conectar();
+            PreparedStatement consultarAcademico = CONEXION_BASE_DATOS.getConexion().
+                                                                      prepareStatement(consulta);
+            consultarAcademico.setInt(1,id);
+            ResultSet resultadoConsulta = consultarAcademico.executeQuery();
+            if (resultadoConsulta.next()) {
+                academico = convertirAcademico(resultadoConsulta);
+            }
+            consultarAcademico.close();
+            CONEXION_BASE_DATOS.desconectar();
+            resultadoConsulta.close();
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return academico;
+    }
+
+    public static List<Academico> getTodos () {
+        List<Academico> listaAcademicos = new ArrayList<>();
+        String consulta = "SELECT * FROM vista_academico";
+        try {
+            CONEXION_BASE_DATOS.conectar();
+            PreparedStatement consultaAcademico = CONEXION_BASE_DATOS.getConexion().
+                                                                     prepareStatement(consulta);
+            ResultSet resultadoConsulta = consultaAcademico.executeQuery();
+            while (resultadoConsulta.next()) {
+                Academico academico = convertirAcademico(resultadoConsulta);
+                listaAcademicos.add(academico);
+            }
+            CONEXION_BASE_DATOS.desconectar();
+            consultaAcademico.close();
+            resultadoConsulta.close();
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return listaAcademicos;
+
     }
 
 
