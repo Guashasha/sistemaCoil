@@ -6,6 +6,7 @@ public class Retroalimentacion {
     private int idRetroalimentacion;
     private Optional<String> comentario;
     private int interaccionConPar;
+    private int idUsuario;
 
     public int getIdRetroalimentacion () {
         return idRetroalimentacion;
@@ -32,5 +33,13 @@ public class Retroalimentacion {
 
     public void setInteraccionConPar (int interaccionConPar) {
         this.interaccionConPar = interaccionConPar;
+    }
+
+    public int getIdUsuario () {
+        return idUsuario;
+    }
+
+    public void setIdUsuario (int idUsuario) {
+        this.idUsuario = idUsuario;
     }
 }

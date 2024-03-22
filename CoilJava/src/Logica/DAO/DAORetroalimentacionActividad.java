@@ -12,11 +12,11 @@ public class DAORetroalimentacionActividad implements IRetroalimentacionActivida
 
     @Override
     public int agregar (Retroalimentacion retroalimentacion) throws ErrorDAO {
-        if (retroalimentacion.getClass() == RetroalimentacionActividad.class) {
+        if (retroalimentacion.getClass() != RetroalimentacionActividad.class) {
             throw new ErrorDAO("El metodo esperaba una retroalimentacion de actividad pero recibió " + retroalimentacion.getClass());
         }
 
-        if (retroalimentacion.getInteraccionConPar() == 0) {
+        if (retroalimentacion.getInteraccionConPar() <= 0 || retroalimentacion.getInteraccionConPar() > 5) {
             throw new ErrorDAO("Las calificaciones de la retroalimentación están incompletas");
         }
 

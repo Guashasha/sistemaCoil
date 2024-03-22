@@ -121,6 +121,23 @@ CREATE TABLE `actividad` (
   `colaboracion` int NOT NULL
 );
 
+DELIMITER //
+
+CREATE PROCEDURE IF NOT EXISTS insertarRetroalimentacionActividad (interaccionPar int, dificultad int, interes int, actividad int, comentario varchar(200), usuario int)
+BEGIN
+  INSERT INTO retroalimentacion (interaccionPar, comentario, usuario)
+  VALUES (interaccionPar, comentario, usuario);
+
+  -- DECLARE id INT DEFAULT 0;
+
+  SELECT max(idRetroalimentacion) INTO @id FROM retroalimentacion;
+
+  INSERT INTO retroalimentacionActividad (idRetroalimentacion, dificultad, interes, actividad)
+  VALUES (id, dificultad, interes, actividad);
+END //
+
+DELIMITER ;
+
 ALTER TABLE `persona` ADD FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`);
 
 ALTER TABLE `estudiante` ADD FOREIGN KEY (`idPersona`) REFERENCES `persona` (`idPersona`);
@@ -139,9 +156,9 @@ ALTER TABLE `academicoDesarrolla` ADD FOREIGN KEY (`idColaboracion`) REFERENCES 
 
 ALTER TABLE `academicoDesarrolla` ADD FOREIGN KEY (`idAcademico`) REFERENCES `academico` (`cedulaProfesional`);
 
-ALTER TABLE `solicitaParticiparColaboracion` ADD FOREIGN KEY (`idAcademico`) REFERENCES `academico` (`cedulaProfesional`);
+-- ALTER TABLE `solicitaParticiparColaboracion` ADD FOREIGN KEY (`idAcademico`) REFERENCES `academico` (`cedulaProfesional`);
 
-ALTER TABLE `solicitaParticiparColaboracion` ADD FOREIGN KEY (`idColaboracion`) REFERENCES `colaboracion` (`idColaboracion`);
+-- ALTER TABLE `solicitaParticiparColaboracion` ADD FOREIGN KEY (`idColaboracion`) REFERENCES `colaboracion` (`idColaboracion`);
 
 ALTER TABLE `cuenta` ADD FOREIGN KEY (`idAcademico`) REFERENCES `academico` (`cedulaProfesional`);
 
