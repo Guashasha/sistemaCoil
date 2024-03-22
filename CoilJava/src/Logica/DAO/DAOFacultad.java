@@ -1,26 +1,35 @@
 package Logica.DAO;
 
-import AccesoADatos.ConexionBaseDatos;
+import AccesoADatos.FacultadDB;
 import Logica.Dominio.Facultad;
 import Logica.ErrorDAO;
 import Logica.Interfaces.IFacultadDAO;
-import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class DAOFacultad implements IFacultadDAO {
-    private final ConexionBaseDatos CONEXION_BASE_DATOS = new ConexionBaseDatos();
+    private final FacultadDB FACULTAD_DB = new FacultadDB();
 
     @Override
-    public Facultad getFacultadPorNombre(String nombre) throws ErrorDAO {
-        return null;
+    public Optional<Facultad> getFacultadPorNombre(String nombre) throws ErrorDAO {
+        Facultad facultad;
+        try {
+             facultad = this.FACULTAD_DB.getFacultadPorNombre(nombre);
+        }
+        catch (ErrorDAO error) {
+            //LOG
+            throw error;
+        }
+        return Optional.ofNullable(facultad);
     }
 
     @Override
-    public ArrayList<Facultad> getFacultadPorRegion(String region) throws ErrorDAO {
-        return null;
+    public List<Facultad> getFacultadPorRegion(String region) throws ErrorDAO {
+        return this.FACULTAD_DB.getFacultadPorRegion(region);
     }
 
     @Override
-    public ArrayList<Facultad> getTodasAlfabeticamente() throws ErrorDAO {
-        return null;
+    public List<Facultad> getTodasAlfabeticamente() throws ErrorDAO {
+        return this.FACULTAD_DB.getTodasAlfabeticamente();
     }
 }

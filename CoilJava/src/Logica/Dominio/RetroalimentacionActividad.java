@@ -1,11 +1,20 @@
 package Logica.Dominio;
 
 public class RetroalimentacionActividad extends Retroalimentacion {
+    private int idActividad;
     private int dificultad;
     private int interes;
 
     public RetroalimentacionActividad () {
         super();
+    }
+
+    public int getId () {
+        return idActividad;
+    }
+
+    public void setId (int id) {
+        this.idActividad = id;
     }
 
     public int getDificultad () {
