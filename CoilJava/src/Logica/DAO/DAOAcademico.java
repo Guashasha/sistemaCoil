@@ -55,7 +55,7 @@ public class DAOAcademico implements IAcademicoDAO {
     }
 
     @Override
-    public Academico getPorId (String matricula) throws ErrorDAO {
+    public Academico getPorId (String cedula) throws ErrorDAO {
         return null;
     }
 

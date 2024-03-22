@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public class DAOCuentaAcademico implements ICuentaAcademicoDAO {
     @Override
-    public Optional<CuentaAcademico> getCuentaPorCedulaProfesional (int cedulaProfesional) throws ErrorDAO {
+    public Optional<CuentaAcademico> getCuentaPorCedulaProfesional (String cedulaProfesional) throws ErrorDAO {
         return Optional.empty();
     }
 
