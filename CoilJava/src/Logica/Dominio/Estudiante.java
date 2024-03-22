@@ -1,5 +1,22 @@
 package Logica.Dominio;
 
-public abstract class Estudiante extends Persona {
+public class Estudiante extends Persona {
+    private int idEstudiante;
+    private String matricula;
 
+    public int getIdEstudiante () {
+        return idEstudiante;
+    }
+
+    public void setIdEstudiante (int idEstudiante) {
+        this.idEstudiante = idEstudiante;
+    }
+
+    public String getMatricula () {
+        return matricula;
+    }
+
+    public void setMatricula (String matricula) {
+        this.matricula = matricula;
+    }
 }

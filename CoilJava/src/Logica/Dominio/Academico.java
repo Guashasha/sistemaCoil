@@ -1,52 +1,67 @@
 package Logica.Dominio;
 
 public class Academico extends Persona {
-    private int cedulaProfesional;
-    private Universidad institucion;
+    private String cedulaProfesional;
+    private String numeroPersonal;
     private String areaEstudios;
     private String correoElectronico;
-    private String numeroTelefono;
+    private String numeroTelefonico;
+    private String categoriaContratacion;
+    private Facultad facultad;
 
-    public Academico() {
+    public String getCedulaProfesional () {
+        return cedulaProfesional;
     }
 
-    public int getCedulaProfesional() {
-        return this.cedulaProfesional;
-    }
-
-    public void setCedulaProfesional(int cedulaProfesional) {
+    public void setCedulaProfesional (String cedulaProfesional) {
         this.cedulaProfesional = cedulaProfesional;
     }
 
-    public Universidad getInstitucion() {
-        return this.institucion;
+    public String getNumeroPersonal () {
+        return numeroPersonal;
     }
 
-    public void setInstitucion(Universidad institucion) {
-        this.institucion = institucion;
+    public void setNumeroPersonal (String numeroPersonal) {
+        this.numeroPersonal = numeroPersonal;
     }
 
-    public String getAreaEstudios() {
-        return this.areaEstudios;
+    public String getAreaEstudios () {
+        return areaEstudios;
     }
 
-    public void setAreaEstudios(String areaEstudios) {
+    public void setAreaEstudios (String areaEstudios) {
         this.areaEstudios = areaEstudios;
     }
 
-    public String getCorreoElectronico() {
-        return this.correoElectronico;
+    public String getCorreoElectronico () {
+        return correoElectronico;
     }
 
-    public void setCorreoElectronico(String correoElectronico) {
+    public void setCorreoElectronico (String correoElectronico) {
         this.correoElectronico = correoElectronico;
     }
 
-    public String getNumeroTelefono() {
-        return this.numeroTelefono;
+    public String getNumeroTelefonico () {
+        return numeroTelefonico;
     }
 
-    public void setNumeroTelefono(String numeroTelefono) {
-        this.numeroTelefono = numeroTelefono;
+    public void setNumeroTelefonico (String numeroTelefonico) {
+        this.numeroTelefonico = numeroTelefonico;
+    }
+
+    public String getCategoriaContratacion () {
+        return categoriaContratacion;
+    }
+
+    public void setCategoriaContratacion (String categoriaContratacion) {
+        this.categoriaContratacion = categoriaContratacion;
+    }
+
+    public Facultad getFacultad () {
+        return facultad;
+    }
+
+    public void setFacultad (Facultad facultad) {
+        this.facultad = facultad;
     }
 }
