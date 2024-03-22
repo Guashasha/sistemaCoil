@@ -25,7 +25,15 @@ public class DAOUniversidad implements IUniversidadDAO {
 
     @Override
     public Optional<Universidad> getUniversidadPorNombre(String nombre) throws ErrorDAO {
-        return Optional.ofNullable(this.UNIVERSIDAD_DB.getUniversidadPorNombre(nombre));
+        Universidad universidad;
+        try {
+            universidad = this.UNIVERSIDAD_DB.getUniversidadPorNombre(nombre);
+        }
+        catch (ErrorDAO error) {
+            //LOG
+            throw error;
+        }
+        return Optional.ofNullable(universidad);
     }
 
     @Override

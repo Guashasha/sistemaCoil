@@ -12,7 +12,15 @@ public class DAOFacultad implements IFacultadDAO {
 
     @Override
     public Optional<Facultad> getFacultadPorNombre(String nombre) throws ErrorDAO {
-        return Optional.ofNullable(this.FACULTAD_DB.getFacultadPorNombre(nombre));
+        Facultad facultad;
+        try {
+             facultad = this.FACULTAD_DB.getFacultadPorNombre(nombre);
+        }
+        catch (ErrorDAO error) {
+            //LOG
+            throw error;
+        }
+        return Optional.ofNullable(facultad);
     }
 
     @Override
