@@ -61,6 +61,6 @@ public class DAOAcademico implements IAcademicoDAO {
 
     @Override
     public List<Academico> getTodos () throws ErrorDAO {
-        return null;
+        return AcademicoBD.getTodos();
     }
 }
