@@ -5,8 +5,7 @@ public class Universidad {
     private String nombre;
     private String paisOrigen;
 
-    public Universidad() {
-    }
+    public Universidad() {}
 
     public Universidad (String nombre, String paisOrigen) {
         this.nombre = nombre;

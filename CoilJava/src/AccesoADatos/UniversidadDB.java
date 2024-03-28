@@ -27,8 +27,8 @@ public class UniversidadDB {
             insertarUniversidad.close();
             this.CONEXION_BASE_DATOS.desconectar();
         }
-        catch (SQLException e) {
-            throw new ErrorDAO("SQLExcption: Error al registrar la universidad" + e.getMessage());
+        catch (SQLException error) {
+            throw new ErrorDAO("SQLExcption: Error al registrar la universidad\n" + error.getMessage());
         }
 
         return filasAfectadas;
@@ -50,7 +50,7 @@ public class UniversidadDB {
             actualizarUniversidad.close();
             this.CONEXION_BASE_DATOS.desconectar();
         } catch (SQLException e){
-            throw new ErrorDAO("SQLExcption: Error al registrar la universidad" + e.getMessage());
+            throw new ErrorDAO("SQLExcption: Error al aditar la universidad\n" + e.getMessage());
         }
 
         return filasAfectadas;
@@ -77,7 +77,7 @@ public class UniversidadDB {
             this.CONEXION_BASE_DATOS.desconectar();
         }
         catch (SQLException e) {
-            throw new ErrorDAO("SQLException: Error al realizar la consulta por nombre" + e.getMessage());
+            throw new ErrorDAO("SQLException: Error al consultar universidad por nombre\n" + e.getMessage());
         }
 
         return universidad;
@@ -104,7 +104,7 @@ public class UniversidadDB {
             this.CONEXION_BASE_DATOS.desconectar();
         }
         catch (SQLException e) {
-            throw new ErrorDAO("SQLException: Error al realizar la consulta por nombre" + e.getMessage());
+            throw new ErrorDAO("SQLException: Error al consultar universidades por pais de origen\n" + e.getMessage());
         }
 
         return listaUniversidades;
@@ -130,7 +130,7 @@ public class UniversidadDB {
             this.CONEXION_BASE_DATOS.desconectar();
         }
         catch (SQLException e) {
-            throw new ErrorDAO("SQLException: Error al realizar la consulta por nombre" + e.getMessage());
+            throw new ErrorDAO("SQLException: Error al consultar universidades por nombre\n" + e.getMessage());
         }
 
         return listaUniversidades;

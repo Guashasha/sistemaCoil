@@ -30,7 +30,7 @@ public class RegionDB {
             resultadoConsulta.close();
             this.CONEXION_BASE_DATOS.desconectar();
         } catch (SQLException excepcionSQL) {
-            throw new ErrorDAO("SQLException: Error al consultar Regiones" + excepcionSQL.getMessage());
+            throw new ErrorDAO("SQLException: Error al consultar Regiones\n" + excepcionSQL.getMessage());
         }
 
         return listaRegiones;
