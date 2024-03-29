@@ -4,10 +4,11 @@ import Logica.Dominio.Estudiante;
 import Logica.ErrorDAO;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IEstudianteDAO extends IDAO<Estudiante, Integer>{
-    public Estudiante getEstudiantePorIdPersona(int idPersona) throws ErrorDAO;
-    public Estudiante getEstudaintePorMatricula (String matricula) throws ErrorDAO;
+    public Optional<Estudiante> getEstudiantePorIdPersona(int idPersona) throws ErrorDAO;
+    public Optional<Estudiante> getEstudiantePorMatricula (String matricula) throws ErrorDAO;
     List<Estudiante> getEstudiantePorUniversidad (String nombreUniversidad) throws ErrorDAO;
-
+    public int modificarEstudiante (Estudiante estudiante) throws ErrorDAO;
 }

@@ -7,7 +7,7 @@ public class Academico extends Persona {
     private String correoElectronico;
     private String numeroTelefonico;
     private String categoriaContratacion;
-    private Facultad facultad;
+    private int idFacultad;
 
     public String getCedulaProfesional () {
         return cedulaProfesional;
@@ -57,11 +57,11 @@ public class Academico extends Persona {
         this.categoriaContratacion = categoriaContratacion;
     }
 
-    public Facultad getFacultad () {
-        return facultad;
+    public int getIdFacultad () {
+        return idFacultad;
     }
 
-    public void setFacultad (Facultad facultad) {
-        this.facultad = facultad;
+    public void setIdFacultad (int idFacultad) {
+        this.idFacultad = idFacultad;
     }
 }
