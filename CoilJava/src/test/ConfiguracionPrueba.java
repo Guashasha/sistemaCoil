@@ -65,8 +65,8 @@ public class ConfiguracionPrueba {
     public static void borrarDatosTablaSolicitaParticiparColaboracion () {
         ejecutarInstruccionSQL("DELETE FROM solicitaparticiparcolaboracion;");
     }
-    
-    public static void ejecutarInstruccionSQL (String instruccionSQL) {
+
+    private static void ejecutarInstruccionSQL (String instruccionSQL) {
         try {
             String urlBaseDatos = "jdbc:mariadb://localhost:3306/coil";
             String usuario = "root";
