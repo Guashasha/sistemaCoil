@@ -26,7 +26,7 @@ CREATE TABLE `estudiante` (
 CREATE TABLE `universidad` (
   `idUniversidad` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
-  `paisOrigen` varchar(40) NOT NULL
+  `paisOrigen` int NOT NULL
 );
 
 CREATE TABLE `region` (
@@ -75,11 +75,6 @@ CREATE TABLE `academicoDesarrolla` (
   estado ENUM ('anfitrion', 'pendiente', 'aceptado', 'rechazado')
 );
 
--- CREATE TABLE `solicitaParticiparColaboracion` (
---   `idAcademico` varchar(30) NOT NULL,
---   `idColaboracion` int NOT NULL
--- );
-
 CREATE TABLE `cuenta` (
   idCuenta int PRIMARY KEY AUTO_INCREMENT,
   `idAcademico` varchar(30),
@@ -113,30 +108,26 @@ CREATE TABLE `retroalimentacionColaboracion` (
   `colaboracion` int NOT NULL
 );
 
+CREATE TABLE calendarioActividades (
+  idActividad int NOT NULL,
+  idColaboracion int NOT NULL,
+  fechaInicio date NOT NULL,
+  fechaFin date NOT NULL
+);
+
 CREATE TABLE `actividad` (
   `idActividad` int PRIMARY KEY AUTO_INCREMENT,
   `titulo` varchar(50) NOT NULL,
   `descripcion` varchar(200) NOT NULL,
   `tipo` ENUM ('rompehielo', 'intercultural', 'disciplinar', 'cierre') NOT NULL,
-  `colaboracion` int NOT NULL
 );
 
-DELIMITER //
-
-CREATE PROCEDURE IF NOT EXISTS insertarRetroalimentacionActividad (interaccionPar int, dificultad int, interes int, actividad int, comentario varchar(200), usuario int)
-BEGIN
-  INSERT INTO retroalimentacion (interaccionPar, comentario, usuario)
-  VALUES (interaccionPar, comentario, usuario);
-
-  -- DECLARE id INT DEFAULT 0;
-
-  SELECT max(idRetroalimentacion) INTO @id FROM retroalimentacion;
-
-  INSERT INTO retroalimentacionActividad (idRetroalimentacion, dificultad, interes, actividad)
-  VALUES (id, dificultad, interes, actividad);
-END //
-
-DELIMITER ;
+CREATE TABLE paises (
+idPais int(11) NOT NULL AUTO_INCREMENT,
+iso char(2) DEFAULT NULL,
+nombre varchar(80) NOT NULL,
+PRIMARY KEY (idPais)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 ALTER TABLE `persona` ADD FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`);
 
@@ -156,10 +147,6 @@ ALTER TABLE `academicoDesarrolla` ADD FOREIGN KEY (`idColaboracion`) REFERENCES 
 
 ALTER TABLE `academicoDesarrolla` ADD FOREIGN KEY (`idAcademico`) REFERENCES `academico` (`cedulaProfesional`);
 
--- ALTER TABLE `solicitaParticiparColaboracion` ADD FOREIGN KEY (`idAcademico`) REFERENCES `academico` (`cedulaProfesional`);
-
--- ALTER TABLE `solicitaParticiparColaboracion` ADD FOREIGN KEY (`idColaboracion`) REFERENCES `colaboracion` (`idColaboracion`);
-
 ALTER TABLE `cuenta` ADD FOREIGN KEY (`idAcademico`) REFERENCES `academico` (`cedulaProfesional`);
 
 ALTER TABLE `retroalimentacion` ADD FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`);
@@ -172,4 +159,8 @@ ALTER TABLE `retroalimentacionColaboracion` ADD FOREIGN KEY (`idRetroalimentacio
 
 ALTER TABLE `retroalimentacionColaboracion` ADD FOREIGN KEY (`colaboracion`) REFERENCES `colaboracion` (`idColaboracion`);
 
-ALTER TABLE `actividad` ADD FOREIGN KEY (`colaboracion`) REFERENCES `colaboracion` (`idColaboracion`);
+ALTER TABLE `calendarioActividades` ADD FOREIGN KEY (`idColaboracion`) REFERENCES `colaboracion` (`idColaboracion`);
+
+ALTER TABLE `calendarioActividades` ADD FOREIGN KEY (`idActividad`) REFERENCES `actividad` (`idActividad`);
+
+ALTER TABLE `universidad` ADD FOREIGN KEY (`paisOrigen`) REFERENCES `pais` (`idPais`);
