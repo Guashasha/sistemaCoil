@@ -6,7 +6,9 @@ import Logica.ErrorDAO;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class CuentaBD {
+public class CuentaDB {
+    // TODO terminar cuentaDB - tomar en cuenta si me importa el academico o no.
+
     private static final ConexionBaseDatos CONEXION_BASE_DATOS = new ConexionBaseDatos();
 
     public static CuentaAcademico getCuentaPorCedulaProfesional (String cedula) {
@@ -22,7 +24,7 @@ public class CuentaBD {
         catch (SQLException e) {
             throw new ErrorDAO(e.getMessage());
         }
-
+        return null;
 
     }
 }
