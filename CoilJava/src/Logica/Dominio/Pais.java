@@ -1,0 +1,48 @@
+package Logica.Dominio;
+
+public class Pais {
+    private int id;
+    private String iso;
+    private String nombre;
+
+    public Pais () {
+        this.id = -1;
+        this.iso = "";
+        this.nombre = "";
+    }
+
+    public Pais (int id, String nombre) {
+        this.id = id;
+        this.nombre = nombre;
+    }
+
+    public Pais (int id, String iso, String nombre) {
+        this.id = id;
+        this.iso = iso;
+        this.nombre = nombre;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return this.id;
+    }
+
+    public void setIso(String iso) {
+        this.iso = iso;
+    }
+
+    public String getIso() {
+        return this.iso;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getNombre () {
+        return this.nombre;
+    }
+}

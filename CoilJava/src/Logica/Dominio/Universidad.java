@@ -3,16 +3,19 @@ package Logica.Dominio;
 public class Universidad {
     private int id;
     private String nombre;
-    private String paisOrigen;
+    private Pais paisOrigen;
 
-    public Universidad() {}
+    public Universidad() {
+        this.id = -1;
+        this.nombre = "";
+    }
 
-    public Universidad (String nombre, String paisOrigen) {
+    public Universidad (String nombre, Pais paisOrigen) {
         this.nombre = nombre;
         this.paisOrigen = paisOrigen;
     }
 
-    public Universidad (int id, String nombre, String paisOrigen) {
+    public Universidad (int id, String nombre, Pais paisOrigen) {
         this.id = id;
         this.nombre = nombre;
         this.paisOrigen = paisOrigen;
@@ -26,11 +29,11 @@ public class Universidad {
         this.nombre = nombre;
     }
 
-    public String getPaisOrigen() {
+    public Pais getPaisOrigen() {
         return paisOrigen;
     }
 
-    public void setPaisOrigen(String paisOrigen) {
+    public void setPaisOrigen(Pais paisOrigen) {
         this.paisOrigen = paisOrigen;
     }
 

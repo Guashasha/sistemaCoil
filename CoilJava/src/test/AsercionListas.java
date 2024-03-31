@@ -1,6 +1,7 @@
 package test;
 
 import Logica.Dominio.Facultad;
+import Logica.Dominio.Pais;
 import Logica.Dominio.Region;
 import Logica.Dominio.Universidad;
 import org.junit.jupiter.api.Assertions;
@@ -23,6 +24,28 @@ public class AsercionListas extends Assertions {
         }
     }
 
+    public static void compararPaises (int elemento, Pais esperado, Pais obtenido) {
+        if (esperado.getId() != obtenido.getId()) {
+            throw new AssertionError("Pais " + elemento + ": Id esperado = " + esperado.getId() + ", Id obtenido = " + obtenido.getId());
+        }
+        else if (!esperado.getIso().equals(obtenido.getIso())) {
+            throw new AssertionError("Pais " + elemento + ": Iso esperado = " + esperado.getIso() + ", Iso obtenido = " + obtenido.getIso());
+        }
+        else if (!esperado.getNombre().equals(obtenido.getNombre())) {
+            throw new AssertionError("Pais " + elemento + ": Nombre esperado = " + esperado.getNombre() + ", Nombre obtenido = " + obtenido.getNombre());
+        }
+    }
+
+    public static void assertEqualListPais (List<Pais> esperada, List<Pais> obtenida) {
+        compararTamano(esperada,obtenida);
+
+        for (int i = 0; i < esperada.size(); i++) {
+            compararPaises(i,esperada.get(0),obtenida.get(0));
+            esperada.remove(0);
+            obtenida.remove(0);
+        }
+    }
+
     public static void assertEqualListUniversidad (List<Universidad> esperada, List<Universidad> obtenida) {
         compararTamano(esperada, obtenida);
 
@@ -38,8 +61,8 @@ public class AsercionListas extends Assertions {
             else if (!universidadEsperada.getNombre().equals(universidadObtenida.getNombre())) {
                 throw new AssertionError("Universidad " + i + "Nombre esperado = " + universidadEsperada.getNombre() + ", Nombre obtenido = " + universidadObtenida.getNombre());
             }
-            else if (!universidadEsperada.getPaisOrigen().equals(universidadObtenida.getPaisOrigen())) {
-                throw new AssertionError("Universidad " + i + "Pais esperado = " + universidadEsperada.getPaisOrigen() + ", Pais obtenido = " + universidadObtenida.getPaisOrigen());
+            else {
+                compararPaises(i,universidadEsperada.getPaisOrigen(),universidadObtenida.getPaisOrigen());
             }
 
             esperada.remove(0);
@@ -80,5 +103,7 @@ public class AsercionListas extends Assertions {
             obtenida.remove(0);
         }
     }
+
+
 
 }

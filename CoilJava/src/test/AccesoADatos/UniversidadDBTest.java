@@ -1,6 +1,7 @@
 package test.AccesoADatos;
 
 import AccesoADatos.UniversidadDB;
+import Logica.Dominio.Pais;
 import Logica.Dominio.Universidad;
 import Logica.ErrorDAO;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static test.AsercionListas.compararPaises;
 
 class UniversidadDBTest {
 
@@ -22,7 +24,8 @@ class UniversidadDBTest {
     @Test
     void pruebaRegistrarUniversidadExitoso () {
         System.out.println("pruebaRegistrarUniversidadExitoso");
-        Universidad universidad = new Universidad("MIT","USA");
+        Pais pais = new Pais(1,"MX","México");
+        Universidad universidad = new Universidad("UNAM",pais);
         int esperado = 1;
         int obtenido = 0;
         try {
@@ -37,11 +40,27 @@ class UniversidadDBTest {
     @Test
     void pruebaRegistrarUniversidadVaciaFallida () {
         System.out.println("pruebaRegistrarUniversidadVaciaFallida");
-        Universidad universidad = new Universidad();
+        Pais pais = new Pais(-1,null);
+        Universidad universidad = new Universidad(-1,null,pais);
         int filasAfectadas;
         try {
             filasAfectadas = this.INSTANCIA.registrarUniversidad(universidad);
-            fail("Fallida: registrarUniversidadExitoso. Se afectaron " + filasAfectadas);
+            fail("Fallida: pruebaRegistrarUniversidadVaciaFallida. Se afectaron " + filasAfectadas);
+        }
+        catch (ErrorDAO error) {
+            assertNotNull(error);
+        }
+    }
+
+    @Test
+    void pruebaRegistrarUniversidadIncorrecta () {
+        System.out.println("pruebaRegistrarUniversidadIncorrecta");
+        Pais pais = new Pais(0,"México");
+        Universidad universidad = new Universidad(1,"Universidad Veracruzana",pais);
+        int filasAfectadas;
+        try {
+            filasAfectadas = this.INSTANCIA.registrarUniversidad(universidad);
+            fail("Fallida: pruebaRegistrarUniversidadIncorrecta. Se afectaron " + filasAfectadas);
         }
         catch (ErrorDAO error) {
             assertNotNull(error);
@@ -51,7 +70,8 @@ class UniversidadDBTest {
     @Test
     void pruebaEditarUniversidadExitosa () {
         System.out.println("pruebaEditarUniversidadExitosa");
-        Universidad universidad = new Universidad(1,"UV","México");
+        Pais pais = new Pais(2,"Estados Unidos");
+        Universidad universidad = new Universidad(3,"MIT",pais);
         int esperado = 1;
         int obtenido = 0;
         try {
@@ -66,7 +86,8 @@ class UniversidadDBTest {
     @Test
     void pruebaEditarUniversidadInexistente () {
         System.out.println("pruebaEditarUniversidadInexistente");
-        Universidad universidad = new Universidad(0,"UV","México");
+        Pais pais = new Pais(1,"México");
+        Universidad universidad = new Universidad(10,"UV",pais);
         int esperado = 0;
         int obtenido = 1;
         try {
@@ -81,7 +102,8 @@ class UniversidadDBTest {
     @Test
     void pruebaEditarUniversidadVacia () {
         System.out.println("pruebaEditarUniversidadInexistente");
-        Universidad universidad = new Universidad();
+        Pais pais = new Pais(0,null);
+        Universidad universidad = new Universidad(1,null,pais);
         int filasAfectadas;
         try {
             filasAfectadas = this.INSTANCIA.editarUniversidad(universidad);
@@ -95,17 +117,17 @@ class UniversidadDBTest {
     @Test
     void pruebaGetUniversidadPorNombreExitosa () {
         System.out.println("pruebaGetUniversidadPorNombreExitosa");
-        Universidad esperada = new Universidad(2,"BUAP","México");
+        Universidad esperada = new Universidad(1,"Universidad Veracruzana",new Pais(1,"MX","México"));
         Universidad obtenida = new Universidad();
         try {
-            obtenida = this.INSTANCIA.getUniversidadPorNombre("BUAP");
+            obtenida = this.INSTANCIA.getUniversidadPorNombre("Universidad Veracruzana");
         }
         catch (ErrorDAO erro) {
             fail("Fallida: pruebaGetUniversidadPorNombreExitosa");
         }
         assertEquals(esperada.getId(),obtenida.getId());
         assertEquals(esperada.getNombre(),obtenida.getNombre());
-        assertEquals(esperada.getPaisOrigen(),obtenida.getPaisOrigen());
+        compararPaises(1,esperada.getPaisOrigen(),obtenida.getPaisOrigen());
     }
 
     @Test
@@ -122,10 +144,22 @@ class UniversidadDBTest {
     }
 
     @Test
+    void pruebaGetUniversidadPorNombreNulo () {
+        System.out.println("pruebaGetUniversidadPorNombreNulo");
+        Universidad obtenida = null;
+        try {
+            obtenida = this.INSTANCIA.getUniversidadPorNombre(null);
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaGetUniversidadPorNombreExitosa");
+        }
+        assertNull(obtenida);
+    }
+
+    @Test
     void pruebaGetUniversidadesPorPaisOrigenExitosa () {
         System.out.println("pruebaGetUniversidadesPorPaisOrigenExitosa");
 
-        List<Universidad> esperada;
 
     }
 
