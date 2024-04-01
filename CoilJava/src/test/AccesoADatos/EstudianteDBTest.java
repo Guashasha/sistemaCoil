@@ -15,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class EstudianteDBTest {
     //TODO  getEstudiantePorUniversidad
     // getTodos
+    // editar
     @BeforeEach
     void setUp () {
         registrarUniversidadMexicana();

@@ -3,11 +3,11 @@ package Logica.Dominio;
 import java.sql.Date;
 
 public class Colaboracion {
-    private enum TipoColaboracion {
+    public enum TipoColaboracion {
         claseEspejo,
         COIL
     }
-    private enum EstadoColaboracion {
+    public enum EstadoColaboracion {
         propuesta,
         aceptada,
         rechazada,
