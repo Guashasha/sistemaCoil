@@ -7,6 +7,7 @@ import Logica.ErrorDAO;
 import Logica.Interfaces.IRetroalimentacionActividadDAO;
 
 import java.util.List;
+import java.util.Optional;
 
 public class DAORetroalimentacionActividad implements IRetroalimentacionActividadDAO {
 
@@ -46,10 +47,11 @@ public class DAORetroalimentacionActividad implements IRetroalimentacionActivida
             throw new ErrorDAO("El id es invalido" + id);
         }
 
-        RetroalimentacionActividad retroalimentacion = null;
+        Optional<RetroalimentacionActividad> retroalimentacion = Optional.empty();
 
         try {
-            retroalimentacion = RetroalimentacionActividadDB.getPorId(id);
+            RSRetroalimentacion = RetroalimentacionActividadDB.getPorId(id)
+            retroalimentacion = Optional.ofNullable();
         }
         catch (ErrorDAO error) {
             // TODO ----------------------------------

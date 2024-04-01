@@ -6,6 +6,7 @@ import Logica.ErrorDAO;
 
 import java.io.IOException;
 import java.sql.CallableStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
@@ -51,10 +52,22 @@ public class RetroalimentacionActividadDB {
         return resultado;
     }
 
-    public static RetroalimentacionActividad getPorId (int id) {
-        RetroalimentacionActividad retroalimentacion = null;
+    public static ResultSet getPorId (int id) {
+        ResultSet retroalimentacion = null;
 
-        // TODO
+        try {
+            CallableStatement consulta = null;
+            consulta = db.getConexion().prepareCall("select * from retroalimentacion natural join retroalimentacionActividad where retroalimentacion.idRetroalimentacion=1;");
+
+            db.desconectar();
+
+            retroalimentacion = consulta.executeQuery();
+        }
+        catch (SQLException error) {
+            bitacora.escribirError(error);
+
+            throw new ErrorDAO(error.getMessage());
+        }
 
         return retroalimentacion;
     }

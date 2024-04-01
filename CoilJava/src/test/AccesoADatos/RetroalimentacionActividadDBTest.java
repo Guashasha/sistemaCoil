@@ -29,11 +29,10 @@ public class RetroalimentacionActividadDBTest {
     void testAgregarRetroalimentacion () {
         int resultado = -1;
 
+        CallableStatement consulta = null;
         try {
-            CallableStatement consulta;
-
             consulta = conector.getConexion()
-                         .prepareCall("call insertarRetroalimentacionActividad (?, ?, ?, ?, ?, ?)");
+                               .prepareCall("call insertarRetroalimentacionActividad (?, ?, ?, ?, ?, ?)");
 
             conector.desconectar();
 
@@ -51,13 +50,25 @@ public class RetroalimentacionActividadDBTest {
             System.err.println("error durante el test \"agregar retroalimentacion\" " + error.getMessage());
         }
 
-        assert(resultado > 0);
+        assert (resultado == 1);
     }
 
     @Test
     void testModificarRetroalimentacion () {
         int resultado = -1;
 
-        assert(resultado > 0);
+        try {
+            CallableStatement consulta;
+            consulta = conector.getConexion().prepareCall("update retroalimentacionActividad ");
+
+            conector.desconectar();
+
+            // TODO
+        }
+        catch (SQLException error) {
+            System.err.println("error durante el test \"agregar retroalimentacion\" " + error.getMessage());
+        }
+
+        assert(resultado == 1);
     }
 }
