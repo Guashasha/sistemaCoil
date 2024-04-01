@@ -32,8 +32,8 @@ public class FacultadDB {
             resultadoConsulta.close();
             this.CONEXION_BASE_DATOS.desconectar();
         }
-        catch (SQLException e) {
-            throw new ErrorDAO("SQLException: Error al realizar la consulta por nombre" + e.getMessage());
+        catch (SQLException error) {
+            throw new ErrorDAO("SQLException: Error al consultar facultad por nombre\n" + error.getMessage());
         }
 
         return facultad;
@@ -59,7 +59,7 @@ public class FacultadDB {
             resultadoConsulta.close();
             this.CONEXION_BASE_DATOS.desconectar();
         } catch (SQLException excepcion) {
-            throw new ErrorDAO("SQLException: Error al consultar Facultades por region" + excepcion.getMessage());
+            throw new ErrorDAO("SQLException: Error al consultar Facultades por region\n" + excepcion.getMessage());
         }
 
         return listaFacultades;
@@ -84,7 +84,7 @@ public class FacultadDB {
             resultadoConsulta.close();
             this.CONEXION_BASE_DATOS.desconectar();
         } catch (SQLException excepcion) {
-            throw new ErrorDAO("SQLException: Error al consultar Facultades" + excepcion.getMessage());
+            throw new ErrorDAO("SQLException: Error al consultar Facultades\n" + excepcion.getMessage());
         }
 
         return listaFacultades;

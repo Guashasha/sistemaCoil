@@ -232,7 +232,7 @@ class EstudianteDBTest {
     public void registrarUniversidadMexicana () {
         int esperado = 1;
 
-        Universidad universidad = new Universidad("UV", "Mexico");
+        Universidad universidad = new Universidad("UV", null);
         UniversidadDB universidadDB = new UniversidadDB();
 
         int obtenido = universidadDB.registrarUniversidad(universidad);

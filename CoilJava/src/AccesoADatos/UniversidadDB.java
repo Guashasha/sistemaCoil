@@ -1,5 +1,6 @@
 package AccesoADatos;
 
+import Logica.Dominio.Pais;
 import Logica.Dominio.Universidad;
 import Logica.ErrorDAO;
 
@@ -21,14 +22,15 @@ public class UniversidadDB {
             insertarUniversidad = this.CONEXION_BASE_DATOS.getConexion().
                     prepareStatement(insertarUniversidadSQL);
             insertarUniversidad.setString(1, universidad.getNombre());
-            insertarUniversidad.setString(2, universidad.getPaisOrigen());
+            insertarUniversidad.setInt(2, universidad.getPaisOrigen().
+                    getId());
             filasAfectadas = insertarUniversidad.executeUpdate();
 
             insertarUniversidad.close();
             this.CONEXION_BASE_DATOS.desconectar();
         }
-        catch (SQLException e) {
-            throw new ErrorDAO("SQLExcption: Error al registrar la universidad" + e.getMessage());
+        catch (SQLException error) {
+            throw new ErrorDAO("SQLExcption: Error al registrar la universidad\n" + error.getMessage());
         }
 
         return filasAfectadas;
@@ -43,14 +45,15 @@ public class UniversidadDB {
             actualizarUniversidad = this.CONEXION_BASE_DATOS.getConexion().
                     prepareStatement(actualizarUniversidadSQL);
             actualizarUniversidad.setString(1,universidad.getNombre());
-            actualizarUniversidad.setString(2,universidad.getPaisOrigen());
+            actualizarUniversidad.setInt(2,universidad.getPaisOrigen().
+                    getId());
             actualizarUniversidad.setInt(3,universidad.getId());
             filasAfectadas = actualizarUniversidad.executeUpdate();
 
             actualizarUniversidad.close();
             this.CONEXION_BASE_DATOS.desconectar();
         } catch (SQLException e){
-            throw new ErrorDAO("SQLExcption: Error al registrar la universidad" + e.getMessage());
+            throw new ErrorDAO("SQLExcption: Error al aditar la universidad\n" + e.getMessage());
         }
 
         return filasAfectadas;
@@ -58,7 +61,7 @@ public class UniversidadDB {
 
     public Universidad getUniversidadPorNombre(String nombre) throws ErrorDAO {
         Universidad universidad = null;
-        String consultaUniversidadSQL = "SELECT idUniversidad, nombre, paisOrigen FROM universidad WHERE nombre = ?";
+        String consultaUniversidadSQL = "SELECT * FROM universidad_con_pais WHERE universidad = ?";
         PreparedStatement consultaUniversidad;
         ResultSet resultadoConsulta;
 
@@ -77,7 +80,7 @@ public class UniversidadDB {
             this.CONEXION_BASE_DATOS.desconectar();
         }
         catch (SQLException e) {
-            throw new ErrorDAO("SQLException: Error al realizar la consulta por nombre" + e.getMessage());
+            throw new ErrorDAO("SQLException: Error al consultar universidad por nombre\n" + e.getMessage());
         }
 
         return universidad;
@@ -85,7 +88,7 @@ public class UniversidadDB {
 
     public List<Universidad> getUniversidadesPorPaisOrigen(String paisOrigen) throws ErrorDAO {
         List<Universidad> listaUniversidades = new ArrayList<>();
-        String consultarUniversidadesSQL = "SELECT idUniversidad, nombre, paisOrigen FROM universidad WHERE paisOrigen = ?";
+        String consultarUniversidadesSQL = "SELECT * FROM universidad_con_pais WHERE pais = ?";
         PreparedStatement consultaUniversidades;
         ResultSet resultadoConsulta;
 
@@ -104,7 +107,7 @@ public class UniversidadDB {
             this.CONEXION_BASE_DATOS.desconectar();
         }
         catch (SQLException e) {
-            throw new ErrorDAO("SQLException: Error al realizar la consulta por nombre" + e.getMessage());
+            throw new ErrorDAO("SQLException: Error al consultar universidades por pais de origen\n" + e.getMessage());
         }
 
         return listaUniversidades;
@@ -112,7 +115,7 @@ public class UniversidadDB {
 
     public List<Universidad> getTodasAlfabeticamente() throws ErrorDAO {
         List<Universidad> listaUniversidades = new ArrayList<>();
-        String consultarUniversidadesSQL = "SELECT idUniversidad, nombre, paisOrigen FROM universidad ORDER BY nombre ASC";
+        String consultarUniversidadesSQL = "SELECT * FROM universidad_con_pais ORDER BY universidad ASC";
         PreparedStatement consultaUniversidades;
         ResultSet resultadoConsulta;
 
@@ -130,7 +133,7 @@ public class UniversidadDB {
             this.CONEXION_BASE_DATOS.desconectar();
         }
         catch (SQLException e) {
-            throw new ErrorDAO("SQLException: Error al realizar la consulta por nombre" + e.getMessage());
+            throw new ErrorDAO("SQLException: Error al consultar universidades por nombre\n" + e.getMessage());
         }
 
         return listaUniversidades;
@@ -138,10 +141,14 @@ public class UniversidadDB {
 
     public Universidad convertirResultSetAUniversidad (ResultSet resultado) throws SQLException {
         Universidad universidad = new Universidad();
+        Pais pais = new Pais();
 
         universidad.setId(resultado.getInt(1));
         universidad.setNombre(resultado.getString(2));
-        universidad.setPaisOrigen(resultado.getString(3));
+        pais.setId(resultado.getInt(3));
+        pais.setIso(resultado.getString(4));
+        pais.setNombre(resultado.getString(5));
+        universidad.setPaisOrigen(pais);
 
         return universidad;
     }
