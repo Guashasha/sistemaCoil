@@ -6,11 +6,15 @@ import Logica.Dominio.Universidad;
 import Logica.ErrorDAO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static test.AsercionListas.compararPaises;
+import static test.AsercionListas.assertEqualListUniversidad;
 
 class UniversidadDBTest {
 
@@ -18,7 +22,28 @@ class UniversidadDBTest {
 
     @BeforeEach
     void setUp() {
+        ejecutarInstruccionSQL("DELETE FROM universidad;");
+        ejecutarInstruccionSQL("DELETE FROM paises;");
+        ejecutarInstruccionSQL("INSERT INTO paises (idPais,Iso,nombre) VALUES (1,'MX','México'),  (2,'US','Estados Unidos');");
+        ejecutarInstruccionSQL("INSERT INTO universidad (idUniversidad,nombre,paisOrigen) VALUES (1,'Universidad Veracruzana',1), (2,'Harvard',2), (3,'BUAP',1);");
+    }
 
+    private static void ejecutarInstruccionSQL (String instruccionSQL) {
+        try {
+            String urlBaseDatos = "jdbc:mariadb://localhost:3307/coil";
+            String usuario = "root";
+            String contrasena = "040704";
+            Connection conexion = DriverManager.getConnection(urlBaseDatos, usuario, contrasena);
+
+            PreparedStatement declaracionSQL = conexion.prepareStatement(instruccionSQL);
+
+            declaracionSQL.execute();
+            declaracionSQL.close();
+            conexion.close();
+        }
+        catch (SQLException error) {
+            System.out.println("Error al ejecutar la instrucción SQL: " + error.getMessage());
+        }
     }
 
     @Test
@@ -159,12 +184,61 @@ class UniversidadDBTest {
     @Test
     void pruebaGetUniversidadesPorPaisOrigenExitosa () {
         System.out.println("pruebaGetUniversidadesPorPaisOrigenExitosa");
+        Pais paisBuscado = new Pais(1,"MX","México");
+        Universidad universidad1 = new Universidad(1,"Universidad Veracruzana",paisBuscado);
+        Universidad universidad2 = new Universidad(3,"BUAP",paisBuscado);
+        List<Universidad> listaEsperada = new ArrayList<>();
+        List<Universidad> listaObtenida = new ArrayList<>();
+        listaEsperada.add(universidad1);
+        listaEsperada.add(universidad2);
 
+        try {
+           listaObtenida = this.INSTANCIA.getUniversidadesPorPaisOrigen(paisBuscado.getNombre());
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaGetUniversidadesPorPaisOrigenExitosa");
+        }
 
+        assertEqualListUniversidad(listaEsperada,listaObtenida);
     }
 
     @Test
-    void getTodasAlfabeticamente () {
-        System.out.println();
+    void pruebaGetUniversidadPorPaisOrigenInexistente () {
+        System.out.println("pruebaGetUniversidadPorPaisOrigenInexistente");
+        List<Universidad> listaObtenida = new ArrayList<>();
+
+        try {
+            listaObtenida = this.INSTANCIA.getUniversidadesPorPaisOrigen("");
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaGetUniversidadPorPaisOrigenInexistente");
+        }
+
+        assertTrue(listaObtenida.isEmpty());
     }
+
+    @Test
+    void pruebaGetTodasAlfabeticamenteExitosa () {
+        System.out.println("getTodasAlfabeticamente");
+        Pais pais1 = new Pais(1,"MX","México");
+        Pais pais2 = new Pais(2,"US","Estados Unidos");
+        Universidad universidad1 = new Universidad(3,"BUAP",pais1);
+        Universidad universidad2 = new Universidad(2,"Harvard",pais2);
+        Universidad universidad3 = new Universidad(1,"Universidad Veracruzana",pais1);
+        List<Universidad> listaEsperada = new ArrayList<>();
+        List<Universidad> listaObtenida = new ArrayList<>();
+        listaEsperada.add(universidad1);
+        listaEsperada.add(universidad2);
+        listaEsperada.add(universidad3);
+
+        try {
+            listaObtenida = this.INSTANCIA.getTodasAlfabeticamente();
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: getTodasAlfabeticamente");
+        }
+
+        assertEqualListUniversidad(listaEsperada,listaObtenida);
+    }
+
 }
