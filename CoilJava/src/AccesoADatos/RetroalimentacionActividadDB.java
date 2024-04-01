@@ -1,14 +1,19 @@
 package AccesoADatos;
 
-
+import Logica.Bitacora;
 import Logica.Dominio.RetroalimentacionActividad;
 import Logica.ErrorDAO;
 
+import java.io.IOException;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class RetroalimentacionActividadDB {
     private static final ConexionBaseDatos db = new ConexionBaseDatos();
+    private static Bitacora bitacora = new Bitacora(RetroalimentacionActividad.class.getName());
 
     public static int agregarRetroalimentacion (RetroalimentacionActividad retroalimentacion) throws ErrorDAO {
         int resultado = -1;
@@ -16,12 +21,8 @@ public class RetroalimentacionActividadDB {
         try {
             CallableStatement consulta;
 
-            if (retroalimentacion.getComentario().isEmpty())
-                consulta = db.getConexion()
-                             .prepareCall("call insertarRetroalimentacionActividad (?, ?, ?, ?, null, ?)");
-            else
-                consulta = db.getConexion()
-                             .prepareCall("call insertarRetroalimentacionActividad (?, ?, ?, ?, ?, ?)");
+            consulta = db.getConexion()
+                         .prepareCall("call insertarRetroalimentacionActividad (?, ?, ?, ?, ?, ?)");
 
             db.desconectar();
 
@@ -29,13 +30,20 @@ public class RetroalimentacionActividadDB {
             consulta.setInt(2, retroalimentacion.getDificultad());
             consulta.setInt(3, retroalimentacion.getInteres());
             consulta.setInt(4, retroalimentacion.getId());
-            consulta.setString(5, retroalimentacion.getComentario().get());
             consulta.setInt(6, retroalimentacion.getIdUsuario());
+
+            if (retroalimentacion.getComentario().isEmpty()) {
+                consulta.setString(5, null);
+            }
+            else {
+                consulta.setString(5, retroalimentacion.getComentario().get());
+            }
 
             resultado = consulta.executeUpdate();
             consulta.close();
         }
         catch (SQLException error) {
+            bitacora.escribirError(error);
 
             throw new ErrorDAO(error.getMessage());
         }
