@@ -119,11 +119,11 @@ CREATE TABLE `actividad` (
   `idActividad` int PRIMARY KEY AUTO_INCREMENT,
   `titulo` varchar(50) NOT NULL,
   `descripcion` varchar(200) NOT NULL,
-  `tipo` ENUM ('rompehielo', 'intercultural', 'disciplinar', 'cierre') NOT NULL,
+  `tipo` ENUM ('rompehielo', 'intercultural', 'disciplinar', 'cierre') NOT NULL
 );
 
-CREATE TABLE paises (
-idPais int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE pais (
+idPais int NOT NULL AUTO_INCREMENT,
 iso char(2) DEFAULT NULL,
 nombre varchar(80) NOT NULL,
 PRIMARY KEY (idPais)
