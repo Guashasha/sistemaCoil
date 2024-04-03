@@ -61,8 +61,8 @@ public class AsercionListas extends Assertions {
             else if (!universidadEsperada.getNombre().equals(universidadObtenida.getNombre())) {
                 throw new AssertionError("Universidad " + i + "Nombre esperado = " + universidadEsperada.getNombre() + ", Nombre obtenido = " + universidadObtenida.getNombre());
             }
-            else {
-                compararPaises(i,universidadEsperada.getPaisOrigen(),universidadObtenida.getPaisOrigen());
+            else if (universidadEsperada.getIdPais() != universidadObtenida.getIdPais()) {
+                throw new AssertionError("Universidad " + i + "idPais esperado = " + universidadEsperada.getIdPais() + ", idPais obtenido = " + universidadObtenida.getIdPais());
             }
 
             esperada.remove(0);
@@ -80,13 +80,13 @@ public class AsercionListas extends Assertions {
             facultadObtenida = obtenida.get(0);
 
             if (facultadEsperada.getId() != facultadObtenida.getId()) {
-                throw new AssertionError("Elemento " + i + "Id esperado = " + facultadEsperada.getId() + ", Id obtenido = " + facultadObtenida.getId());
+                throw new AssertionError("Facultad " + i + "Id esperado = " + facultadEsperada.getId() + ", Id obtenido = " + facultadObtenida.getId());
             }
             else if (!facultadEsperada.getNombre().equals(facultadObtenida.getNombre())) {
-                throw new AssertionError("Elemento " + i + "Nombre esperado = " + facultadEsperada.getNombre() + ", Nombre obtenido = " + facultadObtenida.getNombre());
+                throw new AssertionError("Facultad " + i + "Nombre esperado = " + facultadEsperada.getNombre() + ", Nombre obtenido = " + facultadObtenida.getNombre());
             }
-            else {
-                compararRegiones(i,facultadEsperada.getRegion(),facultadObtenida.getRegion());
+            else if (facultadEsperada.getIdRegion() != facultadObtenida.getIdRegion()) {
+                throw new AssertionError("Facultad " + i + "idRegion esperado = " + facultadEsperada.getIdRegion() + ", idRegion obtenido = " + facultadObtenida.getIdRegion());
             }
 
             esperada.remove(0);

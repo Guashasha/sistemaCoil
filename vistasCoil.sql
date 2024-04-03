@@ -34,6 +34,6 @@ select `p`.`idPersona`       AS `idPersona`,
 from (`persona` `p` join `estudiante` `e` on (`p`.`idPersona` = `e`.`idPersona`));
 
 CREATE VIEW if not exists universidad_con_pais AS 
-SELECT idUniversidad, universidad.nombre AS universidad, idPais, iso, pais.nombre AS pais FROM universidad LEFT JOIN pais ON universidad.paisOrigen = pais.idPais;
+SELECT idUniversidad, universidad.nombre AS universidad, idPais, pais.nombre AS pais FROM universidad LEFT JOIN pais ON universidad.paisOrigen = pais.idPais;
 CREATE VIEW if not exists facultad_con_region AS
 SELECT idFacultad, facultad.nombre AS facultad, idRegion, region.nombre AS region FROM facultad LEFT JOIN region ON facultad.region = region.idRegion;

@@ -6,9 +6,10 @@ public class Pais {
     private String nombre;
 
     public Pais () {
-        this.id = -1;
-        this.iso = "";
-        this.nombre = "";
+    }
+
+    public Pais (int id) {
+        this.id = id;
     }
 
     public Pais (int id, String nombre) {
@@ -22,23 +23,23 @@ public class Pais {
         this.nombre = nombre;
     }
 
-    public void setId(int id) {
+    public void setId (int id) {
         this.id = id;
     }
 
-    public int getId() {
+    public int getId () {
         return this.id;
     }
 
-    public void setIso(String iso) {
+    public void setIso (String iso) {
         this.iso = iso;
     }
 
-    public String getIso() {
+    public String getIso () {
         return this.iso;
     }
 
-    public void setNombre(String nombre) {
+    public void setNombre (String nombre) {
         this.nombre = nombre;
     }
 

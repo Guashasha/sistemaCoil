@@ -1,18 +1,18 @@
 package Logica.Dominio;
 
 public class Region {
-    int id;
+    private int id;
     private String nombre;
 
     public Region () {
 
     }
 
-    private Region (String nombre) {
+    public Region (String nombre) {
         this.nombre = nombre;
     }
 
-    private Region (int id, String nombre) {
+    public Region (int id, String nombre) {
         this.id = id;
         this.nombre = nombre;
     }
