@@ -1,20 +1,18 @@
 package AccesoADatos;
 
 import Logica.Bitacora;
+import Logica.Dominio.Persona;
+import Logica.Dominio.Actividad;
 import Logica.Dominio.RetroalimentacionActividad;
 import Logica.ErrorDAO;
 
-import java.io.IOException;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.FileHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class RetroalimentacionActividadDB {
     private static final ConexionBaseDatos db = new ConexionBaseDatos();
-    private static Bitacora bitacora = new Bitacora(RetroalimentacionActividad.class.getName());
+    private static final Bitacora bitacora = new Bitacora(RetroalimentacionActividad.class.getName());
 
     public static int agregarRetroalimentacion (RetroalimentacionActividad retroalimentacion) throws ErrorDAO {
         int resultado = -1;
@@ -57,9 +55,34 @@ public class RetroalimentacionActividadDB {
 
         try {
             CallableStatement consulta = null;
-            consulta = db.getConexion().prepareCall("select * from retroalimentacion natural join retroalimentacionActividad where retroalimentacion.idRetroalimentacion=1;");
+            consulta = db.getConexion().prepareCall("select idRetroalimentacion, interaccionPar, comentario, dificultad, interes from retroalimentacion natural join retroalimentacionActividad where retroalimentacion.idRetroalimentacion=?;");
+
+            consulta.setInt(1, id);
 
             db.desconectar();
+
+            retroalimentacion = consulta.executeQuery();
+        }
+        catch (SQLException error) {
+            bitacora.escribirError(error);
+
+            throw new ErrorDAO(error.getMessage());
+        }
+
+        return retroalimentacion;
+    }
+
+    public static ResultSet getPorPersonaYActividad (Persona persona, Actividad actividad) {
+        ResultSet retroalimentacion = null;
+
+        try {
+            CallableStatement consulta = null;
+            consulta = db.getConexion().prepareCall("select idRetroalimentacion, interaccionPar, comentario, dificultad, interes from retroalimentacion natural join retroalimentacionActividad where retroalimentacion.usuario=? and retroalimentacionActividad.actividad=?;");
+
+            consulta.setInt(1, persona.getIdPersona());
+            consulta.setInt(2, actividad.getIdActividad());
+
+            consulta.close();
 
             retroalimentacion = consulta.executeQuery();
         }
