@@ -13,7 +13,7 @@ import java.sql.SQLException;
 public class RetroalimentacionActividadDBTest {
     private ConexionBaseDatos conector;
 
-    @Before
+    @BeforeEach
     void setUp() {
         this.conector = new ConexionBaseDatos();
 
