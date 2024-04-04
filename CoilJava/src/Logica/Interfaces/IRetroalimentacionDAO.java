@@ -4,5 +4,4 @@ import Logica.Dominio.Retroalimentacion;
 import Logica.ErrorDAO;
 
 public interface IRetroalimentacionDAO extends IDAO<Retroalimentacion, Integer> {
-    Retroalimentacion getPorPersonaYActividad (int idPersona) throws ErrorDAO;
 }

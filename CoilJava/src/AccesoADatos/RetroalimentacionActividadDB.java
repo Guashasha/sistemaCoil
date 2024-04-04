@@ -12,7 +12,7 @@ import java.sql.SQLException;
 
 public class RetroalimentacionActividadDB {
     private static final ConexionBaseDatos db = new ConexionBaseDatos();
-    private static Bitacora bitacora = new Bitacora(RetroalimentacionActividad.class.getName());
+    private static final Bitacora bitacora = new Bitacora(RetroalimentacionActividad.class.getName());
 
     public static int agregarRetroalimentacion (RetroalimentacionActividad retroalimentacion) throws ErrorDAO {
         int resultado = -1;
@@ -77,7 +77,7 @@ public class RetroalimentacionActividadDB {
 
         try {
             CallableStatement consulta = null;
-            consulta = db.getConexion().prepareCall("select idRetroalimentacion, interaccionPar, comentario, dificultad, interes from retroalimentacion natural join retroalimentacionActividad where retroalimentacion.usuario=? and retroalimentacionActividad.actividad=?;")
+            consulta = db.getConexion().prepareCall("select idRetroalimentacion, interaccionPar, comentario, dificultad, interes from retroalimentacion natural join retroalimentacionActividad where retroalimentacion.usuario=? and retroalimentacionActividad.actividad=?;");
 
             consulta.setInt(1, persona.getIdPersona());
             consulta.setInt(2, actividad.getIdActividad());

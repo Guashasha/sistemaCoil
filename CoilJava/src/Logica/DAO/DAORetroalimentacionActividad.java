@@ -40,7 +40,7 @@ public class DAORetroalimentacionActividad implements IRetroalimentacionActivida
     }
 
     @Override
-    public int modificar (Integer y) throws ErrorDAO {
+    public int modificar (Retroalimentacion retroalimentacion) throws ErrorDAO {
         return 0;
     }
 
