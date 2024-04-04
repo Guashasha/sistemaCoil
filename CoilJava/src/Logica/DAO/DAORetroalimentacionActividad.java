@@ -16,11 +16,7 @@ public class DAORetroalimentacionActividad implements IRetroalimentacionActivida
     private static Bitacora bitacora = new Bitacora(RetroalimentacionActividad.class.getName());
 
     @Override
-    public int agregar (Retroalimentacion retroalimentacion) throws ErrorDAO {
-        if (retroalimentacion.getClass() != RetroalimentacionActividad.class) {
-            throw new ErrorDAO("El metodo esperaba una retroalimentacion de actividad pero recibió " + retroalimentacion.getClass());
-        }
-
+    public int agregar (RetroalimentacionActividad retroalimentacion) throws ErrorDAO {
         if (retroalimentacion.getInteraccionConPar() <= 0 || retroalimentacion.getInteraccionConPar() > 5) {
             throw new ErrorDAO("Las calificaciones de la retroalimentación están incompletas");
         }
@@ -40,12 +36,12 @@ public class DAORetroalimentacionActividad implements IRetroalimentacionActivida
     }
 
     @Override
-    public int modificar (Retroalimentacion retroalimentacion) throws ErrorDAO {
+    public int modificar (RetroalimentacionActividad retroalimentacion) throws ErrorDAO {
         return 0;
     }
 
     @Override
-    public Optional<Retroalimentacion> getPorId (Integer id) throws ErrorDAO {
+    public Optional<RetroalimentacionActividad> getPorId (Integer id) throws ErrorDAO {
         if (id < 1) {
             throw new ErrorDAO("El id es invalido" + id);
         }
@@ -61,23 +57,23 @@ public class DAORetroalimentacionActividad implements IRetroalimentacionActivida
             throw error;
         }
 
-        Retroalimentacion objRetroalimentacion = resultSetAObjeto(rsRetroalimentacion);
+        RetroalimentacionActividad objRetroalimentacion = resultSetAObjeto(rsRetroalimentacion);
 
         return Optional.ofNullable(objRetroalimentacion);
     }
 
     @Override
-    public List<Retroalimentacion> getTodos () throws ErrorDAO {
+    public List<RetroalimentacionActividad> getTodos () throws ErrorDAO {
         return null;
     }
 
     @Override
-    public Retroalimentacion getPorPersonaYActividad (int idPersona) throws ErrorDAO {
+    public Optional<RetroalimentacionActividad> getPorPersonaYActividad (int idPersona) throws ErrorDAO {
         return null;
     }
 
     @Override
-    public Retroalimentacion resultSetAObjeto (ResultSet resultados) {
+    public RetroalimentacionActividad resultSetAObjeto (ResultSet resultados) {
         RetroalimentacionActividad retroalimentacion = new RetroalimentacionActividad();
 
         try {
