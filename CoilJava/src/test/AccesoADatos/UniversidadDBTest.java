@@ -15,8 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static test.AsercionListas.assertEqualListUniversidad;
 
 class UniversidadDBTest {
-
-    public final UniversidadDB INSTANCIA = new UniversidadDB();
+    private final UniversidadDB INSTANCIA = new UniversidadDB();
 
     @BeforeEach
     void setUp() {

@@ -45,13 +45,13 @@ public class DAOUniversidad implements IUniversidadDAO {
     }
 
     @Override
-    public int editarUniversidad (String universidad, String pais) throws ErrorDAO {
+    public int editarUniversidad (String universidad, String nuevoNombre, String nuevoPais) throws ErrorDAO {
         int filasAfectadas;
 
-        if (!cadenaValida(universidad) || !cadenaValida(pais)) {
+        if (!cadenaValida(universidad) || !cadenaValida(nuevoNombre) || !cadenaValida(nuevoPais)) {
             filasAfectadas = -1;
         }
-        else if (universidadExiste(universidad,pais)) {
+        else if (universidadExiste(nuevoNombre,nuevoPais)) {
             filasAfectadas = -2;
         }
         //else if (!paisExiste(pais)) {
@@ -59,8 +59,10 @@ public class DAOUniversidad implements IUniversidadDAO {
         //}
         else {
             try {
-                Pais paisOrigen = this.PAIS_DB.getPaisPorNombre(pais);
-                Universidad nuevaUniversidad = new Universidad(universidad,paisOrigen.getId());
+                Pais paisOrigen = this.PAIS_DB.getPaisPorNombre(nuevoPais);
+                Universidad universidadActual = this.UNIVERSIDAD_DB.getUniversidadPorNombre(universidad);
+                
+                Universidad nuevaUniversidad = new Universidad(universidad,paisOrigen.getId(),universidadActual.);
                 filasAfectadas = this.UNIVERSIDAD_DB.editarUniversidad(nuevaUniversidad);
             }
             catch (ErrorDAO error) {
@@ -113,17 +115,15 @@ public class DAOUniversidad implements IUniversidadDAO {
         }
     }
 
-
-
-    private boolean esNulo (Object objeto) {
+    public boolean esNulo (Object objeto) {
         return Optional.ofNullable(objeto)
                 .isEmpty();
     }
 
-    private boolean cadenaValida (String cadena) {
+    public boolean cadenaValida (String cadena) {
         return !esNulo(cadena) && !cadena.isBlank();
     }
-    private boolean universidadValida (Universidad universidad) {
+    public boolean universidadValida (Universidad universidad) {
         boolean valido = false;
 
         if (!esNulo(universidad)) {
@@ -138,7 +138,7 @@ public class DAOUniversidad implements IUniversidadDAO {
         return valido;
     }
 
-    private boolean universidadExiste (String universidad, String pais) throws ErrorDAO {
+    public boolean universidadExiste (String universidad, String pais) throws ErrorDAO {
         boolean existe = false;
         Universidad universidadEncontrada;
         Pais paisEncontrado;
