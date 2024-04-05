@@ -42,7 +42,7 @@ BEGIN
 	INSERT INTO persona (nombre, apellidoPaterno, apellidoMaterno, universidad) 
 	VALUES (p_nombre, p_apellidoPaterno, p_apellidoMaterno, p_universidad);
 	SET id_persona = LAST_INSERT_ID();
-	INSERT INTO academico (cedulaProfesional, numeroDePersonal, idPersona, areaEstudios.p_correoElectronico, numeroTelefonico, categoriaContratacion, facultad)
+	INSERT INTO academico (cedulaProfesional, numeroDePersonal, idPersona, areaEstudios, correoElectronico, numeroTelefonico, categoriaContratacion, facultad)
 	VALUES (p_cedulaProfesional, p_numeroDePersonal, id_persona, p_areaEstudios,p_correoElectronico, p_numeroTelefono, p_categoriaContratacion, p_facultad);	
 END //
 
