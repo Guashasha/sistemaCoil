@@ -15,95 +15,96 @@ public class AsercionListas extends Assertions {
         }
     }
 
-    private static void compararRegiones (int elemento, Region esperada, Region obtenida) {
-        if (esperada.getId() != obtenida.getId()) {
-            throw new AssertionError("Region " + elemento + "Id esperado = " + esperada.getId() + ", Id obtenido = " + obtenida.getId());
-        }
-        else if (!esperada.getNombre().equals(obtenida.getNombre())) {
-            throw new AssertionError("Region " + elemento + "Nombre esperado = " + esperada.getNombre() + ", Nombre obtenido = " + obtenida.getNombre());
+    public static void assertEqualListPais (List<Pais> listaEsperada, List<Pais> listaObtenida) {
+        compararTamano(listaEsperada,listaObtenida);
+
+        Pais esperado;
+        Pais obtenido;
+        for (int i = 0; i < listaEsperada.size(); i++) {
+            esperado = listaEsperada.get(0);
+            obtenido = listaObtenida.get(0);
+
+            if (esperado.getId() != obtenido.getId()) {
+                throw new AssertionError("Pais " + i + ": Id esperado = " + esperado.getId() + ", Id obtenido = " + obtenido.getId());
+            }
+            else if (!esperado.getIso().equals(obtenido.getIso())) {
+                throw new AssertionError("Pais " + i + ": Iso esperado = " + esperado.getIso() + ", Iso obtenido = " + obtenido.getIso());
+            }
+            else if (!esperado.getNombre().equals(obtenido.getNombre())) {
+                throw new AssertionError("Pais " + i + ": Nombre esperado = " + esperado.getNombre() + ", Nombre obtenido = " + obtenido.getNombre());
+            }
+
+            listaEsperada.remove(0);
+            listaObtenida.remove(0);
         }
     }
 
-    public static void compararPaises (int elemento, Pais esperado, Pais obtenido) {
-        if (esperado.getId() != obtenido.getId()) {
-            throw new AssertionError("Pais " + elemento + ": Id esperado = " + esperado.getId() + ", Id obtenido = " + obtenido.getId());
-        }
-        else if (!esperado.getIso().equals(obtenido.getIso())) {
-            throw new AssertionError("Pais " + elemento + ": Iso esperado = " + esperado.getIso() + ", Iso obtenido = " + obtenido.getIso());
-        }
-        else if (!esperado.getNombre().equals(obtenido.getNombre())) {
-            throw new AssertionError("Pais " + elemento + ": Nombre esperado = " + esperado.getNombre() + ", Nombre obtenido = " + obtenido.getNombre());
+    public static void assertEqualListUniversidad (List<Universidad> listaEsperada, List<Universidad> listaObtenida) {
+        compararTamano(listaEsperada, listaObtenida);
+
+        Universidad esperada;
+        Universidad obtenida;
+        for (int i = 0; i < listaEsperada.size(); i++) {
+            esperada = listaEsperada.get(0);
+            obtenida = listaObtenida.get(0);
+
+            if (esperada.getId() != obtenida.getId()) {
+                throw new AssertionError("Universidad " + i + "Id esperado = " + obtenida.getId() + ", Id obtenido = " + obtenida.getId());
+            }
+            else if (!esperada.getNombre().equals(obtenida.getNombre())) {
+                throw new AssertionError("Universidad " + i + "Nombre esperado = " + esperada.getNombre() + ", Nombre obtenido = " + obtenida.getNombre());
+            }
+            else if (esperada.getIdPais() != obtenida.getIdPais()) {
+                throw new AssertionError("Universidad " + i + "idPais esperado = " + esperada.getIdPais() + ", idPais obtenido = " + obtenida.getIdPais());
+            }
+
+            listaEsperada.remove(0);
+            listaObtenida.remove(0);
         }
     }
 
-    public static void assertEqualListPais (List<Pais> esperada, List<Pais> obtenida) {
-        compararTamano(esperada,obtenida);
+    public static void assertEqualListFacultad (List<Facultad> listaEsperada, List<Facultad> listaObtenida) {
+        compararTamano(listaEsperada,listaObtenida);
 
-        for (int i = 0; i < esperada.size(); i++) {
-            compararPaises(i,esperada.get(0),obtenida.get(0));
-            esperada.remove(0);
-            obtenida.remove(0);
+        Facultad esperada;
+        Facultad obtenida;
+        for (int i = 0; i < listaEsperada.size(); i++) {
+            esperada = listaEsperada.get(0);
+            obtenida = listaObtenida.get(0);
+
+            if (esperada.getId() != obtenida.getId()) {
+                throw new AssertionError("Facultad " + i + "Id esperado = " + esperada.getId() + ", Id obtenido = " + obtenida.getId());
+            }
+            else if (!esperada.getNombre().equals(obtenida.getNombre())) {
+                throw new AssertionError("Facultad " + i + "Nombre esperado = " + esperada.getNombre() + ", Nombre obtenido = " + obtenida.getNombre());
+            }
+            else if (esperada.getIdRegion() != obtenida.getIdRegion()) {
+                throw new AssertionError("Facultad " + i + "idRegion esperado = " + esperada.getIdRegion() + ", idRegion obtenido = " + obtenida.getIdRegion());
+            }
+
+            listaEsperada.remove(0);
+            listaObtenida.remove(0);
         }
     }
 
-    public static void assertEqualListUniversidad (List<Universidad> esperada, List<Universidad> obtenida) {
-        compararTamano(esperada, obtenida);
+    public static void assertEqualListRegion (List<Region> listaEsperada, List<Region> listaObtenida) {
+        compararTamano(listaEsperada,listaObtenida);
 
-        Universidad universidadEsperada;
-        Universidad universidadObtenida;
-        for (int i = 0; i < esperada.size(); i++) {
-            universidadEsperada = esperada.get(0);
-            universidadObtenida = obtenida.get(0);
+        Region esperada;
+        Region obtenida;
+        for (int i = 0; i < listaEsperada.size(); i++) {
+            esperada = listaEsperada.get(0);
+            obtenida = listaObtenida.get(0);
 
-            if (universidadEsperada.getId() != universidadObtenida.getId()) {
-                throw new AssertionError("Universidad " + i + "Id esperado = " + universidadObtenida.getId() + ", Id obtenido = " + universidadObtenida.getId());
+            if (esperada.getId() != obtenida.getId()) {
+                throw new AssertionError("Region " + i + "Id esperado = " + esperada.getId() + ", Id obtenido = " + obtenida.getId());
             }
-            else if (!universidadEsperada.getNombre().equals(universidadObtenida.getNombre())) {
-                throw new AssertionError("Universidad " + i + "Nombre esperado = " + universidadEsperada.getNombre() + ", Nombre obtenido = " + universidadObtenida.getNombre());
+            else if (!esperada.getNombre().equals(obtenida.getNombre())) {
+                throw new AssertionError("Region " + i + "Nombre esperado = " + esperada.getNombre() + ", Nombre obtenido = " + obtenida.getNombre());
             }
-            else if (universidadEsperada.getIdPais() != universidadObtenida.getIdPais()) {
-                throw new AssertionError("Universidad " + i + "idPais esperado = " + universidadEsperada.getIdPais() + ", idPais obtenido = " + universidadObtenida.getIdPais());
-            }
-
-            esperada.remove(0);
-            obtenida.remove(0);
+            listaEsperada.remove(0);
+            listaObtenida.remove(0);
         }
     }
-
-    public static void assertEqualListFacultad (List<Facultad> esperada, List<Facultad> obtenida) {
-        compararTamano(esperada,obtenida);
-
-        Facultad facultadEsperada;
-        Facultad facultadObtenida;
-        for (int i = 0; i < esperada.size(); i++) {
-            facultadEsperada = esperada.get(0);
-            facultadObtenida = obtenida.get(0);
-
-            if (facultadEsperada.getId() != facultadObtenida.getId()) {
-                throw new AssertionError("Facultad " + i + "Id esperado = " + facultadEsperada.getId() + ", Id obtenido = " + facultadObtenida.getId());
-            }
-            else if (!facultadEsperada.getNombre().equals(facultadObtenida.getNombre())) {
-                throw new AssertionError("Facultad " + i + "Nombre esperado = " + facultadEsperada.getNombre() + ", Nombre obtenido = " + facultadObtenida.getNombre());
-            }
-            else if (facultadEsperada.getIdRegion() != facultadObtenida.getIdRegion()) {
-                throw new AssertionError("Facultad " + i + "idRegion esperado = " + facultadEsperada.getIdRegion() + ", idRegion obtenido = " + facultadObtenida.getIdRegion());
-            }
-
-            esperada.remove(0);
-            obtenida.remove(0);
-        }
-    }
-
-    public static void assertEqualListRegion (List<Region> esperada, List<Region> obtenida) {
-        compararTamano(esperada,obtenida);
-
-        for (int i = 0; i < esperada.size(); i++) {
-            compararRegiones(i,esperada.get(0),obtenida.get(0));
-            esperada.remove(0);
-            obtenida.remove(0);
-        }
-    }
-
-
-
+    
 }
