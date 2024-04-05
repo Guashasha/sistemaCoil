@@ -48,7 +48,7 @@ public class DAOEstudiante implements IEstudianteDAO {
 
     @Override
     public List<Estudiante> getEstudiantePorUniversidad (String nombreUniversidad) throws ErrorDAO {
-        return EstudianteDB.getEstudiantePorUniversidad(nombreUniversidad);
+        return null;
     }
 
     @Override
