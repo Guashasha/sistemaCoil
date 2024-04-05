@@ -6,6 +6,8 @@ import Logica.Dominio.Estudiante;
 import Logica.Dominio.Periodo;
 import Logica.ErrorDAO;
 import Logica.Interfaces.IColaboracionDAO;
+
+import java.sql.ResultSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -63,17 +65,23 @@ public class DAOColaboracion implements IColaboracionDAO {
     }
 
     @Override
-    public int modificar (String y) throws ErrorDAO {
+    public int modificar (Colaboracion obj) throws ErrorDAO {
         return 0;
     }
 
     @Override
-    public Colaboracion getPorId (String y) throws ErrorDAO {
+    public Optional<Colaboracion> getPorId (String y) throws ErrorDAO {
+        return Optional.empty();
+    }
+
+
+    @Override
+    public List<Colaboracion> getTodos () throws ErrorDAO {
         return null;
     }
 
     @Override
-    public List<Colaboracion> getTodos () throws ErrorDAO {
+    public Colaboracion resultSetAObjeto (ResultSet resultados) {
         return null;
     }
 }
