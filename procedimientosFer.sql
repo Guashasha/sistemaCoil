@@ -231,7 +231,7 @@ BEGIN
         idioma = p_idioma,
         objetivo = p_objetivo,
         fechaInicio = p_fechaInicio,
-        fechaFinal = p_fechaFinal,
+        fechaFin = p_fechaFinal,
         perfilEstudiante = p_perfilEstudiante
     WHERE idColaboracion = p_idColaboracion;
 END //
