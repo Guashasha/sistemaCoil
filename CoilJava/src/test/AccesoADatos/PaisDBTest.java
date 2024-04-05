@@ -3,6 +3,7 @@ package test.AccesoADatos;
 import AccesoADatos.PaisDB;
 import Logica.Dominio.Pais;
 import Logica.ErrorDAO;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import test.ConfiguracionPrueba;
@@ -18,6 +19,11 @@ class PaisDBTest {
     static void setUp() {
         ConfiguracionPrueba.ejecutarInstruccionSQL("DELETE FROM paises;");
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO paises (idPais,Iso,nombre) VALUES (1,'MX','México'),  (2,'US','Estados Unidos'), (3,'BR','Brasil');");
+    }
+
+    @AfterAll
+    static void afterAll () {
+        ConfiguracionPrueba.ejecutarInstruccionSQL("DELETE FROM paises;");
     }
 
     @Test

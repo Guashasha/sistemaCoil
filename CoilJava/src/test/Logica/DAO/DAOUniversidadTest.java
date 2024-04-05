@@ -1,16 +1,14 @@
 package test.Logica.DAO;
 
 import Logica.DAO.DAOUniversidad;
+import Logica.Dominio.Universidad;
+import Logica.ErrorDAO;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import test.ConfiguracionPrueba;
+import static test.ConfiguracionPrueba.ejecutarInstruccionSQL;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 class DAOUniversidadTest {
@@ -18,52 +16,81 @@ class DAOUniversidadTest {
 
     @BeforeEach
     void setUp() {
-        ejecutarInstruccionSQL("DELETE FROM universidad;");
+        ConfiguracionPrueba.borrarDatosTablaUniversidad();
         ejecutarInstruccionSQL("DELETE FROM paises;");
         ejecutarInstruccionSQL("INSERT INTO paises (idPais,Iso,nombre) VALUES (1,'MX','México'),  (2,'US','Estados Unidos');");
         ejecutarInstruccionSQL("INSERT INTO universidad (idUniversidad,nombre,paisOrigen) VALUES (1,'Universidad Veracruzana',1), (2,'Harvard',2), (3,'BUAP',1);");
     }
 
-    private static void ejecutarInstruccionSQL (String instruccionSQL) {
-        try {
-            String urlBaseDatos = "jdbc:mariadb://localhost:3307/coil";
-            String usuario = "root";
-            String contrasena = "040704";
-            Connection conexion = DriverManager.getConnection(urlBaseDatos, usuario, contrasena);
-
-            PreparedStatement declaracionSQL = conexion.prepareStatement(instruccionSQL);
-
-            declaracionSQL.execute();
-            declaracionSQL.close();
-            conexion.close();
-        }
-        catch (SQLException error) {
-            System.out.println("Error al ejecutar la instrucción SQL: " + error.getMessage());
-        }
+    @AfterAll
+    static void afterAll () {
+        ConfiguracionPrueba.borrarDatosTablaUniversidad();
+        ejecutarInstruccionSQL("DELETE FROM paises;");
     }
 
     @Test
     void pruebaRegistrarUniversidadExitosa () {
         System.out.println("pruebaRegistrarUniversidadExitosa");
-
+        int filasAfectadas = 0;
+        try {
+            filasAfectadas = this.INSTANCIA.registrarUniversidad("UNAM","México");
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaRegistrarUniversidadExitosa");
+        }
+        assertEquals(1,filasAfectadas);
     }
 
+    @Test
+    void pruebaRegistrarUniversidadCadenasInvalida () {
+        System.out.println("pruebaRegistrarUniversidadCadenasInvalida");
+        int filasAfectadas = 1;
+        try {
+            filasAfectadas = this.INSTANCIA.registrarUniversidad("  ",null);
+        }
+        catch (ErrorDAO error) {
+            fail("pruebaRegistrarUniversidadCadenasInvalida");
+        }
+        assertEquals(0,filasAfectadas);
+    }
 
+    @Test
+    void pruebaRegistrarUniversidadExistente () {
+        System.out.println("pruebaRegistrarUniversidadExistente");
+        int filasAfectadas = 0;
+        try {
+            filasAfectadas = this.INSTANCIA.registrarUniversidad("Universidad Veracruzana","México");
+        }
+        catch (ErrorDAO error) {
+            fail("pruebaRegistrarUniversidadExistente");
+        }
+        assertEquals(-1,filasAfectadas);
+    }
+
+    @Test
+    void pruebaRegistrarUniversidadPaisInexistente () {
+        System.out.println("pruebaRegistrarUniversidadPaisInexistente");
+        assertThrows(ErrorDAO.class,()-> this.INSTANCIA.registrarUniversidad("UNAM","Argentina"));
+    }
 
     @Test
     void editarUniversidad () {
+
     }
 
     @Test
     void getUniversidadPorNombre () {
+
     }
 
     @Test
     void getUniversidadesPorPaisOrigen () {
+
     }
 
     @Test
     void getTodasAlfabeticamente () {
+
     }
 
     @Test
@@ -103,26 +130,90 @@ class DAOUniversidadTest {
 
     @Test
     void pruebaUniversidadExisteExitosa () {
-        //Uni y pais igual
+        System.out.println("pruebaUniversidadExisteExitosa");
+        boolean resultado = false;
+        try {
+            resultado = this.INSTANCIA.universidadExiste("Harvard","Estados Unidos");
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaUniversidadExisteExitosa");
+        }
+        assertTrue(resultado);
     }
 
     @Test
     void pruebaUniversidadExisteUniversidadNula () {
-
+        System.out.println("pruebaUniversidadExisteUniversidadNula");
+        boolean resultado = true;
+        try {
+            resultado = this.INSTANCIA.universidadExiste(null,"Estados Unidos");
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaUniversidadExisteUniversidadNula");
+        }
+        assertFalse(resultado);
     }
 
     @Test
     void pruebaUniversidadExistePaisNulo () {
-
+        System.out.println("pruebaUniversidadExistePaisNulo");
+        boolean resultado = true;
+        try {
+            resultado = this.INSTANCIA.universidadExiste("Harvard",null);
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaUniversidadExistePaisNulo");
+        }
+        assertFalse(resultado);
     }
 
     @Test
-    void pruebaUniversidadExisteUniversidadDiferente () {
-        //uni diferente
+    void pruebaUniversidadExisteUniversidadInexistente () {
+        System.out.println("pruebaUniversidadExisteUniversidadInexistente");
+        boolean resultado = true;
+        try {
+            resultado = this.INSTANCIA.universidadExiste("UNAM","México");
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaUniversidadExisteUniversidadInexistente");
+        }
+        assertFalse(resultado);
     }
 
     @Test
     void pruebaUniversidadExistePaisDiferente () {
-        //Uni igual pero pais diferente
+        System.out.println("pruebaUniversidadExistePaisDiferente");
+        boolean resultado = true;
+        try {
+            resultado = this.INSTANCIA.universidadExiste("Universidad Veracruzana","Estados Unidos");
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaUniversidadExistePaisDiferente");
+        }
+        assertFalse(resultado);
+    }
+
+    @Test
+    void pruebaValidarCadenasExitosa () {
+        System.out.println("pruebaValidarCadenasExitosa");
+        String[] cadenas = new String[]{"Harvard","BUAP","Universidad Veracruzana","México"};
+        boolean resultado = this.INSTANCIA.validarCadenas(cadenas);
+        assertTrue(resultado);
+    }
+
+    @Test
+    void pruebaValidarCadenasNulas () {
+        System.out.println("pruebaValidarCadenasNulas");
+        String[] cadenas = new String[]{"Harvard","BUAP","Universidad Veracruzana",null};
+        boolean resultado = this.INSTANCIA.validarCadenas(cadenas);
+        assertFalse(resultado);
+    }
+
+    @Test
+    void pruebaValidarCadenasVacias () {
+        System.out.println("pruebaValidarCadenasVacias");
+        String[] cadenas = new String[]{"Harvard","BUAP","Universidad Veracruzana","    "};
+        boolean resultado = this.INSTANCIA.validarCadenas(cadenas);
+        assertFalse(resultado);
     }
 }

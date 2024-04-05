@@ -3,6 +3,8 @@ package test.AccesoADatos;
 import AccesoADatos.UniversidadDB;
 import Logica.Dominio.Universidad;
 import Logica.ErrorDAO;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import test.ConfiguracionPrueba;
@@ -10,16 +12,27 @@ import java.util.ArrayList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static test.AsercionListas.assertEqualListUniversidad;
+import static test.ConfiguracionPrueba.ejecutarInstruccionSQL;
 
 class UniversidadDBTest {
     private final UniversidadDB INSTANCIA = new UniversidadDB();
 
+    @BeforeAll
+    static void beforeAll () {
+        ejecutarInstruccionSQL("DELETE FROM paises;");
+        ejecutarInstruccionSQL("INSERT INTO paises (idPais,Iso,nombre) VALUES (1,'MX','México'),  (2,'US','Estados Unidos');");
+    }
+
     @BeforeEach
     void setUp () {
         ConfiguracionPrueba.borrarDatosTablaUniversidad();
-        ConfiguracionPrueba.ejecutarInstruccionSQL("DELETE FROM paises;");
-        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO paises (idPais,Iso,nombre) VALUES (1,'MX','México'),  (2,'US','Estados Unidos');");
-        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO universidad (idUniversidad,nombre,paisOrigen) VALUES (1,'Universidad Veracruzana',1), (2,'Harvard',2), (3,'BUAP',1);");
+        ejecutarInstruccionSQL("INSERT INTO universidad (idUniversidad,nombre,paisOrigen) VALUES (1,'Universidad Veracruzana',1), (2,'Harvard',2), (3,'BUAP',1);");
+    }
+
+    @AfterAll
+    static void arterAll () {
+        ConfiguracionPrueba.borrarDatosTablaUniversidad();
+        ejecutarInstruccionSQL("DELETE FROM paises;");
     }
 
     @Test
@@ -41,30 +54,14 @@ class UniversidadDBTest {
     void pruebaRegistrarUniversidadVaciaFallida () {
         System.out.println("pruebaRegistrarUniversidadVaciaFallida");
         Universidad universidad = new Universidad();
-        int filasAfectadas;
-
-        try {
-            filasAfectadas = this.INSTANCIA.registrarUniversidad(universidad);
-            fail("Fallida: pruebaRegistrarUniversidadVaciaFallida. Se afectaron " + filasAfectadas);
-        }
-        catch (ErrorDAO error) {
-            assertNotNull(error);
-        }
+        assertThrows(ErrorDAO.class,() -> this.INSTANCIA.registrarUniversidad(universidad));
     }
 
     @Test
     void pruebaRegistrarUniversidadIncorrecta () {
         System.out.println("pruebaRegistrarUniversidadIncorrecta");
         Universidad universidad = new Universidad("Universidad Veracruzana",10);
-        int filasAfectadas;
-
-        try {
-            filasAfectadas = this.INSTANCIA.registrarUniversidad(universidad);
-            fail("Fallida: pruebaRegistrarUniversidadIncorrecta. Se afectaron " + filasAfectadas);
-        }
-        catch (ErrorDAO error) {
-            assertNotNull(error);
-        }
+        assertThrows(ErrorDAO.class,()->this.INSTANCIA.registrarUniversidad(universidad));
     }
 
     @Test
@@ -103,15 +100,16 @@ class UniversidadDBTest {
     void pruebaEditarUniversidadVacia () {
         System.out.println("pruebaEditarUniversidadInexistente");
         Universidad universidad = new Universidad();
-        int filasAfectadas;
+        int filasAfectadas = 1;
 
         try {
             filasAfectadas = this.INSTANCIA.editarUniversidad(universidad);
-            fail("Fallida: pruebaEditarUniversidadInexistente. Filas afectadas = " + filasAfectadas);
         }
         catch (ErrorDAO error) {
-            assertNotNull(error);
+            fail("Fallida: pruebaEditarUniversidadInexistente. Filas afectadas = " + filasAfectadas);
         }
+
+        assertEquals(0,filasAfectadas);
     }
 
     @Test

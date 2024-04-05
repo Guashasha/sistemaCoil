@@ -14,7 +14,7 @@ import java.util.Optional;
 public class DAOUniversidad implements IUniversidadDAO {
     private final UniversidadDB UNIVERSIDAD_DB = new UniversidadDB();
     private final PaisDB PAIS_DB = new PaisDB();
-    private static Bitacora bitacora = new Bitacora(Universidad.class.getName());
+    //private static Bitacora bitacora = new Bitacora(Universidad.class.getName());
 
     @Override
     public int registrarUniversidad (String universidad, String pais) throws ErrorDAO {
@@ -31,7 +31,7 @@ public class DAOUniversidad implements IUniversidadDAO {
                     filasAfectadas = this.UNIVERSIDAD_DB.registrarUniversidad(nuevaUniversidad);
                 }
                 catch (ErrorDAO error) {
-                    bitacora.escribirError(error);
+                    //bitacora.escribirError(error);
                     throw error;
                 }
             }
@@ -58,7 +58,7 @@ public class DAOUniversidad implements IUniversidadDAO {
                     filasAfectadas = this.UNIVERSIDAD_DB.editarUniversidad(universidad);
                 }
                 catch (ErrorDAO error) {
-                    bitacora.escribirError(error);
+                    //bitacora.escribirError(error);
                     throw error;
                 }
             }
@@ -75,7 +75,7 @@ public class DAOUniversidad implements IUniversidadDAO {
                 universidad = this.UNIVERSIDAD_DB.getUniversidadPorNombre(nombre);
             }
             catch (ErrorDAO error) {
-                bitacora.escribirError(error);
+                //bitacora.escribirError(error);
                 throw error;
             }
         }
@@ -90,7 +90,7 @@ public class DAOUniversidad implements IUniversidadDAO {
                 listaUniversidades = this.UNIVERSIDAD_DB.getUniversidadesPorPaisOrigen(paisOrigen);
             }
             catch (ErrorDAO error) {
-                bitacora.escribirError(error);
+                //bitacora.escribirError(error);
                 throw error;
             }
         }
@@ -103,7 +103,7 @@ public class DAOUniversidad implements IUniversidadDAO {
             return this.UNIVERSIDAD_DB.getTodasAlfabeticamente();
         }
         catch (ErrorDAO error) {
-            bitacora.escribirError(error);
+            //bitacora.escribirError(error);
             throw error;
         }
     }
@@ -127,14 +127,14 @@ public class DAOUniversidad implements IUniversidadDAO {
             if (universidadEncontrada.getId() > 0) {
                 paisEncontrado = PAIS_DB.getPaisPorId(universidadEncontrada.getIdPais());
                 if (paisEncontrado.getId() > 0) {
-                    if (universidad.equals(universidadEncontrada.getNombre()) && pais.equals(paisEncontrado.getNombre())) {
+                    if (universidad.equals(universidadEncontrada.getNombre()) && paisEncontrado.getNombre().equals(pais)) {
                         existe = true;
                     }
                 }
             }
         }
         catch (ErrorDAO error) {
-            bitacora.escribirError(error);
+            //bitacora.escribirError(error);
             throw error;
         }
 

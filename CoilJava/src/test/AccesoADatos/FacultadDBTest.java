@@ -34,7 +34,7 @@ class FacultadDBTest {
     @Test
     void pruebaGetFacultadPorNombreExitosa () {
         System.out.println("pruebaGetFacultadPorNombreExitosa");
-        Facultad esperada = new Facultad(2,"Derecgo",1);
+        Facultad esperada = new Facultad(2,"Derecho",1);
         Facultad obtenida = new Facultad();
 
         try {
