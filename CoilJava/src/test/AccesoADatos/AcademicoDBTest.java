@@ -1,11 +1,7 @@
 package test.AccesoADatos;
 
 import AccesoADatos.AcademicoDB;
-import AccesoADatos.FacultadDB;
-import AccesoADatos.UniversidadDB;
 import Logica.Dominio.Academico;
-import Logica.Dominio.Facultad;
-import Logica.Dominio.Universidad;
 import Logica.ErrorDAO;
 import org.junit.jupiter.api.*;
 import test.ConfiguracionPrueba;
