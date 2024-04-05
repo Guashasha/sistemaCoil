@@ -117,6 +117,7 @@ public class EstudianteDB {
 
             throw new ErrorDAO(error.getMessage());
         }
+
         return estudiante;
 
     }
@@ -147,15 +148,15 @@ public class EstudianteDB {
 
     }
 
-    public static List<Estudiante> getEstudiantePorUniversidad (String nombreUniveridad) throws ErrorDAO {
-        String consulta = "SELECT * from vista_estudiante WHERE nombreUniversidad = ?";
+    public static List<Estudiante> getEstudiantePorUniversidad (int idUniversidad) throws ErrorDAO {
+        String consulta = "SELECT * from vista_estudiante WHERE universidad = ?";
         ArrayList<Estudiante> listaEstudiantes = new ArrayList<>();
 
         try {
             CONEXION_BASE_DATOS.conectar();
             PreparedStatement cosnsultaEstudianteUniversidad = CONEXION_BASE_DATOS.getConexion().
                                                                                 prepareStatement(consulta);
-            cosnsultaEstudianteUniversidad.setString(1,nombreUniveridad);
+            cosnsultaEstudianteUniversidad.setInt(1,idUniversidad);
             ResultSet resultadoConsulta = cosnsultaEstudianteUniversidad.executeQuery();
 
             while (resultadoConsulta.next()) {
@@ -212,7 +213,7 @@ public class EstudianteDB {
         estudiante.setApellidoMaterno(resultado.getString("apellidoMaterno"));
         estudiante.setIdEstudiante(resultado.getInt("idEstudiante"));
         estudiante.setMatricula(resultado.getString("matricula"));
-        estudiante.setIdUniversidad(resultado.getInt("idUniversidad"));
+        estudiante.setIdUniversidad(resultado.getInt("universidad"));
 
         return estudiante;
     }
