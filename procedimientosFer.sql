@@ -148,7 +148,7 @@ create procedure if not exists registrar_cuentaAcademico (
     in p_idAcademico varchar(30),
     in p_nombreUsuario varchar(50),
     in p_contrasena varchar(30),
-    in p_estado enum ('pendiente', 'aceptada', 'rechaza')
+    in p_estado enum ('pendiente', 'aceptada', 'rechazada')
 )
 begin
     insert into cuenta (idCuenta, nombreUsuario, contrasena, estado)
@@ -160,7 +160,7 @@ DROP PROCEDURE IF EXISTS cambiar_estadoCuenta;
 
 create procedure if not exists cambiar_estadoCuenta (
     in p_idCuenta int,
-    in p_estado enum ('pendiente', 'aceptada', 'rechaza')
+    in p_estado enum ('pendiente', 'aceptada', 'rechazada')
 )
 begin
     UPDATE cuenta
