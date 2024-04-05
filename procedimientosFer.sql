@@ -42,7 +42,7 @@ BEGIN
 	INSERT INTO persona (nombre, apellidoPaterno, apellidoMaterno, universidad) 
 	VALUES (p_nombre, p_apellidoPaterno, p_apellidoMaterno, p_universidad);
 	SET id_persona = LAST_INSERT_ID();
-	INSERT INTO academico (cedulaProfesional, numeroDePersonal, idPersona, areaEstudios.p_correoElectronico, numeroTelefono, categoriaContratacion, facultad)
+	INSERT INTO academico (cedulaProfesional, numeroDePersonal, idPersona, areaEstudios, correoElectronico, numeroTelefonico, categoriaContratacion, facultad)
 	VALUES (p_cedulaProfesional, p_numeroDePersonal, id_persona, p_areaEstudios,p_correoElectronico, p_numeroTelefono, p_categoriaContratacion, p_facultad);	
 END //
 
@@ -59,7 +59,7 @@ create procedure if not exists registrar_Colaboracion(
     IN p_perfilEstudiante varchar(50)
 )
 BEGIN
-	INSERT INTO colaboracion (estado, tipo, temaInteres, idioma, objetivo, fechaInicio, fechaFinal, perfilEstudiante)
+	INSERT INTO colaboracion (estado, tipo, temaInteres, idioma, objetivo, fechaInicio, fechaFin, perfilEstudiante)
 	VALUES (p_estado, p_tipo, p_temaInteres, p_idioma, p_objetivo, p_fechaInicio, p_fechaFinal, p_perfilEstudiante);
 END //
 
@@ -110,7 +110,7 @@ BEGIN
     SET numeroDePersonal = p_numeroDePersonal,
         areaEstudios = p_areaEstudios,
         correoElectronico = p_correoElectronico,
-        numeroTelefonicoo = p_numeroTelefono,
+        numeroTelefonico = p_numeroTelefono,
         categoriaContratacion = p_categoriaContratacion,
         facultad = p_facultad
     WHERE idPersona = id_persona;
@@ -148,7 +148,7 @@ create procedure if not exists registrar_cuentaAcademico (
     in p_idAcademico varchar(30),
     in p_nombreUsuario varchar(50),
     in p_contrasena varchar(30),
-    in p_estado enum ('pendiente', 'aceptada', 'rechaza')
+    in p_estado enum ('pendiente', 'aceptada', 'rechazada')
 )
 begin
     insert into cuenta (idCuenta, nombreUsuario, contrasena, estado)
@@ -160,7 +160,7 @@ DROP PROCEDURE IF EXISTS cambiar_estadoCuenta;
 
 create procedure if not exists cambiar_estadoCuenta (
     in p_idCuenta int,
-    in p_estado enum ('pendiente', 'aceptada', 'rechaza')
+    in p_estado enum ('pendiente', 'aceptada', 'rechazada')
 )
 begin
     UPDATE cuenta
@@ -231,7 +231,7 @@ BEGIN
         idioma = p_idioma,
         objetivo = p_objetivo,
         fechaInicio = p_fechaInicio,
-        fechaFinal = p_fechaFinal,
+        fechaFin = p_fechaFinal,
         perfilEstudiante = p_perfilEstudiante
     WHERE idColaboracion = p_idColaboracion;
 END //

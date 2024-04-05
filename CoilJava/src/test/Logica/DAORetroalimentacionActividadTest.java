@@ -36,7 +36,7 @@ public class DAORetroalimentacionActividadTest {
         }
     }
     @Test
-    void agregarRetroalimentacionActividad () {
+    void testAgregarRetroalimentacionActividad () {
         int resultado = -1;
         DAORetroalimentacionActividad ret = new DAORetroalimentacionActividad();
 
@@ -75,6 +75,9 @@ public class DAORetroalimentacionActividadTest {
         RetroalimentacionActividad objRetroalimentacion = retroalimentacion.get();
 
         assertEquals(1, objRetroalimentacion.getIdActividad());
+        assertEquals(5, objRetroalimentacion.getInteraccionConPar());
+        assert(objRetroalimentacion.getComentario().get()
+                                   .equals("hola mundo"));
     }
 
     @Test

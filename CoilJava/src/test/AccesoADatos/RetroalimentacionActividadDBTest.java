@@ -21,8 +21,20 @@ public class RetroalimentacionActividadDBTest {
         ConexionBaseDatos conector = new ConexionBaseDatos();
 
         try {
-            CallableStatement consulta = conector.getConexion().prepareCall("delete from retroalimentacion, retroalimentacionActividad, retroalimentacionColaboracion");
+            CallableStatement consulta = conector.getConexion().prepareCall("delete from retroalimentacion");
             consulta.execute();
+
+            consulta.close();
+
+            consulta = conector.getConexion().prepareCall("delete from retroalimentacionActividad");
+            consulta.execute();
+
+            consulta.close();
+
+            consulta = conector.getConexion().prepareCall("delete from retroalimentacionColaboracion");
+            consulta.execute();
+
+            consulta.close();
         }
         catch (SQLException error) {
             throw new RuntimeException(error);
