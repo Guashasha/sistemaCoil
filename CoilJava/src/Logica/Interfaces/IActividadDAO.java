@@ -1,6 +1,7 @@
 package Logica.Interfaces;
 
-import Logica.Dominio.Retroalimentacion;
+import Logica.Dominio.Actividad;
 
-public interface IActividadDAO extends IDAO<Retroalimentacion, Integer> {
+public interface IActividadDAO extends IDAO<Actividad, Integer> {
+    public boolean actividadCorrecta (Actividad actividad);
 }
