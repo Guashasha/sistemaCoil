@@ -3,37 +3,25 @@ package Logica.Dominio;
 public class Facultad {
     private int id;
     private String nombre;
-    private Region region;
+    private int idRegion;
 
     public Facultad () {
 
     }
 
-    public Facultad (String nombre, Region region) {
-        this.nombre = nombre;
-        this.region = region;
+    public Facultad (int id) {
+        this.id = id;
     }
 
-    public Facultad (int id, String nombre, Region region) {
+    public Facultad (String nombre, int idRegion) {
+        this.nombre = nombre;
+        this.idRegion = idRegion;
+    }
+
+    public Facultad (int id, String nombre, int idRegion) {
         this.id = id;
         this.nombre = nombre;
-        this.region = region;
-    }
-
-    public String getNombre () {
-        return nombre;
-    }
-
-    public void setNombre (String nombre) {
-        this.nombre = nombre;
-    }
-
-    public void setRegion (Region region) {
-        this.region = region;
-    }
-
-    public Region getRegion () {
-        return this.region;
+        this.idRegion = idRegion;
     }
 
     public int getId () {
@@ -44,4 +32,19 @@ public class Facultad {
         this.id = id;
     }
 
+    public String getNombre () {
+        return nombre;
+    }
+
+    public void setNombre (String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setIdRegion (int idRegion) {
+        this.idRegion = idRegion;
+    }
+
+    public int getIdRegion () {
+        return this.idRegion;
+    }
 }

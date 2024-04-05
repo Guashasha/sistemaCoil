@@ -4,6 +4,7 @@ import Logica.Dominio.CuentaAcademico;
 import Logica.ErrorDAO;
 import Logica.Interfaces.ICuentaAcademicoDAO;
 
+import java.sql.ResultSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +20,7 @@ public class DAOCuentaAcademico implements ICuentaAcademicoDAO {
     }
 
     @Override
-    public int actualizarInformacionCuenta (CuentaAcademico cuenta) throws ErrorDAO {
+    public int actualizarNombreUsuario (String nombreUsuario) throws ErrorDAO {
         return 0;
     }
 
@@ -29,12 +30,12 @@ public class DAOCuentaAcademico implements ICuentaAcademicoDAO {
     }
 
     @Override
-    public int cambiarContrasena (String nombreUsuario, String nuevaContrasena) throws ErrorDAO {
+    public int actualizarContrasena (CuentaAcademico cuenta, String contrasenaAntigua,String nuevaContrasena) throws ErrorDAO {
         return 0;
     }
 
     @Override
-    public int cambiarEstadoCuenta (CuentaAcademico cuenta) throws ErrorDAO {
+    public int cambiarEstadoCuenta (CuentaAcademico cuenta, String estado) throws ErrorDAO {
         return 0;
     }
 
@@ -44,17 +45,23 @@ public class DAOCuentaAcademico implements ICuentaAcademicoDAO {
     }
 
     @Override
-    public int modificar (Integer y) throws ErrorDAO {
+    public int modificar (CuentaAcademico obj) throws ErrorDAO {
         return 0;
     }
 
     @Override
-    public CuentaAcademico getPorId (Integer y) throws ErrorDAO {
+    public Optional<CuentaAcademico> getPorId (Integer y) throws ErrorDAO {
+        return Optional.empty();
+    }
+
+
+    @Override
+    public List<CuentaAcademico> getTodos () throws ErrorDAO {
         return null;
     }
 
     @Override
-    public List<CuentaAcademico> getTodos () throws ErrorDAO {
+    public CuentaAcademico resultSetAObjeto (ResultSet resultados) {
         return null;
     }
 }

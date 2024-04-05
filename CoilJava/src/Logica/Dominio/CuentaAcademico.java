@@ -2,6 +2,7 @@ package Logica.Dominio;
 
 public class CuentaAcademico {
     public enum EstadoCuenta {
+        pendiente,
         aceptada,
         rechazada
     }

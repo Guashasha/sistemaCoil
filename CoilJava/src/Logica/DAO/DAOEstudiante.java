@@ -5,6 +5,7 @@ import Logica.Dominio.Estudiante;
 import Logica.ErrorDAO;
 import Logica.Interfaces.IEstudianteDAO;
 
+import java.sql.ResultSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,21 +14,26 @@ public class DAOEstudiante implements IEstudianteDAO {
     public int agregar (Estudiante estudiante) throws ErrorDAO {
         return EstudianteDB.agregarEstudiante(estudiante);
     }
-    // FIXME Toma en cuenta que sucedera con modificar
 
     @Override
-    public int modificar (Integer y) throws ErrorDAO {
+    public int modificar (Estudiante obj) throws ErrorDAO {
         return 0;
     }
 
     @Override
-    public Estudiante getPorId (Integer id) throws ErrorDAO {
-        return EstudianteDB.getPorId(id);
+    public Optional<Estudiante> getPorId (Integer y) throws ErrorDAO {
+        return Optional.empty();
     }
+
 
     @Override
     public List<Estudiante> getTodos () throws ErrorDAO {
         return EstudianteDB.getTodos();
+    }
+
+    @Override
+    public Estudiante resultSetAObjeto (ResultSet resultados) {
+        return null;
     }
 
     @Override
