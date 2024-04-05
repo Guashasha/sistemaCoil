@@ -26,8 +26,9 @@ public class EstudianteDB {
             registrarEstudiante.setString(1, estudiante.getNombre());
             registrarEstudiante.setString(2, estudiante.getApellidoPaterno());
             registrarEstudiante.setString(3, estudiante.getApellidoMaterno());
-            registrarEstudiante.setString(4, estudiante.getMatricula());
-            registrarEstudiante.setInt(5, estudiante.getIdUniversidad());
+            registrarEstudiante.setInt(4, estudiante.getIdUniversidad());
+            registrarEstudiante.setString(5, estudiante.getMatricula());
+
 
             resultado = registrarEstudiante.executeUpdate();
             registrarEstudiante.close();

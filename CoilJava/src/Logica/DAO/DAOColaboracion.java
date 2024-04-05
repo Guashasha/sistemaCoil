@@ -47,6 +47,17 @@ public class DAOColaboracion implements IColaboracionDAO {
     }
 
     @Override
+    public int agregarEstudianteAColaboracion (Colaboracion colaboracion, Estudiante estudiante) throws ErrorDAO {
+        return 0;
+    }
+
+
+    @Override
+    public int agregarAcademicoAColaboracion (Colaboracion colaboracion, Academico academico) throws ErrorDAO {
+        return 0;
+    }
+
+    @Override
     public int agregar (Colaboracion t) throws ErrorDAO {
         return 0;
     }

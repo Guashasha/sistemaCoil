@@ -19,7 +19,7 @@ public class DAOCuentaAcademico implements ICuentaAcademicoDAO {
     }
 
     @Override
-    public int actualizarInformacionCuenta (CuentaAcademico cuenta) throws ErrorDAO {
+    public int actualizarNombreUsuario (String nombreUsuario) throws ErrorDAO {
         return 0;
     }
 
@@ -29,12 +29,12 @@ public class DAOCuentaAcademico implements ICuentaAcademicoDAO {
     }
 
     @Override
-    public int cambiarContrasena (String nombreUsuario, String nuevaContrasena) throws ErrorDAO {
+    public int actualizarContrasena (CuentaAcademico cuenta, String contrasenaAntigua,String nuevaContrasena) throws ErrorDAO {
         return 0;
     }
 
     @Override
-    public int cambiarEstadoCuenta (CuentaAcademico cuenta) throws ErrorDAO {
+    public int cambiarEstadoCuenta (CuentaAcademico cuenta, String estado) throws ErrorDAO {
         return 0;
     }
 
