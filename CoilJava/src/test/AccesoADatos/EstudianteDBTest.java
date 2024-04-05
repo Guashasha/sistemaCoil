@@ -10,10 +10,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import test.ConfiguracionPrueba;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class EstudianteDBTest {
-    //TODO  getEstudiantePorUniversidad
+    //TODO
     // getTodos
     // editar
     @BeforeEach
@@ -22,6 +24,10 @@ class EstudianteDBTest {
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO universidad (nombre,paisOrigen) VALUES ('Universidad Veracruzana',1);");
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO region (nombre) VALUES ('XALAPA');");
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO facultad (nombre, region) VALUES ('Economia', 1);");
+
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO persona (idPersona, nombre, apellidoPaterno, apellidoMaterno, universidad) VALUES (1, 'Jose', 'Lopez', 'Perez', 1);");
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO estudiante (idEstudiante, idPersona, matricula) VALUES (1, 1, 'zs22013690')");
+
     }
 
     @AfterEach
@@ -179,10 +185,10 @@ class EstudianteDBTest {
         Estudiante estudianteEsperado = new Estudiante();
         estudianteEsperado.setIdPersona(1);
         estudianteEsperado.setIdEstudiante(1);
-        estudianteEsperado.setNombre("Hernan");
-        estudianteEsperado.setApellidoPaterno("Gonzales");
-        estudianteEsperado.setApellidoMaterno("Mercado");
-        estudianteEsperado.setMatricula("zs22013620");
+        estudianteEsperado.setNombre("Jose");
+        estudianteEsperado.setApellidoPaterno("Lopez");
+        estudianteEsperado.setApellidoMaterno("Perez");
+        estudianteEsperado.setMatricula("zs22013690");
         estudianteEsperado.setIdUniversidad(1);
 
         Estudiante estudianteObtenido = null;
@@ -192,7 +198,7 @@ class EstudianteDBTest {
 
         }
         catch (ErrorDAO error) {
-            fail("Fallida: pruebaGetEstudiantePorIDExitosa");
+            fail("Fallida: pruebaGetEstudiantePorIDExitosa " + error.getMessage());
 
         }
 
@@ -201,48 +207,60 @@ class EstudianteDBTest {
 
     }
 
+    @Test
+    void pruebaGetEstudiantePorUniversidadExitosa () {
+        System.out.println("pruebaGetEstudiantePorIDExitosa");
 
+        int tamanoListaEsperado = 1;
+        int tamanoListaReal = -1;
 
+        List<Estudiante> listaEstudiantes;
 
+        try {
+            listaEstudiantes = EstudianteDB.getEstudiantePorUniversidad(1);
+            tamanoListaReal = listaEstudiantes.size();
 
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaGetEstudiantePorIDExitosa " + error.getMessage());
 
+        }
 
+        assertEquals(tamanoListaEsperado, tamanoListaReal);
 
+    }
 
-
-
-
-
-
-
-
-
-
-
-    public static void agregarEstudiante () {
-        int esperado = 2;
+    @Test
+    void pruebaEditarEstudianteExitoso () {
+        System.out.println("pruebaEditarEstudianteExitoso");
 
         Estudiante estudiante = new Estudiante();
-        estudiante.setNombre("Hernan");
-        estudiante.setApellidoPaterno("Gonzales");
-        estudiante.setApellidoMaterno("Mercado");
-        estudiante.setMatricula("zs22013620");
+        estudiante.setIdPersona(1);
+        estudiante.setIdEstudiante(1);
+        estudiante.setNombre("Jose");
+        estudiante.setApellidoPaterno("Lopez");
+        estudiante.setApellidoMaterno("Perez");
+        estudiante.setMatricula("zs22013690");
         estudiante.setIdUniversidad(1);
 
-        int obtenido = EstudianteDB.agregarEstudiante(estudiante);
+        int resultadoEsperado = 2;
+        int resultadoReal = -1;
 
-        assertEquals(esperado, obtenido);
+        try {
+            resultadoReal = EstudianteDB.editarEstudiante(estudiante);
+
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaEditarEstudianteExitoso " + error.getMessage());
+
+        }
+
+        assertEquals(resultadoEsperado, resultadoReal);
+
+
     }
 
-    public void registrarUniversidadMexicana () {
-        int esperado = 1;
 
-        Universidad universidad = new Universidad("UV", 1);
-        UniversidadDB universidadDB = new UniversidadDB();
 
-        int obtenido = universidadDB.registrarUniversidad(universidad);
-
-        assertEquals(esperado, obtenido);
-    }
 
 }
