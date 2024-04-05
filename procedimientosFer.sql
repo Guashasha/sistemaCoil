@@ -1,0 +1,239 @@
+DELIMITER //
+
+DROP PROCEDURE IF EXISTS obtener_academicos_campos;
+
+create procedure if not exists obtener_academicos_campos(IN p_campo varchar(50), IN p_valor varchar(50))
+BEGIN
+	CASE p_campo
+        WHEN 'facultad' THEN
+            SELECT * FROM vista_academico WHERE nombreFacultad = p_valor;
+        WHEN 'cedula' THEN
+            SELECT * FROM vista_academico WHERE cedulaProfesional = p_valor;
+        WHEN 'universidad' THEN
+            SELECT * FROM vista_academico WHERE nombreUniversidad = p_valor;
+        WHEN 'area' THEN
+            SELECT * FROM vista_academico WHERE areaEstudios = p_valor;
+        WHEN 'categoria' THEN
+            SELECT * FROM vista_academico WHERE categoriaContratacion = p_valor;
+        WHEN 'region' THEN
+            SELECT * FROM vista_academico WHERE nombreRegion = p_valor;
+        ELSE
+            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Campo no valido';
+    END CASE;
+END //
+
+DROP PROCEDURE IF EXISTS registrar_Academico;
+
+create procedure if not exists registrar_Academico(
+    IN p_nombre varchar(50), 
+    IN p_apellidoPaterno varchar(50),
+    IN p_apellidoMaterno varchar(50), 
+    IN p_universidad int,
+    IN p_cedulaProfesional varchar(30),
+    IN p_numeroDePersonal varchar(40),
+    IN p_areaEstudios varchar(40),
+    IN p_correoElectronico varchar(30),
+    IN p_numeroTelefono varchar(12),
+    IN p_categoriaContratacion varchar(40), 
+    IN p_facultad int
+    )
+BEGIN
+	DECLARE id_persona INT;
+	INSERT INTO persona (nombre, apellidoPaterno, apellidoMaterno, universidad) 
+	VALUES (p_nombre, p_apellidoPaterno, p_apellidoMaterno, p_universidad);
+	SET id_persona = LAST_INSERT_ID();
+	INSERT INTO academico (cedulaProfesional, numeroDePersonal, idPersona, areaEstudios.p_correoElectronico, numeroTelefono, categoriaContratacion, facultad)
+	VALUES (p_cedulaProfesional, p_numeroDePersonal, id_persona, p_areaEstudios,p_correoElectronico, p_numeroTelefono, p_categoriaContratacion, p_facultad);	
+END //
+
+DROP PROCEDURE IF EXISTS registrar_Colaboracion;
+
+create procedure if not exists registrar_Colaboracion(
+    IN p_estado enum ('propuesta', 'aceptada', 'rechazada', 'disponible', 'vinculada', 'activa', 'enRevision', 'finalizada'),
+    IN p_tipo enum ('claseEspejo', 'COIL'),
+    IN p_temaInteres varchar(80), 
+    IN p_idioma varchar(30),
+    IN p_objetivo varchar(80), 
+    IN p_fechaInicio date,
+    IN p_fechaFinal date, 
+    IN p_perfilEstudiante varchar(50)
+)
+BEGIN
+	INSERT INTO colaboracion (estado, tipo, temaInteres, idioma, objetivo, fechaInicio, fechaFinal, perfilEstudiante)
+	VALUES (p_estado, p_tipo, p_temaInteres, p_idioma, p_objetivo, p_fechaInicio, p_fechaFinal, p_perfilEstudiante);
+END //
+
+DROP PROCEDURE IF EXISTS registrar_Estudiante;
+
+create procedure if not exists registrar_Estudiante(IN p_nombre varchar(20), 
+    IN p_apellidoPaterno varchar(20),
+    IN p_apellidoMaterno varchar(20),
+    IN p_universidad int,
+    IN p_matricula char(10))
+BEGIN
+	DECLARE id_persona INT;
+	INSERT INTO persona (nombre, apellidoPaterno, apellidoMaterno, universidad) VALUES (p_nombre, p_apellidoPaterno, p_apellidoMaterno, p_universidad);
+	SET id_persona = LAST_INSERT_ID();
+	INSERT INTO estudiante (idPersona, matricula) VALUES (id_persona, p_matricula);
+END //
+
+DROP PROCEDURE IF EXISTS editar_academico;
+
+CREATE PROCEDURE IF NOT EXISTS editar_academico (
+    IN p_nombre varchar(50), 
+    IN p_apellidoPaterno varchar(50),
+    IN p_apellidoMaterno varchar(50), 
+    IN p_universidad int,
+    IN p_cedulaProfesional varchar(30),
+    IN p_numeroDePersonal varchar(40),
+    IN p_areaEstudios varchar(40),
+    IN p_correoElectronico varchar(30),
+    IN p_numeroTelefono varchar(12),
+    IN p_categoriaContratacion varchar(40), 
+    IN p_facultad int
+)
+BEGIN
+    DECLARE id_persona INT;
+    
+    SELECT idPersona INTO id_persona
+    FROM academico 
+    WHERE cedulaProfesional = p_cedulaProfesional;
+    
+    UPDATE persona 
+    SET nombre = p_nombre,
+        apellidoPaterno = p_apellidoPaterno,
+        apellidoMaterno = p_apellidoMaterno,
+        universidad = p_universidad
+    WHERE idPersona = id_persona;
+        
+    UPDATE academico 
+    SET numeroDePersonal = p_numeroDePersonal,
+        areaEstudios = p_areaEstudios,
+        correoElectronico = p_correoElectronico,
+        numeroTelefonicoo = p_numeroTelefono,
+        categoriaContratacion = p_categoriaContratacion,
+        facultad = p_facultad
+    WHERE idPersona = id_persona;
+END //
+
+DROP PROCEDURE IF EXISTS editar_estudiante;
+
+create procedure if not exists editar_estudiante (
+    in p_nombre varchar(50),
+    in p_apellidoPaterno varchar(50),
+    in p_apellidoMaterno varchar(50),
+    in p_matricula char(10),
+    in p_universidad int
+)
+begin
+    declare id_persona int;
+
+    select idPersona into id_persona
+    from estudiante
+    where matricula = p_matricula;
+
+    UPDATE persona 
+    SET nombre = p_nombre,
+        apellidoPaterno = p_apellidoPaterno,
+        apellidoMaterno = p_apellidoMaterno,
+        universidad = p_universidad
+    WHERE idPersona = id_persona;
+
+end //
+
+DROP PROCEDURE IF EXISTS registrar_cuentaAcademico;
+
+
+create procedure if not exists registrar_cuentaAcademico (
+    in p_idAcademico varchar(30),
+    in p_nombreUsuario varchar(50),
+    in p_contrasena varchar(30),
+    in p_estado enum ('pendiente', 'aceptada', 'rechaza')
+)
+begin
+    insert into cuenta (idCuenta, nombreUsuario, contrasena, estado)
+    values (p_idAcademico, p_nombreUsuario, p_contrasena, p_estado);
+end //
+
+DROP PROCEDURE IF EXISTS cambiar_estadoCuenta;
+
+
+create procedure if not exists cambiar_estadoCuenta (
+    in p_idCuenta int,
+    in p_estado enum ('pendiente', 'aceptada', 'rechaza')
+)
+begin
+    UPDATE cuenta
+    SET estado = p_estado
+    WHERE idCuenta = p_idCuenta;
+end //
+
+DROP PROCEDURE IF EXISTS obtener_colaboracion_academicos;
+
+create procedure obtener_colaboracion_academicos(
+    IN p_idAcademico1 VARCHAR(30),
+    IN p_idAcademico2 VARCHAR(30)
+)
+begin
+    declare v_idColaboracion int;
+
+    select idColaboracion into v_idColaboracion
+    from academicodesarrolla
+    where (idAcademico = p_idAcademico1 or idAcademico = p_idAcademico2)
+    group by idColaboracion
+    having COUNT(DISTINCT idAcademico) = 2;
+
+    select * from colaboracion where idColaboracion = v_idColaboracion;
+end //
+
+DROP PROCEDURE IF EXISTS obtener_estudiantes_colaboracion;
+
+create procedure obtener_estudiantes_colaboracion (
+    in p_idColaboracion int
+)
+begin
+    select e.*
+    from estudiante e
+    join estudiantescolaboracion ec ON e.idEstudiante = ec.idEstudiante
+    where ec.idColaboracion = p_idColaboracion;
+end //
+
+DROP PROCEDURE IF EXISTS obtener_academicos_colaboracion;
+
+create procedure obtener_academicos_colaboracion (
+    in p_idColaboracion int
+)
+begin
+    select a.*
+    from academico a
+    join academicodesarrolla ad ON a.cedulaProfesional = ad.idAcademico
+    where ad.idColaboracion = p_idColaboracion;
+end //
+
+DROP PROCEDURE IF EXISTS actualizar_Colaboracion;
+
+CREATE PROCEDURE IF NOT EXISTS actualizar_Colaboracion(
+    IN p_idColaboracion INT,
+    IN p_estado ENUM('propuesta', 'aceptada', 'rechazada', 'disponible', 'vinculada', 'activa', 'enRevision', 'finalizada'),
+    IN p_tipo ENUM('claseEspejo', 'COIL'),
+    IN p_temaInteres VARCHAR(80),
+    IN p_idioma VARCHAR(30),
+    IN p_objetivo VARCHAR(80),
+    IN p_fechaInicio DATE,
+    IN p_fechaFinal DATE,
+    IN p_perfilEstudiante VARCHAR(50)
+)
+BEGIN
+    UPDATE colaboracion
+    SET estado = p_estado,
+        tipo = p_tipo,
+        temaInteres = p_temaInteres,
+        idioma = p_idioma,
+        objetivo = p_objetivo,
+        fechaInicio = p_fechaInicio,
+        fechaFinal = p_fechaFinal,
+        perfilEstudiante = p_perfilEstudiante
+    WHERE idColaboracion = p_idColaboracion;
+END //
+
+DELIMITER ;
