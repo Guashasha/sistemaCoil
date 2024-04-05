@@ -2,7 +2,6 @@ package Logica.DAO;
 
 import AccesoADatos.RetroalimentacionActividadDB;
 import Logica.Bitacora;
-import Logica.Dominio.Retroalimentacion;
 import Logica.Dominio.RetroalimentacionActividad;
 import Logica.ErrorDAO;
 import Logica.Interfaces.IRetroalimentacionActividadDAO;
@@ -13,12 +12,16 @@ import java.util.List;
 import java.util.Optional;
 
 public class DAORetroalimentacionActividad implements IRetroalimentacionActividadDAO {
-    private static Bitacora bitacora = new Bitacora(RetroalimentacionActividad.class.getName());
+    private static final Bitacora bitacora = new Bitacora(RetroalimentacionActividad.class.getName());
 
     @Override
     public int agregar (RetroalimentacionActividad retroalimentacion) throws ErrorDAO {
-        if (retroalimentacion.getInteraccionConPar() <= 0 || retroalimentacion.getInteraccionConPar() > 5) {
-            throw new ErrorDAO("Las calificaciones de la retroalimentación están incompletas");
+        if (!validarRetroalimentacion(retroalimentacion)) {
+            throw new ErrorDAO("la retroalimentacion es incorrecta");
+        }
+
+        if (getPorPersonaYActividad(retroalimentacion.getIdUsuario()).isPresent()) {
+            throw new ErrorDAO("la actividad ya fue calificada por el usuario");
         }
 
         int resultado = -1;
@@ -93,5 +96,29 @@ public class DAORetroalimentacionActividad implements IRetroalimentacionActivida
         }
 
         return retroalimentacion;
+    }
+
+    @Override
+    public boolean validarRetroalimentacion (RetroalimentacionActividad retroalimentacion) throws ErrorDAO {
+        boolean resultado = true;
+
+        if (!calificacionCorrecta(retroalimentacion.getInteres())) {
+            resultado = false;
+        }
+
+        if (!calificacionCorrecta(retroalimentacion.getDificultad())) {
+            resultado = false;
+        }
+
+        if (!calificacionCorrecta(retroalimentacion.getInteraccionConPar())) {
+            resultado = false;
+        }
+
+        return resultado;
+    }
+
+    @Override
+    public boolean calificacionCorrecta (int calificacion) {
+        return calificacion >= 1 && calificacion <= 5;
     }
 }

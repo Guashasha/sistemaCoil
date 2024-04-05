@@ -9,11 +9,11 @@ public class RetroalimentacionActividad extends Retroalimentacion {
         super();
     }
 
-    public int getId () {
+    public int getIdActividad () {
         return idActividad;
     }
 
-    public void setId (int id) {
+    public void setIdActividad (int id) {
         this.idActividad = id;
     }
 
