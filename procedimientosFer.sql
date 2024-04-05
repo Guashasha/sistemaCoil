@@ -160,11 +160,11 @@ DROP PROCEDURE IF EXISTS cambiar_estadoCuenta;
 
 create procedure if not exists cambiar_estadoCuenta (
     in p_idCuenta int,
-    in estado enum ('pendiente', 'aceptada', 'rechaza')
+    in p_estado enum ('pendiente', 'aceptada', 'rechaza')
 )
 begin
     UPDATE cuenta
-    SET estado = p_estado,
+    SET estado = p_estado
     WHERE idCuenta = p_idCuenta;
 end //
 
