@@ -59,7 +59,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="mariadb-java-client-3.3.3" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="mariadb-java-client-3.3.3" level="project" />
     <orderEntry type="module-library" scope="TEST">
       <library name="JUnit5.8.1">
         <CLASSES>
@@ -101,5 +101,6 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="mariadb-java-client-3.3.3" level="project" />
   </component>
 </module>
