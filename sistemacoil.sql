@@ -54,8 +54,8 @@ CREATE TABLE `academico` (
 
 CREATE TABLE `colaboracion` (
   `idColaboracion` int PRIMARY KEY AUTO_INCREMENT,
-  `estado` ENUM ('propuesta', 'aceptada', 'rechazada', 'disponible', 'vinculada', 'activa', 'en revision', 'finalizada') NOT NULL,
-  `tipo` ENUM ('claseEspejo', 'COIl') NOT NULL,
+  `estado` ENUM ('propuesta', 'aceptada', 'rechazada', 'disponible', 'vinculada', 'activa', 'enRevision', 'finalizada') NOT NULL,
+  `tipo` ENUM ('claseEspejo', 'COIL') NOT NULL,
   `temaInteres` varchar(80) NOT NULL,
   `idioma` varchar(30) NOT NULL,
   `objetivo` varchar(80),
