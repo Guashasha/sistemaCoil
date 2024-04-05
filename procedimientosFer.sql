@@ -59,7 +59,7 @@ create procedure if not exists registrar_Colaboracion(
     IN p_perfilEstudiante varchar(50)
 )
 BEGIN
-	INSERT INTO colaboracion (estado, tipo, temaInteres, idioma, objetivo, fechaInicio, fechaFinal, perfilEstudiante)
+	INSERT INTO colaboracion (estado, tipo, temaInteres, idioma, objetivo, fechaInicio, fechaFin, perfilEstudiante)
 	VALUES (p_estado, p_tipo, p_temaInteres, p_idioma, p_objetivo, p_fechaInicio, p_fechaFinal, p_perfilEstudiante);
 END //
 
