@@ -14,7 +14,9 @@ public interface IColaboracionDAO extends IDAO<Colaboracion, String> {
     public Optional<Colaboracion> getColaboracionPorId (int idColaboracion) throws ErrorDAO;
     public List<Estudiante> getListaDeEstudiantes (Colaboracion colaboracion) throws ErrorDAO;
     public List<Academico> getAcademicosParticipantes (Colaboracion colaboracion) throws ErrorDAO;
-    public List<Periodo> getColaboracionPorPeriodo (Colaboracion colaboracion);
-    public List<Colaboracion> getColaboracionPorIdioma (Colaboracion colaboracion);
-    public int cambiarEstadoColaboracion (Colaboracion colaboracion);
+    public List<Periodo> getColaboracionPorPeriodo (Colaboracion colaboracion) throws ErrorDAO;
+    public List<Colaboracion> getColaboracionPorIdioma (Colaboracion colaboracion) throws ErrorDAO;
+    public int cambiarEstadoColaboracion (Colaboracion colaboracion) throws ErrorDAO;
+    public int agregarEstudianteAColaboracion (Colaboracion colaboracion, Estudiante estudiante) throws ErrorDAO;
+    public int agregarAcademicoAColaboracion (Colaboracion colaboracion, Academico academico) throws ErrorDAO;
 }

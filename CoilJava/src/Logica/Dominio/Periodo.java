@@ -6,11 +6,6 @@ public class Periodo {
     private Date fechaInicio;
     private Date fechaFin;
 
-    public Periodo(Date fechaInicio, Date fechaFin) {
-        this.fechaInicio = fechaInicio;
-        this.fechaFin = fechaFin;
-    }
-
     public Date getFechaInicio() {
         return fechaInicio;
     }
