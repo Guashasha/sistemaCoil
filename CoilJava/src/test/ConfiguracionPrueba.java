@@ -74,7 +74,7 @@ public class ConfiguracionPrueba {
         try {
             String urlBaseDatos = "jdbc:mariadb://localhost:3306/coil";
             String usuario = "root";
-            String contrasena = "neco2000";
+            String contrasena = "tomasilla9988";
             Connection conexion = DriverManager.getConnection(urlBaseDatos, usuario, contrasena);
 
             PreparedStatement declaracionSQL = conexion.prepareStatement(instruccionSQL);

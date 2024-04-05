@@ -8,8 +8,10 @@ import Logica.ErrorDAO;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import test.ConfiguracionPrueba;
 
 import java.sql.CallableStatement;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -18,27 +20,9 @@ public class RetroalimentacionActividadDBTest {
 
     @BeforeAll
     static void setUp() {
-        ConexionBaseDatos conector = new ConexionBaseDatos();
-
-        try {
-            CallableStatement consulta = conector.getConexion().prepareCall("delete from retroalimentacion");
-            consulta.execute();
-
-            consulta.close();
-
-            consulta = conector.getConexion().prepareCall("delete from retroalimentacionActividad");
-            consulta.execute();
-
-            consulta.close();
-
-            consulta = conector.getConexion().prepareCall("delete from retroalimentacionColaboracion");
-            consulta.execute();
-
-            consulta.close();
-        }
-        catch (SQLException error) {
-            throw new RuntimeException(error);
-        }
+        ConfiguracionPrueba.borrarDatosTablaRetroalimentacion();
+        ConfiguracionPrueba.borrarDatosTablaRetroalimentacionActividad();
+        ConfiguracionPrueba.borrarDatosTablaRetroalimentacionColaboracion();
     }
 
     @Test
