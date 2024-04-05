@@ -110,7 +110,7 @@ BEGIN
     SET numeroDePersonal = p_numeroDePersonal,
         areaEstudios = p_areaEstudios,
         correoElectronico = p_correoElectronico,
-        numeroTelefonicoo = p_numeroTelefono,
+        numeroTelefonico = p_numeroTelefono,
         categoriaContratacion = p_categoriaContratacion,
         facultad = p_facultad
     WHERE idPersona = id_persona;
