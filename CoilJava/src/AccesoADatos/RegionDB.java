@@ -11,9 +11,9 @@ import java.util.List;
 public class RegionDB {
     private final ConexionBaseDatos CONEXION_BASE_DATOS = new ConexionBaseDatos();
 
-    public List<Region> getTodasAlfabeticamente() throws ErrorDAO {
+    public List<Region> getTodasAlfabeticamente () throws ErrorDAO {
         List<Region> listaRegiones = new ArrayList<>();
-        String consultaRegionesSQL = "SELECT idRegion, nombre FROM region";
+        String consultaRegionesSQL = "SELECT idRegion, nombre FROM region ORDER BY nombre ASC";
         PreparedStatement consultaRegiones;
         ResultSet resultadoConsulta;
 

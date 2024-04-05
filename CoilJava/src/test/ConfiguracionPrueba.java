@@ -65,12 +65,16 @@ public class ConfiguracionPrueba {
     public static void borrarDatosTablaSolicitaParticiparColaboracion () {
         ejecutarInstruccionSQL("DELETE FROM solicitaparticiparcolaboracion;");
     }
+    public static void borrarDatosTablaPais () {
+        ejecutarInstruccionSQL("DELETE FROM pais;");
+        ejecutarInstruccionSQL("ALTER TABLE pais AUTO_INCREMENT = 0;");
+    }
 
-    private static void ejecutarInstruccionSQL (String instruccionSQL) {
+    public static void ejecutarInstruccionSQL (String instruccionSQL) {
         try {
-            String urlBaseDatos = "jdbc:mariadb://localhost:3306/coil";
+            String urlBaseDatos = "jdbc:mariadb://localhost:3307/coil";
             String usuario = "root";
-            String contrasena = "neco2000";
+            String contrasena = "040704";
             Connection conexion = DriverManager.getConnection(urlBaseDatos, usuario, contrasena);
 
             PreparedStatement declaracionSQL = conexion.prepareStatement(instruccionSQL);

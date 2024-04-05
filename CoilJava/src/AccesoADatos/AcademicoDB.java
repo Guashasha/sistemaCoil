@@ -127,6 +127,7 @@ public class AcademicoDB {
     public static List<Academico> getTodos () throws ErrorDAO {
         List<Academico> listaAcademicos = new ArrayList<>();
         String consulta = "SELECT * FROM vista_academico";
+
         try {
             CONEXION_BASE_DATOS.conectar();
             PreparedStatement consultaAcademico = CONEXION_BASE_DATOS.getConexion().
@@ -148,6 +149,7 @@ public class AcademicoDB {
         return listaAcademicos;
 
     }
+
 
     public static int editarAcademico (Academico academico) throws ErrorDAO {
         int resultado = -1;
@@ -183,6 +185,7 @@ public class AcademicoDB {
     private static Academico convertirAcademico (ResultSet resultado) throws SQLException {
 
         Academico academico = new Academico();
+
         academico.setIdPersona(resultado.getInt("idPersona"));
         academico.setNombre(resultado.getString("nombre"));
         academico.setApellidoPaterno(resultado.getString("apellidoPaterno"));

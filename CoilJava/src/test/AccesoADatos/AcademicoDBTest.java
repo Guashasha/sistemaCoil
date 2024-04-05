@@ -1,9 +1,7 @@
 package test.AccesoADatos;
 
 import AccesoADatos.AcademicoDB;
-import AccesoADatos.UniversidadDB;
 import Logica.Dominio.Academico;
-import Logica.Dominio.Universidad;
 import Logica.ErrorDAO;
 import org.junit.jupiter.api.*;
 import test.ConfiguracionPrueba;
@@ -16,9 +14,10 @@ class AcademicoDBTest {
 
     @BeforeEach
     void setUp () {
-        registrarUniversidadMexicana();
-        registrarAcademico();
-
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO pais (Iso,nombre) VALUES ('MX','México');");
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO universidad (nombre,paisOrigen) VALUES ('Universidad Veracruzana',1);");
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO region (nombre) VALUES ('XALAPA');");
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO facultad (nombre, region) VALUES ('Economia', 1);");
     }
 
     @AfterEach
@@ -26,8 +25,12 @@ class AcademicoDBTest {
         ConfiguracionPrueba.borrarDatosTablaAcademico();
         ConfiguracionPrueba.borrarDatosTablaPersona();
         ConfiguracionPrueba.borrarDatosTablaUniversidad();
-
+        ConfiguracionPrueba.borrarDatosTablaFacultad();
+        ConfiguracionPrueba.borrarDatosTablaRegion();
+        ConfiguracionPrueba.borrarDatosTablaPais();
     }
+
+
 
     @Test
     void pruebaAgregarAcademicoExitoso () {
@@ -53,7 +56,7 @@ class AcademicoDBTest {
             obtenido = AcademicoDB.agregarAcademico(academico);
         }
         catch (ErrorDAO error) {
-            fail("Fallida: pruebaAgregarAcademicoExitoso");
+            fail("Fallida: pruebaAgregarAcademicoExitoso " + error.getMessage());
         }
         assertEquals(esperado, obtenido);
     }
@@ -299,58 +302,4 @@ class AcademicoDBTest {
         assertThrows(ErrorDAO.class, () -> AcademicoDB.editarAcademico(academico));
 
     }
-
-
-    public void registrarUniversidadMexicana () {
-        int esperado = 1;
-
-        Universidad universidad = new Universidad("UV", null);
-        UniversidadDB universidadDB = new UniversidadDB();
-
-        int obtenido = universidadDB.registrarUniversidad(universidad);
-
-        assertEquals(esperado, obtenido);
-    }
-
-    public static void registrarAcademico () {
-        int esperado1 = 2;
-
-        Academico academico1 = new Academico();
-        academico1.setNombre("Esther");
-        academico1.setApellidoPaterno("Ramirez");
-        academico1.setApellidoMaterno("Escobar");
-        academico1.setIdUniversidad(1);
-        academico1.setCedulaProfesional("5646321");
-        academico1.setNumeroPersonal("4535");
-        academico1.setAreaEstudios("Humanidades");
-        academico1.setCorreoElectronico("Esther@Institucion.mx");
-        academico1.setNumeroTelefonico("522288536230");
-        academico1.setCategoriaContratacion("Fijo");
-        academico1.setIdFacultad(1);
-
-        int obtenido1 = AcademicoDB.agregarAcademico(academico1);
-
-        assertEquals(esperado1, obtenido1);
-
-        int esperado2 = 2;
-
-        Academico academico2 = new Academico();
-        academico2.setNombre("Fernando");
-        academico2.setApellidoPaterno("Martinez");
-        academico2.setApellidoMaterno("Ramirez");
-        academico2.setIdUniversidad(1);
-        academico2.setCedulaProfesional("201130");
-        academico2.setNumeroPersonal("4535");
-        academico2.setAreaEstudios("Informatica");
-        academico2.setCorreoElectronico("fer@Institucion.mx");
-        academico2.setNumeroTelefonico("523311756676");
-        academico2.setIdFacultad(1);
-
-        int obtenido2 = AcademicoDB.agregarAcademico(academico2);
-
-        assertEquals(esperado2, obtenido2);
-
-    }
-
-
 }

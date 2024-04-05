@@ -5,6 +5,7 @@ import Logica.Dominio.Academico;
 import Logica.ErrorDAO;
 import Logica.Interfaces.IAcademicoDAO;
 
+import java.sql.ResultSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,22 +51,30 @@ public class DAOAcademico implements IAcademicoDAO {
     }
 
     @Override
-    public int modificar (String y) throws ErrorDAO {
+    public int modificar (Academico obj) throws ErrorDAO {
         return 0;
     }
+
+    @Override
+    public Optional<Academico> getPorId (String y) throws ErrorDAO {
+        return Optional.empty();
+    }
+
 
     @Override
     public int modificarAcademico (Academico academico) throws ErrorDAO {
         return AcademicoDB.editarAcademico(academico);
     }
 
-    @Override
-    public Academico getPorId (String cedula) throws ErrorDAO {
-        return null;
-    }
+
 
     @Override
     public List<Academico> getTodos () throws ErrorDAO {
         return AcademicoDB.getTodos();
+    }
+
+    @Override
+    public Academico resultSetAObjeto (ResultSet resultados) {
+        return null;
     }
 }

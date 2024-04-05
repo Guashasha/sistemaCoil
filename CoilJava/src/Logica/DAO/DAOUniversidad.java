@@ -1,7 +1,9 @@
 package Logica.DAO;
 
+import AccesoADatos.PaisDB;
 import AccesoADatos.UniversidadDB;
 import Logica.Bitacora;
+import Logica.Dominio.Pais;
 import Logica.Dominio.Universidad;
 import Logica.ErrorDAO;
 import Logica.Interfaces.IUniversidadDAO;
@@ -11,72 +13,84 @@ import java.util.Optional;
 
 public class DAOUniversidad implements IUniversidadDAO {
     private final UniversidadDB UNIVERSIDAD_DB = new UniversidadDB();
-    private static Bitacora bitacora = new Bitacora(Universidad.class.getName());
+    private final PaisDB PAIS_DB = new PaisDB();
+    //private static Bitacora bitacora = new Bitacora(Universidad.class.getName());
 
     @Override
-    public int registrarUniversidad(Universidad universidad) throws ErrorDAO {
-        int filasAfectadas;
+    public int registrarUniversidad (String universidad, String pais) throws ErrorDAO {
+        int filasAfectadas = 0;
 
-        if (universidadValida(universidad) && !universidadExiste(universidad)) {
-            try {
-                filasAfectadas = this.UNIVERSIDAD_DB.registrarUniversidad(universidad);
+        if (validarCadenas(new String[]{universidad,pais})) {
+            if (universidadExiste(universidad,pais)) {
+                filasAfectadas = -1;
             }
-            catch (ErrorDAO error) {
-                bitacora.escribirError(error);
-                throw error;
+            else {
+                try {
+                    Pais paisOrigen = this.PAIS_DB.getPaisPorNombre(pais);
+                    Universidad nuevaUniversidad = new Universidad(universidad,paisOrigen.getId());
+                    filasAfectadas = this.UNIVERSIDAD_DB.registrarUniversidad(nuevaUniversidad);
+                }
+                catch (ErrorDAO error) {
+                    //bitacora.escribirError(error);
+                    throw error;
+                }
             }
-        }
-        else {
-            filasAfectadas = -1;
         }
 
         return filasAfectadas;
     }
 
     @Override
-    public int editarUniversidad(Universidad universidad) throws ErrorDAO {
-        int filasAfectadas;
+    public int editarUniversidad (String nombreActual, String nuevoNombre, String nuevoPais) throws ErrorDAO {
+        int filasAfectadas = 0;
 
-        if (universidadValida(universidad) && !universidadExiste(universidad)) {
-            try {
-                filasAfectadas = this.UNIVERSIDAD_DB.editarUniversidad(universidad);
+        if (validarCadenas(new String[]{nombreActual,nuevoNombre,nuevoPais})) {
+            if (universidadExiste(nuevoNombre,nuevoPais)) {
+                filasAfectadas = -1;
             }
-            catch (ErrorDAO error) {
-                bitacora.escribirError(error);
-                throw error;
+            else {
+                try {
+                    Universidad universidad = this.UNIVERSIDAD_DB.getUniversidadPorNombre(nombreActual);
+                    Pais paisOrigen = this.PAIS_DB.getPaisPorNombre(nuevoPais);
+                    universidad.setNombre(nuevoNombre);
+                    universidad.setIdPais(paisOrigen.getId());
+
+                    filasAfectadas = this.UNIVERSIDAD_DB.editarUniversidad(universidad);
+                }
+                catch (ErrorDAO error) {
+                    //bitacora.escribirError(error);
+                    throw error;
+                }
             }
-        }
-        else {
-            filasAfectadas = -1;
         }
 
         return filasAfectadas;
     }
 
     @Override
-    public Optional<Universidad> getUniversidadPorNombre(String nombre) throws ErrorDAO {
-        Universidad universidad = null;
-        if (!esNulo(nombre) && !nombre.isBlank()) {
+    public Universidad getUniversidadPorNombre (String nombre) throws ErrorDAO {
+        Universidad universidad = new Universidad(0);
+        if (cadenaValida(nombre)) {
             try {
                 universidad = this.UNIVERSIDAD_DB.getUniversidadPorNombre(nombre);
             }
             catch (ErrorDAO error) {
-                bitacora.escribirError(error);
+                //bitacora.escribirError(error);
                 throw error;
             }
         }
-        return Optional.ofNullable(universidad);
+        return universidad;
     }
 
     @Override
     public List<Universidad> getUniversidadesPorPaisOrigen(String paisOrigen) throws ErrorDAO {
         List<Universidad> listaUniversidades = new ArrayList<>();
-        if (!esNulo(paisOrigen) && !paisOrigen.isBlank()) {
+        if (cadenaValida(paisOrigen)) {
             try {
                 listaUniversidades = this.UNIVERSIDAD_DB.getUniversidadesPorPaisOrigen(paisOrigen);
             }
             catch (ErrorDAO error) {
-                bitacora.escribirError(error);
+                //bitacora.escribirError(error);
                 throw error;
             }
         }
@@ -89,54 +103,56 @@ public class DAOUniversidad implements IUniversidadDAO {
             return this.UNIVERSIDAD_DB.getTodasAlfabeticamente();
         }
         catch (ErrorDAO error) {
-            bitacora.escribirError(error);
+            //bitacora.escribirError(error);
             throw error;
         }
     }
 
-    private boolean esNulo (Object objeto) {
+    public boolean esNulo (Object objeto) {
         return Optional.ofNullable(objeto)
                 .isEmpty();
     }
 
-    private boolean universidadValida (Universidad universidad) {
-        boolean valido = false;
-
-        if (!esNulo(universidad) || !esNulo(universidad.getPaisOrigen())) {
-            String nombreUniversidad = universidad.getNombre();
-            int idPais = universidad.getPaisOrigen().getId();
-
-            if (!nombreUniversidad.isBlank() || idPais > 0) {
-                valido = true;
-            }
-        }
-
-        return valido;
+    public boolean cadenaValida (String cadena) {
+        return !esNulo(cadena) && !cadena.isBlank();
     }
 
-    private boolean universidadExiste (Universidad universidad) throws ErrorDAO {
+    public boolean universidadExiste (String universidad, String pais) throws ErrorDAO {
         boolean existe = false;
         Universidad universidadEncontrada;
+        Pais paisEncontrado;
 
         try {
-            universidadEncontrada = UNIVERSIDAD_DB.getUniversidadPorNombre(universidad.getNombre());
+            universidadEncontrada = UNIVERSIDAD_DB.getUniversidadPorNombre(universidad);
+            if (universidadEncontrada.getId() > 0) {
+                paisEncontrado = PAIS_DB.getPaisPorId(universidadEncontrada.getIdPais());
+                if (paisEncontrado.getId() > 0) {
+                    if (universidad.equals(universidadEncontrada.getNombre()) && paisEncontrado.getNombre().equals(pais)) {
+                        existe = true;
+                    }
+                }
+            }
         }
         catch (ErrorDAO error) {
-            bitacora.escribirError(error);
+            //bitacora.escribirError(error);
             throw error;
         }
 
-        if (!esNulo(universidadEncontrada)) {
-            String nombreEncontrado = universidadEncontrada.getNombre();
-            int idPaisEncontrado = universidadEncontrada.getPaisOrigen().getId();
-            String nombre = universidad.getNombre();
-            int idPais = universidad.getPaisOrigen().getId();
+        return existe;
+    }
 
-            if (nombreEncontrado.equals(nombre) && idPaisEncontrado == idPais) {
-                existe = true;
+    public boolean validarCadenas (String[] cadenas) {
+        boolean validas = true;
+        int i = 0;
+
+        while (i < cadenas.length) {
+            if (!cadenaValida(cadenas[i])) {
+                validas = false;
+                break;
             }
+            i++;
         }
 
-        return existe;
+        return validas;
     }
 }

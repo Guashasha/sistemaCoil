@@ -14,7 +14,7 @@ public class Colaboracion {
         disponible,
         vinculada,
         activa,
-        enRevision,
+        en_revision,
         finalizada,
     }
 
@@ -26,16 +26,6 @@ public class Colaboracion {
     private String objetivo;
     private Periodo periodo;
     private String perfilEstudiante;
-
-    public Colaboracion(int idColaboracion, TipoColaboracion tipo, String temaInteres, String idioma, String objetivo, String perfilEstudiante, Periodo periodo) {
-        this.idColaboracion = idColaboracion;
-        this.tipo = tipo;
-        this.temaInteres = temaInteres;
-        this.idioma = idioma;
-        this.objetivo = objetivo;
-        this.perfilEstudiante = perfilEstudiante;
-        this.periodo = periodo;
-    }
 
     public int getIdColaboracion() {
         return idColaboracion;

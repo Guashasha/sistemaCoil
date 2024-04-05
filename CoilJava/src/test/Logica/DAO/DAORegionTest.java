@@ -1,4 +1,4 @@
-package test.Logica;
+package test.Logica.DAO;
 
 import org.junit.jupiter.api.Test;
 

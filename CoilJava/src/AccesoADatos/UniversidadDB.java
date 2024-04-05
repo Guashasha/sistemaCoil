@@ -1,6 +1,5 @@
 package AccesoADatos;
 
-import Logica.Dominio.Pais;
 import Logica.Dominio.Universidad;
 import Logica.ErrorDAO;
 
@@ -13,7 +12,7 @@ import java.util.List;
 public class UniversidadDB {
     private final ConexionBaseDatos CONEXION_BASE_DATOS = new ConexionBaseDatos();
 
-    public int registrarUniversidad(Universidad universidad) throws ErrorDAO {
+    public int registrarUniversidad (Universidad universidad) throws ErrorDAO {
         int filasAfectadas;
         String insertarUniversidadSQL = "INSERT INTO universidad (nombre, paisOrigen) VALUES (?,?)";
         PreparedStatement insertarUniversidad;
@@ -22,8 +21,7 @@ public class UniversidadDB {
             insertarUniversidad = this.CONEXION_BASE_DATOS.getConexion().
                     prepareStatement(insertarUniversidadSQL);
             insertarUniversidad.setString(1, universidad.getNombre());
-            insertarUniversidad.setInt(2, universidad.getPaisOrigen().
-                    getId());
+            insertarUniversidad.setInt(2, universidad.getIdPais());
             filasAfectadas = insertarUniversidad.executeUpdate();
 
             insertarUniversidad.close();
@@ -36,7 +34,7 @@ public class UniversidadDB {
         return filasAfectadas;
     }
 
-    public int editarUniversidad(Universidad universidad) throws ErrorDAO {
+    public int editarUniversidad (Universidad universidad) throws ErrorDAO {
         int filasAfectadas;
         String actualizarUniversidadSQL = "UPDATE universidad SET nombre = ?, paisOrigen = ? WHERE idUniversidad = ?";
         PreparedStatement actualizarUniversidad;
@@ -45,8 +43,7 @@ public class UniversidadDB {
             actualizarUniversidad = this.CONEXION_BASE_DATOS.getConexion().
                     prepareStatement(actualizarUniversidadSQL);
             actualizarUniversidad.setString(1,universidad.getNombre());
-            actualizarUniversidad.setInt(2,universidad.getPaisOrigen().
-                    getId());
+            actualizarUniversidad.setInt(2,universidad.getIdPais());
             actualizarUniversidad.setInt(3,universidad.getId());
             filasAfectadas = actualizarUniversidad.executeUpdate();
 
@@ -59,9 +56,9 @@ public class UniversidadDB {
         return filasAfectadas;
     }
 
-    public Universidad getUniversidadPorNombre(String nombre) throws ErrorDAO {
-        Universidad universidad = null;
-        String consultaUniversidadSQL = "SELECT * FROM universidad_con_pais WHERE universidad = ?";
+    public Universidad getUniversidadPorNombre (String nombre) throws ErrorDAO {
+        Universidad universidad = new Universidad(0);
+        String consultaUniversidadSQL = "SELECT idUniversidad, nombre, paisOrigen FROM universidad WHERE nombre = ?";
         PreparedStatement consultaUniversidad;
         ResultSet resultadoConsulta;
 
@@ -86,7 +83,7 @@ public class UniversidadDB {
         return universidad;
     }
 
-    public List<Universidad> getUniversidadesPorPaisOrigen(String paisOrigen) throws ErrorDAO {
+    public List<Universidad> getUniversidadesPorPaisOrigen (String paisOrigen) throws ErrorDAO {
         List<Universidad> listaUniversidades = new ArrayList<>();
         String consultarUniversidadesSQL = "SELECT * FROM universidad_con_pais WHERE pais = ?";
         PreparedStatement consultaUniversidades;
@@ -113,7 +110,7 @@ public class UniversidadDB {
         return listaUniversidades;
     }
 
-    public List<Universidad> getTodasAlfabeticamente() throws ErrorDAO {
+    public List<Universidad> getTodasAlfabeticamente () throws ErrorDAO {
         List<Universidad> listaUniversidades = new ArrayList<>();
         String consultarUniversidadesSQL = "SELECT * FROM universidad_con_pais ORDER BY universidad ASC";
         PreparedStatement consultaUniversidades;
@@ -141,14 +138,10 @@ public class UniversidadDB {
 
     public Universidad convertirResultSetAUniversidad (ResultSet resultado) throws SQLException {
         Universidad universidad = new Universidad();
-        Pais pais = new Pais();
 
         universidad.setId(resultado.getInt(1));
         universidad.setNombre(resultado.getString(2));
-        pais.setId(resultado.getInt(3));
-        pais.setIso(resultado.getString(4));
-        pais.setNombre(resultado.getString(5));
-        universidad.setPaisOrigen(pais);
+        universidad.setIdPais(resultado.getInt(3));
 
         return universidad;
     }
