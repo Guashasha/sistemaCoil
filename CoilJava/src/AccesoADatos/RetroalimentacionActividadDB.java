@@ -28,7 +28,7 @@ public class RetroalimentacionActividadDB {
             consulta.setInt(1, retroalimentacion.getInteraccionConPar());
             consulta.setInt(2, retroalimentacion.getDificultad());
             consulta.setInt(3, retroalimentacion.getInteres());
-            consulta.setInt(4, retroalimentacion.getId());
+            consulta.setInt(4, retroalimentacion.getIdActividad());
             consulta.setInt(6, retroalimentacion.getIdUsuario());
 
             if (retroalimentacion.getComentario().isEmpty()) {
