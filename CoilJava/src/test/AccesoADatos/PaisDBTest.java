@@ -17,13 +17,13 @@ class PaisDBTest {
 
     @BeforeAll
     static void setUp() {
-        ConfiguracionPrueba.ejecutarInstruccionSQL("DELETE FROM paises;");
-        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO paises (idPais,Iso,nombre) VALUES (1,'MX','México'),  (2,'US','Estados Unidos'), (3,'BR','Brasil');");
+        ConfiguracionPrueba.ejecutarInstruccionSQL("DELETE FROM pais;");
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO pais (idPais,Iso,nombre) VALUES (1,'MX','México'),  (2,'US','Estados Unidos'), (3,'BR','Brasil');");
     }
 
     @AfterAll
     static void afterAll () {
-        ConfiguracionPrueba.ejecutarInstruccionSQL("DELETE FROM paises;");
+        ConfiguracionPrueba.ejecutarInstruccionSQL("DELETE FROM pais;");
     }
 
     @Test

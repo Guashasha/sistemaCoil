@@ -13,7 +13,7 @@ public class PaisDB {
 
     public List<Pais> paisesAlfabeticamente () throws ErrorDAO {
         List<Pais> listaPaises = new ArrayList<>();
-        String consultaPaisesSQL = "SELECT idPais, iso, nombre FROM paises ORDER BY nombre ASC";
+        String consultaPaisesSQL = "SELECT idPais, iso, nombre FROM pais ORDER BY nombre ASC";
         PreparedStatement consultaPaises;
         ResultSet resultadoConsulta;
 
@@ -39,7 +39,7 @@ public class PaisDB {
 
     public Pais getPaisPorNombre (String nombre) throws ErrorDAO {
         Pais pais = new Pais(0);
-        String consultaPaisesSQL = "SELECT idPais, iso, nombre FROM paises WHERE nombre = ?";
+        String consultaPaisesSQL = "SELECT idPais, iso, nombre FROM pais WHERE nombre = ?";
         PreparedStatement consultaPaises;
         ResultSet resultadoConsulta;
 
@@ -66,7 +66,7 @@ public class PaisDB {
 
     public Pais getPaisPorId (int id) throws ErrorDAO {
         Pais pais = new Pais(0);
-        String consultaPaisesSQL = "SELECT idPais, iso, nombre FROM paises WHERE idPais = ?";
+        String consultaPaisesSQL = "SELECT idPais, iso, nombre FROM pais WHERE idPais = ?";
         PreparedStatement consultaPaises;
         ResultSet resultadoConsulta;
 

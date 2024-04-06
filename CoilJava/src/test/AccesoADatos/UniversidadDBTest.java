@@ -19,8 +19,8 @@ class UniversidadDBTest {
 
     @BeforeAll
     static void beforeAll () {
-        ejecutarInstruccionSQL("DELETE FROM paises;");
-        ejecutarInstruccionSQL("INSERT INTO paises (idPais,Iso,nombre) VALUES (1,'MX','México'),  (2,'US','Estados Unidos');");
+        ejecutarInstruccionSQL("DELETE FROM pais;");
+        ejecutarInstruccionSQL("INSERT INTO pais (idPais,Iso,nombre) VALUES (1,'MX','México'),  (2,'US','Estados Unidos');");
     }
 
     @BeforeEach
@@ -32,7 +32,7 @@ class UniversidadDBTest {
     @AfterAll
     static void arterAll () {
         ConfiguracionPrueba.borrarDatosTablaUniversidad();
-        ejecutarInstruccionSQL("DELETE FROM paises;");
+        ejecutarInstruccionSQL("DELETE FROM pais;");
     }
 
     @Test

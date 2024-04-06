@@ -14,7 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class RetroalimentacionActividadDBTest {
-    private ConexionBaseDatos conector;
+    private ConexionBaseDatos conector = new ConexionBaseDatos();
 
     @BeforeAll
     static void setUp() {
@@ -45,12 +45,10 @@ public class RetroalimentacionActividadDBTest {
     void testAgregarRetroalimentacion () {
         int resultado = -1;
 
-        CallableStatement consulta = null;
+        CallableStatement consulta;
         try {
             consulta = conector.getConexion()
                                .prepareCall("call insertarRetroalimentacionActividad (?, ?, ?, ?, ?, ?)");
-
-            conector.desconectar();
 
             consulta.setInt(1, 5);
             consulta.setInt(2, 5);
@@ -61,6 +59,7 @@ public class RetroalimentacionActividadDBTest {
 
             resultado = consulta.executeUpdate();
             consulta.close();
+            conector.desconectar();
         }
         catch (SQLException error) {
             System.err.println("error durante el test \"agregar retroalimentacion\" " + error.getMessage());
@@ -73,7 +72,7 @@ public class RetroalimentacionActividadDBTest {
     void testAgregarRetroalimentacionFallido () {
         int resultado = -1;
 
-        CallableStatement consulta = null;
+        CallableStatement consulta;
 
         try {
             consulta = conector.getConexion().prepareCall("call insertarRetroalimentacionActividad (?, ?, ?, ?, ?, ?)");
