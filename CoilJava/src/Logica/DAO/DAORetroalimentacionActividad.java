@@ -21,7 +21,7 @@ public class DAORetroalimentacionActividad implements IRetroalimentacionActivida
             throw new ErrorDAO("la retroalimentacion es incorrecta");
         }
 
-        if (getPorPersonaYActividad(retroalimentacion.getIdUsuario()).isPresent()) {
+        if (getPorPersonaYActividad(retroalimentacion.getIdUsuario(), retroalimentacion.getIdActividad()).isPresent()) {
             throw new ErrorDAO("la actividad ya fue calificada por el usuario");
         }
 
@@ -96,8 +96,14 @@ public class DAORetroalimentacionActividad implements IRetroalimentacionActivida
                 RetroalimentacionActividad retroalimentacion = new RetroalimentacionActividad();
 
                 retroalimentacion.setIdRetroalimentacion(resultsRetroalimentaciones.getInt(1));
-                retroalimentacion.setIdActividad(resultsRetroalimentaciones.getInt(1));
-                retroalimentacion.setIdRetroalimentacion(resultsRetroalimentaciones.getInt(1));
+                retroalimentacion.setInteraccionConPar(resultsRetroalimentaciones.getInt(2));
+                retroalimentacion.setComentario(resultsRetroalimentaciones.getString(3));
+                retroalimentacion.setDificultad(resultsRetroalimentaciones.getInt(4));
+                retroalimentacion.setInteres(resultsRetroalimentaciones.getInt(5));
+                retroalimentacion.setIdUsuario(resultsRetroalimentaciones.getInt(6));
+                retroalimentacion.setIdActividad(resultsRetroalimentaciones.getInt(7));
+
+                retroalimentaciones.add(retroalimentacion);
             }
         }
         catch (SQLException error) {
@@ -110,8 +116,42 @@ public class DAORetroalimentacionActividad implements IRetroalimentacionActivida
     }
 
     @Override
-    public Optional<RetroalimentacionActividad> getPorPersonaYActividad (int idPersona) throws ErrorDAO {
-        return Optional.empty();
+    public Optional<RetroalimentacionActividad> getPorPersonaYActividad (int idPersona, int idActividad) throws ErrorDAO {
+        if (idPersona < 1 || idActividad < 1) {
+            throw new ErrorDAO("Las id's ingresadas son incorrectas");
+        }
+
+        ResultSet resultados = null;
+
+        try {
+            resultados = RetroalimentacionActividadDB.getPorPersonaYActividad(idPersona, idActividad);
+        }
+        catch(ErrorDAO error) {
+            bitacora.escribirError(error);
+
+            throw error;
+        }
+
+        RetroalimentacionActividad retroalimentacion = null;
+
+        try {
+            if (resultados.next()) {
+                retroalimentacion = new RetroalimentacionActividad();
+                retroalimentacion.setIdRetroalimentacion(resultados.getInt(1));
+                retroalimentacion.setInteraccionConPar(resultados.getInt(2));
+                retroalimentacion.setComentario(resultados.getString(3));
+                retroalimentacion.setDificultad(resultados.getInt(4));
+                retroalimentacion.setInteres(resultados.getInt(4));
+                retroalimentacion.setIdUsuario(idPersona);
+                retroalimentacion.setIdActividad(idActividad);
+            }
+        } catch (SQLException error) {
+            bitacora.escribirError(error);
+
+            throw new ErrorDAO(error.getMessage());
+        }
+
+        return Optional.ofNullable(retroalimentacion);
     }
 
     @Override
@@ -141,11 +181,7 @@ public class DAORetroalimentacionActividad implements IRetroalimentacionActivida
 
     @Override
     public boolean validarRetroalimentacion (RetroalimentacionActividad retroalimentacion) throws ErrorDAO {
-        boolean resultado = true;
-
-        if (!calificacionCorrecta(retroalimentacion.getInteres())) {
-            resultado = false;
-        }
+        boolean resultado = calificacionCorrecta(retroalimentacion.getInteres());
 
         if (!calificacionCorrecta(retroalimentacion.getDificultad())) {
             resultado = false;

@@ -73,19 +73,18 @@ public class RetroalimentacionActividadDB {
         return retroalimentacion;
     }
 
-    public static ResultSet getPorPersonaYActividad (Persona persona, Actividad actividad) {
+    public static ResultSet getPorPersonaYActividad (int idPersona, int idActividad) {
         ResultSet retroalimentacion = null;
 
         try {
             PreparedStatement consulta = null;
             consulta = db.getConexion().prepareStatement("select idRetroalimentacion, interaccionPar, comentario, dificultad, interes from retroalimentacion natural join retroalimentacionActividad where retroalimentacion.usuario=? and retroalimentacionActividad.actividad=?;");
 
-            consulta.setInt(1, persona.getIdPersona());
-            consulta.setInt(2, actividad.getIdActividad());
-
-            consulta.close();
+            consulta.setInt(1, idPersona);
+            consulta.setInt(2, idActividad);
 
             retroalimentacion = consulta.executeQuery();
+            consulta.close();
 
             db.desconectar();
         }
@@ -102,7 +101,7 @@ public class RetroalimentacionActividadDB {
         ResultSet resultado = null;
 
         try {
-            PreparedStatement consulta = db.getConexion().prepareStatement("select idRetroalimentacion, interaccionPar, comentario, dificultad, interes from retroalimentacion natural join retroalimentacionActividad");
+            PreparedStatement consulta = db.getConexion().prepareStatement("select idRetroalimentacion, interaccionPar, comentario, dificultad, interes, usuario, actividad from retroalimentacion natural join retroalimentacionActividad");
 
             resultado = consulta.executeQuery();
             consulta.close();

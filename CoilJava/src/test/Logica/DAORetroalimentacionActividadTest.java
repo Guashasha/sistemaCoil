@@ -45,7 +45,7 @@ public class DAORetroalimentacionActividadTest {
         retroalimentacion.setInteres(5);
         retroalimentacion.setDificultad(2);
         retroalimentacion.setInteraccionConPar(5);
-        retroalimentacion.setIdUsuario(1);
+        retroalimentacion.setIdUsuario(2);
         retroalimentacion.setIdActividad(1);
 
         try {
@@ -114,11 +114,23 @@ public class DAORetroalimentacionActividadTest {
         DAORetroalimentacionActividad ret = new DAORetroalimentacionActividad();
 
         List<RetroalimentacionActividad> retroalimentaciones = null;
+
         try {
             retroalimentaciones = ret.getTodos();
         }
         catch (ErrorDAO error) {
             fail();
         }
+
+        assertEquals(1, retroalimentaciones.size());
+
+        RetroalimentacionActividad retroalimentacion = new RetroalimentacionActividad();
+        retroalimentacion.setDificultad(5);
+        retroalimentacion.setInteres(4);
+        retroalimentacion.setIdUsuario(1);
+        retroalimentacion.setIdActividad(1);
+        retroalimentacion.setInteraccionConPar(4);
+
+        assert(retroalimentacion.equals(retroalimentaciones.get(0)));
     }
 }
