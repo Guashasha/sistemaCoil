@@ -77,9 +77,10 @@ CREATE TABLE `academicoDesarrolla` (
 
 CREATE TABLE `cuenta` (
   idCuenta int PRIMARY KEY AUTO_INCREMENT,
-  `idUsuario` int NOT NULL,
+  `idPersona` int NOT NULL,
   `nombreUsuario` varchar(50) NOT NULL,
-  `contrasena` varchar(300) NOT NULL,
+  `contrasena` varchar(3000) NOT NULL,
+  `tipo` ENUM ('academico', 'estudiante', 'administrador') NOT NULL,
   `estado` ENUM ('pendiente', 'aceptada', 'rechazada') NOT NULL
 );
 
@@ -147,7 +148,7 @@ ALTER TABLE `academicoDesarrolla` ADD FOREIGN KEY (`idColaboracion`) REFERENCES 
 
 ALTER TABLE `academicoDesarrolla` ADD FOREIGN KEY (`idAcademico`) REFERENCES `academico` (`cedulaProfesional`);
 
-ALTER TABLE `cuenta` ADD FOREIGN KEY (`idUsuario`) REFERENCES `persona` (`idPersona`);
+ALTER TABLE `cuenta` ADD FOREIGN KEY (`idPersona`) REFERENCES `persona` (`idPersona`);
 
 ALTER TABLE `retroalimentacion` ADD FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`);
 
