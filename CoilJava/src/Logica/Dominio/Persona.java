@@ -5,7 +5,7 @@ public abstract class Persona {
     private String nombre;
     private String apellidoPaterno;
     private String apellidoMaterno;
-    private Universidad universidad;
+    private int idUniversidad;
 
     public int getIdPersona () {
         return idPersona;
@@ -39,11 +39,11 @@ public abstract class Persona {
         this.apellidoMaterno = apellidoMaterno;
     }
 
-    public Universidad getUniversidad () {
-        return universidad;
+    public int getIdUniversidad () {
+        return idUniversidad;
     }
 
-    public void setUniversidad (Universidad universidad) {
-        this.universidad = universidad;
+    public void setIdUniversidad (int idUniversidad) {
+        this.idUniversidad = idUniversidad;
     }
 }

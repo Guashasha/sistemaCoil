@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Assertions;
 
 import java.util.List;
 
-public class AsercionListas extends Assertions{
+public class AsercionListas extends Assertions {
     public static void assertEqualList (List<Universidad> esperada, List<Universidad> obtenida) {
         if (esperada.size() != obtenida.size()) {
             throw new AssertionError("Tamaño esperada = " + esperada.size() + ", tamaño obtenida = " + obtenida.size());
