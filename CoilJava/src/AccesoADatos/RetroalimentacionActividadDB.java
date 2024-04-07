@@ -7,6 +7,7 @@ import Logica.Dominio.RetroalimentacionActividad;
 import Logica.ErrorDAO;
 
 import java.sql.CallableStatement;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -23,8 +24,6 @@ public class RetroalimentacionActividadDB {
             consulta = db.getConexion()
                          .prepareCall("call insertarRetroalimentacionActividad (?, ?, ?, ?, ?, ?)");
 
-            db.desconectar();
-
             consulta.setInt(1, retroalimentacion.getInteraccionConPar());
             consulta.setInt(2, retroalimentacion.getDificultad());
             consulta.setInt(3, retroalimentacion.getInteres());
@@ -40,6 +39,8 @@ public class RetroalimentacionActividadDB {
 
             resultado = consulta.executeUpdate();
             consulta.close();
+
+            db.desconectar();
         }
         catch (SQLException error) {
             bitacora.escribirError(error);
@@ -54,14 +55,14 @@ public class RetroalimentacionActividadDB {
         ResultSet retroalimentacion = null;
 
         try {
-            CallableStatement consulta = null;
-            consulta = db.getConexion().prepareCall("select idRetroalimentacion, interaccionPar, comentario, dificultad, interes from retroalimentacion natural join retroalimentacionActividad where retroalimentacion.idRetroalimentacion=?;");
+            PreparedStatement consulta = db.getConexion().prepareStatement("select idRetroalimentacion, interaccionPar, comentario, dificultad, interes from retroalimentacion natural join retroalimentacionActividad where retroalimentacion.idRetroalimentacion=?;");
 
             consulta.setInt(1, id);
 
-            db.desconectar();
-
             retroalimentacion = consulta.executeQuery();
+            consulta.close();
+
+            db.desconectar();
         }
         catch (SQLException error) {
             bitacora.escribirError(error);
@@ -76,8 +77,8 @@ public class RetroalimentacionActividadDB {
         ResultSet retroalimentacion = null;
 
         try {
-            CallableStatement consulta = null;
-            consulta = db.getConexion().prepareCall("select idRetroalimentacion, interaccionPar, comentario, dificultad, interes from retroalimentacion natural join retroalimentacionActividad where retroalimentacion.usuario=? and retroalimentacionActividad.actividad=?;");
+            PreparedStatement consulta = null;
+            consulta = db.getConexion().prepareStatement("select idRetroalimentacion, interaccionPar, comentario, dificultad, interes from retroalimentacion natural join retroalimentacionActividad where retroalimentacion.usuario=? and retroalimentacionActividad.actividad=?;");
 
             consulta.setInt(1, persona.getIdPersona());
             consulta.setInt(2, actividad.getIdActividad());
@@ -85,6 +86,8 @@ public class RetroalimentacionActividadDB {
             consulta.close();
 
             retroalimentacion = consulta.executeQuery();
+
+            db.desconectar();
         }
         catch (SQLException error) {
             bitacora.escribirError(error);
@@ -93,5 +96,25 @@ public class RetroalimentacionActividadDB {
         }
 
         return retroalimentacion;
+    }
+
+    public static ResultSet getTodos () throws ErrorDAO {
+        ResultSet resultado = null;
+
+        try {
+            PreparedStatement consulta = db.getConexion().prepareStatement("select idRetroalimentacion, interaccionPar, comentario, dificultad, interes from retroalimentacion natural join retroalimentacionActividad");
+
+            resultado = consulta.executeQuery();
+            consulta.close();
+
+            db.desconectar();
+        }
+        catch (SQLException error) {
+            bitacora.escribirError(error);
+
+            throw new ErrorDAO(error.getMessage());
+        }
+
+        return resultado;
     }
 }

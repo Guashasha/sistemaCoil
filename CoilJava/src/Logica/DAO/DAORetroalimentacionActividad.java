@@ -8,6 +8,7 @@ import Logica.Interfaces.IRetroalimentacionActividadDAO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,23 +61,61 @@ public class DAORetroalimentacionActividad implements IRetroalimentacionActivida
             throw error;
         }
 
-        RetroalimentacionActividad objRetroalimentacion = resultSetAObjeto(rsRetroalimentacion);
+
+        RetroalimentacionActividad objRetroalimentacion = null;
+
+        try {
+            objRetroalimentacion = resultSetAObjeto(rsRetroalimentacion);
+        }
+        catch (ErrorDAO error) {
+            bitacora.escribirError(error);
+            System.err.println(error.getMessage());
+
+            throw error;
+        }
 
         return Optional.ofNullable(objRetroalimentacion);
     }
 
     @Override
     public List<RetroalimentacionActividad> getTodos () throws ErrorDAO {
-        return null;
+        ArrayList<RetroalimentacionActividad> retroalimentaciones = new ArrayList<>();
+        ResultSet resultsRetroalimentaciones = null;
+
+        try {
+            resultsRetroalimentaciones = RetroalimentacionActividadDB.getTodos();
+        }
+        catch (ErrorDAO error) {
+            bitacora.escribirError(error);
+
+            throw error;
+        }
+
+        try {
+            while (resultsRetroalimentaciones.next()) {
+                RetroalimentacionActividad retroalimentacion = new RetroalimentacionActividad();
+
+                retroalimentacion.setIdRetroalimentacion(resultsRetroalimentaciones.getInt(1));
+                retroalimentacion.setIdActividad(resultsRetroalimentaciones.getInt(1));
+                retroalimentacion.setIdRetroalimentacion(resultsRetroalimentaciones.getInt(1));
+            }
+        }
+        catch (SQLException error) {
+            bitacora.escribirError(error);
+
+            throw new ErrorDAO(error.getMessage());
+        }
+
+        return retroalimentaciones;
     }
 
     @Override
     public Optional<RetroalimentacionActividad> getPorPersonaYActividad (int idPersona) throws ErrorDAO {
-        return null;
+        return Optional.empty();
     }
 
     @Override
-    public RetroalimentacionActividad resultSetAObjeto (ResultSet resultados) {
+    public RetroalimentacionActividad resultSetAObjeto (ResultSet resultados) throws ErrorDAO {
         RetroalimentacionActividad retroalimentacion = new RetroalimentacionActividad();
 
         try {
@@ -84,15 +123,17 @@ public class DAORetroalimentacionActividad implements IRetroalimentacionActivida
                 retroalimentacion.setIdRetroalimentacion(resultados.getInt(1));
                 retroalimentacion.setInteraccionConPar(resultados.getInt(2));
                 retroalimentacion.setComentario(resultados.getString(3));
-                retroalimentacion.setDificultad(resultados.getInt(5));
-                retroalimentacion.setInteres(resultados.getInt(6));
+                retroalimentacion.setDificultad(resultados.getInt(4));
+                retroalimentacion.setInteres(resultados.getInt(5));
             }
             else {
-                retroalimentacion = null;
+                throw new ErrorDAO("Error de conversion a objeto: la retroalimentacion no existe");
             }
         }
-        catch (SQLException e) {
-            throw new RuntimeException(e);
+        catch (SQLException error) {
+            bitacora.escribirError(error);
+
+            throw new ErrorDAO(error.getMessage());
         }
 
         return retroalimentacion;

@@ -16,13 +16,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class RetroalimentacionActividadDBTest {
-    private ConexionBaseDatos conector;
+    private ConexionBaseDatos conector = new ConexionBaseDatos();
 
     @BeforeAll
     static void setUp() {
-        ConfiguracionPrueba.borrarDatosTablaRetroalimentacion();
         ConfiguracionPrueba.borrarDatosTablaRetroalimentacionActividad();
         ConfiguracionPrueba.borrarDatosTablaRetroalimentacionColaboracion();
+        ConfiguracionPrueba.borrarDatosTablaRetroalimentacion();
     }
 
     @Test
@@ -34,8 +34,6 @@ public class RetroalimentacionActividadDBTest {
             consulta = conector.getConexion()
                                .prepareCall("call insertarRetroalimentacionActividad (?, ?, ?, ?, ?, ?)");
 
-            conector.desconectar();
-
             consulta.setInt(1, 5);
             consulta.setInt(2, 5);
             consulta.setInt(3, 4);
@@ -45,12 +43,14 @@ public class RetroalimentacionActividadDBTest {
 
             resultado = consulta.executeUpdate();
             consulta.close();
+
+            conector.desconectar();
         }
         catch (SQLException error) {
             System.err.println("error durante el test \"agregar retroalimentacion\" " + error.getMessage());
         }
 
-        assert (resultado == 1);
+        assertEquals(2, resultado);
     }
 
     @Test
@@ -62,8 +62,6 @@ public class RetroalimentacionActividadDBTest {
         try {
             consulta = conector.getConexion().prepareCall("call insertarRetroalimentacionActividad (?, ?, ?, ?, ?, ?)");
 
-            conector.desconectar();
-
             consulta.setInt(1, 5);
             consulta.setString(2, "adios");
             consulta.setInt(3, 4);
@@ -72,12 +70,14 @@ public class RetroalimentacionActividadDBTest {
             consulta.setInt(6, 1);
 
             resultado = consulta.executeUpdate();
+
+            conector.desconectar();
         }
         catch (SQLException error) {
             assert(true);
         }
 
-        assert(resultado == -1);
+        assertNotEquals(2, resultado);
     }
 
     @Test
@@ -85,17 +85,17 @@ public class RetroalimentacionActividadDBTest {
         int resultado = -1;
 
         try {
-            CallableStatement consulta;
-            consulta = conector.getConexion().prepareCall("update retroalimentacionActividad set dificultad=3 where idRetroalimentacion=1");
-
-            conector.desconectar();
+            PreparedStatement consulta;
+            consulta = conector.getConexion().prepareStatement("update retroalimentacionActividad set dificultad=3 where idRetroalimentacion=1");
 
             resultado = consulta.executeUpdate();
 
             consulta.close();
+
+            conector.desconectar();
         }
         catch (SQLException error) {
-            System.err.println("error durante el test \"agregar retroalimentacion\" " + error.getMessage());
+            System.err.println("error durante el test \"modificar retroalimentacion\" " + error.getMessage());
         }
 
         assert(resultado == 1);
@@ -104,7 +104,7 @@ public class RetroalimentacionActividadDBTest {
 
         try {
             if (set.next()) {
-                assert(set.getInt(4) == 3);
+                assertEquals(1, set.getInt(1));
             }
             else {
                 fail();

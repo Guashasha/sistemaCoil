@@ -1,16 +1,16 @@
 DELIMITER //
 
+DROP PROCEDURE IF EXISTS insertarRetroalimentacionActividad;
 CREATE PROCEDURE IF NOT EXISTS insertarRetroalimentacionActividad (interaccionPar int, dificultad int, interes int, actividad int, comentario varchar(200), usuario int)
 BEGIN
   INSERT INTO retroalimentacion (interaccionPar, comentario, usuario)
   VALUES (interaccionPar, comentario, usuario);
 
-  SELECT max(idRetroalimentacion) INTO @id FROM retroalimentacion;
-
   INSERT INTO retroalimentacionActividad (idRetroalimentacion, dificultad, interes, actividad)
-  VALUES (id, dificultad, interes, actividad);
+  VALUES (LAST_INSERT_ID(), dificultad, interes, actividad);
 END //
 
+DROP PROCEDURE IF EXISTS cambiar_Estado_Colaboracion;
 create procedure if not exists cambiar_Estado_Colaboracion(IN p_idColaboracion int, IN nuevoEstado varchar(20))
     
 BEGIN

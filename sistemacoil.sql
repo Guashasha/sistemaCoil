@@ -4,10 +4,6 @@ CREATE DATABASE IF NOT EXISTS COIL;
 
 USE COIL;
 
-CREATE USER IF NOT EXISTS "admin_COIL"@"localhost" IDENTIFIED BY "habitacionDeVuelo";
-
-GRANT INSERT, SELECT, UPDATE, DELETE ON COIL.* TO "admin_COIL"@"localhost";
-
 CREATE TABLE `persona` (
   `idPersona` int PRIMARY KEY AUTO_INCREMENT,
   `nombre` varchar(20) NOT NULL,
@@ -164,3 +160,10 @@ ALTER TABLE `calendarioActividades` ADD FOREIGN KEY (`idColaboracion`) REFERENCE
 ALTER TABLE `calendarioActividades` ADD FOREIGN KEY (`idActividad`) REFERENCES `actividad` (`idActividad`);
 
 ALTER TABLE `universidad` ADD FOREIGN KEY (`paisOrigen`) REFERENCES `pais` (`idPais`);
+
+DROP USER IF EXISTS "admin_COIL"@"localhost";
+DROP USER IF EXISTS "admin_COIL"@"%";
+
+CREATE USER IF NOT EXISTS "admin_COIL"@"localhost" IDENTIFIED BY "habitacionDeVuelo";
+
+GRANT INSERT, SELECT, EXECUTE, UPDATE, DELETE ON COIL.* TO "admin_COIL"@"localhost";
