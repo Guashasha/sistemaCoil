@@ -37,6 +37,29 @@ FROM
     persona p
     JOIN estudiante e ON p.idPersona = e.idPersona;
 
+CREATE VIEW if not exists vista_cuenta AS
+SELECT
+    c.idCuenta AS idCuenta,
+    c.idPersona AS idPersona,
+    c.nombreUsuario AS nombreUsuario,
+    c.tipo AS tipo,
+    c.contrasena AS contrasena,
+    c.estado AS estado,
+    p.nombre AS nombre,
+    p.apellidoPaterno AS apellidoPaterno,
+    p.apellidoMaterno AS apellidoMaterno,
+    p.universidad AS idUniversidad,
+    u.nommbre AS nombreUniversidad,
+    u.idPais AS idPais,
+    pa.nombre AS nombrePais
+FROM
+    cuenta c
+    JOIN persona p ON p.idPersona = c.idPersona
+    JOIN universidad u ON u.idUniversidad = p.universidad
+    JOIN pais pa ON pa.idPais = u.paisOrigen;
+
+
+
 
     
 

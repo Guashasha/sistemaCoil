@@ -79,9 +79,9 @@ CREATE TABLE `cuenta` (
   idCuenta int PRIMARY KEY AUTO_INCREMENT,
   `idPersona` int NOT NULL,
   `nombreUsuario` varchar(50) NOT NULL,
-  `contrasena` varchar(3000) NOT NULL,
+  `contrasena` varchar(300) NOT NULL,
   `tipo` ENUM ('academico', 'estudiante', 'administrador') NOT NULL,
-  `estado` ENUM ('pendiente', 'aceptada', 'rechazada') NOT NULL
+  `estado` ENUM ('pendiente', 'aceptada', 'rechazada') NOT NULL,
 );
 
 CREATE TABLE `retroalimentacion` (

@@ -1,23 +1,38 @@
 package Logica.Dominio;
 
-public class CuentaAcademico {
+public class Cuenta {
+
+    public enum TipoUsuario {
+        academico,
+        estudiante,
+        administrador
+    }
     public enum EstadoCuenta {
         pendiente,
         aceptada,
         rechazada
     }
-    private String idAcademico;
     private int idCuenta;
+    private int idPersona;
     private String nombreUsuario;
     private String contrasena;
     private EstadoCuenta estado;
+    private TipoUsuario tipo;
 
-    public String getIdAcademico () {
-        return idAcademico;
+    public int getIdCuenta () {
+        return idCuenta;
     }
 
-    public void setIdAcademico (String idAcademico) {
-        this.idAcademico = idAcademico;
+    public void setIdCuenta (int idCuenta) {
+        this.idCuenta = idCuenta;
+    }
+
+    public int getIdPersona () {
+        return idPersona;
+    }
+
+    public void setIdPersona (int idPersona) {
+        this.idPersona = idPersona;
     }
 
     public String getNombreUsuario () {
@@ -44,11 +59,11 @@ public class CuentaAcademico {
         this.estado = estado;
     }
 
-    public int getIdCuenta () {
-        return idCuenta;
+    public TipoUsuario getTipo () {
+        return tipo;
     }
 
-    public void setIdCuenta (int idCuenta) {
-        this.idCuenta = idCuenta;
+    public void setTipo (TipoUsuario tipo) {
+        this.tipo = tipo;
     }
 }
