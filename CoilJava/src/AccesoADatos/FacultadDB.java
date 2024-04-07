@@ -1,7 +1,6 @@
 package AccesoADatos;
 
 import Logica.Dominio.Facultad;
-import Logica.Dominio.Region;
 import Logica.ErrorDAO;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -39,7 +38,7 @@ public class FacultadDB {
         return facultad;
     }
 
-    public List<Facultad> getFacultadPorRegion(String region) throws ErrorDAO {
+    public List<Facultad> getFacultadPorRegion (String region) throws ErrorDAO {
         List<Facultad> listaFacultades = new ArrayList<>();
         String consultaFacultadesSQL = "SELECT * FROM facultad_con_region WHERE region = ?";
         PreparedStatement consultaFacultades;

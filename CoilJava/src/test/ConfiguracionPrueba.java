@@ -54,16 +54,16 @@ public class ConfiguracionPrueba {
     }
     public static void borrarDatosTablaRetroalimentacion () {
         ejecutarInstruccionSQL("DELETE FROM retroalimentacion;");
-        ejecutarInstruccionSQL("ALTER TABLE retroalimentacion AUTO_INCREMENT = 1;");
+        ejecutarInstruccionSQL("ALTER TABLE retroalimentacion AUTO_INCREMENT = 0;");
     }
     public static void borrarDatosTablaRetroalimentacionActividad () {
-        ejecutarInstruccionSQL("DELETE FROM retroalimentacionActividad;");
+        ejecutarInstruccionSQL("DELETE FROM retroalimentacionactividad;");
     }
     public static void borrarDatosTablaRetroalimentacionColaboracion () {
-        ejecutarInstruccionSQL("DELETE FROM retroalimentacionColaboracion;");
+        ejecutarInstruccionSQL("DELETE FROM retroalimentacioncolaboracion;");
     }
     public static void borrarDatosTablaSolicitaParticiparColaboracion () {
-        ejecutarInstruccionSQL("DELETE FROM solicitaParticiparColaboracion;");
+        ejecutarInstruccionSQL("DELETE FROM solicitaparticiparcolaboracion;");
     }
     public static void borrarDatosTablaPais () {
         ejecutarInstruccionSQL("DELETE FROM pais;");
@@ -72,9 +72,9 @@ public class ConfiguracionPrueba {
 
     public static void ejecutarInstruccionSQL (String instruccionSQL) {
         try {
-            String urlBaseDatos = "jdbc:mariadb://localhost:3306/COIL";
+            String urlBaseDatos = "jdbc:mariadb://localhost:3307/coil";
             String usuario = "root";
-            String contrasena = "tomasilla9988";
+            String contrasena = "040704";
             Connection conexion = DriverManager.getConnection(urlBaseDatos, usuario, contrasena);
 
             PreparedStatement declaracionSQL = conexion.prepareStatement(instruccionSQL);

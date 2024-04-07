@@ -110,7 +110,7 @@ public class UniversidadDB {
         return listaUniversidades;
     }
 
-    public List<Universidad> getTodasAlfabeticamente() throws ErrorDAO {
+    public List<Universidad> getTodasAlfabeticamente () throws ErrorDAO {
         List<Universidad> listaUniversidades = new ArrayList<>();
         String consultarUniversidadesSQL = "SELECT * FROM universidad_con_pais ORDER BY universidad ASC";
         PreparedStatement consultaUniversidades;

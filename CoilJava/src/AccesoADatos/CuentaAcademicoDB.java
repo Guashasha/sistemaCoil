@@ -39,7 +39,7 @@ public class CuentaAcademicoDB {
     }
 
     public static CuentaAcademico getCuentaPorUsuario (String usuario) throws ErrorDAO {
-        String consulta = "SELECT * from cuenta WHERE idAcademico = ?";
+        String consulta = "SELECT * from cuenta WHERE nombreUsuario = ?";
         CuentaAcademico cuentaAcademico = null;
         try {
             CONEXION_BASE_DATOS.conectar();

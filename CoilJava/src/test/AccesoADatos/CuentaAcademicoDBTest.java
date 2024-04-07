@@ -184,7 +184,7 @@ class CuentaAcademicoDBTest {
         int obtenido = -1;
 
         try {
-            CuentaAcademicoDB.agregaCuentaAcademico(cuentaAcademico);
+            obtenido = CuentaAcademicoDB.agregaCuentaAcademico(cuentaAcademico);
         }
         catch (ErrorDAO errorDAO) {
             fail("Fallida: pruebaAgregarCuentaAcademicoExitoso" + errorDAO.getMessage());

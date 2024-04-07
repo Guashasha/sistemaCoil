@@ -13,7 +13,7 @@ public class RegionDB {
 
     public List<Region> getTodasAlfabeticamente () throws ErrorDAO {
         List<Region> listaRegiones = new ArrayList<>();
-        String consultaRegionesSQL = "SELECT idRegion, nombre FROM region";
+        String consultaRegionesSQL = "SELECT idRegion, nombre FROM region ORDER BY nombre ASC";
         PreparedStatement consultaRegiones;
         ResultSet resultadoConsulta;
 

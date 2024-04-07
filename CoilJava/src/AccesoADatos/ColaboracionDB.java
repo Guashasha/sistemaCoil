@@ -44,7 +44,7 @@ public class ColaboracionDB {
     }
 
     public static Colaboracion getColaboracionPorId (int idColaboracion) throws ErrorDAO {
-        String colaboracionPorIdSQL = "SELECT * from colaboracion WHERE idColaboraion = ?";
+        String colaboracionPorIdSQL = "SELECT * from colaboracion WHERE idColaboracion = ?";
         Colaboracion colaboracion = null;
 
         try {
@@ -100,7 +100,7 @@ public class ColaboracionDB {
         return listaEstudiantes;
     }
 
-    private static List<Academico> getAcademicosParticipantes (Colaboracion colaboracion) throws ErrorDAO {
+    public static List<Academico> getAcademicosParticipantes (Colaboracion colaboracion) throws ErrorDAO {
         String academicosParticipantes = "{CALL obtener_academicos_colaboracion(?)}";
         List<Academico> listaAcademicos = new ArrayList<>();
 
@@ -129,7 +129,7 @@ public class ColaboracionDB {
 
     }
 
-    private static Periodo getColaboracionPorPeriodo (Colaboracion colaboracion) throws ErrorDAO {
+    public static Periodo getColaboracionPorPeriodo (Colaboracion colaboracion) throws ErrorDAO {
         String colaboracionPorPeriodoSQL = "SELECT fechaInicio, fechaFin from colaboracion WHERE idColaboracion = ?";
         Periodo periodo = null;
 
@@ -157,16 +157,17 @@ public class ColaboracionDB {
 
     }
 
-    private static int cambiarEstadoColaboracion (Colaboracion colaboracion) {
+    public static int cambiarEstadoColaboracion (Colaboracion colaboracion) {
         String cambiarEstadoColaboracionSQL = "UPDATE colaboracion SET estado = ? WHERE idColaboracion = ?";
         int filasAfectadas;
 
         try {
             CONEXION_BASE_DATOS.conectar();
             PreparedStatement cambiarEstadoColaboracion = CONEXION_BASE_DATOS.getConexion().
-                                                                             prepareCall(cambiarEstadoColaboracionSQL);
-            cambiarEstadoColaboracion.setString(1, colaboracion.getEstado()
-                                                               .toString());
+                                                                             prepareStatement(cambiarEstadoColaboracionSQL);
+            cambiarEstadoColaboracion.setString(1, colaboracion.getEstado().
+                                                               name().toLowerCase());
+
             cambiarEstadoColaboracion.setInt(2, colaboracion.getIdColaboracion());
 
             filasAfectadas = cambiarEstadoColaboracion.executeUpdate();
@@ -184,7 +185,7 @@ public class ColaboracionDB {
     }
 
 
-    private static int agregarEstudianteAColaboracion (Colaboracion colaboracion, Estudiante estudiante) throws ErrorDAO {
+    public static int agregarEstudianteAColaboracion (Colaboracion colaboracion, Estudiante estudiante) throws ErrorDAO {
         String agregarEstudianteAColaboracionSQL = "INSERT INTO estudiantescolaboracion (idEstudiante, idColaboracion) VALUES (?, ?)";
         int filasAfectadas;
 
@@ -209,7 +210,7 @@ public class ColaboracionDB {
 
     }
 
-    private static int agregarAcademicoAColaboracion (Colaboracion colaboracion, Academico academico) throws ErrorDAO {
+    public static int agregarAcademicoAColaboracion (Colaboracion colaboracion, Academico academico) throws ErrorDAO {
         String agregarAcademicoAColaboracionSQL = "INSERT INTO academicodesarrolla (idColaboracion, idAcademico) VALUES (?, ?)";
         int filasAfectadas;
 
@@ -233,7 +234,7 @@ public class ColaboracionDB {
         return filasAfectadas;
     }
 
-    private static int registrarColaboracion (Colaboracion colaboracion) throws ErrorDAO {
+    public static int registrarColaboracion (Colaboracion colaboracion) throws ErrorDAO {
         String registrarColaboracionSQL = "{CALL registrar_Colaboracion(?,?,?,?,?,?,?,?)}";
         int filasAfectadas;
 
@@ -268,7 +269,7 @@ public class ColaboracionDB {
 
     }
 
-    private static int actualizarColaboracion (Colaboracion colaboracion) throws ErrorDAO {
+    public static int actualizarColaboracion (Colaboracion colaboracion) throws ErrorDAO {
         String actualizarColaboracionSQL = "{CALL actualizar_Colaboracion(?, ?, ?, ?, ?, ?, ?, ?, ?)}";
         int filasAfectadas;
 
@@ -304,7 +305,7 @@ public class ColaboracionDB {
     }
 
     public static Colaboracion getPorId (int id) throws ErrorDAO {
-        String getPorIdSQL = "SELECT * FROM colaboracion WHERE = ?";
+        String getPorIdSQL = "SELECT * FROM colaboracion WHERE idColaboraion = ?";
         Colaboracion colaboracion = null;
 
         try {
@@ -400,7 +401,7 @@ public class ColaboracionDB {
         estudiante.setApellidoMaterno(resultado.getString("apellidoMaterno"));
         estudiante.setIdEstudiante(resultado.getInt("idEstudiante"));
         estudiante.setMatricula(resultado.getString("matricula"));
-        estudiante.setIdUniversidad(resultado.getInt("idUniversidad"));
+        estudiante.setIdUniversidad(resultado.getInt("universidad"));
 
         return estudiante;
     }

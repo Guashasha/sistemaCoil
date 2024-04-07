@@ -50,8 +50,8 @@ CREATE TABLE `academico` (
 
 CREATE TABLE `colaboracion` (
   `idColaboracion` int PRIMARY KEY AUTO_INCREMENT,
-  `estado` ENUM ('propuesta', 'aceptada', 'rechazada', 'disponible', 'vinculada', 'activa', 'en revision', 'finalizada') NOT NULL,
-  `tipo` ENUM ('claseEspejo', 'COIl') NOT NULL,
+  `estado` ENUM ('propuesta', 'aceptada', 'rechazada', 'disponible', 'vinculada', 'activa', 'enRevision', 'finalizada') NOT NULL,
+  `tipo` ENUM ('claseEspejo', 'COIL') NOT NULL,
   `temaInteres` varchar(80) NOT NULL,
   `idioma` varchar(30) NOT NULL,
   `objetivo` varchar(80),
@@ -73,9 +73,10 @@ CREATE TABLE `academicoDesarrolla` (
 
 CREATE TABLE `cuenta` (
   idCuenta int PRIMARY KEY AUTO_INCREMENT,
-  `idUsuario` int NOT NULL,
+  `idPersona` int NOT NULL,
   `nombreUsuario` varchar(50) NOT NULL,
-  `contrasena` varchar(300) NOT NULL,
+  `contrasena` varchar(3000) NOT NULL,
+  `tipo` ENUM ('academico', 'estudiante', 'administrador') NOT NULL,
   `estado` ENUM ('pendiente', 'aceptada', 'rechazada') NOT NULL
 );
 
@@ -143,7 +144,7 @@ ALTER TABLE `academicoDesarrolla` ADD FOREIGN KEY (`idColaboracion`) REFERENCES 
 
 ALTER TABLE `academicoDesarrolla` ADD FOREIGN KEY (`idAcademico`) REFERENCES `academico` (`cedulaProfesional`);
 
-ALTER TABLE `cuenta` ADD FOREIGN KEY (`idUsuario`) REFERENCES `persona` (`idPersona`);
+ALTER TABLE `cuenta` ADD FOREIGN KEY (`idPersona`) REFERENCES `persona` (`idPersona`);
 
 ALTER TABLE `retroalimentacion` ADD FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`);
 

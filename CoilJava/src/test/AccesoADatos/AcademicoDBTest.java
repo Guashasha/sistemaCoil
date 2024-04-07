@@ -18,6 +18,14 @@ class AcademicoDBTest {
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO universidad (nombre,paisOrigen) VALUES ('Universidad Veracruzana',1);");
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO region (nombre) VALUES ('XALAPA');");
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO facultad (nombre, region) VALUES ('Economia', 1);");
+
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO persona (idPersona, nombre, apellidoPaterno, apellidoMaterno, universidad) VALUES (1, 'Jose', 'Lopez', 'Perez', 1);");
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO academico (cedulaProfesional, numeroDePersonal, idPersona, areaEstudios, correoElectronico, numeroTelefonico, categoriaContratacion, facultad) VALUES ('ABC123', '123456', 1, 'Ciencias de la Computación', 'jose@gmail.com', '522288536230', 'Investigador', 1);");
+
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO persona (idPersona, nombre, apellidoPaterno, apellidoMaterno, universidad) VALUES (2, 'Esther', 'Herrara', 'Martinez', 1);");
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO academico (cedulaProfesional, numeroDePersonal, idPersona, areaEstudios, correoElectronico, numeroTelefonico, categoriaContratacion, facultad) VALUES ('200011', '4564', 2, 'Filosofia', 'esther@gmail.com', '522288536230', 'Dramaturgo', 1);");
+
+
     }
 
     @AfterEach
@@ -133,7 +141,7 @@ class AcademicoDBTest {
 
 
     @Test
-    void pruebaAgregarAcademicoCedulaDuplicadaFallida () {
+    void pruebaAgregarAcademicoCedulaNoPersonalDuplicadaFallida () {
         System.out.println("pruebaAgregarAcademicoCedulaDuplicadaFallida");
 
         Academico academico = new Academico();
@@ -141,8 +149,8 @@ class AcademicoDBTest {
         academico.setApellidoPaterno("Ramirez");
         academico.setApellidoMaterno("Escobar");
         academico.setIdUniversidad(1);
-        academico.setCedulaProfesional("5646321");
-        academico.setNumeroPersonal("4535");
+        academico.setCedulaProfesional("200011");
+        academico.setNumeroPersonal("4564");
         academico.setAreaEstudios("Humanidades");
         academico.setCorreoElectronico("Esther@Institucion.mx");
         academico.setNumeroTelefonico("522288536230");
@@ -158,13 +166,13 @@ class AcademicoDBTest {
         System.out.println("pruebaGetAcademicoPorCedulaExitosa");
 
         Academico academicoEsperado = new Academico();
-        academicoEsperado.setIdPersona(1);
+        academicoEsperado.setIdPersona(2);
         academicoEsperado.setNombre("Esther");
         academicoEsperado.setApellidoPaterno("Ramirez");
         academicoEsperado.setApellidoMaterno("Escobar");
         academicoEsperado.setIdUniversidad(1);
-        academicoEsperado.setCedulaProfesional("5646321");
-        academicoEsperado.setNumeroPersonal("4535");
+        academicoEsperado.setCedulaProfesional("200011");
+        academicoEsperado.setNumeroPersonal("4564");
         academicoEsperado.setAreaEstudios("Humanidades");
         academicoEsperado.setCorreoElectronico("Esther@Institucion.mx");
         academicoEsperado.setNumeroTelefonico("522288536230");
@@ -174,7 +182,7 @@ class AcademicoDBTest {
         Academico academicoObtenido = null;
 
         try {
-            academicoObtenido = AcademicoDB.getAcademicoPorCedula("5646321");
+            academicoObtenido = AcademicoDB.getAcademicoPorCedula("200011");
 
         }
         catch (ErrorDAO error) {
@@ -213,8 +221,8 @@ class AcademicoDBTest {
         academico.setApellidoPaterno("Hernandez");
         academico.setApellidoMaterno("Lopez");
         academico.setIdUniversidad(1);
-        academico.setCedulaProfesional("201130");
-        academico.setNumeroPersonal("4535");
+        academico.setCedulaProfesional("200011");
+        academico.setNumeroPersonal("4564");
         academico.setAreaEstudios("Informatica");
         academico.setCorreoElectronico("fer@Institucion.mx");
         academico.setNumeroTelefonico("523311756676");
@@ -267,15 +275,16 @@ class AcademicoDBTest {
         System.out.println("pruebaEditarAcademicoCedulaInexistenteFallida");
 
         Academico academico = new Academico();
-        academico.setNombre("Fernando");
-        academico.setApellidoPaterno("Martinez");
-        academico.setApellidoMaterno("Ramirez");
-        academico.setIdUniversidad(2);
-        academico.setCedulaProfesional("201130");
-        academico.setNumeroPersonal("4535");
-        academico.setAreaEstudios("Informatica");
-        academico.setCorreoElectronico("fer@Institucion.mx");
-        academico.setNumeroTelefonico("523311756676");
+        academico.setNombre("Esther");
+        academico.setApellidoPaterno("Ramirez");
+        academico.setApellidoMaterno("Escobar");
+        academico.setIdUniversidad(-7);
+        academico.setCedulaProfesional("200011");
+        academico.setNumeroPersonal("4564");
+        academico.setAreaEstudios("Humanidades");
+        academico.setCorreoElectronico("Esther@Institucion.mx");
+        academico.setNumeroTelefonico("522288536230");
+        academico.setCategoriaContratacion("Fijo");
         academico.setIdFacultad(1);
 
         assertThrows(ErrorDAO.class, () -> AcademicoDB.editarAcademico(academico));
@@ -288,16 +297,16 @@ class AcademicoDBTest {
         System.out.println("pruebaEditarAcademicoFacultadInexistenteFallida");
 
         Academico academico = new Academico();
-        academico.setNombre("Fernando");
-        academico.setApellidoPaterno("Martinez");
-        academico.setApellidoMaterno("Ramirez");
+        academico.setNombre("Esther");
+        academico.setApellidoPaterno("Ramirez");
+        academico.setApellidoMaterno("Escobar");
         academico.setIdUniversidad(1);
-        academico.setCedulaProfesional("201130");
-        academico.setNumeroPersonal("4535");
-        academico.setAreaEstudios("Informatica");
-        academico.setCorreoElectronico("fer@Institucion.mx");
-        academico.setNumeroTelefonico("523311756676");
-        academico.setIdFacultad(3);
+        academico.setCedulaProfesional("200011");
+        academico.setNumeroPersonal("4564");
+        academico.setAreaEstudios("Dramaturgo");
+        academico.setCorreoElectronico("esther@gmail.com");
+        academico.setNumeroTelefonico("522288536230");
+        academico.setIdFacultad(-5);
 
         assertThrows(ErrorDAO.class, () -> AcademicoDB.editarAcademico(academico));
 
