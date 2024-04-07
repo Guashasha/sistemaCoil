@@ -241,3 +241,9 @@ INSERT INTO pais VALUES(237, 'YE', 'Yemen');
 INSERT INTO pais VALUES(238, 'DJ', 'Yibuti');
 INSERT INTO pais VALUES(239, 'ZM', 'Zambia');
 INSERT INTO pais VALUES(240, 'ZW', 'Zimbabue');
+
+-- tipos de usuario
+
+INSERT INTO tipousuario VALUES (1, 'academico');
+INSERT INTO tipousuario VALUES (2, 'estudiante');
+INSERT INTO tipousuario VALUES (3, 'administrador');
