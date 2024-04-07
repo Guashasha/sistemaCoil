@@ -162,7 +162,7 @@ create procedure if not exists cambiar_contrasena (
 begin
     declare v_contrasena_antigua_encriptada varchar(300);
     declare v_contrasena_nueva_encriptada varchar(300);
-    declare v_contrasena_recuperada_encriptada varchar(300)
+    declare v_contrasena_recuperada_encriptada varchar(300);
 
     set v_contrasena_antigua_encriptada = AES_ENCRYPT(CONCAT(p_contrasenaAntigua, p_nombreUsuario), 'habitacion de vuelo');
     

@@ -81,7 +81,7 @@ CREATE TABLE `cuenta` (
   `nombreUsuario` varchar(50) NOT NULL,
   `contrasena` varchar(300) NOT NULL,
   `tipo` ENUM ('academico', 'estudiante', 'administrador') NOT NULL,
-  `estado` ENUM ('pendiente', 'aceptada', 'rechazada') NOT NULL,
+  `estado` ENUM ('pendiente', 'aceptada', 'rechazada') NOT NULL
 );
 
 CREATE TABLE `retroalimentacion` (

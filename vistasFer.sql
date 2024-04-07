@@ -49,8 +49,8 @@ SELECT
     p.apellidoPaterno AS apellidoPaterno,
     p.apellidoMaterno AS apellidoMaterno,
     p.universidad AS idUniversidad,
-    u.nommbre AS nombreUniversidad,
-    u.idPais AS idPais,
+    u.nombre AS nombreUniversidad,
+    u.paisOrigen AS idPais,
     pa.nombre AS nombrePais
 FROM
     cuenta c
