@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CuentaDB {
-    //toDo corregir todo = odio mi vida
 
     private static final ConexionBaseDatos CONEXION_BASE_DATOS = new ConexionBaseDatos();
 

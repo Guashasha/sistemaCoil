@@ -1,5 +1,6 @@
 package test.AccesoADatos;
 
+import AccesoADatos.AcademicoDB;
 import AccesoADatos.CuentaDB;
 import Logica.Dominio.Cuenta;
 import Logica.ErrorDAO;
@@ -97,6 +98,68 @@ class CuentaDBTest {
     }
 
     @Test
+    void pruebaVerificarCredencialesUsuarioDistintoFallida () {
+        System.out.println("pruebaVerificarCredencialesUsuarioDistintoFallida");
+
+        String nombreUsuario = "EduVIllegas";
+        String contrasena = "eduVillegas2000";
+
+        boolean validacion = false;
+
+        try {
+            validacion = CuentaDB.verificarCredenciales(nombreUsuario, contrasena);
+
+        }
+        catch (ErrorDAO errorDAO) {
+            fail("pruebaVerificarCredencialesUsuarioDistintoFallida " + errorDAO.getMessage());
+        }
+
+        assertFalse(validacion);
+    }
+
+    @Test
+    void pruebaVerificarCredencialesContrasenaDistintaFallida () {
+        System.out.println("pruebaVerificarCredencialesContrasenaDistintaFallida");
+
+        String nombreUsuario = "EduVillegas";
+        String contrasena = "eduVillega2000";
+
+        boolean validacion = false;
+
+        try {
+            validacion = CuentaDB.verificarCredenciales(nombreUsuario, contrasena);
+
+        }
+        catch (ErrorDAO errorDAO) {
+            fail("pruebaVerificarCredencialesContrasenaDistintaFallida " + errorDAO.getMessage());
+        }
+
+        assertFalse(validacion);
+
+    }
+
+    @Test
+    void pruebaVerificarCredencialesVaciosFallida () {
+        System.out.println("pruebaVerificarCredencialesVaciosFallida");
+
+        String nombreUsuario = "";
+        String contrasena = "";
+
+        boolean validacion = false;
+
+        try {
+            validacion = CuentaDB.verificarCredenciales(nombreUsuario, contrasena);
+
+        }
+        catch (ErrorDAO errorDAO) {
+            fail("pruebaVerificarCredencialesVaciosFallida " + errorDAO.getMessage());
+        }
+
+        assertFalse(validacion);
+
+    }
+
+    @Test
     void pruebaActualizarContrasenaExitosa () {
         System.out.println("pruebaActualizarContrasenaExitosa");
 
@@ -119,6 +182,21 @@ class CuentaDBTest {
         }
 
         assertEquals(filasAfectadasEsperado, filasAfectadasObtenido);
+
+    }
+
+    @Test
+    void pruebaActualizarContrasenaContrasenaAntiguaFallida () {
+        System.out.println("pruebaActualizarContrasenaExitosa");
+
+        Cuenta cuentaPrueba = new Cuenta();
+        cuentaPrueba.setIdCuenta(1);
+        cuentaPrueba.setNombreUsuario("EduVillegas");
+
+        String contrasenaNueva = "FomePo" ;
+        String contrasenaAntigua = "eduVillegas200";
+
+        assertThrows(ErrorDAO.class, () -> CuentaDB.actualizarContrasena(cuentaPrueba, contrasenaAntigua, contrasenaNueva));
 
     }
 

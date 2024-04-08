@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class EstudianteDBTest {
     //TODO
     // getTodos
-    // editar
+    // editar caso fallido
     @BeforeEach
     void setUp () {
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO pais (Iso,nombre) VALUES ('MX','México');");

@@ -12,23 +12,73 @@ import java.util.Optional;
 public class DAOEstudiante implements IEstudianteDAO {
     @Override
     public int agregar (Estudiante estudiante) throws ErrorDAO {
-        return EstudianteDB.agregarEstudiante(estudiante);
+        int filasAfectadas;
+
+        if (!estudiante.validarNulos()) {
+            throw new ErrorDAO("Al menos un campo del estudiante esta vacio");
+        }
+        try {
+            filasAfectadas = EstudianteDB.agregarEstudiante(estudiante);
+        }
+        catch (ErrorDAO errorDAO) {
+            throw errorDAO;
+        }
+        return filasAfectadas;
     }
 
     @Override
-    public int modificar (Estudiante obj) throws ErrorDAO {
-        return 0;
+    public int modificar (Estudiante estudiante) throws ErrorDAO {
+        int filasAfectadas;
+
+        if (!estudiante.validarNulos()) {
+            throw new ErrorDAO("Al menos un campo del estudiante esta vacio");
+
+        }
+        if (!getEstudiantePorMatricula(estudiante.getMatricula()).isPresent()) {
+            throw new ErrorDAO("La matricula no se encuentra registrada");
+        }
+        try {
+            filasAfectadas = EstudianteDB.editarEstudiante(estudiante);
+
+        }
+        catch (ErrorDAO errorDAO) {
+            throw errorDAO;
+        }
+        return filasAfectadas;
     }
 
     @Override
-    public Optional<Estudiante> getPorId (Integer y) throws ErrorDAO {
-        return Optional.empty();
+    public Optional<Estudiante> getPorId (Integer id) throws ErrorDAO {
+        Estudiante estudiante = null;
+
+        if (!idValido(id)) {
+            throw new ErrorDAO("El id del estudiante no es valido");
+        }
+        try {
+            estudiante = EstudianteDB.getPorId(id);
+        }
+        catch (ErrorDAO errorDAO) {
+            throw errorDAO;
+        }
+
+        return Optional.ofNullable(estudiante);
     }
 
 
     @Override
     public List<Estudiante> getTodos () throws ErrorDAO {
-        return EstudianteDB.getTodos();
+        List<Estudiante> listaEstudiantes = null;
+
+        try {
+            listaEstudiantes = EstudianteDB.getTodos();
+
+        }
+        catch (ErrorDAO errorDAO) {
+            throw errorDAO;
+
+        }
+
+        return listaEstudiantes;
     }
 
     @Override
@@ -38,21 +88,59 @@ public class DAOEstudiante implements IEstudianteDAO {
 
     @Override
     public Optional<Estudiante> getEstudiantePorIdPersona (int idPersona) throws ErrorDAO {
-        return Optional.ofNullable(EstudianteDB.getEstudiantePorIdPersona(idPersona));
+        Estudiante estudiante = null;
+        if (!idValido(idPersona)) {
+            throw new ErrorDAO("Id de persona invalido");
+        }
+        try {
+            estudiante = EstudianteDB.getEstudiantePorIdPersona(idPersona);
+
+        }
+        catch (ErrorDAO errorDAO) {
+            throw errorDAO;
+
+        }
+        return Optional.ofNullable(estudiante);
     }
 
     @Override
     public Optional<Estudiante> getEstudiantePorMatricula (String matricula) throws ErrorDAO {
-        return Optional.ofNullable(EstudianteDB.getEstudiantePorMatricula(matricula));
+        Estudiante estudiante = null;
+        if (!cadenaValida(matricula)) {
+            throw new ErrorDAO("matricula no valida");
+
+        }
+        try {
+            estudiante = EstudianteDB.getEstudiantePorMatricula(matricula);
+        }
+        catch (ErrorDAO errorDAO) {
+            throw errorDAO;
+        }
+        return Optional.ofNullable(estudiante);
     }
 
     @Override
-    public List<Estudiante> getEstudiantePorUniversidad (String nombreUniversidad) throws ErrorDAO {
-        return null;
+    public List<Estudiante> getEstudiantePorUniversidad (int idUniversidad) throws ErrorDAO {
+        List<Estudiante> listaEstudiantes = null;
+        if (!idValido(idUniversidad)) {
+            throw new ErrorDAO("Id de una universidad invalido");
+        }
+        try {
+            listaEstudiantes = EstudianteDB.getEstudiantePorUniversidad(idUniversidad);
+        }
+        catch (ErrorDAO errorDAO) {
+            throw errorDAO;
+        }
+        return listaEstudiantes;
     }
 
-    @Override
-    public int modificarEstudiante (Estudiante estudiante) throws ErrorDAO {
-        return EstudianteDB.editarEstudiante(estudiante);
+    private boolean cadenaValida (String cadena) {
+        return cadena != null && !cadena.isBlank();
     }
+
+    private boolean idValido (int id) {
+        return id > 0;
+    }
+
+
 }

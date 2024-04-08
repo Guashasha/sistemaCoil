@@ -66,4 +66,16 @@ public class Cuenta {
     public void setTipo (TipoUsuario tipo) {
         this.tipo = tipo;
     }
+
+    public boolean validarNulos() {
+        return cadenaValida(nombreUsuario) &&
+                cadenaValida(contrasena) &&
+                estado != null &&
+                tipo != null;
+    }
+
+    private boolean cadenaValida(String cadena) {
+        return cadena != null && !cadena.isBlank();
+    }
+
 }

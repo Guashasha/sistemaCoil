@@ -19,4 +19,12 @@ public class Estudiante extends Persona {
     public void setMatricula (String matricula) {
         this.matricula = matricula;
     }
+
+
+    @Override
+    public boolean validarNulos() {
+        return cadenaValida(getNombre()) && cadenaValida(getApellidoPaterno()) &&
+                cadenaValida(getApellidoMaterno()) && cadenaValida(getMatricula());
+    }
+
 }

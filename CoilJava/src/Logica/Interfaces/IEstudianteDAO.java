@@ -9,6 +9,6 @@ import java.util.Optional;
 public interface IEstudianteDAO extends IDAO<Estudiante, Integer>{
     public Optional<Estudiante> getEstudiantePorIdPersona(int idPersona) throws ErrorDAO;
     public Optional<Estudiante> getEstudiantePorMatricula (String matricula) throws ErrorDAO;
-    List<Estudiante> getEstudiantePorUniversidad (String nombreUniversidad) throws ErrorDAO;
-    public int modificarEstudiante (Estudiante estudiante) throws ErrorDAO;
+    List<Estudiante> getEstudiantePorUniversidad (int idUniversidad) throws ErrorDAO;
+
 }
