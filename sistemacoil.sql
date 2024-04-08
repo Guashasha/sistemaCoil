@@ -6,7 +6,7 @@ USE COIL;
 
 CREATE USER IF NOT EXISTS "admin_COIL"@"localhost" IDENTIFIED BY "habitacionDeVuelo";
 
-GRANT INSERT, SELECT, UPDATE, DELETE ON COIL.* TO "admin_COIL"@"localhost";
+GRANT INSERT, SELECT, UPDATE, DELETE, EXECUTE ON COIL.* TO "admin_COIL"@"localhost";
 
 CREATE TABLE `persona` (
   `idPersona` int PRIMARY KEY AUTO_INCREMENT,
@@ -78,7 +78,7 @@ CREATE TABLE `academicoDesarrolla` (
 CREATE TABLE `cuenta` (
   idCuenta int PRIMARY KEY AUTO_INCREMENT,
   `idPersona` int NOT NULL,
-  `nombreUsuario` varchar(50) NOT NULL,
+  `nombreUsuario` varchar(50) NOT NULL UNIQUE,
   `contrasena` varchar(300) NOT NULL,
   `tipo` ENUM ('academico', 'estudiante', 'administrador') NOT NULL,
   `estado` ENUM ('pendiente', 'aceptada', 'rechazada') NOT NULL

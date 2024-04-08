@@ -8,6 +8,8 @@ create procedure if not exists obtener_academicos_campos (
 )
 BEGIN
 	CASE p_campo
+        WHEN 'cedula' THEN
+            SELECT * FROM vista_academico WHERE cedulaProfesional = p_valor;
         WHEN 'facultad' THEN
             SELECT * FROM vista_academico WHERE nombreFacultad = p_valor;
         WHEN 'universidad' THEN
@@ -39,7 +41,7 @@ create procedure if not exists registrar_Academico(
     IN p_numeroTelefono varchar(12),
     IN p_categoriaContratacion varchar(40), 
     IN p_facultad int
-    )
+)
 BEGIN
 	DECLARE id_persona INT;
 	INSERT INTO persona (nombre, apellidoPaterno, apellidoMaterno, universidad) 
@@ -92,7 +94,8 @@ END //
 
 DROP PROCEDURE IF EXISTS registrar_Estudiante;
 
-create procedure if not exists registrar_Estudiante(IN p_nombre varchar(20), 
+create procedure if not exists registrar_Estudiante(
+    IN p_nombre varchar(20), 
     IN p_apellidoPaterno varchar(20),
     IN p_apellidoMaterno varchar(20),
     IN p_universidad int,
@@ -155,7 +158,7 @@ DROP PROCEDURE IF EXISTS cambiar_contrasena;
 
 create procedure if not exists cambiar_contrasena (
     in p_idCuenta int,
-    in p_nombreUsuario int,
+    in p_nombreUsuario varchar(50),
     in p_contrasenaAntigua varchar(300),
     in p_contrasenaNueva varchar(300)
 )
@@ -180,6 +183,26 @@ begin
     END IF;
 
 end //
+
+DROP PROCEDURE IF EXISTS verificar_credenciales;
+
+create procedure if not exists verificar_credenciales (
+    in p_nombreUsuario varchar(50),
+    in p_contrasena varchar(300),
+    out p_validacion boolean
+)
+begin 
+    declare v_contrasena_encriptada varchar(300);
+
+    set v_contrasena_encriptada = AES_ENCRYPT(CONCAT(p_contrasena, p_nombreUsuario), 'habitacion de vuelo');
+
+    select COUNT(*) into p_validacion
+    from cuenta
+    where nombreUsuario = p_nombreUsuario and contrasena = v_contrasena_encriptada;
+
+end //
+
+
 
 -- Procedimientos colaboracion
 
@@ -224,10 +247,10 @@ create procedure if not exists obtener_estudiantes_colaboracion (
     in p_idColaboracion int
 )
 begin
-    select e.*
-    from estudiante e
-    join estudiantescolaboracion ec ON e.idEstudiante = ec.idEstudiante
-    where ec.idColaboracion = p_idColaboracion;
+    select v_e.*
+    from vista_estudiante v_e
+    join estudiantescolaboracion e_col ON v_e.idEstudiante = e_col.idEstudiante
+    where e_col.idColaboracion = p_idColaboracion;
 end //
 
 DROP PROCEDURE IF EXISTS obtener_academicos_colaboracion;
@@ -236,10 +259,10 @@ create procedure if not exists obtener_academicos_colaboracion (
     in p_idColaboracion int
 )
 begin
-    select a.*
-    from academico a
-    join academicodesarrolla ad ON a.cedulaProfesional = ad.idAcademico
-    where ad.idColaboracion = p_idColaboracion;
+    select v_a.*
+    from vista_academico v_a
+    join academicodesarrolla a_des ON v_a.cedulaProfesional = a_des.idAcademico
+    where a_des.idColaboracion = p_idColaboracion;
 end //
 
 DROP PROCEDURE IF EXISTS actualizar_Colaboracion;

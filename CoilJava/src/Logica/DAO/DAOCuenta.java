@@ -18,7 +18,7 @@ public class DAOCuenta implements ICuentaDAO {
     }
 
     @Override
-    public int actualizarNombreUsuario (String nombreUsuario) throws ErrorDAO {
+    public int actualizarNombreUsuario (Cuenta cuenta) throws ErrorDAO {
         return 0;
     }
 
@@ -35,6 +35,16 @@ public class DAOCuenta implements ICuentaDAO {
     @Override
     public int cambiarEstadoCuenta (Cuenta cuenta, String estado) throws ErrorDAO {
         return 0;
+    }
+
+    @Override
+    public List<Cuenta> getCuentasPorTipo (String tipo) throws ErrorDAO {
+        return null;
+    }
+
+    @Override
+    public List<Cuenta> getCuentasPorEstado (String estado) throws ErrorDAO {
+        return null;
     }
 
     @Override
