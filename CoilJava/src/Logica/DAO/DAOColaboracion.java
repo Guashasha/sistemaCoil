@@ -32,7 +32,7 @@ public class DAOColaboracion implements IColaboracionDAO {
 
     @Override
     public Optional<Colaboracion> getColaboracionPorId (int idColaboracion) throws ErrorDAO {
-        
+
         return Optional.empty();
     }
 
