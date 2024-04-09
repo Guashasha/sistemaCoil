@@ -1,7 +1,5 @@
 package Logica.Dominio;
 
-import AccesoADatos.RetroalimentacionActividadDB;
-
 public class RetroalimentacionActividad extends Retroalimentacion {
     private int idActividad;
     private int dificultad;
@@ -42,5 +40,23 @@ public class RetroalimentacionActividad extends Retroalimentacion {
                 this.getIdActividad() == retroalimentacion.getIdActividad() &&
                 this.getInteraccionConPar() == retroalimentacion.getInteraccionConPar() &&
                 this.getInteres() == retroalimentacion.getInteres();
+    }
+
+    public boolean esCorrecto () {
+        boolean resultado = calificacionCorrecta(this.getInteres());
+
+        if (!calificacionCorrecta(this.getDificultad())) {
+            resultado = false;
+        }
+
+        if (!calificacionCorrecta(this.getInteraccionConPar())) {
+            resultado = false;
+        }
+
+        return resultado;
+    }
+
+    public boolean calificacionCorrecta (int calificacion) {
+        return calificacion >= 1 && calificacion <= 5;
     }
 }

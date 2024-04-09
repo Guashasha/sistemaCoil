@@ -4,6 +4,7 @@ import Logica.Bitacora;
 import Logica.Dominio.Actividad;
 import Logica.Dominio.RetroalimentacionActividad;
 import Logica.ErrorDAO;
+import Logica.ErrorDAO.Tipo;
 import Logica.Interfaces.IActividadDAO;
 import AccesoADatos.ActividadDB;
 
@@ -18,7 +19,7 @@ public class DAOActividad implements IActividadDAO {
     @Override
     public int agregar (Actividad actividad) throws ErrorDAO {
         if (!actividadCorrecta(actividad)) {
-            throw new ErrorDAO("La actividad tiene campos vacios");
+            throw new ErrorDAO("La actividad tiene campos vacios", Tipo.VALIDACION);
         }
 
         int resultado = -1;
@@ -47,6 +48,7 @@ public class DAOActividad implements IActividadDAO {
             resultado = false;
         }
 
+        // FIXME
         return resultado;
     }
 
@@ -91,7 +93,7 @@ public class DAOActividad implements IActividadDAO {
         catch (SQLException error) {
             bitacora.escribirError(error);
 
-            throw new ErrorDAO(error.getMessage());
+            throw new ErrorDAO(error.getMessage(), Tipo.CONEXION);
         }
 
         return actividad;

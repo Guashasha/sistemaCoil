@@ -12,17 +12,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static Logica.ErrorDAO.Tipo;
+
 public class DAORetroalimentacionActividad implements IRetroalimentacionActividadDAO {
     private static final Bitacora bitacora = new Bitacora(RetroalimentacionActividad.class.getName());
 
     @Override
     public int agregar (RetroalimentacionActividad retroalimentacion) throws ErrorDAO {
-        if (!validarRetroalimentacion(retroalimentacion)) {
-            throw new ErrorDAO("la retroalimentacion es incorrecta");
+        if (!retroalimentacion.esCorrecto()) {
+            throw new ErrorDAO("la retroalimentacion es incorrecta", Tipo.VALIDACION);
         }
 
         if (getPorPersonaYActividad(retroalimentacion.getIdUsuario(), retroalimentacion.getIdActividad()).isPresent()) {
-            throw new ErrorDAO("la actividad ya fue calificada por el usuario");
+            throw new ErrorDAO("la actividad ya fue calificada por el usuario", Tipo.DUPLICIDAD);
         }
 
         int resultado = -1;
@@ -30,10 +32,10 @@ public class DAORetroalimentacionActividad implements IRetroalimentacionActivida
         try {
             resultado = RetroalimentacionActividadDB.agregarRetroalimentacion((RetroalimentacionActividad) retroalimentacion);
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
             bitacora.escribirError(error);
 
-            throw error;
+            throw new ErrorDAO(error.getMessage(), Tipo.CONEXION);
         }
 
         return resultado;
@@ -41,13 +43,13 @@ public class DAORetroalimentacionActividad implements IRetroalimentacionActivida
 
     @Override
     public int modificar (RetroalimentacionActividad retroalimentacion) throws ErrorDAO {
-        return 0;
+        throw new ErrorDAO("metodo no disponible para el objeto", Tipo.VALIDACION);
     }
 
     @Override
     public Optional<RetroalimentacionActividad> getPorId (Integer id) throws ErrorDAO {
         if (id < 1) {
-            throw new ErrorDAO("El id es invalido" + id);
+            throw new ErrorDAO("El id es invalido" + id, Tipo.VALIDACION);
         }
 
         ResultSet rsRetroalimentacion = null;
@@ -55,10 +57,10 @@ public class DAORetroalimentacionActividad implements IRetroalimentacionActivida
         try {
             rsRetroalimentacion = RetroalimentacionActividadDB.getPorId(id);
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
             bitacora.escribirError(error);
 
-            throw error;
+            throw new ErrorDAO(error.getMessage(), Tipo.CONEXION);
         }
 
 
@@ -69,7 +71,6 @@ public class DAORetroalimentacionActividad implements IRetroalimentacionActivida
         }
         catch (ErrorDAO error) {
             bitacora.escribirError(error);
-            System.err.println(error.getMessage());
 
             throw error;
         }
@@ -85,10 +86,10 @@ public class DAORetroalimentacionActividad implements IRetroalimentacionActivida
         try {
             resultsRetroalimentaciones = RetroalimentacionActividadDB.getTodos();
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
             bitacora.escribirError(error);
 
-            throw error;
+            throw new ErrorDAO(error.getMessage(), Tipo.CONEXION);
         }
 
         try {
@@ -109,7 +110,7 @@ public class DAORetroalimentacionActividad implements IRetroalimentacionActivida
         catch (SQLException error) {
             bitacora.escribirError(error);
 
-            throw new ErrorDAO(error.getMessage());
+            throw new ErrorDAO(error.getMessage(), Tipo.CONEXION);
         }
 
         return retroalimentaciones;
@@ -118,7 +119,7 @@ public class DAORetroalimentacionActividad implements IRetroalimentacionActivida
     @Override
     public Optional<RetroalimentacionActividad> getPorPersonaYActividad (int idPersona, int idActividad) throws ErrorDAO {
         if (idPersona < 1 || idActividad < 1) {
-            throw new ErrorDAO("Las id's ingresadas son incorrectas");
+            throw new ErrorDAO("Las id's ingresadas son incorrectas", Tipo.VALIDACION);
         }
 
         ResultSet resultados = null;
@@ -126,10 +127,10 @@ public class DAORetroalimentacionActividad implements IRetroalimentacionActivida
         try {
             resultados = RetroalimentacionActividadDB.getPorPersonaYActividad(idPersona, idActividad);
         }
-        catch(ErrorDAO error) {
+        catch(SQLException error) {
             bitacora.escribirError(error);
 
-            throw error;
+            throw new ErrorDAO(error.getMessage(), Tipo.CONEXION);
         }
 
         RetroalimentacionActividad retroalimentacion = null;
@@ -141,14 +142,14 @@ public class DAORetroalimentacionActividad implements IRetroalimentacionActivida
                 retroalimentacion.setInteraccionConPar(resultados.getInt(2));
                 retroalimentacion.setComentario(resultados.getString(3));
                 retroalimentacion.setDificultad(resultados.getInt(4));
-                retroalimentacion.setInteres(resultados.getInt(4));
+                retroalimentacion.setInteres(resultados.getInt(5));
                 retroalimentacion.setIdUsuario(idPersona);
                 retroalimentacion.setIdActividad(idActividad);
             }
         } catch (SQLException error) {
             bitacora.escribirError(error);
 
-            throw new ErrorDAO(error.getMessage());
+            throw new ErrorDAO(error.getMessage(), Tipo.CONEXION);
         }
 
         return Optional.ofNullable(retroalimentacion);
@@ -167,35 +168,15 @@ public class DAORetroalimentacionActividad implements IRetroalimentacionActivida
                 retroalimentacion.setInteres(resultados.getInt(5));
             }
             else {
-                throw new ErrorDAO("Error de conversion a objeto: la retroalimentacion no existe");
+                throw new ErrorDAO("Error de conversion a objeto: la retroalimentacion no existe", Tipo.CONEXION);
             }
         }
         catch (SQLException error) {
             bitacora.escribirError(error);
 
-            throw new ErrorDAO(error.getMessage());
+            throw new ErrorDAO(error.getMessage(), Tipo.CONEXION);
         }
 
         return retroalimentacion;
-    }
-
-    @Override
-    public boolean validarRetroalimentacion (RetroalimentacionActividad retroalimentacion) throws ErrorDAO {
-        boolean resultado = calificacionCorrecta(retroalimentacion.getInteres());
-
-        if (!calificacionCorrecta(retroalimentacion.getDificultad())) {
-            resultado = false;
-        }
-
-        if (!calificacionCorrecta(retroalimentacion.getInteraccionConPar())) {
-            resultado = false;
-        }
-
-        return resultado;
-    }
-
-    @Override
-    public boolean calificacionCorrecta (int calificacion) {
-        return calificacion >= 1 && calificacion <= 5;
     }
 }

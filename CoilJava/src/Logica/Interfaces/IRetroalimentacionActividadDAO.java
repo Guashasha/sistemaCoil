@@ -8,6 +8,4 @@ import java.util.Optional;
 
 public interface IRetroalimentacionActividadDAO extends IDAO<RetroalimentacionActividad, Integer> {
     public Optional<RetroalimentacionActividad> getPorPersonaYActividad (int idPersona, int idActividad) throws ErrorDAO;
-    public boolean validarRetroalimentacion (RetroalimentacionActividad retroalimentacion) throws ErrorDAO;
-    public boolean calificacionCorrecta (int calificacion);
 }
