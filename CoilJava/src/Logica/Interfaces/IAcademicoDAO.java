@@ -14,6 +14,4 @@ public interface IAcademicoDAO extends IDAO<Academico, String>{
     List<Academico> getAcademicosPorRegion (String region) throws ErrorDAO;
     Optional<Academico> getAcademicoPorIdPersona (int idPersona) throws ErrorDAO;
 
-    int modificarAcademico (Academico academico) throws ErrorDAO;
-
 }

@@ -37,7 +37,7 @@ public class EstudianteDB {
         catch (SQLException error) {
             //bitacora.escribirError(error);
 
-            throw new ErrorDAO(error.getMessage());
+            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
         }
         return resultado;
     }
@@ -63,7 +63,7 @@ public class EstudianteDB {
         catch (SQLException error) {
             //bitacora.escribirError(error);
 
-            throw new ErrorDAO(error.getMessage());
+            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
         }
         return resultado;
 
@@ -89,7 +89,7 @@ public class EstudianteDB {
         catch (SQLException error) {
             //bitacora.escribirError(error);
 
-            throw new ErrorDAO(error.getMessage());
+            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
         }
         return estudiante;
 
@@ -115,7 +115,7 @@ public class EstudianteDB {
         catch (SQLException error) {
             //bitacora.escribirError(error);
 
-            throw new ErrorDAO(error.getMessage());
+            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
         }
 
         return estudiante;
@@ -142,7 +142,7 @@ public class EstudianteDB {
         catch (SQLException error) {
             //bitacora.escribirError(error);
 
-            throw new ErrorDAO(error.getMessage());
+            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
         }
         return estudiante;
 
@@ -171,7 +171,7 @@ public class EstudianteDB {
         catch (SQLException error) {
             //bitacora.escribirError(error);
 
-            throw new ErrorDAO(error.getMessage());
+            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
         }
         return listaEstudiantes;
 
@@ -197,7 +197,7 @@ public class EstudianteDB {
         catch (SQLException error) {
             //bitacora.escribirError(error);
 
-            throw new ErrorDAO(error.getMessage());
+            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
         }
         return listaEstudiantes;
 

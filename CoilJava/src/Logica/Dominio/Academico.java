@@ -64,4 +64,19 @@ public class Academico extends Persona {
     public void setIdFacultad (int idFacultad) {
         this.idFacultad = idFacultad;
     }
+
+    @Override
+    public boolean validarNulos() {
+        return cadenaValida(getNombre()) &&
+                cadenaValida(getApellidoPaterno()) &&
+                cadenaValida(getApellidoMaterno()) &&
+                cadenaValida(cedulaProfesional) &&
+                cadenaValida(numeroPersonal) &&
+                cadenaValida(areaEstudios) &&
+                cadenaValida(correoElectronico) &&
+                cadenaValida(numeroTelefonico) &&
+                cadenaValida(categoriaContratacion);
+    }
+
+
 }

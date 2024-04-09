@@ -46,4 +46,11 @@ public abstract class Persona {
     public void setIdUniversidad (int idUniversidad) {
         this.idUniversidad = idUniversidad;
     }
+
+    public abstract boolean validarNulos();
+
+    protected boolean cadenaValida(String cadena) {
+        return cadena != null && !cadena.isBlank();
+    }
+
 }

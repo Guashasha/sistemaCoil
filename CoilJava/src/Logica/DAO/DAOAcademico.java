@@ -10,63 +10,166 @@ import java.util.List;
 import java.util.Optional;
 
 public class DAOAcademico implements IAcademicoDAO {
+    //fixme considerar hacer un metodo generico;
+
     @Override
     public List<Academico> getAcademicosPorFacultad (String nombrefacultad) throws ErrorDAO {
-        return AcademicoDB.getListaAcademicoPorCampos("facultad", nombrefacultad);
+        List<Academico>  listaAcademicos= null;
+        if (!cadenaValida(nombrefacultad)) {
+            throw new ErrorDAO ("El nombre de la facultad es incorrecto", ErrorDAO.Tipo.VALIDACION);
+        }
+        try {
+            listaAcademicos = AcademicoDB.getListaAcademicoPorCampos("facultad",nombrefacultad);
+
+        }
+        catch (ErrorDAO errorDAO) {
+            throw errorDAO;
+        }
+
+        return listaAcademicos;
     }
 
     @Override
     public Optional<Academico> getAcademicoPorCedula (String cedula) throws ErrorDAO {
-        return Optional.ofNullable(AcademicoDB.getAcademicoPorCedula(cedula));
+        Academico academico = null;
+        if (!cadenaValida(cedula)) {
+            throw new ErrorDAO ("La cedula profesional esta incorrecta", ErrorDAO.Tipo.VALIDACION);
+        }
+        try {
+            academico = AcademicoDB.getAcademicoPorCedula(cedula);
+
+        }
+        catch (ErrorDAO errorDAO) {
+            throw errorDAO;
+        }
+
+        return Optional.ofNullable(academico);
     }
 
     @Override
     public List<Academico> getAcademicosPorUniversidad (String nombreUniversidad) throws ErrorDAO {
-        return AcademicoDB.getListaAcademicoPorCampos("universidad", nombreUniversidad);
+        List<Academico> listaAcademicos = null;
+        if (!cadenaValida(nombreUniversidad)) {
+            throw new ErrorDAO ("El nombre de la univesidad esta incorrecto", ErrorDAO.Tipo.VALIDACION);
+        }
+        try {
+            listaAcademicos = AcademicoDB.getListaAcademicoPorCampos("universidad", nombreUniversidad);
+        }
+        catch (ErrorDAO errorDAO) {
+            throw errorDAO;
+        }
+
+        return listaAcademicos;
     }
 
     @Override
     public List<Academico> getAcademicosPorAreaEstudios (String areaEstudios) throws ErrorDAO {
-        return AcademicoDB.getListaAcademicoPorCampos("area", areaEstudios);
+        List<Academico> listaAcademicos = null;
+        if (!cadenaValida(areaEstudios)) {
+            throw new ErrorDAO ("El nombre del area de estudios es incorrecto", ErrorDAO.Tipo.VALIDACION);
+        }
+        try {
+            listaAcademicos = AcademicoDB.getListaAcademicoPorCampos("area", areaEstudios);
+        }
+        catch (ErrorDAO errorDAO) {
+            throw errorDAO;
+        }
+
+        return listaAcademicos;
     }
+
+
 
     @Override
     public List<Academico> getAcademicosPorCategoriaContratacion (String categoriaContratacion) throws ErrorDAO {
-        return AcademicoDB.getListaAcademicoPorCampos("categoria", categoriaContratacion);
+        List<Academico> listaAcademicos = null;
+        if (!cadenaValida(categoriaContratacion)) {
+            throw new ErrorDAO ("El nombre de la categoria de contratacion es incorrecta", ErrorDAO.Tipo.VALIDACION);
+        }
+        try {
+            listaAcademicos = AcademicoDB.getListaAcademicoPorCampos("categoria", categoriaContratacion);
+        }
+        catch (ErrorDAO errorDAO) {
+            throw errorDAO;
+        }
+
+        return listaAcademicos;
     }
 
     @Override
     public List<Academico> getAcademicosPorRegion (String region) throws ErrorDAO {
-        return AcademicoDB.getListaAcademicoPorCampos("region", region);
+        List<Academico> listaAcademicos = null;
+        if (!cadenaValida(region)) {
+            throw new ErrorDAO ("El nombre de la region es incorrecto", ErrorDAO.Tipo.VALIDACION);
+        }
+        try {
+            listaAcademicos = AcademicoDB.getListaAcademicoPorCampos("region", region);
+        }
+        catch (ErrorDAO errorDAO) {
+            throw errorDAO;
+        }
+
+        return listaAcademicos;
     }
 
     @Override
     public Optional<Academico> getAcademicoPorIdPersona (int idPersona) throws ErrorDAO {
-        return Optional.ofNullable(AcademicoDB.getAcademicoPorId(idPersona));
+        Academico academico = null;
+        if (!idValido(idPersona)) {
+            throw new ErrorDAO ("id de la persona invalido", ErrorDAO.Tipo.VALIDACION);
+        }
+        try {
+            academico = AcademicoDB.getAcademicoPorId(idPersona);
+        }
+        catch (ErrorDAO errorDAO) {
+            throw errorDAO;
+        }
+
+        return Optional.ofNullable(academico);
     }
 
     @Override
     public int agregar (Academico academico) throws ErrorDAO {
-        return AcademicoDB.agregarAcademico(academico);
+        int filasAfectadas;
+
+        if (!academico.validarNulos()) {
+            throw new ErrorDAO ("Existe al menos un campo vacio en el academico", ErrorDAO.Tipo.VALIDACION);
+        }
+        try {
+            filasAfectadas = AcademicoDB.agregarAcademico(academico);
+
+        }
+        catch (ErrorDAO errorDAO) {
+            throw errorDAO;
+        }
+
+        return filasAfectadas;
     }
 
     @Override
-    public int modificar (Academico obj) throws ErrorDAO {
-        return 0;
+    public int modificar (Academico academico) throws ErrorDAO {
+        int filasAfectadas;
+
+        if (!academico.validarNulos()) {
+            throw new ErrorDAO ("Existe al menos un campo vacio en el academico", ErrorDAO.Tipo.VALIDACION);
+        }
+        try {
+            filasAfectadas = AcademicoDB.editarAcademico(academico);
+
+        }
+        catch (ErrorDAO errorDAO) {
+            throw errorDAO;
+        }
+
+        return filasAfectadas;
     }
 
+
+    //fixme nombre nada descriptivo.
     @Override
     public Optional<Academico> getPorId (String y) throws ErrorDAO {
         return Optional.empty();
     }
-
-
-    @Override
-    public int modificarAcademico (Academico academico) throws ErrorDAO {
-        return AcademicoDB.editarAcademico(academico);
-    }
-
-
 
     @Override
     public List<Academico> getTodos () throws ErrorDAO {
@@ -77,4 +180,13 @@ public class DAOAcademico implements IAcademicoDAO {
     public Academico resultSetAObjeto (ResultSet resultados) {
         return null;
     }
+
+    private boolean cadenaValida (String cadena) {
+        return cadena != null && !cadena.isBlank();
+    }
+
+    private boolean idValido (int id) {
+        return id > 0;
+    }
+
 }
