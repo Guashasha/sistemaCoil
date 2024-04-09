@@ -17,7 +17,7 @@ public class DAOCuenta implements ICuentaDAO {
     public Optional<Cuenta> getCuentaPorUsuario (String nombreUsuario) throws ErrorDAO {
         Cuenta cuenta = null;
         if (!cadenaValida(nombreUsuario)) {
-            throw new ErrorDAO("Nombre usuario invalido");
+            throw new ErrorDAO("Nombre usuario invalido", ErrorDAO.Tipo.VALIDACION);
         }
         try {
             cuenta = CuentaDB.getCuentaPorUsuario(nombreUsuario);
@@ -34,10 +34,10 @@ public class DAOCuenta implements ICuentaDAO {
     public int actualizarNombreUsuario (Cuenta cuenta) throws ErrorDAO {
         int filasAfectadas;
         if (!cuenta.validarNulos()) {
-            throw new ErrorDAO("Al menos un campo de la cuenta esta vacio");
+            throw new ErrorDAO("Al menos un campo de la cuenta esta vacio", ErrorDAO.Tipo.VALIDACION);
         }
         if (!getCuentaPorUsuario(cuenta.getNombreUsuario()).isPresent()) {
-            throw new ErrorDAO("El usuario ya se encuentra registrado");
+            throw new ErrorDAO("El usuario ya se encuentra registrado", ErrorDAO.Tipo.DUPLICIDAD);
         }
         try {
             filasAfectadas = CuentaDB.actualizarNombreUsuario(cuenta);
@@ -55,10 +55,10 @@ public class DAOCuenta implements ICuentaDAO {
         boolean resultado;
 
         if (!cadenaValida(nombreUsuario)) {
-            throw new ErrorDAO("nombre de usuario invalido");
+            throw new ErrorDAO("nombre de usuario invalido", ErrorDAO.Tipo.VALIDACION);
         }
         if (!cadenaValida(contrasena)) {
-            throw new ErrorDAO("contrasena invalido");
+            throw new ErrorDAO("contrasena invalido", ErrorDAO.Tipo.VALIDACION);
         }
 
         try {
@@ -75,13 +75,13 @@ public class DAOCuenta implements ICuentaDAO {
     public int actualizarContrasena (Cuenta cuenta, String contrasenaAntigua, String nuevaContrasena) throws ErrorDAO {
         int filasAfectadas;
         if (!cadenaValida(contrasenaAntigua)) {
-            throw new ErrorDAO("contrasena antigua invalida");
+            throw new ErrorDAO("contrasena antigua invalida", ErrorDAO.Tipo.VALIDACION);
         }
         if (!cadenaValida(nuevaContrasena)) {
-            throw new ErrorDAO("Nueva contrasena invalida");
+            throw new ErrorDAO("Nueva contrasena invalida", ErrorDAO.Tipo.VALIDACION);
         }
         if (!cuenta.validarNulos()) {
-            throw new ErrorDAO("Error en la cuenta");
+            throw new ErrorDAO("Error en la cuenta", ErrorDAO.Tipo.VALIDACION);
         }
         try {
             filasAfectadas = CuentaDB.actualizarContrasena(cuenta, contrasenaAntigua, nuevaContrasena);
@@ -97,10 +97,10 @@ public class DAOCuenta implements ICuentaDAO {
     public int cambiarEstadoCuenta (Cuenta cuenta, String estado) throws ErrorDAO {
         int filasAfectadas;
         if (!cuenta.validarNulos()) {
-            throw new ErrorDAO("Error en la cuenta");
+            throw new ErrorDAO("Error en la cuenta", ErrorDAO.Tipo.VALIDACION);
         }
         if (!cadenaValida(estado)) {
-            throw new ErrorDAO("Error en el estado ingresado");
+            throw new ErrorDAO("Error en el estado ingresado", ErrorDAO.Tipo.VALIDACION);
         }
         try {
             filasAfectadas = CuentaDB.cambiarEstadoCuenta(cuenta, estado);

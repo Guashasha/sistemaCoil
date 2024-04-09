@@ -18,7 +18,7 @@ public class DAOColaboracion implements IColaboracionDAO {
     public Optional<Colaboracion> getColaboracionPorAcademicosParticipantes (Academico academico1, Academico academico2) throws ErrorDAO {
         Colaboracion colaboracion = null;
         if (!academico1.validarNulos() && !academico2.validarNulos()) {
-            throw new ErrorDAO("Error en los academicos de la colaboracion");
+            throw new ErrorDAO("Error en los academicos de la colaboracion", ErrorDAO.Tipo.VALIDACION);
         }
         try {
             colaboracion = ColaboracionDB.getColaboracionPorAcademicosParticipantes(academico1, academico2);

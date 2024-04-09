@@ -38,7 +38,7 @@ public class ColaboracionDB {
             CONEXION_BASE_DATOS.desconectar();
         }
         catch (SQLException error) {
-            throw new ErrorDAO(error.getMessage());
+            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
         }
         return colaboracion;
     }
@@ -67,7 +67,7 @@ public class ColaboracionDB {
 
         }
         catch (SQLException error) {
-            throw new ErrorDAO(error.getMessage());
+            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
         }
 
         return colaboracion;
@@ -95,7 +95,7 @@ public class ColaboracionDB {
             CONEXION_BASE_DATOS.desconectar();
         }
         catch (SQLException error) {
-            throw new ErrorDAO(error.getMessage());
+            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
         }
         return listaEstudiantes;
     }
@@ -122,7 +122,7 @@ public class ColaboracionDB {
             CONEXION_BASE_DATOS.desconectar();
         }
         catch (SQLException error) {
-            throw new ErrorDAO(error.getMessage());
+            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
         }
 
         return listaAcademicos;
@@ -150,7 +150,7 @@ public class ColaboracionDB {
             CONEXION_BASE_DATOS.desconectar();
         }
         catch (SQLException error) {
-            throw new ErrorDAO(error.getMessage());
+            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
         }
 
         return periodo;
@@ -177,7 +177,7 @@ public class ColaboracionDB {
 
         }
         catch (SQLException error) {
-            throw new ErrorDAO(error.getMessage());
+            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.MODIFICACION);
         }
 
         return filasAfectadas;
@@ -203,7 +203,7 @@ public class ColaboracionDB {
 
         }
         catch (SQLException error) {
-            throw new ErrorDAO(error.getMessage());
+            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.INSERCION);
         }
 
         return filasAfectadas;
@@ -228,7 +228,7 @@ public class ColaboracionDB {
 
         }
         catch (SQLException error) {
-            throw new ErrorDAO(error.getMessage());
+            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.INSERCION);
         }
 
         return filasAfectadas;
@@ -262,7 +262,7 @@ public class ColaboracionDB {
 
         }
         catch (SQLException error) {
-            throw new ErrorDAO(error.getMessage());
+            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.INSERCION);
         }
 
         return filasAfectadas;
@@ -298,7 +298,7 @@ public class ColaboracionDB {
             CONEXION_BASE_DATOS.desconectar();
         }
         catch (SQLException error) {
-            throw new ErrorDAO(error.getMessage());
+            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.MODIFICACION);
         }
 
         return filasAfectadas;
@@ -325,7 +325,7 @@ public class ColaboracionDB {
 
         }
         catch (SQLException error) {
-            throw new ErrorDAO(error.getMessage());
+            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
         }
 
         return colaboracion;
@@ -353,7 +353,7 @@ public class ColaboracionDB {
 
         }
         catch (SQLException error) {
-            throw new ErrorDAO (error.getMessage());
+            throw new ErrorDAO (error.getMessage(), ErrorDAO.Tipo.CONSULTA);
         }
 
         return listaColaboracion;

@@ -32,7 +32,7 @@ public class CuentaDB {
 
         }
         catch (SQLException error) {
-            throw new ErrorDAO (error.getMessage());
+            throw new ErrorDAO (error.getMessage(), ErrorDAO.Tipo.CONSULTA);
         }
 
         return cuenta;
@@ -56,7 +56,7 @@ public class CuentaDB {
             CONEXION_BASE_DATOS.desconectar();
         }
         catch (SQLException error) {
-            throw new ErrorDAO (error.getMessage());
+            throw new ErrorDAO (error.getMessage(), ErrorDAO.Tipo.MODIFICACION);
 
         }
 
@@ -83,7 +83,7 @@ public class CuentaDB {
             CONEXION_BASE_DATOS.desconectar();
         }
         catch (SQLException error) {
-            throw new ErrorDAO (error.getMessage());
+            throw new ErrorDAO (error.getMessage(), ErrorDAO.Tipo.VALIDACION);
         }
 
         return validacion;
@@ -109,7 +109,7 @@ public class CuentaDB {
             CONEXION_BASE_DATOS.desconectar();
         }
         catch (SQLException error) {
-            throw new ErrorDAO (error.getMessage());
+            throw new ErrorDAO (error.getMessage(), ErrorDAO.Tipo.MODIFICACION);
         }
 
         return filasAfectadas;
@@ -133,7 +133,7 @@ public class CuentaDB {
             CONEXION_BASE_DATOS.desconectar();
         }
         catch (SQLException error) {
-            throw new ErrorDAO (error.getMessage());
+            throw new ErrorDAO (error.getMessage(), ErrorDAO.Tipo.MODIFICACION);
         }
 
         return filasAfectadas;
@@ -162,7 +162,7 @@ public class CuentaDB {
             CONEXION_BASE_DATOS.desconectar();
         }
         catch (SQLException error) {
-            throw new ErrorDAO (error.getMessage());
+            throw new ErrorDAO (error.getMessage(), ErrorDAO.Tipo.CONEXION);
         }
 
         return listaCuentas;
@@ -192,7 +192,7 @@ public class CuentaDB {
 
         }
         catch (SQLException error) {
-            throw new ErrorDAO (error.getMessage());
+            throw new ErrorDAO (error.getMessage(), ErrorDAO.Tipo.CONEXION);
 
         }
 
@@ -222,7 +222,7 @@ public class CuentaDB {
             CONEXION_BASE_DATOS.desconectar();
         }
         catch (SQLException error) {
-            throw new ErrorDAO (error.getMessage());
+            throw new ErrorDAO (error.getMessage(), ErrorDAO.Tipo.CONEXION);
         }
 
         return filasAfectadas;
@@ -250,7 +250,7 @@ public class CuentaDB {
             CONEXION_BASE_DATOS.desconectar();
         }
         catch (SQLException error) {
-            throw new ErrorDAO(error.getMessage());
+            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
         }
 
         return cuenta;
@@ -278,7 +278,7 @@ public class CuentaDB {
             CONEXION_BASE_DATOS.desconectar();
         }
         catch (SQLException error) {
-            throw new ErrorDAO(error.getMessage());
+            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
         }
 
         return listaCuenta;

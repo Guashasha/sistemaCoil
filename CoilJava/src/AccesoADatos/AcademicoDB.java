@@ -37,7 +37,7 @@ public class AcademicoDB {
         catch (SQLException error) {
             //bitacora.escribirError(error);
 
-            throw new ErrorDAO(error.getMessage());
+            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
         }
         return listaAcademicos;
     }
@@ -64,7 +64,7 @@ public class AcademicoDB {
         catch (SQLException error) {
             //bitacora.escribirError(error);
 
-            throw new ErrorDAO(error.getMessage());
+            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
         }
         return academico;
     }
@@ -95,7 +95,7 @@ public class AcademicoDB {
         catch (SQLException error) {
             //bitacora.escribirError(error);
 
-            throw new ErrorDAO(error.getMessage());
+            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.INSERCION);
         }
         return resultado;
     }
@@ -119,7 +119,7 @@ public class AcademicoDB {
         catch (SQLException error) {
             //bitacora.escribirError(error);
 
-            throw new ErrorDAO(error.getMessage());
+            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
         }
         return academico;
     }
@@ -144,7 +144,7 @@ public class AcademicoDB {
         catch (SQLException error) {
             //bitacora.escribirError(error);
 
-            throw new ErrorDAO(error.getMessage());
+            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
         }
         return listaAcademicos;
 
@@ -176,7 +176,7 @@ public class AcademicoDB {
         catch (SQLException error) {
             //bitacora.escribirError(error);
 
-            throw new ErrorDAO(error.getMessage());
+            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.MODIFICACION);
         }
         return resultado;
     }

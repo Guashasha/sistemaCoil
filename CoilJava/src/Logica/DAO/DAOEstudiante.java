@@ -15,7 +15,7 @@ public class DAOEstudiante implements IEstudianteDAO {
         int filasAfectadas;
 
         if (!estudiante.validarNulos()) {
-            throw new ErrorDAO("Al menos un campo del estudiante esta vacio");
+            throw new ErrorDAO("Al menos un campo del estudiante esta vacio", ErrorDAO.Tipo.VALIDACION);
         }
         try {
             filasAfectadas = EstudianteDB.agregarEstudiante(estudiante);
@@ -31,11 +31,11 @@ public class DAOEstudiante implements IEstudianteDAO {
         int filasAfectadas;
 
         if (!estudiante.validarNulos()) {
-            throw new ErrorDAO("Al menos un campo del estudiante esta vacio");
+            throw new ErrorDAO("Al menos un campo del estudiante esta vacio", ErrorDAO.Tipo.VALIDACION);
 
         }
         if (!getEstudiantePorMatricula(estudiante.getMatricula()).isPresent()) {
-            throw new ErrorDAO("La matricula no se encuentra registrada");
+            throw new ErrorDAO("La matricula no se encuentra registrada", ErrorDAO.Tipo.VALIDACION);
         }
         try {
             filasAfectadas = EstudianteDB.editarEstudiante(estudiante);
@@ -52,7 +52,7 @@ public class DAOEstudiante implements IEstudianteDAO {
         Estudiante estudiante = null;
 
         if (!idValido(id)) {
-            throw new ErrorDAO("El id del estudiante no es valido");
+            throw new ErrorDAO("El id del estudiante no es valido", ErrorDAO.Tipo.VALIDACION);
         }
         try {
             estudiante = EstudianteDB.getPorId(id);
@@ -90,7 +90,7 @@ public class DAOEstudiante implements IEstudianteDAO {
     public Optional<Estudiante> getEstudiantePorIdPersona (int idPersona) throws ErrorDAO {
         Estudiante estudiante = null;
         if (!idValido(idPersona)) {
-            throw new ErrorDAO("Id de persona invalido");
+            throw new ErrorDAO("Id de persona invalido", ErrorDAO.Tipo.VALIDACION);
         }
         try {
             estudiante = EstudianteDB.getEstudiantePorIdPersona(idPersona);
@@ -107,7 +107,7 @@ public class DAOEstudiante implements IEstudianteDAO {
     public Optional<Estudiante> getEstudiantePorMatricula (String matricula) throws ErrorDAO {
         Estudiante estudiante = null;
         if (!cadenaValida(matricula)) {
-            throw new ErrorDAO("matricula no valida");
+            throw new ErrorDAO("matricula no valida", ErrorDAO.Tipo.VALIDACION);
 
         }
         try {
@@ -123,7 +123,7 @@ public class DAOEstudiante implements IEstudianteDAO {
     public List<Estudiante> getEstudiantePorUniversidad (int idUniversidad) throws ErrorDAO {
         List<Estudiante> listaEstudiantes = null;
         if (!idValido(idUniversidad)) {
-            throw new ErrorDAO("Id de una universidad invalido");
+            throw new ErrorDAO("Id de una universidad invalido", ErrorDAO.Tipo.VALIDACION);
         }
         try {
             listaEstudiantes = EstudianteDB.getEstudiantePorUniversidad(idUniversidad);

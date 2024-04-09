@@ -16,7 +16,7 @@ public class DAOAcademico implements IAcademicoDAO {
     public List<Academico> getAcademicosPorFacultad (String nombrefacultad) throws ErrorDAO {
         List<Academico>  listaAcademicos= null;
         if (!cadenaValida(nombrefacultad)) {
-            throw new ErrorDAO ("El nombre de la facultad es incorrecto");
+            throw new ErrorDAO ("El nombre de la facultad es incorrecto", ErrorDAO.Tipo.VALIDACION);
         }
         try {
             listaAcademicos = AcademicoDB.getListaAcademicoPorCampos("facultad",nombrefacultad);
@@ -33,7 +33,7 @@ public class DAOAcademico implements IAcademicoDAO {
     public Optional<Academico> getAcademicoPorCedula (String cedula) throws ErrorDAO {
         Academico academico = null;
         if (!cadenaValida(cedula)) {
-            throw new ErrorDAO ("La cedula profesional esta incorrecta");
+            throw new ErrorDAO ("La cedula profesional esta incorrecta", ErrorDAO.Tipo.VALIDACION);
         }
         try {
             academico = AcademicoDB.getAcademicoPorCedula(cedula);
@@ -50,7 +50,7 @@ public class DAOAcademico implements IAcademicoDAO {
     public List<Academico> getAcademicosPorUniversidad (String nombreUniversidad) throws ErrorDAO {
         List<Academico> listaAcademicos = null;
         if (!cadenaValida(nombreUniversidad)) {
-            throw new ErrorDAO ("El nombre de la univesidad esta incorrecto");
+            throw new ErrorDAO ("El nombre de la univesidad esta incorrecto", ErrorDAO.Tipo.VALIDACION);
         }
         try {
             listaAcademicos = AcademicoDB.getListaAcademicoPorCampos("universidad", nombreUniversidad);
@@ -66,7 +66,7 @@ public class DAOAcademico implements IAcademicoDAO {
     public List<Academico> getAcademicosPorAreaEstudios (String areaEstudios) throws ErrorDAO {
         List<Academico> listaAcademicos = null;
         if (!cadenaValida(areaEstudios)) {
-            throw new ErrorDAO ("El nombre del area de estudios es incorrecto");
+            throw new ErrorDAO ("El nombre del area de estudios es incorrecto", ErrorDAO.Tipo.VALIDACION);
         }
         try {
             listaAcademicos = AcademicoDB.getListaAcademicoPorCampos("area", areaEstudios);
@@ -84,7 +84,7 @@ public class DAOAcademico implements IAcademicoDAO {
     public List<Academico> getAcademicosPorCategoriaContratacion (String categoriaContratacion) throws ErrorDAO {
         List<Academico> listaAcademicos = null;
         if (!cadenaValida(categoriaContratacion)) {
-            throw new ErrorDAO ("El nombre de la categoria de contratacion es incorrecta");
+            throw new ErrorDAO ("El nombre de la categoria de contratacion es incorrecta", ErrorDAO.Tipo.VALIDACION);
         }
         try {
             listaAcademicos = AcademicoDB.getListaAcademicoPorCampos("categoria", categoriaContratacion);
@@ -100,7 +100,7 @@ public class DAOAcademico implements IAcademicoDAO {
     public List<Academico> getAcademicosPorRegion (String region) throws ErrorDAO {
         List<Academico> listaAcademicos = null;
         if (!cadenaValida(region)) {
-            throw new ErrorDAO ("El nombre de la region es incorrecto");
+            throw new ErrorDAO ("El nombre de la region es incorrecto", ErrorDAO.Tipo.VALIDACION);
         }
         try {
             listaAcademicos = AcademicoDB.getListaAcademicoPorCampos("region", region);
@@ -116,7 +116,7 @@ public class DAOAcademico implements IAcademicoDAO {
     public Optional<Academico> getAcademicoPorIdPersona (int idPersona) throws ErrorDAO {
         Academico academico = null;
         if (!idValido(idPersona)) {
-            throw new ErrorDAO ("id de la persona invalido");
+            throw new ErrorDAO ("id de la persona invalido", ErrorDAO.Tipo.VALIDACION);
         }
         try {
             academico = AcademicoDB.getAcademicoPorId(idPersona);
@@ -133,7 +133,7 @@ public class DAOAcademico implements IAcademicoDAO {
         int filasAfectadas;
 
         if (!academico.validarNulos()) {
-            throw new ErrorDAO ("Existe al menos un campo vacio en el academico");
+            throw new ErrorDAO ("Existe al menos un campo vacio en el academico", ErrorDAO.Tipo.VALIDACION);
         }
         try {
             filasAfectadas = AcademicoDB.agregarAcademico(academico);
@@ -151,7 +151,7 @@ public class DAOAcademico implements IAcademicoDAO {
         int filasAfectadas;
 
         if (!academico.validarNulos()) {
-            throw new ErrorDAO ("Existe al menos un campo vacio en el academico");
+            throw new ErrorDAO ("Existe al menos un campo vacio en el academico", ErrorDAO.Tipo.VALIDACION);
         }
         try {
             filasAfectadas = AcademicoDB.editarAcademico(academico);
