@@ -7,6 +7,7 @@ import Logica.ErrorDAO;
 import Logica.ErrorDAO.Tipo;
 import Logica.Interfaces.IRetroalimentacionColaboracionDAO;
 
+import javax.xml.transform.Result;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -43,13 +44,53 @@ public class DAORetroalimentacionColaboracion implements IRetroalimentacionColab
     }
 
     @Override
-    public Optional<RetroalimentacionColaboracion> getPorId (Integer y) throws ErrorDAO {
-        return Optional.empty();
+    public Optional<RetroalimentacionColaboracion> getPorId (Integer id) throws ErrorDAO {
+        ResultSet retroalimentacion = null;
+
+        try {
+            retroalimentacion = RetroalimentacionColaboracionDB.getPorId(id);
+        }
+        catch (SQLException error) {
+            bitacora.escribirError(error);
+        }
+
+        RetroalimentacionColaboracion retroalimentacionObj = null;
+
+        try {
+            if (retroalimentacion.next()) {
+                retroalimentacionObj = resultSetAObjeto(retroalimentacion);
+            }
+        }
+        catch (SQLException error) {
+            bitacora.escribirError(error);
+        }
+
+        return Optional.ofNullable(retroalimentacionObj);
     }
 
     @Override
     public Optional<RetroalimentacionColaboracion> getPorPersonaYColaboracion (int idPersona, int idColaboracion) {
-        return Optional.empty();
+        ResultSet retroalimentacion = null;
+
+        try {
+            retroalimentacion = RetroalimentacionColaboracionDB.getPorPersonaYColaboracion(idPersona, idColaboracion);
+        }
+        catch (SQLException error) {
+            bitacora.escribirError(error);
+        }
+
+        RetroalimentacionColaboracion retroalimentacionObj = null;
+
+        try {
+            if (retroalimentacion.next()) {
+                retroalimentacionObj = resultSetAObjeto(retroalimentacion);
+            }
+        }
+        catch (SQLException error) {
+            bitacora.escribirError(error);
+        }
+
+        return Optional.ofNullable(retroalimentacionObj);
     }
 
     @Override

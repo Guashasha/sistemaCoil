@@ -11,73 +11,95 @@ import java.sql.SQLException;
 
 public class ActividadDB {
     private static final ConexionBaseDatos db = new ConexionBaseDatos();
-    private static final Bitacora bitacora = new Bitacora(RetroalimentacionActividad.class.getName());
 
     public static int agregarActividad (Actividad actividad) throws SQLException {
         int resultado = -1;
 
-        PreparedStatement consulta = db.getConexion().prepareStatement("insert into actividad (titulo, descripcion, tipo) values (?, ?, ?);");
+        try {
+            PreparedStatement consulta = db.getConexion().prepareStatement("insert into actividad (titulo, descripcion, tipo) values (?, ?, ?);");
 
-        consulta.setString(1, actividad.getTitulo());
-        consulta.setString(2, actividad.getDescripcion());
-        consulta.setString(3, actividad.getTipo().toString());
+            consulta.setString(1, actividad.getTitulo());
+            consulta.setString(2, actividad.getDescripcion());
+            consulta.setString(3, actividad.getTipo().toString());
 
-        resultado = consulta.executeUpdate();
-        consulta.close();
-
-        db.desconectar();
+            resultado = consulta.executeUpdate();
+            consulta.close();
+        }
+        finally {
+            db.desconectar();
+        }
 
         return resultado;
     }
 
     public static ResultSet getPorId (Integer idActividad) throws SQLException {
-        PreparedStatement consulta = db.getConexion().prepareStatement("select * from actividad where idActividad=?");
+        ResultSet resultado = null;
 
-        consulta.setInt(1, idActividad);
+        try {
+            PreparedStatement consulta = db.getConexion().prepareStatement("select * from actividad where idActividad=?");
 
-        ResultSet resultado = consulta.executeQuery();
-        consulta.close();
+            consulta.setInt(1, idActividad);
 
-        db.desconectar();
+            resultado = consulta.executeQuery();
+            consulta.close();
+        }
+        finally {
+            db.desconectar();
+        }
 
         return resultado;
     }
 
     public static ResultSet getPorTitulo (String titulo) throws SQLException {
-        PreparedStatement consulta = db.getConexion().prepareStatement("select * from actividad where titulo=?");
+        ResultSet resultado = null;
 
-        consulta.setString(1, titulo);
+        try {
+            PreparedStatement consulta = db.getConexion().prepareStatement("select * from actividad where titulo=?");
 
-        ResultSet resultado = consulta.executeQuery();
-        consulta.close();
+            consulta.setString(1, titulo);
 
-        db.desconectar();
+            resultado = consulta.executeQuery();
+            consulta.close();
+        }
+        finally {
+            db.desconectar();
+        }
 
         return resultado;
     }
 
     public static ResultSet getTodos () throws SQLException {
-        PreparedStatement consulta = db.getConexion().prepareStatement("select * from actividad");
+        ResultSet resultado = null;
 
-        ResultSet resultado = consulta.executeQuery();
-        consulta.close();
+        try {
+            PreparedStatement consulta = db.getConexion().prepareStatement("select * from actividad");
 
-        db.desconectar();
+            resultado = consulta.executeQuery();
+            consulta.close();
+        }
+        finally {
+            db.desconectar();
+        }
 
         return resultado;
     }
 
     public static int modificarActividad (Actividad actividad) throws SQLException {
-        PreparedStatement consulta = db.getConexion().prepareStatement("update actividad set descripcion=?, tipo=? where titulo=?");
+        int resultado = -1;
 
-        consulta.setString(1, actividad.getDescripcion());
-        consulta.setString(2, actividad.getTipo().toString());
-        consulta.setString(3, actividad.getTitulo());
+        try {
+            PreparedStatement consulta = db.getConexion().prepareStatement("update actividad set descripcion=?, tipo=? where titulo=?");
 
-        int resultado = consulta.executeUpdate();
-        consulta.close();
+            consulta.setString(1, actividad.getDescripcion());
+            consulta.setString(2, actividad.getTipo().toString());
+            consulta.setString(3, actividad.getTitulo());
 
-        db.desconectar();
+            resultado = consulta.executeUpdate();
+            consulta.close();
+        }
+        finally {
+            db.desconectar();
+        }
 
         return resultado;
     }

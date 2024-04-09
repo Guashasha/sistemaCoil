@@ -24,12 +24,17 @@ public class RetroalimentacionColaboracionDB {
     }
 
     public static ResultSet getTodos () throws SQLException {
-        PreparedStatement consulta = db.getConexion().prepareStatement("select * from retroalimentacion natural join retroalimentacionColaboracion");
+        ResultSet resultado = null;
 
-        ResultSet resultado = consulta.executeQuery();
-        consulta.close();
+        try {
+            PreparedStatement consulta = db.getConexion().prepareStatement("select * from retroalimentacion natural join retroalimentacionColaboracion");
 
-        db.desconectar();
+            resultado = consulta.executeQuery();
+            consulta.close();
+        }
+        finally {
+            db.desconectar();
+        }
 
         return resultado;
     }
