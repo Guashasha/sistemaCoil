@@ -42,7 +42,7 @@ public class RetroalimentacionActividadDB {
     public static ResultSet getPorId (int id) throws SQLException {
         ResultSet retroalimentacion = null;
 
-        PreparedStatement consulta = db.getConexion().prepareStatement("select idRetroalimentacion, interaccionPar, comentario, dificultad, interes from retroalimentacion natural join retroalimentacionActividad where retroalimentacion.idRetroalimentacion=?;");
+        PreparedStatement consulta = db.getConexion().prepareStatement("select idRetroalimentacion, interaccionPar, comentario, dificultad, interes, usuario, actividad from retroalimentacion natural join retroalimentacionActividad where retroalimentacion.idRetroalimentacion=?;");
 
         consulta.setInt(1, id);
 
@@ -58,7 +58,7 @@ public class RetroalimentacionActividadDB {
         ResultSet retroalimentacion = null;
 
         PreparedStatement consulta = null;
-        consulta = db.getConexion().prepareStatement("select idRetroalimentacion, interaccionPar, comentario, dificultad, interes from retroalimentacion natural join retroalimentacionActividad where retroalimentacion.usuario=? and retroalimentacionActividad.actividad=?;");
+        consulta = db.getConexion().prepareStatement("select idRetroalimentacion, interaccionPar, comentario, dificultad, interes, usuario, actividad from retroalimentacion natural join retroalimentacionActividad where retroalimentacion.usuario=? and retroalimentacionActividad.actividad=?;");
 
         consulta.setInt(1, idPersona);
         consulta.setInt(2, idActividad);

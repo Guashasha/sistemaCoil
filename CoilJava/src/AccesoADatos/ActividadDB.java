@@ -3,9 +3,8 @@ package AccesoADatos;
 import Logica.Bitacora;
 import Logica.Dominio.Actividad;
 import Logica.Dominio.RetroalimentacionActividad;
-import Logica.ErrorDAO;
 
-import java.sql.CallableStatement;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -14,44 +13,71 @@ public class ActividadDB {
     private static final ConexionBaseDatos db = new ConexionBaseDatos();
     private static final Bitacora bitacora = new Bitacora(RetroalimentacionActividad.class.getName());
 
-    public static int agregarActividad (Actividad actividad) throws ErrorDAO {
+    public static int agregarActividad (Actividad actividad) throws SQLException {
         int resultado = -1;
 
-        try {
-            CallableStatement consulta = db.getConexion().prepareCall("insert into actividad (titulo, descripcion, tipo) values (?, ?, ?);");
-            db.desconectar();
+        PreparedStatement consulta = db.getConexion().prepareStatement("insert into actividad (titulo, descripcion, tipo) values (?, ?, ?);");
 
-            consulta.setString(1, actividad.getTitulo());
-            consulta.setString(2, actividad.getDescripcion());
-            consulta.setString(3, actividad.getTipo().toString());
+        consulta.setString(1, actividad.getTitulo());
+        consulta.setString(2, actividad.getDescripcion());
+        consulta.setString(3, actividad.getTipo().toString());
 
-            resultado = consulta.executeUpdate();
-        }
-        catch (SQLException error) {
-            bitacora.escribirError(error);
+        resultado = consulta.executeUpdate();
+        consulta.close();
 
-            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
-        }
+        db.desconectar();
 
         return resultado;
     }
 
-    public static ResultSet getPorId (Integer idActividad) {
-        ResultSet resultado = null;
+    public static ResultSet getPorId (Integer idActividad) throws SQLException {
+        PreparedStatement consulta = db.getConexion().prepareStatement("select * from actividad where idActividad=?");
 
-        try {
-            CallableStatement consulta = db.getConexion().prepareCall("select * from actividad where idActividad=?");
-            db.desconectar();
+        consulta.setInt(1, idActividad);
 
-            consulta.setInt(1, idActividad);
+        ResultSet resultado = consulta.executeQuery();
+        consulta.close();
 
-            resultado = consulta.executeQuery();
-        }
-        catch (SQLException error) {
-            bitacora.escribirError(error);
+        db.desconectar();
 
-            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
-        }
+        return resultado;
+    }
+
+    public static ResultSet getPorTitulo (String titulo) throws SQLException {
+        PreparedStatement consulta = db.getConexion().prepareStatement("select * from actividad where titulo=?");
+
+        consulta.setString(1, titulo);
+
+        ResultSet resultado = consulta.executeQuery();
+        consulta.close();
+
+        db.desconectar();
+
+        return resultado;
+    }
+
+    public static ResultSet getTodos () throws SQLException {
+        PreparedStatement consulta = db.getConexion().prepareStatement("select * from actividad");
+
+        ResultSet resultado = consulta.executeQuery();
+        consulta.close();
+
+        db.desconectar();
+
+        return resultado;
+    }
+
+    public static int modificarActividad (Actividad actividad) throws SQLException {
+        PreparedStatement consulta = db.getConexion().prepareStatement("update actividad set descripcion=?, tipo=? where titulo=?");
+
+        consulta.setString(1, actividad.getDescripcion());
+        consulta.setString(2, actividad.getTipo().toString());
+        consulta.setString(3, actividad.getTitulo());
+
+        int resultado = consulta.executeUpdate();
+        consulta.close();
+
+        db.desconectar();
 
         return resultado;
     }

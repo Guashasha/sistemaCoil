@@ -68,4 +68,42 @@ public class RetroalimentacionColaboracion extends Retroalimentacion {
     public void setColaboracion (int colaboracion) {
         this.colaboracion = colaboracion;
     }
+
+    public boolean esCorrecta () {
+        boolean resultado = true;
+
+        if (!calificacionCorrecta(this.getCalificacion())) {
+            resultado = false;
+        }
+
+        if (!calificacionCorrecta(this.getHabilidadesObtenidas())) {
+            resultado = false;
+        }
+
+        if (!calificacionCorrecta(this.getIntercambioCultural())) {
+            resultado = false;
+        }
+
+        if (!calificacionCorrecta(this.getMejoraDelLenguaje())) {
+            resultado = false;
+        }
+
+        if (!calificacionCorrecta(this.getTrabajoColaborativo())) {
+            resultado = false;
+        }
+
+        if (!calificacionCorrecta(this.getMejoraFormacionProfesional())) {
+            resultado = false;
+        }
+
+        if (!calificacionCorrecta(this.getIntercambioCultural())) {
+            resultado = false;
+        }
+
+        return resultado;
+    }
+
+    private boolean calificacionCorrecta (int calificacion) {
+        return (calificacion >= 1 && calificacion <= 5);
+    }
 }

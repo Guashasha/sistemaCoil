@@ -2,7 +2,6 @@ package test.AccesoADatos;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import AccesoADatos.ConexionBaseDatos;
 import AccesoADatos.RetroalimentacionActividadDB;
 import Logica.DAO.DAOActividad;
 import Logica.DAO.DAORetroalimentacionActividad;
@@ -12,13 +11,10 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import test.ConfiguracionPrueba;
 
-import java.sql.CallableStatement;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class RetroalimentacionActividadDBTest {
-    private ConexionBaseDatos conector = new ConexionBaseDatos();
 
     @BeforeAll
     static void setUp() {
@@ -114,6 +110,95 @@ public class RetroalimentacionActividadDBTest {
 
     @Test
     void testGetPorId () {
-        RetroalimentacionActividad esperado = new RetroalimentacionActividad();
+        ResultSet resultado = null;
+
+        try {
+            resultado = RetroalimentacionActividadDB.getPorId(1);
+        } catch (SQLException e) {
+            fail();
+        }
+
+        try {
+            if (resultado.next()) {
+                assertEquals(1, resultado.getInt(1));
+                assertEquals(4, resultado.getInt(2));
+                assertEquals(4, resultado.getInt(4));
+                assertEquals(4, resultado.getInt(5));
+            }
+            else {
+                fail();
+            }
+        } catch (SQLException e) {
+            fail();
+        }
+    }
+
+    @Test
+    void testGetPorIdInexistente () {
+        ResultSet resultado = null;
+
+        try {
+            resultado = RetroalimentacionActividadDB.getPorId(9);
+        } catch (SQLException e) {
+            fail();
+        }
+
+        try {
+            assert(!resultado.next());
+        }
+        catch (SQLException error) {
+            fail();
+        }
+    }
+
+    @Test
+    void testGetPorPersonaYActividad () {
+        ResultSet resultado = null;
+
+        try {
+            resultado = RetroalimentacionActividadDB.getPorPersonaYActividad(1, 1);
+        } catch (SQLException e) {
+            fail();
+        }
+
+        try {
+            if (resultado.next()) {
+                assertEquals(4, resultado.getInt(2));
+                assertEquals(4, resultado.getInt(4));
+                assertEquals(4, resultado.getInt(5));
+            }
+            else {
+                fail();
+            }
+        }
+        catch (SQLException error) {
+            fail();
+        }
+    }
+
+    @Test
+    void testGetPorPersonaSinActividad () {
+        ResultSet resultado = null;
+
+        try {
+            resultado = RetroalimentacionActividadDB.getPorPersonaYActividad(1, 9);
+        } catch (SQLException e) {
+            assert(true);
+        }
+
+        fail();
+    }
+
+    @Test
+    void testGetSinPersonaConActividad () {
+        ResultSet resultado = null;
+
+        try {
+            resultado = RetroalimentacionActividadDB.getPorPersonaYActividad(16, 1);
+        } catch (SQLException e) {
+            assert(true);
+        }
+
+        fail();
     }
 }

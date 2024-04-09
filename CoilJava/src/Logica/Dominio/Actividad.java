@@ -7,10 +7,19 @@ public class Actividad {
         disciplinar,
         cierre
     }
+
     private int idActividad;
     private String titulo;
     private String descripcion;
     private TipoActividad tipo;
+
+    public Actividad (String titulo, String descripcion, TipoActividad tipo) {
+        this.titulo = titulo;
+        this.descripcion = descripcion;
+        this.tipo = tipo;
+    }
+
+    public Actividad () {}
 
     public int getIdActividad () {
         return idActividad;
@@ -42,5 +51,30 @@ public class Actividad {
 
     public void setTipo (TipoActividad tipo) {
         this.tipo = tipo;
+    }
+
+    public boolean equals (Actividad actividad) {
+        return this.titulo == actividad.getTitulo() &&
+                this.descripcion == actividad.getDescripcion() &&
+                this.tipo == actividad.getTipo();
+    }
+
+    public boolean esCorrecta () {
+        boolean resultado = true;
+
+        if (this.getTitulo().isBlank() || this.getTitulo() == null) {
+            resultado = false;
+        }
+        else if (this.getDescripcion().isBlank() || this.getDescripcion() == null) {
+            resultado = false;
+        }
+        else if (this.getIdActividad() < 1) {
+            resultado = false;
+        }
+        else if (this.getTipo() == null) {
+            resultado = false;
+        }
+
+        return resultado;
     }
 }
