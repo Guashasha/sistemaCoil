@@ -4,13 +4,6 @@ CREATE DATABASE IF NOT EXISTS COIL;
 
 USE COIL;
 
-<<<<<<< HEAD
-CREATE USER IF NOT EXISTS "admin_COIL"@"localhost" IDENTIFIED BY "habitacionDeVuelo";
-
-GRANT INSERT, SELECT, UPDATE, DELETE, EXECUTE ON COIL.* TO "admin_COIL"@"localhost";
-
-=======
->>>>>>> main
 CREATE TABLE `persona` (
   `idPersona` int PRIMARY KEY AUTO_INCREMENT,
   `nombre` varchar(20) NOT NULL,
