@@ -1,5 +1,6 @@
 package Logica.DAO;
 
+import AccesoADatos.ColaboracionDB;
 import Logica.Dominio.Academico;
 import Logica.Dominio.Colaboracion;
 import Logica.Dominio.Estudiante;
@@ -15,11 +16,23 @@ public class DAOColaboracion implements IColaboracionDAO {
 
     @Override
     public Optional<Colaboracion> getColaboracionPorAcademicosParticipantes (Academico academico1, Academico academico2) throws ErrorDAO {
-        return Optional.empty();
+        Colaboracion colaboracion = null;
+        if (!academico1.validarNulos() && !academico2.validarNulos()) {
+            throw new ErrorDAO("Error en los academicos de la colaboracion", ErrorDAO.Tipo.VALIDACION);
+        }
+        try {
+            colaboracion = ColaboracionDB.getColaboracionPorAcademicosParticipantes(academico1, academico2);
+        }
+        catch (ErrorDAO errorDAO) {
+            throw errorDAO;
+        }
+
+        return Optional.ofNullable(colaboracion);
     }
 
     @Override
     public Optional<Colaboracion> getColaboracionPorId (int idColaboracion) throws ErrorDAO {
+
         return Optional.empty();
     }
 

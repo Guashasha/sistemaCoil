@@ -90,4 +90,16 @@ public class Colaboracion {
         this.estado = estado;
     }
 
+    public boolean validarNulos() {
+        return tipo != null &&
+                estado != null &&
+                cadenaValida(temaInteres) &&
+                cadenaValida(idioma) &&
+                cadenaValida(objetivo) &&
+                cadenaValida(perfilEstudiante);
+    }
+    private boolean cadenaValida(String cadena) {
+        return cadena != null && !cadena.isBlank();
+    }
+
 }

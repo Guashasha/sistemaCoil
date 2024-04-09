@@ -1,14 +1,13 @@
 package test.Logica;
 
-import AccesoADatos.ConexionBaseDatos;
 import Logica.DAO.DAORetroalimentacionActividad;
 import Logica.Dominio.RetroalimentacionActividad;
 import Logica.ErrorDAO;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import test.ConfiguracionPrueba;
 
-import java.sql.CallableStatement;
-import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -17,23 +16,19 @@ import static org.junit.jupiter.api.Assertions.fail;
 public class DAORetroalimentacionActividadTest {
     @BeforeAll
     static void setUp () {
-        ConexionBaseDatos conector = new ConexionBaseDatos();
+        ConfiguracionPrueba.borrarDatosTablaRetroalimentacionActividad();
+        ConfiguracionPrueba.borrarDatosTablaRetroalimentacionColaboracion();
+        ConfiguracionPrueba.borrarDatosTablaRetroalimentacion();
 
-        try {
-            CallableStatement consulta = conector.getConexion().prepareCall("delete from retroalimentacion, retroalimentacionActividad, retroalimentacionColaboracion");
-            consulta.execute();
-        }
-        catch (SQLException error) {
-            throw new RuntimeException(error);
-        }
-        finally {
-            try {
-                conector.desconectar();
-            }
-            catch (SQLException error) {
-                throw new RuntimeException(error);
-            }
-        }
+        RetroalimentacionActividad retroalimentacion = new RetroalimentacionActividad();
+        retroalimentacion.setDificultad(5);
+        retroalimentacion.setInteres(4);
+        retroalimentacion.setIdUsuario(1);
+        retroalimentacion.setIdActividad(1);
+        retroalimentacion.setInteraccionConPar(4);
+
+        DAORetroalimentacionActividad ret = new DAORetroalimentacionActividad();
+        ret.agregar(retroalimentacion);
     }
     @Test
     void testAgregarRetroalimentacionActividad () {
@@ -45,17 +40,17 @@ public class DAORetroalimentacionActividadTest {
         retroalimentacion.setInteres(5);
         retroalimentacion.setDificultad(2);
         retroalimentacion.setInteraccionConPar(5);
-        retroalimentacion.setIdUsuario(1);
+        retroalimentacion.setIdUsuario(2);
         retroalimentacion.setIdActividad(1);
 
         try {
             resultado = ret.agregar(retroalimentacion);
         }
         catch (ErrorDAO error) {
-            fail();
+            fail(error.getMessage());
         }
 
-        assertEquals(1, resultado);
+        assertEquals(2, resultado);
     }
 
     @Test
@@ -67,17 +62,22 @@ public class DAORetroalimentacionActividadTest {
             retroalimentacion = ret.getPorId(1);
         }
         catch (ErrorDAO error) {
-            fail();
+            fail(error.getMessage());
         }
 
-        assert(retroalimentacion.isPresent());
+        RetroalimentacionActividad objRetroalimentacion = null;
 
-        RetroalimentacionActividad objRetroalimentacion = retroalimentacion.get();
+        if (retroalimentacion.isPresent()) {
+            objRetroalimentacion = retroalimentacion.get();
 
-        assertEquals(1, objRetroalimentacion.getIdActividad());
-        assertEquals(5, objRetroalimentacion.getInteraccionConPar());
-        assert(objRetroalimentacion.getComentario().get()
-                                   .equals("hola mundo"));
+            assertEquals(4, objRetroalimentacion.getInteraccionConPar());
+            assertEquals(1, objRetroalimentacion.getIdRetroalimentacion());
+            assertEquals(5, objRetroalimentacion.getDificultad());
+            assert(objRetroalimentacion.getComentario().isEmpty());
+        }
+        else {
+            fail("no existe la retroalimentacion");
+        }
     }
 
     @Test
@@ -92,15 +92,59 @@ public class DAORetroalimentacionActividadTest {
         retroalimentacion.setIdUsuario(1);
         retroalimentacion.setIdActividad(1);
 
-        boolean resultado = false;
+        assert(retroalimentacion.esCorrecto());
+    }
+
+    @Test
+    void testGetTodos () {
+        DAORetroalimentacionActividad ret = new DAORetroalimentacionActividad();
+
+        List<RetroalimentacionActividad> retroalimentaciones = null;
 
         try {
-            resultado = ret.validarRetroalimentacion(retroalimentacion);
+            retroalimentaciones = ret.getTodos();
         }
         catch (ErrorDAO error) {
-            fail();
+            fail(error.getMessage());
         }
 
-        assert(resultado);
+        assertEquals(1, retroalimentaciones.size());
+
+        RetroalimentacionActividad retroalimentacion = new RetroalimentacionActividad();
+        retroalimentacion.setDificultad(5);
+        retroalimentacion.setInteres(4);
+        retroalimentacion.setIdUsuario(1);
+        retroalimentacion.setIdActividad(1);
+        retroalimentacion.setInteraccionConPar(4);
+
+        assert(retroalimentacion.equals(retroalimentaciones.get(0)));
+    }
+
+    @Test
+    void testGetPorPersonaYActividad () {
+        DAORetroalimentacionActividad ret = new DAORetroalimentacionActividad();
+
+        Optional<RetroalimentacionActividad> retroalimentacion = Optional.empty();
+
+        try {
+            retroalimentacion = ret.getPorPersonaYActividad(1, 1);
+        }
+        catch (ErrorDAO error) {
+            fail(error.getMessage());
+        }
+
+        RetroalimentacionActividad resultadoEsperado = new RetroalimentacionActividad();
+        resultadoEsperado.setDificultad(5);
+        resultadoEsperado.setInteres(4);
+        resultadoEsperado.setIdUsuario(1);
+        resultadoEsperado.setIdActividad(1);
+        resultadoEsperado.setInteraccionConPar(4);
+
+        if (retroalimentacion.isPresent()) {
+            assert(resultadoEsperado.equals(retroalimentacion.get()));
+        }
+        else {
+            fail("no existe la retroalimentacion");
+        }
     }
 }

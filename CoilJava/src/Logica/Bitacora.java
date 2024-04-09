@@ -6,12 +6,14 @@ import java.io.IOException;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.logging.Level;
 
 public class Bitacora {
     private Logger logger;
 
     public Bitacora (String nombre) {
         logger = Logger.getLogger(nombre);
+        logger.setLevel(Level.FINE);
 
         try {
             logger.addHandler(new FileHandler("./logs/bitacoraCOIL.log"));

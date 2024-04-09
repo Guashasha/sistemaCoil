@@ -4,7 +4,7 @@ import java.util.Optional;
 
 public class Retroalimentacion {
     private int idRetroalimentacion;
-    private Optional<String> comentario;
+    private Optional<String> comentario = Optional.empty();
     private int interaccionConPar;
     private int idUsuario;
 
@@ -21,6 +21,10 @@ public class Retroalimentacion {
     }
 
     public void setComentario (String comentario) {
+        if (comentario == null) {
+            return;
+        }
+
         if (comentario.isEmpty())
             this.comentario = Optional.empty();
         else

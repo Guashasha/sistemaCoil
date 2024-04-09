@@ -4,12 +4,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import AccesoADatos.ConexionBaseDatos;
 import AccesoADatos.RetroalimentacionActividadDB;
-import Logica.ErrorDAO;
+import Logica.DAO.DAOActividad;
+import Logica.DAO.DAORetroalimentacionActividad;
+import Logica.Dominio.Actividad;
+import Logica.Dominio.RetroalimentacionActividad;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
+import test.ConfiguracionPrueba;
 
 import java.sql.CallableStatement;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -18,115 +22,98 @@ public class RetroalimentacionActividadDBTest {
 
     @BeforeAll
     static void setUp() {
-        ConexionBaseDatos conector = new ConexionBaseDatos();
+        ConfiguracionPrueba.borrarDatosTablaRetroalimentacionActividad();
+        ConfiguracionPrueba.borrarDatosTablaRetroalimentacionColaboracion();
+        ConfiguracionPrueba.borrarDatosTablaRetroalimentacion();
+        ConfiguracionPrueba.borrarDatosTablaActividad();
 
-        try {
-            CallableStatement consulta = conector.getConexion().prepareCall("delete from retroalimentacion");
-            consulta.execute();
+        DAOActividad act = new DAOActividad();
 
-            consulta.close();
+        Actividad actividad = new Actividad();
+        actividad.setTitulo("act prueba");
+        actividad.setDescripcion("prueba para base de datos");
+        actividad.setTipo(Actividad.TipoActividad.disciplinar);
+        act.agregar(actividad);
 
-            consulta = conector.getConexion().prepareCall("delete from retroalimentacionActividad");
-            consulta.execute();
+        actividad = new Actividad();
+        actividad.setTitulo("act 2 prueba");
+        actividad.setDescripcion("segunda prueba para base de datos");
+        actividad.setTipo(Actividad.TipoActividad.intercultural);
+        act.agregar(actividad);
 
-            consulta.close();
+        DAORetroalimentacionActividad ret = new DAORetroalimentacionActividad();
 
-            consulta = conector.getConexion().prepareCall("delete from retroalimentacionColaboracion");
-            consulta.execute();
-
-            consulta.close();
-        }
-        catch (SQLException error) {
-            throw new RuntimeException(error);
-        }
+        RetroalimentacionActividad retroalimentacion = new RetroalimentacionActividad();
+        retroalimentacion.setIdActividad(1);
+        retroalimentacion.setIdUsuario(1);
+        retroalimentacion.setInteres(4);
+        retroalimentacion.setInteraccionConPar(4);
+        retroalimentacion.setDificultad(4);
+        ret.agregar(retroalimentacion);
     }
 
     @Test
     void testAgregarRetroalimentacion () {
         int resultado = -1;
 
-        CallableStatement consulta;
+        RetroalimentacionActividad retroalimentacion = new RetroalimentacionActividad();
+        retroalimentacion.setIdActividad(2);
+        retroalimentacion.setIdUsuario(1);
+        retroalimentacion.setInteres(5);
+        retroalimentacion.setDificultad(5);
+        retroalimentacion.setInteraccionConPar(5);
+        retroalimentacion.setComentario("hola mundo");
+
         try {
-            consulta = conector.getConexion()
-                               .prepareCall("call insertarRetroalimentacionActividad (?, ?, ?, ?, ?, ?)");
-
-            consulta.setInt(1, 5);
-            consulta.setInt(2, 5);
-            consulta.setInt(3, 4);
-            consulta.setInt(4, 1);
-            consulta.setString(5, null);
-            consulta.setInt(6, 1);
-
-            resultado = consulta.executeUpdate();
-            consulta.close();
-            conector.desconectar();
+            resultado = RetroalimentacionActividadDB.agregarRetroalimentacion(retroalimentacion);
         }
         catch (SQLException error) {
-            System.err.println("error durante el test \"agregar retroalimentacion\" " + error.getMessage());
+            fail(error.getMessage());
         }
 
-        assert (resultado == 1);
+        assertEquals(2, resultado);
     }
 
     @Test
-    void testAgregarRetroalimentacionFallido () {
-        int resultado = -1;
-
-        CallableStatement consulta;
+    void testAgregarRetroalimentacionSinActividad () {
+        RetroalimentacionActividad retroalimentacion = new RetroalimentacionActividad();
+        retroalimentacion.setIdActividad(5);
+        retroalimentacion.setIdUsuario(1);
+        retroalimentacion.setInteres(5);
+        retroalimentacion.setDificultad(5);
+        retroalimentacion.setInteraccionConPar(5);
 
         try {
-            consulta = conector.getConexion().prepareCall("call insertarRetroalimentacionActividad (?, ?, ?, ?, ?, ?)");
-
-            conector.desconectar();
-
-            consulta.setInt(1, 5);
-            consulta.setString(2, "adios");
-            consulta.setInt(3, 4);
-            consulta.setInt(4, 1);
-            consulta.setString(5, "hola");
-            consulta.setInt(6, 1);
-
-            resultado = consulta.executeUpdate();
+            RetroalimentacionActividadDB.agregarRetroalimentacion(retroalimentacion);
         }
         catch (SQLException error) {
             assert(true);
         }
 
-        assert(resultado == -1);
+        fail();
     }
 
     @Test
-    void testModificarRetroalimentacion () {
-        int resultado = -1;
+    void testAgregarRetroalimentacionSinUsuario () {
+        RetroalimentacionActividad retroalimentacion = new RetroalimentacionActividad();
+        retroalimentacion.setIdActividad(1);
+        retroalimentacion.setIdUsuario(9);
+        retroalimentacion.setInteres(5);
+        retroalimentacion.setDificultad(5);
+        retroalimentacion.setInteraccionConPar(5);
 
         try {
-            CallableStatement consulta;
-            consulta = conector.getConexion().prepareCall("update retroalimentacionActividad set dificultad=3 where idRetroalimentacion=1");
-
-            conector.desconectar();
-
-            resultado = consulta.executeUpdate();
-
-            consulta.close();
+            RetroalimentacionActividadDB.agregarRetroalimentacion(retroalimentacion);
         }
         catch (SQLException error) {
-            System.err.println("error durante el test \"agregar retroalimentacion\" " + error.getMessage());
+            assert(true);
         }
 
-        assert(resultado == 1);
+        fail();
+    }
 
-        ResultSet set = RetroalimentacionActividadDB.getPorId(1);
-
-        try {
-            if (set.next()) {
-                assert(set.getInt(4) == 3);
-            }
-            else {
-                fail();
-            }
-        }
-        catch (SQLException e) {
-            fail();
-        }
+    @Test
+    void testGetPorId () {
+        RetroalimentacionActividad esperado = new RetroalimentacionActividad();
     }
 }

@@ -8,7 +8,7 @@ import test.ConfiguracionPrueba;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-// TODO Agregar metodos de consultas.
+
 
 class AcademicoDBTest {
 
