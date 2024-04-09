@@ -1,9 +1,7 @@
 package test.AccesoADatos;
 
 import AccesoADatos.EstudianteDB;
-import AccesoADatos.UniversidadDB;
 import Logica.Dominio.Estudiante;
-import Logica.Dominio.Universidad;
 import Logica.ErrorDAO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

@@ -69,7 +69,7 @@ class CuentaDBTest {
 
         }
         catch (ErrorDAO errorDAO) {
-            fail("pruebaActualizarNombreUsuarioExitoso " + errorDAO.getMensaje());
+            fail("pruebaActualizarNombreUsuarioExitoso " + errorDAO.getMessage());
         }
 
         assertEquals(filasAfectadasEsperado, filasAfectadasObtenido);
