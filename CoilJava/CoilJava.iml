@@ -102,5 +102,6 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="mariadb-java-client-3.3.3" level="project" />
+    <orderEntry type="library" name="mysql-connector-j-8.3.0" level="project" />
   </component>
 </module>

@@ -30,7 +30,7 @@ public class ActividadDB {
         catch (SQLException error) {
             bitacora.escribirError(error);
 
-            throw new ErrorDAO(error.getMessage());
+            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
         }
 
         return resultado;
@@ -50,7 +50,7 @@ public class ActividadDB {
         catch (SQLException error) {
             bitacora.escribirError(error);
 
-            throw new ErrorDAO(error.getMessage());
+            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
         }
 
         return resultado;
