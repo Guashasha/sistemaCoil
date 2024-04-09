@@ -34,6 +34,10 @@ public class RetroalimentacionActividad extends Retroalimentacion {
     }
 
     public boolean equals (RetroalimentacionActividad retroalimentacion) {
+        if (retroalimentacion == null) {
+            return false;
+        }
+
         return this.getIdUsuario() == retroalimentacion.getIdUsuario() &&
                 this.getComentario() == retroalimentacion.getComentario() &&
                 this.getDificultad() == retroalimentacion.getDificultad() &&

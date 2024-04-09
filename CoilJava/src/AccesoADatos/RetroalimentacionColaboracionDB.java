@@ -4,11 +4,38 @@ import Logica.Bitacora;
 import Logica.Dominio.RetroalimentacionActividad;
 import Logica.Dominio.RetroalimentacionColaboracion;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class RetroalimentacionColaboracionDB {
     private static final ConexionBaseDatos db = new ConexionBaseDatos();
-    private static final Bitacora bitacora = new Bitacora(RetroalimentacionActividad.class.getName());
 
-    public static int agregarRetroalimentacion (RetroalimentacionColaboracion retroalimentacion) {
+    public static int agregarRetroalimentacion (RetroalimentacionColaboracion retroalimentacion) throws SQLException {
         return 0;
+    }
+
+    public static ResultSet getPorId (int id) throws SQLException {
+        return null;
+    }
+
+    public static ResultSet getPorPersonaYColaboracion (int idPersona, int idColaboracion) throws SQLException {
+        return null;
+    }
+
+    public static ResultSet getTodos () throws SQLException {
+        ResultSet resultado = null;
+
+        try {
+            PreparedStatement consulta = db.getConexion().prepareStatement("select * from retroalimentacion natural join retroalimentacionColaboracion");
+
+            resultado = consulta.executeQuery();
+            consulta.close();
+        }
+        finally {
+            db.desconectar();
+        }
+
+        return resultado;
     }
 }

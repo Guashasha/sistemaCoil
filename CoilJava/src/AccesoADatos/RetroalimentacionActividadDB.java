@@ -15,26 +15,28 @@ public class RetroalimentacionActividadDB {
     public static int agregarRetroalimentacion (RetroalimentacionActividad retroalimentacion) throws SQLException {
         int resultado = -1;
 
-        CallableStatement consulta = db.getConexion()
-                                        .prepareCall("call insertarRetroalimentacionActividad (?, ?, ?, ?, ?, ?)");
+        try {
+            CallableStatement consulta = db.getConexion()
+                    .prepareCall("call insertarRetroalimentacionActividad (?, ?, ?, ?, ?, ?)");
 
-        consulta.setInt(1, retroalimentacion.getInteraccionConPar());
-        consulta.setInt(2, retroalimentacion.getDificultad());
-        consulta.setInt(3, retroalimentacion.getInteres());
-        consulta.setInt(4, retroalimentacion.getIdActividad());
-        consulta.setInt(6, retroalimentacion.getIdUsuario());
+            consulta.setInt(1, retroalimentacion.getInteraccionConPar());
+            consulta.setInt(2, retroalimentacion.getDificultad());
+            consulta.setInt(3, retroalimentacion.getInteres());
+            consulta.setInt(4, retroalimentacion.getIdActividad());
+            consulta.setInt(6, retroalimentacion.getIdUsuario());
 
-        if (retroalimentacion.getComentario().isEmpty()) {
-            consulta.setString(5, null);
+            if (retroalimentacion.getComentario().isEmpty()) {
+                consulta.setString(5, null);
+            } else {
+                consulta.setString(5, retroalimentacion.getComentario().get());
+            }
+
+            resultado = consulta.executeUpdate();
+            consulta.close();
         }
-        else {
-            consulta.setString(5, retroalimentacion.getComentario().get());
+        finally {
+            db.desconectar();
         }
-
-        resultado = consulta.executeUpdate();
-        consulta.close();
-
-        db.desconectar();
 
         return resultado;
     }
@@ -42,14 +44,17 @@ public class RetroalimentacionActividadDB {
     public static ResultSet getPorId (int id) throws SQLException {
         ResultSet retroalimentacion = null;
 
-        PreparedStatement consulta = db.getConexion().prepareStatement("select idRetroalimentacion, interaccionPar, comentario, dificultad, interes from retroalimentacion natural join retroalimentacionActividad where retroalimentacion.idRetroalimentacion=?;");
+        try {
+            PreparedStatement consulta = db.getConexion().prepareStatement("select idRetroalimentacion, interaccionPar, comentario, dificultad, interes, usuario, actividad from retroalimentacion natural join retroalimentacionActividad where retroalimentacion.idRetroalimentacion=?;");
 
-        consulta.setInt(1, id);
+            consulta.setInt(1, id);
 
-        retroalimentacion = consulta.executeQuery();
-        consulta.close();
-
-        db.desconectar();
+            retroalimentacion = consulta.executeQuery();
+            consulta.close();
+        }
+        finally {
+            db.desconectar();
+        }
 
         return retroalimentacion;
     }
@@ -57,16 +62,19 @@ public class RetroalimentacionActividadDB {
     public static ResultSet getPorPersonaYActividad (int idPersona, int idActividad) throws SQLException {
         ResultSet retroalimentacion = null;
 
-        PreparedStatement consulta = null;
-        consulta = db.getConexion().prepareStatement("select idRetroalimentacion, interaccionPar, comentario, dificultad, interes from retroalimentacion natural join retroalimentacionActividad where retroalimentacion.usuario=? and retroalimentacionActividad.actividad=?;");
+        try {
+            PreparedStatement consulta = null;
+            consulta = db.getConexion().prepareStatement("select idRetroalimentacion, interaccionPar, comentario, dificultad, interes, usuario, actividad from retroalimentacion natural join retroalimentacionActividad where retroalimentacion.usuario=? and retroalimentacionActividad.actividad=?;");
 
-        consulta.setInt(1, idPersona);
-        consulta.setInt(2, idActividad);
+            consulta.setInt(1, idPersona);
+            consulta.setInt(2, idActividad);
 
-        retroalimentacion = consulta.executeQuery();
-        consulta.close();
-
-        db.desconectar();
+            retroalimentacion = consulta.executeQuery();
+            consulta.close();
+        }
+        finally {
+            db.desconectar();
+        }
 
         return retroalimentacion;
     }
@@ -74,12 +82,15 @@ public class RetroalimentacionActividadDB {
     public static ResultSet getTodos () throws SQLException {
         ResultSet resultado = null;
 
-        PreparedStatement consulta = db.getConexion().prepareStatement("select idRetroalimentacion, interaccionPar, comentario, dificultad, interes, usuario, actividad from retroalimentacion natural join retroalimentacionActividad");
+        try {
+            PreparedStatement consulta = db.getConexion().prepareStatement("select idRetroalimentacion, interaccionPar, comentario, dificultad, interes, usuario, actividad from retroalimentacion natural join retroalimentacionActividad");
 
-        resultado = consulta.executeQuery();
-        consulta.close();
-
-        db.desconectar();
+            resultado = consulta.executeQuery();
+            consulta.close();
+        }
+        finally {
+            db.desconectar();
+        }
 
         return resultado;
     }
