@@ -9,42 +9,43 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PaisDB {
-    private final ConexionBaseDatos CONEXION_BASE_DATOS = new ConexionBaseDatos();
+    private static final ConexionBaseDatos CONEXION_BASE_DATOS = new ConexionBaseDatos();
 
-    public List<Pais> paisesAlfabeticamente () throws ErrorDAO {
+    public static List<Pais> paisesAlfabeticamente () throws SQLException {
         List<Pais> listaPaises = new ArrayList<>();
         String consultaPaisesSQL = "SELECT idPais, iso, nombre FROM pais ORDER BY nombre ASC";
-        PreparedStatement consultaPaises;
-        ResultSet resultadoConsulta;
+        PreparedStatement consultaPaises = null;
+        ResultSet resultadoConsulta = null;
 
         try {
-            consultaPaises = this.CONEXION_BASE_DATOS.getConexion().
+            consultaPaises = CONEXION_BASE_DATOS.getConexion().
                     prepareStatement(consultaPaisesSQL);
             resultadoConsulta = consultaPaises.executeQuery();
 
             while (resultadoConsulta.next()) {
                 listaPaises.add(convertirResultSetAPais(resultadoConsulta));
             }
-
-            consultaPaises.close();
-            resultadoConsulta.close();
-            this.CONEXION_BASE_DATOS.desconectar();
         }
         catch (SQLException error) {
-            throw new ErrorDAO("SQLException: Error al consultar paises por nombre\n" + error.getMessage());
+            throw error;
+        }
+        finally {
+            consultaPaises.close();
+            resultadoConsulta.close();
+            CONEXION_BASE_DATOS.desconectar();
         }
 
         return listaPaises;
     }
 
-    public Pais getPaisPorNombre (String nombre) throws ErrorDAO {
+    public static Pais getPaisPorNombre (String nombre) throws SQLException {
         Pais pais = new Pais(0);
         String consultaPaisesSQL = "SELECT idPais, iso, nombre FROM pais WHERE nombre = ?";
-        PreparedStatement consultaPaises;
-        ResultSet resultadoConsulta;
+        PreparedStatement consultaPaises = null;
+        ResultSet resultadoConsulta = null;
 
         try {
-            consultaPaises = this.CONEXION_BASE_DATOS.getConexion().
+            consultaPaises = CONEXION_BASE_DATOS.getConexion().
                     prepareStatement(consultaPaisesSQL);
             consultaPaises.setString(1,nombre);
             resultadoConsulta = consultaPaises.executeQuery();
@@ -52,26 +53,27 @@ public class PaisDB {
             if (resultadoConsulta.next()) {
                 pais = convertirResultSetAPais(resultadoConsulta);
             }
-
-            consultaPaises.close();
-            resultadoConsulta.close();
-            this.CONEXION_BASE_DATOS.desconectar();
         }
         catch (SQLException error) {
-            throw new ErrorDAO("SQLException: Error al consultar paises por nombre\n" + error.getMessage());
+            throw error;
+        }
+        finally {
+            consultaPaises.close();
+            resultadoConsulta.close();
+            CONEXION_BASE_DATOS.desconectar();
         }
 
         return pais;
     }
 
-    public Pais getPaisPorId (int id) throws ErrorDAO {
+    public static Pais getPaisPorId (int id) throws SQLException {
         Pais pais = new Pais(0);
         String consultaPaisesSQL = "SELECT idPais, iso, nombre FROM pais WHERE idPais = ?";
-        PreparedStatement consultaPaises;
-        ResultSet resultadoConsulta;
+        PreparedStatement consultaPaises = null;
+        ResultSet resultadoConsulta = null;
 
         try {
-            consultaPaises = this.CONEXION_BASE_DATOS.getConexion().
+            consultaPaises = CONEXION_BASE_DATOS.getConexion().
                     prepareStatement(consultaPaisesSQL);
             consultaPaises.setInt(1,id);
             resultadoConsulta = consultaPaises.executeQuery();
@@ -79,19 +81,20 @@ public class PaisDB {
             if (resultadoConsulta.next()) {
                 pais = convertirResultSetAPais(resultadoConsulta);
             }
-
-            consultaPaises.close();
-            resultadoConsulta.close();
-            this.CONEXION_BASE_DATOS.desconectar();
         }
         catch (SQLException error) {
-            throw new ErrorDAO("SQLException: Error al consultar paises por nombre\n" + error.getMessage());
+            throw error;
+        }
+        finally {
+            consultaPaises.close();
+            resultadoConsulta.close();
+            CONEXION_BASE_DATOS.desconectar();
         }
 
         return pais;
     }
 
-    private Pais convertirResultSetAPais (ResultSet resultado) throws SQLException {
+    private static Pais convertirResultSetAPais (ResultSet resultado) throws SQLException {
         Pais pais = new Pais();
 
         pais.setId(resultado.getInt(1));

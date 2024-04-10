@@ -7,6 +7,8 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import test.ConfiguracionPrueba;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import static test.ConfiguracionPrueba.ejecutarInstruccionSQL;
@@ -14,8 +16,6 @@ import static test.AsercionListas.assertEqualListFacultad;
 import static org.junit.jupiter.api.Assertions.*;
 
 class FacultadDBTest {
-    private final FacultadDB INSTANCIA = new FacultadDB();
-
     @BeforeAll
     static void setUp() {
         ConfiguracionPrueba.borrarDatosTablaFacultad();
@@ -38,9 +38,9 @@ class FacultadDBTest {
         Facultad obtenida = new Facultad();
 
         try {
-            obtenida = this.INSTANCIA.getFacultadPorNombre(esperada.getNombre());
+            obtenida = FacultadDB.getFacultadPorNombre(esperada.getNombre());
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
             fail("Fallida: pruebaGetFacultadPorNombreExitosa");
         }
 
@@ -55,9 +55,9 @@ class FacultadDBTest {
         Facultad obtenida = new Facultad();
 
         try {
-            obtenida = this.INSTANCIA.getFacultadPorNombre("FEI");
+            obtenida = FacultadDB.getFacultadPorNombre("FEI");
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
             fail("Fallida: pruebaGetFacultadPorNombreInexistente");
         }
 
@@ -70,9 +70,9 @@ class FacultadDBTest {
         Facultad obtenida = new Facultad();
 
         try {
-            obtenida = this.INSTANCIA.getFacultadPorNombre("FEI");
+            obtenida = FacultadDB.getFacultadPorNombre("FEI");
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
             fail("Fallida: pruebaGetFacultadPorNombreInexistente");
         }
 
@@ -88,9 +88,9 @@ class FacultadDBTest {
         listaEsperada.add(new Facultad(2,"Derecho",1));
 
         try {
-            listaObtenida = this.INSTANCIA.getFacultadPorRegion("Xalapa");
+            listaObtenida = FacultadDB.getFacultadPorRegion("Xalapa");
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
             fail("Fallida: pruebaGetFacultadPorRegionExitosa");
         }
 
@@ -103,9 +103,9 @@ class FacultadDBTest {
         List<Facultad> listaObtenida = new ArrayList<>();
 
         try {
-            listaObtenida = this.INSTANCIA.getFacultadPorRegion("Coatepec");
+            listaObtenida = FacultadDB.getFacultadPorRegion("Coatepec");
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
             fail("Fallida: pruebaGetFacultadPorRegionInexistente");
         }
         assertTrue(listaObtenida.isEmpty());
@@ -117,9 +117,9 @@ class FacultadDBTest {
         List<Facultad> listaObtenida = new ArrayList<>();
 
         try {
-            listaObtenida = this.INSTANCIA.getFacultadPorRegion(null);
+            listaObtenida = FacultadDB.getFacultadPorRegion(null);
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
             fail("Fallida: pruebaGetFacultadPorRegionNula");
         }
 
@@ -136,9 +136,9 @@ class FacultadDBTest {
         listaEsperada.add(new Facultad(1,"Facultad de Estadística e Informática",1));
 
         try {
-            listaObtenida = this.INSTANCIA.getTodasAlfabeticamente();
+            listaObtenida = FacultadDB.getTodasAlfabeticamente();
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
             fail("pruebaGetTodasAlfabeticamenteExitosa");
         }
         assertEqualListFacultad(listaEsperada,listaObtenida);

@@ -6,21 +6,19 @@ import Logica.Dominio.Pais;
 import Logica.Dominio.Universidad;
 import Logica.ErrorDAO;
 import Logica.Interfaces.IPaisDAO;
-
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
 public class DAOPais implements IPaisDAO {
-    private static final PaisDB PAIS_DB = new PaisDB();
     private static Bitacora bitacora = new Bitacora(Universidad.class.getName());
 
     @Override
     public List<Pais> paisesAlfabeticamente() throws ErrorDAO {
         try {
-            return PAIS_DB.paisesAlfabeticamente();
-        } catch (ErrorDAO error) {
-            bitacora.escribirError(error);
-            throw error;
+            return PaisDB.paisesAlfabeticamente();
+        } catch (SQLException error) {
+            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
         }
     }
 
@@ -29,10 +27,9 @@ public class DAOPais implements IPaisDAO {
         Pais pais = null;
         if (Optional.ofNullable(nombre).isPresent() && !nombre.isBlank()) {
             try {
-                pais = PAIS_DB.getPaisPorNombre(nombre);
-            } catch (ErrorDAO error) {
-                bitacora.escribirError(error);
-                throw error;
+                pais = PaisDB.getPaisPorNombre(nombre);
+            } catch (SQLException error) {
+
             }
         }
         return Optional.ofNullable(pais);
@@ -43,10 +40,9 @@ public class DAOPais implements IPaisDAO {
         Pais pais = null;
         if (id > 0) {
             try {
-                pais = PAIS_DB.getPaisPorId(id);
-            } catch (ErrorDAO error) {
-                bitacora.escribirError(error);
-                throw error;
+                pais = PaisDB.getPaisPorId(id);
+            } catch (SQLException error) {
+
             }
         }
         return Optional.ofNullable(pais);

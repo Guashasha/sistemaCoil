@@ -2,19 +2,18 @@ package test.AccesoADatos;
 
 import AccesoADatos.PaisDB;
 import Logica.Dominio.Pais;
-import Logica.ErrorDAO;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import test.ConfiguracionPrueba;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static test.AsercionListas.assertEqualListPais;
 
 class PaisDBTest {
-    private final PaisDB INSTANCIA = new PaisDB();
-
     @BeforeAll
     static void setUp() {
         ConfiguracionPrueba.ejecutarInstruccionSQL("DELETE FROM pais;");
@@ -36,9 +35,9 @@ class PaisDBTest {
         listaEsperada.add(new Pais(1,"MX","México"));
 
         try {
-            listaObtenida = this.INSTANCIA.paisesAlfabeticamente();
+            listaObtenida = PaisDB.paisesAlfabeticamente();
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
             fail("Fallida: pruebaPaisesAlfabeticamenteExitosa");
         }
 
@@ -52,9 +51,9 @@ class PaisDBTest {
         Pais obtenido = new Pais();
 
         try {
-            obtenido = this.INSTANCIA.getPaisPorNombre(esperado.getNombre());
+            obtenido = PaisDB.getPaisPorNombre(esperado.getNombre());
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
             fail("Fallida: pruebaGetPaisPorNombreExitosa");
         }
 
@@ -69,9 +68,9 @@ class PaisDBTest {
         Pais obtenido = new Pais();
 
         try {
-            obtenido = this.INSTANCIA.getPaisPorNombre("Argentina");
+            obtenido = PaisDB.getPaisPorNombre("Argentina");
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
             fail("Fallida: pruebaGetPaisPorNombreExitosa");
         }
 
@@ -84,9 +83,9 @@ class PaisDBTest {
         Pais obtenido = new Pais();
 
         try {
-            obtenido = this.INSTANCIA.getPaisPorNombre(null);
+            obtenido = PaisDB.getPaisPorNombre(null);
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
             fail("Fallida: pruebaGetPaisPorNombreNulo");
         }
 
@@ -100,9 +99,9 @@ class PaisDBTest {
         Pais obtenido = new Pais();
 
         try {
-            obtenido = this.INSTANCIA.getPaisPorId(esperado.getId());
+            obtenido = PaisDB.getPaisPorId(esperado.getId());
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
             fail("Fallisa: pruebaGetPaisPorIdExitosa");
         }
         assertEquals(esperado.getId(),obtenido.getId());
@@ -116,9 +115,9 @@ class PaisDBTest {
         Pais obtenido = new Pais();
 
         try {
-            obtenido = this.INSTANCIA.getPaisPorId(0);
+            obtenido = PaisDB.getPaisPorId(0);
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
             fail("Fallisa: pruebaGetPaisPorIdInexistente");
         }
 

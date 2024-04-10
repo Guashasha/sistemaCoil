@@ -2,11 +2,12 @@ package test.AccesoADatos;
 
 import AccesoADatos.RegionDB;
 import Logica.Dominio.Region;
-import Logica.ErrorDAO;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import test.ConfiguracionPrueba;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
@@ -14,8 +15,6 @@ import static test.ConfiguracionPrueba.ejecutarInstruccionSQL;
 import static test.AsercionListas.assertEqualListRegion;
 
 class RegionDBTest {
-    private final RegionDB INSTANCIA = new RegionDB();
-
     @BeforeAll
     static void setUp () {
         ConfiguracionPrueba.borrarDatosTablaFacultad();
@@ -38,9 +37,9 @@ class RegionDBTest {
         listaEsperada.add(new Region(1,"Xalapa"));
 
         try {
-            listaObtenida = this.INSTANCIA.getTodasAlfabeticamente();
+            listaObtenida = RegionDB.getTodasAlfabeticamente();
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
             fail("Fallida: pruebaGetTodasAlfabeticamenteExitosa");
         }
         assertEqualListRegion(listaEsperada,listaObtenida);
