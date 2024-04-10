@@ -6,11 +6,10 @@ import Logica.ErrorDAO;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.log4j.Logger;
 
 public class AcademicoDB {
     private static final ConexionBaseDatos CONEXION_BASE_DATOS = new ConexionBaseDatos();
-    private static Logger bitacora = Logger.getLogger(AcademicoDB.class);
+   // private static Bitacora bitacora = new Bitacora(Academico.class.getName());
 
     public static List<Academico> getListaAcademicoPorCampos (String campo, String valor) throws ErrorDAO {
 
@@ -94,7 +93,7 @@ public class AcademicoDB {
             CONEXION_BASE_DATOS.desconectar();
         }
         catch (SQLException error) {
-            bitacora.info(error.getMessage());
+            //bitacora.escribirError(error);
 
             throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.INSERCION);
         }
