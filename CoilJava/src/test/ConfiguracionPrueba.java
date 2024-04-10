@@ -1,10 +1,5 @@
 package test;
 
-import AccesoADatos.AcademicoDB;
-import AccesoADatos.UniversidadDB;
-import Logica.Dominio.Academico;
-import Logica.Dominio.Estudiante;
-import Logica.Dominio.Universidad;
 
 import java.sql.*;
 
