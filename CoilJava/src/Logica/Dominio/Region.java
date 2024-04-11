@@ -32,4 +32,20 @@ public class Region {
     public void setId (int id) {
         this.id = id;
     }
+
+    @Override
+    public boolean equals (Object obj) {
+        boolean igual;
+        if (this == obj) {
+            igual = true;
+        }
+        else if (obj == null || !(obj instanceof Region)) {
+            igual = false;
+        }
+        else {
+            Region region = (Region) obj;
+            igual = this.id == region.getId() && this.nombre.equals(region.getNombre())? true:false;
+        }
+        return igual;
+    }
 }

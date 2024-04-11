@@ -46,4 +46,20 @@ public class Pais {
     public String getNombre () {
         return this.nombre;
     }
+
+    @Override
+    public boolean equals (Object obj) {
+        boolean igual;
+        if (this == obj) {
+            igual = true;
+        }
+        else if (obj == null || !(obj instanceof Pais)) {
+            igual = false;
+        }
+        else {
+            Pais pais = (Pais) obj;
+            igual = this.id == pais.getId() && this.iso.equals(pais.getIso()) && this.nombre.equals(pais.getNombre())? true:false;
+        }
+        return igual;
+    }
 }

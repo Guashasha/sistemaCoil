@@ -6,23 +6,21 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import test.ConfiguracionPrueba;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
-import static test.AsercionListas.assertEqualListPais;
 
 class PaisDBTest {
     @BeforeAll
     static void setUp() {
-        ConfiguracionPrueba.ejecutarInstruccionSQL("DELETE FROM pais;");
+        ConfiguracionPrueba.borrarDatosTablaPais();
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO pais (idPais,Iso,nombre) VALUES (1,'MX','México'),  (2,'US','Estados Unidos'), (3,'BR','Brasil');");
     }
 
     @AfterAll
     static void afterAll () {
-        ConfiguracionPrueba.ejecutarInstruccionSQL("DELETE FROM pais;");
+        ConfiguracionPrueba.borrarDatosTablaPais();
     }
 
     @Test
@@ -41,7 +39,13 @@ class PaisDBTest {
             fail("Fallida: pruebaPaisesAlfabeticamenteExitosa");
         }
 
-        assertEqualListPais(listaEsperada,listaObtenida);
+        assertEquals(listaEsperada.size(),listaObtenida.size());
+        while (!listaEsperada.isEmpty()){
+            Pais esperado = listaEsperada.get(0);
+            assert(esperado.equals(listaObtenida.get(0)));
+            listaEsperada.remove(0);
+            listaObtenida.remove(0);
+        }
     }
 
     @Test
@@ -102,7 +106,7 @@ class PaisDBTest {
             obtenido = PaisDB.getPaisPorId(esperado.getId());
         }
         catch (SQLException error) {
-            fail("Fallisa: pruebaGetPaisPorIdExitosa");
+            fail("Fallida: pruebaGetPaisPorIdExitosa");
         }
         assertEquals(esperado.getId(),obtenido.getId());
         assertEquals(esperado.getIso(),obtenido.getIso());

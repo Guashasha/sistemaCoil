@@ -6,18 +6,21 @@ import Logica.Dominio.Pais;
 import Logica.Dominio.Universidad;
 import Logica.ErrorDAO;
 import Logica.Interfaces.IPaisDAO;
+import org.apache.log4j.Logger;
+
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
 public class DAOPais implements IPaisDAO {
-    private static Bitacora bitacora = new Bitacora(Universidad.class.getName());
+    private static Logger bitacora = Logger.getLogger(DAOPais.class);
 
     @Override
     public List<Pais> paisesAlfabeticamente() throws ErrorDAO {
         try {
             return PaisDB.paisesAlfabeticamente();
         } catch (SQLException error) {
+            bitacora.info("Error en PaisDB.paisesAlfabeticamente()");
             throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
         }
     }

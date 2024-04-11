@@ -2,17 +2,14 @@ package test.AccesoADatos;
 
 import AccesoADatos.FacultadDB;
 import Logica.Dominio.Facultad;
-import Logica.ErrorDAO;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import test.ConfiguracionPrueba;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import static test.ConfiguracionPrueba.ejecutarInstruccionSQL;
-import static test.AsercionListas.assertEqualListFacultad;
 import static org.junit.jupiter.api.Assertions.*;
 
 class FacultadDBTest {
@@ -44,9 +41,7 @@ class FacultadDBTest {
             fail("Fallida: pruebaGetFacultadPorNombreExitosa");
         }
 
-        assertEquals(esperada.getId(),obtenida.getId());
-        assertEquals(esperada.getNombre(),obtenida.getNombre());
-        assertEquals(esperada.getIdRegion(),obtenida.getIdRegion());
+        assertTrue(esperada.equals(obtenida));
     }
 
     @Test
@@ -94,7 +89,13 @@ class FacultadDBTest {
             fail("Fallida: pruebaGetFacultadPorRegionExitosa");
         }
 
-        assertEqualListFacultad(listaEsperada,listaObtenida);
+        assertEquals(listaEsperada.size(),listaObtenida.size());
+        while (!listaEsperada.isEmpty()) {
+            Facultad esperada = listaEsperada.get(0);
+            assertTrue(esperada.equals(listaObtenida.get(0)));
+            listaEsperada.remove(0);
+            listaObtenida.remove(0);
+        }
     }
 
     @Test
@@ -141,6 +142,13 @@ class FacultadDBTest {
         catch (SQLException error) {
             fail("pruebaGetTodasAlfabeticamenteExitosa");
         }
-        assertEqualListFacultad(listaEsperada,listaObtenida);
+
+        assertEquals(listaEsperada.size(),listaObtenida.size());
+        while (!listaEsperada.isEmpty()) {
+            Facultad esperada = listaEsperada.get(0);
+            assertTrue(esperada.equals(listaObtenida.get(0)));
+            listaEsperada.remove(0);
+            listaObtenida.remove(0);
+        }
     }
 }

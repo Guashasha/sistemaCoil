@@ -11,13 +11,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
-import static test.AsercionListas.assertEqualListUniversidad;
+import static test.ConfiguracionPrueba.borrarDatosTablaPais;
 import static test.ConfiguracionPrueba.ejecutarInstruccionSQL;
 
 class UniversidadDBTest {
     @BeforeAll
     static void beforeAll () {
-        ejecutarInstruccionSQL("DELETE FROM pais;");
+        borrarDatosTablaPais();
         ejecutarInstruccionSQL("INSERT INTO pais (idPais,Iso,nombre) VALUES (1,'MX','México'),  (2,'US','Estados Unidos');");
     }
 
@@ -30,7 +30,7 @@ class UniversidadDBTest {
     @AfterAll
     static void arterAll () {
         ConfiguracionPrueba.borrarDatosTablaUniversidad();
-        ejecutarInstruccionSQL("DELETE FROM pais;");
+        borrarDatosTablaPais();
     }
 
     @Test
@@ -121,9 +121,7 @@ class UniversidadDBTest {
         catch (SQLException error) {
             fail("Fallida: pruebaGetUniversidadPorNombreExitosa");
         }
-        assertEquals(esperada.getId(),obtenida.getId());
-        assertEquals(esperada.getNombre(),obtenida.getNombre());
-        assertEquals(esperada.getIdPais(),obtenida.getIdPais());
+        assertTrue(esperada.equals(obtenida));
     }
 
     @Test
@@ -167,7 +165,13 @@ class UniversidadDBTest {
             fail("Fallida: pruebaGetUniversidadesPorPaisOrigenExitosa");
         }
 
-        assertEqualListUniversidad(listaEsperada,listaObtenida);
+        assertEquals(listaEsperada.size(),listaObtenida.size());
+        while (!listaEsperada.isEmpty()) {
+            Universidad esperada = listaEsperada.get(0);
+            assertTrue(esperada.equals(listaObtenida.get(0)));
+            listaEsperada.remove(0);
+            listaObtenida.remove(0);
+        }
     }
 
     @Test
@@ -216,7 +220,13 @@ class UniversidadDBTest {
             fail("Fallida: getTodasAlfabeticamente");
         }
 
-        assertEqualListUniversidad(listaEsperada,listaObtenida);
+        assertEquals(listaEsperada.size(),listaObtenida.size());
+        while (!listaEsperada.isEmpty()) {
+            Universidad esperada = listaEsperada.get(0);
+            assertTrue(esperada.equals(listaObtenida.get(0)));
+            listaEsperada.remove(0);
+            listaObtenida.remove(0);
+        }
     }
 
 }

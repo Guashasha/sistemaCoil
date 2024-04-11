@@ -6,13 +6,11 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import test.ConfiguracionPrueba;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static test.ConfiguracionPrueba.ejecutarInstruccionSQL;
-import static test.AsercionListas.assertEqualListRegion;
 
 class RegionDBTest {
     @BeforeAll
@@ -42,6 +40,13 @@ class RegionDBTest {
         catch (SQLException error) {
             fail("Fallida: pruebaGetTodasAlfabeticamenteExitosa");
         }
-        assertEqualListRegion(listaEsperada,listaObtenida);
+
+        assertEquals(listaEsperada.size(),listaObtenida.size());
+        while (!listaEsperada.isEmpty()) {
+            Region esperada = listaEsperada.get(0);
+            assertTrue(esperada.equals(listaObtenida.get(0)));
+            listaEsperada.remove(0);
+            listaObtenida.remove(0);
+        }
     }
 }

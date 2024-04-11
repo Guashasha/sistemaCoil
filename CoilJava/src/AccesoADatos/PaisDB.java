@@ -1,7 +1,6 @@
 package AccesoADatos;
 
 import Logica.Dominio.Pais;
-import Logica.ErrorDAO;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
