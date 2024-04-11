@@ -10,13 +10,13 @@ import java.sql.SQLException;
 
 
 public class ActividadDB {
-    private static final ConexionBaseDatos db = new ConexionBaseDatos();
+    private static final ConexionBaseDatos CONEXION = new ConexionBaseDatos();
 
     public static int agregarActividad (Actividad actividad) throws SQLException {
         int resultado = -1;
 
         try {
-            PreparedStatement consulta = db.getConexion().prepareStatement("insert into actividad (titulo, descripcion, tipo) values (?, ?, ?);");
+            PreparedStatement consulta = CONEXION.getConexion().prepareStatement("insert into actividad (titulo, descripcion, tipo) values (?, ?, ?);");
 
             consulta.setString(1, actividad.getTitulo());
             consulta.setString(2, actividad.getDescripcion());
@@ -26,7 +26,7 @@ public class ActividadDB {
             consulta.close();
         }
         finally {
-            db.desconectar();
+            CONEXION.desconectar();
         }
 
         return resultado;
@@ -36,7 +36,7 @@ public class ActividadDB {
         ResultSet resultado = null;
 
         try {
-            PreparedStatement consulta = db.getConexion().prepareStatement("select * from actividad where idActividad=?");
+            PreparedStatement consulta = CONEXION.getConexion().prepareStatement("select * from actividad where idActividad=?");
 
             consulta.setInt(1, idActividad);
 
@@ -44,7 +44,7 @@ public class ActividadDB {
             consulta.close();
         }
         finally {
-            db.desconectar();
+            CONEXION.desconectar();
         }
 
         return resultado;
@@ -54,7 +54,7 @@ public class ActividadDB {
         ResultSet resultado = null;
 
         try {
-            PreparedStatement consulta = db.getConexion().prepareStatement("select * from actividad where titulo=?");
+            PreparedStatement consulta = CONEXION.getConexion().prepareStatement("select * from actividad where titulo=?");
 
             consulta.setString(1, titulo);
 
@@ -62,7 +62,7 @@ public class ActividadDB {
             consulta.close();
         }
         finally {
-            db.desconectar();
+            CONEXION.desconectar();
         }
 
         return resultado;
@@ -72,13 +72,13 @@ public class ActividadDB {
         ResultSet resultado = null;
 
         try {
-            PreparedStatement consulta = db.getConexion().prepareStatement("select * from actividad");
+            PreparedStatement consulta = CONEXION.getConexion().prepareStatement("select * from actividad");
 
             resultado = consulta.executeQuery();
             consulta.close();
         }
         finally {
-            db.desconectar();
+            CONEXION.desconectar();
         }
 
         return resultado;
@@ -88,7 +88,7 @@ public class ActividadDB {
         int resultado = -1;
 
         try {
-            PreparedStatement consulta = db.getConexion().prepareStatement("update actividad set descripcion=?, tipo=? where titulo=?");
+            PreparedStatement consulta = CONEXION.getConexion().prepareStatement("update actividad set descripcion=?, tipo=? where titulo=?");
 
             consulta.setString(1, actividad.getDescripcion());
             consulta.setString(2, actividad.getTipo().toString());
@@ -98,7 +98,7 @@ public class ActividadDB {
             consulta.close();
         }
         finally {
-            db.desconectar();
+            CONEXION.desconectar();
         }
 
         return resultado;

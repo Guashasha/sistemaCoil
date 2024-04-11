@@ -69,6 +69,26 @@ public class RetroalimentacionColaboracion extends Retroalimentacion {
         this.colaboracion = colaboracion;
     }
 
+    @Override
+    public boolean equals (Object objeto) {
+        if (objeto == null || !objeto.getClass().getName().equals(RetroalimentacionActividad.class.getName())) {
+            return false;
+        }
+
+        RetroalimentacionColaboracion retroalimentacion = (RetroalimentacionColaboracion) objeto;
+
+        return this.getColaboracion() == retroalimentacion.getColaboracion() &&
+                this.getHabilidadesObtenidas() == retroalimentacion.getHabilidadesObtenidas() &&
+                this.getCalificacion() == retroalimentacion.getCalificacion() &&
+                this.getIntercambioCultural() == retroalimentacion.getIntercambioCultural() &&
+                this.getInteraccionConPar() == retroalimentacion.getInteraccionConPar() &&
+                this.getMejoraDelLenguaje() == retroalimentacion.getMejoraDelLenguaje() &&
+                this.getTrabajoColaborativo() == retroalimentacion.getTrabajoColaborativo() &&
+                this.getMejoraFormacionProfesional() == retroalimentacion.getMejoraFormacionProfesional() &&
+                this.getIdUsuario() == retroalimentacion.getIdUsuario() &&
+                this.getComentario().isPresent() && retroalimentacion.getComentario().isPresent();
+    }
+
     public boolean esCorrecta () {
         boolean resultado = true;
 

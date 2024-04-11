@@ -73,6 +73,16 @@ public class DAOActividad implements IActividadDAO {
             bitacora.escribirError(error);
         }
 
+        Actividad actividad = null;
+
+        try {
+            if (resultado.next()) {
+                actividad = resultSetAObjeto(resultado);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
         return Optional.ofNullable(resultSetAObjeto(resultado));
     }
 
@@ -87,7 +97,16 @@ public class DAOActividad implements IActividadDAO {
             bitacora.escribirError(error);
         }
 
-        Actividad actividad = resultSetAObjeto(resultado);
+        Actividad actividad = null;
+
+        try {
+            if (resultado.next()) {
+                actividad = resultSetAObjeto(resultado);
+            }
+        }
+        catch (SQLException error) {
+            bitacora.escribirError(error);
+        }
 
         return Optional.ofNullable(actividad);
     }

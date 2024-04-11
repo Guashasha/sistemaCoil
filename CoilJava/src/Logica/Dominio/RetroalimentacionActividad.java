@@ -33,10 +33,13 @@ public class RetroalimentacionActividad extends Retroalimentacion {
         this.interes = interes;
     }
 
-    public boolean equals (RetroalimentacionActividad retroalimentacion) {
-        if (retroalimentacion == null) {
+    @Override
+    public boolean equals (Object objeto) {
+        if (objeto == null || !objeto.getClass().getName().equals(RetroalimentacionActividad.class.getName())) {
             return false;
         }
+
+        RetroalimentacionActividad retroalimentacion = (RetroalimentacionActividad) objeto;
 
         return this.getIdUsuario() == retroalimentacion.getIdUsuario() &&
                 this.getComentario() == retroalimentacion.getComentario() &&

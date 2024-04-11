@@ -9,14 +9,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class RetroalimentacionActividadDB {
-    private static final ConexionBaseDatos db = new ConexionBaseDatos();
+    private static final ConexionBaseDatos CONEXION = new ConexionBaseDatos();
     private static final Bitacora bitacora = new Bitacora(RetroalimentacionActividad.class.getName());
 
     public static int agregarRetroalimentacion (RetroalimentacionActividad retroalimentacion) throws SQLException {
         int resultado = -1;
 
         try {
-            CallableStatement consulta = db.getConexion()
+            CallableStatement consulta = CONEXION.getConexion()
                     .prepareCall("call insertarRetroalimentacionActividad (?, ?, ?, ?, ?, ?)");
 
             consulta.setInt(1, retroalimentacion.getInteraccionConPar());
@@ -35,7 +35,7 @@ public class RetroalimentacionActividadDB {
             consulta.close();
         }
         finally {
-            db.desconectar();
+            CONEXION.desconectar();
         }
 
         return resultado;
@@ -45,7 +45,7 @@ public class RetroalimentacionActividadDB {
         ResultSet retroalimentacion = null;
 
         try {
-            PreparedStatement consulta = db.getConexion().prepareStatement("select idRetroalimentacion, interaccionPar, comentario, dificultad, interes, usuario, actividad from retroalimentacion natural join retroalimentacionActividad where retroalimentacion.idRetroalimentacion=?;");
+            PreparedStatement consulta = CONEXION.getConexion().prepareStatement("select idRetroalimentacion, interaccionPar, comentario, dificultad, interes, usuario, actividad from retroalimentacion natural join retroalimentacionActividad where retroalimentacion.idRetroalimentacion=?;");
 
             consulta.setInt(1, id);
 
@@ -53,7 +53,7 @@ public class RetroalimentacionActividadDB {
             consulta.close();
         }
         finally {
-            db.desconectar();
+            CONEXION.desconectar();
         }
 
         return retroalimentacion;
@@ -64,7 +64,7 @@ public class RetroalimentacionActividadDB {
 
         try {
             PreparedStatement consulta = null;
-            consulta = db.getConexion().prepareStatement("select idRetroalimentacion, interaccionPar, comentario, dificultad, interes, usuario, actividad from retroalimentacion natural join retroalimentacionActividad where retroalimentacion.usuario=? and retroalimentacionActividad.actividad=?;");
+            consulta = CONEXION.getConexion().prepareStatement("select idRetroalimentacion, interaccionPar, comentario, dificultad, interes, usuario, actividad from retroalimentacion natural join retroalimentacionActividad where retroalimentacion.usuario=? and retroalimentacionActividad.actividad=?;");
 
             consulta.setInt(1, idPersona);
             consulta.setInt(2, idActividad);
@@ -73,7 +73,7 @@ public class RetroalimentacionActividadDB {
             consulta.close();
         }
         finally {
-            db.desconectar();
+            CONEXION.desconectar();
         }
 
         return retroalimentacion;
@@ -83,13 +83,13 @@ public class RetroalimentacionActividadDB {
         ResultSet resultado = null;
 
         try {
-            PreparedStatement consulta = db.getConexion().prepareStatement("select idRetroalimentacion, interaccionPar, comentario, dificultad, interes, usuario, actividad from retroalimentacion natural join retroalimentacionActividad");
+            PreparedStatement consulta = CONEXION.getConexion().prepareStatement("select idRetroalimentacion, interaccionPar, comentario, dificultad, interes, usuario, actividad from retroalimentacion natural join retroalimentacionActividad");
 
             resultado = consulta.executeQuery();
             consulta.close();
         }
         finally {
-            db.desconectar();
+            CONEXION.desconectar();
         }
 
         return resultado;

@@ -63,12 +63,12 @@ public class DAORetroalimentacionActividad implements IRetroalimentacionActivida
         RetroalimentacionActividad objRetroalimentacion = null;
 
         try {
-            objRetroalimentacion = resultSetAObjeto(rsRetroalimentacion);
+            if (rsRetroalimentacion.next()) {
+                objRetroalimentacion = resultSetAObjeto(rsRetroalimentacion);
+            }
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
             bitacora.escribirError(error);
-
-            throw error;
         }
 
         return Optional.ofNullable(objRetroalimentacion);

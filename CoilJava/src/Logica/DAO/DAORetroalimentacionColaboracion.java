@@ -7,9 +7,9 @@ import Logica.ErrorDAO;
 import Logica.ErrorDAO.Tipo;
 import Logica.Interfaces.IRetroalimentacionColaboracionDAO;
 
-import javax.xml.transform.Result;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,6 +45,10 @@ public class DAORetroalimentacionColaboracion implements IRetroalimentacionColab
 
     @Override
     public Optional<RetroalimentacionColaboracion> getPorId (Integer id) throws ErrorDAO {
+        if (id < 1) {
+            throw new ErrorDAO("la id proporcionada no es correcta", Tipo.VALIDACION);
+        }
+
         ResultSet retroalimentacion = null;
 
         try {
@@ -70,6 +74,9 @@ public class DAORetroalimentacionColaboracion implements IRetroalimentacionColab
 
     @Override
     public Optional<RetroalimentacionColaboracion> getPorPersonaYColaboracion (int idPersona, int idColaboracion) {
+        if (idPersona < 1 || idColaboracion < 1) {
+            throw new ErrorDAO("alguna de las id proporcionadas no es correcta", Tipo.VALIDACION);
+        }
         ResultSet retroalimentacion = null;
 
         try {
@@ -95,7 +102,29 @@ public class DAORetroalimentacionColaboracion implements IRetroalimentacionColab
 
     @Override
     public List<RetroalimentacionColaboracion> getTodos () throws ErrorDAO {
-        return null;
+        ResultSet resultados = null;
+
+        try {
+            resultados = RetroalimentacionColaboracionDB.getTodos();
+        }
+        catch (SQLException error) {
+            bitacora.escribirError(error);
+        }
+
+        List<RetroalimentacionColaboracion> retroalimentaciones = new ArrayList<>();
+
+        try {
+            while (resultados.next()) {
+                RetroalimentacionColaboracion retroalimentacion = resultSetAObjeto(resultados);
+
+                retroalimentaciones.add(retroalimentacion);
+            }
+        }
+        catch (SQLException error) {
+            bitacora.escribirError(error);
+        }
+
+        return retroalimentaciones;
     }
 
     @Override
