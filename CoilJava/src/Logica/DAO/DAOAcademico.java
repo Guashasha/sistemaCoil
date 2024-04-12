@@ -4,13 +4,17 @@ import AccesoADatos.AcademicoDB;
 import Logica.Dominio.Academico;
 import Logica.ErrorDAO;
 import Logica.Interfaces.IAcademicoDAO;
+import org.apache.log4j.Logger;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
 public class DAOAcademico implements IAcademicoDAO {
     //fixme considerar hacer un metodo generico;
+
+    private static final Logger BITACORA = Logger.getLogger(DAOAcademico.class);
 
     @Override
     public List<Academico> getAcademicosPorFacultad (String nombrefacultad) throws ErrorDAO {
@@ -22,8 +26,9 @@ public class DAOAcademico implements IAcademicoDAO {
             listaAcademicos = AcademicoDB.getListaAcademicoPorCampos("facultad",nombrefacultad);
 
         }
-        catch (ErrorDAO errorDAO) {
-            throw errorDAO;
+        catch (SQLException error) {
+            BITACORA.error(error);
+
         }
 
         return listaAcademicos;
@@ -39,8 +44,9 @@ public class DAOAcademico implements IAcademicoDAO {
             academico = AcademicoDB.getAcademicoPorCedula(cedula);
 
         }
-        catch (ErrorDAO errorDAO) {
-            throw errorDAO;
+        catch (SQLException error) {
+            BITACORA.fatal(error);
+
         }
 
         return Optional.ofNullable(academico);
@@ -55,8 +61,9 @@ public class DAOAcademico implements IAcademicoDAO {
         try {
             listaAcademicos = AcademicoDB.getListaAcademicoPorCampos("universidad", nombreUniversidad);
         }
-        catch (ErrorDAO errorDAO) {
-            throw errorDAO;
+        catch (SQLException error) {
+            BITACORA.fatal(error);
+
         }
 
         return listaAcademicos;
@@ -71,8 +78,8 @@ public class DAOAcademico implements IAcademicoDAO {
         try {
             listaAcademicos = AcademicoDB.getListaAcademicoPorCampos("area", areaEstudios);
         }
-        catch (ErrorDAO errorDAO) {
-            throw errorDAO;
+        catch (SQLException error) {
+            BITACORA.fatal(error);
         }
 
         return listaAcademicos;
@@ -89,8 +96,8 @@ public class DAOAcademico implements IAcademicoDAO {
         try {
             listaAcademicos = AcademicoDB.getListaAcademicoPorCampos("categoria", categoriaContratacion);
         }
-        catch (ErrorDAO errorDAO) {
-            throw errorDAO;
+        catch (SQLException error) {
+            BITACORA.fatal(error);
         }
 
         return listaAcademicos;
@@ -105,8 +112,9 @@ public class DAOAcademico implements IAcademicoDAO {
         try {
             listaAcademicos = AcademicoDB.getListaAcademicoPorCampos("region", region);
         }
-        catch (ErrorDAO errorDAO) {
-            throw errorDAO;
+        catch (SQLException error) {
+            BITACORA.error(error);
+
         }
 
         return listaAcademicos;
@@ -121,8 +129,8 @@ public class DAOAcademico implements IAcademicoDAO {
         try {
             academico = AcademicoDB.getAcademicoPorId(idPersona);
         }
-        catch (ErrorDAO errorDAO) {
-            throw errorDAO;
+        catch (SQLException error) {
+            BITACORA.error(error);
         }
 
         return Optional.ofNullable(academico);
@@ -130,7 +138,7 @@ public class DAOAcademico implements IAcademicoDAO {
 
     @Override
     public int agregar (Academico academico) throws ErrorDAO {
-        int filasAfectadas;
+        int filasAfectadas = -1;
 
         if (!academico.validarNulos()) {
             throw new ErrorDAO ("Existe al menos un campo vacio en el academico", ErrorDAO.Tipo.VALIDACION);
@@ -139,8 +147,8 @@ public class DAOAcademico implements IAcademicoDAO {
             filasAfectadas = AcademicoDB.agregarAcademico(academico);
 
         }
-        catch (ErrorDAO errorDAO) {
-            throw errorDAO;
+        catch (SQLException error) {
+            BITACORA.error(error);
         }
 
         return filasAfectadas;
@@ -148,7 +156,7 @@ public class DAOAcademico implements IAcademicoDAO {
 
     @Override
     public int modificar (Academico academico) throws ErrorDAO {
-        int filasAfectadas;
+        int filasAfectadas = -1;
 
         if (!academico.validarNulos()) {
             throw new ErrorDAO ("Existe al menos un campo vacio en el academico", ErrorDAO.Tipo.VALIDACION);
@@ -157,8 +165,8 @@ public class DAOAcademico implements IAcademicoDAO {
             filasAfectadas = AcademicoDB.editarAcademico(academico);
 
         }
-        catch (ErrorDAO errorDAO) {
-            throw errorDAO;
+        catch (SQLException error) {
+            BITACORA.error(error);
         }
 
         return filasAfectadas;
@@ -173,7 +181,16 @@ public class DAOAcademico implements IAcademicoDAO {
 
     @Override
     public List<Academico> getTodos () throws ErrorDAO {
-        return AcademicoDB.getTodos();
+        List<Academico> listaAcademicos = null;
+        try {
+            listaAcademicos = AcademicoDB.getTodos();
+
+        }
+        catch (SQLException error) {
+            BITACORA.error(error);
+        }
+
+        return listaAcademicos;
     }
 
     @Override

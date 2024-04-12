@@ -1,24 +1,30 @@
 package Logica.Dominio;
 
-import java.sql.Date;
+
+import java.time.LocalDate;
 
 public class Periodo {
-    private Date fechaInicio;
-    private Date fechaFin;
+    private LocalDate fechaInicio;
+    private LocalDate fechaFin;
 
-    public Date getFechaInicio() {
+    public LocalDate getFechaInicio () {
         return fechaInicio;
     }
 
-    public void setFechaInicio(Date fechaInicio) {
+    public void setFechaInicio (LocalDate fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
 
-    public Date getFechaFin() {
+    public LocalDate getFechaFin () {
         return fechaFin;
     }
 
-    public void setFechaFin(Date fechaFin) {
+    public void setFechaFin (LocalDate fechaFin) {
         this.fechaFin = fechaFin;
+    }
+
+    public boolean validarNulo () {
+        return fechaInicio != null &&
+                fechaFin != null;
     }
 }

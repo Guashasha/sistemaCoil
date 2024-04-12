@@ -9,9 +9,8 @@ import java.util.List;
 
 public class AcademicoDB {
     private static final ConexionBaseDatos CONEXION_BASE_DATOS = new ConexionBaseDatos();
-   // private static Bitacora bitacora = new Bitacora(Academico.class.getName());
 
-    public static List<Academico> getListaAcademicoPorCampos (String campo, String valor) throws ErrorDAO {
+    public static List<Academico> getListaAcademicoPorCampos (String campo, String valor) throws SQLException {
 
         String procedimientoSQL = "{CALL obtener_academicos_campos(?,?)}";
         List<Academico> listaAcademicos = new ArrayList<>();
@@ -29,20 +28,17 @@ public class AcademicoDB {
                 listaAcademicos.add(academico);
             }
 
-
-            CONEXION_BASE_DATOS.desconectar();
             obtenerPorCampo.close();
             resultadoLLamada.close();
         }
-        catch (SQLException error) {
-            //bitacora.escribirError(error);
+        finally {
+            CONEXION_BASE_DATOS.desconectar();
 
-            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
         }
         return listaAcademicos;
     }
 
-    public static Academico getAcademicoPorCedula (String cedula) throws ErrorDAO {
+    public static Academico getAcademicoPorCedula (String cedula) throws SQLException {
         String procedimientoSQL = "{CALL obtener_academicos_campos(?,?)}";
         Academico academico = null;
         try {
@@ -61,15 +57,14 @@ public class AcademicoDB {
             CONEXION_BASE_DATOS.desconectar();
             resultadoLLamada.close();
         }
-        catch (SQLException error) {
-            //bitacora.escribirError(error);
+        finally {
+            CONEXION_BASE_DATOS.desconectar();
 
-            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
         }
         return academico;
     }
 
-    public static int agregarAcademico (Academico academico) throws ErrorDAO {
+    public static int agregarAcademico (Academico academico) throws SQLException {
         String procedimientoSQL = "{CALL registrar_Academico(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
         int resultado = -1;
 
@@ -90,17 +85,15 @@ public class AcademicoDB {
             registrarAcademico.setInt(11, academico.getIdFacultad());
             resultado = registrarAcademico.executeUpdate();
             registrarAcademico.close();
-            CONEXION_BASE_DATOS.desconectar();
         }
-        catch (SQLException error) {
-            //bitacora.escribirError(error);
+        finally {
+            CONEXION_BASE_DATOS.desconectar();
 
-            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.INSERCION);
         }
         return resultado;
     }
 
-    public static Academico getAcademicoPorId (int id) throws ErrorDAO {
+    public static Academico getAcademicoPorId (int id) throws SQLException {
         String consulta = "SELECT * from vista_Academico WHERE idPersona = ?";
         Academico academico = null;
         try {
@@ -113,18 +106,16 @@ public class AcademicoDB {
                 academico = convertirAcademico(resultadoConsulta);
             }
             consultarAcademico.close();
-            CONEXION_BASE_DATOS.desconectar();
             resultadoConsulta.close();
         }
-        catch (SQLException error) {
-            //bitacora.escribirError(error);
+        finally {
+            CONEXION_BASE_DATOS.desconectar();
 
-            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
         }
         return academico;
     }
 
-    public static List<Academico> getTodos () throws ErrorDAO {
+    public static List<Academico> getTodos () throws SQLException {
         List<Academico> listaAcademicos = new ArrayList<>();
         String consulta = "SELECT * FROM vista_academico";
 
@@ -137,21 +128,19 @@ public class AcademicoDB {
                 Academico academico = convertirAcademico(resultadoConsulta);
                 listaAcademicos.add(academico);
             }
-            CONEXION_BASE_DATOS.desconectar();
             consultaAcademico.close();
             resultadoConsulta.close();
         }
-        catch (SQLException error) {
-            //bitacora.escribirError(error);
+        finally {
+            CONEXION_BASE_DATOS.desconectar();
 
-            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
         }
         return listaAcademicos;
 
     }
 
 
-    public static int editarAcademico (Academico academico) throws ErrorDAO {
+    public static int editarAcademico (Academico academico) throws SQLException {
         int resultado = -1;
         String procedimientoSQL = "{CALL editar_academico(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
         try {
@@ -171,12 +160,11 @@ public class AcademicoDB {
             editarAcademico.setInt(11, academico.getIdFacultad());
             resultado = editarAcademico.executeUpdate();
             editarAcademico.close();
-            CONEXION_BASE_DATOS.desconectar();
-        }
-        catch (SQLException error) {
-            //bitacora.escribirError(error);
 
-            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.MODIFICACION);
+        }
+        finally {
+            CONEXION_BASE_DATOS.desconectar();
+
         }
         return resultado;
     }
