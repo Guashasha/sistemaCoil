@@ -7,6 +7,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import test.ConfiguracionPrueba;
 
+import java.time.LocalDate;
+import java.time.Month;
+
 public class DAORetroalimentacionColaboracionTest {
     @BeforeAll
     public static void setUp () {
@@ -19,7 +22,7 @@ public class DAORetroalimentacionColaboracionTest {
         colaboracion.setIdioma("Español");
         colaboracion.setObjetivo("probar la clase retroalimentacion colaboracion");
         colaboracion.setPerfilEstudiante("ninguno xd");
-        colaboracion.setPeriodo(new Periodo());
+        colaboracion.setPeriodo(new Periodo(LocalDate.of(2024, Month.FEBRUARY, 28), LocalDate.now()));
         colaboracion.setTemaInteres("tambien ninguno xd");
         colaboracion.setTipo(Colaboracion.TipoColaboracion.COIL);
 
@@ -32,7 +35,13 @@ public class DAORetroalimentacionColaboracionTest {
         // TODO
     }
 
-    @Test public void testAgregarIncorrecto () {
+    @Test
+    public void testAgregarIncorrecto () {
+        // TODO
+    }
+
+    @Test
+    public void testAgregarExistente () {
         // TODO
     }
 
