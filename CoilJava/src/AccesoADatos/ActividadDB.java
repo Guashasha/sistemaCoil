@@ -1,8 +1,6 @@
 package AccesoADatos;
 
-import Logica.Bitacora;
 import Logica.Dominio.Actividad;
-import Logica.Dominio.RetroalimentacionActividad;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

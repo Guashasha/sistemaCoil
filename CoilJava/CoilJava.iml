@@ -163,5 +163,10 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="javax.activation-1.1.0.v201105071233" level="project" />
+    <orderEntry type="library" name="javax.mail" level="project" />
+    <orderEntry type="library" name="log4j-1.2.17" level="project" />
+    <orderEntry type="library" name="mysql-connector-j-8.3.0 (2)" level="project" />
+    <orderEntry type="library" name="mariadb-java-client-3.3.3 (2)" level="project" />
   </component>
 </module>

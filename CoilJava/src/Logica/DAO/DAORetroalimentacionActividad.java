@@ -1,10 +1,10 @@
 package Logica.DAO;
 
 import AccesoADatos.RetroalimentacionActividadDB;
-import Logica.Bitacora;
 import Logica.Dominio.RetroalimentacionActividad;
 import Logica.ErrorDAO;
 import Logica.Interfaces.IRetroalimentacionActividadDAO;
+import org.apache.log4j.Logger;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,7 +15,7 @@ import java.util.Optional;
 import static Logica.ErrorDAO.Tipo;
 
 public class DAORetroalimentacionActividad implements IRetroalimentacionActividadDAO {
-    private static final Bitacora bitacora = new Bitacora(RetroalimentacionActividad.class.getName());
+    private static final Logger BITACORA = Logger.getLogger(RetroalimentacionActividad.class.getName());
 
     @Override
     public int agregar (RetroalimentacionActividad retroalimentacion) throws ErrorDAO {
@@ -30,10 +30,10 @@ public class DAORetroalimentacionActividad implements IRetroalimentacionActivida
         int resultado = -1;
 
         try {
-            resultado = RetroalimentacionActividadDB.agregarRetroalimentacion((RetroalimentacionActividad) retroalimentacion);
+            resultado = RetroalimentacionActividadDB.agregarRetroalimentacion(retroalimentacion);
         }
         catch (SQLException error) {
-            bitacora.escribirError(error);
+            BITACORA.error(error);
         }
 
         return resultado;
@@ -56,7 +56,7 @@ public class DAORetroalimentacionActividad implements IRetroalimentacionActivida
             rsRetroalimentacion = RetroalimentacionActividadDB.getPorId(id);
         }
         catch (SQLException error) {
-            bitacora.escribirError(error);
+            BITACORA.error(error);
         }
 
 
@@ -68,7 +68,7 @@ public class DAORetroalimentacionActividad implements IRetroalimentacionActivida
             }
         }
         catch (SQLException error) {
-            bitacora.escribirError(error);
+            BITACORA.error(error);
         }
 
         return Optional.ofNullable(objRetroalimentacion);
@@ -83,7 +83,7 @@ public class DAORetroalimentacionActividad implements IRetroalimentacionActivida
             resultsRetroalimentaciones = RetroalimentacionActividadDB.getTodos();
         }
         catch (SQLException error) {
-            bitacora.escribirError(error);
+            BITACORA.error(error);
         }
 
         try {
@@ -96,7 +96,7 @@ public class DAORetroalimentacionActividad implements IRetroalimentacionActivida
             }
         }
         catch (SQLException error) {
-            bitacora.escribirError(error);
+            BITACORA.error(error);
         }
 
         return retroalimentaciones;
@@ -114,7 +114,7 @@ public class DAORetroalimentacionActividad implements IRetroalimentacionActivida
             resultados = RetroalimentacionActividadDB.getPorPersonaYActividad(idPersona, idActividad);
         }
         catch(SQLException error) {
-            bitacora.escribirError(error);
+            BITACORA.error(error);
         }
 
         RetroalimentacionActividad retroalimentacion = null;
@@ -124,7 +124,7 @@ public class DAORetroalimentacionActividad implements IRetroalimentacionActivida
                 retroalimentacion = resultSetAObjeto(resultados);
             }
         } catch (SQLException error) {
-            bitacora.escribirError(error);
+            BITACORA.error(error);
         }
 
         return Optional.ofNullable(retroalimentacion);
@@ -144,7 +144,7 @@ public class DAORetroalimentacionActividad implements IRetroalimentacionActivida
             retroalimentacion.setIdActividad(resultados.getInt(7));
         }
         catch (SQLException error) {
-            bitacora.escribirError(error);
+            BITACORA.error(error);
         }
 
         return retroalimentacion;
