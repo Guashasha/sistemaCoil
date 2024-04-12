@@ -10,7 +10,6 @@ import java.sql.SQLException;
 
 public class RetroalimentacionActividadDB {
     private static final ConexionBaseDatos CONEXION = new ConexionBaseDatos();
-    private static final Bitacora bitacora = new Bitacora(RetroalimentacionActividad.class.getName());
 
     public static int agregarRetroalimentacion (RetroalimentacionActividad retroalimentacion) throws SQLException {
         int resultado = -1;
