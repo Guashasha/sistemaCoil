@@ -67,6 +67,69 @@ class ColaboracionDBTest {
     }
 
     @Test
+    void pruebaGetColaboracionPorAcademicosFallida () {
+        System.out.println("pruebaGetColaboracionPorAcademicosFallida");
+
+        Academico academico1 = new Academico();
+        academico1.setCedulaProfesional("ACDC123");
+
+        Academico academico2 = new Academico();
+        academico2.setCedulaProfesional("22342011");
+
+        Colaboracion colaboracion = null;
+
+        try {
+            colaboracion = ColaboracionDB.getColaboracionPorAcademicosParticipantes(academico1, academico2);
+        }
+        catch (SQLException error) {
+            fail("Error en pruebaGetColaboracion");
+
+        }
+
+        assertNull(colaboracion);
+    }
+
+    @Test
+    void pruebaGetColaboracionPorAcademicoUnAcademicoVacioFallida () {
+        Academico academico1 = new Academico();
+
+        Academico academico2 = new Academico();
+        academico2.setCedulaProfesional("22342011");
+
+        Colaboracion colaboracion = null;
+
+        try {
+            colaboracion = ColaboracionDB.getColaboracionPorAcademicosParticipantes(academico1, academico2);
+        }
+        catch (SQLException error) {
+            fail("Error en pruebaGetColaboracion");
+
+        }
+
+        assertNull(colaboracion);
+    }
+
+    @Test
+    void pruebaGetColaboracionPorAcademicosVacios () {
+        Academico academico1 = new Academico();
+
+        Academico academico2 = new Academico();
+
+        Colaboracion colaboracion = null;
+
+        try {
+            colaboracion = ColaboracionDB.getColaboracionPorAcademicosParticipantes(academico1, academico2);
+        }
+        catch (SQLException error) {
+            fail("Error en pruebaGetColaboracion");
+
+        }
+
+        assertNull(colaboracion);
+    }
+
+
+    @Test
     void pruebaGetColaboracionPorIdExitosa () {
         System.out.println("pruebaGetColaboracionPorIdExitosa");
 
@@ -99,6 +162,23 @@ class ColaboracionDBTest {
     }
 
     @Test
+    void pruebaGetColaboracionIdInexistente () {
+        System.out.println("pruebaGetColaboracionIdInexistente");
+
+        Colaboracion colaboracionReal = null;
+
+        try {
+            colaboracionReal = ColaboracionDB.getColaboracionPorId(10);
+
+        }
+        catch (SQLException errorDAO) {
+            fail("Error en pruebaGetColaboracionPorIdExitosa" + errorDAO.getMessage());
+        }
+
+        assertNull(colaboracionReal);
+    }
+
+    @Test
     void pruebaGetListaDeEstudiantesExitosa () {
         System.out.println("pruebaGetListaDeEstudiantesExitosa");
 
@@ -108,6 +188,27 @@ class ColaboracionDBTest {
         List<Estudiante> listaEstudiante =null;
 
         int tamanoEsperado = 1;
+
+        try {
+            listaEstudiante = ColaboracionDB.getListaDeEstudiantes(colaboracionPrueba);
+
+        }
+        catch (SQLException error) {
+            fail("Error pruebaGetListaDeEstudiantesExitosa " + error.getMessage());
+
+        }
+        assertEquals(tamanoEsperado, listaEstudiante.size());
+    }
+
+    @Test
+    void pruebaGetListadeEstudiantesColaboracionInexistente () {
+        System.out.println("pruebaGetListadeEstudiantesColaboracionInexistente");
+
+        Colaboracion colaboracionPrueba = new Colaboracion();
+        colaboracionPrueba.setIdColaboracion(40);
+
+        List<Estudiante> listaEstudiante =null;
+        int tamanoEsperado = 0;
 
         try {
             listaEstudiante = ColaboracionDB.getListaDeEstudiantes(colaboracionPrueba);

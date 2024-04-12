@@ -4,8 +4,8 @@ import AccesoADatos.AcademicoDB;
 import Logica.Dominio.Academico;
 import org.junit.jupiter.api.*;
 import test.ConfiguracionPrueba;
-
 import java.sql.SQLException;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -212,6 +212,37 @@ class AcademicoDBTest {
     }
 
     @Test
+    void pruebaGetAcademicoPorIdExitoso () {
+        System.out.println("pruebaGetAcademicoPorIdExitoso");
+        Academico academicoObtenido = null;
+
+        try {
+            academicoObtenido = AcademicoDB.getAcademicoPorId(1);
+        }
+        catch (SQLException error) {
+            fail("Fallida: pruebaGetAcademicoPorIdExitoso");
+        }
+        assertNotNull(academicoObtenido);
+    }
+
+    @Test
+    void pruebaGetAcademicoPorIdFallido () {
+        System.out.println("pruebaGetAcademicoPorIdFallido");
+        Academico academicoObtenido = null;
+
+        try {
+            academicoObtenido = AcademicoDB.getAcademicoPorId(99);
+        }
+        catch (SQLException error) {
+            fail("Fallida: pruebaGetAcademicoPorIdFallido");
+
+        }
+
+        assertNull(academicoObtenido);
+    }
+
+
+    @Test
     void pruebaEditarAcademicoExitoso () {
         int esperado = 3;
         int obtenido = 0;
@@ -238,6 +269,127 @@ class AcademicoDBTest {
         }
         assertEquals(esperado, obtenido);
 
+    }
+
+    @Test
+    void pruebaGetTodosExitosa () {
+        int tamanoEsperado = 2;
+
+        System.out.println("pruebaGetTodosExitosa");
+
+        List<Academico> listaAcademico = null;
+
+        try {
+            listaAcademico = AcademicoDB.getTodos();
+        }
+        catch (SQLException error) {
+            fail("Fallida: pruebaGetTodosExitosa");
+        }
+
+        assertEquals(tamanoEsperado, listaAcademico.size());
+    }
+
+    @Test
+    void pruebaGetTodosFallida () {
+        int tamanoEsperado = 0;
+        System.out.println("pruebaGetTodosFallida");
+
+        List<Academico> listaAcademico = null;
+
+        try {
+            listaAcademico = AcademicoDB.getTodos();
+        }
+        catch (SQLException error) {
+            fail("Fallida: pruebaGetTodosExitosa");
+        }
+
+        assertNotEquals(tamanoEsperado, listaAcademico.size());
+
+    }
+
+    @Test
+    void pruebaGetAcademicoPorCamposFallida () {
+        System.out.println("pruebaGetAcademicoPorCamposFallida");
+
+
+        assertThrows(SQLException.class, ()-> AcademicoDB.getListaAcademicoPorCampos("TipoContratacion", "Fijo"));
+    }
+
+    @Test
+    void pruebaGetAcademicoPorCampoCategoriaContratacionExitosa () {
+        System.out.println("pruebaGetAcademicoPorCampoCategoriaContratacionExitosa");
+        List<Academico> listaAcademicos = null;
+
+        try {
+            listaAcademicos = AcademicoDB.getListaAcademicoPorCampos("categoria", "Investigador");
+        }
+        catch (SQLException error) {
+            fail("Fallido: pruebaGetAcademicoPorCampoCategoriaContratacionExitosa");
+        }
+
+        assertNotNull(listaAcademicos);
+    }
+
+    @Test
+    void pruebaGetAcademicoPorCampoFacultadExitosa () {
+        System.out.println("pruebaGetAcademicoPorCampoFacultadExitosa");
+        List<Academico> listaAcademicos = null;
+
+        try {
+            listaAcademicos = AcademicoDB.getListaAcademicoPorCampos("facultad", "Economia");
+        }
+        catch (SQLException error) {
+            fail("Fallido: pruebaGetAcademicoPorCampoFacultadExitosa");
+        }
+
+        assertNotNull(listaAcademicos);
+    }
+
+    @Test
+    void pruebaGetAcademicoPorCampoUniversidadExitoso () {
+        System.out.println("pruebaGetAcademicoPorCampoFacultadExitosa");
+        List<Academico> listaAcademicos = null;
+
+        try {
+            listaAcademicos = AcademicoDB.getListaAcademicoPorCampos("universidad", "Universidad Veracruzana");
+        }
+        catch (SQLException error) {
+            fail("pruebaGetAcademicoPorCampoFacultadExitosa");
+        }
+
+        assertNotNull(listaAcademicos);
+
+    }
+
+    @Test
+    void pruebaGetAcademicoPorCampoAreaExitoso () {
+        System.out.println("pruebaGetAcademicoPorCampoArea");
+        List<Academico> listaAcademicos = null;
+
+        try {
+            listaAcademicos = AcademicoDB.getListaAcademicoPorCampos("area", "Filosofia");
+        }
+        catch (SQLException error) {
+            fail("pruebaGetAcademicoPorCampoFacultadExitosa");
+        }
+
+        assertNotNull(listaAcademicos);
+    }
+
+    @Test
+    void pruebaGetAcademicoPorRegionExitoso () {
+        System.out.println("pruebaGetAcademicoPorRegionExitoso");
+        List<Academico> listaAcademicos = null;
+
+
+        try {
+            listaAcademicos = AcademicoDB.getListaAcademicoPorCampos("region", "Xalapa");
+        }
+        catch (SQLException error) {
+            fail("pruebaGetAcademicoPorRegionExitoso");
+        }
+
+        assertNotNull(listaAcademicos);
     }
 
     @Test
@@ -269,6 +421,7 @@ class AcademicoDBTest {
         assertEquals(esperado, obtenido);
 
     }
+
 
     @Test
     void pruebaEditarAcademicoUniversidadInexistenteFallida () {

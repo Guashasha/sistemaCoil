@@ -5,8 +5,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import test.AyudantePruebasCuentaDB;
-
-
 import java.sql.SQLException;
 import java.util.List;
 
@@ -51,6 +49,22 @@ class CuentaDBTest {
     }
 
     @Test
+    void pruebaGetCuentaPorUsuarioFallida () {
+        System.out.print("pruebaGetCuentaPorUsuarioFallida");
+
+        Cuenta cuentaObtenida = null;
+
+        try {
+            cuentaObtenida = CuentaDB.getCuentaPorUsuario("Maryek");
+
+        }
+        catch (SQLException errorDAO) {
+            fail("pruebaGetCuentaPorUsuarioFallida " + errorDAO.getMessage());
+        }
+
+        assertNull(cuentaObtenida);
+    }
+    @Test
     void pruebaActualizarNombreUsuarioExitoso () {
         System.out.println("pruebaActualizarNombreUsuarioExitoso");
 
@@ -71,6 +85,16 @@ class CuentaDBTest {
 
         assertEquals(filasAfectadasEsperado, filasAfectadasObtenido);
 
+    }
+
+    @Test
+    void pruebaActualizarNombreUsuarioExtensoFallido () {
+        System.out.println("pruebaActualizarNombreUsuarioExtensoFallido");
+        Cuenta cuentaPrueba = new Cuenta();
+        cuentaPrueba.setIdCuenta(1);
+        cuentaPrueba.setNombreUsuario("SSSGGHJSKKFKFKFKFKFKFKDKSKSKSKSKSKKSK477LSXLFLHL6LWKSKVLYLTLRKKDKFKRKEKXKFKFKKDKKDKDKDDKDKDKDKDKDKDK");
+
+        assertThrows(SQLException.class, () -> CuentaDB.actualizarNombreUsuario(cuentaPrueba));
     }
 
     @Test
@@ -222,6 +246,42 @@ class CuentaDBTest {
     }
 
     @Test
+    void pruebaCambiarEstadoCuentaNoValidoFalido () {
+        System.out.println("pruebaCambiarEstadoCuentaNoValidoFalido");
+        Cuenta cuenta = new Cuenta();
+        cuenta.setIdCuenta(1);
+
+        String estado = "Auxiliar";
+
+        assertThrows(SQLException.class, () -> CuentaDB.cambiarEstadoCuenta(cuenta, estado));
+
+    }
+    @Test
+    void pruebCambiarEstadoCuentaIdInexistenteFallido () {
+        System.out.println("pruebaCambiarEstadoCuentaNoValidoFalido");
+        Cuenta cuenta = new Cuenta();
+        cuenta.setIdCuenta(99);
+
+        String estado = "pendiente";
+
+        int filasAfectadasEsperado = 0;
+        int filasAfectadasObtenido = -1;
+
+        try {
+            filasAfectadasObtenido = CuentaDB.cambiarEstadoCuenta(cuenta, estado);
+
+        }
+        catch (SQLException errorDAO) {
+            fail("pruebaCambiarEstadoCuentaExitoso" + errorDAO.getMessage());
+
+        }
+
+        assertEquals(filasAfectadasEsperado, filasAfectadasObtenido);
+
+    }
+
+
+    @Test
     void pruebaGetCuentaPorTipoExitoso () {
         System.out.println("pruebaGetCuentaPorTipoExitoso");
 
@@ -244,6 +304,25 @@ class CuentaDBTest {
     }
 
     @Test
+    void pruebaGetCuentaPorTipoFallido () {
+        System.out.println("pruebaGetCuentaPorTipoFallido");
+
+        List<Cuenta> listaCuentas = null;
+        int tamanoEsperado = 0;
+
+        try {
+            listaCuentas = CuentaDB.getCuentaPorTipo("administrador");
+
+        }
+        catch (SQLException errorDAO) {
+            fail("pruebaGetCuentaPorTipoExitoso " + errorDAO.getMessage());
+
+        }
+
+        assertEquals(tamanoEsperado, listaCuentas.size());
+    }
+
+    @Test
     void pruebaGetPorEstadoExitoso () {
         System.out.println("pruebaGetPorEstadoExitoso");
 
@@ -261,6 +340,28 @@ class CuentaDBTest {
         }
 
         assertEquals(tamanoEsperado, listaCuentas.size());
+
+    }
+
+    @Test
+    void pruebaGetPorEstado () {
+        System.out.println("pruebaGetPorEstadoFallido");
+
+        int tamanoEsperado = 0;
+
+        List<Cuenta> listaCuentas = null;
+
+        try {
+            listaCuentas = CuentaDB.getCuentasPorEstado("rechazada");
+
+        }
+        catch (SQLException errorDAO) {
+            fail("pruebaGetPorEstadoExitoso " + errorDAO.getMessage());
+
+        }
+
+        assertEquals(tamanoEsperado, listaCuentas.size());
+
 
     }
 
@@ -295,6 +396,48 @@ class CuentaDBTest {
     }
 
     @Test
+    void pruebaAgregarCuentaNombreDuplicadoFallida () {
+        System.out.println("pruebaAgregarCuentaNombreDuplicadoFallida");
+
+        Cuenta cuentaPrueba = new Cuenta();
+
+
+        cuentaPrueba.setIdPersona(5);
+        cuentaPrueba.setNombreUsuario("EduVillegas");
+        cuentaPrueba.setContrasena("drew2000");
+        cuentaPrueba.setTipo(Cuenta.TipoUsuario.academico);
+        cuentaPrueba.setEstado(Cuenta.EstadoCuenta.pendiente);
+
+        assertThrows(SQLException.class, () -> CuentaDB.agregarCuenta(cuentaPrueba));
+    }
+    @Test
+    void pruebaAgregarCuentaNombreExtensoFallida () {
+        System.out.println("pruebaAgregarCuentaNombreExtensoFallida");
+
+        Cuenta cuentaPrueba = new Cuenta();
+
+
+        cuentaPrueba.setIdPersona(5);
+        cuentaPrueba.setNombreUsuario("HernandoCarmenElizabethJuanitaDeCostabravaCortesIngDoctorYMaestro");
+        cuentaPrueba.setContrasena("drew2000");
+        cuentaPrueba.setTipo(Cuenta.TipoUsuario.academico);
+        cuentaPrueba.setEstado(Cuenta.EstadoCuenta.pendiente);
+
+        assertThrows(SQLException.class, () -> CuentaDB.agregarCuenta(cuentaPrueba));
+
+    }
+    @Test
+    void pruebaAgregarCuentaVaciaFallida () {
+        System.out.println("pruebaAgregarCuentaNombreExtensoFallida");
+
+        Cuenta cuentaPrueba = new Cuenta();
+
+
+        assertThrows(NullPointerException.class, () -> CuentaDB.agregarCuenta(cuentaPrueba));
+    }
+
+
+    @Test
     void pruebaGetPorIdExitosa () {
         System.out.println("pruebaGetPorIdExitosa");
 
@@ -327,6 +470,24 @@ class CuentaDBTest {
     }
 
     @Test
+    void pruebaGetPorIdFallida () {
+        System.out.println("pruebaGetPorIdFallida");
+
+        Cuenta cuentaPrueba = new Cuenta();
+
+        try {
+            cuentaPrueba = CuentaDB.getPorId(20);
+
+        }
+        catch (SQLException errorDAO) {
+            fail("pruebaGetPorIdExitosa " + errorDAO.getMessage());
+
+        }
+
+        assertNull(cuentaPrueba);
+    }
+
+    @Test
     void pruebaGetTodosExitoso () {
         System.out.println("pruebaGetPorIdExitosa");
 
@@ -344,6 +505,27 @@ class CuentaDBTest {
         }
 
         assertEquals(tamanoEsperado, listaCuentas.size());
+
+    }
+
+    @Test
+    void pruebaGetTodosFallida () {
+        System.out.println("pruebaGetPorIdFallida");
+
+        int tamanoEsperado = 0;
+
+        List<Cuenta> listaCuentas = null;
+
+        try {
+            listaCuentas = CuentaDB.getTodos();
+
+        }
+        catch (SQLException errorDAO) {
+            fail("pruebaGetPorIdExitosa " + errorDAO.getMessage());
+
+        }
+
+        assertNotEquals(tamanoEsperado, listaCuentas.size());
 
     }
 
