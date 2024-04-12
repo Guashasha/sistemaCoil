@@ -71,7 +71,7 @@ public class RetroalimentacionColaboracion extends Retroalimentacion {
 
     @Override
     public boolean equals (Object objeto) {
-        if (objeto == null || !objeto.getClass().getName().equals(RetroalimentacionActividad.class.getName())) {
+        if (objeto == null || !objeto.getClass().getName().equals(RetroalimentacionColaboracion.class.getName())) {
             return false;
         }
 
@@ -86,7 +86,7 @@ public class RetroalimentacionColaboracion extends Retroalimentacion {
                 this.getTrabajoColaborativo() == retroalimentacion.getTrabajoColaborativo() &&
                 this.getMejoraFormacionProfesional() == retroalimentacion.getMejoraFormacionProfesional() &&
                 this.getIdUsuario() == retroalimentacion.getIdUsuario() &&
-                this.getComentario().isPresent() && retroalimentacion.getComentario().isPresent();
+                this.getComentario().isPresent() == retroalimentacion.getComentario().isPresent();
     }
 
     public boolean esCorrecta () {

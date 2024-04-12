@@ -69,8 +69,7 @@ public class DAORetroalimentacionColaboracionTest {
         retroalimentacion.setIntercambioCultural(4);
         retroalimentacion.setMejoraDelLenguaje(3);
         retroalimentacion.setTrabajoColaborativo(5);
-        retroalimentacion.setMejoraDelLenguaje(5);
-        retroalimentacion.setMejoraFormacionProfesional(3);
+        retroalimentacion.setMejoraFormacionProfesional(5);
 
         DAORetroalimentacionColaboracion ret = new DAORetroalimentacionColaboracion();
         ret.agregar(retroalimentacion);
@@ -87,7 +86,6 @@ public class DAORetroalimentacionColaboracionTest {
         retroalimentacion.setIntercambioCultural(4);
         retroalimentacion.setMejoraDelLenguaje(4);
         retroalimentacion.setTrabajoColaborativo(5);
-        retroalimentacion.setMejoraDelLenguaje(5);
         retroalimentacion.setMejoraFormacionProfesional(5);
 
         DAORetroalimentacionColaboracion ret = new DAORetroalimentacionColaboracion();
@@ -114,7 +112,6 @@ public class DAORetroalimentacionColaboracionTest {
         retroalimentacion.setIntercambioCultural(9);
         retroalimentacion.setMejoraDelLenguaje(4);
         retroalimentacion.setTrabajoColaborativo(5);
-        retroalimentacion.setMejoraDelLenguaje(5);
         retroalimentacion.setMejoraFormacionProfesional(5);
 
         DAORetroalimentacionColaboracion ret = new DAORetroalimentacionColaboracion();
@@ -140,7 +137,6 @@ public class DAORetroalimentacionColaboracionTest {
         retroalimentacion.setMejoraDelLenguaje(4);
         retroalimentacion.setTrabajoColaborativo(5);
         retroalimentacion.setMejoraFormacionProfesional(5);
-        retroalimentacion.setMejoraDelLenguaje(5);
 
         DAORetroalimentacionColaboracion ret = new DAORetroalimentacionColaboracion();
 
@@ -164,7 +160,6 @@ public class DAORetroalimentacionColaboracionTest {
         retroalimentacion.setIntercambioCultural(4);
         retroalimentacion.setMejoraDelLenguaje(4);
         retroalimentacion.setTrabajoColaborativo(5);
-        retroalimentacion.setMejoraDelLenguaje(5);
         retroalimentacion.setMejoraFormacionProfesional(5);
 
         DAORetroalimentacionColaboracion ret = new DAORetroalimentacionColaboracion();
@@ -190,7 +185,6 @@ public class DAORetroalimentacionColaboracionTest {
         retroalimentacion.setMejoraDelLenguaje(4);
         retroalimentacion.setTrabajoColaborativo(5);
         retroalimentacion.setMejoraFormacionProfesional(5);
-        retroalimentacion.setMejoraDelLenguaje(5);
 
         DAORetroalimentacionColaboracion ret = new DAORetroalimentacionColaboracion();
 
@@ -212,9 +206,8 @@ public class DAORetroalimentacionColaboracionTest {
         retroalimentacion.setHabilidadesObtenidas(5);
         retroalimentacion.setCalificacion(5);
         retroalimentacion.setIntercambioCultural(4);
-        retroalimentacion.setMejoraDelLenguaje(4);
+        retroalimentacion.setMejoraDelLenguaje(3);
         retroalimentacion.setTrabajoColaborativo(5);
-        retroalimentacion.setMejoraDelLenguaje(5);
         retroalimentacion.setMejoraFormacionProfesional(5);
 
         DAORetroalimentacionColaboracion ret = new DAORetroalimentacionColaboracion();
