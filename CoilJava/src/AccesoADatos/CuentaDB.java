@@ -203,7 +203,7 @@ public class CuentaDB {
 
     public static int agregarCuenta (Cuenta cuenta) throws SQLException {
         String agregarCuentaSQL = "{CALL registrar_cuenta(?,?,?,?,?)}";
-        int filasAfectadas;
+        int filasAfectadas = -1;
 
         try {
             CONEXION_BASE_DATOS.conectar();
