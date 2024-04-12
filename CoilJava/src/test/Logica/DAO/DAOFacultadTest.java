@@ -1,22 +1,28 @@
-package test.AccesoADatos;
+package test.Logica.DAO;
 
 import AccesoADatos.FacultadDB;
+import Logica.DAO.DAOFacultad;
 import Logica.Dominio.Facultad;
+import Logica.ErrorDAO;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import test.ConfiguracionPrueba;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import static test.ConfiguracionPrueba.ejecutarInstruccionSQL;
+import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
+import static test.ConfiguracionPrueba.borrarDatosTablaFacultad;
+import static test.ConfiguracionPrueba.borrarDatosTablaRegion;
+import static test.ConfiguracionPrueba.ejecutarInstruccionSQL;
 
-class FacultadDBTest {
+class DAOFacultadTest {
+    private static final DAOFacultad INSTANCIA = new DAOFacultad();
+
     @BeforeAll
     static void setUp() {
-        ConfiguracionPrueba.borrarDatosTablaFacultad();
-        ConfiguracionPrueba.borrarDatosTablaRegion();
+        borrarDatosTablaFacultad();
+        borrarDatosTablaRegion();
         ejecutarInstruccionSQL("INSERT INTO region (idRegion,nombre) VALUES (1,'Xalapa'), (2,'Veracruz'), (3,'Orizaba-Córdoba');");
         ejecutarInstruccionSQL("INSERT INTO facultad (idFacultad,nombre, region) VALUES (1,'Facultad de Estadística e Informática',1),(2,'Derecho',1),(3,'Arquitectura',3);");
 
@@ -24,54 +30,48 @@ class FacultadDBTest {
 
     @AfterAll
     static void afterAll () {
-        ConfiguracionPrueba.borrarDatosTablaFacultad();
-        ConfiguracionPrueba.borrarDatosTablaRegion();
+        borrarDatosTablaFacultad();
+        borrarDatosTablaRegion();
     }
 
     @Test
     void pruebaGetFacultadPorNombreExitosa () {
         System.out.println("pruebaGetFacultadPorNombreExitosa");
-        Facultad esperada = new Facultad(2,"Derecho",1);
+        Facultad esperada = new Facultad(1,"Facultad de Estadística e Informática",1);
         Facultad obtenida = new Facultad();
-
         try {
-            obtenida = FacultadDB.getFacultadPorNombre(esperada.getNombre());
+            Optional resultado = INSTANCIA.getFacultadPorNombre(esperada.getNombre());
+            obtenida = (Facultad) resultado.get();
         }
-        catch (SQLException error) {
+        catch (Exception error) {
             fail("Fallida: pruebaGetFacultadPorNombreExitosa");
         }
-
         assertTrue(esperada.equals(obtenida));
+    }
+
+    @Test
+    void pruebaGetFacultadPorNombreCadenaInvalida () {
+        System.out.println("pruebaGetFacultadPorNombreCadenaInvalida");
+        try {
+            Optional resultado = INSTANCIA.getFacultadPorNombre("   ");
+            assertTrue(resultado.isEmpty());
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaGetFacultadPorNombreCadenaInvalida");
+        }
     }
 
     @Test
     void pruebaGetFacultadPorNombreInexistente () {
         System.out.println("pruebaGetFacultadPorNombreInexistente");
-        Facultad obtenida = new Facultad();
-
         try {
-            obtenida = FacultadDB.getFacultadPorNombre("FEI");
+            Optional resultado = INSTANCIA.getFacultadPorNombre("Argentina");
+            Facultad esperada = (Facultad) resultado.get();
+            assertEquals(0,esperada.getId());
         }
-        catch (SQLException error) {
+        catch (Exception error) {
             fail("Fallida: pruebaGetFacultadPorNombreInexistente");
         }
-
-        assertEquals(0,obtenida.getId());
-    }
-
-    @Test
-    void pruebaGetFacultadPorNombreNulo () {
-        System.out.println("pruebaGetFacultadPorNombreInexistente");
-        Facultad obtenida = new Facultad();
-
-        try {
-            obtenida = FacultadDB.getFacultadPorNombre("FEI");
-        }
-        catch (SQLException error) {
-            fail("Fallida: pruebaGetFacultadPorNombreInexistente");
-        }
-
-        assertEquals(0,obtenida.getId());
     }
 
     @Test
@@ -83,9 +83,9 @@ class FacultadDBTest {
         listaEsperada.add(new Facultad(2,"Derecho",1));
 
         try {
-            listaObtenida = FacultadDB.getFacultadPorRegion("Xalapa");
+            listaObtenida = INSTANCIA.getFacultadPorRegion("Xalapa");
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetFacultadPorRegionExitosa");
         }
 
@@ -99,36 +99,31 @@ class FacultadDBTest {
     }
 
     @Test
+    void pruebaGetFacultadPorRegionCadenaInvalida () {
+        System.out.println("pruebaGetFacultadPorRegionCadenaInvalida");
+        try {
+            List<Facultad> resultado = INSTANCIA.getFacultadPorRegion(null);
+            assertTrue(resultado.isEmpty());
+        }
+        catch (ErrorDAO error) {
+            fail("pruebaGetFacultadPorRegionCadenaInvalida");
+        }
+    }
+
+    @Test
     void pruebaGetFacultadPorRegionInexistente () {
         System.out.println("pruebaGetFacultadPorRegionInexistente");
-        List<Facultad> listaObtenida = new ArrayList<>();
-
         try {
-            listaObtenida = FacultadDB.getFacultadPorRegion("Coatepec");
+            List<Facultad> resultado = INSTANCIA.getFacultadPorRegion("Sur");
+            assertTrue(resultado.isEmpty());
         }
-        catch (SQLException error) {
-            fail("Fallida: pruebaGetFacultadPorRegionInexistente");
+        catch (ErrorDAO error) {
+            fail("pruebaGetFacultadPorRegionInexistente");
         }
-        assertTrue(listaObtenida.isEmpty());
     }
 
     @Test
-    void pruebaGetFacultadPorRegionNula () {
-        System.out.println("pruebaGetFacultadPorRegionNula");
-        List<Facultad> listaObtenida = new ArrayList<>();
-
-        try {
-            listaObtenida = FacultadDB.getFacultadPorRegion(null);
-        }
-        catch (SQLException error) {
-            fail("Fallida: pruebaGetFacultadPorRegionNula");
-        }
-
-        assertTrue(listaObtenida.isEmpty());
-    }
-
-    @Test
-    void pruebaGetTodasAlfabeticamenteExitosa () {
+    void pruebaGetTodasAlfabeticamenteExitosa() {
         System.out.println("pruebaGetTodasAlfabeticamenteExitosa");
         List<Facultad> listaEsperada = new ArrayList<>();
         List<Facultad> listaObtenida = new ArrayList<>();

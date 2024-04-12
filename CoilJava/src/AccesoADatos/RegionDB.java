@@ -9,34 +9,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RegionDB {
-    private final ConexionBaseDatos CONEXION_BASE_DATOS = new ConexionBaseDatos();
+    private static final ConexionBaseDatos CONEXION_BASE_DATOS = new ConexionBaseDatos();
 
-    public List<Region> getTodasAlfabeticamente () throws ErrorDAO {
+    public static List<Region> getTodasAlfabeticamente () throws SQLException {
         List<Region> listaRegiones = new ArrayList<>();
         String consultaRegionesSQL = "SELECT idRegion, nombre FROM region ORDER BY nombre ASC";
-        PreparedStatement consultaRegiones;
-        ResultSet resultadoConsulta;
+        PreparedStatement consultaRegiones = null;
+        ResultSet resultadoConsulta = null;
 
         try {
-            consultaRegiones = this.CONEXION_BASE_DATOS.getConexion()
+            consultaRegiones = CONEXION_BASE_DATOS.getConexion()
                     .prepareStatement(consultaRegionesSQL);
             resultadoConsulta = consultaRegiones.executeQuery();
 
             while (resultadoConsulta.next()) {
                 listaRegiones.add(convertirResultSetARegion(resultadoConsulta));
             }
-
+        } catch (SQLException error) {
+            throw error;
+        }
+        finally {
             consultaRegiones.close();
             resultadoConsulta.close();
-            this.CONEXION_BASE_DATOS.desconectar();
-        } catch (SQLException excepcionSQL) {
-            throw new ErrorDAO("SQLException: Error al consultar Regiones\n" + excepcionSQL.getMessage());
+            CONEXION_BASE_DATOS.desconectar();
         }
 
         return listaRegiones;
     }
 
-    public Region convertirResultSetARegion (ResultSet resultado) throws SQLException {
+    public static Region convertirResultSetARegion (ResultSet resultado) throws SQLException {
         Region region = new Region();
         region.setId(resultado.getInt(1));
         region.setNombre(resultado.getString(2));

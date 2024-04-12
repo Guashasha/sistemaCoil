@@ -47,4 +47,20 @@ public class Facultad {
     public int getIdRegion () {
         return this.idRegion;
     }
+
+    @Override
+    public boolean equals (Object obj) {
+        boolean igual;
+        if (this == obj) {
+            igual = true;
+        }
+        else if (obj == null || !(obj instanceof Facultad)) {
+            igual = false;
+        }
+        else {
+            Facultad facultad = (Facultad) obj;
+            igual = this.id == facultad.getId() && this.nombre.equals(facultad.getNombre()) && this.idRegion == facultad.getIdRegion()? true:false;
+        }
+        return igual;
+    }
 }

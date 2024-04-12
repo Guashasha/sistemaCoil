@@ -8,7 +8,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import test.AyudantePruebasCuentaDB;
+//import test.AyudantePruebasCuentaDB;
 import test.ConfiguracionPrueba;
 
 import java.util.List;
@@ -19,12 +19,12 @@ class CuentaDBTest {
     // toDo getTodos
     @BeforeEach
     void setUp () {
-        AyudantePruebasCuentaDB.agregarPrecondiciones();
+        //AyudantePruebasCuentaDB.agregarPrecondiciones();
     }
 
     @AfterEach
     void tearDown () {
-       AyudantePruebasCuentaDB.borrarTodosDatosTabla();
+       //AyudantePruebasCuentaDB.borrarTodosDatosTabla();
     }
 
     @Test
@@ -69,7 +69,7 @@ class CuentaDBTest {
 
         }
         catch (ErrorDAO errorDAO) {
-            fail("pruebaActualizarNombreUsuarioExitoso " + errorDAO.getMensaje());
+            fail("pruebaActualizarNombreUsuarioExitoso " + errorDAO.getMessage());
         }
 
         assertEquals(filasAfectadasEsperado, filasAfectadasObtenido);
