@@ -101,6 +101,26 @@ public class DAORetroalimentacionActividadTest {
     }
 
     @Test
+    public void testAgregarConActividadInexistente () {
+        RetroalimentacionActividad retroalimentacion = new RetroalimentacionActividad();
+        retroalimentacion.setIdActividad(300);
+        retroalimentacion.setIdUsuario(1);
+        retroalimentacion.setDificultad(5);
+        retroalimentacion.setInteres(4);
+        retroalimentacion.setInteraccionConPar(5);
+
+        DAORetroalimentacionActividad ret = new DAORetroalimentacionActividad();
+
+        try {
+            ret.agregar(retroalimentacion);
+            fail();
+        }
+        catch (ErrorDAO error) {
+            assertEquals(ErrorDAO.Tipo.CONSULTA, error.getTipo());
+        }
+    }
+
+    @Test
     void testGetRetroalimentacionPorId () {
         DAORetroalimentacionActividad ret = new DAORetroalimentacionActividad();
         Optional<RetroalimentacionActividad> retroalimentacion = Optional.empty();

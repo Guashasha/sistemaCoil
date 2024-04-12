@@ -26,6 +26,17 @@ public class DAORetroalimentacionColaboracion implements IRetroalimentacionColab
             throw new ErrorDAO("La colaboración ya fue calificada por el usuario", Tipo.DUPLICIDAD);
         }
 
+        DAOColaboracion col = new DAOColaboracion();
+        Optional<Colaboracion> colaboracion = col.getColaboracionPorId(retroalimentacion.getColaboracion());
+
+        if (colaboracion.isEmpty()) {
+            throw new ErrorDAO("La colaboración no existe", Tipo.CONSULTA);
+        }
+        else if (colaboracion.get().getEstado() != Colaboracion.EstadoColaboracion.en_revision) {
+            throw new ErrorDAO("La colaboración no puede ser evaluada aún", Tipo.VALIDACION);
+        }
+
+
         int resultado = -1;
 
         try {

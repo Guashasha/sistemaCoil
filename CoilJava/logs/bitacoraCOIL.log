@@ -2,3 +2,12 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 </log>
+2024-04-12 11:39:57 ERROR RetroalimentacionActividad:154 - java.sql.SQLDataException: wrong row position
+  2024-04-12 11:39:59 ERROR RetroalimentacionActividad:45 - java.sql.SQLIntegrityConstraintViolationException: (conn=210) Cannot add or update a child row: a foreign key constraint fails (`COIL`.`retroalimentacionActividad`, CONSTRAINT `retroalimentacionActividad_ibfk_2` FOREIGN KEY (`actividad`) REFERENCES `actividad` (`idActividad`))
+  2024-04-12 11:40:53 ERROR RetroalimentacionActividad:154 - java.sql.SQLDataException: wrong row position
+  2024-04-12 11:40:54 ERROR RetroalimentacionActividad:45 - java.sql.SQLIntegrityConstraintViolationException: (conn=234) Cannot add or update a child row: a foreign key constraint fails (`COIL`.`retroalimentacionActividad`, CONSTRAINT `retroalimentacionActividad_ibfk_2` FOREIGN KEY (`actividad`) REFERENCES `actividad` (`idActividad`))
+  2024-04-12 11:41:34 ERROR RetroalimentacionActividad:154 - java.sql.SQLDataException: wrong row position
+  2024-04-12 11:41:35 ERROR RetroalimentacionActividad:45 - java.sql.SQLIntegrityConstraintViolationException: (conn=258) Cannot add or update a child row: a foreign key constraint fails (`COIL`.`retroalimentacionActividad`, CONSTRAINT `retroalimentacionActividad_ibfk_2` FOREIGN KEY (`actividad`) REFERENCES `actividad` (`idActividad`))
+  2024-04-12 11:44:26 ERROR RetroalimentacionActividad:154 - java.sql.SQLDataException: wrong row position
+  2024-04-12 11:44:28 ERROR RetroalimentacionActividad:45 - java.sql.SQLIntegrityConstraintViolationException: (conn=282) Cannot add or update a child row: a foreign key constraint fails (`COIL`.`retroalimentacionActividad`, CONSTRAINT `retroalimentacionActividad_ibfk_2` FOREIGN KEY (`actividad`) REFERENCES `actividad` (`idActividad`))
+  

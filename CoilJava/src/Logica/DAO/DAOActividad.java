@@ -82,7 +82,7 @@ public class DAOActividad implements IActividadDAO {
             throw new RuntimeException(e);
         }
 
-        return Optional.ofNullable(resultSetAObjeto(resultado));
+        return Optional.ofNullable(actividad);
     }
 
     @Override

@@ -1,6 +1,8 @@
 package Logica.DAO;
 
+import AccesoADatos.ActividadDB;
 import AccesoADatos.RetroalimentacionActividadDB;
+import Logica.Dominio.Actividad;
 import Logica.Dominio.RetroalimentacionActividad;
 import Logica.ErrorDAO;
 import Logica.Interfaces.IRetroalimentacionActividadDAO;
@@ -20,11 +22,18 @@ public class DAORetroalimentacionActividad implements IRetroalimentacionActivida
     @Override
     public int agregar (RetroalimentacionActividad retroalimentacion) throws ErrorDAO {
         if (!retroalimentacion.esCorrecto()) {
-            throw new ErrorDAO("la retroalimentacion es incorrecta", Tipo.VALIDACION);
+            throw new ErrorDAO("La retroalimentacion es incorrecta", Tipo.VALIDACION);
         }
 
         if (getPorPersonaYActividad(retroalimentacion.getIdUsuario(), retroalimentacion.getIdActividad()).isPresent()) {
-            throw new ErrorDAO("la actividad ya fue calificada por el usuario", Tipo.DUPLICIDAD);
+            throw new ErrorDAO("La actividad ya fue calificada por el usuario", Tipo.DUPLICIDAD);
+        }
+
+        DAOActividad act = new DAOActividad();
+        Optional<Actividad> actividad = act.getPorId(retroalimentacion.getIdActividad());
+
+        if (actividad.isEmpty()) {
+            throw new ErrorDAO("La actividad no existe", Tipo.CONSULTA);
         }
 
         int resultado = -1;
