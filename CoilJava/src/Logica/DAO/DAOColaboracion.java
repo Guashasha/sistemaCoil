@@ -20,7 +20,7 @@ public class DAOColaboracion implements IColaboracionDAO {
     @Override
     public Optional<Colaboracion> getColaboracionPorAcademicosParticipantes (Academico academico1, Academico academico2) throws ErrorDAO {
         Colaboracion colaboracion = null;
-        if (!academico1.validarNulos() && !academico2.validarNulos()) {
+        if (!cadenaValida(academico1.getCedulaProfesional()) && !cadenaValida(academico2.getCedulaProfesional())) {
             throw new ErrorDAO("Error en los academicos de la colaboracion", ErrorDAO.Tipo.VALIDACION);
         }
         try {
