@@ -7,6 +7,7 @@ import Logica.Dominio.RetroalimentacionActividad;
 import Logica.ErrorDAO;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import test.AyudantePruebasColaboracionDB;
 import test.ConfiguracionPrueba;
 
 import java.util.List;
@@ -19,9 +20,9 @@ public class DAORetroalimentacionActividadTest {
     @BeforeAll
     static void setUp () {
         ConfiguracionPrueba.borrarDatosTablaRetroalimentacionActividad();
-        ConfiguracionPrueba.borrarDatosTablaRetroalimentacionColaboracion();
         ConfiguracionPrueba.borrarDatosTablaRetroalimentacion();
         ConfiguracionPrueba.borrarDatosTablaActividad();
+        AyudantePruebasColaboracionDB.agregarPrecondiciones();
 
         Actividad actividad = new Actividad("actividad setup", "descripcion de actividad setup", Actividad.TipoActividad.disciplinar);
         DAOActividad act = new DAOActividad();

@@ -36,7 +36,6 @@ public class DAORetroalimentacionColaboracion implements IRetroalimentacionColab
             throw new ErrorDAO("La colaboración no puede ser evaluada aún", Tipo.VALIDACION);
         }
 
-
         int resultado = -1;
 
         try {

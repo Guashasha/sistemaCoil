@@ -10,4 +10,10 @@
   2024-04-12 11:41:35 ERROR RetroalimentacionActividad:45 - java.sql.SQLIntegrityConstraintViolationException: (conn=258) Cannot add or update a child row: a foreign key constraint fails (`COIL`.`retroalimentacionActividad`, CONSTRAINT `retroalimentacionActividad_ibfk_2` FOREIGN KEY (`actividad`) REFERENCES `actividad` (`idActividad`))
   2024-04-12 11:44:26 ERROR RetroalimentacionActividad:154 - java.sql.SQLDataException: wrong row position
   2024-04-12 11:44:28 ERROR RetroalimentacionActividad:45 - java.sql.SQLIntegrityConstraintViolationException: (conn=282) Cannot add or update a child row: a foreign key constraint fails (`COIL`.`retroalimentacionActividad`, CONSTRAINT `retroalimentacionActividad_ibfk_2` FOREIGN KEY (`actividad`) REFERENCES `actividad` (`idActividad`))
+  2024-04-12 14:34:31 ERROR DAOColaboracion:195 - (conn=32) Unknown column 'fechaFinal' in 'field list'
+  2024-04-12 14:36:55 ERROR DAOColaboracion:195 - (conn=38) Unknown column 'fechaFinal' in 'field list'
+  2024-04-12 14:39:45 ERROR DAOColaboracion:195 - (conn=44) Unknown column 'fechaFinal' in 'field list'
+  2024-04-12 14:47:28 ERROR DAOColaboracion:195 - (conn=50) Unknown column 'fechaFinal' in 'field list'
+  2024-04-12 15:12:46 ERROR DAOColaboracion:195 - (conn=64) Data truncated for column 'p_estado' at row 0
+  2024-04-12 15:13:45 ERROR DAOColaboracion:195 - (conn=70) Data truncated for column 'p_estado' at row 0
   
