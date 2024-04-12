@@ -2,9 +2,10 @@ package test.AccesoADatos;
 
 import AccesoADatos.AcademicoDB;
 import Logica.Dominio.Academico;
-import Logica.ErrorDAO;
 import org.junit.jupiter.api.*;
 import test.ConfiguracionPrueba;
+
+import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -63,7 +64,7 @@ class AcademicoDBTest {
         try {
             obtenido = AcademicoDB.agregarAcademico(academico);
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
             fail("Fallida: pruebaAgregarAcademicoExitoso " + error.getMessage());
         }
         assertEquals(esperado, obtenido);
@@ -74,7 +75,7 @@ class AcademicoDBTest {
         System.out.println("pruebaAgregarAcademicoVacioFallida");
         Academico academico = new Academico();
 
-        assertThrows(ErrorDAO.class,
+        assertThrows(SQLException.class,
                      () -> AcademicoDB.agregarAcademico(academico),
                      "Se esperaba que lanzara una excepción ErrorDAO debido a un mal registro");
 
@@ -95,7 +96,7 @@ class AcademicoDBTest {
         academico.setNumeroTelefonico("523351256655");
         academico.setIdFacultad(1);
 
-        assertThrows(ErrorDAO.class,
+        assertThrows(SQLException.class,
                      () -> AcademicoDB.agregarAcademico(academico),
                      "Se esperaba que lanzara una excepción ErrorDAO debido a una universidad inexistente");
 
@@ -116,7 +117,7 @@ class AcademicoDBTest {
         academico.setNumeroTelefonico("523351256655567");
         academico.setIdFacultad(1);
 
-        assertThrows(ErrorDAO.class, () -> AcademicoDB.agregarAcademico(academico));
+        assertThrows(SQLException.class, () -> AcademicoDB.agregarAcademico(academico));
     }
 
     @Test
@@ -135,7 +136,7 @@ class AcademicoDBTest {
         academico.setNumeroTelefonico("522288536230");
         academico.setIdFacultad(1);
 
-        assertThrows(ErrorDAO.class, () -> AcademicoDB.agregarAcademico(academico));
+        assertThrows(SQLException.class, () -> AcademicoDB.agregarAcademico(academico));
 
     }
 
@@ -157,7 +158,7 @@ class AcademicoDBTest {
         academico.setCategoriaContratacion("Fijo");
         academico.setIdFacultad(1);
 
-        assertThrows(ErrorDAO.class, () -> AcademicoDB.agregarAcademico(academico));
+        assertThrows(SQLException.class, () -> AcademicoDB.agregarAcademico(academico));
 
     }
 
@@ -185,7 +186,7 @@ class AcademicoDBTest {
             academicoObtenido = AcademicoDB.getAcademicoPorCedula("200011");
 
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
             fail("Fallida: pruebaGetAcademicoPorCedulaExitosa");
 
         }
@@ -203,7 +204,7 @@ class AcademicoDBTest {
         try {
             academicoObtenido = AcademicoDB.getAcademicoPorCedula("123456");
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
             fail("Fallida: pruebaGetAcademicoPorCedulaInexistenteFallida");
         }
         assertNull(academicoObtenido);
@@ -232,7 +233,7 @@ class AcademicoDBTest {
             obtenido = AcademicoDB.editarAcademico(academico);
 
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
             fail("Fallida: pruebaEditarAcademicoExitoso");
         }
         assertEquals(esperado, obtenido);
@@ -262,7 +263,7 @@ class AcademicoDBTest {
             obtenido = AcademicoDB.editarAcademico(academico);
 
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
             fail("Fallida: pruebaEditarAcademicoExitoso");
         }
         assertEquals(esperado, obtenido);
@@ -287,7 +288,7 @@ class AcademicoDBTest {
         academico.setCategoriaContratacion("Fijo");
         academico.setIdFacultad(1);
 
-        assertThrows(ErrorDAO.class, () -> AcademicoDB.editarAcademico(academico));
+        assertThrows(SQLException.class, () -> AcademicoDB.editarAcademico(academico));
 
     }
 
@@ -308,7 +309,7 @@ class AcademicoDBTest {
         academico.setNumeroTelefonico("522288536230");
         academico.setIdFacultad(-5);
 
-        assertThrows(ErrorDAO.class, () -> AcademicoDB.editarAcademico(academico));
+        assertThrows(SQLException   .class, () -> AcademicoDB.editarAcademico(academico));
 
     }
 }

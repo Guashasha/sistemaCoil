@@ -9,7 +9,7 @@ public class Main {
         
         System.out.printf("Hello and welcome!");
 
-        bitacora.info("test");
+        bitacora.fatal("XD");
     }
 
 

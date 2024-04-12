@@ -4,19 +4,15 @@ import Logica.Dominio.Academico;
 import Logica.Dominio.Colaboracion;
 import Logica.Dominio.Estudiante;
 import Logica.Dominio.Periodo;
-import Logica.ErrorDAO;
 
-import java.sql.CallableStatement;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ColaboracionDB {
     private static final ConexionBaseDatos CONEXION_BASE_DATOS = new ConexionBaseDatos();
 
-    public static Colaboracion getColaboracionPorAcademicosParticipantes (Academico academico1, Academico academico2) throws ErrorDAO {
+    public static Colaboracion getColaboracionPorAcademicosParticipantes (Academico academico1, Academico academico2) throws SQLException {
         String getColaboracionPorAcademicoSQL = "{CALL obtener_colaboracion_academicos(?,?)}";
         Colaboracion colaboracion = null;
 
@@ -35,15 +31,16 @@ public class ColaboracionDB {
 
             resultadoGetColaboracionPorAcademico.close();
             getColaboracionPorAcademico.close();
-            CONEXION_BASE_DATOS.desconectar();
+
         }
-        catch (SQLException error) {
-            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
+        finally {
+            CONEXION_BASE_DATOS.desconectar();
+
         }
         return colaboracion;
     }
 
-    public static Colaboracion getColaboracionPorId (int idColaboracion) throws ErrorDAO {
+    public static Colaboracion getColaboracionPorId (int idColaboracion) throws SQLException {
         String colaboracionPorIdSQL = "SELECT * from colaboracion WHERE idColaboracion = ?";
         Colaboracion colaboracion = null;
 
@@ -63,18 +60,18 @@ public class ColaboracionDB {
 
             resultadoColaboracionPorId.close();
             colaboracionPorId.close();
-            CONEXION_BASE_DATOS.desconectar();
 
         }
-        catch (SQLException error) {
-            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
+        finally {
+            CONEXION_BASE_DATOS.desconectar();
+
         }
 
         return colaboracion;
 
     }
 
-    public static List<Estudiante> getListaDeEstudiantes (Colaboracion colaboracion) throws ErrorDAO {
+    public static List<Estudiante> getListaDeEstudiantes (Colaboracion colaboracion) throws SQLException {
         String listaDeEstudiantesSQL = "{CALL obtener_estudiantes_colaboracion(?)}";
         List<Estudiante> listaEstudiantes = new ArrayList<>();
 
@@ -92,15 +89,16 @@ public class ColaboracionDB {
 
             resultadoListaDeEstudiantes.close();
             procedimientoListaDeEstudiantes.close();
-            CONEXION_BASE_DATOS.desconectar();
+
         }
-        catch (SQLException error) {
-            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
+        finally {
+            CONEXION_BASE_DATOS.desconectar();
+
         }
         return listaEstudiantes;
     }
 
-    public static List<Academico> getAcademicosParticipantes (Colaboracion colaboracion) throws ErrorDAO {
+    public static List<Academico> getAcademicosParticipantes (Colaboracion colaboracion) throws SQLException {
         String academicosParticipantes = "{CALL obtener_academicos_colaboracion(?)}";
         List<Academico> listaAcademicos = new ArrayList<>();
 
@@ -119,45 +117,99 @@ public class ColaboracionDB {
 
             resultadoAcademicosParticipantes.close();
             procedimientoAcademicosParticipantes.close();
-            CONEXION_BASE_DATOS.desconectar();
+
         }
-        catch (SQLException error) {
-            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
+        finally {
+            CONEXION_BASE_DATOS.desconectar();
+
         }
 
         return listaAcademicos;
 
     }
 
-    public static Periodo getColaboracionPorPeriodo (Colaboracion colaboracion) throws ErrorDAO {
-        String colaboracionPorPeriodoSQL = "SELECT fechaInicio, fechaFin from colaboracion WHERE idColaboracion = ?";
-        Periodo periodo = null;
-
+    public static List<Colaboracion> getColaboracionPorPeriodo (Periodo periodo) throws SQLException {
+        String colaboracionPorPeriodoSQL = "SELECT * from colaboracion WHERE fechaInicio = ? AND fechaFin = ?";
+        List<Colaboracion> listaColaboracion = new ArrayList<>();
         try {
             CONEXION_BASE_DATOS.conectar();
             PreparedStatement colaboracionPorPeriodo = CONEXION_BASE_DATOS.getConexion().
                                                                           prepareStatement(colaboracionPorPeriodoSQL);
-            colaboracionPorPeriodo.setInt(1, colaboracion.getIdColaboracion());
+            colaboracionPorPeriodo.setDate(1, Date.valueOf(periodo.getFechaInicio()));
+            colaboracionPorPeriodo.setDate(2, Date.valueOf(periodo.getFechaFin()));
 
             ResultSet resultadoColaboracionPorPeriodo = colaboracionPorPeriodo.executeQuery();
 
-            if (resultadoColaboracionPorPeriodo.next()) {
-                periodo = convertirPeriodo(resultadoColaboracionPorPeriodo);
+            while (resultadoColaboracionPorPeriodo.next()) {
+                Colaboracion colaboracion = convertirColaboracion(resultadoColaboracionPorPeriodo);
+                listaColaboracion.add(colaboracion);
             }
 
             colaboracionPorPeriodo.close();
             resultadoColaboracionPorPeriodo.close();
-            CONEXION_BASE_DATOS.desconectar();
+
         }
-        catch (SQLException error) {
-            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
+        finally {
+            CONEXION_BASE_DATOS.desconectar();
+
         }
 
-        return periodo;
+        return listaColaboracion;
 
     }
+    public static List<Colaboracion> getColaboracionPorIdioma (String idioma) throws SQLException {
+        String colaboracionPorIdiomaSQL = "SELECT * FROM colaboracion WHERE idioma = ?";
+        List<Colaboracion> listaColaboracion = new ArrayList<>();
 
-    public static int cambiarEstadoColaboracion (Colaboracion colaboracion) {
+        try {
+            CONEXION_BASE_DATOS.conectar();
+            PreparedStatement colaboracionPorIdioma = CONEXION_BASE_DATOS.getConexion().
+                                                                        prepareStatement(colaboracionPorIdiomaSQL);
+            colaboracionPorIdioma.setString(1, idioma);
+
+            ResultSet resultadoColaboracionPorIdioma = colaboracionPorIdioma.executeQuery();
+
+            while (resultadoColaboracionPorIdioma.next()) {
+                Colaboracion colaboracion = convertirColaboracion(resultadoColaboracionPorIdioma);
+                listaColaboracion.add(colaboracion);
+            }
+            colaboracionPorIdioma.close();
+            resultadoColaboracionPorIdioma.close();
+        }
+        finally {
+            CONEXION_BASE_DATOS.desconectar();
+        }
+
+        return listaColaboracion;
+    }
+
+    public static List<Colaboracion> getColaboracionPorEstado (String estado) throws SQLException {
+        String colaboracionPorEstadoSQL = "SELECT * FROM colaboracion WHERE estado = ?";
+        List<Colaboracion> listaColaboraciones = new ArrayList<>();
+
+        try {
+            CONEXION_BASE_DATOS.conectar();
+            PreparedStatement colaboracionPorEstado = CONEXION_BASE_DATOS.getConexion().
+                                                                         prepareStatement(colaboracionPorEstadoSQL);
+            colaboracionPorEstado.setString(1, estado);
+
+            ResultSet resultadoColaboracionPorEstado = colaboracionPorEstado.executeQuery();
+
+            while (resultadoColaboracionPorEstado.next()) {
+                Colaboracion colaboracion = convertirColaboracion(resultadoColaboracionPorEstado);
+                listaColaboraciones.add(colaboracion);
+            }
+            resultadoColaboracionPorEstado.close();
+            colaboracionPorEstado.close();
+        }
+        finally {
+            CONEXION_BASE_DATOS.desconectar();
+        }
+
+        return listaColaboraciones;
+    }
+
+    public static int cambiarEstadoColaboracion (Colaboracion colaboracion) throws SQLException{
         String cambiarEstadoColaboracionSQL = "UPDATE colaboracion SET estado = ? WHERE idColaboracion = ?";
         int filasAfectadas;
 
@@ -173,11 +225,11 @@ public class ColaboracionDB {
             filasAfectadas = cambiarEstadoColaboracion.executeUpdate();
 
             cambiarEstadoColaboracion.close();
-            CONEXION_BASE_DATOS.desconectar();
 
         }
-        catch (SQLException error) {
-            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.MODIFICACION);
+        finally {
+            CONEXION_BASE_DATOS.desconectar();
+
         }
 
         return filasAfectadas;
@@ -185,7 +237,7 @@ public class ColaboracionDB {
     }
 
 
-    public static int agregarEstudianteAColaboracion (Colaboracion colaboracion, Estudiante estudiante) throws ErrorDAO {
+    public static int agregarEstudianteAColaboracion (Colaboracion colaboracion, Estudiante estudiante) throws SQLException {
         String agregarEstudianteAColaboracionSQL = "INSERT INTO estudiantescolaboracion (idEstudiante, idColaboracion) VALUES (?, ?)";
         int filasAfectadas;
 
@@ -199,18 +251,18 @@ public class ColaboracionDB {
             filasAfectadas = agregarEstudianteAColaboracion.executeUpdate();
 
             agregarEstudianteAColaboracion.close();
-            CONEXION_BASE_DATOS.desconectar();
 
         }
-        catch (SQLException error) {
-            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.INSERCION);
+        finally {
+            CONEXION_BASE_DATOS.desconectar();
+
         }
 
         return filasAfectadas;
 
     }
 
-    public static int agregarAcademicoAColaboracion (Colaboracion colaboracion, Academico academico) throws ErrorDAO {
+    public static int agregarAcademicoAColaboracion (Colaboracion colaboracion, Academico academico) throws SQLException {
         String agregarAcademicoAColaboracionSQL = "INSERT INTO academicodesarrolla (idColaboracion, idAcademico) VALUES (?, ?)";
         int filasAfectadas;
 
@@ -224,17 +276,17 @@ public class ColaboracionDB {
             filasAfectadas = agregarAcademicoAColaboracion.executeUpdate();
 
             agregarAcademicoAColaboracion.close();
-            CONEXION_BASE_DATOS.desconectar();
 
         }
-        catch (SQLException error) {
-            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.INSERCION);
+        finally {
+            CONEXION_BASE_DATOS.desconectar();
+
         }
 
         return filasAfectadas;
     }
 
-    public static int registrarColaboracion (Colaboracion colaboracion) throws ErrorDAO {
+    public static int registrarColaboracion (Colaboracion colaboracion) throws SQLException {
         String registrarColaboracionSQL = "{CALL registrar_Colaboracion(?,?,?,?,?,?,?,?)}";
         int filasAfectadas;
 
@@ -249,27 +301,27 @@ public class ColaboracionDB {
             procedimientoRegistrarColaboracion.setString(3, colaboracion.getTemaInteres());
             procedimientoRegistrarColaboracion.setString(4, colaboracion.getIdioma());
             procedimientoRegistrarColaboracion.setString(5, colaboracion.getObjetivo());
-            procedimientoRegistrarColaboracion.setDate(6, colaboracion.getPeriodo().
-                                                                      getFechaInicio());
-            procedimientoRegistrarColaboracion.setDate(7, colaboracion.getPeriodo().
-                                                                      getFechaFin());
+            procedimientoRegistrarColaboracion.setDate(6, Date.valueOf(colaboracion.getPeriodo().
+                                                                      getFechaInicio()));
+            procedimientoRegistrarColaboracion.setDate(7, Date.valueOf(colaboracion.getPeriodo().
+                                                                      getFechaFin()));
             procedimientoRegistrarColaboracion.setString(8, colaboracion.getPerfilEstudiante());
 
             filasAfectadas = procedimientoRegistrarColaboracion.executeUpdate();
 
             procedimientoRegistrarColaboracion.close();
-            CONEXION_BASE_DATOS.desconectar();
 
         }
-        catch (SQLException error) {
-            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.INSERCION);
+        finally {
+            CONEXION_BASE_DATOS.desconectar();
+
         }
 
         return filasAfectadas;
 
     }
 
-    public static int actualizarColaboracion (Colaboracion colaboracion) throws ErrorDAO {
+    public static int actualizarColaboracion (Colaboracion colaboracion) throws SQLException {
         String actualizarColaboracionSQL = "{CALL actualizar_Colaboracion(?, ?, ?, ?, ?, ?, ?, ?, ?)}";
         int filasAfectadas;
 
@@ -286,25 +338,26 @@ public class ColaboracionDB {
             procedimientoActualizarColaboracion.setString(4, colaboracion.getTemaInteres());
             procedimientoActualizarColaboracion.setString(5, colaboracion.getIdioma());
             procedimientoActualizarColaboracion.setString(6, colaboracion.getObjetivo());
-            procedimientoActualizarColaboracion.setDate(7, colaboracion.getPeriodo().
-                                                                       getFechaInicio());
-            procedimientoActualizarColaboracion.setDate(8, colaboracion.getPeriodo().
-                                                                       getFechaFin());
+            procedimientoActualizarColaboracion.setDate(7, Date.valueOf(colaboracion.getPeriodo().
+                                                                       getFechaInicio()));
+            procedimientoActualizarColaboracion.setDate(8, Date.valueOf(colaboracion.getPeriodo().
+                                                                       getFechaFin()));
             procedimientoActualizarColaboracion.setString(9, colaboracion.getPerfilEstudiante());
 
             filasAfectadas = procedimientoActualizarColaboracion.executeUpdate();
 
             procedimientoActualizarColaboracion.close();
-            CONEXION_BASE_DATOS.desconectar();
+
         }
-        catch (SQLException error) {
-            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.MODIFICACION);
+        finally {
+            CONEXION_BASE_DATOS.desconectar();
+
         }
 
         return filasAfectadas;
     }
 
-    public static Colaboracion getPorId (int id) throws ErrorDAO {
+    public static Colaboracion getPorId (int id) throws SQLException {
         String getPorIdSQL = "SELECT * FROM colaboracion WHERE idColaboraion = ?";
         Colaboracion colaboracion = null;
 
@@ -321,18 +374,18 @@ public class ColaboracionDB {
             }
             getPorId.close();
             resultadoGetPorId.close();
-            CONEXION_BASE_DATOS.desconectar();
 
         }
-        catch (SQLException error) {
-            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
+        finally {
+            CONEXION_BASE_DATOS.desconectar();
+
         }
 
         return colaboracion;
 
     }
 
-    public static List<Colaboracion> getTodos () throws ErrorDAO {
+    public static List<Colaboracion> getTodos () throws SQLException {
         String getTodosSQL = "SELECT * FROM colaboracion";
         List<Colaboracion> listaColaboracion = new ArrayList<>();
 
@@ -349,11 +402,11 @@ public class ColaboracionDB {
 
             resultadoGetTodos.close();
             getTodos.close();
-            CONEXION_BASE_DATOS.desconectar();
 
         }
-        catch (SQLException error) {
-            throw new ErrorDAO (error.getMessage(), ErrorDAO.Tipo.CONSULTA);
+        finally {
+            CONEXION_BASE_DATOS.desconectar();
+
         }
 
         return listaColaboracion;
@@ -383,8 +436,10 @@ public class ColaboracionDB {
         colaboracion.setObjetivo(resultado.getString("objetivo"));
 
         Periodo periodo = new Periodo();
-        periodo.setFechaInicio(resultado.getDate("fechaInicio"));
-        periodo.setFechaFin(resultado.getDate("fechaFin"));
+        periodo.setFechaInicio(resultado.getDate("fechaInicio").
+                                        toLocalDate());
+        periodo.setFechaFin(resultado.getDate("fechaFin").
+                                     toLocalDate());
 
         colaboracion.setPeriodo(periodo);
         colaboracion.setPerfilEstudiante(resultado.getString("perfilEstudiante"));
@@ -429,8 +484,10 @@ public class ColaboracionDB {
     private static Periodo convertirPeriodo (ResultSet resultSet) throws SQLException {
         Periodo periodo = new Periodo();
 
-        periodo.setFechaInicio(resultSet.getDate("fechaInicio"));
-        periodo.setFechaFin(resultSet.getDate("fechaFin"));
+        periodo.setFechaInicio(resultSet.getDate("fechaInicio").
+                                        toLocalDate());
+        periodo.setFechaFin(resultSet.getDate("fechaFin").
+                                     toLocalDate());
 
         return periodo;
     }

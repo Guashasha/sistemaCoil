@@ -1,16 +1,13 @@
 package test.AccesoADatos;
-
-import AccesoADatos.AcademicoDB;
 import AccesoADatos.CuentaDB;
 import Logica.Dominio.Cuenta;
-import Logica.ErrorDAO;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-//import test.AyudantePruebasCuentaDB;
-import test.ConfiguracionPrueba;
+import test.AyudantePruebasCuentaDB;
 
+
+import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,12 +16,12 @@ class CuentaDBTest {
     // toDo getTodos
     @BeforeEach
     void setUp () {
-        //AyudantePruebasCuentaDB.agregarPrecondiciones();
+        AyudantePruebasCuentaDB.agregarPrecondiciones();
     }
 
     @AfterEach
     void tearDown () {
-       //AyudantePruebasCuentaDB.borrarTodosDatosTabla();
+       AyudantePruebasCuentaDB.borrarTodosDatosTabla();
     }
 
     @Test
@@ -43,7 +40,7 @@ class CuentaDBTest {
             cuentaObtenida = CuentaDB.getCuentaPorUsuario("EduVillegas");
 
         }
-        catch (ErrorDAO errorDAO) {
+        catch (SQLException errorDAO) {
             fail("pruebaGetCuentaPorUsuarioExitosa " + errorDAO.getMessage());
         }
 
@@ -68,7 +65,7 @@ class CuentaDBTest {
             filasAfectadasObtenido = CuentaDB.actualizarNombreUsuario(cuentaPrueba);
 
         }
-        catch (ErrorDAO errorDAO) {
+        catch (SQLException errorDAO) {
             fail("pruebaActualizarNombreUsuarioExitoso " + errorDAO.getMessage());
         }
 
@@ -89,7 +86,7 @@ class CuentaDBTest {
             validacion = CuentaDB.verificarCredenciales(nombreUsuario, contrasena);
 
         }
-        catch (ErrorDAO errorDAO) {
+        catch (SQLException errorDAO) {
             fail("pruebaVerificarCredencialesExitoso " + errorDAO.getMessage());
         }
 
@@ -110,7 +107,7 @@ class CuentaDBTest {
             validacion = CuentaDB.verificarCredenciales(nombreUsuario, contrasena);
 
         }
-        catch (ErrorDAO errorDAO) {
+        catch (SQLException errorDAO) {
             fail("pruebaVerificarCredencialesUsuarioDistintoFallida " + errorDAO.getMessage());
         }
 
@@ -130,7 +127,7 @@ class CuentaDBTest {
             validacion = CuentaDB.verificarCredenciales(nombreUsuario, contrasena);
 
         }
-        catch (ErrorDAO errorDAO) {
+        catch (SQLException errorDAO) {
             fail("pruebaVerificarCredencialesContrasenaDistintaFallida " + errorDAO.getMessage());
         }
 
@@ -151,7 +148,7 @@ class CuentaDBTest {
             validacion = CuentaDB.verificarCredenciales(nombreUsuario, contrasena);
 
         }
-        catch (ErrorDAO errorDAO) {
+        catch (SQLException errorDAO) {
             fail("pruebaVerificarCredencialesVaciosFallida " + errorDAO.getMessage());
         }
 
@@ -177,7 +174,7 @@ class CuentaDBTest {
             filasAfectadasObtenido = CuentaDB.actualizarContrasena(cuentaPrueba, contrasenaAntigua, contrasenaNueva);
 
         }
-        catch (ErrorDAO errorDAO) {
+        catch (SQLException errorDAO) {
             fail("pruebaActualizarContrasenaExitosa " + errorDAO.getMessage());
         }
 
@@ -196,7 +193,7 @@ class CuentaDBTest {
         String contrasenaNueva = "FomePo" ;
         String contrasenaAntigua = "eduVillegas200";
 
-        assertThrows(ErrorDAO.class, () -> CuentaDB.actualizarContrasena(cuentaPrueba, contrasenaAntigua, contrasenaNueva));
+        assertThrows(SQLException.class, () -> CuentaDB.actualizarContrasena(cuentaPrueba, contrasenaAntigua, contrasenaNueva));
 
     }
 
@@ -216,7 +213,7 @@ class CuentaDBTest {
             filasAfectadasObtenido = CuentaDB.cambiarEstadoCuenta(cuentaPrueba, estado);
 
         }
-        catch (ErrorDAO errorDAO) {
+        catch (SQLException errorDAO) {
             fail("pruebaCambiarEstadoCuentaExitoso" + errorDAO.getMessage());
 
         }
@@ -236,7 +233,7 @@ class CuentaDBTest {
             listaCuentas = CuentaDB.getCuentaPorTipo("estudiante");
 
         }
-        catch (ErrorDAO errorDAO) {
+        catch (SQLException errorDAO) {
             fail("pruebaGetCuentaPorTipoExitoso " + errorDAO.getMessage());
 
         }
@@ -258,7 +255,7 @@ class CuentaDBTest {
             listaCuentas = CuentaDB.getCuentasPorEstado("aceptada");
 
         }
-        catch (ErrorDAO errorDAO) {
+        catch (SQLException errorDAO) {
             fail("pruebaGetPorEstadoExitoso " + errorDAO.getMessage());
 
         }
@@ -288,7 +285,7 @@ class CuentaDBTest {
             filasAfectadasObtenido = CuentaDB.agregarCuenta(cuentaPrueba);
 
         }
-        catch (ErrorDAO errorDAO) {
+        catch (SQLException errorDAO) {
             fail("pruebaAgregarCuentaExitoso " + errorDAO.getMessage());
 
         }
@@ -317,7 +314,7 @@ class CuentaDBTest {
             cuentaPrueba = CuentaDB.getPorId(1);
 
         }
-        catch (ErrorDAO errorDAO) {
+        catch (SQLException errorDAO) {
             fail("pruebaGetPorIdExitosa " + errorDAO.getMessage());
 
         }
@@ -341,7 +338,7 @@ class CuentaDBTest {
             listaCuentas = CuentaDB.getTodos();
 
         }
-        catch (ErrorDAO errorDAO) {
+        catch (SQLException errorDAO) {
             fail("pruebaGetPorIdExitosa " + errorDAO.getMessage());
 
         }

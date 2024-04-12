@@ -11,7 +11,7 @@ public class CuentaDB {
 
     private static final ConexionBaseDatos CONEXION_BASE_DATOS = new ConexionBaseDatos();
 
-    public static Cuenta getCuentaPorUsuario (String nombreUsuario) throws ErrorDAO {
+    public static Cuenta getCuentaPorUsuario (String nombreUsuario) throws SQLException {
         String cuentaPorUsuarioSQL = "SELECT * from cuenta WHERE nombreUsuario = ?";
         Cuenta cuenta = null;
 
@@ -28,18 +28,18 @@ public class CuentaDB {
 
             cuentaPorUsuario.close();
             resultadoCuentaUsuario.close();
-            CONEXION_BASE_DATOS.desconectar();
 
         }
-        catch (SQLException error) {
-            throw new ErrorDAO (error.getMessage(), ErrorDAO.Tipo.CONSULTA);
+        finally {
+            CONEXION_BASE_DATOS.desconectar();
+
         }
 
         return cuenta;
 
     }
 
-    public static int actualizarNombreUsuario (Cuenta cuenta) throws ErrorDAO {
+    public static int actualizarNombreUsuario (Cuenta cuenta) throws SQLException {
         String actualizarUsuarioSQL = "UPDATE cuenta SET nombreUsuario = ? WHERE idCuenta = ?";
         int filasAfectadas;
 
@@ -53,17 +53,17 @@ public class CuentaDB {
             filasAfectadas = actualizarUsuario.executeUpdate();
 
             actualizarUsuario.close();
-            CONEXION_BASE_DATOS.desconectar();
+
         }
-        catch (SQLException error) {
-            throw new ErrorDAO (error.getMessage(), ErrorDAO.Tipo.MODIFICACION);
+        finally {
+            CONEXION_BASE_DATOS.desconectar();
 
         }
 
         return  filasAfectadas;
     }
 
-    public static boolean verificarCredenciales (String nombreUsuario, String contrasena) throws ErrorDAO {
+    public static boolean verificarCredenciales (String nombreUsuario, String contrasena) throws SQLException {
         String verificarCredencialesSQL = "{CALL verificar_credenciales(?, ?, ?)}";
         boolean validacion;
 
@@ -80,17 +80,17 @@ public class CuentaDB {
             validacion = verificarCredenciales.getBoolean(3);
 
             verificarCredenciales.close();
-            CONEXION_BASE_DATOS.desconectar();
         }
-        catch (SQLException error) {
-            throw new ErrorDAO (error.getMessage(), ErrorDAO.Tipo.VALIDACION);
+        finally {
+            CONEXION_BASE_DATOS.desconectar();
+
         }
 
         return validacion;
 
     }
 
-    public static int actualizarContrasena (Cuenta cuenta, String contrasenaAntigua, String contrasenaNueva) throws ErrorDAO {
+    public static int actualizarContrasena (Cuenta cuenta, String contrasenaAntigua, String contrasenaNueva) throws SQLException {
         String actualizarContrasenaSQL = "{CALL cambiar_contrasena(?,?,?,?)}";
         int filasAfectadas;
 
@@ -106,17 +106,18 @@ public class CuentaDB {
             filasAfectadas = actualizarContrasena.executeUpdate();
 
             actualizarContrasena.close();
-            CONEXION_BASE_DATOS.desconectar();
+
         }
-        catch (SQLException error) {
-            throw new ErrorDAO (error.getMessage(), ErrorDAO.Tipo.MODIFICACION);
+        finally {
+            CONEXION_BASE_DATOS.desconectar();
+
         }
 
         return filasAfectadas;
 
     }
 
-    public static int cambiarEstadoCuenta (Cuenta cuenta, String estado) throws ErrorDAO {
+    public static int cambiarEstadoCuenta (Cuenta cuenta, String estado) throws SQLException {
         String cambiarEstadoCuentaSQL = "UPDATE cuenta SET estado = ? WHERE idCuenta = ?";
         int filasAfectadas;
 
@@ -130,17 +131,17 @@ public class CuentaDB {
             filasAfectadas = cambiarEstadoCuenta.executeUpdate();
 
             cambiarEstadoCuenta.close();
-            CONEXION_BASE_DATOS.desconectar();
-        }
-        catch (SQLException error) {
-            throw new ErrorDAO (error.getMessage(), ErrorDAO.Tipo.MODIFICACION);
-        }
 
+        }
+        finally {
+            CONEXION_BASE_DATOS.desconectar();
+
+        }
         return filasAfectadas;
 
     }
 
-    public static List<Cuenta> getCuentaPorTipo (String tipo) throws ErrorDAO {
+    public static List<Cuenta> getCuentaPorTipo (String tipo) throws SQLException {
         String getCuentaPorTipoSQL = "SELECT * FROM cuenta WHERE tipo = ?";
         List<Cuenta> listaCuentas = new ArrayList<>();
 
@@ -159,17 +160,18 @@ public class CuentaDB {
 
             getCuentaPorTipo.close();
             resultadoGetCuentaPorTipo.close();
-            CONEXION_BASE_DATOS.desconectar();
+
         }
-        catch (SQLException error) {
-            throw new ErrorDAO (error.getMessage(), ErrorDAO.Tipo.CONEXION);
+        finally {
+            CONEXION_BASE_DATOS.desconectar();
+
         }
 
         return listaCuentas;
 
     }
 
-    public static List<Cuenta> getCuentasPorEstado (String estado) throws ErrorDAO {
+    public static List<Cuenta> getCuentasPorEstado (String estado) throws SQLException {
         String getCuentasPorEstadoSQL = "SELECT * FROM cuenta WHERE estado = ?";
         List<Cuenta> listaCuentas = new ArrayList<>();
 
@@ -188,11 +190,10 @@ public class CuentaDB {
 
             getCuentasPorEstado.close();
             resultadoGetCuentasPorEstado.close();
-            CONEXION_BASE_DATOS.desconectar();
 
         }
-        catch (SQLException error) {
-            throw new ErrorDAO (error.getMessage(), ErrorDAO.Tipo.CONEXION);
+        finally {
+            CONEXION_BASE_DATOS.desconectar();
 
         }
 
@@ -200,7 +201,7 @@ public class CuentaDB {
 
     }
 
-    public static int agregarCuenta (Cuenta cuenta) throws ErrorDAO {
+    public static int agregarCuenta (Cuenta cuenta) throws SQLException {
         String agregarCuentaSQL = "{CALL registrar_cuenta(?,?,?,?,?)}";
         int filasAfectadas;
 
@@ -219,17 +220,18 @@ public class CuentaDB {
             filasAfectadas = agregarCuenta.executeUpdate();
 
             agregarCuenta.close();
-            CONEXION_BASE_DATOS.desconectar();
+
         }
-        catch (SQLException error) {
-            throw new ErrorDAO (error.getMessage(), ErrorDAO.Tipo.CONEXION);
+        finally {
+            CONEXION_BASE_DATOS.desconectar();
+
         }
 
         return filasAfectadas;
 
     }
 
-    public static Cuenta getPorId (int id) throws ErrorDAO {
+    public static Cuenta getPorId (int id) throws SQLException {
         String getPorIdSQL = "SELECT * from cuenta WHERE idCuenta = ?";
         Cuenta cuenta = null;
 
@@ -247,17 +249,18 @@ public class CuentaDB {
 
             getPorId.close();
             resultadoGetPorId.close();
-            CONEXION_BASE_DATOS.desconectar();
+
         }
-        catch (SQLException error) {
-            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
+        finally {
+            CONEXION_BASE_DATOS.desconectar();
+
         }
 
         return cuenta;
 
     }
 
-    public static List<Cuenta> getTodos () throws ErrorDAO {
+    public static List<Cuenta> getTodos () throws SQLException {
         String getTodosSQL = "SELECT * from cuenta";
         List<Cuenta> listaCuenta = new ArrayList<>();
 
@@ -275,10 +278,11 @@ public class CuentaDB {
 
             getTodos.close();
             resultadoGetTodos.close();
-            CONEXION_BASE_DATOS.desconectar();
+
         }
-        catch (SQLException error) {
-            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
+        finally {
+            CONEXION_BASE_DATOS.desconectar();
+
         }
 
         return listaCuenta;

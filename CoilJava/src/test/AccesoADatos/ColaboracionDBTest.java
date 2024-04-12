@@ -5,13 +5,13 @@ import Logica.Dominio.Academico;
 import Logica.Dominio.Colaboracion;
 import Logica.Dominio.Estudiante;
 import Logica.Dominio.Periodo;
-import Logica.ErrorDAO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import test.AyudantePruebasColaboracionDB;
 
-import java.sql.Date;
+import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -42,8 +42,9 @@ class ColaboracionDBTest {
 
         Periodo periodo = new Periodo();
 
-        periodo.setFechaInicio(Date.valueOf("2024-05-01"));
-        periodo.setFechaFin(Date.valueOf("2024-06-30"));
+        periodo.setFechaInicio(LocalDate.parse("2024-05-01"));
+        periodo.setFechaFin(LocalDate.parse("2024-06-30"));
+        colaboracion.setPeriodo(periodo);
         colaboracion.setPerfilEstudiante("Estudiantes de informática");
 
         Academico academico1 = new Academico();
@@ -58,7 +59,7 @@ class ColaboracionDBTest {
             colaboracionReal = ColaboracionDB.getColaboracionPorAcademicosParticipantes(academico1, academico2);
 
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
             fail("Error en pruebaGetColaboracionPorAcademicosParticipantesExitosa" + error.getMessage());
         }
 
@@ -79,8 +80,9 @@ class ColaboracionDBTest {
 
         Periodo periodo = new Periodo();
 
-        periodo.setFechaInicio(Date.valueOf("2024-05-01"));
-        periodo.setFechaFin(Date.valueOf("2024-06-30"));
+        periodo.setFechaInicio(LocalDate.parse("2024-05-01"));
+        periodo.setFechaFin(LocalDate.parse("2024-06-30"));
+        colaboracionPrueba.setPeriodo(periodo);
         colaboracionPrueba.setPerfilEstudiante("Estudiantes de informática");
 
         Colaboracion colaboracionReal = null;
@@ -89,7 +91,7 @@ class ColaboracionDBTest {
             colaboracionReal = ColaboracionDB.getColaboracionPorId(1);
 
         }
-        catch (ErrorDAO errorDAO) {
+        catch (SQLException errorDAO) {
             fail("Error en pruebaGetColaboracionPorIdExitosa" + errorDAO.getMessage());
         }
 
@@ -111,7 +113,7 @@ class ColaboracionDBTest {
             listaEstudiante = ColaboracionDB.getListaDeEstudiantes(colaboracionPrueba);
 
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
             fail("Error pruebaGetListaDeEstudiantesExitosa " + error.getMessage());
 
         }
@@ -133,7 +135,7 @@ class ColaboracionDBTest {
             listaAcademico = ColaboracionDB.getAcademicosParticipantes(colaboracionPrueba);
 
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
             fail("pruebaGetAcademicosParticipantesExitoso " + error.getMessage());
         }
 
@@ -144,21 +146,26 @@ class ColaboracionDBTest {
     void pruebaGetColaboracionPorPeriodoExitosa() {
         System.out.println("pruebaGetColaboracionPorPeriodoExitosa");
 
-        Colaboracion colaboracionPrueba = new Colaboracion();
-        colaboracionPrueba.setIdColaboracion(1);
+        int colaboracionesEsperadas = 1;
+        List<Colaboracion> listaColaboraciones = null;
 
-        Periodo periodo = null;
+        LocalDate fechaInicio = LocalDate.of(2024, 5, 1);
+        LocalDate fechaFin = LocalDate.of(2024, 6, 30);
+
+        Periodo periodo = new Periodo();
+        periodo.setFechaInicio(fechaInicio);
+        periodo.setFechaFin(fechaFin);
 
         try {
-            periodo = ColaboracionDB.getColaboracionPorPeriodo(colaboracionPrueba);
+            listaColaboraciones = ColaboracionDB.getColaboracionPorPeriodo(periodo);
 
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
             fail("Error en pruebaGetColaboracionPorPeriodoExitosa: " + error.getMessage());
 
         }
 
-        assertNotNull(periodo);
+        assertEquals(colaboracionesEsperadas, listaColaboraciones.size());
 
     }
 
@@ -179,7 +186,7 @@ class ColaboracionDBTest {
             obtenido = ColaboracionDB.cambiarEstadoColaboracion(colaboracionPrueba);
 
 
-        } catch (ErrorDAO error) {
+        } catch (SQLException error) {
 
             fail("Error en pruebaCambiarEstadoColaboracionExitosa: " + error.getMessage());
         }
@@ -205,7 +212,7 @@ class ColaboracionDBTest {
             obtenido = ColaboracionDB.agregarEstudianteAColaboracion(colaboracionPrueba, estudiantePrueba);
 
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
             fail("pruebaAgregarEstudianteAColaboracionExitoso " + error.getMessage());
 
         }
@@ -231,7 +238,7 @@ class ColaboracionDBTest {
             obtenido = ColaboracionDB.agregarAcademicoAColaboracion(colaboracionPrueba,academicoPrueba);
 
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
             fail("pruebaAgregarAcademicoAColaboracionExitoso " + error.getMessage());
 
         }
@@ -254,8 +261,8 @@ class ColaboracionDBTest {
         colaboracionPrueba.setPerfilEstudiante("Estudiantes de informática");
 
         Periodo periodoPrueba = new Periodo();
-        periodoPrueba.setFechaInicio(Date.valueOf("2024-05-01"));
-        periodoPrueba.setFechaFin(Date.valueOf("2024-06-30"));
+        periodoPrueba.setFechaInicio(LocalDate.parse("2024-05-01"));
+        periodoPrueba.setFechaFin(LocalDate.parse("2024-06-30"));
 
         colaboracionPrueba.setPeriodo(periodoPrueba);
 
@@ -266,7 +273,7 @@ class ColaboracionDBTest {
             obtenido = ColaboracionDB.registrarColaboracion(colaboracionPrueba);
 
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
             fail("pruebaRegistrarColaboracionExitoso " + error.getMessage());
 
         }
@@ -290,8 +297,8 @@ class ColaboracionDBTest {
         colaboracionPrueba.setPerfilEstudiante("Estudiantes de informática");
 
         Periodo periodoPrueba = new Periodo();
-        periodoPrueba.setFechaInicio(Date.valueOf("2024-05-01"));
-        periodoPrueba.setFechaFin(Date.valueOf("2024-06-30"));
+        periodoPrueba.setFechaInicio(LocalDate.parse("2024-05-01"));
+        periodoPrueba.setFechaFin(LocalDate.parse("2024-06-30"));
 
         colaboracionPrueba.setPeriodo(periodoPrueba);
 
@@ -302,7 +309,7 @@ class ColaboracionDBTest {
             obtenido = ColaboracionDB.actualizarColaboracion(colaboracionPrueba);
 
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
             fail("pruebaActualizarColaboracionExitoso " + error.getMessage());
 
         }
@@ -323,7 +330,7 @@ class ColaboracionDBTest {
             listaColaboracion = ColaboracionDB.getTodos();
 
         }
-        catch (ErrorDAO errorDAO) {
+        catch (SQLException errorDAO) {
             fail("pruebaGetTodosExitosa " + errorDAO.getMessage());
 
         }
