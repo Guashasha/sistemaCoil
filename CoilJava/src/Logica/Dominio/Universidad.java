@@ -1,5 +1,7 @@
 package Logica.Dominio;
 
+import AccesoADatos.UniversidadDB;
+
 public class Universidad {
     private int id;
     private String nombre;
@@ -45,6 +47,22 @@ public class Universidad {
 
     public void setIdPais (int idPais) {
         this.idPais = idPais;
+    }
+
+    @Override
+    public boolean equals (Object obj) {
+        boolean igual;
+        if (this == obj) {
+            igual = true;
+        }
+        else if (obj == null || !(obj instanceof Universidad)) {
+            igual = false;
+        }
+        else {
+            Universidad universidad = (Universidad) obj;
+            igual = this.id == universidad.getId() && this.nombre.equals(universidad.getNombre()) && this.idPais == universidad.getIdPais()? true:false;
+        }
+        return igual;
     }
 
 }

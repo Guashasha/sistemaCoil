@@ -9,16 +9,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FacultadDB {
-    private final ConexionBaseDatos CONEXION_BASE_DATOS = new ConexionBaseDatos();
+    private static final ConexionBaseDatos CONEXION_BASE_DATOS = new ConexionBaseDatos();
 
-    public Facultad getFacultadPorNombre (String nombre) throws ErrorDAO {
+    public static Facultad getFacultadPorNombre (String nombre) throws SQLException {
         Facultad facultad = new Facultad(0);
         String consultaUniversidadSQL = "SELECT * FROM facultad_con_region WHERE facultad = ?";
-        PreparedStatement consultaUniversidad;
-        ResultSet resultadoConsulta;
+        PreparedStatement consultaUniversidad = null;
+        ResultSet resultadoConsulta = null;
 
         try {
-            consultaUniversidad = this.CONEXION_BASE_DATOS.getConexion().
+            consultaUniversidad = CONEXION_BASE_DATOS.getConexion().
                     prepareStatement(consultaUniversidadSQL);
             consultaUniversidad.setString(1,nombre);
             resultadoConsulta = consultaUniversidad.executeQuery();
@@ -26,70 +26,73 @@ public class FacultadDB {
             if (resultadoConsulta.next()) {
                 facultad = convertirResultSetAFacultad(resultadoConsulta);
             }
-
-            consultaUniversidad.close();
-            resultadoConsulta.close();
-            this.CONEXION_BASE_DATOS.desconectar();
         }
         catch (SQLException error) {
-            throw new ErrorDAO("SQLException: Error al consultar facultad por nombre\n" + error.getMessage());
+            throw error;
+        }
+        finally {
+            consultaUniversidad.close();
+            resultadoConsulta.close();
+            CONEXION_BASE_DATOS.desconectar();
         }
 
         return facultad;
     }
 
-    public List<Facultad> getFacultadPorRegion (String region) throws ErrorDAO {
+    public static List<Facultad> getFacultadPorRegion (String region) throws SQLException {
         List<Facultad> listaFacultades = new ArrayList<>();
         String consultaFacultadesSQL = "SELECT * FROM facultad_con_region WHERE region = ?";
-        PreparedStatement consultaFacultades;
-        ResultSet resultadoConsulta;
+        PreparedStatement consultaFacultades = null;
+        ResultSet resultadoConsulta = null;
 
         try {
-            consultaFacultades = this.CONEXION_BASE_DATOS.getConexion().
+            consultaFacultades = CONEXION_BASE_DATOS.getConexion().
                     prepareStatement(consultaFacultadesSQL);
-            consultaFacultades.setString(1,region);
+            consultaFacultades.setString(1, region);
             resultadoConsulta = consultaFacultades.executeQuery();
 
             while (resultadoConsulta.next()) {
                 listaFacultades.add(convertirResultSetAFacultad(resultadoConsulta));
             }
-
+        } catch (SQLException error) {
+            throw error;
+        }
+        finally {
             consultaFacultades.close();
             resultadoConsulta.close();
-            this.CONEXION_BASE_DATOS.desconectar();
-        } catch (SQLException excepcion) {
-            throw new ErrorDAO("SQLException: Error al consultar Facultades por region\n" + excepcion.getMessage());
+            CONEXION_BASE_DATOS.desconectar();
         }
 
         return listaFacultades;
     }
 
-    public List<Facultad> getTodasAlfabeticamente() throws ErrorDAO {
+    public static List<Facultad> getTodasAlfabeticamente () throws SQLException {
         List<Facultad> listaFacultades = new ArrayList<>();
         String consultaFacultadesSQL = "SELECT * FROM facultad_con_region ORDER BY facultad ASC";
-        PreparedStatement consultaFacultades;
-        ResultSet resultadoConsulta;
+        PreparedStatement consultaFacultades = null;
+        ResultSet resultadoConsulta = null;
 
         try {
-            consultaFacultades = this.CONEXION_BASE_DATOS.getConexion().
+            consultaFacultades = CONEXION_BASE_DATOS.getConexion().
                     prepareStatement(consultaFacultadesSQL);
             resultadoConsulta = consultaFacultades.executeQuery();
 
             while (resultadoConsulta.next()) {
                 listaFacultades.add(convertirResultSetAFacultad(resultadoConsulta));
             }
-
+        } catch (SQLException error) {
+            throw error;
+        }
+        finally {
             consultaFacultades.close();
             resultadoConsulta.close();
-            this.CONEXION_BASE_DATOS.desconectar();
-        } catch (SQLException excepcion) {
-            throw new ErrorDAO("SQLException: Error al consultar Facultades\n" + excepcion.getMessage());
+            CONEXION_BASE_DATOS.desconectar();
         }
 
         return listaFacultades;
     }
 
-    public Facultad convertirResultSetAFacultad (ResultSet resultado) throws SQLException {
+    public static Facultad convertirResultSetAFacultad (ResultSet resultado) throws SQLException {
         Facultad facultad = new Facultad();
 
         facultad.setId(resultado.getInt(1));
