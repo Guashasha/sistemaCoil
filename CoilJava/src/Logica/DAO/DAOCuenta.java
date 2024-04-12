@@ -1,16 +1,17 @@
 package Logica.DAO;
 
 import AccesoADatos.CuentaDB;
-import Logica.Dominio.Colaboracion;
 import Logica.Dominio.Cuenta;
 import Logica.ErrorDAO;
 import Logica.Interfaces.ICuentaDAO;
-
+import org.apache.log4j.Logger;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
 public class DAOCuenta implements ICuentaDAO {
+    private static final Logger BITACORA = Logger.getLogger(DAOCuenta.class);
 
 
     @Override
@@ -23,8 +24,8 @@ public class DAOCuenta implements ICuentaDAO {
             cuenta = CuentaDB.getCuentaPorUsuario(nombreUsuario);
 
         }
-        catch (ErrorDAO errorDAO) {
-            throw errorDAO;
+        catch (SQLException error) {
+            BITACORA.error(error.getMessage());
 
         }
         return Optional.ofNullable(cuenta);
@@ -32,7 +33,7 @@ public class DAOCuenta implements ICuentaDAO {
 
     @Override
     public int actualizarNombreUsuario (Cuenta cuenta) throws ErrorDAO {
-        int filasAfectadas;
+        int filasAfectadas = 0;
         if (!cuenta.validarNulos()) {
             throw new ErrorDAO("Al menos un campo de la cuenta esta vacio", ErrorDAO.Tipo.VALIDACION);
         }
@@ -43,8 +44,8 @@ public class DAOCuenta implements ICuentaDAO {
             filasAfectadas = CuentaDB.actualizarNombreUsuario(cuenta);
 
         }
-        catch (ErrorDAO errorDAO) {
-            throw errorDAO;
+        catch (SQLException error) {
+            BITACORA.error(error.getMessage());
         }
 
         return filasAfectadas;
@@ -52,7 +53,7 @@ public class DAOCuenta implements ICuentaDAO {
 
     @Override
     public boolean verificarCredenciales (String nombreUsuario, String contrasena) throws ErrorDAO {
-        boolean resultado;
+        boolean resultado = false;
 
         if (!cadenaValida(nombreUsuario)) {
             throw new ErrorDAO("nombre de usuario invalido", ErrorDAO.Tipo.VALIDACION);
@@ -64,8 +65,8 @@ public class DAOCuenta implements ICuentaDAO {
         try {
             resultado = CuentaDB.verificarCredenciales(nombreUsuario, contrasena);
         }
-        catch (ErrorDAO errorDAO) {
-            throw errorDAO;
+        catch (SQLException error) {
+            BITACORA.error(error.getMessage());
         }
 
         return resultado;
@@ -73,7 +74,7 @@ public class DAOCuenta implements ICuentaDAO {
 
     @Override
     public int actualizarContrasena (Cuenta cuenta, String contrasenaAntigua, String nuevaContrasena) throws ErrorDAO {
-        int filasAfectadas;
+        int filasAfectadas = 0;
         if (!cadenaValida(contrasenaAntigua)) {
             throw new ErrorDAO("contrasena antigua invalida", ErrorDAO.Tipo.VALIDACION);
         }
@@ -87,15 +88,15 @@ public class DAOCuenta implements ICuentaDAO {
             filasAfectadas = CuentaDB.actualizarContrasena(cuenta, contrasenaAntigua, nuevaContrasena);
 
         }
-        catch (ErrorDAO errorDAO) {
-            throw errorDAO;
+        catch (SQLException error) {
+            BITACORA.error(error.getMessage());
         }
         return filasAfectadas;
     }
 
     @Override
     public int cambiarEstadoCuenta (Cuenta cuenta, String estado) throws ErrorDAO {
-        int filasAfectadas;
+        int filasAfectadas = 0;
         if (!cuenta.validarNulos()) {
             throw new ErrorDAO("Error en la cuenta", ErrorDAO.Tipo.VALIDACION);
         }
@@ -105,40 +106,87 @@ public class DAOCuenta implements ICuentaDAO {
         try {
             filasAfectadas = CuentaDB.cambiarEstadoCuenta(cuenta, estado);
         }
-        catch (ErrorDAO errorDAO) {
-            throw errorDAO;
+        catch (SQLException error) {
+            BITACORA.error(error.getMessage());
         }
         return filasAfectadas;
     }
     //todo
     @Override
     public List<Cuenta> getCuentasPorTipo (String tipo) throws ErrorDAO {
-        return null;
+        List<Cuenta> listaCuenta = null;
+        if (!cadenaValida(tipo)) {
+            throw new ErrorDAO("Tipo de cuenta invalido", ErrorDAO.Tipo.VALIDACION);
+        }
+        try {
+            listaCuenta = CuentaDB.getCuentaPorTipo(tipo);
+        }
+        catch (SQLException error) {
+            BITACORA.error(error.getMessage());
+        }
+        return listaCuenta;
     }
 
     @Override
     public List<Cuenta> getCuentasPorEstado (String estado) throws ErrorDAO {
-        return null;
+        List<Cuenta> listaCuentas = null;
+        if (!cadenaValida(estado)) {
+            throw new ErrorDAO("Estado de cuenta invalido", ErrorDAO.Tipo.VALIDACION);
+        }
+        try {
+            listaCuentas = CuentaDB.getCuentasPorEstado(estado);
+        }
+        catch (SQLException error) {
+            BITACORA.error(error.getMessage());
+        }
+        return listaCuentas;
     }
 
     @Override
-    public int agregar (Cuenta t) throws ErrorDAO {
-        return 0;
+    public int agregar (Cuenta cuenta) throws ErrorDAO {
+        int filasAfectadas = 0;
+        if (!cuenta.validarNulos()) {
+            throw new ErrorDAO("Al menos un dato de la cuenta esta vacio", ErrorDAO.Tipo.VALIDACION);
+        }
+        try {
+            filasAfectadas = CuentaDB.agregarCuenta(cuenta);
+        }
+        catch (SQLException error) {
+            BITACORA.error(error.getMessage());
+        }
+        return filasAfectadas;
     }
 
     @Override
-    public int modificar (Cuenta obj) throws ErrorDAO {
-        return 0;
+    public int modificar (Cuenta cuenta) throws ErrorDAO {
+        throw new ErrorDAO("Metodo no utlizado", ErrorDAO.Tipo.MODIFICACION);
     }
 
     @Override
-    public Optional<Cuenta> getPorId (Integer y) throws ErrorDAO {
-        return Optional.empty();
+    public Optional<Cuenta> getPorId (Integer id) throws ErrorDAO {
+        Cuenta cuenta = null;
+        if (!idValido(id)) {
+            throw new ErrorDAO("Id de la cuenta no valido", ErrorDAO.Tipo.VALIDACION);
+        }
+        try {
+            cuenta = CuentaDB.getPorId(id);
+        }
+        catch (SQLException error) {
+            BITACORA.error(error.getMessage());
+        }
+        return Optional.ofNullable(cuenta);
     }
 
     @Override
     public List<Cuenta> getTodos () throws ErrorDAO {
-        return null;
+        List<Cuenta> listaCuentas = null;
+        try {
+            listaCuentas = CuentaDB.getTodos();
+        }
+        catch (SQLException error) {
+            BITACORA.error(error.getMessage());
+        }
+        return listaCuentas;
     }
 
     @Override

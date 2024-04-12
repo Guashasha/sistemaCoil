@@ -2,12 +2,12 @@ package test.AccesoADatos;
 
 import AccesoADatos.EstudianteDB;
 import Logica.Dominio.Estudiante;
-import Logica.ErrorDAO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import test.ConfiguracionPrueba;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -56,7 +56,7 @@ class EstudianteDBTest {
             obtenido = EstudianteDB.agregarEstudiante(estudiante);
 
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
             fail("Fallida: pruebaAgregarEstudianteExitoso");
 
         }
@@ -70,7 +70,7 @@ class EstudianteDBTest {
 
         Estudiante estudiante = new Estudiante();
 
-        assertThrows(ErrorDAO.class, () -> EstudianteDB.agregarEstudiante(estudiante));
+        assertThrows(SQLException.class, () -> EstudianteDB.agregarEstudiante(estudiante));
     }
 
     @Test
@@ -84,7 +84,7 @@ class EstudianteDBTest {
         estudiante.setMatricula("12345678912345");
         estudiante.setIdUniversidad(1);
 
-        assertThrows(ErrorDAO.class, () -> EstudianteDB.agregarEstudiante(estudiante));
+        assertThrows(SQLException.class, () -> EstudianteDB.agregarEstudiante(estudiante));
     }
 
     @Test
@@ -98,7 +98,7 @@ class EstudianteDBTest {
         estudiante.setMatricula(null);
         estudiante.setIdUniversidad(1);
 
-        assertThrows(ErrorDAO.class, () -> EstudianteDB.agregarEstudiante(estudiante));
+        assertThrows(SQLException.class, () -> EstudianteDB.agregarEstudiante(estudiante));
     }
 
     @Test
@@ -112,7 +112,7 @@ class EstudianteDBTest {
         estudiante.setMatricula("zs22013690");
         estudiante.setIdUniversidad(1);
 
-        assertThrows(ErrorDAO.class, () -> EstudianteDB.agregarEstudiante(estudiante));
+        assertThrows(SQLException.class, () -> EstudianteDB.agregarEstudiante(estudiante));
 
     }
 
@@ -127,7 +127,7 @@ class EstudianteDBTest {
         estudiante.setMatricula("zs22013690");
         estudiante.setIdUniversidad(1);
 
-        assertThrows(ErrorDAO.class, () -> EstudianteDB.agregarEstudiante(estudiante));
+        assertThrows(SQLException.class, () -> EstudianteDB.agregarEstudiante(estudiante));
 
     }
 
@@ -142,7 +142,7 @@ class EstudianteDBTest {
         estudiante.setMatricula("zs22013690");
         estudiante.setIdUniversidad(1);
 
-        assertThrows(ErrorDAO.class, () -> EstudianteDB.agregarEstudiante(estudiante));
+        assertThrows(SQLException.class, () -> EstudianteDB.agregarEstudiante(estudiante));
 
     }
 
@@ -156,7 +156,7 @@ class EstudianteDBTest {
         estudiante.setApellidoMaterno("");
         estudiante.setMatricula("zs22013690");
 
-        assertThrows(ErrorDAO.class,
+        assertThrows(SQLException.class,
                      () -> EstudianteDB.agregarEstudiante(estudiante));
 
     }
@@ -172,7 +172,7 @@ class EstudianteDBTest {
         estudiante.setMatricula("zs22013690");
         estudiante.setIdUniversidad(10);
 
-        assertThrows(ErrorDAO.class, () -> EstudianteDB.agregarEstudiante(estudiante));
+        assertThrows(SQLException.class, () -> EstudianteDB.agregarEstudiante(estudiante));
 
     }
 
@@ -195,7 +195,7 @@ class EstudianteDBTest {
             estudianteObtenido = EstudianteDB.getPorId(1);
 
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
             fail("Fallida: pruebaGetEstudiantePorIDExitosa " + error.getMessage());
 
         }
@@ -219,7 +219,7 @@ class EstudianteDBTest {
             tamanoListaReal = listaEstudiantes.size();
 
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
             fail("Fallida: pruebaGetEstudiantePorIDExitosa " + error.getMessage());
 
         }
@@ -248,7 +248,7 @@ class EstudianteDBTest {
             resultadoReal = EstudianteDB.editarEstudiante(estudiante);
 
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
             fail("Fallida: pruebaEditarEstudianteExitoso " + error.getMessage());
 
         }

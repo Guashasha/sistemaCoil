@@ -5,13 +5,13 @@ import Logica.Dominio.Academico;
 import Logica.Dominio.Colaboracion;
 import Logica.Dominio.Estudiante;
 import Logica.Dominio.Periodo;
-import Logica.ErrorDAO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import test.AyudantePruebasColaboracionDB;
 
-import java.sql.Date;
+import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -42,8 +42,9 @@ class ColaboracionDBTest {
 
         Periodo periodo = new Periodo();
 
-        periodo.setFechaInicio(Date.valueOf("2024-05-01"));
-        periodo.setFechaFin(Date.valueOf("2024-06-30"));
+        periodo.setFechaInicio(LocalDate.parse("2024-05-01"));
+        periodo.setFechaFin(LocalDate.parse("2024-06-30"));
+        colaboracion.setPeriodo(periodo);
         colaboracion.setPerfilEstudiante("Estudiantes de informática");
 
         Academico academico1 = new Academico();
@@ -58,12 +59,75 @@ class ColaboracionDBTest {
             colaboracionReal = ColaboracionDB.getColaboracionPorAcademicosParticipantes(academico1, academico2);
 
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
             fail("Error en pruebaGetColaboracionPorAcademicosParticipantesExitosa" + error.getMessage());
         }
 
         assertEquals(colaboracion.getIdColaboracion(), colaboracionReal.getIdColaboracion());
     }
+
+    @Test
+    void pruebaGetColaboracionPorAcademicosFallida () {
+        System.out.println("pruebaGetColaboracionPorAcademicosFallida");
+
+        Academico academico1 = new Academico();
+        academico1.setCedulaProfesional("ACDC123");
+
+        Academico academico2 = new Academico();
+        academico2.setCedulaProfesional("22342011");
+
+        Colaboracion colaboracion = null;
+
+        try {
+            colaboracion = ColaboracionDB.getColaboracionPorAcademicosParticipantes(academico1, academico2);
+        }
+        catch (SQLException error) {
+            fail("Error en pruebaGetColaboracion");
+
+        }
+
+        assertNull(colaboracion);
+    }
+
+    @Test
+    void pruebaGetColaboracionPorAcademicoUnAcademicoVacioFallida () {
+        Academico academico1 = new Academico();
+
+        Academico academico2 = new Academico();
+        academico2.setCedulaProfesional("22342011");
+
+        Colaboracion colaboracion = null;
+
+        try {
+            colaboracion = ColaboracionDB.getColaboracionPorAcademicosParticipantes(academico1, academico2);
+        }
+        catch (SQLException error) {
+            fail("Error en pruebaGetColaboracion");
+
+        }
+
+        assertNull(colaboracion);
+    }
+
+    @Test
+    void pruebaGetColaboracionPorAcademicosVacios () {
+        Academico academico1 = new Academico();
+
+        Academico academico2 = new Academico();
+
+        Colaboracion colaboracion = null;
+
+        try {
+            colaboracion = ColaboracionDB.getColaboracionPorAcademicosParticipantes(academico1, academico2);
+        }
+        catch (SQLException error) {
+            fail("Error en pruebaGetColaboracion");
+
+        }
+
+        assertNull(colaboracion);
+    }
+
 
     @Test
     void pruebaGetColaboracionPorIdExitosa () {
@@ -79,8 +143,9 @@ class ColaboracionDBTest {
 
         Periodo periodo = new Periodo();
 
-        periodo.setFechaInicio(Date.valueOf("2024-05-01"));
-        periodo.setFechaFin(Date.valueOf("2024-06-30"));
+        periodo.setFechaInicio(LocalDate.parse("2024-05-01"));
+        periodo.setFechaFin(LocalDate.parse("2024-06-30"));
+        colaboracionPrueba.setPeriodo(periodo);
         colaboracionPrueba.setPerfilEstudiante("Estudiantes de informática");
 
         Colaboracion colaboracionReal = null;
@@ -89,11 +154,28 @@ class ColaboracionDBTest {
             colaboracionReal = ColaboracionDB.getColaboracionPorId(1);
 
         }
-        catch (ErrorDAO errorDAO) {
+        catch (SQLException errorDAO) {
             fail("Error en pruebaGetColaboracionPorIdExitosa" + errorDAO.getMessage());
         }
 
         assertEquals(colaboracionPrueba.getIdColaboracion(), colaboracionReal.getIdColaboracion());
+    }
+
+    @Test
+    void pruebaGetColaboracionIdInexistente () {
+        System.out.println("pruebaGetColaboracionIdInexistente");
+
+        Colaboracion colaboracionReal = null;
+
+        try {
+            colaboracionReal = ColaboracionDB.getColaboracionPorId(10);
+
+        }
+        catch (SQLException errorDAO) {
+            fail("Error en pruebaGetColaboracionPorIdExitosa" + errorDAO.getMessage());
+        }
+
+        assertNull(colaboracionReal);
     }
 
     @Test
@@ -111,7 +193,28 @@ class ColaboracionDBTest {
             listaEstudiante = ColaboracionDB.getListaDeEstudiantes(colaboracionPrueba);
 
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
+            fail("Error pruebaGetListaDeEstudiantesExitosa " + error.getMessage());
+
+        }
+        assertEquals(tamanoEsperado, listaEstudiante.size());
+    }
+
+    @Test
+    void pruebaGetListadeEstudiantesColaboracionInexistente () {
+        System.out.println("pruebaGetListadeEstudiantesColaboracionInexistente");
+
+        Colaboracion colaboracionPrueba = new Colaboracion();
+        colaboracionPrueba.setIdColaboracion(40);
+
+        List<Estudiante> listaEstudiante =null;
+        int tamanoEsperado = 0;
+
+        try {
+            listaEstudiante = ColaboracionDB.getListaDeEstudiantes(colaboracionPrueba);
+
+        }
+        catch (SQLException error) {
             fail("Error pruebaGetListaDeEstudiantesExitosa " + error.getMessage());
 
         }
@@ -133,7 +236,7 @@ class ColaboracionDBTest {
             listaAcademico = ColaboracionDB.getAcademicosParticipantes(colaboracionPrueba);
 
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
             fail("pruebaGetAcademicosParticipantesExitoso " + error.getMessage());
         }
 
@@ -144,21 +247,26 @@ class ColaboracionDBTest {
     void pruebaGetColaboracionPorPeriodoExitosa() {
         System.out.println("pruebaGetColaboracionPorPeriodoExitosa");
 
-        Colaboracion colaboracionPrueba = new Colaboracion();
-        colaboracionPrueba.setIdColaboracion(1);
+        int colaboracionesEsperadas = 1;
+        List<Colaboracion> listaColaboraciones = null;
 
-        Periodo periodo = null;
+        LocalDate fechaInicio = LocalDate.of(2024, 5, 1);
+        LocalDate fechaFin = LocalDate.of(2024, 6, 30);
+
+        Periodo periodo = new Periodo();
+        periodo.setFechaInicio(fechaInicio);
+        periodo.setFechaFin(fechaFin);
 
         try {
-            periodo = ColaboracionDB.getColaboracionPorPeriodo(colaboracionPrueba);
+            listaColaboraciones = ColaboracionDB.getColaboracionPorPeriodo(periodo);
 
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
             fail("Error en pruebaGetColaboracionPorPeriodoExitosa: " + error.getMessage());
 
         }
 
-        assertNotNull(periodo);
+        assertEquals(colaboracionesEsperadas, listaColaboraciones.size());
 
     }
 
@@ -179,7 +287,7 @@ class ColaboracionDBTest {
             obtenido = ColaboracionDB.cambiarEstadoColaboracion(colaboracionPrueba);
 
 
-        } catch (ErrorDAO error) {
+        } catch (SQLException error) {
 
             fail("Error en pruebaCambiarEstadoColaboracionExitosa: " + error.getMessage());
         }
@@ -205,7 +313,7 @@ class ColaboracionDBTest {
             obtenido = ColaboracionDB.agregarEstudianteAColaboracion(colaboracionPrueba, estudiantePrueba);
 
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
             fail("pruebaAgregarEstudianteAColaboracionExitoso " + error.getMessage());
 
         }
@@ -231,7 +339,7 @@ class ColaboracionDBTest {
             obtenido = ColaboracionDB.agregarAcademicoAColaboracion(colaboracionPrueba,academicoPrueba);
 
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
             fail("pruebaAgregarAcademicoAColaboracionExitoso " + error.getMessage());
 
         }
@@ -254,8 +362,8 @@ class ColaboracionDBTest {
         colaboracionPrueba.setPerfilEstudiante("Estudiantes de informática");
 
         Periodo periodoPrueba = new Periodo();
-        periodoPrueba.setFechaInicio(Date.valueOf("2024-05-01"));
-        periodoPrueba.setFechaFin(Date.valueOf("2024-06-30"));
+        periodoPrueba.setFechaInicio(LocalDate.parse("2024-05-01"));
+        periodoPrueba.setFechaFin(LocalDate.parse("2024-06-30"));
 
         colaboracionPrueba.setPeriodo(periodoPrueba);
 
@@ -266,7 +374,7 @@ class ColaboracionDBTest {
             obtenido = ColaboracionDB.registrarColaboracion(colaboracionPrueba);
 
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
             fail("pruebaRegistrarColaboracionExitoso " + error.getMessage());
 
         }
@@ -290,8 +398,8 @@ class ColaboracionDBTest {
         colaboracionPrueba.setPerfilEstudiante("Estudiantes de informática");
 
         Periodo periodoPrueba = new Periodo();
-        periodoPrueba.setFechaInicio(Date.valueOf("2024-05-01"));
-        periodoPrueba.setFechaFin(Date.valueOf("2024-06-30"));
+        periodoPrueba.setFechaInicio(LocalDate.parse("2024-05-01"));
+        periodoPrueba.setFechaFin(LocalDate.parse("2024-06-30"));
 
         colaboracionPrueba.setPeriodo(periodoPrueba);
 
@@ -302,7 +410,7 @@ class ColaboracionDBTest {
             obtenido = ColaboracionDB.actualizarColaboracion(colaboracionPrueba);
 
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
             fail("pruebaActualizarColaboracionExitoso " + error.getMessage());
 
         }
@@ -323,7 +431,7 @@ class ColaboracionDBTest {
             listaColaboracion = ColaboracionDB.getTodos();
 
         }
-        catch (ErrorDAO errorDAO) {
+        catch (SQLException errorDAO) {
             fail("pruebaGetTodosExitosa " + errorDAO.getMessage());
 
         }

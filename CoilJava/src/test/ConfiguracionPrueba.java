@@ -37,7 +37,7 @@ public class ConfiguracionPrueba {
         ejecutarInstruccionSQL("ALTER TABLE cuenta AUTO_INCREMENT = 0;");
     }
     public static void borrarDatosTablaEstudiantesColaboracion () {
-        ejecutarInstruccionSQL("DELETE FROM estudiantescolaboracion;");
+        ejecutarInstruccionSQL("DELETE FROM estudiantesColaboracion;");
     }
     public static void borrarDatosTablaFacultad () {
         ejecutarInstruccionSQL("DELETE FROM facultad;");
