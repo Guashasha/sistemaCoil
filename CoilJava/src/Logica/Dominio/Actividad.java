@@ -68,9 +68,6 @@ public class Actividad {
         else if (this.getDescripcion().isBlank() || this.getDescripcion() == null) {
             resultado = false;
         }
-        else if (this.getIdActividad() < 1) {
-            resultado = false;
-        }
         else if (this.getTipo() == null) {
             resultado = false;
         }

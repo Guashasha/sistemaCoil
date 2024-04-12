@@ -1,6 +1,5 @@
 package AccesoADatos;
 
-import Logica.Bitacora;
 import Logica.Dominio.RetroalimentacionActividad;
 
 import java.sql.CallableStatement;
@@ -62,8 +61,7 @@ public class RetroalimentacionActividadDB {
         ResultSet retroalimentacion = null;
 
         try {
-            PreparedStatement consulta = null;
-            consulta = CONEXION.getConexion().prepareStatement("select idRetroalimentacion, interaccionPar, comentario, dificultad, interes, usuario, actividad from retroalimentacion natural join retroalimentacionActividad where retroalimentacion.usuario=? and retroalimentacionActividad.actividad=?;");
+            PreparedStatement consulta = CONEXION.getConexion().prepareStatement("select idRetroalimentacion, interaccionPar, comentario, dificultad, interes, usuario, actividad from retroalimentacion natural join retroalimentacionActividad where retroalimentacion.usuario=? and retroalimentacionActividad.actividad=?;");
 
             consulta.setInt(1, idPersona);
             consulta.setInt(2, idActividad);
