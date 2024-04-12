@@ -10,6 +10,16 @@ BEGIN
   VALUES (LAST_INSERT_ID(), dificultad, interes, actividad);
 END //
 
+DROP PROCEDURE IF EXISTS insertarRetroalimentacionColaboracion;
+CREATE PROCEDURE IF NOT EXISTS insertarRetroalimentacionColaboracion (interaccionPar int, comentario varchar(200), habilidadesObtenidas int, calificacion int, intercambioCultural int, mejoraDelLenguaje int, trabajoColaborativo int, mejoraFormacionProfesional int, usuario int, colaboracion int)
+BEGIN
+  INSERT INTO retroalimentacion (interaccionPar, comentario, usuario)
+  VALUES (interaccionPar, comentario, usuario);
+
+  INSERT INTO retroalimentacionColaboracion (idRetroalimentacion, habilidadesObtenidas, calificacion, intercambioCultural, mejoraDelLenguaje, trabajoColaborativo, mejoraFormacionProfesional, colaboracion)
+  VALUES (LAST_INSERT_ID(), habilidadesObtenidas, calificacion, intercambioCultural, mejoraDelLenguaje, trabajoColaborativo, mejoraFormacionProfesional, colaboracion);
+END //
+
 DROP PROCEDURE IF EXISTS cambiar_Estado_Colaboracion;
 create procedure if not exists cambiar_Estado_Colaboracion(IN p_idColaboracion int, IN nuevoEstado varchar(20))
     

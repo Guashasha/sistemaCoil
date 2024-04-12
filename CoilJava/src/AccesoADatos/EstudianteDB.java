@@ -13,9 +13,8 @@ import java.util.List;
 public class EstudianteDB {
 
     private static final ConexionBaseDatos CONEXION_BASE_DATOS = new ConexionBaseDatos();
-    // private static Bitacora bitacora = new Bitacora(Estudiante.class.getName());
 
-    public static int agregarEstudiante (Estudiante estudiante) throws ErrorDAO {
+    public static int agregarEstudiante (Estudiante estudiante) throws SQLException {
         String procedimientoSQL = "{CALL registrar_Estudiante(?, ?, ?, ?, ?)}";
         int resultado = 0;
 
@@ -32,17 +31,16 @@ public class EstudianteDB {
 
             resultado = registrarEstudiante.executeUpdate();
             registrarEstudiante.close();
-            CONEXION_BASE_DATOS.desconectar();
-        }
-        catch (SQLException error) {
-            //bitacora.escribirError(error);
 
-            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
+        }
+        finally {
+            CONEXION_BASE_DATOS.desconectar();
+
         }
         return resultado;
     }
 
-    public static int editarEstudiante (Estudiante estudiante) throws ErrorDAO {
+    public static int editarEstudiante (Estudiante estudiante) throws SQLException {
         String procedimientoSQL = "{CALL editar_Estudiante(?, ?, ?, ?, ?)}";
         int resultado = 0;
 
@@ -58,18 +56,17 @@ public class EstudianteDB {
 
             resultado = editarEstudiante.executeUpdate();
             editarEstudiante.close();
-            CONEXION_BASE_DATOS.desconectar();
-        }
-        catch (SQLException error) {
-            //bitacora.escribirError(error);
 
-            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
+        }
+        finally {
+            CONEXION_BASE_DATOS.desconectar();
+
         }
         return resultado;
 
     }
 
-    public static Estudiante getPorId (int id) throws ErrorDAO {
+    public static Estudiante getPorId (int id) throws SQLException {
         String consulta = "SELECT * from vista_estudiante WHERE idEstudiante = ?";
         Estudiante estudiante = null;
 
@@ -83,19 +80,17 @@ public class EstudianteDB {
                 estudiante = convertirEstudiante(resultadoConsulta);
             }
             consultaEstudianteId.close();
-            CONEXION_BASE_DATOS.desconectar();
             resultadoConsulta.close();
         }
-        catch (SQLException error) {
-            //bitacora.escribirError(error);
+        finally {
+            CONEXION_BASE_DATOS.desconectar();
 
-            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
         }
         return estudiante;
 
     }
 
-    public static Estudiante getEstudiantePorIdPersona (int idPersona) throws ErrorDAO {
+    public static Estudiante getEstudiantePorIdPersona (int idPersona) throws SQLException {
         String consulta = "SELECT * from vista_estudiante WHERE idPersona = ?";
         Estudiante estudiante = null;
 
@@ -109,20 +104,19 @@ public class EstudianteDB {
                 estudiante = convertirEstudiante(resultadoConsulta);
             }
             cosnsultaEstudianteIdPersona.close();
-            CONEXION_BASE_DATOS.desconectar();
             resultadoConsulta.close();
-        }
-        catch (SQLException error) {
-            //bitacora.escribirError(error);
 
-            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
+        }
+        finally {
+            CONEXION_BASE_DATOS.desconectar();
+
         }
 
         return estudiante;
 
     }
 
-    public static Estudiante getEstudiantePorMatricula (String matricula) throws ErrorDAO {
+    public static Estudiante getEstudiantePorMatricula (String matricula) throws SQLException {
         String consulta = "SELECT * from vista_estudiante WHERE matricula = ?";
         Estudiante estudiante = null;
 
@@ -136,19 +130,17 @@ public class EstudianteDB {
                 estudiante = convertirEstudiante(resultadoConsulta);
             }
             cosnsultaEstudianteMatricula.close();
-            CONEXION_BASE_DATOS.desconectar();
             resultadoConsulta.close();
         }
-        catch (SQLException error) {
-            //bitacora.escribirError(error);
+        finally {
+            CONEXION_BASE_DATOS.desconectar();
 
-            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
         }
         return estudiante;
 
     }
 
-    public static List<Estudiante> getEstudiantePorUniversidad (int idUniversidad) throws ErrorDAO {
+    public static List<Estudiante> getEstudiantePorUniversidad (int idUniversidad) throws SQLException {
         String consulta = "SELECT * from vista_estudiante WHERE universidad = ?";
         ArrayList<Estudiante> listaEstudiantes = new ArrayList<>();
 
@@ -165,19 +157,18 @@ public class EstudianteDB {
             }
 
             cosnsultaEstudianteUniversidad.close();
-            CONEXION_BASE_DATOS.desconectar();
             resultadoConsulta.close();
-        }
-        catch (SQLException error) {
-            //bitacora.escribirError(error);
 
-            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
+        }
+        finally {
+            CONEXION_BASE_DATOS.desconectar();
+
         }
         return listaEstudiantes;
 
     }
 
-    public static List<Estudiante> getTodos () throws ErrorDAO {
+    public static List<Estudiante> getTodos () throws SQLException {
         String consulta = "SELECT * FROM vista_estudiante";
         List<Estudiante> listaEstudiantes = new ArrayList<>();
 
@@ -190,14 +181,12 @@ public class EstudianteDB {
                 Estudiante estudiante = convertirEstudiante(resultadoConsulta);
                 listaEstudiantes.add(estudiante);
             }
-            CONEXION_BASE_DATOS.desconectar();
             consultaEstudiante.close();
             resultadoConsulta.close();
         }
-        catch (SQLException error) {
-            //bitacora.escribirError(error);
+        finally {
+            CONEXION_BASE_DATOS.desconectar();
 
-            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
         }
         return listaEstudiantes;
 

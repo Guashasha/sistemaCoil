@@ -1,11 +1,17 @@
 package test;
 
 import AccesoADatos.CuentaDB;
+import Logica.DAO.DAOAcademico;
 import Logica.Dominio.Cuenta;
+import org.apache.log4j.Logger;
+
+import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AyudantePruebasCuentaDB {
+    private static final Logger BITACORA = Logger.getLogger(DAOAcademico.class);
+
 
     public static void agregarPrecondiciones () {
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO pais (Iso,nombre) VALUES ('MX','México');");
@@ -42,7 +48,7 @@ public class AyudantePruebasCuentaDB {
     private static void agregarCuentaTipoEstudiantePrueba () {
         Cuenta cuenta = new Cuenta();
 
-        int filasAfectadas;
+        int filasAfectadas = 0;
 
         cuenta.setIdCuenta(1);
         cuenta.setIdPersona(4);
@@ -50,8 +56,13 @@ public class AyudantePruebasCuentaDB {
         cuenta.setContrasena("eduVillegas2000");
         cuenta.setTipo(Cuenta.TipoUsuario.estudiante);
         cuenta.setEstado(Cuenta.EstadoCuenta.aceptada);
+        try {
+            filasAfectadas = CuentaDB.agregarCuenta(cuenta);
+        }
+        catch (SQLException error) {
+            BITACORA.error(error.getMessage());
+        }
 
-        filasAfectadas = CuentaDB.agregarCuenta(cuenta);
 
         assertEquals(1, filasAfectadas);
     }

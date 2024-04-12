@@ -1,14 +1,98 @@
 package AccesoADatos;
 
-import Logica.Bitacora;
-import Logica.Dominio.RetroalimentacionActividad;
 import Logica.Dominio.RetroalimentacionColaboracion;
 
-public class RetroalimentacionColaboracionDB {
-    private static final ConexionBaseDatos db = new ConexionBaseDatos();
-    private static final Bitacora bitacora = new Bitacora(RetroalimentacionActividad.class.getName());
+import java.sql.CallableStatement;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-    public static int agregarRetroalimentacion (RetroalimentacionColaboracion retroalimentacion) {
-        return 0;
+public class RetroalimentacionColaboracionDB {
+    private static final ConexionBaseDatos CONEXION = new ConexionBaseDatos();
+
+    public static int agregarRetroalimentacion (RetroalimentacionColaboracion retroalimentacion) throws SQLException {
+        int resultado = -1;
+
+        try {
+            CallableStatement consulta = CONEXION.getConexion().prepareCall("call insertarRetroalimentacionColaboracion(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+            consulta.setInt(1, retroalimentacion.getInteraccionConPar());
+            consulta.setInt(3, retroalimentacion.getHabilidadesObtenidas());
+            consulta.setInt(4, retroalimentacion.getCalificacion());
+            consulta.setInt(5, retroalimentacion.getIntercambioCultural());
+            consulta.setInt(6, retroalimentacion.getMejoraDelLenguaje());
+            consulta.setInt(7, retroalimentacion.getTrabajoColaborativo());
+            consulta.setInt(8, retroalimentacion.getMejoraFormacionProfesional());
+            consulta.setInt(9, retroalimentacion.getIdUsuario());
+            consulta.setInt(10, retroalimentacion.getColaboracion());
+
+            if (retroalimentacion.getComentario().isPresent()) {
+                consulta.setString(2, retroalimentacion.getComentario().get());
+            }
+            else {
+                consulta.setString(2, null);
+            }
+
+            resultado = consulta.executeUpdate();
+            consulta.close();
+        }
+        finally {
+            CONEXION.desconectar();
+        }
+
+        return resultado;
+    }
+
+    public static ResultSet getPorId (int id) throws SQLException {
+        ResultSet resultado = null;
+
+        try {
+            PreparedStatement consulta = CONEXION.getConexion().prepareStatement("select * from retroalimentacion as rt natural join retroalimentacionColaboracion where rt.usuario=?");
+
+            consulta.setInt(1, id);
+
+            resultado = consulta.executeQuery();
+            consulta.close();
+        }
+        finally {
+            CONEXION.desconectar();
+        }
+
+        return resultado;
+    }
+
+    public static ResultSet getPorPersonaYColaboracion (int idPersona, int idColaboracion) throws SQLException {
+        ResultSet resultado = null;
+
+        try {
+            PreparedStatement consulta = CONEXION.getConexion().prepareStatement("select * from retroalimentacion as rt natural join retroalimentacionColaboracion as rc where rt.usuario=? and rc.colaboracion=?");
+
+            consulta.setInt(1, idPersona);
+            consulta.setInt(2, idColaboracion);
+
+            resultado = consulta.executeQuery();
+            consulta.close();
+        }
+        finally {
+            CONEXION.desconectar();
+        }
+
+        return resultado;
+    }
+
+    public static ResultSet getTodos () throws SQLException {
+        ResultSet resultado = null;
+
+        try {
+            PreparedStatement consulta = CONEXION.getConexion().prepareStatement("select * from retroalimentacion natural join retroalimentacionColaboracion");
+
+            resultado = consulta.executeQuery();
+            consulta.close();
+        }
+        finally {
+            CONEXION.desconectar();
+        }
+
+        return resultado;
     }
 }

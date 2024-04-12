@@ -4,15 +4,20 @@ import AccesoADatos.EstudianteDB;
 import Logica.Dominio.Estudiante;
 import Logica.ErrorDAO;
 import Logica.Interfaces.IEstudianteDAO;
+import org.apache.log4j.Logger;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
 public class DAOEstudiante implements IEstudianteDAO {
+    private static final Logger BITACORA = Logger.getLogger(DAOEstudiante.class);
+
+
     @Override
     public int agregar (Estudiante estudiante) throws ErrorDAO {
-        int filasAfectadas;
+        int filasAfectadas = 0;
 
         if (!estudiante.validarNulos()) {
             throw new ErrorDAO("Al menos un campo del estudiante esta vacio", ErrorDAO.Tipo.VALIDACION);
@@ -20,15 +25,15 @@ public class DAOEstudiante implements IEstudianteDAO {
         try {
             filasAfectadas = EstudianteDB.agregarEstudiante(estudiante);
         }
-        catch (ErrorDAO errorDAO) {
-            throw errorDAO;
+        catch (SQLException error) {
+            BITACORA.error(error.getMessage());
         }
         return filasAfectadas;
     }
 
     @Override
     public int modificar (Estudiante estudiante) throws ErrorDAO {
-        int filasAfectadas;
+        int filasAfectadas = 0;
 
         if (!estudiante.validarNulos()) {
             throw new ErrorDAO("Al menos un campo del estudiante esta vacio", ErrorDAO.Tipo.VALIDACION);
@@ -41,8 +46,8 @@ public class DAOEstudiante implements IEstudianteDAO {
             filasAfectadas = EstudianteDB.editarEstudiante(estudiante);
 
         }
-        catch (ErrorDAO errorDAO) {
-            throw errorDAO;
+        catch (SQLException error) {
+            BITACORA.error(error.getMessage());
         }
         return filasAfectadas;
     }
@@ -57,8 +62,8 @@ public class DAOEstudiante implements IEstudianteDAO {
         try {
             estudiante = EstudianteDB.getPorId(id);
         }
-        catch (ErrorDAO errorDAO) {
-            throw errorDAO;
+        catch (SQLException error) {
+            BITACORA.error(error.getMessage());
         }
 
         return Optional.ofNullable(estudiante);
@@ -73,8 +78,8 @@ public class DAOEstudiante implements IEstudianteDAO {
             listaEstudiantes = EstudianteDB.getTodos();
 
         }
-        catch (ErrorDAO errorDAO) {
-            throw errorDAO;
+        catch (SQLException error) {
+            BITACORA.error(error.getMessage());
 
         }
 
@@ -96,8 +101,8 @@ public class DAOEstudiante implements IEstudianteDAO {
             estudiante = EstudianteDB.getEstudiantePorIdPersona(idPersona);
 
         }
-        catch (ErrorDAO errorDAO) {
-            throw errorDAO;
+        catch (SQLException error) {
+            BITACORA.error(error.getMessage());
 
         }
         return Optional.ofNullable(estudiante);
@@ -113,8 +118,8 @@ public class DAOEstudiante implements IEstudianteDAO {
         try {
             estudiante = EstudianteDB.getEstudiantePorMatricula(matricula);
         }
-        catch (ErrorDAO errorDAO) {
-            throw errorDAO;
+        catch (SQLException error) {
+            BITACORA.error(error.getMessage());
         }
         return Optional.ofNullable(estudiante);
     }
@@ -128,8 +133,8 @@ public class DAOEstudiante implements IEstudianteDAO {
         try {
             listaEstudiantes = EstudianteDB.getEstudiantePorUniversidad(idUniversidad);
         }
-        catch (ErrorDAO errorDAO) {
-            throw errorDAO;
+        catch (SQLException error) {
+            BITACORA.error(error.getMessage());
         }
         return listaEstudiantes;
     }

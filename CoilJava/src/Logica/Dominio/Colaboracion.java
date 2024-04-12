@@ -14,7 +14,7 @@ public class Colaboracion {
         disponible,
         vinculada,
         activa,
-        en_revision,
+        enRevision,
         finalizada,
     }
 

@@ -68,4 +68,62 @@ public class RetroalimentacionColaboracion extends Retroalimentacion {
     public void setColaboracion (int colaboracion) {
         this.colaboracion = colaboracion;
     }
+
+    @Override
+    public boolean equals (Object objeto) {
+        if (objeto == null || !objeto.getClass().getName().equals(RetroalimentacionActividad.class.getName())) {
+            return false;
+        }
+
+        RetroalimentacionColaboracion retroalimentacion = (RetroalimentacionColaboracion) objeto;
+
+        return this.getColaboracion() == retroalimentacion.getColaboracion() &&
+                this.getHabilidadesObtenidas() == retroalimentacion.getHabilidadesObtenidas() &&
+                this.getCalificacion() == retroalimentacion.getCalificacion() &&
+                this.getIntercambioCultural() == retroalimentacion.getIntercambioCultural() &&
+                this.getInteraccionConPar() == retroalimentacion.getInteraccionConPar() &&
+                this.getMejoraDelLenguaje() == retroalimentacion.getMejoraDelLenguaje() &&
+                this.getTrabajoColaborativo() == retroalimentacion.getTrabajoColaborativo() &&
+                this.getMejoraFormacionProfesional() == retroalimentacion.getMejoraFormacionProfesional() &&
+                this.getIdUsuario() == retroalimentacion.getIdUsuario() &&
+                this.getComentario().isPresent() && retroalimentacion.getComentario().isPresent();
+    }
+
+    public boolean esCorrecta () {
+        boolean resultado = true;
+
+        if (!calificacionCorrecta(this.getCalificacion())) {
+            resultado = false;
+        }
+
+        if (!calificacionCorrecta(this.getHabilidadesObtenidas())) {
+            resultado = false;
+        }
+
+        if (!calificacionCorrecta(this.getIntercambioCultural())) {
+            resultado = false;
+        }
+
+        if (!calificacionCorrecta(this.getMejoraDelLenguaje())) {
+            resultado = false;
+        }
+
+        if (!calificacionCorrecta(this.getTrabajoColaborativo())) {
+            resultado = false;
+        }
+
+        if (!calificacionCorrecta(this.getMejoraFormacionProfesional())) {
+            resultado = false;
+        }
+
+        if (!calificacionCorrecta(this.getIntercambioCultural())) {
+            resultado = false;
+        }
+
+        return resultado;
+    }
+
+    private boolean calificacionCorrecta (int calificacion) {
+        return (calificacion >= 1 && calificacion <= 5);
+    }
 }
