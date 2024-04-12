@@ -16,4 +16,14 @@
   2024-04-12 14:47:28 ERROR DAOColaboracion:195 - (conn=50) Unknown column 'fechaFinal' in 'field list'
   2024-04-12 15:12:46 ERROR DAOColaboracion:195 - (conn=64) Data truncated for column 'p_estado' at row 0
   2024-04-12 15:13:45 ERROR DAOColaboracion:195 - (conn=70) Data truncated for column 'p_estado' at row 0
+  2024-04-12 15:34:46 ERROR RetroalimentacionActividad:45 - java.sql.SQLIntegrityConstraintViolationException: (conn=117) Cannot add or update a child row: a foreign key constraint fails (`COIL`.`retroalimentacion`, CONSTRAINT `retroalimentacion_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`))
+  2024-04-12 15:35:45 ERROR RetroalimentacionActividad:45 - java.sql.SQLIntegrityConstraintViolationException: (conn=130) Cannot add or update a child row: a foreign key constraint fails (`COIL`.`retroalimentacion`, CONSTRAINT `retroalimentacion_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`))
+  2024-04-12 15:35:47 ERROR RetroalimentacionActividad:45 - java.sql.SQLIntegrityConstraintViolationException: (conn=133) Cannot add or update a child row: a foreign key constraint fails (`COIL`.`retroalimentacion`, CONSTRAINT `retroalimentacion_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`))
+  2024-04-12 15:35:49 ERROR RetroalimentacionActividad:45 - java.sql.SQLIntegrityConstraintViolationException: (conn=138) Cannot add or update a child row: a foreign key constraint fails (`COIL`.`retroalimentacion`, CONSTRAINT `retroalimentacion_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`))
+  2024-04-12 15:52:40 ERROR RetroalimentacionActividad:45 - java.sql.SQLSyntaxErrorException: (conn=304) Unknown column 'comentario' in 'field list'
+  2024-04-12 15:52:42 ERROR RetroalimentacionActividad:45 - java.sql.SQLSyntaxErrorException: (conn=307) Unknown column 'comentario' in 'field list'
+  2024-04-12 15:52:44 ERROR RetroalimentacionActividad:45 - java.sql.SQLSyntaxErrorException: (conn=312) Unknown column 'comentario' in 'field list'
+  2024-04-12 15:54:25 ERROR RetroalimentacionActividad:45 - java.sql.SQLSyntaxErrorException: (conn=328) Unknown column 'comentario' in 'field list'
+  2024-04-12 15:54:28 ERROR RetroalimentacionActividad:45 - java.sql.SQLSyntaxErrorException: (conn=331) Unknown column 'comentario' in 'field list'
+  2024-04-12 15:54:30 ERROR RetroalimentacionActividad:45 - java.sql.SQLSyntaxErrorException: (conn=336) Unknown column 'comentario' in 'field list'
   
