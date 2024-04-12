@@ -1,19 +1,17 @@
 package Logica.DAO;
 
 import AccesoADatos.FacultadDB;
-import Logica.Bitacora;
 import Logica.Dominio.Facultad;
-import Logica.Dominio.Universidad;
 import Logica.ErrorDAO;
 import Logica.Interfaces.IFacultadDAO;
-
+import org.apache.log4j.Logger;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class DAOFacultad implements IFacultadDAO {
-    private static Bitacora bitacora = new Bitacora(Universidad.class.getName());
+    private static Logger bitacora = Logger.getLogger(DAOFacultad.class);
 
     @Override
     public Optional<Facultad> getFacultadPorNombre(String nombre) throws ErrorDAO {
@@ -24,7 +22,8 @@ public class DAOFacultad implements IFacultadDAO {
                 facultad = FacultadDB.getFacultadPorNombre(nombre);
             }
             catch (SQLException error) {
-
+                bitacora.info(error.getMessage());
+                throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
             }
         }
 
@@ -38,7 +37,8 @@ public class DAOFacultad implements IFacultadDAO {
             try {
                 listaFacultades = FacultadDB.getFacultadPorRegion(region);
             } catch (SQLException error) {
-
+                bitacora.info(error.getMessage());
+                throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
             }
         }
         return listaFacultades;
@@ -49,6 +49,7 @@ public class DAOFacultad implements IFacultadDAO {
         try {
             return FacultadDB.getTodasAlfabeticamente();
         } catch (SQLException error) {
+            bitacora.info(error.getMessage());
             throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
         }
     }

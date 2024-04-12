@@ -2,19 +2,18 @@ package Logica.DAO;
 
 import AccesoADatos.PaisDB;
 import AccesoADatos.UniversidadDB;
-import Logica.Bitacora;
 import Logica.Dominio.Pais;
 import Logica.Dominio.Universidad;
 import Logica.ErrorDAO;
 import Logica.Interfaces.IUniversidadDAO;
-
+import org.apache.log4j.Logger;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class DAOUniversidad implements IUniversidadDAO {
-    //private static Bitacora bitacora = new Bitacora(Universidad.class.getName());
+    private static Logger bitacora = Logger.getLogger(DAOUniversidad.class);
 
     @Override
     public int registrarUniversidad (String universidad, String pais) throws ErrorDAO {
@@ -31,7 +30,8 @@ public class DAOUniversidad implements IUniversidadDAO {
                     filasAfectadas = UniversidadDB.registrarUniversidad(nuevaUniversidad);
                 }
                 catch (SQLException error) {
-
+                    bitacora.info(error.getMessage());
+                    throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.INSERCION);
                 }
             }
         }
@@ -57,7 +57,8 @@ public class DAOUniversidad implements IUniversidadDAO {
                     filasAfectadas = UniversidadDB.editarUniversidad(universidad);
                 }
                 catch (SQLException error) {
-
+                    bitacora.info(error.getMessage());
+                    throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.MODIFICACION);
                 }
             }
         }
@@ -66,41 +67,43 @@ public class DAOUniversidad implements IUniversidadDAO {
     }
 
     @Override
-    public Universidad getUniversidadPorNombre (String nombre) throws ErrorDAO {
-        Universidad universidad = new Universidad(0);
+    public Optional<Universidad> getUniversidadPorNombre (String nombre) throws ErrorDAO {
+        Universidad universidad = null;
         if (cadenaValida(nombre)) {
             try {
                 universidad = UniversidadDB.getUniversidadPorNombre(nombre);
             }
             catch (SQLException error) {
-
+                bitacora.info(error.getMessage());
+                throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
             }
         }
-        return universidad;
+        return Optional.ofNullable(universidad);
     }
 
     @Override
-    public List<Universidad> getUniversidadesPorPaisOrigen(String paisOrigen) throws ErrorDAO {
+    public List<Universidad> getUniversidadesPorPaisOrigen (String paisOrigen) throws ErrorDAO {
         List<Universidad> listaUniversidades = new ArrayList<>();
         if (cadenaValida(paisOrigen)) {
             try {
                 listaUniversidades = UniversidadDB.getUniversidadesPorPaisOrigen(paisOrigen);
             }
             catch (SQLException error) {
-
+                bitacora.info(error.getMessage());
+                throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
             }
         }
         return listaUniversidades;
     }
 
     @Override
-    public List<Universidad> getTodasAlfabeticamente() throws ErrorDAO {
+    public List<Universidad> getTodasAlfabeticamente () throws ErrorDAO {
         try {
             return UniversidadDB.getTodasAlfabeticamente();
         }
         catch (SQLException error) {
-            //bitacora.escribirError(error);
-            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
+            bitacora.info(error.getMessage());
+            throw new ErrorDAO(error.getMessage(),ErrorDAO.Tipo.CONSULTA);
         }
     }
 
@@ -130,7 +133,7 @@ public class DAOUniversidad implements IUniversidadDAO {
             }
         }
         catch (SQLException error) {
-            //bitacora.escribirError(error);
+            bitacora.info(error.getMessage());
             throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
         }
 

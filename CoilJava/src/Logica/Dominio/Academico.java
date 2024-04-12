@@ -78,5 +78,25 @@ public class Academico extends Persona {
                 cadenaValida(categoriaContratacion);
     }
 
-
+    @Override
+    public boolean equals (Object obj) {
+        boolean igual;
+        if (this == obj) {
+            igual = true;
+        }
+        else if (obj == null || !(obj instanceof Academico)) {
+            igual = false;
+        }
+        else {
+            Academico academico = (Academico) obj;
+            igual = this.getIdPersona() == academico.getIdPersona() && this.getNombre().equals(academico.getNombre())
+                    && this.getApellidoPaterno().equals(academico.getApellidoPaterno()) && this.getApellidoMaterno().equals(academico.getApellidoMaterno())
+                    && this.getIdUniversidad() == academico.getIdUniversidad() && this.cedulaProfesional.equals(academico.getCedulaProfesional())
+                    && this.numeroPersonal.equals(academico.getNumeroPersonal()) && this.areaEstudios.equals(academico.getAreaEstudios())
+                    && this.correoElectronico.equals(academico.getCorreoElectronico()) && this.numeroTelefonico.equals(academico.getNumeroTelefonico())
+                    && this.categoriaContratacion.equals(academico.getCategoriaContratacion()) && this.idFacultad == academico.getIdFacultad()
+                    ? true:false;
+        }
+        return igual;
+    }
 }
