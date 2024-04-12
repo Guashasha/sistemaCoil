@@ -32,7 +32,7 @@ public class DAORetroalimentacionColaboracion implements IRetroalimentacionColab
         if (colaboracion.isEmpty()) {
             throw new ErrorDAO("La colaboración no existe", Tipo.CONSULTA);
         }
-        else if (colaboracion.get().getEstado() != Colaboracion.EstadoColaboracion.en_revision) {
+        else if (colaboracion.get().getEstado() != Colaboracion.EstadoColaboracion.enRevision) {
             throw new ErrorDAO("La colaboración no puede ser evaluada aún", Tipo.VALIDACION);
         }
 

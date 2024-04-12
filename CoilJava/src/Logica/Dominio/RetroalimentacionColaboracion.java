@@ -90,11 +90,7 @@ public class RetroalimentacionColaboracion extends Retroalimentacion {
     }
 
     public boolean esCorrecta () {
-        boolean resultado = true;
-
-        if (!calificacionCorrecta(this.getCalificacion())) {
-            resultado = false;
-        }
+        boolean resultado = calificacionCorrecta(this.getCalificacion());
 
         if (!calificacionCorrecta(this.getHabilidadesObtenidas())) {
             resultado = false;

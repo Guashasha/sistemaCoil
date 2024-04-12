@@ -8,6 +8,7 @@ import Logica.Dominio.RetroalimentacionColaboracion;
 import Logica.ErrorDAO;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import test.AyudantePruebasColaboracionDB;
 import test.ConfiguracionPrueba;
 
 import java.time.LocalDate;
@@ -38,24 +39,24 @@ public class DAORetroalimentacionColaboracionTest {
         col.agregar(colaboracion);
 
         Colaboracion colaboracion2 = new Colaboracion();
-        colaboracion.setEstado(Colaboracion.EstadoColaboracion.enRevision);
-        colaboracion.setIdioma("Ingles");
-        colaboracion.setObjetivo("segunda prueba de la clase retroalimentacion colaboracion");
-        colaboracion.setPerfilEstudiante("haber pasado redes con 6 almenos");
-        colaboracion.setPeriodo(new Periodo(LocalDate.of(2023, Month.FEBRUARY, 25), LocalDate.of(2024, Month.APRIL, 1)));
-        colaboracion.setTemaInteres("ninguno xd");
-        colaboracion.setTipo(Colaboracion.TipoColaboracion.claseEspejo);
+        colaboracion2.setEstado(Colaboracion.EstadoColaboracion.enRevision);
+        colaboracion2.setIdioma("Ingles");
+        colaboracion2.setObjetivo("segunda prueba de la clase retroalimentacion colaboracion");
+        colaboracion2.setPerfilEstudiante("haber pasado redes con 6 almenos");
+        colaboracion2.setPeriodo(new Periodo(LocalDate.of(2023, Month.FEBRUARY, 25), LocalDate.of(2024, Month.APRIL, 1)));
+        colaboracion2.setTemaInteres("ninguno xd");
+        colaboracion2.setTipo(Colaboracion.TipoColaboracion.claseEspejo);
 
         col.agregar(colaboracion2);
 
         Colaboracion colaboracion3 = new Colaboracion();
-        colaboracion.setEstado(Colaboracion.EstadoColaboracion.propuesta);
-        colaboracion.setIdioma("Ingles");
-        colaboracion.setObjetivo("Tercera prueba de la clase retroalimentacion colaboracion");
-        colaboracion.setPerfilEstudiante("que esté estudiando");
-        colaboracion.setPeriodo(new Periodo(LocalDate.of(2023, Month.FEBRUARY, 25), LocalDate.of(2024, Month.APRIL, 1)));
-        colaboracion.setTemaInteres("ninguno xd");
-        colaboracion.setTipo(Colaboracion.TipoColaboracion.claseEspejo);
+        colaboracion3.setEstado(Colaboracion.EstadoColaboracion.propuesta);
+        colaboracion3.setIdioma("Ingles");
+        colaboracion3.setObjetivo("Tercera prueba de la clase retroalimentacion colaboracion");
+        colaboracion3.setPerfilEstudiante("que esté estudiando");
+        colaboracion3.setPeriodo(new Periodo(LocalDate.of(2023, Month.FEBRUARY, 25), LocalDate.of(2024, Month.APRIL, 1)));
+        colaboracion3.setTemaInteres("ninguno xd");
+        colaboracion3.setTipo(Colaboracion.TipoColaboracion.claseEspejo);
 
         col.agregar(colaboracion3);
 
@@ -66,9 +67,10 @@ public class DAORetroalimentacionColaboracionTest {
         retroalimentacion.setHabilidadesObtenidas(5);
         retroalimentacion.setCalificacion(5);
         retroalimentacion.setIntercambioCultural(4);
-        retroalimentacion.setMejoraDelLenguaje(4);
+        retroalimentacion.setMejoraDelLenguaje(3);
         retroalimentacion.setTrabajoColaborativo(5);
         retroalimentacion.setMejoraDelLenguaje(5);
+        retroalimentacion.setMejoraFormacionProfesional(3);
 
         DAORetroalimentacionColaboracion ret = new DAORetroalimentacionColaboracion();
         ret.agregar(retroalimentacion);
@@ -86,6 +88,7 @@ public class DAORetroalimentacionColaboracionTest {
         retroalimentacion.setMejoraDelLenguaje(4);
         retroalimentacion.setTrabajoColaborativo(5);
         retroalimentacion.setMejoraDelLenguaje(5);
+        retroalimentacion.setMejoraFormacionProfesional(5);
 
         DAORetroalimentacionColaboracion ret = new DAORetroalimentacionColaboracion();
         int resultado = -1;
@@ -97,7 +100,7 @@ public class DAORetroalimentacionColaboracionTest {
             fail();
         }
 
-        assertEquals(1, resultado);
+        assertEquals(2, resultado);
     }
 
     @Test
@@ -112,6 +115,7 @@ public class DAORetroalimentacionColaboracionTest {
         retroalimentacion.setMejoraDelLenguaje(4);
         retroalimentacion.setTrabajoColaborativo(5);
         retroalimentacion.setMejoraDelLenguaje(5);
+        retroalimentacion.setMejoraFormacionProfesional(5);
 
         DAORetroalimentacionColaboracion ret = new DAORetroalimentacionColaboracion();
 
@@ -135,6 +139,7 @@ public class DAORetroalimentacionColaboracionTest {
         retroalimentacion.setIntercambioCultural(4);
         retroalimentacion.setMejoraDelLenguaje(4);
         retroalimentacion.setTrabajoColaborativo(5);
+        retroalimentacion.setMejoraFormacionProfesional(5);
         retroalimentacion.setMejoraDelLenguaje(5);
 
         DAORetroalimentacionColaboracion ret = new DAORetroalimentacionColaboracion();
@@ -160,6 +165,7 @@ public class DAORetroalimentacionColaboracionTest {
         retroalimentacion.setMejoraDelLenguaje(4);
         retroalimentacion.setTrabajoColaborativo(5);
         retroalimentacion.setMejoraDelLenguaje(5);
+        retroalimentacion.setMejoraFormacionProfesional(5);
 
         DAORetroalimentacionColaboracion ret = new DAORetroalimentacionColaboracion();
 
@@ -183,6 +189,7 @@ public class DAORetroalimentacionColaboracionTest {
         retroalimentacion.setIntercambioCultural(4);
         retroalimentacion.setMejoraDelLenguaje(4);
         retroalimentacion.setTrabajoColaborativo(5);
+        retroalimentacion.setMejoraFormacionProfesional(5);
         retroalimentacion.setMejoraDelLenguaje(5);
 
         DAORetroalimentacionColaboracion ret = new DAORetroalimentacionColaboracion();
@@ -208,6 +215,7 @@ public class DAORetroalimentacionColaboracionTest {
         retroalimentacion.setMejoraDelLenguaje(4);
         retroalimentacion.setTrabajoColaborativo(5);
         retroalimentacion.setMejoraDelLenguaje(5);
+        retroalimentacion.setMejoraFormacionProfesional(5);
 
         DAORetroalimentacionColaboracion ret = new DAORetroalimentacionColaboracion();
 

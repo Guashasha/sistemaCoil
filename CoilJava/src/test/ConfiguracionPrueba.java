@@ -37,7 +37,7 @@ public class ConfiguracionPrueba {
         ejecutarInstruccionSQL("ALTER TABLE cuenta AUTO_INCREMENT = 0;");
     }
     public static void borrarDatosTablaEstudiantesColaboracion () {
-        ejecutarInstruccionSQL("DELETE FROM estudiantescolaboracion;");
+        ejecutarInstruccionSQL("DELETE FROM estudiantesColaboracion;");
     }
     public static void borrarDatosTablaFacultad () {
         ejecutarInstruccionSQL("DELETE FROM facultad;");
@@ -69,7 +69,7 @@ public class ConfiguracionPrueba {
         try {
             String urlBaseDatos = "jdbc:mariadb://localhost:3306/COIL";
             String usuario = "root";
-            String contrasena = "neco2000";
+            String contrasena = "tomasilla9988";
 
             Connection conexion = DriverManager.getConnection(urlBaseDatos, usuario, contrasena);
 
