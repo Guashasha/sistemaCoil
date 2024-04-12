@@ -8,8 +8,10 @@ import Logica.ErrorDAO.Tipo;
 import Logica.Interfaces.IActividadDAO;
 import AccesoADatos.ActividadDB;
 
+import javax.swing.text.html.Option;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,8 +20,12 @@ public class DAOActividad implements IActividadDAO {
 
     @Override
     public int agregar (Actividad actividad) throws ErrorDAO {
-        if (!actividadCorrecta(actividad)) {
-            throw new ErrorDAO("La actividad tiene campos vacios", Tipo.VALIDACION);
+        if (!actividad.esCorrecta()) {
+            throw new ErrorDAO("La actividad es incorrecta", Tipo.VALIDACION);
+        }
+
+        if (getPorTitulo(actividad.getTitulo()).isPresent()) {
+            throw new ErrorDAO("la actividad ya existe", Tipo.DUPLICIDAD);
         }
 
         int resultado = -1;
@@ -27,34 +33,33 @@ public class DAOActividad implements IActividadDAO {
         try {
             resultado = ActividadDB.agregarActividad(actividad);
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
             bitacora.escribirError(error);
-
-            throw error;
         }
 
         return resultado;
     }
 
     @Override
-    public boolean actividadCorrecta (Actividad actividad) {
-        boolean resultado = true;
-
-        if (actividad.getDescripcion().isBlank()) {
-            resultado = false;
+    public int modificar (Actividad actividad) throws ErrorDAO {
+        if (!actividad.esCorrecta()) {
+            throw new ErrorDAO("La actividad es incorrecta", Tipo.VALIDACION);
         }
 
-        if (actividad.getTitulo().isBlank()) {
-            resultado = false;
+        if (getPorTitulo(actividad.getTitulo()).isPresent()) {
+            throw new ErrorDAO("la actividad ya existe", Tipo.DUPLICIDAD);
         }
 
-        // FIXME
+        int resultado = -1;
+
+        try {
+            resultado = ActividadDB.modificarActividad(actividad);
+        }
+        catch (SQLException error) {
+            bitacora.escribirError(error);
+        }
+
         return resultado;
-    }
-
-    @Override
-    public int modificar (Actividad obj) throws ErrorDAO {
-        return 0;
     }
 
     @Override
@@ -64,36 +69,90 @@ public class DAOActividad implements IActividadDAO {
         try {
             resultado = ActividadDB.getPorId(idActividad);
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
             bitacora.escribirError(error);
+        }
 
-            throw error;
+        Actividad actividad = null;
+
+        try {
+            if (resultado.next()) {
+                actividad = resultSetAObjeto(resultado);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
 
         return Optional.ofNullable(resultSetAObjeto(resultado));
     }
 
     @Override
-    public List<Actividad> getTodos () throws ErrorDAO {
-        return null;
-    }
-
-    @Override
-    public Actividad resultSetAObjeto (ResultSet resultados) {
-        Actividad actividad = new Actividad();
+    public Optional<Actividad> getPorTitulo (String titulo) {
+        ResultSet resultado = null;
 
         try {
-            if (resultados.next()) {
-                actividad.setIdActividad(resultados.getInt(0));
-                actividad.setTitulo(resultados.getString(1));
-                actividad.setDescripcion(resultados.getString(2));
-                actividad.setTipo(Actividad.TipoActividad.valueOf(resultados.getString(3)));
+            resultado = ActividadDB.getPorTitulo(titulo);
+        }
+        catch (SQLException error) {
+            bitacora.escribirError(error);
+        }
+
+        Actividad actividad = null;
+
+        try {
+            if (resultado.next()) {
+                actividad = resultSetAObjeto(resultado);
             }
         }
         catch (SQLException error) {
             bitacora.escribirError(error);
+        }
 
-            throw new ErrorDAO(error.getMessage(), Tipo.CONEXION);
+        return Optional.ofNullable(actividad);
+    }
+
+    @Override
+    public List<Actividad> getTodos () throws ErrorDAO {
+        ResultSet resultados = null;
+
+        try {
+            resultados = ActividadDB.getTodos();
+        }
+        catch (SQLException error) {
+            bitacora.escribirError(error);
+        }
+
+        List<Actividad> actividades = new ArrayList<>();
+
+        try {
+            while (resultados.next()) {
+                Actividad actividad = resultSetAObjeto(resultados);
+
+                if (actividad.esCorrecta()) {
+                    actividades.add(actividad);
+                }
+            }
+        }
+        catch (SQLException error) {
+            bitacora.escribirError(error);
+        }
+
+        return actividades;
+    }
+
+    @Override
+    public Actividad resultSetAObjeto (ResultSet resultados) {
+        Actividad actividad = null;
+
+        try {
+            actividad = new Actividad();
+            actividad.setIdActividad(resultados.getInt(0));
+            actividad.setTitulo(resultados.getString(1));
+            actividad.setDescripcion(resultados.getString(2));
+            actividad.setTipo(Actividad.TipoActividad.valueOf(resultados.getString(3)));
+        }
+        catch (SQLException error) {
+            bitacora.escribirError(error);
         }
 
         return actividad;

@@ -54,6 +54,23 @@ public class DAORetroalimentacionActividadTest {
     }
 
     @Test
+    public void testAgregarRetroalimentacionInvalida () {
+        RetroalimentacionActivadad retroalimentacion = new RetroalimentacionActividad();
+        retroalimentacion.set
+
+            // TODO
+
+        RetroalimentacionActividadDAO ret = new RetroalimentacionActividadDAO();
+        try {
+            ret.agregarRetroalimentacion(retroalimentacion);
+        }
+        catch (ErrorDAO error) {
+            assertEquals(Tipo.VALIDACION, error.getTipo())
+        }
+
+    }
+
+    @Test
     void testGetRetroalimentacionPorId () {
         DAORetroalimentacionActividad ret = new DAORetroalimentacionActividad();
         Optional<RetroalimentacionActividad> retroalimentacion = Optional.empty();
