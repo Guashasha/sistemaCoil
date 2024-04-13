@@ -167,7 +167,7 @@ DROP USER IF EXISTS "admin_COIL"@"%";
 
 CREATE USER IF NOT EXISTS "admin_COIL"@"%" IDENTIFIED BY "habitacionDeVuelo";
 
-GRANT INSERT, SELECT, EXECUTE, UPDATE, DELETE ON COIL.* TO "admin_COIL"@"localhost";
+GRANT INSERT, SELECT, EXECUTE, UPDATE, DELETE ON COIL.* TO "admin_COIL"@"%";
 
 DROP USER IF EXISTS "CarrionMartinezPale"@"localhost";
 
