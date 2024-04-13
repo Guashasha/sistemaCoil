@@ -55,7 +55,7 @@ public class Universidad {
         if (this == obj) {
             igual = true;
         }
-        else if (obj == null || !(obj instanceof Universidad)) {
+        else if (!(obj instanceof Universidad)) {
             igual = false;
         }
         else {

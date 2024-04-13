@@ -53,7 +53,7 @@ public class Pais {
         if (this == obj) {
             igual = true;
         }
-        else if (obj == null || !(obj instanceof Pais)) {
+        else if (!(obj instanceof Pais)) {
             igual = false;
         }
         else {
