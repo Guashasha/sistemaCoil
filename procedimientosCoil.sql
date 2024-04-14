@@ -168,7 +168,7 @@ end //
 
 
 -- Procedimientos cuenta
-DROP PROCEDURE IF EXISTS registrar_cuenta;;
+DROP PROCEDURE IF EXISTS registrar_cuenta;
 create procedure registrar_cuenta (
     in p_idPersona int,
     in p_nombreUsuario varchar(50),
