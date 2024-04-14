@@ -1,6 +1,6 @@
 DELIMITER //
 
-DROP PROCEDURE IF EXISTS insertarRetroalimentacionActividad//
+DROP PROCEDURE IF EXISTS insertarRetroalimentacionActividad;
 CREATE PROCEDURE insertarRetroalimentacionActividad (interaccionPar int, dificultad int, interes int, actividad int, comentario varchar(200), usuario int)
 BEGIN
   INSERT INTO retroalimentacion (interaccionPar, comentario, usuario)
@@ -21,7 +21,7 @@ BEGIN
 END //
 
 
-DROP PROCEDURE IF EXISTS cambiar_Estado_Colaboracion//
+DROP PROCEDURE IF EXISTS cambiar_Estado_Colaboracion;
 create procedure cambiar_Estado_Colaboracion(IN p_idColaboracion int, IN nuevoEstado varchar(20))
 BEGIN
    UPDATE colaboracion
@@ -30,14 +30,14 @@ BEGIN
 END //
 
 
-DROP PROCEDURE IF EXISTS consultar_academico_cedula//
+DROP PROCEDURE IF EXISTS consultar_academico_cedula;
 create procedure consultar_academico_cedula(IN p_cedula varchar(40)) sql security invoker
 BEGIN
 	SELECT * FROM academico WHERE cedulaProfesional = p_cedula;
 END //
 
 
-DROP PROCEDURE IF EXISTS consultar_academicos_nombreFacultad//
+DROP PROCEDURE IF EXISTS consultar_academicos_nombreFacultad;
 create procedure consultar_academicos_nombreFacultad(IN p_nombreFacultad varchar(50))
 BEGIN
 	SELECT * FROM vista_academico 
@@ -45,7 +45,7 @@ BEGIN
 END //
 
 
-DROP PROCEDURE IF EXISTS obtener_academicos_campos//
+DROP PROCEDURE IF EXISTS obtener_academicos_campos;
 create procedure obtener_academicos_campos(IN p_campo varchar(50), IN p_valor varchar(50))
 BEGIN
 	CASE p_campo
@@ -68,7 +68,7 @@ END //
 
 
 -- Procedimientos academicos
-DROP PROCEDURE IF EXISTS registrar_Academico//
+DROP PROCEDURE IF EXISTS registrar_Academico;
 create procedure registrar_Academico(IN p_nombre varchar(50), IN p_apellidoPaterno varchar(50),
                                                            IN p_apellidoMaterno varchar(50), IN p_universidad int,
                                                            IN p_cedulaProfesional varchar(30),
@@ -87,7 +87,7 @@ BEGIN
 END //
 
 
-DROP PROCEDURE IF EXISTS editar_academico//
+DROP PROCEDURE IF EXISTS editar_academico;
 CREATE PROCEDURE editar_academico (
     IN p_nombre varchar(50), 
     IN p_apellidoPaterno varchar(50),
@@ -127,7 +127,7 @@ END //
 
 
 -- Procedimientos estudiantes.
-DROP PROCEDURE IF EXISTS registrar_Estudiante//
+DROP PROCEDURE IF EXISTS registrar_Estudiante;
 create procedure registrar_Estudiante(
     IN p_nombre varchar(20), 
     IN p_apellidoPaterno varchar(20),
@@ -142,7 +142,7 @@ BEGIN
 END //
 
 
-DROP PROCEDURE IF EXISTS editar_estudiante//
+DROP PROCEDURE IF EXISTS editar_estudiante;
 create procedure editar_estudiante (
     in p_nombre varchar(50),
     in p_apellidoPaterno varchar(50),
@@ -168,7 +168,7 @@ end //
 
 
 -- Procedimientos cuenta
-DROP PROCEDURE IF EXISTS registrar_cuenta//
+DROP PROCEDURE IF EXISTS registrar_cuenta;;
 create procedure registrar_cuenta (
     in p_idPersona int,
     in p_nombreUsuario varchar(50),
@@ -187,7 +187,7 @@ begin
 end //
 
 
-DROP PROCEDURE IF EXISTS cambiar_contrasena//
+DROP PROCEDURE IF EXISTS cambiar_contrasena;
 create procedure cambiar_contrasena (
     in p_idCuenta int,
     in p_nombreUsuario varchar(50),
@@ -217,7 +217,7 @@ begin
 end //
 
 
-DROP PROCEDURE IF EXISTS verificar_credenciales//
+DROP PROCEDURE IF EXISTS verificar_credenciales;
 create procedure verificar_credenciales (
     in p_nombreUsuario varchar(50),
     in p_contrasena varchar(300),
@@ -236,7 +236,7 @@ end //
 
 -- Procedimientos colaboracion
 
-DROP PROCEDURE IF EXISTS registrar_Colaboracion//
+DROP PROCEDURE IF EXISTS registrar_Colaboracion;
 create procedure registrar_Colaboracion(
     IN p_estado enum ('propuesta', 'aceptada', 'rechazada', 'disponible', 'vinculada', 'activa', 'enRevision', 'finalizada'),
     IN p_tipo enum ('claseEspejo', 'COIL'),
@@ -253,7 +253,7 @@ BEGIN
 END //
 
 
-DROP PROCEDURE IF EXISTS obtener_colaboracion_academicos//
+DROP PROCEDURE IF EXISTS obtener_colaboracion_academicos;
 create procedure obtener_colaboracion_academicos (
     IN p_idAcademico1 VARCHAR(30),
     IN p_idAcademico2 VARCHAR(30)
@@ -271,7 +271,7 @@ begin
 end //
 
 
-DROP PROCEDURE IF EXISTS obtener_estudiantes_colaboracion//
+DROP PROCEDURE IF EXISTS obtener_estudiantes_colaboracion;
 create procedure obtener_estudiantes_colaboracion (
     in p_idColaboracion int
 )
@@ -283,7 +283,7 @@ begin
 end //
 
 
-DROP PROCEDURE IF EXISTS obtener_academicos_colaboracion//
+DROP PROCEDURE IF EXISTS obtener_academicos_colaboracion;
 create procedure btener_academicos_colaboracion (
     in p_idColaboracion int
 )
@@ -295,7 +295,7 @@ begin
 end //
 
 
-DROP PROCEDURE IF EXISTS actualizar_Colaboracion//
+DROP PROCEDURE IF EXISTS actualizar_Colaboracion;
 CREATE PROCEDURE actualizar_Colaboracion(
     IN p_idColaboracion INT,
     IN p_estado ENUM('propuesta', 'aceptada', 'rechazada', 'disponible', 'vinculada', 'activa', 'enRevision', 'finalizada'),
