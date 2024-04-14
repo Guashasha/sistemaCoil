@@ -26,4 +26,6 @@
   2024-04-12 15:54:25 ERROR RetroalimentacionActividad:45 - java.sql.SQLSyntaxErrorException: (conn=328) Unknown column 'comentario' in 'field list'
   2024-04-12 15:54:28 ERROR RetroalimentacionActividad:45 - java.sql.SQLSyntaxErrorException: (conn=331) Unknown column 'comentario' in 'field list'
   2024-04-12 15:54:30 ERROR RetroalimentacionActividad:45 - java.sql.SQLSyntaxErrorException: (conn=336) Unknown column 'comentario' in 'field list'
+  2024-04-13 12:05:49 INFO  DAOUniversidad:33 - (conn=118) Cannot add or update a child row: a foreign key constraint fails (`coil`.`universidad`, CONSTRAINT `universidad_ibfk_1` FOREIGN KEY (`paisOrigen`) REFERENCES `pais` (`idPais`))
+  2024-04-13 12:05:49 INFO  DAOUniversidad:60 - (conn=134) Cannot add or update a child row: a foreign key constraint fails (`coil`.`universidad`, CONSTRAINT `universidad_ibfk_1` FOREIGN KEY (`paisOrigen`) REFERENCES `pais` (`idPais`))
   

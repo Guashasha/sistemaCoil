@@ -1,4 +1,4 @@
-package test.Logica.DAO;
+package test.Logica;
 
 import Logica.DAO.DAOPais;
 import Logica.Dominio.Pais;
