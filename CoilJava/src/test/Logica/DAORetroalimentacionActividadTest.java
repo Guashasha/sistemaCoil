@@ -39,7 +39,7 @@ public class DAORetroalimentacionActividadTest {
         ret.agregar(retroalimentacion);
     }
     @Test
-    void testAgregarRetroalimentacionActividad () {
+    void pruebaAgregarRetroalimentacionActividad () {
         int resultado = -1;
         DAORetroalimentacionActividad ret = new DAORetroalimentacionActividad();
 
@@ -62,7 +62,7 @@ public class DAORetroalimentacionActividadTest {
     }
 
     @Test
-    public void testAgregarRetroalimentacionInvalida () {
+    public void pruebaAgregarRetroalimentacionInvalida () {
         RetroalimentacionActividad retroalimentacion = new RetroalimentacionActividad();
         retroalimentacion.setIdActividad(2);
         retroalimentacion.setIdUsuario(1);
@@ -82,7 +82,7 @@ public class DAORetroalimentacionActividadTest {
     }
 
     @Test
-    public void testAgregarRetroalimentacionExistente () {
+    public void pruebaAgregarRetroalimentacionExistente () {
         RetroalimentacionActividad retroalimentacion = new RetroalimentacionActividad();
         retroalimentacion.setIdActividad(1);
         retroalimentacion.setIdUsuario(1);
@@ -102,7 +102,7 @@ public class DAORetroalimentacionActividadTest {
     }
 
     @Test
-    public void testAgregarConActividadInexistente () {
+    public void pruebaAgregarConActividadInexistente () {
         RetroalimentacionActividad retroalimentacion = new RetroalimentacionActividad();
         retroalimentacion.setIdActividad(300);
         retroalimentacion.setIdUsuario(1);
@@ -122,7 +122,7 @@ public class DAORetroalimentacionActividadTest {
     }
 
     @Test
-    void testGetRetroalimentacionPorId () {
+    void pruebaGetRetroalimentacionPorId () {
         DAORetroalimentacionActividad ret = new DAORetroalimentacionActividad();
         Optional<RetroalimentacionActividad> retroalimentacion = Optional.empty();
 
@@ -149,7 +149,7 @@ public class DAORetroalimentacionActividadTest {
     }
 
     @Test
-    public void testGetPorIdInvalido () {
+    public void pruebaGetPorIdInvalido () {
         DAORetroalimentacionActividad ret = new DAORetroalimentacionActividad();
 
         try {
@@ -162,7 +162,7 @@ public class DAORetroalimentacionActividadTest {
     }
 
     @Test
-    public void testGetPorIdInexistente () {
+    public void pruebaGetPorIdInexistente () {
         DAORetroalimentacionActividad ret = new DAORetroalimentacionActividad();
 
         Optional<RetroalimentacionActividad> resultado = Optional.empty();
@@ -178,7 +178,7 @@ public class DAORetroalimentacionActividadTest {
     }
 
     @Test
-    void testPorPersonaIncorrecta () {
+    void pruebaPorPersonaIncorrecta () {
         DAORetroalimentacionActividad ret = new DAORetroalimentacionActividad();
 
         try {
@@ -191,7 +191,7 @@ public class DAORetroalimentacionActividadTest {
     }
 
     @Test
-    void testPorActividadIncorrecta () {
+    void pruebaPorActividadIncorrecta () {
         DAORetroalimentacionActividad ret = new DAORetroalimentacionActividad();
 
         try {
@@ -234,7 +234,7 @@ public class DAORetroalimentacionActividadTest {
     }
 
     @Test
-    void testValidarRetroalimentacion () {
+    void pruebaValidarRetroalimentacion () {
         RetroalimentacionActividad retroalimentacion = new RetroalimentacionActividad();
         DAORetroalimentacionActividad ret = new DAORetroalimentacionActividad();
 
@@ -249,7 +249,7 @@ public class DAORetroalimentacionActividadTest {
     }
 
     @Test
-    void testGetTodos () {
+    void pruebaGetTodos () {
         DAORetroalimentacionActividad ret = new DAORetroalimentacionActividad();
 
         List<RetroalimentacionActividad> retroalimentaciones = null;
@@ -274,7 +274,7 @@ public class DAORetroalimentacionActividadTest {
     }
 
     @Test
-    void testGetPorPersonaYActividad () {
+    void pruebaGetPorPersonaYActividad () {
         DAORetroalimentacionActividad ret = new DAORetroalimentacionActividad();
 
         Optional<RetroalimentacionActividad> retroalimentacion = Optional.empty();

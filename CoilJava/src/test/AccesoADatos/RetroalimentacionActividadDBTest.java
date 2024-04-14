@@ -49,7 +49,7 @@ public class RetroalimentacionActividadDBTest {
     }
 
     @Test
-    void testAgregarRetroalimentacion () {
+    void pruebaAgregarRetroalimentacion () {
         int resultado = -1;
 
         RetroalimentacionActividad retroalimentacion = new RetroalimentacionActividad();
@@ -71,7 +71,7 @@ public class RetroalimentacionActividadDBTest {
     }
 
     @Test
-    void testAgregarRetroalimentacionSinActividad () {
+    void pruebaAgregarRetroalimentacionSinActividad () {
         RetroalimentacionActividad retroalimentacion = new RetroalimentacionActividad();
         retroalimentacion.setIdActividad(5);
         retroalimentacion.setIdUsuario(1);
@@ -81,16 +81,15 @@ public class RetroalimentacionActividadDBTest {
 
         try {
             RetroalimentacionActividadDB.agregarRetroalimentacion(retroalimentacion);
+            fail();
         }
         catch (SQLException error) {
             assert(true);
         }
-
-        fail();
     }
 
     @Test
-    void testAgregarRetroalimentacionSinUsuario () {
+    void pruebaAgregarRetroalimentacionSinUsuario () {
         RetroalimentacionActividad retroalimentacion = new RetroalimentacionActividad();
         retroalimentacion.setIdActividad(1);
         retroalimentacion.setIdUsuario(9);
@@ -109,7 +108,7 @@ public class RetroalimentacionActividadDBTest {
     }
 
     @Test
-    void testGetPorId () {
+    void pruebaGetPorId () {
         ResultSet resultado = null;
 
         try {
@@ -134,7 +133,7 @@ public class RetroalimentacionActividadDBTest {
     }
 
     @Test
-    void testGetPorIdInexistente () {
+    void pruebaGetPorIdInexistente () {
         ResultSet resultado = null;
 
         try {
@@ -152,7 +151,7 @@ public class RetroalimentacionActividadDBTest {
     }
 
     @Test
-    void testGetPorPersonaYActividad () {
+    void pruebaGetPorPersonaYActividad () {
         ResultSet resultado = null;
 
         try {
@@ -177,7 +176,7 @@ public class RetroalimentacionActividadDBTest {
     }
 
     @Test
-    void testGetPorPersonaSinActividad () {
+    void pruebaGetPorPersonaSinActividad () {
         ResultSet resultado = null;
 
         try {
@@ -190,15 +189,14 @@ public class RetroalimentacionActividadDBTest {
     }
 
     @Test
-    void testGetSinPersonaConActividad () {
+    void pruebaGetSinPersonaConActividad () {
         ResultSet resultado = null;
 
         try {
             resultado = RetroalimentacionActividadDB.getPorPersonaYActividad(16, 1);
+            fail();
         } catch (SQLException e) {
             assert(true);
         }
-
-        fail();
     }
 }
