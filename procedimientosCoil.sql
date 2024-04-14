@@ -284,7 +284,7 @@ end //
 
 
 DROP PROCEDURE IF EXISTS obtener_academicos_colaboracion;
-create procedure btener_academicos_colaboracion (
+create procedure obtener_academicos_colaboracion (
     in p_idColaboracion int
 )
 begin
