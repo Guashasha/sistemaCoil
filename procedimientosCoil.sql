@@ -79,11 +79,11 @@ create procedure registrar_Academico(IN p_nombre varchar(50), IN p_apellidoPater
                                                            IN p_categoriaContratacion varchar(40), IN p_facultad int)
 BEGIN
 	DECLARE id_persona INT;
-	INSERT INTO persona (persona, apelidoPaterno, apellidoMaterno, universidad) 
+	INSERT INTO persona (nombre, apellidoPaterno, apellidoMaterno, universidad) 
 	VALUES (p_nombre, p_apellidoPaterno, p_apellidoMaterno, p_universidad);
 	SET id_persona = LAST_INSERT_ID();
-	INSERT INTO academico (cedeulaProfesional, numeroDePersonal, idPersona, areaEstudios, numeroTelefono, categoriaContratacion, facultad)
-	VALUES (p_cedeulaProfesional, p_numeroDePersonal, id_persona, p_areaEstudios, p_numeroTelefono, p_categoriaContratacion, p_facultad);	
+	INSERT INTO academico (cedulaProfesional, numeroDePersonal, idPersona, areaEstudios, numeroTelefonico, categoriaContratacion, facultad)
+	VALUES (p_cedulaProfesional, p_numeroDePersonal, id_persona, p_areaEstudios, p_numeroTelefono, p_categoriaContratacion, p_facultad);	
 END //
 
 
