@@ -165,6 +165,12 @@ ALTER TABLE `universidad` ADD FOREIGN KEY (`paisOrigen`) REFERENCES `pais` (`idP
 DROP USER IF EXISTS "admin_COIL"@"localhost";
 DROP USER IF EXISTS "admin_COIL"@"%";
 
-CREATE USER IF NOT EXISTS "admin_COIL"@"localhost" IDENTIFIED BY "habitacionDeVuelo";
+CREATE USER IF NOT EXISTS "admin_COIL"@"%" IDENTIFIED BY "habitacionDeVuelo";
 
-GRANT INSERT, SELECT, EXECUTE, UPDATE, DELETE ON COIL.* TO "admin_COIL"@"localhost";
+GRANT INSERT, SELECT, EXECUTE, UPDATE, DELETE ON COIL.* TO "admin_COIL"@"%";
+
+DROP USER IF EXISTS "CarrionMartinezPale"@"localhost";
+
+CREATE USER IF NOT EXISTS "CarrionMartinezPale"@"localhost" IDENTIFIED BY "cremaxx";
+
+GRANT ALL ON COIL.* TO "CarrionMartinezPale"@"localhost";
