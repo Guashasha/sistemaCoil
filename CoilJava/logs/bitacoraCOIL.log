@@ -26,4 +26,20 @@
   2024-04-12 15:54:25 ERROR RetroalimentacionActividad:45 - java.sql.SQLSyntaxErrorException: (conn=328) Unknown column 'comentario' in 'field list'
   2024-04-12 15:54:28 ERROR RetroalimentacionActividad:45 - java.sql.SQLSyntaxErrorException: (conn=331) Unknown column 'comentario' in 'field list'
   2024-04-12 15:54:30 ERROR RetroalimentacionActividad:45 - java.sql.SQLSyntaxErrorException: (conn=336) Unknown column 'comentario' in 'field list'
+  2024-04-14 03:42:16 ERROR RetroalimentacionActividad:45 - java.sql.SQLIntegrityConstraintViolationException: (conn=7832) Cannot add or update a child row: a foreign key constraint fails (`coil`.`retroalimentacion`, CONSTRAINT `retroalimentacion_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`))
+  2024-04-14 03:42:45 ERROR RetroalimentacionActividad:45 - java.sql.SQLIntegrityConstraintViolationException: (conn=7846) Cannot add or update a child row: a foreign key constraint fails (`coil`.`retroalimentacion`, CONSTRAINT `retroalimentacion_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`))
+  2024-04-14 03:49:27 FATAL ConfiguracionPrueba:88 - (conn=8058) Duplicate entry '1' for key 'PRIMARY'
+  2024-04-14 04:16:20 FATAL ConfiguracionPrueba:88 - (conn=8363) Duplicate entry '2' for key 'PRIMARY'
+  2024-04-14 04:16:22 FATAL ConfiguracionPrueba:88 - (conn=8367) Duplicate entry '1' for key 'PRIMARY'
+  2024-04-14 04:16:24 FATAL ConfiguracionPrueba:88 - (conn=8368) Duplicate entry 'ABC123-123456' for key 'PRIMARY'
+  2024-04-14 04:16:25 FATAL ConfiguracionPrueba:88 - (conn=8369) Duplicate entry '2' for key 'PRIMARY'
+  2024-04-14 04:16:26 FATAL ConfiguracionPrueba:88 - (conn=8370) Duplicate entry '200011-4564' for key 'PRIMARY'
+  2024-04-14 04:16:27 FATAL ConfiguracionPrueba:88 - (conn=8371) Duplicate entry '3' for key 'PRIMARY'
+  2024-04-14 04:16:29 FATAL ConfiguracionPrueba:88 - (conn=8372) Duplicate entry '102939-02' for key 'PRIMARY'
+  2024-04-14 04:16:30 FATAL ConfiguracionPrueba:88 - (conn=8373) Duplicate entry '4' for key 'PRIMARY'
+  2024-04-14 04:16:32 FATAL ConfiguracionPrueba:88 - (conn=8374) Duplicate entry '1-4' for key 'PRIMARY'
+  2024-04-14 04:16:33 FATAL ConfiguracionPrueba:88 - (conn=8375) Duplicate entry '5' for key 'PRIMARY'
+  2024-04-14 04:16:34 FATAL ConfiguracionPrueba:88 - (conn=8376) Duplicate entry '2-5' for key 'PRIMARY'
+  2024-04-14 04:16:35 FATAL ConfiguracionPrueba:88 - (conn=8377) Duplicate entry '1' for key 'PRIMARY'
+  2024-04-14 04:16:37 FATAL ConfiguracionPrueba:88 - (conn=8378) Duplicate entry '2' for key 'PRIMARY'
   
