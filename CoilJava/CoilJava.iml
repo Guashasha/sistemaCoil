@@ -130,6 +130,7 @@
     <orderEntry type="library" name="log4j-1.2.17 (2)" level="project" />
     <orderEntry type="library" name="javax.mail (2)" level="project" />
     <orderEntry type="library" name="javax.activation-1.1.0.v201105071233 (2)" level="project" />
-    <orderEntry type="library" name="lib" level="project" />
+    <orderEntry type="library" name="java-fx" level="project" />
+    <orderEntry type="library" name="javafx" level="application" />
   </component>
 </module>

@@ -75,6 +75,8 @@ public class DAORetroalimentacionActividad implements IRetroalimentacionActivida
             if (rsRetroalimentacion.next()) {
                 objRetroalimentacion = resultSetAObjeto(rsRetroalimentacion);
             }
+
+            rsRetroalimentacion.close();
         }
         catch (SQLException error) {
             BITACORA.error(error);
@@ -103,6 +105,8 @@ public class DAORetroalimentacionActividad implements IRetroalimentacionActivida
                     retroalimentaciones.add(retroalimentacion);
                 }
             }
+
+            resultsRetroalimentaciones.close();
         }
         catch (SQLException error) {
             BITACORA.error(error);
@@ -132,6 +136,8 @@ public class DAORetroalimentacionActividad implements IRetroalimentacionActivida
             if (resultados.next()) {
                 retroalimentacion = resultSetAObjeto(resultados);
             }
+
+            resultados.close();
         } catch (SQLException error) {
             BITACORA.error(error);
         }
