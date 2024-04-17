@@ -78,9 +78,12 @@ public class DAOActividad implements IActividadDAO {
             if (resultado.next()) {
                 actividad = resultSetAObjeto(resultado);
             }
+
+            resultado.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
 
         return Optional.ofNullable(actividad);
     }
@@ -102,6 +105,8 @@ public class DAOActividad implements IActividadDAO {
             if (resultado.next()) {
                 actividad = resultSetAObjeto(resultado);
             }
+
+            resultado.close();
         }
         catch (SQLException error) {
             BITACORA.error(error);
@@ -131,6 +136,8 @@ public class DAOActividad implements IActividadDAO {
                     actividades.add(actividad);
                 }
             }
+
+            resultados.close();
         }
         catch (SQLException error) {
             BITACORA.error(error);

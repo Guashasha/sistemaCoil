@@ -66,7 +66,7 @@ public class ActividadDBTest {
     }
 
     @Test
-    public void testGetPorTitulo () {
+    public void pruebaGetPorTitulo () {
         ResultSet resultado = null;
 
         try {
@@ -86,7 +86,7 @@ public class ActividadDBTest {
     }
 
     @Test
-    public void testModificar () {
+    public void pruebaModificar () {
         int resultado = -1;
 
         Actividad actividad = new Actividad("titulo", "adios", Actividad.TipoActividad.rompeHielo);

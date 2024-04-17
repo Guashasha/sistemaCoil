@@ -1,3 +1,5 @@
+import Logica.DAO.DAOAcademico;
+import org.apache.log4j.Logger;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -6,6 +8,8 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import java.util.List;
 
 public class NotificacionErroresCOILBot extends TelegramLongPollingBot {
+    private static final Logger BITACORA = Logger.getLogger(NotificacionErroresCOILBot.class);
+
     private static final NotificacionErroresCOILBot INSTANCIA_BOT = new NotificacionErroresCOILBot();
 
 
@@ -41,7 +45,7 @@ public class NotificacionErroresCOILBot extends TelegramLongPollingBot {
             execute(message);
         }
         catch (TelegramApiException error) {
-            error.printStackTrace();
+            BITACORA.error(error.getMessage());
         }
     }
 

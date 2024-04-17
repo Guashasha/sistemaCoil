@@ -8,7 +8,6 @@ import Logica.Dominio.RetroalimentacionColaboracion;
 import Logica.ErrorDAO;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import test.AyudantePruebasColaboracionDB;
 import test.ConfiguracionPrueba;
 
 import java.time.LocalDate;
@@ -76,7 +75,7 @@ public class DAORetroalimentacionColaboracionTest {
     }
 
     @Test
-    public void testAgregar () {
+    public void pruebaAgregar () {
         RetroalimentacionColaboracion retroalimentacion = new RetroalimentacionColaboracion();
         retroalimentacion.setColaboracion(2);
         retroalimentacion.setIdUsuario(1);
@@ -102,7 +101,7 @@ public class DAORetroalimentacionColaboracionTest {
     }
 
     @Test
-    public void testAgregarIncorrecto () {
+    public void pruebaAgregarIncorrecto () {
         RetroalimentacionColaboracion retroalimentacion = new RetroalimentacionColaboracion();
         retroalimentacion.setColaboracion(1);
         retroalimentacion.setIdUsuario(1);
@@ -126,7 +125,7 @@ public class DAORetroalimentacionColaboracionTest {
     }
 
     @Test
-    public void testAgregarExistente () {
+    public void pruebaAgregarExistente () {
         RetroalimentacionColaboracion retroalimentacion = new RetroalimentacionColaboracion();
         retroalimentacion.setColaboracion(1);
         retroalimentacion.setIdUsuario(1);
@@ -150,7 +149,7 @@ public class DAORetroalimentacionColaboracionTest {
     }
 
     @Test
-    public void testAgregarSinColaboracion () {
+    public void pruebaAgregarSinColaboracion () {
         RetroalimentacionColaboracion retroalimentacion = new RetroalimentacionColaboracion();
         retroalimentacion.setColaboracion(100);
         retroalimentacion.setIdUsuario(1);
@@ -174,7 +173,7 @@ public class DAORetroalimentacionColaboracionTest {
     }
 
     @Test
-    public void testAgregarConColaboracionSinConcluir () {
+    public void pruebaAgregarConColaboracionSinConcluir () {
         RetroalimentacionColaboracion retroalimentacion = new RetroalimentacionColaboracion();
         retroalimentacion.setColaboracion(3);
         retroalimentacion.setIdUsuario(1);
@@ -198,7 +197,7 @@ public class DAORetroalimentacionColaboracionTest {
     }
 
     @Test
-    public void testGetPorId () {
+    public void pruebaGetPorId () {
         RetroalimentacionColaboracion retroalimentacion = new RetroalimentacionColaboracion();
         retroalimentacion.setColaboracion(1);
         retroalimentacion.setIdUsuario(1);
@@ -230,7 +229,7 @@ public class DAORetroalimentacionColaboracionTest {
     }
 
     @Test
-    public void testGetPorIdInexistente () {
+    public void pruebaGetPorIdInexistente () {
         DAORetroalimentacionColaboracion ret = new DAORetroalimentacionColaboracion();
 
         Optional<RetroalimentacionColaboracion> resultado = Optional.empty();
@@ -246,7 +245,7 @@ public class DAORetroalimentacionColaboracionTest {
     }
 
     @Test
-    public void testPorIdIncorrecta () {
+    public void pruebaGetPorIdIncorrecta() {
         DAORetroalimentacionColaboracion ret = new DAORetroalimentacionColaboracion();
 
         try {
@@ -256,5 +255,10 @@ public class DAORetroalimentacionColaboracionTest {
         catch (ErrorDAO error) {
             assertEquals(ErrorDAO.Tipo.VALIDACION, error.getTipo());
         }
+    }
+
+    @Test
+    public void pruebagetTodos () {
+
     }
 }
