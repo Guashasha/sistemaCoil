@@ -14,7 +14,7 @@ public class TriggerLogEvent implements TriggeringEventEvaluator {
     @Override
     public boolean isTriggeringEvent (LoggingEvent event) {
         boolean nivelEvento = event.getLevel()
-                                   .isGreaterOrEqual(Level.ERROR);
+                                   .isGreaterOrEqual(Level.FATAL);
         if (nivelEvento) {
             NotificacionErroresCOILBot botTelegram = NotificacionErroresCOILBot.getInstanciaBot();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
