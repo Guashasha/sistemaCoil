@@ -26,7 +26,7 @@ public class RetroalimentacionColaboracionDBTest {
         rt.agregar(crearRetroalimentacion2());
     }
 
-    private static RetroalimentacionColaboracion crearRetroalimentacion() {
+    private static RetroalimentacionColaboracion crearRetroalimentacion () {
         RetroalimentacionColaboracion retroalimentacion = new RetroalimentacionColaboracion();
         retroalimentacion.setIdUsuario(1);
         retroalimentacion.setColaboracion(1);
@@ -59,7 +59,7 @@ public class RetroalimentacionColaboracionDBTest {
     }
 
     @Test
-    public void testAgregarRetroalimentacion () {
+    public void pruebaAgregarRetroalimentacion () {
         int resultado = -1;
 
         try {
@@ -73,7 +73,7 @@ public class RetroalimentacionColaboracionDBTest {
     }
 
     @Test
-    public void testGetPorTitulo () {
+    public void pruebaGetPorTitulo () {
         ResultSet resultado = null;
 
         try {
@@ -97,7 +97,7 @@ public class RetroalimentacionColaboracionDBTest {
     }
 
     @Test
-    public void testGetPorPersonaYColaboracion () {
+    public void pruebaGetPorPersonaYColaboracion () {
         ResultSet resultado = null;
 
         try {
@@ -121,7 +121,7 @@ public class RetroalimentacionColaboracionDBTest {
     }
 
     @Test
-    public void testGetTodos () {
+    public void pruebaGetTodos () {
         ResultSet resultado = null;
 
         try {

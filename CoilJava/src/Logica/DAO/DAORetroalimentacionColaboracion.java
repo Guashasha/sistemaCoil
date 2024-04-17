@@ -74,6 +74,8 @@ public class DAORetroalimentacionColaboracion implements IRetroalimentacionColab
             if (retroalimentacion.next()) {
                 retroalimentacionObj = resultSetAObjeto(retroalimentacion);
             }
+
+            retroalimentacion.close();
         }
         catch (SQLException error) {
             BITACORA.error(error);
@@ -102,6 +104,8 @@ public class DAORetroalimentacionColaboracion implements IRetroalimentacionColab
             if (retroalimentacion.next()) {
                 retroalimentacionObj = resultSetAObjeto(retroalimentacion);
             }
+
+            retroalimentacion.close();
         }
         catch (SQLException error) {
             BITACORA.error(error);
@@ -129,6 +133,8 @@ public class DAORetroalimentacionColaboracion implements IRetroalimentacionColab
 
                 retroalimentaciones.add(retroalimentacion);
             }
+
+            resultados.close();
         }
         catch (SQLException error) {
             BITACORA.error(error);
