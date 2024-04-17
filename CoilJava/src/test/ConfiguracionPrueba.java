@@ -1,9 +1,14 @@
 package test;
 
 
+import Logica.DAO.DAOColaboracion;
+import org.apache.log4j.Logger;
+
 import java.sql.*;
 
 public class ConfiguracionPrueba {
+    private static final Logger BITACORA = Logger.getLogger(ConfiguracionPrueba.class);
+
 
     public static void borrarDatosTablaAcademico () {
         ejecutarInstruccionSQL("DELETE FROM academico;");
@@ -67,9 +72,9 @@ public class ConfiguracionPrueba {
 
     public static void ejecutarInstruccionSQL (String instruccionSQL) {
         try {
-            String urlBaseDatos = "jdbc:mariadb://localhost:3307/COIL";
-            String usuario = "root";
-            String contrasena = "040704";
+            String urlBaseDatos = "jdbc:mariadb://localhost:3306/COIL";
+            String usuario = "CarrionMartinezPale";
+            String contrasena = "cremaxx";
 
             Connection conexion = DriverManager.getConnection(urlBaseDatos, usuario, contrasena);
 
@@ -80,7 +85,7 @@ public class ConfiguracionPrueba {
             conexion.close();
         }
         catch (SQLException error) {
-            System.out.println("Error al ejecutar la instrucción SQL: " + error.getMessage());
+            BITACORA.fatal(error.getMessage());
         }
     }
 
