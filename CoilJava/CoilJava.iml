@@ -120,15 +120,20 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../API mail java/log4j-over-slf4j-2.0.12.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../Telegram/telegrambots-6.5.0-jar-with-dependencies.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="mariadb-java-client-3.3.3 (3)" level="project" />
-    <orderEntry type="library" name="log4j-1.2.17 (2)" level="project" />
-    <orderEntry type="library" name="javax.mail (2)" level="project" />
-    <orderEntry type="library" name="javax.activation-1.1.0.v201105071233 (2)" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../API mail java/slf4j-simple-2.0.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
