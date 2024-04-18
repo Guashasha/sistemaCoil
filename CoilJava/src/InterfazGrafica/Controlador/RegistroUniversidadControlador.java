@@ -1,21 +1,22 @@
-package InterfazGrafica;
+package InterfazGrafica.Controlador;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
-public class Controler {
+public class RegistroUniversidadControlador {
 
     @FXML
-    private Button btnOK;
+    private Button btnRegistrar;
+    @FXML
+    private TextField txtNombre;
 
     @FXML
-    private TextField tctNombre;
-
-    @FXML
-    void guardar(ActionEvent event) {
+    void registrarUniversidad(ActionEvent event) {
         System.out.println("Hola");
     }
+
+    
 
 }

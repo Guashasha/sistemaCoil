@@ -21,7 +21,7 @@ public class DAOUniversidad implements IUniversidadDAO {
 
         if (validarCadenas(new String[]{universidad,pais})) {
             if (universidadExiste(universidad,pais)) {
-                filasAfectadas = -1;
+                throw new ErrorDAO("Intento de registro de universidad existente", ErrorDAO.Tipo.DUPLICIDAD);
             }
             else {
                 try {
@@ -45,7 +45,7 @@ public class DAOUniversidad implements IUniversidadDAO {
 
         if (validarCadenas(new String[]{nombreActual,nuevoNombre,nuevoPais})) {
             if (universidadExiste(nuevoNombre,nuevoPais)) {
-                filasAfectadas = -1;
+                throw new ErrorDAO("Intento de modificación de universidad con datos de universidad existente", ErrorDAO.Tipo.DUPLICIDAD);
             }
             else {
                 try {
