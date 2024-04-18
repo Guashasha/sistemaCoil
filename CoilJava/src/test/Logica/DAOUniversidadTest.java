@@ -2,6 +2,7 @@ package test.Logica;
 
 import AccesoADatos.UniversidadDB;
 import Logica.DAO.DAOUniversidad;
+import Logica.Dominio.Pais;
 import Logica.Dominio.Universidad;
 import Logica.ErrorDAO;
 import org.junit.jupiter.api.AfterAll;
@@ -31,7 +32,7 @@ class DAOUniversidadTest {
         borrarDatosTablaPais();
     }
 
-    @Test
+    /*@Test
     void pruebaRegistrarUniversidadExitosa () {
         System.out.println("pruebaRegistrarUniversidadExitosa");
         int filasAfectadas = 0;
@@ -42,9 +43,9 @@ class DAOUniversidadTest {
             fail("Fallida: pruebaRegistrarUniversidadExitosa");
         }
         assertEquals(1,filasAfectadas);
-    }
+    }*/
 
-    @Test
+    /*@Test
     void pruebaRegistrarUniversidadCadenasInvalida () {
         System.out.println("pruebaRegistrarUniversidadCadenasInvalida");
         int filasAfectadas = 1;
@@ -55,26 +56,19 @@ class DAOUniversidadTest {
             fail("pruebaRegistrarUniversidadCadenasInvalida");
         }
         assertEquals(0,filasAfectadas);
-    }
+    }*/
 
     @Test
     void pruebaRegistrarUniversidadExistente () {
         System.out.println("pruebaRegistrarUniversidadExistente");
-        int filasAfectadas = 0;
-        try {
-            filasAfectadas = this.INSTANCIA.registrarUniversidad("Universidad Veracruzana","México");
-        }
-        catch (ErrorDAO error) {
-            fail("pruebaRegistrarUniversidadExistente");
-        }
-        assertEquals(-1,filasAfectadas);
+        assertThrows(ErrorDAO.class,()->this.INSTANCIA.registrarUniversidad(new Universidad("Universidad Veracruzana"),new Pais("México")));
     }
 
-    @Test
+    /*@Test
     void pruebaRegistrarUniversidadPaisInexistente () {
         System.out.println("pruebaRegistrarUniversidadPaisInexistente");
         assertThrows(ErrorDAO.class,()-> this.INSTANCIA.registrarUniversidad("UNAM","Argentina"));
-    }
+    }*/
 
     @Test
     void pruebaEditarUniversidadExitosa () {

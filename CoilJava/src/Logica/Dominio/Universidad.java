@@ -14,6 +14,10 @@ public class Universidad {
         this.id = id;
     }
 
+    public Universidad (String nombre) {
+        this.nombre = nombre;
+    }
+
     public Universidad (String nombre, int idPais) {
         this.nombre = nombre;
         this.idPais = idPais;

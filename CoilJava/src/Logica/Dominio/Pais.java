@@ -12,6 +12,10 @@ public class Pais {
         this.id = id;
     }
 
+    public Pais (String nombre) {
+        this.nombre = nombre;
+    }
+
     public Pais (int id, String nombre) {
         this.id = id;
         this.nombre = nombre;
