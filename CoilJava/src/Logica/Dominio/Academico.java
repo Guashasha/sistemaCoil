@@ -84,7 +84,7 @@ public class Academico extends Persona {
         if (this == obj) {
             igual = true;
         }
-        else if (obj == null || !(obj instanceof Academico)) {
+        else if (!(obj instanceof Academico)) {
             igual = false;
         }
         else {

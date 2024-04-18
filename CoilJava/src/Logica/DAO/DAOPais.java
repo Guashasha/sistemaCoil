@@ -6,6 +6,7 @@ import Logica.ErrorDAO;
 import Logica.Interfaces.IPaisDAO;
 import org.apache.log4j.Logger;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,13 +14,22 @@ public class DAOPais implements IPaisDAO {
     private static Logger bitacora = Logger.getLogger(DAOPais.class);
 
     @Override
-    public List<Pais> paisesAlfabeticamente () throws ErrorDAO {
+    public List<String> getNombresPaisesAlfabeticamente () throws ErrorDAO {
+        List<Pais> listaPaises;
+        List<String> nombresPaises = new ArrayList<>();
+
         try {
-            return PaisDB.paisesAlfabeticamente();
+            listaPaises = PaisDB.paisesAlfabeticamente();
         } catch (SQLException error) {
             bitacora.info(error.getMessage());
             throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
         }
+
+        for (Pais pais : listaPaises) {
+            nombresPaises.add(pais.getNombre());
+        }
+
+        return nombresPaises;
     }
 
     @Override
