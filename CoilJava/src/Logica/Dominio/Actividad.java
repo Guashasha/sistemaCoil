@@ -53,9 +53,16 @@ public class Actividad {
         this.tipo = tipo;
     }
 
-    public boolean equals (Actividad actividad) {
-        return this.titulo == actividad.getTitulo() &&
-                this.descripcion == actividad.getDescripcion() &&
+    @Override
+    public boolean equals (Object objeto) {
+        if (!(objeto instanceof Actividad)) {
+            return false;
+        }
+
+        Actividad actividad = (Actividad) objeto;
+
+        return this.titulo.equals(actividad.getTitulo()) &&
+                this.descripcion.equals(actividad.getDescripcion()) &&
                 this.tipo == actividad.getTipo();
     }
 

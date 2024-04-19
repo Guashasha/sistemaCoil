@@ -56,4 +56,42 @@
   2024-04-16 03:17:55 FATAL Main:12 - XD
   2024-04-16 03:22:59 FATAL Main:12 - XD
   2024-04-17 03:01:33 FATAL Main:12 - XD
+  2024-04-18 18:58:40 ERROR RetroalimentacionActividad:99 - java.sql.SQLInvalidAuthorizationSpecException: (conn=9) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:02:47 ERROR RetroalimentacionActividad:99 - java.sql.SQLInvalidAuthorizationSpecException: (conn=16) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:02:47 ERROR RetroalimentacionActividad:36 - java.sql.SQLInvalidAuthorizationSpecException: (conn=17) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:02:47 ERROR RetroalimentacionActividad:99 - java.sql.SQLInvalidAuthorizationSpecException: (conn=18) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:02:47 ERROR RetroalimentacionActividad:36 - java.sql.SQLInvalidAuthorizationSpecException: (conn=19) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:02:47 ERROR RetroalimentacionActividad:130 - java.sql.SQLInvalidAuthorizationSpecException: (conn=20) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:04:00 ERROR RetroalimentacionActividad:99 - java.sql.SQLInvalidAuthorizationSpecException: (conn=31) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:04:00 ERROR RetroalimentacionActividad:36 - java.sql.SQLInvalidAuthorizationSpecException: (conn=32) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:04:00 ERROR RetroalimentacionActividad:99 - java.sql.SQLInvalidAuthorizationSpecException: (conn=33) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:04:00 ERROR RetroalimentacionActividad:36 - java.sql.SQLInvalidAuthorizationSpecException: (conn=34) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:04:00 ERROR RetroalimentacionActividad:130 - java.sql.SQLInvalidAuthorizationSpecException: (conn=35) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:21:42 ERROR RetroalimentacionActividad:100 - java.sql.SQLInvalidAuthorizationSpecException: (conn=42) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:21:42 ERROR RetroalimentacionActividad:36 - java.sql.SQLInvalidAuthorizationSpecException: (conn=43) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:21:42 ERROR RetroalimentacionActividad:100 - java.sql.SQLInvalidAuthorizationSpecException: (conn=44) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:21:42 ERROR RetroalimentacionActividad:36 - java.sql.SQLInvalidAuthorizationSpecException: (conn=45) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:21:42 ERROR RetroalimentacionActividad:135 - java.sql.SQLInvalidAuthorizationSpecException: (conn=46) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:21:42 ERROR RetroalimentacionActividad:72 - java.sql.SQLInvalidAuthorizationSpecException: (conn=47) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:25:23 ERROR RetroalimentacionActividad:100 - java.sql.SQLInvalidAuthorizationSpecException: (conn=54) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:25:23 ERROR RetroalimentacionActividad:36 - java.sql.SQLInvalidAuthorizationSpecException: (conn=55) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:25:23 ERROR RetroalimentacionActividad:100 - java.sql.SQLInvalidAuthorizationSpecException: (conn=56) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:25:23 ERROR RetroalimentacionActividad:36 - java.sql.SQLInvalidAuthorizationSpecException: (conn=57) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:25:23 ERROR RetroalimentacionActividad:135 - java.sql.SQLInvalidAuthorizationSpecException: (conn=58) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:25:23 ERROR RetroalimentacionActividad:72 - java.sql.SQLInvalidAuthorizationSpecException: (conn=59) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:25:52 ERROR RetroalimentacionActividad:100 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=%)(port=3306)(type=primary). %
+  2024-04-18 19:25:52 ERROR RetroalimentacionActividad:36 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=%)(port=3306)(type=primary). %
+  2024-04-18 19:25:52 ERROR RetroalimentacionActividad:100 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=%)(port=3306)(type=primary). %
+  2024-04-18 19:25:52 ERROR RetroalimentacionActividad:36 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=%)(port=3306)(type=primary). %
+  2024-04-18 19:25:52 ERROR RetroalimentacionActividad:135 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=%)(port=3306)(type=primary). %
+  2024-04-18 19:25:52 ERROR RetroalimentacionActividad:72 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=%)(port=3306)(type=primary). %
+  2024-04-18 19:29:18 ERROR RetroalimentacionActividad:100 - java.sql.SQLInvalidAuthorizationSpecException: (conn=72) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:29:18 ERROR RetroalimentacionActividad:36 - java.sql.SQLInvalidAuthorizationSpecException: (conn=73) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:29:18 ERROR RetroalimentacionActividad:100 - java.sql.SQLInvalidAuthorizationSpecException: (conn=74) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:29:18 ERROR RetroalimentacionActividad:36 - java.sql.SQLInvalidAuthorizationSpecException: (conn=75) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:29:18 ERROR RetroalimentacionActividad:135 - java.sql.SQLInvalidAuthorizationSpecException: (conn=76) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:29:18 ERROR RetroalimentacionActividad:72 - java.sql.SQLInvalidAuthorizationSpecException: (conn=77) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:32:24 ERROR RetroalimentacionActividad:45 - java.sql.SQLIntegrityConstraintViolationException: (conn=90) Cannot add or update a child row: a foreign key constraint fails (`COIL`.`retroalimentacion`, CONSTRAINT `retroalimentacion_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`))
+  2024-04-18 20:11:52 FATAL ConfiguracionPrueba:88 - (conn=280) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionActividad`, CONSTRAINT `retroalimentacionActividad_ibfk_2` FOREIGN KEY (`actividad`) REFERENCES `actividad` (`idActividad`))
+  2024-04-18 20:15:04 FATAL ConfiguracionPrueba:88 - (conn=290) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionActividad`, CONSTRAINT `retroalimentacionActividad_ibfk_2` FOREIGN KEY (`actividad`) REFERENCES `actividad` (`idActividad`))
   

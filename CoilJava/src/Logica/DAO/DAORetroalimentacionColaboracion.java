@@ -71,11 +71,11 @@ public class DAORetroalimentacionColaboracion implements IRetroalimentacionColab
         RetroalimentacionColaboracion retroalimentacionObj = null;
 
         try {
-            if (retroalimentacion.next()) {
+            if (retroalimentacion != null && retroalimentacion.next()) {
                 retroalimentacionObj = resultSetAObjeto(retroalimentacion);
-            }
 
-            retroalimentacion.close();
+                retroalimentacion.close();
+            }
         }
         catch (SQLException error) {
             BITACORA.error(error);
@@ -101,11 +101,11 @@ public class DAORetroalimentacionColaboracion implements IRetroalimentacionColab
         RetroalimentacionColaboracion retroalimentacionObj = null;
 
         try {
-            if (retroalimentacion.next()) {
+            if (retroalimentacion != null && retroalimentacion.next()) {
                 retroalimentacionObj = resultSetAObjeto(retroalimentacion);
-            }
 
-            retroalimentacion.close();
+                retroalimentacion.close();
+            }
         }
         catch (SQLException error) {
             BITACORA.error(error);
@@ -126,6 +126,10 @@ public class DAORetroalimentacionColaboracion implements IRetroalimentacionColab
         }
 
         List<RetroalimentacionColaboracion> retroalimentaciones = new ArrayList<>();
+
+        if (resultados == null) {
+            return retroalimentaciones;
+        }
 
         try {
             while (resultados.next()) {

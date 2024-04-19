@@ -75,11 +75,12 @@ public class DAOActividad implements IActividadDAO {
         Actividad actividad = null;
 
         try {
-            if (resultado.next()) {
+            if (resultado != null && resultado.next()) {
                 actividad = resultSetAObjeto(resultado);
+
+                resultado.close();
             }
 
-            resultado.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -102,11 +103,11 @@ public class DAOActividad implements IActividadDAO {
         Actividad actividad = null;
 
         try {
-            if (resultado.next()) {
+            if (resultado != null && resultado.next()) {
                 actividad = resultSetAObjeto(resultado);
-            }
 
-            resultado.close();
+                resultado.close();
+            }
         }
         catch (SQLException error) {
             BITACORA.error(error);
@@ -127,6 +128,10 @@ public class DAOActividad implements IActividadDAO {
         }
 
         List<Actividad> actividades = new ArrayList<>();
+
+        if (resultados == null) {
+            return actividades;
+        }
 
         try {
             while (resultados.next()) {
