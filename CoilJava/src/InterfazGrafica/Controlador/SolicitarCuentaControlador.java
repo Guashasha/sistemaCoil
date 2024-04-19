@@ -135,8 +135,8 @@ public class SolicitarCuentaControlador implements Initializable {
             filasAfectadasAcademico = daoAcademico.agregarAcademicoExterno(academico);
 
             Optional<Academico> academicoOptional = daoAcademico.getAcademicoPorCedula(cedula);
-            Academico academicoAux = academicoOptional.orElseThrow(() -> new ErrorDAO("El académico con la cédula especificada no existe.", ErrorDAO.Tipo.VALIDACION));
-            int idPersona = academicoAux.getIdPersona();
+            academico = academicoOptional.orElseThrow(() -> new ErrorDAO("El académico con la cédula especificada no existe.", ErrorDAO.Tipo.VALIDACION));
+            int idPersona = academico.getIdPersona();
             cuenta.setIdPersona(idPersona);
             filasAfectadasCuenta = daoCuenta.agregar(cuenta);
         }

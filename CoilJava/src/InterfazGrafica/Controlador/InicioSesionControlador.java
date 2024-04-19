@@ -51,10 +51,12 @@ public class InicioSesionControlador implements Initializable {
         }
         catch (ErrorDAO errorDAO) {
             mostrarVentanaErrorDAO(errorDAO.getMessage());
+            return;
         }
 
         if (sonCredencialesValidas) {
             mostrarVentanaWindowMenuPrincipalAcademico(evento);
+
 
         }
         else {
