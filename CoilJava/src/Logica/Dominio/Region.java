@@ -39,7 +39,7 @@ public class Region {
         if (this == obj) {
             igual = true;
         }
-        else if (obj == null || !(obj instanceof Region)) {
+        else if (!(obj instanceof Region)) {
             igual = false;
         }
         else {

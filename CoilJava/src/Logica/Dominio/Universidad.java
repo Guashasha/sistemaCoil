@@ -14,6 +14,10 @@ public class Universidad {
         this.id = id;
     }
 
+    public Universidad (String nombre) {
+        this.nombre = nombre;
+    }
+
     public Universidad (String nombre, int idPais) {
         this.nombre = nombre;
         this.idPais = idPais;
@@ -55,7 +59,7 @@ public class Universidad {
         if (this == obj) {
             igual = true;
         }
-        else if (obj == null || !(obj instanceof Universidad)) {
+        else if (!(obj instanceof Universidad)) {
             igual = false;
         }
         else {

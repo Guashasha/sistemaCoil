@@ -78,4 +78,22 @@ public class Cuenta {
         return cadena != null && !cadena.isBlank();
     }
 
+    @Override
+    public boolean equals (Object obj) {
+        boolean igual;
+        if (this == obj) {
+            igual = true;
+        }
+        else if (!(obj instanceof Cuenta)) {
+            igual = false;
+        }
+        else {
+            Cuenta cuenta = (Cuenta) obj;
+            igual = this.idCuenta == cuenta.getIdCuenta() && this.idPersona == cuenta.getIdPersona() &&
+                    this.nombreUsuario.equals(cuenta.getNombreUsuario()) && this.contrasena.equals(cuenta.getContrasena()) &&
+                    this.estado.toString().equals(cuenta.getEstado().toString()) && this.tipo.toString().equals(cuenta.getTipo().toString())
+                    ? true:false;
+        }
+        return igual;
+    }
 }

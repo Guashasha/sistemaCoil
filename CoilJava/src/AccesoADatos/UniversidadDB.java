@@ -140,6 +140,35 @@ public class UniversidadDB {
         return listaUniversidades;
     }
 
+    public static Universidad getUniversidadPorNombreYPais (String nombre, String pais) throws SQLException {
+        Universidad universidad = new Universidad(0);
+        String consultaUniversidadSQL = "SELECT idUniversidad, universidad, idPais FROM universidad_con_pais WHERE universidad = ? AND pais = ?";
+        PreparedStatement consultaUniversidad = null;
+        ResultSet resultadoConsulta = null;
+
+        try {
+            consultaUniversidad = CONEXION_BASE_DATOS.getConexion().
+                    prepareStatement(consultaUniversidadSQL);
+            consultaUniversidad.setString(1, nombre);
+            consultaUniversidad.setString(2,pais);
+            resultadoConsulta = consultaUniversidad.executeQuery();
+
+            if (resultadoConsulta.next()) {
+                universidad = convertirResultSetAUniversidad(resultadoConsulta);
+            }
+        }
+        catch (SQLException error) {
+            throw error;
+        }
+        finally {
+            consultaUniversidad.close();
+            resultadoConsulta.close();
+            CONEXION_BASE_DATOS.desconectar();
+        }
+
+        return universidad;
+    }
+
     public static Universidad convertirResultSetAUniversidad (ResultSet resultado) throws SQLException {
         Universidad universidad = new Universidad();
 

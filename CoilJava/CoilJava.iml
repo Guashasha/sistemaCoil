@@ -141,5 +141,7 @@
     <orderEntry type="library" name="javax.activation-1.1.0.v201105071233 (2)" level="project" />
     <orderEntry type="library" name="java-fx" level="project" />
     <orderEntry type="library" name="javafx" level="application" />
+    <orderEntry type="library" name="lib" level="project" />
+    <orderEntry type="library" name="telegrambots-6.5.0-jar-with-dependencies (2)" level="project" />
   </component>
 </module>

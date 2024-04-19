@@ -16,17 +16,19 @@ public class DAOUniversidad implements IUniversidadDAO {
     private static Logger bitacora = Logger.getLogger(DAOUniversidad.class);
 
     @Override
-    public int registrarUniversidad (String universidad, String pais) throws ErrorDAO {
+    public int registrarUniversidad (Universidad universidad, Pais pais) throws ErrorDAO {
+        String nombreUnivesidad = universidad.getNombre();
+        String nombrePais = pais.getNombre();
         int filasAfectadas = 0;
 
-        if (validarCadenas(new String[]{universidad,pais})) {
-            if (universidadExiste(universidad,pais)) {
-                filasAfectadas = -1;
+        if (validarCadenas(new String[]{nombreUnivesidad,nombrePais})) {
+            if (universidadExiste(nombreUnivesidad,nombrePais)) {
+                throw new ErrorDAO("Intento de registro de universidad existente", ErrorDAO.Tipo.DUPLICIDAD);
             }
             else {
                 try {
-                    Pais paisOrigen = PaisDB.getPaisPorNombre(pais);
-                    Universidad nuevaUniversidad = new Universidad(universidad,paisOrigen.getId());
+                    Pais paisOrigen = PaisDB.getPaisPorNombre(nombrePais);
+                    Universidad nuevaUniversidad = new Universidad(nombreUnivesidad,paisOrigen.getId());
                     filasAfectadas = UniversidadDB.registrarUniversidad(nuevaUniversidad);
                 }
                 catch (SQLException error) {
@@ -45,7 +47,7 @@ public class DAOUniversidad implements IUniversidadDAO {
 
         if (validarCadenas(new String[]{nombreActual,nuevoNombre,nuevoPais})) {
             if (universidadExiste(nuevoNombre,nuevoPais)) {
-                filasAfectadas = -1;
+                throw new ErrorDAO("Intento de modificación de universidad con datos de universidad existente", ErrorDAO.Tipo.DUPLICIDAD);
             }
             else {
                 try {
@@ -119,22 +121,17 @@ public class DAOUniversidad implements IUniversidadDAO {
     public boolean universidadExiste (String universidad, String pais) throws ErrorDAO {
         boolean existe = false;
         Universidad universidadEncontrada;
-        Pais paisEncontrado;
 
         try {
-            universidadEncontrada = UniversidadDB.getUniversidadPorNombre(universidad);
-            if (universidadEncontrada.getId() > 0) {
-                paisEncontrado = PaisDB.getPaisPorId(universidadEncontrada.getIdPais());
-                if (paisEncontrado.getId() > 0) {
-                    if (universidad.equals(universidadEncontrada.getNombre()) && paisEncontrado.getNombre().equals(pais)) {
-                        existe = true;
-                    }
-                }
-            }
+            universidadEncontrada = UniversidadDB.getUniversidadPorNombreYPais(universidad,pais);
         }
         catch (SQLException error) {
             bitacora.info(error.getMessage());
             throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
+        }
+
+        if (universidadEncontrada.getId() > 0) {
+            existe = true;
         }
 
         return existe;

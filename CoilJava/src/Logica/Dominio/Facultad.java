@@ -54,7 +54,7 @@ public class Facultad {
         if (this == obj) {
             igual = true;
         }
-        else if (obj == null || !(obj instanceof Facultad)) {
+        else if (!(obj instanceof Facultad)) {
             igual = false;
         }
         else {

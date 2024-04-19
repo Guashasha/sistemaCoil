@@ -1,4 +1,4 @@
-package test.Logica.DAO;
+package test.Logica;
 
 import AccesoADatos.FacultadDB;
 import Logica.DAO.DAOFacultad;
