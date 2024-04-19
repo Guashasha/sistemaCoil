@@ -7,7 +7,7 @@ public class Academico extends Persona {
     private String correoElectronico;
     private String numeroTelefonico;
     private String categoriaContratacion;
-    private int idFacultad;
+    private Integer idFacultad;
 
     public String getCedulaProfesional () {
         return cedulaProfesional;
@@ -61,7 +61,7 @@ public class Academico extends Persona {
         return idFacultad;
     }
 
-    public void setIdFacultad (int idFacultad) {
+    public void setIdFacultad (Integer idFacultad) {
         this.idFacultad = idFacultad;
     }
 
@@ -74,10 +74,17 @@ public class Academico extends Persona {
                 cadenaValida(numeroPersonal) &&
                 cadenaValida(areaEstudios) &&
                 cadenaValida(correoElectronico) &&
-                cadenaValida(numeroTelefonico) &&
-                cadenaValida(categoriaContratacion);
+                cadenaValida(numeroTelefonico);
     }
 
+    public boolean esLongitudValidad () {
+        return cedulaProfesional.length() <= 30 &&
+                numeroPersonal.length() <= 40 &&
+                areaEstudios.length() <= 40 &&
+                correoElectronico.length() <= 30 &&
+                numeroPersonal.length() != 12  &&
+                categoriaContratacion.length() <= 40;
+    }
     @Override
     public boolean equals (Object obj) {
         boolean igual;
@@ -89,13 +96,15 @@ public class Academico extends Persona {
         }
         else {
             Academico academico = (Academico) obj;
-            igual = this.getIdPersona() == academico.getIdPersona() && this.getNombre().equals(academico.getNombre())
-                    && this.getApellidoPaterno().equals(academico.getApellidoPaterno()) && this.getApellidoMaterno().equals(academico.getApellidoMaterno())
+            igual = this.getIdPersona() == academico.getIdPersona() && this.getNombre()
+                                                                           .equals(academico.getNombre())
+                    && this.getApellidoPaterno()
+                           .equals(academico.getApellidoPaterno()) && this.getApellidoMaterno()
+                                                                          .equals(academico.getApellidoMaterno())
                     && this.getIdUniversidad() == academico.getIdUniversidad() && this.cedulaProfesional.equals(academico.getCedulaProfesional())
                     && this.numeroPersonal.equals(academico.getNumeroPersonal()) && this.areaEstudios.equals(academico.getAreaEstudios())
                     && this.correoElectronico.equals(academico.getCorreoElectronico()) && this.numeroTelefonico.equals(academico.getNumeroTelefonico())
-                    && this.categoriaContratacion.equals(academico.getCategoriaContratacion()) && this.idFacultad == academico.getIdFacultad()
-                    ? true:false;
+                    && this.categoriaContratacion.equals(academico.getCategoriaContratacion()) && this.idFacultad == academico.getIdFacultad();
         }
         return igual;
     }

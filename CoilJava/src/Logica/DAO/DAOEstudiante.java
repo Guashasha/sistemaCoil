@@ -17,7 +17,7 @@ public class DAOEstudiante implements IEstudianteDAO {
 
     @Override
     public int agregar (Estudiante estudiante) throws ErrorDAO {
-        int filasAfectadas = 0;
+        int filasAfectadas = -1;
 
         if (!estudiante.validarNulos()) {
             throw new ErrorDAO("Al menos un campo del estudiante esta vacio", ErrorDAO.Tipo.VALIDACION);
@@ -33,7 +33,7 @@ public class DAOEstudiante implements IEstudianteDAO {
 
     @Override
     public int modificar (Estudiante estudiante) throws ErrorDAO {
-        int filasAfectadas = 0;
+        int filasAfectadas = -1;
 
         if (!estudiante.validarNulos()) {
             throw new ErrorDAO("Al menos un campo del estudiante esta vacio", ErrorDAO.Tipo.VALIDACION);
@@ -138,6 +138,7 @@ public class DAOEstudiante implements IEstudianteDAO {
         }
         return listaEstudiantes;
     }
+
 
     private boolean cadenaValida (String cadena) {
         return cadena != null && !cadena.isBlank();

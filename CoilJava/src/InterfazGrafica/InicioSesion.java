@@ -10,7 +10,7 @@ public class InicioSesion extends Application {
 
     @Override
     public void start(Stage primatyStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("Plantilla/windowInicioSesion.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("Plantilla/WindowInicioSesion.fxml"));
         primatyStage.setTitle("Inicio Sesion");
         primatyStage.setScene(new Scene(root));
         primatyStage.show();

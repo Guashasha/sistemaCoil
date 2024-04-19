@@ -68,8 +68,8 @@ END //
 
 
 -- Procedimientos academicos
-DROP PROCEDURE IF EXISTS registrar_Academico;
-create procedure registrar_Academico(IN p_nombre varchar(50), IN p_apellidoPaterno varchar(50),
+DROP PROCEDURE IF EXISTS registrar_AcademicoUV;
+create procedure registrar_AcademicoUV(IN p_nombre varchar(50), IN p_apellidoPaterno varchar(50),
                                                            IN p_apellidoMaterno varchar(50), IN p_universidad int,
                                                            IN p_cedulaProfesional varchar(30),
                                                            IN p_numeroDePersonal varchar(40),
@@ -84,6 +84,41 @@ BEGIN
 	SET id_persona = LAST_INSERT_ID();
 	INSERT INTO academico (cedulaProfesional, numeroDePersonal, idPersona, areaEstudios, correoElectronico, numeroTelefonico, categoriaContratacion, facultad)
 	VALUES (p_cedulaProfesional, p_numeroDePersonal, id_persona, p_areaEstudios, p_correoElectronico, p_numeroTelefono, p_categoriaContratacion, p_facultad);	
+END //
+
+DROP PROCEDURE IF EXISTS registrar_AcademicoExterno;
+CREATE PROCEDURE registrar_AcademicoExterno(
+    IN p_nombre varchar(50),
+    IN p_apellidoPaterno varchar(50),
+    IN p_apellidoMaterno varchar(50),
+    IN p_universidad int,
+    IN p_cedulaProfesional varchar(30),
+    IN p_numeroDePersonal varchar(40),
+    IN p_areaEstudios varchar(40),
+    IN p_correoElectronico varchar(30),
+    IN p_numeroTelefono varchar(12)
+)
+BEGIN
+    DECLARE id_persona INT;
+    INSERT INTO persona (nombre, apellidoPaterno, apellidoMaterno, universidad) 
+    VALUES (p_nombre, p_apellidoPaterno, p_apellidoMaterno, p_universidad);
+    SET id_persona = LAST_INSERT_ID();
+    
+    INSERT INTO academico (
+        cedulaProfesional, 
+        numeroDePersonal, 
+        idPersona, 
+        areaEstudios, 
+        correoElectronico, 
+        numeroTelefonico
+    ) VALUES (
+        p_cedulaProfesional, 
+        p_numeroDePersonal, 
+        id_persona, 
+        p_areaEstudios, 
+        p_correoElectronico, 
+        p_numeroTelefono
+    );
 END //
 
 
@@ -177,9 +212,9 @@ create procedure registrar_cuenta (
     in p_estado enum ('pendiente', 'aceptada', 'rechazada')
 )
 begin
-    declare v_contrasena_encriptada varchar(300);
+    declare v_contrasena_encriptada varchar(64);
 
-    set v_contrasena_encriptada = AES_ENCRYPT(CONCAT(p_contrasena, p_nombreUsuario), 'habitacion de vuelo');
+    set v_contrasena_encriptada = SHA2(p_contrasena, 256);
 
     insert into cuenta (idPersona, nombreUsuario, contrasena, tipo, estado)
     values (p_idPersona, p_nombreUsuario, v_contrasena_encriptada, p_tipo, p_estado);
@@ -195,18 +230,18 @@ create procedure cambiar_contrasena (
     in p_contrasenaNueva varchar(300)
 )
 begin
-    declare v_contrasena_antigua_encriptada varchar(300);
-    declare v_contrasena_nueva_encriptada varchar(300);
-    declare v_contrasena_recuperada_encriptada varchar(300);
+    declare v_contrasena_antigua_encriptada varchar(64);
+    declare v_contrasena_nueva_encriptada varchar(64);
+    declare v_contrasena_recuperada_encriptada varchar(64);
 
-    set v_contrasena_antigua_encriptada = AES_ENCRYPT(CONCAT(p_contrasenaAntigua, p_nombreUsuario), 'habitacion de vuelo');
+    set v_contrasena_antigua_encriptada = SHA2(p_contrasenaAntigua, 256);
     
     select contrasena into v_contrasena_recuperada_encriptada
     from cuenta
     where idCuenta = p_idCuenta;
 
     IF v_contrasena_antigua_encriptada = v_contrasena_recuperada_encriptada then
-        set v_contrasena_nueva_encriptada = AES_ENCRYPT(CONCAT(p_contrasenaNueva, p_nombreUsuario), 'habitacion de vuelo');
+        set v_contrasena_nueva_encriptada = SHA2(p_contrasenaNueva, 256);
         update cuenta
         set contrasena = v_contrasena_nueva_encriptada
         where idCuenta = p_idCuenta;
@@ -226,7 +261,7 @@ create procedure verificar_credenciales (
 begin 
     declare v_contrasena_encriptada varchar(300);
 
-    set v_contrasena_encriptada = AES_ENCRYPT(CONCAT(p_contrasena, p_nombreUsuario), 'habitacion de vuelo');
+    set v_contrasena_encriptada = SHA2(p_contrasena, 256);
 
     select COUNT(*) into p_validacion
     from cuenta

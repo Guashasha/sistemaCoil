@@ -137,6 +137,27 @@ public class DAOAcademico implements IAcademicoDAO {
     }
 
     @Override
+    public int agregarAcademicoExterno (Academico academico) throws ErrorDAO {
+        int filasAfectadas = -1;
+
+        if (!academico.validarNulos()) {
+            throw new ErrorDAO ("Existe al menos un campo vacio en el academico", ErrorDAO.Tipo.VALIDACION);
+        }
+        if (academico.esLongitudValidad()) {
+            throw new ErrorDAO ("El numero telefonico es menor o mayor a 11 caracteres", ErrorDAO.Tipo.VALIDACION);
+        }
+        try {
+            filasAfectadas = AcademicoDB.agregarAcademicoExterno(academico);
+
+        }
+        catch (SQLException error) {
+            BITACORA.error(error);
+        }
+
+        return filasAfectadas;
+    }
+
+    @Override
     public int agregar (Academico academico) throws ErrorDAO {
         int filasAfectadas = -1;
 
@@ -144,7 +165,7 @@ public class DAOAcademico implements IAcademicoDAO {
             throw new ErrorDAO ("Existe al menos un campo vacio en el academico", ErrorDAO.Tipo.VALIDACION);
         }
         try {
-            filasAfectadas = AcademicoDB.agregarAcademico(academico);
+            filasAfectadas = AcademicoDB.agregarAcademicoUV(academico);
 
         }
         catch (SQLException error) {

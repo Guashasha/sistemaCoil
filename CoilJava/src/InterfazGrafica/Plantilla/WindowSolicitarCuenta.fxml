@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: EBFCFB;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.Controlador.SolicitarCuentaControlador">
+   <children>
+      <TextField fx:id="tfCedula" layoutX="49.0" layoutY="149.0" promptText="Cédula profesional" />
+      <TextField fx:id="tfNombre" layoutX="49.0" layoutY="70.0" promptText="Nombre" />
+      <TextField fx:id="tfApellidoPaterno" layoutX="225.0" layoutY="70.0" promptText="Apellido paterno" />
+      <TextField fx:id="tfApellidoMaterno" layoutX="402.0" layoutY="70.0" promptText="Apellido materno" />
+      <Label layoutX="48.0" layoutY="37.0" prefHeight="18.0" prefWidth="150.0" text="Datos personales" />
+      <Label layoutX="47.0" layoutY="117.0" text="Datos profesionales" />
+      <ComboBox fx:id="cmbUniversidad" layoutX="224.0" layoutY="149.0" prefWidth="150.0" promptText="Universidad" />
+      <TextField fx:id="tfCorreoElectronico" layoutX="402.0" layoutY="149.0" promptText="Correo electrónico" />
+      <Label layoutX="52.0" layoutY="229.0" text="Datos de la cuenta" />
+      <TextField fx:id="tfUsuario" layoutX="45.0" layoutY="263.0" prefHeight="26.0" prefWidth="157.0" promptText="Nombre de usuario" />
+      <Button fx:id="btnRegistrar" layoutX="46.0" layoutY="309.0" mnemonicParsing="false" onAction="#registrarSolicitud" text="Registrar solicitud" />
+      <Hyperlink fx:id="hpkCuenta" layoutX="50.0" layoutY="348.0" onAction="#regresarAInicio" text="¿Ya tienes una cuenta?" />
+      <PasswordField fx:id="pwfContrasena" layoutX="224.0" layoutY="263.0" promptText="Contraseñs" />
+      <TextField fx:id="tfArea" layoutX="48.0" layoutY="187.0" promptText="Area académica" />
+      <TextField fx:id="tfNumeroPersonal" layoutX="226.0" layoutY="188.0" promptText="Numero  de personal" />
+      <TextField fx:id="tfNumeroTelefono" layoutX="403.0" layoutY="187.0" promptText="Numero de Telefóno" />
+   </children>
+</AnchorPane>
