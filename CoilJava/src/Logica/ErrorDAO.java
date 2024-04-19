@@ -10,8 +10,6 @@ public class ErrorDAO extends Error {
         VALIDACION,
         INICIO_SESION,
         NO_IMPLEMENTADO,
-        SIN_REGSITROS,
-        CAMPOS_VACIOS
     }
 
     private String mensaje;
