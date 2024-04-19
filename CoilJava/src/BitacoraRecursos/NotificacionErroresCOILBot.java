@@ -1,4 +1,5 @@
-import Logica.DAO.DAOAcademico;
+package BitacoraRecursos;
+
 import org.apache.log4j.Logger;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
