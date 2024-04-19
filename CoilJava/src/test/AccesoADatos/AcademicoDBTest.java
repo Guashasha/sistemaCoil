@@ -62,7 +62,7 @@ class AcademicoDBTest {
         int obtenido = 0;
 
         try {
-            obtenido = AcademicoDB.agregarAcademico(academico);
+            obtenido = AcademicoDB.agregarAcademicoUV(academico);
         }
         catch (SQLException error) {
             fail("Fallida: pruebaAgregarAcademicoExitoso " + error.getMessage());
@@ -76,7 +76,7 @@ class AcademicoDBTest {
         Academico academico = new Academico();
 
         assertThrows(SQLException.class,
-                     () -> AcademicoDB.agregarAcademico(academico),
+                     () -> AcademicoDB.agregarAcademicoUV(academico),
                      "Se esperaba que lanzara una excepción ErrorDAO debido a un mal registro");
 
     }
@@ -97,7 +97,7 @@ class AcademicoDBTest {
         academico.setIdFacultad(1);
 
         assertThrows(SQLException.class,
-                     () -> AcademicoDB.agregarAcademico(academico),
+                     () -> AcademicoDB.agregarAcademicoUV(academico),
                      "Se esperaba que lanzara una excepción ErrorDAO debido a una universidad inexistente");
 
     }
@@ -117,7 +117,7 @@ class AcademicoDBTest {
         academico.setNumeroTelefonico("523351256655567");
         academico.setIdFacultad(1);
 
-        assertThrows(SQLException.class, () -> AcademicoDB.agregarAcademico(academico));
+        assertThrows(SQLException.class, () -> AcademicoDB.agregarAcademicoUV(academico));
     }
 
     @Test
@@ -136,7 +136,7 @@ class AcademicoDBTest {
         academico.setNumeroTelefonico("522288536230");
         academico.setIdFacultad(1);
 
-        assertThrows(SQLException.class, () -> AcademicoDB.agregarAcademico(academico));
+        assertThrows(SQLException.class, () -> AcademicoDB.agregarAcademicoUV(academico));
 
     }
 
@@ -158,7 +158,7 @@ class AcademicoDBTest {
         academico.setCategoriaContratacion("Fijo");
         academico.setIdFacultad(1);
 
-        assertThrows(SQLException.class, () -> AcademicoDB.agregarAcademico(academico));
+        assertThrows(SQLException.class, () -> AcademicoDB.agregarAcademicoUV(academico));
 
     }
 

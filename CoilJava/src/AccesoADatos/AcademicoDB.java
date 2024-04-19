@@ -1,6 +1,7 @@
 package AccesoADatos;
 
 import Logica.Dominio.*;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,8 +63,8 @@ public class AcademicoDB {
         return academico;
     }
 
-    public static int agregarAcademico (Academico academico) throws SQLException {
-        String procedimientoSQL = "{CALL registrar_Academico(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
+    public static int agregarAcademicoUV (Academico academico) throws SQLException {
+        String procedimientoSQL = "{CALL registrar_AcademicoUV(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
         int resultado = -1;
 
         try {
@@ -91,6 +92,34 @@ public class AcademicoDB {
         return resultado;
     }
 
+    public static int agregarAcademicoExterno (Academico academico) throws SQLException {
+        String procedimientoSQL = "{CALL registrar_AcademicoExterno(?, ?, ?, ?, ?, ?, ?, ?, ?)}";
+        int resultado = -1;
+
+        try {
+            CONEXION_BASE_DATOS.conectar();
+            CallableStatement registrarAcademico = CONEXION_BASE_DATOS.getConexion().
+                                                                      prepareCall(procedimientoSQL);
+            registrarAcademico.setString(1, academico.getNombre());
+            registrarAcademico.setString(2, academico.getApellidoPaterno());
+            registrarAcademico.setString(3, academico.getApellidoMaterno());
+            registrarAcademico.setInt(4, academico.getIdUniversidad());
+            registrarAcademico.setString(5, academico.getCedulaProfesional());
+            registrarAcademico.setString(6, academico.getNumeroPersonal());
+            registrarAcademico.setString(7, academico.getAreaEstudios());
+            registrarAcademico.setString(8, academico.getCorreoElectronico());
+            registrarAcademico.setString(9, academico.getNumeroTelefonico());
+
+            resultado = registrarAcademico.executeUpdate();
+            registrarAcademico.close();
+        }
+        finally {
+            CONEXION_BASE_DATOS.desconectar();
+
+        }
+        return resultado;
+    }
+
     public static Academico getAcademicoPorId (int id) throws SQLException {
         String consulta = "SELECT * from vista_Academico WHERE idPersona = ?";
         Academico academico = null;
@@ -98,7 +127,7 @@ public class AcademicoDB {
             CONEXION_BASE_DATOS.conectar();
             PreparedStatement consultarAcademico = CONEXION_BASE_DATOS.getConexion().
                                                                       prepareStatement(consulta);
-            consultarAcademico.setInt(1,id);
+            consultarAcademico.setInt(1, id);
             ResultSet resultadoConsulta = consultarAcademico.executeQuery();
             if (resultadoConsulta.next()) {
                 academico = convertirAcademico(resultadoConsulta);
@@ -144,7 +173,7 @@ public class AcademicoDB {
         try {
             CONEXION_BASE_DATOS.conectar();
             CallableStatement editarAcademico = CONEXION_BASE_DATOS.getConexion().
-                                                                      prepareCall(procedimientoSQL);
+                                                                   prepareCall(procedimientoSQL);
             editarAcademico.setString(1, academico.getNombre());
             editarAcademico.setString(2, academico.getApellidoPaterno());
             editarAcademico.setString(3, academico.getApellidoMaterno());
@@ -168,8 +197,7 @@ public class AcademicoDB {
     }
 
 
-    private static Academico convertirAcademico (ResultSet resultado) throws SQLException {
-
+    private static Academico convertirAcademico(ResultSet resultado) throws SQLException {
         Academico academico = new Academico();
 
         academico.setIdPersona(resultado.getInt("idPersona"));
@@ -177,15 +205,24 @@ public class AcademicoDB {
         academico.setApellidoPaterno(resultado.getString("apellidoPaterno"));
         academico.setApellidoMaterno(resultado.getString("apellidoMaterno"));
         academico.setIdUniversidad(resultado.getInt("idUniversidad"));
-        academico.setCategoriaContratacion(resultado.getString("cedulaProfesional"));
+
+        // Verifica si la columna categoriaContratacion es nula
+        if (resultado.getString("categoriaContratacion") != null) {
+            academico.setCategoriaContratacion(resultado.getString("categoriaContratacion"));
+        }
+
+        // Verifica si la columna idFacultad es nula
+        if (resultado.getObject("idFacultad") != null) {
+            academico.setIdFacultad(resultado.getInt("idFacultad"));
+        }
+
         academico.setNumeroPersonal(resultado.getString("numeroDePersonal"));
         academico.setAreaEstudios(resultado.getString("areaEstudios"));
         academico.setCorreoElectronico(resultado.getString("correoElectronico"));
         academico.setNumeroTelefonico(resultado.getString("numeroTelefonico"));
-        academico.setCategoriaContratacion(resultado.getString("categoriaContratacion"));
-        academico.setIdFacultad(resultado.getInt("idFacultad"));
 
         return academico;
     }
+
 
 }

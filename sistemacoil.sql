@@ -37,14 +37,14 @@ CREATE TABLE `facultad` (
 );
 
 CREATE TABLE `academico` (
-  `cedulaProfesional` varchar(30),
+  `cedulaProfesional` varchar(30) NOT NULL,
   `numeroDePersonal` varchar(40) NOT NULL,
   `idPersona` int NOT NULL,
   `areaEstudios` varchar(40) NOT NULL,
   `correoElectronico` varchar(30) NOT NULL,
   `numeroTelefonico` char(12) NOT NULL,
   `categoriaContratacion` varchar(40),
-  `facultad` int NOT NULL,
+  `facultad` int,
   PRIMARY KEY (`cedulaProfesional`, `numeroDePersonal`)
 );
 

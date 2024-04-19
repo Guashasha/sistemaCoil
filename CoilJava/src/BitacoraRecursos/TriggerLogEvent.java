@@ -20,8 +20,8 @@ public class TriggerLogEvent implements TriggeringEventEvaluator {
 
             String fechaHora = formatoFecha.format(new Date(event.getTimeStamp()));
             String mensajeLog = fechaHora + " " + event.getLevel() + " " + event.getLoggerName() + ":" + event.getLocationInformation()
-                                                                                                                                     .getLineNumber() + " - " + event.getMessage()
-                                                                                                                                                                     .toString();
+                                                                                                              .getLineNumber() + " - " + event.getMessage()
+                                                                                                                                              .toString();
             botTelegram.enviarMensaje(mensajeLog);
         }
 

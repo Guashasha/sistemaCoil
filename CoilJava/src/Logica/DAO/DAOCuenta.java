@@ -13,7 +13,6 @@ import java.util.Optional;
 public class DAOCuenta implements ICuentaDAO {
     private static final Logger BITACORA = Logger.getLogger(DAOCuenta.class);
 
-
     @Override
     public Optional<Cuenta> getCuentaPorUsuario (String nombreUsuario) throws ErrorDAO {
         Cuenta cuenta = null;
@@ -39,6 +38,9 @@ public class DAOCuenta implements ICuentaDAO {
         }
         if (!getCuentaPorUsuario(cuenta.getNombreUsuario()).isPresent()) {
             throw new ErrorDAO("El usuario ya se encuentra registrado", ErrorDAO.Tipo.DUPLICIDAD);
+        }
+        if (cuenta.esLongitudValida()) {
+            throw new ErrorDAO("La longitud del usuario excede el limite establecido", ErrorDAO.Tipo.VALIDACION);
         }
 
         int filasAfectadas = -1;
@@ -150,7 +152,9 @@ public class DAOCuenta implements ICuentaDAO {
 
     @Override
     public int agregar (Cuenta cuenta) throws ErrorDAO {
-
+        if (!cuenta.esLongitudValida()) {
+            throw new ErrorDAO("La longitud de un dato de la cuenta sobrepasa los limites", ErrorDAO.Tipo.VALIDACION);
+        }
         if (!cuenta.validarNulos()) {
             throw new ErrorDAO("Al menos un dato de la cuenta esta vacio", ErrorDAO.Tipo.VALIDACION);
         }

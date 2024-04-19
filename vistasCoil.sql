@@ -5,7 +5,7 @@ SELECT idUniversidad, universidad.nombre AS universidad, idPais, pais.nombre AS 
 CREATE VIEW if not exists facultad_con_region AS
 SELECT idFacultad, facultad.nombre AS facultad, idRegion, region.nombre AS region FROM facultad LEFT JOIN region ON facultad.region = region.idRegion;
 
-
+DROP VIEW if exists vista_academico;
 CREATE VIEW if not exists vista_academico AS
 SELECT 
     p.idPersona AS idPersona,
@@ -28,9 +28,10 @@ SELECT
 FROM 
     persona p
     JOIN academico a ON p.idPersona = a.idPersona
-    JOIN facultad f ON f.idFacultad = a.facultad
-    JOIN region r ON r.idRegion = f.region
+    LEFT JOIN facultad f ON f.idFacultad = a.facultad
+    LEFT JOIN region r ON r.idRegion = f.region
     JOIN universidad u ON u.idUniversidad = p.universidad;
+
 
 
 CREATE VIEW if not exists vista_estudiante AS

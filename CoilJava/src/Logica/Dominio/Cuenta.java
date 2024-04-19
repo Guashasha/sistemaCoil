@@ -78,6 +78,11 @@ public class Cuenta {
         return cadena != null && !cadena.isBlank();
     }
 
+    public boolean esLongitudValida () {
+        return nombreUsuario.length() <= 50 &&
+                contrasena.length() <= 300;
+    }
+
     @Override
     public boolean equals (Object obj) {
         boolean igual;
@@ -91,8 +96,11 @@ public class Cuenta {
             Cuenta cuenta = (Cuenta) obj;
             igual = this.idCuenta == cuenta.getIdCuenta() && this.idPersona == cuenta.getIdPersona() &&
                     this.nombreUsuario.equals(cuenta.getNombreUsuario()) && this.contrasena.equals(cuenta.getContrasena()) &&
-                    this.estado.toString().equals(cuenta.getEstado().toString()) && this.tipo.toString().equals(cuenta.getTipo().toString())
-                    ? true:false;
+                    this.estado.toString()
+                               .equals(cuenta.getEstado()
+                                             .toString()) && this.tipo.toString()
+                                                                      .equals(cuenta.getTipo()
+                                                                                    .toString());
         }
         return igual;
     }
