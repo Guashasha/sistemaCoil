@@ -56,4 +56,19 @@
   2024-04-16 03:17:55 FATAL Main:12 - XD
   2024-04-16 03:22:59 FATAL Main:12 - XD
   2024-04-17 03:01:33 FATAL Main:12 - XD
+  2024-04-17 23:46:07 FATAL ConfiguracionPrueba:88 - Socket fail to connect to host:address=(host=localhost)(port=3306)(type=primary). Connection refused: getsockopt
+  2024-04-17 23:46:10 FATAL ConfiguracionPrueba:88 - Socket fail to connect to host:address=(host=localhost)(port=3306)(type=primary). Connection refused: getsockopt
+  2024-04-17 23:46:12 FATAL ConfiguracionPrueba:88 - Socket fail to connect to host:address=(host=localhost)(port=3306)(type=primary). Connection refused: getsockopt
+  2024-04-17 23:46:14 FATAL ConfiguracionPrueba:88 - Socket fail to connect to host:address=(host=localhost)(port=3306)(type=primary). Connection refused: getsockopt
+  2024-04-17 23:46:16 FATAL ConfiguracionPrueba:88 - Socket fail to connect to host:address=(host=localhost)(port=3306)(type=primary). Connection refused: getsockopt
+  2024-04-17 23:46:55 FATAL ConfiguracionPrueba:88 - (conn=3) Access denied for user 'CarrionMartinezPale'@'localhost' (using password: YES)
+  2024-04-17 23:46:57 FATAL ConfiguracionPrueba:88 - (conn=4) Access denied for user 'CarrionMartinezPale'@'localhost' (using password: YES)
+  2024-04-17 23:46:59 FATAL ConfiguracionPrueba:88 - (conn=5) Access denied for user 'CarrionMartinezPale'@'localhost' (using password: YES)
+  2024-04-17 23:47:01 FATAL ConfiguracionPrueba:88 - (conn=11) Access denied for user 'CarrionMartinezPale'@'localhost' (using password: YES)
+  2024-04-17 23:47:03 FATAL ConfiguracionPrueba:88 - (conn=12) Access denied for user 'CarrionMartinezPale'@'localhost' (using password: YES)
+  2024-04-17 23:50:02 FATAL ConfiguracionPrueba:88 - (conn=14) Access denied for user 'CarrionMartinezPale'@'localhost' (using password: YES)
+  2024-04-17 23:50:05 FATAL ConfiguracionPrueba:88 - (conn=15) Access denied for user 'CarrionMartinezPale'@'localhost' (using password: YES)
+  2024-04-17 23:50:07 FATAL ConfiguracionPrueba:88 - (conn=16) Access denied for user 'CarrionMartinezPale'@'localhost' (using password: YES)
+  2024-04-17 23:50:09 FATAL ConfiguracionPrueba:88 - (conn=23) Access denied for user 'CarrionMartinezPale'@'localhost' (using password: YES)
+  2024-04-17 23:50:10 FATAL ConfiguracionPrueba:88 - (conn=24) Access denied for user 'CarrionMartinezPale'@'localhost' (using password: YES)
   

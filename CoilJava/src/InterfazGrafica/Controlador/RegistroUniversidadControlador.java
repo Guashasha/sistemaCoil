@@ -10,10 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import org.junit.jupiter.api.Test;
 
@@ -37,21 +34,30 @@ public class RegistroUniversidadControlador implements Initializable {
         Pais pais = new Pais(cmbPaises.getValue());
         int filasAfectadas = 0;
         DAOUniversidad daoUniversidad = new DAOUniversidad();
+        Alert mensaje;
 
         try {
             filasAfectadas = daoUniversidad.registrarUniversidad(universidad,pais);
         }
         catch (ErrorDAO error) {
-            //Mostrar ventana de error
+            mensaje = new Alert(Alert.AlertType.WARNING);
+            mensaje.setContentText(error.getMessage());
+            mensaje.setHeaderText(null);
+            mensaje.show();
+            return;
         }
 
         if (filasAfectadas == 1) {
-            //mostrar ventana de registro exitoso
-            System.out.println("Registro exitoso");
+            mensaje = new Alert(Alert.AlertType.INFORMATION);
+            mensaje.setHeaderText(null);
+            mensaje.setContentText("Se ha registrado la universidad exitosamente");
+            mensaje.show();
         }
         else {
-            //mostrar ventana de error
-            System.out.println("Error");
+            mensaje = new Alert(Alert.AlertType.ERROR);
+            mensaje.setContentText("Ocurrió un error, intentelo de nuevo más tarde");
+            mensaje.setHeaderText(null);
+            mensaje.show();
         }
     }
 
@@ -69,12 +75,18 @@ public class RegistroUniversidadControlador implements Initializable {
             listaPaises = daoPais.getNombresPaisesAlfabeticamente();
         }
         catch (ErrorDAO error) {
-            //Mostrar ventana de error
+            Alert mensaje = new Alert(Alert.AlertType.ERROR);
+            mensaje.setContentText(error.getMessage());
+            mensaje.setHeaderText(null);
+            mensaje.show();
         }
 
         ObservableList<String> paisesObservable = FXCollections.observableArrayList(new ArrayList<>(listaPaises));
         cmbPaises.setItems(paisesObservable);
     }
-    
+
+    public void mostrarMensajeEmergente (Error error, Alert.AlertType tipoAlerta) {
+        
+    }
 
 }
