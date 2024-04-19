@@ -33,13 +33,15 @@ public class DAOCuenta implements ICuentaDAO {
 
     @Override
     public int actualizarNombreUsuario (Cuenta cuenta) throws ErrorDAO {
-        int filasAfectadas = 0;
+
         if (!cuenta.validarNulos()) {
             throw new ErrorDAO("Al menos un campo de la cuenta esta vacio", ErrorDAO.Tipo.VALIDACION);
         }
         if (!getCuentaPorUsuario(cuenta.getNombreUsuario()).isPresent()) {
             throw new ErrorDAO("El usuario ya se encuentra registrado", ErrorDAO.Tipo.DUPLICIDAD);
         }
+
+        int filasAfectadas = -1;
         try {
             filasAfectadas = CuentaDB.actualizarNombreUsuario(cuenta);
 
@@ -74,7 +76,7 @@ public class DAOCuenta implements ICuentaDAO {
 
     @Override
     public int actualizarContrasena (Cuenta cuenta, String contrasenaAntigua, String nuevaContrasena) throws ErrorDAO {
-        int filasAfectadas = 0;
+
         if (!cadenaValida(contrasenaAntigua)) {
             throw new ErrorDAO("contrasena antigua invalida", ErrorDAO.Tipo.VALIDACION);
         }
@@ -84,6 +86,8 @@ public class DAOCuenta implements ICuentaDAO {
         if (!cuenta.validarNulos()) {
             throw new ErrorDAO("Error en la cuenta", ErrorDAO.Tipo.VALIDACION);
         }
+
+        int filasAfectadas = -1;
         try {
             filasAfectadas = CuentaDB.actualizarContrasena(cuenta, contrasenaAntigua, nuevaContrasena);
 
@@ -96,13 +100,15 @@ public class DAOCuenta implements ICuentaDAO {
 
     @Override
     public int cambiarEstadoCuenta (Cuenta cuenta, String estado) throws ErrorDAO {
-        int filasAfectadas = 0;
+
         if (!cuenta.validarNulos()) {
             throw new ErrorDAO("Error en la cuenta", ErrorDAO.Tipo.VALIDACION);
         }
         if (!cadenaValida(estado)) {
             throw new ErrorDAO("Error en el estado ingresado", ErrorDAO.Tipo.VALIDACION);
         }
+
+        int filasAfectadas = -1;
         try {
             filasAfectadas = CuentaDB.cambiarEstadoCuenta(cuenta, estado);
         }
@@ -144,10 +150,12 @@ public class DAOCuenta implements ICuentaDAO {
 
     @Override
     public int agregar (Cuenta cuenta) throws ErrorDAO {
-        int filasAfectadas = 0;
+
         if (!cuenta.validarNulos()) {
             throw new ErrorDAO("Al menos un dato de la cuenta esta vacio", ErrorDAO.Tipo.VALIDACION);
         }
+
+        int filasAfectadas = -1;
         try {
             filasAfectadas = CuentaDB.agregarCuenta(cuenta);
         }
@@ -159,7 +167,7 @@ public class DAOCuenta implements ICuentaDAO {
 
     @Override
     public int modificar (Cuenta cuenta) throws ErrorDAO {
-        throw new ErrorDAO("Metodo no utlizado", ErrorDAO.Tipo.MODIFICACION);
+        throw new ErrorDAO("Metodo no utlizado", ErrorDAO.Tipo.NO_IMPLEMENTADO);
     }
 
     @Override
