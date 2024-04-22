@@ -10,15 +10,11 @@ import java.util.List;
 
 public class NotificacionErroresCOILBot extends TelegramLongPollingBot {
     private static final Logger BITACORA = Logger.getLogger(NotificacionErroresCOILBot.class);
-
     private static final NotificacionErroresCOILBot INSTANCIA_BOT = new NotificacionErroresCOILBot();
-
-
     @Override
     public void onUpdateReceived (Update update) {
 
     }
-
     @Override
     public void onUpdatesReceived (List<Update> updates) {
         super.onUpdatesReceived(updates);
@@ -32,7 +28,6 @@ public class NotificacionErroresCOILBot extends TelegramLongPollingBot {
     public String getBotToken () {
         return "6867312568:AAHr4aqzQZZHVWx0VN-F5YphCV5fybu55d4";
     }
-
     @Override
     public void onRegister () {
         super.onRegister();
@@ -49,7 +44,6 @@ public class NotificacionErroresCOILBot extends TelegramLongPollingBot {
             BITACORA.error(error.getMessage());
         }
     }
-
     public static NotificacionErroresCOILBot getInstanciaBot() {
         return INSTANCIA_BOT;
     }

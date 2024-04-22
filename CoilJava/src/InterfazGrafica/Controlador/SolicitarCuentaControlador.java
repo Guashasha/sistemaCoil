@@ -103,7 +103,7 @@ public class SolicitarCuentaControlador implements Initializable {
     @FXML
     public void registrarSolicitud (ActionEvent evento) {
         String cedula = tfCedula.getText();
-
+    //todo Validar antes
         Academico academico = new Academico();
         academico.setNombre(tfNombre.getText());
         academico.setApellidoPaterno(tfApellidoPaterno.getText());
