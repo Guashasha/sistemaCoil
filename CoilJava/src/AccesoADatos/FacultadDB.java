@@ -92,7 +92,7 @@ public class FacultadDB {
         return listaFacultades;
     }
 
-    public static Facultad convertirResultSetAFacultad (ResultSet resultado) throws SQLException {
+    private static Facultad convertirResultSetAFacultad (ResultSet resultado) throws SQLException {
         Facultad facultad = new Facultad();
 
         facultad.setId(resultado.getInt(1));

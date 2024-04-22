@@ -11,18 +11,16 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
-import org.junit.jupiter.api.Test;
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class RegistroUniversidadControlador implements Initializable {
-
     @FXML
-    private Button btnRegistrar;
+    private Label txtObligatorioNombre;
+    @FXML
+    private Label txtObligatorioPais;
     @FXML
     private TextField tfNombre;
     @FXML
@@ -30,34 +28,28 @@ public class RegistroUniversidadControlador implements Initializable {
 
     @FXML
     void registrarUniversidad (ActionEvent event) {
+        if (!camposValidos()) {
+            return;
+        }
+
         Universidad universidad = new Universidad(tfNombre.getText());
         Pais pais = new Pais(cmbPaises.getValue());
-        int filasAfectadas = 0;
+        int filasAfectadas;
         DAOUniversidad daoUniversidad = new DAOUniversidad();
-        Alert mensaje;
 
         try {
             filasAfectadas = daoUniversidad.registrarUniversidad(universidad,pais);
         }
         catch (ErrorDAO error) {
-            mensaje = new Alert(Alert.AlertType.WARNING);
-            mensaje.setContentText(error.getMessage());
-            mensaje.setHeaderText(null);
-            mensaje.show();
+            mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.WARNING);
             return;
         }
 
         if (filasAfectadas == 1) {
-            mensaje = new Alert(Alert.AlertType.INFORMATION);
-            mensaje.setHeaderText(null);
-            mensaje.setContentText("Se ha registrado la universidad exitosamente");
-            mensaje.show();
+            mostrarMensajeEmergente("Se ha registrado la universidad exitosamente", Alert.AlertType.INFORMATION);
         }
         else {
-            mensaje = new Alert(Alert.AlertType.ERROR);
-            mensaje.setContentText("Ocurrió un error, intentelo de nuevo más tarde");
-            mensaje.setHeaderText(null);
-            mensaje.show();
+            mostrarMensajeEmergente("Algo salió mal. Intentelo de nuevo más tarde", Alert.AlertType.ERROR);
         }
     }
 
@@ -69,24 +61,31 @@ public class RegistroUniversidadControlador implements Initializable {
     @Override
     public void initialize (URL location, ResourceBundle resources) {
         DAOPais daoPais = new DAOPais();
-        List<String> listaPaises = null;
-
+        List<String> listaPaises;
         try {
             listaPaises = daoPais.getNombresPaisesAlfabeticamente();
         }
         catch (ErrorDAO error) {
-            Alert mensaje = new Alert(Alert.AlertType.ERROR);
-            mensaje.setContentText(error.getMessage());
-            mensaje.setHeaderText(null);
-            mensaje.show();
+            mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
+            return;
         }
-
         ObservableList<String> paisesObservable = FXCollections.observableArrayList(new ArrayList<>(listaPaises));
         cmbPaises.setItems(paisesObservable);
     }
 
-    public void mostrarMensajeEmergente (Error error, Alert.AlertType tipoAlerta) {
-        
+    public void mostrarMensajeEmergente (String mensaje, Alert.AlertType tipoAlerta) {
+        Alert alerta = new Alert(tipoAlerta);
+        alerta.setContentText(mensaje);
+        alerta.setHeaderText(null);
+        alerta.show();
+    }
+
+    public boolean camposValidos () {
+        boolean nombreValido = DAOUniversidad.cadenaValida(tfNombre.getText());
+        boolean paisValido = DAOUniversidad.cadenaValida(cmbPaises.getValue());
+        txtObligatorioNombre.setVisible(!nombreValido);
+        txtObligatorioPais.setVisible(!paisValido);
+        return nombreValido && paisValido;
     }
 
 }

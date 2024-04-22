@@ -169,7 +169,7 @@ public class UniversidadDB {
         return universidad;
     }
 
-    public static Universidad convertirResultSetAUniversidad (ResultSet resultado) throws SQLException {
+    private static Universidad convertirResultSetAUniversidad (ResultSet resultado) throws SQLException {
         Universidad universidad = new Universidad();
 
         universidad.setId(resultado.getInt(1));

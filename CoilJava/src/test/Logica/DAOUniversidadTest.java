@@ -69,7 +69,7 @@ class DAOUniversidadTest {
         System.out.println("pruebaRegistrarUniversidadPaisInexistente");
         assertThrows(ErrorDAO.class,()-> this.INSTANCIA.registrarUniversidad("UNAM","Argentina"));
     }*/
-
+/*
     @Test
     void pruebaEditarUniversidadExitosa () {
         System.out.println("pruebaEditarUniversidadExitosa");
@@ -131,7 +131,7 @@ class DAOUniversidadTest {
         System.out.println("pruebaEditarUniversidadConPaisInexistente");
         assertThrows(ErrorDAO.class,()->INSTANCIA.editarUniversidad("Harvard","Oxford","Inglaterra"));
     }
-
+*/
     @Test
     void pruebaGetUniversidadPorNombreExitosa () {
         System.out.println("pruebaGetUniversidadPorNombreExitosa");

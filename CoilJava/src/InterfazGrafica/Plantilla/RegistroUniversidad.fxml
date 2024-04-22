@@ -36,6 +36,16 @@
             <Font name="Berlin Sans FB" size="14.0" />
          </font>
       </Button>
+      <Label fx:id="txtObligatorioNombre" layoutX="102.0" layoutY="110.0" prefHeight="24.0" prefWidth="113.0" text="*Campo obligatorio" textFill="#fc0000" visible="false">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Label fx:id="txtObligatorioPais" layoutX="150.0" layoutY="217.0" prefHeight="24.0" prefWidth="113.0" text="*Campo obligatorio" textFill="#fc0000" visible="false">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
    </children>
    <opaqueInsets>
       <Insets />

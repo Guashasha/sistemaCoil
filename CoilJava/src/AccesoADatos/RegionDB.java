@@ -37,7 +37,7 @@ public class RegionDB {
         return listaRegiones;
     }
 
-    public static Region convertirResultSetARegion (ResultSet resultado) throws SQLException {
+    private static Region convertirResultSetARegion (ResultSet resultado) throws SQLException {
         Region region = new Region();
         region.setId(resultado.getInt(1));
         region.setNombre(resultado.getString(2));

@@ -22,7 +22,7 @@ public class DAOPais implements IPaisDAO {
             listaPaises = PaisDB.paisesAlfabeticamente();
         } catch (SQLException error) {
             bitacora.info(error.getMessage());
-            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
+            throw new ErrorDAO("Error al establecer conexión con la base de datos", ErrorDAO.Tipo.CONEXION);
         }
 
         for (Pais pais : listaPaises) {

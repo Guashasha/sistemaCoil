@@ -17,13 +17,15 @@ public class DAOUniversidad implements IUniversidadDAO {
 
     @Override
     public int registrarUniversidad (Universidad universidad, Pais pais) throws ErrorDAO {
-        String nombreUnivesidad = universidad.getNombre();
-        String nombrePais = pais.getNombre();
-        int filasAfectadas = 0;
+        String nombreUnivesidad = universidad.getNombre()
+                .trim();
+        String nombrePais = pais.getNombre()
+                .trim();
+        int filasAfectadas;
 
         if (validarCadenas(new String[]{nombreUnivesidad,nombrePais})) {
             if (universidadExiste(nombreUnivesidad,nombrePais)) {
-                throw new ErrorDAO("Intento de registro de universidad existente", ErrorDAO.Tipo.DUPLICIDAD);
+                throw new ErrorDAO("La universidad que intentas registrar ya ha sido registrada anteriormente", ErrorDAO.Tipo.DUPLICIDAD);
             }
             else {
                 try {
@@ -33,26 +35,35 @@ public class DAOUniversidad implements IUniversidadDAO {
                 }
                 catch (SQLException error) {
                     bitacora.info(error.getMessage());
-                    throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.INSERCION);
+                    throw new ErrorDAO("Error al establecer conexión con la base de datos", ErrorDAO.Tipo.CONEXION);
                 }
             }
+        }
+        else {
+            throw new ErrorDAO("Campos vacíos", ErrorDAO.Tipo.VALIDACION);
         }
 
         return filasAfectadas;
     }
 
     @Override
-    public int editarUniversidad (String nombreActual, String nuevoNombre, String nuevoPais) throws ErrorDAO {
+    public int editarUniversidad (Universidad universidadActual, Universidad nuevaUniversidad, Pais nuevoPais) throws ErrorDAO {
+        String nombreActual = universidadActual.getNombre()
+                .trim();
+        String nuevoNombre = nuevaUniversidad.getNombre()
+                .trim();
+        String nombreNuevoPais = nuevoPais.getNombre()
+                .trim();
         int filasAfectadas = 0;
 
-        if (validarCadenas(new String[]{nombreActual,nuevoNombre,nuevoPais})) {
-            if (universidadExiste(nuevoNombre,nuevoPais)) {
+        if (validarCadenas(new String[]{nombreActual,nuevoNombre,nombreNuevoPais})) {
+            if (universidadExiste(nuevoNombre,nombreNuevoPais)) {
                 throw new ErrorDAO("Intento de modificación de universidad con datos de universidad existente", ErrorDAO.Tipo.DUPLICIDAD);
             }
             else {
                 try {
                     Universidad universidad = UniversidadDB.getUniversidadPorNombre(nombreActual);
-                    Pais paisOrigen = PaisDB.getPaisPorNombre(nuevoPais);
+                    Pais paisOrigen = PaisDB.getPaisPorNombre(nombreNuevoPais);
                     universidad.setNombre(nuevoNombre);
                     universidad.setIdPais(paisOrigen.getId());
 
@@ -60,9 +71,12 @@ public class DAOUniversidad implements IUniversidadDAO {
                 }
                 catch (SQLException error) {
                     bitacora.info(error.getMessage());
-                    throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.MODIFICACION);
+                    throw new ErrorDAO("Error al establecer conexión con la base de datos", ErrorDAO.Tipo.CONEXION);
                 }
             }
+        }
+        else {
+            throw new ErrorDAO("Campos vacíos", ErrorDAO.Tipo.VALIDACION);
         }
 
         return filasAfectadas;
@@ -92,7 +106,7 @@ public class DAOUniversidad implements IUniversidadDAO {
             }
             catch (SQLException error) {
                 bitacora.info(error.getMessage());
-                throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
+                throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
             }
         }
         return listaUniversidades;
@@ -105,16 +119,16 @@ public class DAOUniversidad implements IUniversidadDAO {
         }
         catch (SQLException error) {
             bitacora.info(error.getMessage());
-            throw new ErrorDAO(error.getMessage(),ErrorDAO.Tipo.CONSULTA);
+            throw new ErrorDAO(error.getMessage(),ErrorDAO.Tipo.CONEXION);
         }
     }
 
-    public boolean esNulo (Object objeto) {
+    public static boolean esNulo (Object objeto) {
         return Optional.ofNullable(objeto)
                 .isEmpty();
     }
 
-    public boolean cadenaValida (String cadena) {
+    public static boolean cadenaValida (String cadena) {
         return !esNulo(cadena) && !cadena.isBlank();
     }
 
@@ -127,7 +141,7 @@ public class DAOUniversidad implements IUniversidadDAO {
         }
         catch (SQLException error) {
             bitacora.info(error.getMessage());
-            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
+            throw new ErrorDAO("Error al establecer conexión con la base de datos", ErrorDAO.Tipo.CONEXION);
         }
 
         if (universidadEncontrada.getId() > 0) {
@@ -137,7 +151,7 @@ public class DAOUniversidad implements IUniversidadDAO {
         return existe;
     }
 
-    public boolean validarCadenas (String[] cadenas) {
+    public static boolean validarCadenas (String[] cadenas) {
         boolean validas = true;
         int i = 0;
 
