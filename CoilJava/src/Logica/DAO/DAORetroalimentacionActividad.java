@@ -1,6 +1,5 @@
 package Logica.DAO;
 
-import AccesoADatos.ActividadDB;
 import AccesoADatos.RetroalimentacionActividadDB;
 import Logica.Dominio.Actividad;
 import Logica.Dominio.RetroalimentacionActividad;
@@ -72,11 +71,11 @@ public class DAORetroalimentacionActividad implements IRetroalimentacionActivida
         RetroalimentacionActividad objRetroalimentacion = null;
 
         try {
-            if (rsRetroalimentacion.next()) {
+            if (rsRetroalimentacion != null && rsRetroalimentacion.next()) {
                 objRetroalimentacion = resultSetAObjeto(rsRetroalimentacion);
-            }
 
-            rsRetroalimentacion.close();
+                rsRetroalimentacion.close();
+            }
         }
         catch (SQLException error) {
             BITACORA.error(error);
@@ -87,7 +86,6 @@ public class DAORetroalimentacionActividad implements IRetroalimentacionActivida
 
     @Override
     public List<RetroalimentacionActividad> getTodos () throws ErrorDAO {
-        ArrayList<RetroalimentacionActividad> retroalimentaciones = new ArrayList<>();
         ResultSet resultsRetroalimentaciones = null;
 
         try {
@@ -95,6 +93,12 @@ public class DAORetroalimentacionActividad implements IRetroalimentacionActivida
         }
         catch (SQLException error) {
             BITACORA.error(error);
+        }
+
+        ArrayList<RetroalimentacionActividad> retroalimentaciones = new ArrayList<>();
+
+        if (resultsRetroalimentaciones == null) {
+            return retroalimentaciones;
         }
 
         try {
@@ -126,19 +130,20 @@ public class DAORetroalimentacionActividad implements IRetroalimentacionActivida
         try {
             resultados = RetroalimentacionActividadDB.getPorPersonaYActividad(idPersona, idActividad);
         }
-        catch(SQLException error) {
+        catch (SQLException error) {
             BITACORA.error(error);
         }
 
         RetroalimentacionActividad retroalimentacion = null;
 
         try {
-            if (resultados.next()) {
+            if (resultados != null && resultados.next()) {
                 retroalimentacion = resultSetAObjeto(resultados);
-            }
 
-            resultados.close();
-        } catch (SQLException error) {
+                resultados.close();
+            }
+        }
+        catch (SQLException error) {
             BITACORA.error(error);
         }
 
