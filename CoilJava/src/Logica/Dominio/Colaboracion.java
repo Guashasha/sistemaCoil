@@ -1,7 +1,5 @@
 package Logica.Dominio;
 
-import java.sql.Date;
-
 public class Colaboracion {
     public enum TipoColaboracion {
         claseEspejo,
@@ -90,7 +88,7 @@ public class Colaboracion {
         this.estado = estado;
     }
 
-    public boolean validarNulos() {
+    public boolean esValido () {
         return tipo != null &&
                 estado != null &&
                 cadenaValida(temaInteres) &&
