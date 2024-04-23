@@ -10,13 +10,12 @@ public class Periodo {
     private LocalDate fechaFin;
 
     public Periodo (LocalDate fechaInicio, LocalDate fechaFinal) throws ErrorDAO {
-        if (fechaInicio.isBefore(fechaFinal)) {
-            this.fechaInicio = fechaInicio;
-            this.fechaFin = fechaFinal;
-        }
-        else {
+        if (fechaInicio.isAfter(fechaFinal)) {
             throw new ErrorDAO("La fecha final no puede ser antes que la fecha de inicio", ErrorDAO.Tipo.VALIDACION);
         }
+        
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFinal;
     }
 
     public Periodo () {}
