@@ -7,6 +7,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class windowRegistroUniversidad extends Application {
+    public static void main (String[] args) {
+        launch();
+    }
 
     @Override
     public void start(Stage primatyStage) throws Exception {
@@ -14,9 +17,5 @@ public class windowRegistroUniversidad extends Application {
         primatyStage.setTitle("Registro de institución universitaria");
         primatyStage.setScene(new Scene(root));
         primatyStage.show();
-    }
-
-    public static void main (String[] args) {
-        launch();
     }
 }

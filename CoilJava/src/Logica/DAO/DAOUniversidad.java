@@ -17,13 +17,14 @@ public class DAOUniversidad implements IUniversidadDAO {
 
     @Override
     public int registrarUniversidad (Universidad universidad, Pais pais) throws ErrorDAO {
-        String nombreUnivesidad = universidad.getNombre()
-                .trim();
-        String nombrePais = pais.getNombre()
-                .trim();
         int filasAfectadas;
 
-        if (validarCadenas(new String[]{nombreUnivesidad,nombrePais})) {
+        if (validarCadenas(new String[]{universidad.getNombre(), pais.getNombre()})) {
+            String nombreUnivesidad = universidad.getNombre()
+                    .trim();
+            String nombrePais = pais.getNombre()
+                    .trim();
+
             if (universidadExiste(nombreUnivesidad,nombrePais)) {
                 throw new ErrorDAO("La universidad que intentas registrar ya ha sido registrada anteriormente", ErrorDAO.Tipo.DUPLICIDAD);
             }
@@ -48,15 +49,16 @@ public class DAOUniversidad implements IUniversidadDAO {
 
     @Override
     public int editarUniversidad (Universidad universidadActual, Universidad nuevaUniversidad, Pais nuevoPais) throws ErrorDAO {
-        String nombreActual = universidadActual.getNombre()
-                .trim();
-        String nuevoNombre = nuevaUniversidad.getNombre()
-                .trim();
-        String nombreNuevoPais = nuevoPais.getNombre()
-                .trim();
-        int filasAfectadas = 0;
+        int filasAfectadas;
 
-        if (validarCadenas(new String[]{nombreActual,nuevoNombre,nombreNuevoPais})) {
+        if (validarCadenas(new String[]{universidadActual.getNombre(),nuevaUniversidad.getNombre(),nuevoPais.getNombre()})) {
+            String nombreActual = universidadActual.getNombre()
+                    .trim();
+            String nuevoNombre = nuevaUniversidad.getNombre()
+                    .trim();
+            String nombreNuevoPais = nuevoPais.getNombre()
+                    .trim();
+
             if (universidadExiste(nuevoNombre,nombreNuevoPais)) {
                 throw new ErrorDAO("Intento de modificación de universidad con datos de universidad existente", ErrorDAO.Tipo.DUPLICIDAD);
             }
@@ -85,9 +87,9 @@ public class DAOUniversidad implements IUniversidadDAO {
     @Override
     public Optional<Universidad> getUniversidadPorNombre (String nombre) throws ErrorDAO {
         Universidad universidad = null;
-        if (cadenaValida(nombre)) {
+        if (cadenaValida(nombre.trim())) {
             try {
-                universidad = UniversidadDB.getUniversidadPorNombre(nombre);
+                universidad = UniversidadDB.getUniversidadPorNombre(nombre.trim());
             }
             catch (SQLException error) {
                 bitacora.info(error.getMessage());
@@ -100,9 +102,9 @@ public class DAOUniversidad implements IUniversidadDAO {
     @Override
     public List<Universidad> getUniversidadesPorPaisOrigen (String paisOrigen) throws ErrorDAO {
         List<Universidad> listaUniversidades = new ArrayList<>();
-        if (cadenaValida(paisOrigen)) {
+        if (cadenaValida(paisOrigen.trim())) {
             try {
-                listaUniversidades = UniversidadDB.getUniversidadesPorPaisOrigen(paisOrigen);
+                listaUniversidades = UniversidadDB.getUniversidadesPorPaisOrigen(paisOrigen.trim());
             }
             catch (SQLException error) {
                 bitacora.info(error.getMessage());
