@@ -34,6 +34,7 @@ public class DAOActividad implements IActividadDAO {
         }
         catch (SQLException error) {
             BITACORA.error(error);
+            throw new ErrorDAO("Ocurrió un error con la base de datos: " + error.getMessage(), Tipo.CONEXION);
         }
 
         return resultado;
@@ -56,6 +57,7 @@ public class DAOActividad implements IActividadDAO {
         }
         catch (SQLException error) {
             BITACORA.error(error);
+            throw new ErrorDAO("Ocurrió un error con la base de datos: " + error.getMessage(), Tipo.CONEXION);
         }
 
         return resultado;
@@ -70,6 +72,7 @@ public class DAOActividad implements IActividadDAO {
         }
         catch (SQLException error) {
             BITACORA.error(error);
+            throw new ErrorDAO("Ocurrió un error con la base de datos: " + error.getMessage(), Tipo.CONEXION);
         }
 
         Actividad actividad = null;
@@ -98,6 +101,7 @@ public class DAOActividad implements IActividadDAO {
         }
         catch (SQLException error) {
             BITACORA.error(error);
+            throw new ErrorDAO("Ocurrió un error con la base de datos: " + error.getMessage(), Tipo.CONEXION);
         }
 
         Actividad actividad = null;
@@ -111,6 +115,7 @@ public class DAOActividad implements IActividadDAO {
         }
         catch (SQLException error) {
             BITACORA.error(error);
+            throw new ErrorDAO("Ocurrió un error con la base de datos: " + error.getMessage(), Tipo.CONEXION);
         }
 
         return Optional.ofNullable(actividad);
@@ -125,6 +130,7 @@ public class DAOActividad implements IActividadDAO {
         }
         catch (SQLException error) {
             BITACORA.error(error);
+            throw new ErrorDAO("Ocurrió un error con la base de datos: " + error.getMessage(), Tipo.CONEXION);
         }
 
         List<Actividad> actividades = new ArrayList<>();
@@ -146,6 +152,7 @@ public class DAOActividad implements IActividadDAO {
         }
         catch (SQLException error) {
             BITACORA.error(error);
+            throw new ErrorDAO("Ocurrió un error con la base de datos: " + error.getMessage(), Tipo.CONEXION);
         }
 
         return actividades;
@@ -164,6 +171,7 @@ public class DAOActividad implements IActividadDAO {
         }
         catch (SQLException error) {
             BITACORA.error(error);
+            throw new ErrorDAO("Ocurrió un error con la base de datos: " + error.getMessage(), Tipo.CONEXION);
         }
 
         return actividad;

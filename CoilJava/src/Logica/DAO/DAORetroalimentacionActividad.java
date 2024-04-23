@@ -1,6 +1,5 @@
 package Logica.DAO;
 
-import AccesoADatos.ActividadDB;
 import AccesoADatos.RetroalimentacionActividadDB;
 import Logica.Dominio.Actividad;
 import Logica.Dominio.RetroalimentacionActividad;
@@ -131,7 +130,7 @@ public class DAORetroalimentacionActividad implements IRetroalimentacionActivida
         try {
             resultados = RetroalimentacionActividadDB.getPorPersonaYActividad(idPersona, idActividad);
         }
-        catch(SQLException error) {
+        catch (SQLException error) {
             BITACORA.error(error);
         }
 
@@ -143,7 +142,8 @@ public class DAORetroalimentacionActividad implements IRetroalimentacionActivida
 
                 resultados.close();
             }
-        } catch (SQLException error) {
+        }
+        catch (SQLException error) {
             BITACORA.error(error);
         }
 
