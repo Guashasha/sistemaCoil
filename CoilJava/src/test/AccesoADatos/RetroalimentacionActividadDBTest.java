@@ -99,12 +99,11 @@ public class RetroalimentacionActividadDBTest {
 
         try {
             RetroalimentacionActividadDB.agregarRetroalimentacion(retroalimentacion);
+            fail();
         }
         catch (SQLException error) {
-            assert(true);
+            assertEquals(1452, error.getErrorCode());
         }
-
-        fail();
     }
 
     @Test
@@ -182,10 +181,15 @@ public class RetroalimentacionActividadDBTest {
         try {
             resultado = RetroalimentacionActividadDB.getPorPersonaYActividad(1, 9);
         } catch (SQLException e) {
-            assert(true);
+            fail();
         }
 
-        fail();
+        try {
+            assert(!resultado.next());
+        }
+        catch (Exception _e) {
+            fail();
+        }
     }
 
     @Test
@@ -194,9 +198,15 @@ public class RetroalimentacionActividadDBTest {
 
         try {
             resultado = RetroalimentacionActividadDB.getPorPersonaYActividad(16, 1);
-            fail();
         } catch (SQLException e) {
-            assert(true);
+            fail();
+        }
+
+        try {
+            assert(!resultado.next());
+        }
+        catch (Exception _e) {
+            fail();
         }
     }
 }

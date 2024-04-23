@@ -31,8 +31,8 @@ public class DAORetroalimentacionColaboracion implements IRetroalimentacionColab
 
         if (colaboracion.isEmpty()) {
             throw new ErrorDAO("La colaboración no existe", Tipo.CONSULTA);
-        }
-        else if (colaboracion.get().getEstado() != Colaboracion.EstadoColaboracion.enRevision) {
+        } else if (colaboracion.get()
+                .getEstado() != Colaboracion.EstadoColaboracion.enRevision) {
             throw new ErrorDAO("La colaboración no puede ser evaluada aún", Tipo.VALIDACION);
         }
 
@@ -71,11 +71,11 @@ public class DAORetroalimentacionColaboracion implements IRetroalimentacionColab
         RetroalimentacionColaboracion retroalimentacionObj = null;
 
         try {
-            if (retroalimentacion.next()) {
+            if (retroalimentacion != null && retroalimentacion.next()) {
                 retroalimentacionObj = resultSetAObjeto(retroalimentacion);
-            }
 
-            retroalimentacion.close();
+                retroalimentacion.close();
+            }
         }
         catch (SQLException error) {
             BITACORA.error(error);
@@ -101,11 +101,11 @@ public class DAORetroalimentacionColaboracion implements IRetroalimentacionColab
         RetroalimentacionColaboracion retroalimentacionObj = null;
 
         try {
-            if (retroalimentacion.next()) {
+            if (retroalimentacion != null && retroalimentacion.next()) {
                 retroalimentacionObj = resultSetAObjeto(retroalimentacion);
-            }
 
-            retroalimentacion.close();
+                retroalimentacion.close();
+            }
         }
         catch (SQLException error) {
             BITACORA.error(error);
@@ -126,6 +126,10 @@ public class DAORetroalimentacionColaboracion implements IRetroalimentacionColab
         }
 
         List<RetroalimentacionColaboracion> retroalimentaciones = new ArrayList<>();
+
+        if (resultados == null) {
+            return retroalimentaciones;
+        }
 
         try {
             while (resultados.next()) {
