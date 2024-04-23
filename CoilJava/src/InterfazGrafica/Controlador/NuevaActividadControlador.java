@@ -2,6 +2,7 @@ package InterfazGrafica.Controlador;
 
 import Logica.DAO.DAOActividad;
 import Logica.Dominio.Actividad;
+import Logica.Dominio.Periodo;
 import Logica.ErrorDAO;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -9,21 +10,33 @@ import javafx.scene.control.*;
 import java.time.LocalDate;
 
 public class NuevaActividadControlador {
-    @FXML private Button btnAceptar = new Button();
-    @FXML private Button btnCancelar = new Button();
-    @FXML private ToggleGroup tgTipoActividad = new ToggleGroup();
-    @FXML private DatePicker dpFechaInicio = new DatePicker();
-    @FXML private DatePicker dpFechaFin = new DatePicker();
-    @FXML private TextField tfDescripcion = new TextField();
-    @FXML private TextField tfTitulo = new TextField();
+    @FXML
+    private Button btnAceptar = new Button();
+    @FXML
+    private Button btnCancelar = new Button();
+    @FXML
+    private ToggleGroup tgTipoActividad = new ToggleGroup();
+    @FXML
+    private DatePicker dpFechaInicio = new DatePicker();
+    @FXML
+    private DatePicker dpFechaFin = new DatePicker();
+    @FXML
+    private TextField tfDescripcion = new TextField();
+    @FXML
+    private TextField tfTitulo = new TextField();
 
     private boolean camposInvalidos () {
-        return tfTitulo.getText().isBlank() ||
-                tfDescripcion.getText().isBlank() ||
+        return tfTitulo.getText()
+                .isBlank() ||
+                tfDescripcion.getText()
+                        .isBlank() ||
                 tgTipoActividad.getSelectedToggle() == null ||
                 dpFechaFin.getValue() == null ||
-                dpFechaInicio.getValue() == null;
+                dpFechaInicio.getValue() == null ||
+                dpFechaInicio.getValue()
+                        .isAfter(dpFechaFin.getValue());
     }
+
     public void agregarActividad () {
         if (camposInvalidos()) {
             Alert errorAlert = new Alert(Alert.AlertType.ERROR);
@@ -42,6 +55,8 @@ public class NuevaActividadControlador {
         LocalDate fechaInicio = dpFechaInicio.getValue();
         LocalDate fechaFin = dpFechaFin.getValue();
 
+        Periodo periodo = new Periodo(fechaInicio, fechaFin);
+
         Actividad actividad = new Actividad(titulo, descripcion, tipo);
 
         DAOActividad dao = new DAOActividad();
@@ -51,7 +66,7 @@ public class NuevaActividadControlador {
             resultado = dao.agregar(actividad);
         }
         catch (ErrorDAO error) {
-            Alert errorAlert = errorAlert = new Alert(Alert.AlertType.ERROR);
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
 
             switch (error.getTipo()) {
                 case VALIDACION:
@@ -85,8 +100,7 @@ public class NuevaActividadControlador {
             errorAlert.setHeaderText("Actividad agregada correctamente");
             errorAlert.setContentText("La actividad se encuentra ahora en su cronograma de actividades");
             errorAlert.showAndWait();
-        }
-        else {
+        } else {
             Alert errorAlert = new Alert(Alert.AlertType.ERROR);
             errorAlert.setHeaderText("Error al agregar");
             errorAlert.setContentText("Ocurrió un error al agregar la actividad");
