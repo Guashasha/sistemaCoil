@@ -34,6 +34,7 @@ public class DAOActividad implements IActividadDAO {
         }
         catch (SQLException error) {
             BITACORA.error(error);
+            throw new ErrorDAO("Ocurrió un error con la base de datos: " + error.getMessage(), Tipo.CONEXION);
         }
 
         return resultado;
@@ -56,6 +57,7 @@ public class DAOActividad implements IActividadDAO {
         }
         catch (SQLException error) {
             BITACORA.error(error);
+            throw new ErrorDAO("Ocurrió un error con la base de datos: " + error.getMessage(), Tipo.CONEXION);
         }
 
         return resultado;
@@ -70,16 +72,18 @@ public class DAOActividad implements IActividadDAO {
         }
         catch (SQLException error) {
             BITACORA.error(error);
+            throw new ErrorDAO("Ocurrió un error con la base de datos: " + error.getMessage(), Tipo.CONEXION);
         }
 
         Actividad actividad = null;
 
         try {
-            if (resultado.next()) {
+            if (resultado != null && resultado.next()) {
                 actividad = resultSetAObjeto(resultado);
+
+                resultado.close();
             }
 
-            resultado.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -97,19 +101,21 @@ public class DAOActividad implements IActividadDAO {
         }
         catch (SQLException error) {
             BITACORA.error(error);
+            throw new ErrorDAO("Ocurrió un error con la base de datos: " + error.getMessage(), Tipo.CONEXION);
         }
 
         Actividad actividad = null;
 
         try {
-            if (resultado.next()) {
+            if (resultado != null && resultado.next()) {
                 actividad = resultSetAObjeto(resultado);
-            }
 
-            resultado.close();
+                resultado.close();
+            }
         }
         catch (SQLException error) {
             BITACORA.error(error);
+            throw new ErrorDAO("Ocurrió un error con la base de datos: " + error.getMessage(), Tipo.CONEXION);
         }
 
         return Optional.ofNullable(actividad);
@@ -124,9 +130,14 @@ public class DAOActividad implements IActividadDAO {
         }
         catch (SQLException error) {
             BITACORA.error(error);
+            throw new ErrorDAO("Ocurrió un error con la base de datos: " + error.getMessage(), Tipo.CONEXION);
         }
 
         List<Actividad> actividades = new ArrayList<>();
+
+        if (resultados == null) {
+            return actividades;
+        }
 
         try {
             while (resultados.next()) {
@@ -141,6 +152,7 @@ public class DAOActividad implements IActividadDAO {
         }
         catch (SQLException error) {
             BITACORA.error(error);
+            throw new ErrorDAO("Ocurrió un error con la base de datos: " + error.getMessage(), Tipo.CONEXION);
         }
 
         return actividades;
@@ -159,6 +171,7 @@ public class DAOActividad implements IActividadDAO {
         }
         catch (SQLException error) {
             BITACORA.error(error);
+            throw new ErrorDAO("Ocurrió un error con la base de datos: " + error.getMessage(), Tipo.CONEXION);
         }
 
         return actividad;

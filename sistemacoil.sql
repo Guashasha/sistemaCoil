@@ -116,7 +116,7 @@ CREATE TABLE `actividad` (
   `idActividad` int PRIMARY KEY AUTO_INCREMENT,
   `titulo` varchar(50) NOT NULL,
   `descripcion` varchar(200) NOT NULL,
-  `tipo` ENUM ('rompehielo', 'intercultural', 'disciplinar', 'cierre') NOT NULL
+  `tipo` ENUM ('rompeHielo', 'intercultural', 'disciplinar', 'cierre') NOT NULL
 );
 
 CREATE TABLE pais (

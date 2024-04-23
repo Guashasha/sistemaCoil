@@ -15,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 public class DAOActividadTest {
     @BeforeAll
     public static void setUp () {
+        ConfiguracionPrueba.borrarDatosTablaRetroalimentacionActividad();
         ConfiguracionPrueba.borrarDatosTablaActividad();
         Actividad actividad = new Actividad("titulo 1", "descripcion 1", Actividad.TipoActividad.rompeHielo);
         Actividad actividad2 = new Actividad("titulo 2", "descripcion 2", Actividad.TipoActividad.cierre);
@@ -78,21 +79,62 @@ public class DAOActividadTest {
     public void pruebaGetPorIdInexistente () {
         DAOActividad act = new DAOActividad();
 
+        Optional<Actividad> resultado = null;
+
         try {
-            act.getPorId(500);
+            resultado = act.getPorId(500);
         }
         catch (ErrorDAO error) {
+            fail();
+        }
+
+        assert(resultado.isEmpty());
+    }
+
+    @Test
+    public void pruebaGetPorTitulo () {
+        Actividad actividad = new Actividad("titulo 1", "descripcion 1", Actividad.TipoActividad.rompeHielo);
+
+        DAOActividad act = new DAOActividad();
+        Optional<Actividad> resultado = Optional.empty();
+
+        try {
+            resultado = act.getPorTitulo("titulo 1");
+        }
+        catch (ErrorDAO error) {
+            fail();
+        }
+
+        if (resultado.isPresent()) {
+            assertEquals(actividad, resultado.get());
+        }
+        else {
             fail();
         }
     }
 
     @Test
-    public void pruebaGetPorTitulo () {
+    public void pruebaGetPorTituloInexistente () {
+        DAOActividad act = new DAOActividad();
+        Optional<Actividad> resultado = Optional.empty();
 
+        try {
+            resultado = act.getPorTitulo("titulo 391");
+        }
+        catch (ErrorDAO error) {
+            fail();
+        }
+
+        assert(resultado.isEmpty());
     }
 
     @Test
     public void pruebaModificar () {
+
+    }
+
+    @Test
+    public void pruebaGetTodos () {
 
     }
 }
