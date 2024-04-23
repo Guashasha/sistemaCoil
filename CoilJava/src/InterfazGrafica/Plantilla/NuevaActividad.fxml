@@ -9,7 +9,7 @@
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.Controlador.NuevaActividadControlador">
    <children>
       <Button fx:id="btnAceptar" layoutX="396.0" layoutY="340.0" mnemonicParsing="false" onAction="#agregarActividad" text="Aceptar" />
-      <Button fx:id="btnCancelar" layoutX="494.0" layoutY="340.0" mnemonicParsing="false" text="Cancelar" />
+      <Button fx:id="btnCancelar" layoutX="494.0" layoutY="340.0" mnemonicParsing="false" onAction="#cerrarVentana" text="Cancelar" />
       <VBox layoutX="40.0" layoutY="70.0" prefHeight="330.0" prefWidth="200.0">
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Titulo" />
