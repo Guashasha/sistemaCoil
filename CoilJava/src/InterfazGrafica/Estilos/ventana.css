@@ -1,0 +1,14 @@
+.root {
+    -fx-background-color: #EBFCFF;
+    -fx-background-radius: 20;
+}
+
+.button-principal {
+    -fx-font: bold 14px "System";
+    -fx-background-color: #FA790F;
+}
+
+.button-secundario {
+    -fx-font: 14px "System";
+    -fx-background-color: #E7C736;
+}
