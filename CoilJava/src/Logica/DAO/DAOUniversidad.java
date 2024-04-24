@@ -60,7 +60,7 @@ public class DAOUniversidad implements IUniversidadDAO {
                     .trim();
 
             if (universidadExiste(nuevoNombre,nombreNuevoPais)) {
-                throw new ErrorDAO("Intento de modificación de universidad con datos de universidad existente", ErrorDAO.Tipo.DUPLICIDAD);
+                throw new ErrorDAO("La institución " + nuevoNombre + " ya existe", ErrorDAO.Tipo.DUPLICIDAD);
             }
             else {
                 try {
@@ -125,15 +125,6 @@ public class DAOUniversidad implements IUniversidadDAO {
         }
     }
 
-    public static boolean esNulo (Object objeto) {
-        return Optional.ofNullable(objeto)
-                .isEmpty();
-    }
-
-    public static boolean cadenaValida (String cadena) {
-        return !esNulo(cadena) && !cadena.isBlank();
-    }
-
     public boolean universidadExiste (String universidad, String pais) throws ErrorDAO {
         boolean existe = false;
         Universidad universidadEncontrada;
@@ -151,6 +142,15 @@ public class DAOUniversidad implements IUniversidadDAO {
         }
 
         return existe;
+    }
+
+    public static boolean esNulo (Object objeto) {
+        return Optional.ofNullable(objeto)
+                .isEmpty();
+    }
+
+    public static boolean cadenaValida (String cadena) {
+        return !esNulo(cadena) && !cadena.isBlank();
     }
 
     public static boolean validarCadenas (String[] cadenas) {

@@ -37,7 +37,7 @@ public class DAOPais implements IPaisDAO {
         Pais pais = null;
         if (Optional.ofNullable(nombre).isPresent() && !nombre.isBlank()) {
             try {
-                pais = PaisDB.getPaisPorNombre(nombre);
+                pais = PaisDB.getPaisPorNombre(nombre.trim());
             } catch (SQLException error) {
                 bitacora.info(error.getMessage());
                 throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
