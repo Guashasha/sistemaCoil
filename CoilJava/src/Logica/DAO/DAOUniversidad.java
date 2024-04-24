@@ -109,6 +109,21 @@ public class DAOUniversidad implements IUniversidadDAO {
         }
     }
 
+    @Override
+    public Optional<Universidad> getUniversidadPorId (int id) throws ErrorDAO {
+        Universidad universidad = null;
+        if (id > 0) {
+            try {
+                universidad = UniversidadDB.getUniversidadPorId(id);
+            }
+            catch (SQLException error) {
+                bitacora.info(error.getMessage());
+                throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
+            }
+        }
+        return Optional.ofNullable(universidad);
+    }
+
     public boolean esNulo (Object objeto) {
         return Optional.ofNullable(objeto)
                 .isEmpty();
