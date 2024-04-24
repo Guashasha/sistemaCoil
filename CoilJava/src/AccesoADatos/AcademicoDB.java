@@ -167,6 +167,7 @@ public class AcademicoDB {
     }
 
 
+
     public static int editarAcademico (Academico academico) throws SQLException {
         int resultado = -1;
         String procedimientoSQL = "{CALL editar_academico(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";

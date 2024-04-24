@@ -184,7 +184,7 @@ public class DAOColaboracion implements IColaboracionDAO {
 
     @Override
     public int agregar (Colaboracion colaboracion) throws ErrorDAO {
-        if (!colaboracion.validarNulos()) {
+        if (!colaboracion.esValido()) {
             throw new ErrorDAO("Al menos un dato de la colaboracion esta vacia", ErrorDAO.Tipo.VALIDACION);
         }
         int filasAfectadas = 0;
@@ -199,7 +199,7 @@ public class DAOColaboracion implements IColaboracionDAO {
 
     @Override
     public int modificar (Colaboracion colaboracion) throws ErrorDAO {
-        if (!colaboracion.validarNulos()) {
+        if (!colaboracion.esValido()) {
             throw new ErrorDAO("Al menos un dato de la colaboracion esta vacio", ErrorDAO.Tipo.VALIDACION);
         }
         int filasAfectadas = 0;
