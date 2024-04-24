@@ -3,5 +3,12 @@
     -fx-background-radius: 20;
 }
 
-.text-field {
+.button-principal {
+    -fx-font: bold 14px "System";
+    -fx-background-color: #FA790F;
+}
+
+.button-secundario {
+    -fx-font: 14px "System";
+    -fx-background-color: #E7C736;
 }

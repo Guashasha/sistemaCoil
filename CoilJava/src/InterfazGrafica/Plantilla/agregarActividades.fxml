@@ -3,19 +3,9 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
-<SplitPane dividerPositions="0.8618090452261307" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+<SplitPane fx:id="spVerActividades" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
   <items>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="50.0" prefWidth="160.0">
-         <children>
-            <Text layoutX="38.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cronograma de actividades">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Text>
-            <VBox layoutX="14.0" layoutY="52.0" prefHeight="277.0" prefWidth="569.0" />
-         </children></AnchorPane>
       <GridPane>
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="433.0" minWidth="10.0" prefWidth="137.0" />
