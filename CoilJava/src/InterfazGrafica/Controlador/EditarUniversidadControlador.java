@@ -25,8 +25,8 @@ import java.util.ResourceBundle;
 
 public class EditarUniversidadControlador extends Application implements Initializable {
     private static final Logger BITACORA = Logger.getLogger(NuevaActividadControlador.class);
-    private Universidad universidadActual;
-    private Pais paisActual;
+    private Universidad universidadActual = new Universidad("Universidad Veracruzana");;
+    private Pais paisActual = new Pais("México");
     @FXML
     private Label txtObligatorioNombre;
     @FXML
@@ -39,21 +39,11 @@ public class EditarUniversidadControlador extends Application implements Initial
     private Button btnCancelar;
 
     public void setUniversidadActual (Universidad universidadActual) {
-        if (paisActual != null) {
-            this.universidadActual = universidadActual;
-        }
-        else {
-            cancelarEdicion();
-        }
+        this.universidadActual = universidadActual;
     }
 
     public void setPaisActual (Pais paisActual) {
-        if (paisActual != null) {
-            this.paisActual = paisActual;
-        }
-        else {
-            cancelarEdicion();
-        }
+        this.paisActual = paisActual;
     }
 
     public static void main (String[] args) {
@@ -62,8 +52,6 @@ public class EditarUniversidadControlador extends Application implements Initial
 
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle) {
-        universidadActual = new Universidad("Universidad Veracruzana");
-        paisActual = new Pais("México");
         llenarComboBoxPaises();
         autocompletarCampos();
     }
@@ -81,16 +69,22 @@ public class EditarUniversidadControlador extends Application implements Initial
 
         if (root != null) {
             stage.initStyle(StageStyle.TRANSPARENT);
-
             Scene escena = new Scene(root);
-            escena.getStylesheets().add("InterfazGrafica/Estilos/ventana.css");
-
             stage.setScene(escena);
             stage.show();
         }
         else {
             BITACORA.error("Ocurrió un error al iniciar la ventana windowEditarUniversidad");
         }
+
+        if (!objetosValidos()) {
+            mostrarMensajeEmergente("Algo salió mal. Vuelva a intentarlo más tarde", Alert.AlertType.ERROR);
+            stage.close();
+        }
+    }
+
+    public boolean objetosValidos () {
+        return this.universidadActual != null && this.paisActual != null;
     }
 
     @FXML
@@ -110,6 +104,8 @@ public class EditarUniversidadControlador extends Application implements Initial
             }
 
             if (filasAfectadas == 1) {
+                this.universidadActual.setNombre(universidad.getNombre());
+                this.paisActual.setNombre(pais.getNombre());
                 mostrarMensajeEmergente("Se han guardado los cambios exitosamente", Alert.AlertType.INFORMATION);
             }
             else {

@@ -20,7 +20,6 @@ import javafx.stage.StageStyle;
 import org.apache.log4j.Logger;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -59,10 +58,7 @@ public class RegistroUniversidadControlador extends Application implements Initi
 
         if (root != null) {
             stage.initStyle(StageStyle.TRANSPARENT);
-
             Scene escena = new Scene(root);
-            escena.getStylesheets().add("InterfazGrafica/Estilos/ventana.css");
-
             stage.setScene(escena);
             stage.show();
         }

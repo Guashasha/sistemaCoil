@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="395.0" prefWidth="515.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.Controlador.RegistroUniversidadControlador">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="395.0" prefWidth="515.0" styleClass="root" stylesheets="@../Estilos/ventana.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.Controlador.RegistroUniversidadControlador">
    <children>
       <Text fx:id="Titulo" layoutX="91.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Registro de universidad">
          <font>
@@ -27,8 +27,8 @@
       </Text>
       <TextField fx:id="tfNombre" layoutX="32.0" layoutY="131.0" prefHeight="40.0" prefWidth="462.0" promptText="Nombre de la institución universitaria" />
       <ComboBox fx:id="cmbPaises" layoutX="32.0" layoutY="247.0" prefHeight="40.0" prefWidth="462.0" />
-      <Button layoutX="337.0" layoutY="343.0" mnemonicParsing="false" onAction="#registrarUniversidad" text="Registrar" />
-      <Button fx:id="btnCancelar" layoutX="425.0" layoutY="343.0" mnemonicParsing="false" onAction="#cancelarRegistro" text="Cancelar" />
+      <Button layoutX="327.0" layoutY="343.0" mnemonicParsing="false" onAction="#registrarUniversidad" styleClass="button-principal" stylesheets="@../Estilos/ventana.css" text="Registrar" />
+      <Button fx:id="btnCancelar" layoutX="421.0" layoutY="343.0" mnemonicParsing="false" onAction="#cancelarRegistro" styleClass="button-secundario" text="Cancelar" />
       <Text fill="RED" layoutX="112.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*Campo obligatorio" visible="false" />
       <Label fx:id="txtObligatorioNombre" layoutX="112.0" layoutY="101.0" text="*Campo obligatorio" textFill="RED" visible="false" />
       <Label fx:id="txtObligatorioPais" layoutX="74.0" layoutY="217.0" text="*Campo obligatorio" textFill="RED" visible="false" />
