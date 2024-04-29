@@ -25,13 +25,12 @@ public class RegionDB {
             while (resultadoConsulta.next()) {
                 listaRegiones.add(convertirResultSetARegion(resultadoConsulta));
             }
-        } catch (SQLException error) {
-            throw error;
-        }
-        finally {
             consultaRegiones.close();
             resultadoConsulta.close();
             CONEXION_BASE_DATOS.desconectar();
+        }
+        catch (SQLException error) {
+            throw error;
         }
 
         return listaRegiones;

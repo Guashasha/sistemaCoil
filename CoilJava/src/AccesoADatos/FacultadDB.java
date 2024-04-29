@@ -26,14 +26,12 @@ public class FacultadDB {
             if (resultadoConsulta.next()) {
                 facultad = convertirResultSetAFacultad(resultadoConsulta);
             }
-        }
-        catch (SQLException error) {
-            throw error;
-        }
-        finally {
             consultaUniversidad.close();
             resultadoConsulta.close();
             CONEXION_BASE_DATOS.desconectar();
+        }
+        catch (SQLException error) {
+            throw error;
         }
 
         return facultad;
@@ -54,13 +52,12 @@ public class FacultadDB {
             while (resultadoConsulta.next()) {
                 listaFacultades.add(convertirResultSetAFacultad(resultadoConsulta));
             }
-        } catch (SQLException error) {
-            throw error;
-        }
-        finally {
             consultaFacultades.close();
             resultadoConsulta.close();
             CONEXION_BASE_DATOS.desconectar();
+        }
+        catch (SQLException error) {
+            throw error;
         }
 
         return listaFacultades;
@@ -80,13 +77,12 @@ public class FacultadDB {
             while (resultadoConsulta.next()) {
                 listaFacultades.add(convertirResultSetAFacultad(resultadoConsulta));
             }
-        } catch (SQLException error) {
-            throw error;
-        }
-        finally {
             consultaFacultades.close();
             resultadoConsulta.close();
             CONEXION_BASE_DATOS.desconectar();
+        }
+        catch (SQLException error) {
+            throw error;
         }
 
         return listaFacultades;

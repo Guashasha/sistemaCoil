@@ -24,14 +24,12 @@ public class PaisDB {
             while (resultadoConsulta.next()) {
                 listaPaises.add(convertirResultSetAPais(resultadoConsulta));
             }
-        }
-        catch (SQLException error) {
-            throw error;
-        }
-        finally {
             consultaPaises.close();
             resultadoConsulta.close();
             CONEXION_BASE_DATOS.desconectar();
+        }
+        catch (SQLException error) {
+            throw error;
         }
 
         return listaPaises;
@@ -52,14 +50,12 @@ public class PaisDB {
             if (resultadoConsulta.next()) {
                 pais = convertirResultSetAPais(resultadoConsulta);
             }
-        }
-        catch (SQLException error) {
-            throw error;
-        }
-        finally {
             consultaPaises.close();
             resultadoConsulta.close();
             CONEXION_BASE_DATOS.desconectar();
+        }
+        catch (SQLException error) {
+            throw error;
         }
 
         return pais;
@@ -80,14 +76,12 @@ public class PaisDB {
             if (resultadoConsulta.next()) {
                 pais = convertirResultSetAPais(resultadoConsulta);
             }
-        }
-        catch (SQLException error) {
-            throw error;
-        }
-        finally {
             consultaPaises.close();
             resultadoConsulta.close();
             CONEXION_BASE_DATOS.desconectar();
+        }
+        catch (SQLException error) {
+            throw error;
         }
 
         return pais;

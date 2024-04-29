@@ -20,12 +20,6 @@ import java.util.ResourceBundle;
 
 public class ConsultaUniversidadesControlador extends Application implements Initializable {
     private static final Logger BITACORA = Logger.getLogger(NuevaActividadControlador.class);
-    @FXML
-    private TableView tbUniversidades;
-    @FXML
-    private TableColumn<Universidad, String> clmInstitucion;
-    @FXML
-    private TableColumn<Pais, String> clmPais;
 
     public static void main (String[] args) {
         launch(args);
@@ -33,7 +27,7 @@ public class ConsultaUniversidadesControlador extends Application implements Ini
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        llenarTabla();
+
     }
 
     @Override
@@ -57,9 +51,5 @@ public class ConsultaUniversidadesControlador extends Application implements Ini
             BITACORA.error("Ocurrió un error al iniciar la ventana windowEditarUniversidad");
         }
     }
-
-    public void llenarTabla () {
-        this.clmInstitucion.setCellValueFactory(new PropertyValueFactory("nombre"));
-        this.clmPais.setCellValueFactory(new PropertyValueFactory("nombre"));
-    }
+    
 }
