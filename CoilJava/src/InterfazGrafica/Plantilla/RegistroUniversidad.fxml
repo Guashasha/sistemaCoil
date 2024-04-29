@@ -1,43 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="pnRegistroUniversidad" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="423.0" prefWidth="492.0" style="-fx-background-color: EBFCFF;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.Controlador.RegistroUniversidadControlador">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="395.0" prefWidth="515.0" styleClass="root" stylesheets="@../Estilos/ventana.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.Controlador.RegistroUniversidadControlador">
    <children>
-      <Label fx:id="txtTitulo" layoutX="43.0" layoutY="14.0" prefHeight="44.0" prefWidth="410.0" text="Registrar institución universitaria">
+      <Text fx:id="Titulo" layoutX="91.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Registro de universidad">
          <font>
-            <Font name="Berlin Sans FB" size="30.0" />
+            <Font name="System Bold" size="30.0" />
          </font>
-      </Label>
-      <TextField fx:id="tfNombre" layoutX="28.0" layoutY="139.0" prefHeight="34.0" prefWidth="436.0" promptText="Nombre de la institución universitaria" />
-      <Button fx:id="btnRegistrar" layoutX="260.0" layoutY="357.0" mnemonicParsing="false" onAction="#registrarUniversidad" prefHeight="44.0" prefWidth="90.0" style="-fx-background-color: #FA790F;" text="Registrar">
+      </Text>
+      <Text layoutX="31.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre">
          <font>
-            <Font name="Berlin Sans FB" size="14.0" />
-         </font></Button>
-      <Label fx:id="txtNombre" layoutX="27.0" layoutY="105.0" prefHeight="34.0" prefWidth="75.0" text="Nombre">
-         <font>
-            <Font name="Berlin Sans FB" size="20.0" />
+            <Font size="20.0" />
          </font>
-      </Label>
-      <Label fx:id="txtPais" layoutX="28.0" layoutY="212.0" prefHeight="34.0" prefWidth="122.0" text="Pais de origen">
+      </Text>
+      <Text layoutX="32.0" layoutY="234.0" strokeType="OUTSIDE" strokeWidth="0.0" text="País">
          <font>
-            <Font name="Berlin Sans FB" size="20.0" />
+            <Font size="20.0" />
          </font>
-      </Label>
-      <ComboBox fx:id="cmbPaises" layoutX="28.0" layoutY="246.0" prefHeight="34.0" prefWidth="436.0" promptText="- Selecciona un país - " />
-      <Button fx:id="btnCancelar" layoutX="373.0" layoutY="357.0" mnemonicParsing="false" onAction="#cancelarRegistro" prefHeight="44.0" prefWidth="90.0" style="-fx-background-color: E7C736;" text="Cancelar">
-         <font>
-            <Font name="Berlin Sans FB" size="14.0" />
-         </font>
-      </Button>
+      </Text>
+      <TextField fx:id="tfNombre" layoutX="32.0" layoutY="131.0" prefHeight="40.0" prefWidth="462.0" promptText="Nombre de la institución universitaria" />
+      <ComboBox fx:id="cmbPaises" layoutX="32.0" layoutY="247.0" prefHeight="40.0" prefWidth="462.0" />
+      <Button layoutX="327.0" layoutY="343.0" mnemonicParsing="false" onAction="#registrarUniversidad" styleClass="button-principal" stylesheets="@../Estilos/ventana.css" text="Registrar" />
+      <Button fx:id="btnCancelar" layoutX="421.0" layoutY="343.0" mnemonicParsing="false" onAction="#cancelarRegistro" styleClass="button-secundario" text="Cancelar" />
+      <Text fill="RED" layoutX="112.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*Campo obligatorio" visible="false" />
+      <Label fx:id="txtObligatorioNombre" layoutX="112.0" layoutY="101.0" text="*Campo obligatorio" textFill="RED" visible="false" />
+      <Label fx:id="txtObligatorioPais" layoutX="74.0" layoutY="217.0" text="*Campo obligatorio" textFill="RED" visible="false" />
    </children>
-   <opaqueInsets>
-      <Insets />
-   </opaqueInsets>
 </AnchorPane>

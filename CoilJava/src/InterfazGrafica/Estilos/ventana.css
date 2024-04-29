@@ -12,3 +12,26 @@
     -fx-font: 14px "System";
     -fx-background-color: #E7C736;
 }
+
+.barra-titulo {
+    -fx-background-color: #6CC3EF;
+    -fx-background-radius: 20 20 0 0;
+}
+
+.barra-secundaria {
+    -fx-background-color: #91D2F3;
+    -fx-background-radius: 0 0 0 20;
+}
+
+.button-menu-lateral {
+    -fx-font: bold 20px "System";
+    -fx-background-color: #6CC3EF;
+    -fx-background-radius: 7;
+    -fx-border-color: white;
+    -fx-border-radius: 7;
+    -fx-padding: 10px;
+}
+
+.button-menu-lateral:hover {
+    -fx-background-color: #B7DCF5;
+}
