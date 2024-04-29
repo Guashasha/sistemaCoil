@@ -82,8 +82,8 @@ public class Academico extends Persona {
                 numeroPersonal.length() <= 40 &&
                 areaEstudios.length() <= 40 &&
                 correoElectronico.length() <= 30 &&
-                numeroPersonal.length() != 12  &&
-                categoriaContratacion.length() <= 40;
+                numeroPersonal.length() == 12;
+                //categoriaContratacion.length() <= 40;
     }
     @Override
     public boolean equals (Object obj) {

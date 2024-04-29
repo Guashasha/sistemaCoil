@@ -1,6 +1,7 @@
 package AccesoADatos;
 
 import Logica.Dominio.Universidad;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,7 +18,7 @@ public class UniversidadDB {
 
         try {
             insertarUniversidad = CONEXION_BASE_DATOS.getConexion().
-                    prepareStatement(insertarUniversidadSQL);
+                                                     prepareStatement(insertarUniversidadSQL);
             insertarUniversidad.setString(1, universidad.getNombre());
             insertarUniversidad.setInt(2, universidad.getIdPais());
             filasAfectadas = insertarUniversidad.executeUpdate();
@@ -40,13 +41,13 @@ public class UniversidadDB {
 
         try {
             actualizarUniversidad = CONEXION_BASE_DATOS.getConexion().
-                    prepareStatement(actualizarUniversidadSQL);
-            actualizarUniversidad.setString(1,universidad.getNombre());
-            actualizarUniversidad.setInt(2,universidad.getIdPais());
-            actualizarUniversidad.setInt(3,universidad.getId());
+                                                       prepareStatement(actualizarUniversidadSQL);
+            actualizarUniversidad.setString(1, universidad.getNombre());
+            actualizarUniversidad.setInt(2, universidad.getIdPais());
+            actualizarUniversidad.setInt(3, universidad.getId());
             filasAfectadas = actualizarUniversidad.executeUpdate();
         }
-        catch (SQLException error){
+        catch (SQLException error) {
             throw error;
         }
         finally {
@@ -65,7 +66,7 @@ public class UniversidadDB {
 
         try {
             consultaUniversidad = CONEXION_BASE_DATOS.getConexion().
-                    prepareStatement(consultaUniversidadSQL);
+                                                     prepareStatement(consultaUniversidadSQL);
             consultaUniversidad.setString(1, nombre);
             resultadoConsulta = consultaUniversidad.executeQuery();
 
@@ -93,8 +94,8 @@ public class UniversidadDB {
 
         try {
             consultaUniversidades = CONEXION_BASE_DATOS.getConexion().
-                    prepareStatement(consultarUniversidadesSQL);
-            consultaUniversidades.setString(1,paisOrigen);
+                                                       prepareStatement(consultarUniversidadesSQL);
+            consultaUniversidades.setString(1, paisOrigen);
             resultadoConsulta = consultaUniversidades.executeQuery();
 
             while (resultadoConsulta.next()) {
@@ -121,7 +122,7 @@ public class UniversidadDB {
 
         try {
             consultaUniversidades = CONEXION_BASE_DATOS.getConexion().
-                    prepareStatement(consultarUniversidadesSQL);
+                                                       prepareStatement(consultarUniversidadesSQL);
             resultadoConsulta = consultaUniversidades.executeQuery();
 
             while (resultadoConsulta.next()) {
@@ -148,9 +149,37 @@ public class UniversidadDB {
 
         try {
             consultaUniversidad = CONEXION_BASE_DATOS.getConexion().
-                    prepareStatement(consultaUniversidadSQL);
+                                                     prepareStatement(consultaUniversidadSQL);
             consultaUniversidad.setString(1, nombre);
-            consultaUniversidad.setString(2,pais);
+            consultaUniversidad.setString(2, pais);
+            resultadoConsulta = consultaUniversidad.executeQuery();
+
+            if (resultadoConsulta.next()) {
+                universidad = convertirResultSetAUniversidad(resultadoConsulta);
+            }
+        }
+        catch (SQLException error) {
+            throw error;
+        }
+        finally {
+            consultaUniversidad.close();
+            resultadoConsulta.close();
+            CONEXION_BASE_DATOS.desconectar();
+        }
+
+        return universidad;
+    }
+
+    public static Universidad getUniversidadPorId (int idUniversidad) throws SQLException {
+        Universidad universidad = new Universidad(0);
+        String consultaUniversidadSQL = "SELECT idUniversidad, nombre, paisOrigen FROM universidad WHERE idUniversidad = ?";
+        PreparedStatement consultaUniversidad = null;
+        ResultSet resultadoConsulta = null;
+
+        try {
+            consultaUniversidad = CONEXION_BASE_DATOS.getConexion().
+                                                     prepareStatement(consultaUniversidadSQL);
+            consultaUniversidad.setInt(1, idUniversidad);
             resultadoConsulta = consultaUniversidad.executeQuery();
 
             if (resultadoConsulta.next()) {

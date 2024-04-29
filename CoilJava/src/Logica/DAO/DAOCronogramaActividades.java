@@ -29,7 +29,7 @@ public class DAOCronogramaActividades implements IDAO<ActividadVinculada, Intege
                 .esCorrecta()) {
             throw new ErrorDAO("La actividad es incorrecta", ErrorDAO.Tipo.VALIDACION);
         } else if (!actividadVinculada.getColaboracion()
-                .validarNulos()) {
+                .esValido()) {
             throw new ErrorDAO("La colaboración es incorrecta", ErrorDAO.Tipo.VALIDACION);
         }
 
