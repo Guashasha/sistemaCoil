@@ -57,22 +57,21 @@ public class InicioSesionControlador implements Initializable {
         if (sonCredencialesValidas) {
             mostrarVentanaWindowMenuPrincipalAcademico(evento);
 
-
         }
         else {
             mostrarVentanaError();
         }
     }
 
+
+    @FXML
     private void mostrarVentanaWindowMenuPrincipalAcademico (ActionEvent evento) {
         try {
+            Stage stagePrincipal = (Stage)  tfUsuario.getScene().getWindow();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../Plantilla/WindowMenuPrincipalAcademico.fxml"));
             Parent root = fxmlLoader.load();
-            Stage escenario = (Stage) ((Node) evento.getSource()).getScene()
-                                                                 .getWindow();
-            Scene escena = new Scene(root);
-            escenario.setScene(escena);
-            escenario.show();
+            Scene nuevaEscena = new Scene(root);
+            stagePrincipal.setScene(nuevaEscena);
         }
         catch (IOException error) {
             System.out.println("Mostrar");
@@ -95,19 +94,21 @@ public class InicioSesionControlador implements Initializable {
         alert.showAndWait();
     }
 
+    @FXML
     private void mostrarVentanaWindowSolicitarCuenta (ActionEvent evento) {
         try {
+            Stage stagePrincipal = (Stage)  tfUsuario.getScene().getWindow();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../Plantilla/WindowSolicitarCuenta.fxml"));
             Parent root = fxmlLoader.load();
-            Stage escenario = (Stage) ((Node) evento.getSource()).getScene()
-                                                                 .getWindow();
-            Scene escena = new Scene(root);
-            escenario.setScene(escena);
-            escenario.show();
+            Scene nuevaEscena = new Scene(root);
+            stagePrincipal.setScene(nuevaEscena);
+
         }
         catch (IOException error) {
-            System.out.println("Mostrar");
+            error.printStackTrace();
+            System.out.println(error.getMessage());
         }
     }
+
 
 }

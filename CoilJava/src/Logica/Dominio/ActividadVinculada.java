@@ -53,7 +53,7 @@ public class ActividadVinculada {
 
     public boolean esCorrecto () {
         return this.actividad.esCorrecta() &&
-                this.colaboracion.validarNulos() &&
+                this.colaboracion.esValido() &&
                 this.periodo.esCorrecto();
     }
 }

@@ -42,7 +42,7 @@ public class NuevaActividadControlador extends Application {
     private TextField tfTitulo = new TextField();
 
     public void setColaboracion (Colaboracion colaboracion) {
-        if (colaboracion.validarNulos()) {
+        if (colaboracion.esValido()) {
             this.colaboracion = colaboracion;
         }
         else {
