@@ -5,7 +5,7 @@ import Logica.Dominio.Academico;
 import Logica.Dominio.Colaboracion;
 import Logica.Dominio.Estudiante;
 import Logica.Dominio.Periodo;
-import Logica.ErrorDAO;
+import Utilidades.ErrorDAO;
 import Logica.Interfaces.IColaboracionDAO;
 import org.apache.log4j.Logger;
 

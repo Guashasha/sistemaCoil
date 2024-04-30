@@ -1,7 +1,7 @@
 package AccesoADatos;
 
 import Logica.Dominio.Facultad;
-import Logica.ErrorDAO;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

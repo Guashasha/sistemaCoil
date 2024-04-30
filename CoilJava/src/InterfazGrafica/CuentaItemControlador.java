@@ -1,4 +1,4 @@
-package InterfazGrafica.Elemento;
+package InterfazGrafica;
 
 import Logica.DAO.DAOAcademico;
 import Logica.DAO.DAOCuenta;
@@ -8,7 +8,7 @@ import Logica.Dominio.Academico;
 import Logica.Dominio.Cuenta;
 import Logica.Dominio.Pais;
 import Logica.Dominio.Universidad;
-import Logica.ErrorDAO;
+import Utilidades.ErrorDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;

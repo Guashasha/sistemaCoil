@@ -1,4 +1,4 @@
-package InterfazGrafica.Controlador;
+package InterfazGrafica;
 
 import Logica.DAO.DAOAcademico;
 import Logica.DAO.DAOCuenta;
@@ -6,7 +6,7 @@ import Logica.DAO.DAOUniversidad;
 import Logica.Dominio.Academico;
 import Logica.Dominio.Cuenta;
 import Logica.Dominio.Universidad;
-import Logica.ErrorDAO;
+import Utilidades.ErrorDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -85,7 +85,7 @@ public class SolicitarCuentaControlador implements Initializable {
         boolean btmAceptadoSeleccionado = mostrarAlertaConfirmacion("La solicitud de cuenta no será guardada");
         if (btmAceptadoSeleccionado) {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../Plantilla/WindowInicioSesion.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../Plantilla/InicioSesion.fxml"));
                 Parent root = fxmlLoader.load();
                 Stage escenario = (Stage) ((Node) evento.getSource()).getScene()
                                                                      .getWindow();

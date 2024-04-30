@@ -8,7 +8,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: EBFCFB;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.Controlador.SolicitarCuentaControlador">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: EBFCFB;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.SolicitarCuentaControlador">
    <children>
       <TextField fx:id="tfCedula" layoutX="49.0" layoutY="149.0" promptText="Cédula profesional" />
       <TextField fx:id="tfNombre" layoutX="49.0" layoutY="70.0" promptText="Nombre" />

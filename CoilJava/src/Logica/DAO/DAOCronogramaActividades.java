@@ -5,7 +5,7 @@ import Logica.Dominio.Actividad;
 import Logica.Dominio.ActividadVinculada;
 import Logica.Dominio.Colaboracion;
 import Logica.Dominio.Periodo;
-import Logica.ErrorDAO;
+import Utilidades.ErrorDAO;
 import Logica.Interfaces.IDAO;
 import jdk.jshell.spi.ExecutionControl;
 import org.apache.log4j.Logger;

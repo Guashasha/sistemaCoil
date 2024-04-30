@@ -4,7 +4,7 @@ import AccesoADatos.UniversidadDB;
 import Logica.DAO.DAOUniversidad;
 import Logica.Dominio.Pais;
 import Logica.Dominio.Universidad;
-import Logica.ErrorDAO;
+import Utilidades.ErrorDAO;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

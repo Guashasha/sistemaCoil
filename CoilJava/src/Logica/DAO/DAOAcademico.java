@@ -2,7 +2,7 @@ package Logica.DAO;
 
 import AccesoADatos.AcademicoDB;
 import Logica.Dominio.Academico;
-import Logica.ErrorDAO;
+import Utilidades.ErrorDAO;
 import Logica.Interfaces.IAcademicoDAO;
 import org.apache.log4j.Logger;
 

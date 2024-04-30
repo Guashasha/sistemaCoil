@@ -1,8 +1,7 @@
 package Logica.Interfaces;
 
-import Logica.Dominio.Colaboracion;
 import Logica.Dominio.Cuenta;
-import Logica.ErrorDAO;
+import Utilidades.ErrorDAO;
 
 import java.util.List;
 import java.util.Optional;

@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: EBFCFB;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.Controlador.InicioSesionControlador">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: EBFCFB;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.InicioSesionControlador">
    <left>
       <AnchorPane prefHeight="200.0" prefWidth="250.0" style="-fx-background-color: EBFCFB;" BorderPane.alignment="CENTER">
          <children>
@@ -31,7 +31,7 @@
                   </Label>
                   <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="56.0" layoutY="79.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../Recursos/Logos/LogoCoil.png" />
+                        <Image url="@Recursos/LogoCoil.png" />
                      </image>
                   </ImageView>
                </children>
@@ -50,7 +50,7 @@
             <Label layoutX="102.0" layoutY="86.0" text="Universidad Veracruzana" textAlignment="CENTER" textFill="#09406e" />
             <ImageView fitHeight="58.0" fitWidth="76.0" layoutX="125.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../Recursos/Logos/LogoUV.png" />
+                  <Image url="@Recursos/LogoUV.png" />
                </image>
             </ImageView>
          </children>

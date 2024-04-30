@@ -2,7 +2,7 @@ package Logica.DAO;
 
 import AccesoADatos.RegionDB;
 import Logica.Dominio.Region;
-import Logica.ErrorDAO;
+import Utilidades.ErrorDAO;
 import Logica.Interfaces.IRegionDAO;
 import org.apache.log4j.Logger;
 import java.sql.SQLException;

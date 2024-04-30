@@ -1,4 +1,4 @@
-package InterfazGrafica.Controlador;
+package InterfazGrafica;
 
 import Logica.DAO.DAOActividad;
 import Logica.DAO.DAOCronogramaActividades;
@@ -6,7 +6,7 @@ import Logica.Dominio.Actividad;
 import Logica.Dominio.ActividadVinculada;
 import Logica.Dominio.Colaboracion;
 import Logica.Dominio.Periodo;
-import Logica.ErrorDAO;
+import Utilidades.ErrorDAO;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -70,7 +70,7 @@ public class NuevaActividadControlador extends Application {
             stage.setTitle("Crear actividad nueva");
 
             Scene escena = new Scene(root, Color.TRANSPARENT);
-            escena.getStylesheets().add("InterfazGrafica/Estilos/ventana.css");
+            escena.getStylesheets().add("InterfazGrafica/Recursos/EstiloVentanas.css");
 
             stage.setScene(escena);
             stage.show();

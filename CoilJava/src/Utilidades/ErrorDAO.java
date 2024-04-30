@@ -1,4 +1,4 @@
-package Logica;
+package Utilidades;
 
 public class ErrorDAO extends Error {
     public enum Tipo {

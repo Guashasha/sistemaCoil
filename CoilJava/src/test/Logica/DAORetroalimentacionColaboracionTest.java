@@ -5,7 +5,7 @@ import Logica.DAO.DAORetroalimentacionColaboracion;
 import Logica.Dominio.Colaboracion;
 import Logica.Dominio.Periodo;
 import Logica.Dominio.RetroalimentacionColaboracion;
-import Logica.ErrorDAO;
+import Utilidades.ErrorDAO;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import test.ConfiguracionPrueba;

@@ -3,7 +3,7 @@ package test.Logica;
 import AccesoADatos.FacultadDB;
 import Logica.DAO.DAOFacultad;
 import Logica.Dominio.Facultad;
-import Logica.ErrorDAO;
+import Utilidades.ErrorDAO;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

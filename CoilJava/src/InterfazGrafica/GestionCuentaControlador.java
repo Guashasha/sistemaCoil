@@ -1,9 +1,8 @@
-package InterfazGrafica.Controlador;
+package InterfazGrafica;
 
-import InterfazGrafica.Elemento.CuentaItemControlador;
 import Logica.DAO.DAOCuenta;
 import Logica.Dominio.Cuenta;
-import Logica.ErrorDAO;
+import Utilidades.ErrorDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;

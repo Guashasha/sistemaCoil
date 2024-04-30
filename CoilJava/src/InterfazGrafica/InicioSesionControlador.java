@@ -1,13 +1,11 @@
-package InterfazGrafica.Controlador;
+package InterfazGrafica;
 
 import Logica.DAO.DAOCuenta;
-import Logica.ErrorDAO;
+import Utilidades.ErrorDAO;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -68,7 +66,7 @@ public class InicioSesionControlador implements Initializable {
     private void mostrarVentanaWindowMenuPrincipalAcademico (ActionEvent evento) {
         try {
             Stage stagePrincipal = (Stage)  tfUsuario.getScene().getWindow();
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../Plantilla/WindowMenuPrincipalAcademico.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../Plantilla/MenuPrincipalAcademico.fxml"));
             Parent root = fxmlLoader.load();
             Scene nuevaEscena = new Scene(root);
             stagePrincipal.setScene(nuevaEscena);
@@ -98,7 +96,7 @@ public class InicioSesionControlador implements Initializable {
     private void mostrarVentanaWindowSolicitarCuenta (ActionEvent evento) {
         try {
             Stage stagePrincipal = (Stage)  tfUsuario.getScene().getWindow();
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../Plantilla/WindowSolicitarCuenta.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../Plantilla/SolicitarCuenta.fxml"));
             Parent root = fxmlLoader.load();
             Scene nuevaEscena = new Scene(root);
             stagePrincipal.setScene(nuevaEscena);

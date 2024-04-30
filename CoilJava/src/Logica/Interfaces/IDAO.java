@@ -1,6 +1,6 @@
 package Logica.Interfaces;
 
-import Logica.ErrorDAO;
+import Utilidades.ErrorDAO;
 import jdk.jshell.spi.ExecutionControl;
 
 import java.sql.ResultSet;

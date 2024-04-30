@@ -3,7 +3,7 @@ package Logica.DAO;
 import AccesoADatos.RetroalimentacionActividadDB;
 import Logica.Dominio.Actividad;
 import Logica.Dominio.RetroalimentacionActividad;
-import Logica.ErrorDAO;
+import Utilidades.ErrorDAO;
 import Logica.Interfaces.IRetroalimentacionActividadDAO;
 import org.apache.log4j.Logger;
 
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static Logica.ErrorDAO.Tipo;
+import static ErrorDAO.Tipo;
 
 public class DAORetroalimentacionActividad implements IRetroalimentacionActividadDAO {
     private static final Logger BITACORA = Logger.getLogger(RetroalimentacionActividad.class.getName());
