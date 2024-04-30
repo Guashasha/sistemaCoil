@@ -32,109 +32,76 @@ class DAOUniversidadTest {
         borrarDatosTablaPais();
     }
 
-    /*@Test
+    @Test
     void pruebaRegistrarUniversidadExitosa () {
-        System.out.println("pruebaRegistrarUniversidadExitosa");
         int filasAfectadas = 0;
         try {
-            filasAfectadas = this.INSTANCIA.registrarUniversidad("UNAM","México");
+            filasAfectadas = this.INSTANCIA.registrarUniversidad(new Universidad("UNAM"),new Pais("México"));
         }
         catch (ErrorDAO error) {
             fail("Fallida: pruebaRegistrarUniversidadExitosa");
         }
-        assertEquals(1,filasAfectadas);
-    }*/
+        assertEquals(1,filasAfectadas,"pruebaRegistrarUniversidadExitosa");
+    }
 
-    /*@Test
+    @Test
     void pruebaRegistrarUniversidadCadenasInvalida () {
-        System.out.println("pruebaRegistrarUniversidadCadenasInvalida");
-        int filasAfectadas = 1;
-        try {
-            filasAfectadas = this.INSTANCIA.registrarUniversidad("  ",null);
-        }
-        catch (ErrorDAO error) {
-            fail("pruebaRegistrarUniversidadCadenasInvalida");
-        }
-        assertEquals(0,filasAfectadas);
-    }*/
+        assertThrows(ErrorDAO.class,()->this.INSTANCIA.registrarUniversidad(new Universidad("   "),new Pais("")),"pruebaRegistrarUniversidadCadenasInvalida");
+    }
 
     @Test
     void pruebaRegistrarUniversidadExistente () {
-        System.out.println("pruebaRegistrarUniversidadExistente");
-        assertThrows(ErrorDAO.class,()->this.INSTANCIA.registrarUniversidad(new Universidad("Universidad Veracruzana"),new Pais("México")));
+        assertThrows(ErrorDAO.class,() -> this.INSTANCIA.registrarUniversidad(new Universidad("Universidad Veracruzana"),new Pais("México")),"pruebaRegistrarUniversidadExistente");
     }
 
-    /*@Test
+    @Test
     void pruebaRegistrarUniversidadPaisInexistente () {
-        System.out.println("pruebaRegistrarUniversidadPaisInexistente");
-        assertThrows(ErrorDAO.class,()-> this.INSTANCIA.registrarUniversidad("UNAM","Argentina"));
-    }*/
+        assertThrows(ErrorDAO.class,()-> this.INSTANCIA.registrarUniversidad(new Universidad("UNAM"),new Pais("Argentina")),"pruebaRegistrarUniversidadPaisInexistente");
+    }
 
     @Test
     void pruebaEditarUniversidadExitosa () {
-        System.out.println("pruebaEditarUniversidadExitosa");
         int esperado = 1;
         int obtenido = 0;
         try {
-            obtenido = INSTANCIA.editarUniversidad("Universidad Veracruzana","UV","México");
+            obtenido = INSTANCIA.editarUniversidad(new Universidad("Universidad Veracruzana"),new Universidad("UV"),new Pais("México"));
         }
         catch (ErrorDAO error) {
             fail("pruebaEditarUniversidadExitosa");
         }
-        assertEquals(esperado,obtenido);
+        assertEquals(esperado,obtenido,"pruebaEditarUniversidadExitosa");
     }
 
     @Test
     void pruebaEditarUniversidadCadenasInvalidas () {
-        System.out.println("pruebaEditarUniversidadCadenasInvalidas");
-        int esperado = 0;
-        int obtenido = 1;
-        try {
-            obtenido = INSTANCIA.editarUniversidad("UV",null, "  ");
-        }
-        catch (ErrorDAO error) {
-            fail("Fallida: pruebaEditarUniversidadCadenasInvalidas");
-        }
-        assertEquals(esperado,obtenido);
+        assertThrows(ErrorDAO.class,()->this.INSTANCIA.editarUniversidad(new Universidad("UV"),new Universidad(""), new Pais("   ")),"pruebaEditarUniversidadCadenasInvalidas");
     }
 
     @Test
     void pruebaEditarUniversidadConDatosExistente () {
-        System.out.println("pruebaEditarUniversidadConDatosExistente");
-        int esperado = -1;
-        int obtenido = 0;
-        try {
-            obtenido = INSTANCIA.editarUniversidad("Universidad Veracruzana","Harvard","Estados Unidos");
-        }
-        catch (ErrorDAO error) {
-            fail("pruebaEditarUniversidadConDatosExistente");
-        }
-        assertEquals(esperado,obtenido);
+        assertThrows(ErrorDAO.class,()->this.INSTANCIA.editarUniversidad(new Universidad("Universidad Veracruzana"),new Universidad("Harvard"),new Pais("Estados Unidos")),"pruebaEditarUniversidadConDatosExistente");
     }
 
     @Test
     void pruebaEditarUniversidadInexistente () {
-        System.out.println("pruebaEditarUniversidadInexistente");
         int esperado = 0;
         int obtenido = 1;
         try {
-            obtenido = INSTANCIA.editarUniversidad("UNAM","Universidad Autonoma","México");
+            obtenido = INSTANCIA.editarUniversidad(new Universidad("UNAM"),new Universidad("Universidad Autonoma"),new Pais("México"));
         }
         catch (ErrorDAO error) {
             fail("Fallida: pruebaEditarUniversidadInexistente");
         }
-        assertEquals(esperado,obtenido);
+        assertEquals(esperado,obtenido,"pruebaEditarUniversidadInexistente");
     }
 
     @Test
     void pruebaEditarUniversidadConPaisInexistente () {
-        System.out.println("pruebaEditarUniversidadConPaisInexistente");
-        assertThrows(ErrorDAO.class,()->INSTANCIA.editarUniversidad("Harvard","Oxford","Inglaterra"));
+        assertThrows(ErrorDAO.class,()->INSTANCIA.editarUniversidad(new Universidad("Harvard"),new Universidad("Oxford"),new Pais("Inglaterra")),"pruebaEditarUniversidadConPaisInexistente");
     }
 
     @Test
     void pruebaGetUniversidadPorNombreExitosa () {
-        System.out.println("pruebaGetUniversidadPorNombreExitosa");
         Universidad esperada = new Universidad(3,"BUAP",1);
         Universidad obtenida = null;
         try {
@@ -144,15 +111,14 @@ class DAOUniversidadTest {
         catch (Exception error) {
             fail("Fallida: pruebaGetUniversidadPorNombreExitosa");
         }
-        assertTrue(esperada.equals(obtenida));
+        assertTrue(esperada.equals(obtenida),"pruebaGetUniversidadPorNombreExitosa");
     }
 
     @Test
     void pruebaGetUniversidadPorNombreCadenaVacia () {
-        System.out.println("pruebaGetUniversidadPorNombreCadenaVacia");
         try {
             Optional resultado = INSTANCIA.getUniversidadPorNombre("  ");
-            assertTrue(resultado.isEmpty());
+            assertTrue(resultado.isEmpty(),"pruebaGetUniversidadPorNombreCadenaVacia");
         }
         catch (ErrorDAO error) {
             fail("Fallida: pruebaGetUniversidadPorNombreCadenaVacia");
@@ -160,20 +126,7 @@ class DAOUniversidadTest {
     }
 
     @Test
-    void pruebaGetUniversidadPorNombreCadenaNula () {
-        System.out.println("pruebaGetUniversidadPorNombreCadenaNula");
-        try {
-            Optional resultado = INSTANCIA.getUniversidadPorNombre(null);
-            assertTrue(resultado.isEmpty());
-        }
-        catch (ErrorDAO error) {
-            fail("Fallida: pruebaGetUniversidadPorNombreCadenaNula");
-        }
-    }
-
-    @Test
-    void pruebaGetUniversidadPorNombreInexistente ()   {
-        System.out.println("pruebaGetUniversidadPorNombreInexistente");
+    void pruebaGetUniversidadPorNombreInexistente () {
         Universidad obtenido = null;
         try {
             Optional resultado = INSTANCIA.getUniversidadPorNombre("UNAM");
@@ -182,7 +135,7 @@ class DAOUniversidadTest {
         catch (Exception error) {
             fail("Fallida: pruebaGetUniversidadPorNombreInexistente");
         }
-        assertEquals(0,obtenido.getId());
+        assertEquals(0,obtenido.getId(),"pruebaGetUniversidadPorNombreInexistente");
     }
 
     @Test
@@ -211,10 +164,9 @@ class DAOUniversidadTest {
 
     @Test
     void pruebaGetUniversidadesPorPaisOrigenCadenaInvalida () {
-        System.out.println("pruebaGetUniversidadesPorPaisOrigenCadenaInvalida");
         try {
-            List<Universidad> listaObtenida = INSTANCIA.getUniversidadesPorPaisOrigen(null);
-            assertTrue(listaObtenida.isEmpty());
+            List<Universidad> listaObtenida = INSTANCIA.getUniversidadesPorPaisOrigen("  ");
+            assertTrue(listaObtenida.isEmpty(),"pruebaGetUniversidadesPorPaisOrigenCadenaInvalida");
         }
         catch (ErrorDAO error) {
             fail("pruebaGetUniversidadesPorPaisOrigenCadenaInvalida");
@@ -223,10 +175,9 @@ class DAOUniversidadTest {
 
     @Test
     void pruebaGetUniversidadesPorPaisOrigenInexistente () {
-        System.out.println("pruebaGetUniversidadesPorPaisOrigenInexistente");
         try {
             List<Universidad> listaObtenida = INSTANCIA.getUniversidadesPorPaisOrigen("Veracruz");
-            assertTrue(listaObtenida.isEmpty());
+            assertTrue(listaObtenida.isEmpty(),"pruebaGetUniversidadesPorPaisOrigenInexistente");
         }
         catch (ErrorDAO error) {
             fail("pruebaGetUniversidadesPorPaisOrigenInexistente");

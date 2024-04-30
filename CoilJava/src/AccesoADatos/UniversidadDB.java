@@ -22,13 +22,12 @@ public class UniversidadDB {
             insertarUniversidad.setString(1, universidad.getNombre());
             insertarUniversidad.setInt(2, universidad.getIdPais());
             filasAfectadas = insertarUniversidad.executeUpdate();
+
+            insertarUniversidad.close();
+            CONEXION_BASE_DATOS.desconectar();
         }
         catch (SQLException error) {
             throw error;
-        }
-        finally {
-            insertarUniversidad.close();
-            CONEXION_BASE_DATOS.desconectar();
         }
 
         return filasAfectadas;
@@ -46,13 +45,12 @@ public class UniversidadDB {
             actualizarUniversidad.setInt(2, universidad.getIdPais());
             actualizarUniversidad.setInt(3, universidad.getId());
             filasAfectadas = actualizarUniversidad.executeUpdate();
+
+            actualizarUniversidad.close();
+            CONEXION_BASE_DATOS.desconectar();
         }
         catch (SQLException error) {
             throw error;
-        }
-        finally {
-            actualizarUniversidad.close();
-            CONEXION_BASE_DATOS.desconectar();
         }
 
         return filasAfectadas;
@@ -73,14 +71,12 @@ public class UniversidadDB {
             if (resultadoConsulta.next()) {
                 universidad = convertirResultSetAUniversidad(resultadoConsulta);
             }
-        }
-        catch (SQLException error) {
-            throw error;
-        }
-        finally {
             consultaUniversidad.close();
             resultadoConsulta.close();
             CONEXION_BASE_DATOS.desconectar();
+        }
+        catch (SQLException error) {
+            throw error;
         }
 
         return universidad;
@@ -101,14 +97,12 @@ public class UniversidadDB {
             while (resultadoConsulta.next()) {
                 listaUniversidades.add(convertirResultSetAUniversidad(resultadoConsulta));
             }
-        }
-        catch (SQLException error) {
-            throw error;
-        }
-        finally {
             consultaUniversidades.close();
             resultadoConsulta.close();
             CONEXION_BASE_DATOS.desconectar();
+        }
+        catch (SQLException error) {
+            throw error;
         }
 
         return listaUniversidades;
@@ -128,14 +122,12 @@ public class UniversidadDB {
             while (resultadoConsulta.next()) {
                 listaUniversidades.add(convertirResultSetAUniversidad(resultadoConsulta));
             }
-        }
-        catch (SQLException error) {
-            throw error;
-        }
-        finally {
             consultaUniversidades.close();
             resultadoConsulta.close();
             CONEXION_BASE_DATOS.desconectar();
+        }
+        catch (SQLException error) {
+            throw error;
         }
 
         return listaUniversidades;
@@ -157,14 +149,12 @@ public class UniversidadDB {
             if (resultadoConsulta.next()) {
                 universidad = convertirResultSetAUniversidad(resultadoConsulta);
             }
-        }
-        catch (SQLException error) {
-            throw error;
-        }
-        finally {
             consultaUniversidad.close();
             resultadoConsulta.close();
             CONEXION_BASE_DATOS.desconectar();
+        }
+        catch (SQLException error) {
+            throw error;
         }
 
         return universidad;
@@ -173,8 +163,8 @@ public class UniversidadDB {
     public static Universidad getUniversidadPorId (int idUniversidad) throws SQLException {
         Universidad universidad = new Universidad(0);
         String consultaUniversidadSQL = "SELECT idUniversidad, nombre, paisOrigen FROM universidad WHERE idUniversidad = ?";
-        PreparedStatement consultaUniversidad = null;
-        ResultSet resultadoConsulta = null;
+        PreparedStatement consultaUniversidad;
+        ResultSet resultadoConsulta;
 
         try {
             consultaUniversidad = CONEXION_BASE_DATOS.getConexion().
@@ -185,20 +175,18 @@ public class UniversidadDB {
             if (resultadoConsulta.next()) {
                 universidad = convertirResultSetAUniversidad(resultadoConsulta);
             }
-        }
-        catch (SQLException error) {
-            throw error;
-        }
-        finally {
             consultaUniversidad.close();
             resultadoConsulta.close();
             CONEXION_BASE_DATOS.desconectar();
+        }
+        catch (SQLException error) {
+            throw error;
         }
 
         return universidad;
     }
 
-    public static Universidad convertirResultSetAUniversidad (ResultSet resultado) throws SQLException {
+    private static Universidad convertirResultSetAUniversidad (ResultSet resultado) throws SQLException {
         Universidad universidad = new Universidad();
 
         universidad.setId(resultado.getInt(1));

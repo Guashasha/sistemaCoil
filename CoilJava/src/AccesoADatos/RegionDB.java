@@ -25,19 +25,18 @@ public class RegionDB {
             while (resultadoConsulta.next()) {
                 listaRegiones.add(convertirResultSetARegion(resultadoConsulta));
             }
-        } catch (SQLException error) {
-            throw error;
-        }
-        finally {
             consultaRegiones.close();
             resultadoConsulta.close();
             CONEXION_BASE_DATOS.desconectar();
+        }
+        catch (SQLException error) {
+            throw error;
         }
 
         return listaRegiones;
     }
 
-    public static Region convertirResultSetARegion (ResultSet resultado) throws SQLException {
+    private static Region convertirResultSetARegion (ResultSet resultado) throws SQLException {
         Region region = new Region();
         region.setId(resultado.getInt(1));
         region.setNombre(resultado.getString(2));

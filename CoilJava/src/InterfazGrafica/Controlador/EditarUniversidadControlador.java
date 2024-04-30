@@ -23,8 +23,10 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class RegistroUniversidadControlador extends Application implements Initializable {
+public class EditarUniversidadControlador extends Application implements Initializable {
     private static final Logger BITACORA = Logger.getLogger(NuevaActividadControlador.class);
+    private Universidad universidadActual = new Universidad("Universidad Veracruzana");;
+    private Pais paisActual = new Pais("México");
     @FXML
     private Label txtObligatorioNombre;
     @FXML
@@ -36,6 +38,14 @@ public class RegistroUniversidadControlador extends Application implements Initi
     @FXML
     private Button btnCancelar;
 
+    public void setUniversidadActual (Universidad universidadActual) {
+        this.universidadActual = universidadActual;
+    }
+
+    public void setPaisActual (Pais paisActual) {
+        this.paisActual = paisActual;
+    }
+
     public static void main (String[] args) {
         launch(args);
     }
@@ -43,6 +53,7 @@ public class RegistroUniversidadControlador extends Application implements Initi
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle) {
         llenarComboBoxPaises();
+        autocompletarCampos();
     }
 
     @Override
@@ -50,7 +61,7 @@ public class RegistroUniversidadControlador extends Application implements Initi
         Parent root = null;
 
         try {
-            root = FXMLLoader.load(getClass().getResource("../Plantilla/RegistroUniversidad.fxml"));
+            root = FXMLLoader.load(getClass().getResource("../Plantilla/EditarUniversidad.fxml"));
         }
         catch (IOException e) {
             BITACORA.error(e);
@@ -63,20 +74,29 @@ public class RegistroUniversidadControlador extends Application implements Initi
             stage.show();
         }
         else {
-            BITACORA.error("Ocurrió un error al iniciar la ventana windowRegistroUniversidad");
+            BITACORA.error("Ocurrió un error al iniciar la ventana windowEditarUniversidad");
+        }
+
+        if (!objetosValidos()) {
+            mostrarMensajeEmergente("Algo salió mal. Vuelva a intentarlo más tarde", Alert.AlertType.ERROR);
+            stage.close();
         }
     }
 
+    public boolean objetosValidos () {
+        return this.universidadActual != null && this.paisActual != null;
+    }
+
     @FXML
-    void registrarUniversidad (ActionEvent event) {
-        if (camposValidos()) {
+    void editarUniversidad (ActionEvent event) {
+        if (camposValidos() && !camposIguales()) {
             Universidad universidad = new Universidad(tfNombre.getText());
             Pais pais = new Pais(cmbPaises.getValue());
             int filasAfectadas;
             DAOUniversidad daoUniversidad = new DAOUniversidad();
 
             try {
-                filasAfectadas = daoUniversidad.registrarUniversidad(universidad,pais);
+                filasAfectadas = daoUniversidad.editarUniversidad(this.universidadActual,universidad,pais);
             }
             catch (ErrorDAO error) {
                 mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.WARNING);
@@ -84,7 +104,9 @@ public class RegistroUniversidadControlador extends Application implements Initi
             }
 
             if (filasAfectadas == 1) {
-                mostrarMensajeEmergente("Se ha registrado la universidad exitosamente", Alert.AlertType.INFORMATION);
+                this.universidadActual.setNombre(universidad.getNombre());
+                this.paisActual.setNombre(pais.getNombre());
+                mostrarMensajeEmergente("Se han guardado los cambios exitosamente", Alert.AlertType.INFORMATION);
             }
             else {
                 mostrarMensajeEmergente("Algo salió mal. Intentelo de nuevo más tarde", Alert.AlertType.ERROR);
@@ -93,9 +115,9 @@ public class RegistroUniversidadControlador extends Application implements Initi
     }
 
     @FXML
-    void cancelarRegistro () {
+    void cancelarEdicion () {
         Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
-        alerta.setContentText("No se registrará la universidad");
+        alerta.setContentText("No se guardarán los cambios");
         alerta.setHeaderText(null);
         alerta.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
@@ -119,6 +141,11 @@ public class RegistroUniversidadControlador extends Application implements Initi
         this.cmbPaises.setItems(paisesObservable);
     }
 
+    public void autocompletarCampos () {
+        this.tfNombre.setText(this.universidadActual.getNombre());
+        this.cmbPaises.setValue(this.paisActual.getNombre());
+    }
+
     public void mostrarMensajeEmergente (String mensaje, Alert.AlertType tipoAlerta) {
         Alert alerta = new Alert(tipoAlerta);
         alerta.setContentText(mensaje);
@@ -132,5 +159,11 @@ public class RegistroUniversidadControlador extends Application implements Initi
         txtObligatorioNombre.setVisible(!nombreValido);
         txtObligatorioPais.setVisible(!paisValido);
         return nombreValido && paisValido;
+    }
+
+    public boolean camposIguales () {
+        String nuevoNombre = tfNombre.getText().trim();
+        String nuevoPais = cmbPaises.getValue();
+        return nuevoNombre.equals(this.universidadActual.getNombre()) && nuevoPais.equals(this.paisActual.getNombre());
     }
 }
