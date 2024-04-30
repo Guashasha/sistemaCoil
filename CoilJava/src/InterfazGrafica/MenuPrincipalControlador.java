@@ -1,10 +1,10 @@
-package InterfazGrafica.Controlador;
+package InterfazGrafica;
 
 import Logica.DAO.DAOAcademico;
 import Logica.DAO.DAOCuenta;
 import Logica.Dominio.Academico;
 import Logica.Dominio.Cuenta;
-import Logica.ErrorDAO;
+import Utilidades.ErrorDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -33,7 +33,7 @@ public class MenuPrincipalControlador implements Initializable {
     @FXML
     public void regresarLogin (ActionEvent evento) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../Plantilla/WindowInicioSesion.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../Plantilla/InicioSesion.fxml"));
             Parent root = fxmlLoader.load();
             Stage escenario = (Stage) ((Node) evento.getSource()).getScene()
                                                                  .getWindow();

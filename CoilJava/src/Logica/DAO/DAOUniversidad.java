@@ -4,7 +4,7 @@ import AccesoADatos.PaisDB;
 import AccesoADatos.UniversidadDB;
 import Logica.Dominio.Pais;
 import Logica.Dominio.Universidad;
-import Logica.ErrorDAO;
+import Utilidades.ErrorDAO;
 import Logica.Interfaces.IUniversidadDAO;
 import org.apache.log4j.Logger;
 import java.sql.SQLException;
@@ -122,7 +122,7 @@ public class DAOUniversidad implements IUniversidadDAO {
         }
         catch (SQLException error) {
             bitacora.info(error.getMessage());
-            throw new ErrorDAO(error.getMessage(),ErrorDAO.Tipo.CONEXION);
+            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
         }
     }
 

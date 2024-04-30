@@ -4,7 +4,7 @@ import Logica.Dominio.Academico;
 import Logica.Dominio.Colaboracion;
 import Logica.Dominio.Estudiante;
 import Logica.Dominio.Periodo;
-import Logica.ErrorDAO;
+import Utilidades.ErrorDAO;
 
 import java.util.List;
 import java.util.Optional;

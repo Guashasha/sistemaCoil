@@ -2,7 +2,7 @@ package Logica.DAO;
 
 import AccesoADatos.FacultadDB;
 import Logica.Dominio.Facultad;
-import Logica.ErrorDAO;
+import Utilidades.ErrorDAO;
 import Logica.Interfaces.IFacultadDAO;
 import org.apache.log4j.Logger;
 import java.sql.SQLException;

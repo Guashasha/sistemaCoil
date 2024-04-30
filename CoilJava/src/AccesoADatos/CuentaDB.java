@@ -1,7 +1,6 @@
 package AccesoADatos;
 
 import Logica.Dominio.Cuenta;
-import Logica.ErrorDAO;
 
 import java.sql.*;
 import java.util.ArrayList;

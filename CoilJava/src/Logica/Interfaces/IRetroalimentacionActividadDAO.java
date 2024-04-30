@@ -1,8 +1,7 @@
 package Logica.Interfaces;
 
-import Logica.Dominio.Retroalimentacion;
 import Logica.Dominio.RetroalimentacionActividad;
-import Logica.ErrorDAO;
+import Utilidades.ErrorDAO;
 
 import java.util.Optional;
 

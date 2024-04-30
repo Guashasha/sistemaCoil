@@ -1,4 +1,4 @@
-package InterfazGrafica.Controlador;
+package InterfazGrafica;
 
 import javafx.application.Application;
 import javafx.fxml.FXML;
@@ -40,7 +40,7 @@ public class VentanaPrincipalAcademicoControlador extends Application {
             stage.setTitle("Crear actividad nueva");
 
             Scene escena = new Scene(root, Color.TRANSPARENT);
-            escena.getStylesheets().add("InterfazGrafica/Estilos/ventana.css");
+            escena.getStylesheets().add("InterfazGrafica/Recursos/EstiloVentanas.css");
 
             stage.setScene(escena);
             stage.show();

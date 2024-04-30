@@ -2,8 +2,7 @@ package test.Logica;
 
 import Logica.DAO.DAOAcademico;
 import Logica.Dominio.Academico;
-import Logica.Dominio.Persona;
-import Logica.ErrorDAO;
+import Utilidades.ErrorDAO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

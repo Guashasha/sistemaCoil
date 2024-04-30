@@ -1,7 +1,8 @@
 package Logica.Interfaces;
 
-import Logica.ErrorDAO;
+import Utilidades.ErrorDAO;
 import Logica.Dominio.Region;
+
 import java.util.List;
 
 public interface IRegionDAO {

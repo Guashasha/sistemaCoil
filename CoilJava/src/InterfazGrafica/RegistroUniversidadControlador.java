@@ -1,10 +1,10 @@
-package InterfazGrafica.Controlador;
+package InterfazGrafica;
 
 import Logica.DAO.DAOPais;
 import Logica.DAO.DAOUniversidad;
 import Logica.Dominio.Pais;
 import Logica.Dominio.Universidad;
-import Logica.ErrorDAO;
+import Utilidades.ErrorDAO;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

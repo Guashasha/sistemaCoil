@@ -1,7 +1,7 @@
 package Logica.Dominio;
 
 
-import Logica.ErrorDAO;
+import Utilidades.ErrorDAO;
 
 import java.time.LocalDate;
 

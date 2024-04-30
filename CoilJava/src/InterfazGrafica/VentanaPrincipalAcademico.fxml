@@ -5,13 +5,13 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="pnPrincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="920.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.Controlador.VentanaPrincipalAcademicoControlador">
+<BorderPane fx:id="pnPrincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="920.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.VentanaPrincipalAcademicoControlador">
    <top>
-      <BorderPane prefHeight="161.0" prefWidth="1920.0" styleClass="barra-titulo" stylesheets="@../Estilos/ventana.css" BorderPane.alignment="CENTER">
+      <BorderPane prefHeight="161.0" prefWidth="1920.0" styleClass="barra-titulo" stylesheets="@Recursos/EstiloVentanas.css" BorderPane.alignment="CENTER">
          <left>
             <ImageView fitHeight="118.0" fitWidth="185.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                <image>
-                  <Image url="@../Recursos/Logos/LogoUV.png" />
+                  <Image url="@Recursos/LogoUV.png" />
                </image>
             </ImageView>
          </left>
@@ -20,7 +20,7 @@
                <children>
                   <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../Recursos/Logos/LogoCoil.png" />
+                        <Image url="@Recursos/LogoCoil.png" />
                      </image>
                   </ImageView>
                </children>
@@ -31,7 +31,7 @@
                <children>
                   <ImageView fx:id="imgCerrar" fitHeight="33.0" fitWidth="32.0" onMouseClicked="#cerrarVentana" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../Recursos/Varios/cerrar.png" />
+                        <Image url="@Recursos/cerrar.png" />
                      </image>
                      <VBox.margin>
                         <Insets right="10.0" />
@@ -39,7 +39,7 @@
                   </ImageView>
                   <ImageView fitHeight="95.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../Recursos/Varios/usuario.png" />
+                        <Image url="@Recursos/usuario.png" />
                      </image>
                      <VBox.margin>
                         <Insets right="50.0" top="10.0" />
@@ -51,10 +51,10 @@
       </BorderPane>
    </top>
    <left>
-      <VBox fx:id="vBoxBotones" prefHeight="759.0" prefWidth="227.0" spacing="20.0" styleClass="barra-secundaria" stylesheets="@../Estilos/ventana.css" BorderPane.alignment="CENTER">
+      <VBox fx:id="vBoxBotones" prefHeight="759.0" prefWidth="227.0" spacing="20.0" styleClass="barra-secundaria" stylesheets="@Recursos/EstiloVentanas.css" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="btnColaboraciones" mnemonicParsing="false" prefHeight="26.0" prefWidth="406.0" styleClass="button-menu-lateral" stylesheets="@../Estilos/ventana.css" text="Colaboraciones" textOverrun="WORD_ELLIPSIS" />
-            <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="379.0" styleClass="button-menu-lateral" stylesheets="@../Estilos/ventana.css" text="Cuentas" />
+            <Button fx:id="btnColaboraciones" mnemonicParsing="false" prefHeight="26.0" prefWidth="406.0" styleClass="button-menu-lateral" stylesheets="@Recursos/EstiloVentanas.css" text="Colaboraciones" textOverrun="WORD_ELLIPSIS" />
+            <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="379.0" styleClass="button-menu-lateral" stylesheets="@Recursos/EstiloVentanas.css" text="Cuentas" />
          </children>
          <BorderPane.margin>
             <Insets />

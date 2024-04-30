@@ -2,11 +2,10 @@ package test.Logica;
 
 import Logica.DAO.DAOPais;
 import Logica.Dominio.Pais;
-import Logica.ErrorDAO;
+import Utilidades.ErrorDAO;
 import org.junit.jupiter.api.*;
 import test.ConfiguracionPrueba;
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.Optional;
 import static test.ConfiguracionPrueba.borrarDatosTablaPais;
 import static org.junit.jupiter.api.Assertions.*;
@@ -37,7 +36,7 @@ class DAOPaisTest {
         try {
             listaObtenida = INSTANCIA.getNombresPaisesAlfabeticamente();
         }
-        catch (ErrorDAO error) {
+        catch (Utilidades.ErrorDAO error) {
             fail("Fallida: pruebaPaisesAlfabeticamenteExitosa");
         }
 

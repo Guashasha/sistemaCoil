@@ -1,7 +1,7 @@
 package Logica.Interfaces;
 
 import Logica.Dominio.Estudiante;
-import Logica.ErrorDAO;
+import Utilidades.ErrorDAO;
 
 import java.util.List;
 import java.util.Optional;

@@ -2,8 +2,8 @@ package Logica.DAO;
 
 import AccesoADatos.RetroalimentacionColaboracionDB;
 import Logica.Dominio.*;
-import Logica.ErrorDAO;
-import Logica.ErrorDAO.Tipo;
+import Utilidades.ErrorDAO;
+import ErrorDAO.Tipo;
 import Logica.Interfaces.IRetroalimentacionColaboracionDAO;
 import org.apache.log4j.Logger;
 

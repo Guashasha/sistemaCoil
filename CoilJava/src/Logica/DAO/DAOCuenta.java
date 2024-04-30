@@ -2,7 +2,7 @@ package Logica.DAO;
 
 import AccesoADatos.CuentaDB;
 import Logica.Dominio.Cuenta;
-import Logica.ErrorDAO;
+import Utilidades.ErrorDAO;
 import Logica.Interfaces.ICuentaDAO;
 import org.apache.log4j.Logger;
 import java.sql.ResultSet;

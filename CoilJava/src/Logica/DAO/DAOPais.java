@@ -2,7 +2,7 @@ package Logica.DAO;
 
 import AccesoADatos.PaisDB;
 import Logica.Dominio.Pais;
-import Logica.ErrorDAO;
+import Utilidades.ErrorDAO;
 import Logica.Interfaces.IPaisDAO;
 import org.apache.log4j.Logger;
 import java.sql.SQLException;

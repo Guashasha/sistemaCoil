@@ -77,7 +77,7 @@ class AcademicoDBTest {
 
         assertThrows(SQLException.class,
                      () -> AcademicoDB.agregarAcademicoUV(academico),
-                     "Se esperaba que lanzara una excepción ErrorDAO debido a un mal registro");
+                     "Se esperaba que lanzara una excepción Utilidades.ErrorDAO debido a un mal registro");
 
     }
 
@@ -98,7 +98,7 @@ class AcademicoDBTest {
 
         assertThrows(SQLException.class,
                      () -> AcademicoDB.agregarAcademicoUV(academico),
-                     "Se esperaba que lanzara una excepción ErrorDAO debido a una universidad inexistente");
+                     "Se esperaba que lanzara una excepción Utilidades.ErrorDAO debido a una universidad inexistente");
 
     }
 

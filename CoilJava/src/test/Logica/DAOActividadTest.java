@@ -2,7 +2,7 @@ package test.Logica;
 
 import Logica.DAO.DAOActividad;
 import Logica.Dominio.Actividad;
-import Logica.ErrorDAO;
+import Utilidades.ErrorDAO;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import test.ConfiguracionPrueba;

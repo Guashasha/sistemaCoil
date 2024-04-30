@@ -1,9 +1,6 @@
 package Logica.Interfaces;
 
-import Logica.Dominio.Persona;
-import Logica.Dominio.Colaboracion;
 import Logica.Dominio.RetroalimentacionColaboracion;
-import Logica.ErrorDAO;
 
 import java.util.Optional;
 

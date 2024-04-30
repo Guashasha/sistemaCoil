@@ -1,4 +1,4 @@
-package BitacoraRecursos;
+package Utilidades;
 
 import org.apache.log4j.Logger;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;

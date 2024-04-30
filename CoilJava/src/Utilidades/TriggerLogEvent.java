@@ -1,4 +1,4 @@
-package BitacoraRecursos;
+package Utilidades;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.spi.LoggingEvent;
