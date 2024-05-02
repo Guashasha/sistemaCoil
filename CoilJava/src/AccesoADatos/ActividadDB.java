@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
 public class ActividadDB {
     private static final ConexionBaseDatos CONEXION = new ConexionBaseDatos();
 
@@ -55,6 +54,24 @@ public class ActividadDB {
             PreparedStatement consulta = CONEXION.getConexion().prepareStatement("select * from actividad where titulo=?");
 
             consulta.setString(1, titulo);
+
+            resultado = consulta.executeQuery();
+            consulta.close();
+        }
+        finally {
+            CONEXION.desconectar();
+        }
+
+        return resultado;
+    }
+
+    public static ResultSet getPorIdColaboracion (int idColaboracion) throws SQLException {
+        ResultSet resultado;
+
+        try {
+            PreparedStatement consulta = CONEXION.getConexion().prepareStatement("select * from actividad where idColaboracion=?");
+
+            consulta.setInt(1, idColaboracion);
 
             resultado = consulta.executeQuery();
             consulta.close();
