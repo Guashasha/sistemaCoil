@@ -20,4 +20,5 @@ public interface IColaboracionDAO extends IDAO<Colaboracion, Integer> {
     public int cambiarEstadoColaboracion (Colaboracion colaboracion) throws ErrorDAO;
     public int agregarEstudianteAColaboracion (Colaboracion colaboracion, Estudiante estudiante) throws ErrorDAO;
     public int agregarAcademicoAColaboracion (Colaboracion colaboracion, Academico academico) throws ErrorDAO;
+    public Optional<Colaboracion> getActivaPorAcademico (Academico academico) throws ErrorDAO;
 }
