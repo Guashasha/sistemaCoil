@@ -85,13 +85,39 @@ public class UniversidadDB {
     public static List<Universidad> getUniversidadesPorPaisOrigen (String paisOrigen) throws SQLException {
         List<Universidad> listaUniversidades = new ArrayList<>();
         String consultarUniversidadesSQL = "SELECT * FROM universidad_con_pais WHERE pais = ?";
-        PreparedStatement consultaUniversidades = null;
-        ResultSet resultadoConsulta = null;
+        PreparedStatement consultaUniversidades;
+        ResultSet resultadoConsulta;
 
         try {
             consultaUniversidades = CONEXION_BASE_DATOS.getConexion().
                                                        prepareStatement(consultarUniversidadesSQL);
             consultaUniversidades.setString(1, paisOrigen);
+            resultadoConsulta = consultaUniversidades.executeQuery();
+
+            while (resultadoConsulta.next()) {
+                listaUniversidades.add(convertirResultSetAUniversidad(resultadoConsulta));
+            }
+            consultaUniversidades.close();
+            resultadoConsulta.close();
+            CONEXION_BASE_DATOS.desconectar();
+        }
+        catch (SQLException error) {
+            throw error;
+        }
+
+        return listaUniversidades;
+    }
+
+    public static List<Universidad> getUniversidadesPorNombre (String nombre) throws SQLException {
+        List<Universidad> listaUniversidades = new ArrayList<>();
+        String consultarUniversidadesSQL = "SELECT * FROM universidad WHERE nombre LIKE ?";
+        PreparedStatement consultaUniversidades;
+        ResultSet resultadoConsulta;
+
+        try {
+            consultaUniversidades = CONEXION_BASE_DATOS.getConexion().
+                    prepareStatement(consultarUniversidadesSQL);
+            consultaUniversidades.setString(1, "%" + nombre + "%");
             resultadoConsulta = consultaUniversidades.executeQuery();
 
             while (resultadoConsulta.next()) {

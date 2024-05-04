@@ -6,30 +6,29 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import test.ConfiguracionPrueba;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
-import static test.ConfiguracionPrueba.borrarDatosTablaPais;
-import static test.ConfiguracionPrueba.ejecutarInstruccionSQL;
+import static test.ConfiguracionPrueba.*;
 
 class UniversidadDBTest {
     @BeforeAll
     static void beforeAll () {
+        borrarDatosTablaUniversidad();
         borrarDatosTablaPais();
         ejecutarInstruccionSQL("INSERT INTO pais (idPais,Iso,nombre) VALUES (1,'MX','México'),  (2,'US','Estados Unidos');");
     }
 
     @BeforeEach
     void setUp () {
-        ConfiguracionPrueba.borrarDatosTablaUniversidad();
+        borrarDatosTablaUniversidad();
         ejecutarInstruccionSQL("INSERT INTO universidad (idUniversidad,nombre,paisOrigen) VALUES (1,'Universidad Veracruzana',1), (2,'Harvard',2), (3,'BUAP',1);");
     }
 
     @AfterAll
     static void arterAll () {
-        ConfiguracionPrueba.borrarDatosTablaUniversidad();
+        borrarDatosTablaUniversidad();
         borrarDatosTablaPais();
     }
 
@@ -202,6 +201,49 @@ class UniversidadDBTest {
         }
 
         assertTrue(listaObtenida.isEmpty());
+    }
+
+    @Test
+    void getUniversidadesPorNombreExitosa () {
+        List<Universidad> listaEsperada = new ArrayList<>();
+        List<Universidad> listaObtenida = new ArrayList<>();
+        listaEsperada.add(new Universidad(1,"Universidad Veracruzana",1));
+
+        try {
+            listaObtenida = UniversidadDB.getUniversidadesPorNombre("U");
+        }
+        catch (SQLException error) {
+            fail("Fallida: getUniversidadesPorNombreExitosa");
+        }
+
+        assertEquals(listaEsperada.get(0),listaObtenida.get(0),"getUniversidadesPorNombreExitosa");
+    }
+
+    @Test
+    void getUniversidadesPorNombreInexistente () {
+        List<Universidad> listaObtenida = new ArrayList<>();
+        try {
+            listaObtenida = UniversidadDB.getUniversidadesPorNombre("X");
+        }
+        catch (SQLException error) {
+            fail("Fallida: getUniversidadesPorNombreInexistente");
+        }
+        assertTrue(listaObtenida.isEmpty(),"getUniversidadesPorNombreInexistente");
+    }
+
+    @Test
+    void pruebaGetUniversidadesPorNombreNulo () {
+        System.out.println();
+        List<Universidad> listaObtenida = new ArrayList<>();
+
+        try {
+            listaObtenida = UniversidadDB.getUniversidadesPorNombre(null);
+        }
+        catch (SQLException error) {
+            fail("Fallida: pruebaGetUniversidadesPorNombreNulo");
+        }
+
+        assertTrue(listaObtenida.isEmpty(),"pruebaGetUniversidadesPorNombreNulo");
     }
 
     @Test

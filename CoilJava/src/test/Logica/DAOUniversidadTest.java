@@ -150,7 +150,7 @@ class DAOUniversidadTest {
             listaObtenida = INSTANCIA.getUniversidadesPorPaisOrigen("México");
         }
         catch (ErrorDAO error) {
-            fail("pruebaGetUniversidadesPorPaisOrigenExitosa");
+            fail("Fallida: pruebaGetUniversidadesPorPaisOrigenExitosa");
         }
 
         assertEquals(listaEsperada.size(),listaObtenida.size());
@@ -169,7 +169,7 @@ class DAOUniversidadTest {
             assertTrue(listaObtenida.isEmpty(),"pruebaGetUniversidadesPorPaisOrigenCadenaInvalida");
         }
         catch (ErrorDAO error) {
-            fail("pruebaGetUniversidadesPorPaisOrigenCadenaInvalida");
+            fail("Fallida: pruebaGetUniversidadesPorPaisOrigenCadenaInvalida");
         }
     }
 
@@ -180,8 +180,37 @@ class DAOUniversidadTest {
             assertTrue(listaObtenida.isEmpty(),"pruebaGetUniversidadesPorPaisOrigenInexistente");
         }
         catch (ErrorDAO error) {
-            fail("pruebaGetUniversidadesPorPaisOrigenInexistente");
+            fail("Fallida: pruebaGetUniversidadesPorPaisOrigenInexistente");
         }
+    }
+
+    @Test
+    void getUniversidadesPorNombreExitosa () {
+        List<Universidad> listaEsperada = new ArrayList<>();
+        List<Universidad> listaObtenida = new ArrayList<>();
+        listaEsperada.add(new Universidad(1,"Universidad Veracruzana",1));
+        try {
+            listaObtenida = INSTANCIA.getUniversidadesPorNombre(new Universidad("U"));
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: getUniversidadesPorNombreExitosa");
+        }
+        assertEquals(listaEsperada.get(0),listaObtenida.get(0),"getUniversidadesPorNombreExitosa");
+    }
+
+    @Test
+    void getUniversidadesPorNombreCadenaVacia () {
+        assertThrows(ErrorDAO.class,()->INSTANCIA.getUniversidadesPorNombre(new Universidad("   ")));
+    }
+
+    @Test
+    void getUniversidadesPorNombreCadenaNula () {
+        assertThrows(ErrorDAO.class,()->INSTANCIA.getUniversidadesPorNombre(new Universidad(null)));
+    }
+
+    @Test
+    void getUniversidadesPorNombreObjetoNulo () {
+        assertThrows(ErrorDAO.class,()->INSTANCIA.getUniversidadesPorNombre(null));
     }
 
     @Test
@@ -313,7 +342,7 @@ class DAOUniversidadTest {
     void pruebaValidarCadenasExitosa () {
         System.out.println("pruebaValidarCadenasExitosa");
         String[] cadenas = new String[]{"Harvard","BUAP","Universidad Veracruzana","México"};
-        boolean resultado = this.INSTANCIA.validarCadenas(cadenas);
+        boolean resultado = this.INSTANCIA.cadenasValidas(cadenas);
         assertTrue(resultado);
     }
 
@@ -321,7 +350,7 @@ class DAOUniversidadTest {
     void pruebaValidarCadenasNulas () {
         System.out.println("pruebaValidarCadenasNulas");
         String[] cadenas = new String[]{"Harvard","BUAP","Universidad Veracruzana",null};
-        boolean resultado = this.INSTANCIA.validarCadenas(cadenas);
+        boolean resultado = this.INSTANCIA.cadenasValidas(cadenas);
         assertFalse(resultado);
     }
 
@@ -329,7 +358,7 @@ class DAOUniversidadTest {
     void pruebaValidarCadenasVacias () {
         System.out.println("pruebaValidarCadenasVacias");
         String[] cadenas = new String[]{"Harvard","BUAP","Universidad Veracruzana","    "};
-        boolean resultado = this.INSTANCIA.validarCadenas(cadenas);
+        boolean resultado = this.INSTANCIA.cadenasValidas(cadenas);
         assertFalse(resultado);
     }
 }
