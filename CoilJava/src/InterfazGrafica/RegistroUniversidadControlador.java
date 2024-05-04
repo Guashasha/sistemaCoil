@@ -8,7 +8,6 @@ import Utilidades.ErrorDAO;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -20,11 +19,12 @@ import javafx.stage.StageStyle;
 import org.apache.log4j.Logger;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class RegistroUniversidadControlador extends Application implements Initializable {
-    private static final Logger BITACORA = Logger.getLogger(NuevaActividadControlador.class);
+    private static final Logger BITACORA = Logger.getLogger(RegistroUniversidadControlador.class);
     @FXML
     private Label txtObligatorioNombre;
     @FXML
@@ -50,7 +50,7 @@ public class RegistroUniversidadControlador extends Application implements Initi
         Parent root = null;
 
         try {
-            root = FXMLLoader.load(getClass().getResource("../Plantilla/RegistroUniversidad.fxml"));
+            root = FXMLLoader.load(getClass().getResource("RegistroUniversidad.fxml"));
         }
         catch (IOException e) {
             BITACORA.error(e);
@@ -68,7 +68,7 @@ public class RegistroUniversidadControlador extends Application implements Initi
     }
 
     @FXML
-    void registrarUniversidad (ActionEvent event) {
+    void registrarUniversidad () {
         if (camposValidos()) {
             Universidad universidad = new Universidad(tfNombre.getText());
             Pais pais = new Pais(cmbPaises.getValue());
@@ -85,6 +85,7 @@ public class RegistroUniversidadControlador extends Application implements Initi
 
             if (filasAfectadas == 1) {
                 mostrarMensajeEmergente("Se ha registrado la universidad exitosamente", Alert.AlertType.INFORMATION);
+                limpiarCampos();
             }
             else {
                 mostrarMensajeEmergente("Algo salió mal. Intentelo de nuevo más tarde", Alert.AlertType.ERROR);
@@ -105,28 +106,32 @@ public class RegistroUniversidadControlador extends Application implements Initi
         });
     }
 
-    public void llenarComboBoxPaises () {
+    private void llenarComboBoxPaises () {
         DAOPais daoPais = new DAOPais();
-        List<String> listaPaises;
+        List<String> listaPaises = new ArrayList<>();
         try {
             listaPaises = daoPais.getNombresPaisesAlfabeticamente();
         }
         catch (ErrorDAO error) {
             mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
-            return;
         }
         ObservableList<String> paisesObservable = FXCollections.observableArrayList(listaPaises);
         this.cmbPaises.setItems(paisesObservable);
     }
 
-    public void mostrarMensajeEmergente (String mensaje, Alert.AlertType tipoAlerta) {
+    private void mostrarMensajeEmergente (String mensaje, Alert.AlertType tipoAlerta) {
         Alert alerta = new Alert(tipoAlerta);
         alerta.setContentText(mensaje);
         alerta.setHeaderText(null);
         alerta.show();
     }
 
-    public boolean camposValidos () {
+    private void limpiarCampos () {
+        tfNombre.setText(null);
+        cmbPaises.setValue(null);
+    }
+
+    private boolean camposValidos () {
         boolean nombreValido = DAOUniversidad.cadenaValida(tfNombre.getText());
         boolean paisValido = DAOUniversidad.cadenaValida(cmbPaises.getValue());
         txtObligatorioNombre.setVisible(!nombreValido);
