@@ -32,6 +32,7 @@ public class InicioAcademicoControlador extends Application {
     VBox pnInicio = new VBox();
 
     private Academico usuario;
+    private Optional<Colaboracion> colaboracion;
 
     public static void main (String[] args) {
         launch(args);
@@ -45,7 +46,8 @@ public class InicioAcademicoControlador extends Application {
             root = FXMLLoader.load(getClass().getResource("InicioAcademico.fxml"));
         }
         catch (IOException error) {
-            BITACORA.error(error);
+            BITACORA.fatal(error);
+            return;
         }
 
         if (root != null) {
@@ -59,90 +61,69 @@ public class InicioAcademicoControlador extends Application {
             stage.show();
         } else {
             BITACORA.error("Ocurrió un error al iniciar el panel inicio academico");
+            return;
         }
+
+        setOverviewColaboracion();
     }
 
     private void setOverviewColaboracion () {
-        Optional<Colaboracion> colaboracionActual = getInformacionColaboracion(usuario);
+        getInformacionColaboracion(this.usuario);
 
-        if (colaboracionActual.isEmpty()) {
+        if (this.colaboracion.isEmpty()) {
             // TODO
             // Si no hay colaboración activa mostrar otra cosa
             return;
         }
 
-        List<Academico> participantes;
+        HBox informacionColaboracion;
+        TableView<Actividad> informacionActividades;
 
         try {
-            participantes = daoColaboracion.getAcademicosParticipantes(colaboracionActual.get());
+             informacionColaboracion = getInfoHBox();
+             informacionActividades = getInformacionActividades();
         }
         catch (ErrorDAO error) {
-            Alert alerta = crearAlerta(error, "academicos");
+            Alert alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setHeaderText("ocurrió un error inesperado al leer datos");
+            alerta.setContentText(error.getMessage());
             alerta.showAndWait();
             return;
         }
 
-        // Si hay una colaboración activa debe forzosamente haber un par academico
-        if (participantes.isEmpty()) {
-            Alert alerta = new Alert(Alert.AlertType.WARNING);
-            alerta.setHeaderText("Ocurrió un error inesperado");
-            alerta.setContentText("No se pudo encontrar a su par academico, por favor comuniquese con soporte tecnico");
-            alerta.showAndWait();
-            return;
-        }
-
-        pnInicio.getChildren().add(getInformacionColaboracion(colaboracionActual.get(), participantes));
-        TableView informacionActividades;
-
-        try {
-            informacionActividades = getInformacionActividades(colaboracionActual.get());
-        }
-        catch (ErrorDAO error) {
-            Alert alerta = crearAlerta(error, "actividad");
-            alerta.showAndWait();
-            return;
-        }
-
-        pnInicio.getChildren().add(informacionActividades);
+        pnInicio.getChildren().addAll(informacionColaboracion, informacionActividades);
     }
 
-    private Optional<HBox> getInformacionColaboracion (Academico usuario) {
+    private void getInformacionColaboracion (Academico usuario) throws ErrorDAO {
         DAOColaboracion daoColaboracion = new DAOColaboracion();
-        Optional<Colaboracion> colaboracion;
 
-        try {
-            colaboracion = daoColaboracion.getActivaPorAcademico(usuario.getIdPersona());
-        }
-        catch (ErrorDAO error) {
-            Alert alerta = crearAlerta(error, "colaboración");
-            alerta.showAndWait();
-            return Optional.empty();
-        }
+        colaboracion = daoColaboracion.getActivaPorAcademico(this.usuario.getIdPersona());
+    }
 
-        if (colaboracion == null) {
-            return Optional.empty();
-        }
-
+    private HBox getInfoHBox () {
         HBox informacionColaboracion = new HBox();
 
-        Label temaInteres = new Label(colaboracion.getTemaInteres());
-        Label colaborador = new Label("Academico colaborador: " + participantes.getFirst());
-        Label fechaFin = new Label("Fecha de finalización: " + colaboracion.getPeriodo()
-                                                                            .getFechaFin());
+        Label temaInteres = new Label(this.colaboracion.get().getTemaInteres());
+        Label colaborador = new Label("Academico colaborador: " + this.colaboracion.get().getAcademicoPar().getNombre());
+        Label fechaFin = new Label("Fecha de finalización: " + this.colaboracion.get().getPeriodo()
+                .getFechaFin());
 
         informacionColaboracion.getChildren()
-                                .addAll(temaInteres, colaborador, fechaFin);
+                .addAll(temaInteres, colaborador, fechaFin);
 
-        return Optional.of(informacionColaboracion);
+        return informacionColaboracion;
     }
 
-    private TableView getInformacionActividades (Colaboracion colaboracion) throws ErrorDAO {
+    private TableView<Actividad> getInformacionActividades () throws ErrorDAO {
         DAOActividad daoActividad = new DAOActividad();
         List<Actividad> resultado;
 
-        resultado = daoActividad.getPorIdColaboracion(colaboracion.getIdColaboracion());
+        resultado = daoActividad.getPorIdColaboracion(this.colaboracion.get().getIdColaboracion());
 
-        return new TableView(FXCollections.observableList(resultado));
+        TableView<Actividad> actividades = new TableView<>(FXCollections.observableList(resultado));
+        actividades.setEditable(false);
+
+        return actividades;
     }
 
     private Alert crearAlerta (ErrorDAO error, String objeto) {

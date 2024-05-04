@@ -4,7 +4,6 @@ import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -20,8 +19,6 @@ public class VentanaPrincipalAcademicoControlador extends Application {
     private final Logger BITACORA = Logger.getLogger(VentanaPrincipalAcademicoControlador.class);
 
     @FXML
-    private Button btnColaboraciones = new Button();
-    @FXML
     private BorderPane pnPrincipal = new BorderPane();
 
     private Stack<Pane> historialPaneles = new Stack<>();
@@ -35,7 +32,7 @@ public class VentanaPrincipalAcademicoControlador extends Application {
         BorderPane root = null;
 
         try {
-            root = FXMLLoader.load(getClass().getResource("VentanaPrincipalAcademico.fxml"));
+            root = FXMLLoader.load(getClass().getResource("VentanaPrincipal.fxml"));
         }
         catch (IOException error) {
             BITACORA.error(error);
@@ -57,7 +54,7 @@ public class VentanaPrincipalAcademicoControlador extends Application {
     }
 
     public void cerrarVentana () {
-        Stage window = (Stage) btnColaboraciones.getScene().getWindow();
+        Stage window = (Stage) pnPrincipal.getScene().getWindow();
         window.close();
     }
 
