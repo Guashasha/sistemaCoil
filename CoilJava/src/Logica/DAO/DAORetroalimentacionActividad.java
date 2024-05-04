@@ -4,6 +4,7 @@ import AccesoADatos.RetroalimentacionActividadDB;
 import Logica.Dominio.Actividad;
 import Logica.Dominio.RetroalimentacionActividad;
 import Utilidades.ErrorDAO;
+import Utilidades.ErrorDAO.Tipo;
 import Logica.Interfaces.IRetroalimentacionActividadDAO;
 import org.apache.log4j.Logger;
 
@@ -13,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static ErrorDAO.Tipo;
 
 public class DAORetroalimentacionActividad implements IRetroalimentacionActividadDAO {
     private static final Logger BITACORA = Logger.getLogger(RetroalimentacionActividad.class.getName());

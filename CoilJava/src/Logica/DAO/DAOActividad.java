@@ -121,6 +121,42 @@ public class DAOActividad implements IActividadDAO {
         return Optional.ofNullable(actividad);
     }
 
+    public List<Actividad> getPorIdColaboracion (int idColaboracion) throws ErrorDAO {
+        ResultSet resultado = null;
+
+        try {
+            resultado = ActividadDB.getPorIdColaboracion(idColaboracion);
+        }
+        catch (SQLException error) {
+            BITACORA.error(error);
+            throw new ErrorDAO("Ocurrió un error al recuperar la información de la actividad", Tipo.CONSULTA);
+        }
+
+        List<Actividad> actividades = new ArrayList<>();
+
+        if (resultado == null) {
+            return actividades;
+        }
+
+        try {
+            while (resultado.next()) {
+                Actividad actividad = resultSetAObjeto(resultado);
+
+                if (actividad.esCorrecta()) {
+                    actividades.add(actividad);
+                }
+            }
+
+            resultado.close();
+        }
+        catch (SQLException error) {
+            BITACORA.error(error);
+            throw new ErrorDAO("Ocurrió un error con la base de datos: " + error.getMessage(), Tipo.CONEXION);
+        }
+
+        return actividades;
+    }
+
     @Override
     public List<Actividad> getTodos () throws ErrorDAO {
         ResultSet resultados = null;

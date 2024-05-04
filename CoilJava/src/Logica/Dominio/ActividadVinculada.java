@@ -1,30 +1,14 @@
 package Logica.Dominio;
 
 public class ActividadVinculada {
-    private int id;
     private Actividad actividad;
     private Colaboracion colaboracion;
     private Periodo periodo;
-
-    public ActividadVinculada (int id, Actividad actividad, Colaboracion colaboracion, Periodo periodo) {
-        this.id = id;
-        this.periodo = periodo;
-        this.actividad = actividad;
-        this.colaboracion = colaboracion;
-    }
 
     public ActividadVinculada (Actividad actividad, Colaboracion colaboracion, Periodo periodo) {
         this.actividad = actividad;
         this.colaboracion = colaboracion;
         this.periodo = periodo;
-    }
-
-    public int getId () {
-        return this.id;
-    }
-
-    public void setId (int id) {
-        this.id = id;
     }
 
     public Actividad getActividad () {

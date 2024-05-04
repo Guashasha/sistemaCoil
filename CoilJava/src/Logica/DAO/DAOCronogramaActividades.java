@@ -57,7 +57,34 @@ public class DAOCronogramaActividades implements IDAO<ActividadVinculada, Intege
 
     @Override
     public Optional<ActividadVinculada> getPorId (Integer id) throws ErrorDAO {
-        return Optional.empty();
+        throw new ErrorDAO("La función no está implementada en la clase DAOCronogramaActividades", ErrorDAO.Tipo.CONSULTA);
+    }
+
+    public Optional<ActividadVinculada> getPorActividadYColaboracion (int idActividad, int idColaboracion) {
+        ResultSet rsActividad = null;
+
+        try {
+            rsActividad = CronogramaActividadDB.getPorActividadYColaboracion(idActividad, idColaboracion);
+        }
+        catch (SQLException error) {
+            BITACORA.error(error);
+            throw new ErrorDAO("Error de conexion a la base de datos: " + error.getMessage(), ErrorDAO.Tipo.CONEXION);
+        }
+
+        ActividadVinculada actividad = null;
+
+        try {
+            if (rsActividad != null && rsActividad.next()) {
+                actividad = resultSetAObjeto(rsActividad);
+
+                rsActividad.close();
+            }
+        }
+        catch (SQLException error) {
+            BITACORA.error(error);
+        }
+
+        return Optional.ofNullable(actividad);
     }
 
     @Override
@@ -122,7 +149,7 @@ public class DAOCronogramaActividades implements IDAO<ActividadVinculada, Intege
                 throw new ErrorDAO("la actividad buscada para vinculación no existe", ErrorDAO.Tipo.CONSULTA);
             }
 
-            actividadVinculada = new ActividadVinculada(id, actividad.get(), colaboracion.get(), new Periodo(fechaInicio, fechaFin));
+            actividadVinculada = new ActividadVinculada(actividad.get(), colaboracion.get(), new Periodo(fechaInicio, fechaFin));
         }
         catch (SQLException error) {
             BITACORA.error(error);

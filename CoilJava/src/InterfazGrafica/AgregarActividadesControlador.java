@@ -26,7 +26,7 @@ public class AgregarActividadesControlador extends Application {
         SplitPane root = null;
 
         try {
-            root = FXMLLoader.load(getClass().getResource("../Plantilla/agregarActividades.fxml"));
+            root = FXMLLoader.load(getClass().getResource("agregarActividades.fxml"));
         }
         catch (IOException e) {
             BITACORA.error(e);
@@ -35,7 +35,7 @@ public class AgregarActividadesControlador extends Application {
         AnchorPane panelExtra = null;
 
         try {
-            panelExtra = FXMLLoader.load(getClass().getResource("../Plantilla/NuevaActividad.fxml"));
+            panelExtra = FXMLLoader.load(getClass().getResource("NuevaActividad.fxml"));
         }
         catch (IOException e) {
             System.err.println("error al crear el panel extra");

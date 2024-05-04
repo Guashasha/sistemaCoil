@@ -13,6 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -20,6 +21,7 @@ import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Stack;
 
 public class NuevaActividadControlador extends Application {
     private static final Logger BITACORA = Logger.getLogger(NuevaActividadControlador.class);
@@ -59,7 +61,7 @@ public class NuevaActividadControlador extends Application {
         Parent root = null;
 
         try {
-            root = FXMLLoader.load(getClass().getResource("../Plantilla/NuevaActividad.fxml"));
+            root = FXMLLoader.load(getClass().getResource("NuevaActividad.fxml"));
         }
         catch (IOException e) {
             BITACORA.error(e);
@@ -128,9 +130,11 @@ public class NuevaActividadControlador extends Application {
 
         if (resultado < 1) {
             Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-            errorAlert.setHeaderText("Error al agregar");
+            errorAlert.setHeaderText("Error al agregar actividad");
             errorAlert.setContentText("Ocurrió un error al agregar la actividad");
             errorAlert.showAndWait();
+
+            return;
         }
 
         ActividadVinculada actividadVinculada = new ActividadVinculada(actividad, colaboracion, periodo);

@@ -24,6 +24,8 @@ public class Colaboracion {
     private String objetivo;
     private Periodo periodo;
     private String perfilEstudiante;
+    private Academico academicoPar;
+    private Academico anfitrion;
 
     public int getIdColaboracion() {
         return idColaboracion;
@@ -86,6 +88,22 @@ public class Colaboracion {
 
     public void setEstado (EstadoColaboracion estado) {
         this.estado = estado;
+    }
+
+    public Academico getAcademicoPar () {
+        return academicoPar;
+    }
+
+    public void setAcademicoPar (Academico academicoPar) {
+        this.academicoPar = academicoPar;
+    }
+
+    public Academico getAnfitrion () {
+        return anfitrion;
+    }
+
+    public void setAnfitrion (Academico anfitrion) {
+        this.anfitrion = anfitrion;
     }
 
     public boolean esValido () {

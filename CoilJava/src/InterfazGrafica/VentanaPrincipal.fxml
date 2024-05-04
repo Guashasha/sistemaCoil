@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
@@ -52,10 +51,6 @@
    </top>
    <left>
       <VBox fx:id="vBoxBotones" prefHeight="759.0" prefWidth="227.0" spacing="20.0" styleClass="barra-secundaria" stylesheets="@Recursos/EstiloVentanas.css" BorderPane.alignment="CENTER">
-         <children>
-            <Button fx:id="btnColaboraciones" mnemonicParsing="false" prefHeight="26.0" prefWidth="406.0" styleClass="button-menu-lateral" stylesheets="@Recursos/EstiloVentanas.css" text="Colaboraciones" textOverrun="WORD_ELLIPSIS" />
-            <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="379.0" styleClass="button-menu-lateral" stylesheets="@Recursos/EstiloVentanas.css" text="Cuentas" />
-         </children>
          <BorderPane.margin>
             <Insets />
          </BorderPane.margin>

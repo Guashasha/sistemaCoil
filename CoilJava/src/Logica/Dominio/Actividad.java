@@ -55,11 +55,9 @@ public class Actividad {
 
     @Override
     public boolean equals (Object objeto) {
-        if (!(objeto instanceof Actividad)) {
+        if (!(objeto instanceof Actividad actividad)) {
             return false;
         }
-
-        Actividad actividad = (Actividad) objeto;
 
         return this.titulo.equals(actividad.getTitulo()) &&
                 this.descripcion.equals(actividad.getDescripcion()) &&

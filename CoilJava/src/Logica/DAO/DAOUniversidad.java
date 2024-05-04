@@ -17,9 +17,12 @@ public class DAOUniversidad implements IUniversidadDAO {
 
     @Override
     public int registrarUniversidad (Universidad universidad, Pais pais) throws ErrorDAO {
+        if (esNulo(universidad) || esNulo(pais)) {
+            throw new ErrorDAO("Algo salió mal, inténtelo de nuevo más tarde", ErrorDAO.Tipo.VALIDACION);
+        }
         int filasAfectadas;
 
-        if (validarCadenas(new String[]{universidad.getNombre(), pais.getNombre()})) {
+        if (cadenasValidas(new String[]{universidad.getNombre(), pais.getNombre()})) {
             String nombreUnivesidad = universidad.getNombre()
                     .trim();
             String nombrePais = pais.getNombre()
@@ -49,9 +52,12 @@ public class DAOUniversidad implements IUniversidadDAO {
 
     @Override
     public int editarUniversidad (Universidad universidadActual, Universidad nuevaUniversidad, Pais nuevoPais) throws ErrorDAO {
+        if (esNulo(universidadActual) || esNulo(nuevaUniversidad) || esNulo(nuevoPais)) {
+            throw new ErrorDAO("Algo salió mal, inténtelo de nuevo más tarde", ErrorDAO.Tipo.VALIDACION);
+        }
         int filasAfectadas;
 
-        if (validarCadenas(new String[]{universidadActual.getNombre(),nuevaUniversidad.getNombre(),nuevoPais.getNombre()})) {
+        if (cadenasValidas(new String[]{universidadActual.getNombre(),nuevaUniversidad.getNombre(),nuevoPais.getNombre()})) {
             String nombreActual = universidadActual.getNombre()
                     .trim();
             String nuevoNombre = nuevaUniversidad.getNombre()
@@ -115,6 +121,31 @@ public class DAOUniversidad implements IUniversidadDAO {
     }
 
     @Override
+    public List<Universidad> getUniversidadesPorNombre (Universidad universidad) throws ErrorDAO {
+        if (esNulo(universidad)) {
+            throw new ErrorDAO("Algo salió mal, inténtelo de nuevo más tarde", ErrorDAO.Tipo.VALIDACION);
+        }
+        List<Universidad> listaUniversidades;
+
+        if (cadenaValida(universidad.getNombre())) {
+            String nombre = universidad.getNombre().
+                    trim();
+            try{
+                listaUniversidades = UniversidadDB.getUniversidadesPorNombre(nombre);
+            }
+            catch (SQLException error) {
+                bitacora.info(error.getMessage());
+                throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
+            }
+        }
+        else {
+            throw new ErrorDAO("Campos vacíos", ErrorDAO.Tipo.VALIDACION);
+        }
+
+        return listaUniversidades;
+    }
+
+    @Override
     public List<Universidad> getTodasAlfabeticamente () throws ErrorDAO {
         try {
             return UniversidadDB.getTodasAlfabeticamente();
@@ -122,7 +153,7 @@ public class DAOUniversidad implements IUniversidadDAO {
         }
         catch (SQLException error) {
             bitacora.info(error.getMessage());
-            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
+            throw new ErrorDAO("Error al establecer conexión con la base de datos", ErrorDAO.Tipo.CONEXION);
         }
     }
 
@@ -140,6 +171,8 @@ public class DAOUniversidad implements IUniversidadDAO {
         }
         return Optional.ofNullable(universidad);
     }
+
+
     
     public boolean universidadExiste (String universidad, String pais) throws ErrorDAO {
         boolean existe = false;
@@ -169,7 +202,7 @@ public class DAOUniversidad implements IUniversidadDAO {
         return !esNulo(cadena) && !cadena.isBlank();
     }
 
-    public static boolean validarCadenas (String[] cadenas) {
+    public static boolean cadenasValidas (String[] cadenas) {
         boolean validas = true;
         int i = 0;
 
