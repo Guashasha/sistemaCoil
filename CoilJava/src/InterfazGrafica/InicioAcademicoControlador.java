@@ -97,7 +97,7 @@ public class InicioAcademicoControlador extends Application {
     private void getInformacionColaboracion (Academico usuario) throws ErrorDAO {
         DAOColaboracion daoColaboracion = new DAOColaboracion();
 
-        colaboracion = daoColaboracion.getActivaPorAcademico(this.usuario.getIdPersona());
+        //colaboracion = daoColaboracion.getActivaPorAcademico(this.usuario.getIdPersona());
     }
 
     private HBox getInfoHBox () {
