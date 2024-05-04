@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
@@ -20,6 +21,8 @@ public class VentanaPrincipalAcademicoControlador extends Application {
 
     @FXML
     private BorderPane pnPrincipal = new BorderPane();
+    @FXML
+    private VBox vBoxBotones;
 
     private Stack<Pane> historialPaneles = new Stack<>();
 
@@ -51,6 +54,10 @@ public class VentanaPrincipalAcademicoControlador extends Application {
         }
 
         abrirMenuPrincipal();
+    }
+
+    public void agregarBotones () {
+        // TODO
     }
 
     public void cerrarVentana () {
