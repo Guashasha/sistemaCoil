@@ -8,6 +8,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.util.List;
 
+@SuppressWarnings("deprecation")
 public class NotificacionErroresCOILBot extends TelegramLongPollingBot {
     private static final Logger BITACORA = Logger.getLogger(NotificacionErroresCOILBot.class);
     private static final NotificacionErroresCOILBot INSTANCIA_BOT = new NotificacionErroresCOILBot();

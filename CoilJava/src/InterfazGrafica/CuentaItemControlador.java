@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.VBox;
 
 import java.net.URL;
@@ -49,6 +50,7 @@ public class CuentaItemControlador implements Initializable {
 
     private VBox lyInformacionCuenta;
 
+
     public VBox getLyInformacionCuenta () {
         return lyInformacionCuenta;
     }
@@ -75,7 +77,41 @@ public class CuentaItemControlador implements Initializable {
 
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle) {
+        initializeLabels();
+    }
 
+    private void initializeLabels() {
+        if (cuentaObtenida != null) {
+            setLabel();
+        }
+    }
+
+    public Label getLbApellidos () {
+        return lbApellidos;
+    }
+
+    public Label getLbCedula () {
+        return lbCedula;
+    }
+
+    public Label getLbCorreo () {
+        return lbCorreo;
+    }
+
+    public Label getLbNombre () {
+        return lbNombre;
+    }
+
+    public Label getLbPais () {
+        return lbPais;
+    }
+
+    public Label getLbUniversidad () {
+        return lbUniversidad;
+    }
+
+    public Label getLbUsuario () {
+        return lbUsuario;
     }
 
     public Academico getAcademico (int idPersona) {
@@ -137,19 +173,30 @@ public class CuentaItemControlador implements Initializable {
         return pais;
     }
 
-    public void setLabel (Cuenta cuenta) {
-        lbUsuario.setText(cuenta.getNombreUsuario());
-        Academico academico = getAcademico(cuenta.getIdPersona());
+    public void setLabel () {
+        lbUsuario.setText(cuentaObtenida.getNombreUsuario());
+        setToolTip(lbUsuario);
+        Academico academico = getAcademico(cuentaObtenida.getIdPersona());
         lbNombre.setText(academico.getNombre());
+        setToolTip(lbNombre);
         lbApellidos.setText(academico.getApellidoPaterno() + " " + academico.getApellidoMaterno());
+        setToolTip(lbApellidos);
         lbCorreo.setText(academico.getCorreoElectronico());
+        setToolTip(lbCorreo);
         lbCedula.setText(academico.getCedulaProfesional());
+        setToolTip(lbCedula);
         Universidad universidad = getUniversidadPorId(academico.getIdUniversidad());
         lbUniversidad.setText(universidad.getNombre());
+        setToolTip(lbUniversidad);
         Pais pais = getPaisPorId(universidad.getIdPais());
         lbPais.setText(pais.getNombre());
+        setToolTip(lbPais);
     }
 
+    private void setToolTip (Label label) {
+        Tooltip tooltip = new Tooltip(label.getText());
+        Tooltip.install(label, tooltip);
+    }
 
 
 }

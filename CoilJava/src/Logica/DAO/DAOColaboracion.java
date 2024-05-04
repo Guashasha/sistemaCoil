@@ -183,6 +183,11 @@ public class DAOColaboracion implements IColaboracionDAO {
     }
 
     @Override
+    public Optional<Colaboracion> getActivaPorAcademico (Academico academico) throws ErrorDAO {
+        return Optional.empty();
+    }
+
+    @Override
     public int agregar (Colaboracion colaboracion) throws ErrorDAO {
         if (!colaboracion.esValido()) {
             throw new ErrorDAO("Al menos un dato de la colaboracion esta vacia", ErrorDAO.Tipo.VALIDACION);

@@ -447,6 +447,13 @@ public class ColaboracionDB {
         return colaboracion;
     }
 
+    //todo
+
+    public Colaboracion getActivaPorAcademico (Academico academico) throws SQLException {
+        Colaboracion colaboracion = new Colaboracion();
+        return colaboracion;
+    }
+
     private static Estudiante convertirEstudiante (ResultSet resultado) throws SQLException {
 
         Estudiante estudiante = new Estudiante();
