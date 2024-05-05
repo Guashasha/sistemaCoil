@@ -20,6 +20,7 @@ class ColaboracionDBTest {
 
     @BeforeEach
     void setUp () {
+        AyudantePruebasColaboracionDB.borrarTodosDatosTabla();
         AyudantePruebasColaboracionDB.agregarPrecondiciones();
     }
 
@@ -57,6 +58,7 @@ class ColaboracionDBTest {
 
         try {
             colaboracionReal = ColaboracionDB.getColaboracionPorAcademicosParticipantes(academico1, academico2);
+            System.out.println(colaboracionReal.toString());
 
         }
         catch (SQLException error) {
@@ -152,6 +154,7 @@ class ColaboracionDBTest {
 
         try {
             colaboracionReal = ColaboracionDB.getColaboracionPorId(1);
+            System.out.print(colaboracionReal.toString());
 
         }
         catch (SQLException errorDAO) {
@@ -259,6 +262,7 @@ class ColaboracionDBTest {
 
         try {
             listaColaboraciones = ColaboracionDB.getColaboracionPorPeriodo(periodo);
+            System.out.println(listaColaboraciones.get(0).toString());
 
         }
         catch (SQLException error) {
@@ -429,6 +433,7 @@ class ColaboracionDBTest {
 
         try {
             listaColaboracion = ColaboracionDB.getTodos();
+            System.out.println(listaColaboracion.size());
 
         }
         catch (SQLException errorDAO) {

@@ -118,4 +118,19 @@ public class Colaboracion {
         return cadena != null && !cadena.isBlank();
     }
 
+    @Override
+    public String toString () {
+        return "Colaboracion{" +
+                "idColaboracion=" + idColaboracion +
+                ", tipo=" + tipo +
+                ", estado=" + estado +
+                ", temaInteres='" + temaInteres + '\'' +
+                ", idioma='" + idioma + '\'' +
+                ", objetivo='" + objetivo + '\'' +
+                ", periodo=" + periodo +
+                ", perfilEstudiante='" + perfilEstudiante + '\'' +
+                ", academicoPar=" + academicoPar.getNombre() +
+                ", anfitrion=" + anfitrion.getNombre() +
+                '}';
+    }
 }

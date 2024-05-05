@@ -27,6 +27,11 @@ public class ColaboracionDB {
 
             if (resultadoGetColaboracionPorAcademico.next()) {
                 colaboracion = convertirColaboracion(resultadoGetColaboracionPorAcademico);
+                colaboracion.setAnfitrion(convertirAcademico(resultadoGetColaboracionPorAcademico));
+
+                if (resultadoGetColaboracionPorAcademico.next()) {
+                    colaboracion.setAcademicoPar(convertirAcademico(resultadoGetColaboracionPorAcademico));
+                }
             }
 
             resultadoGetColaboracionPorAcademico.close();
@@ -41,7 +46,11 @@ public class ColaboracionDB {
     }
 
     public static Colaboracion getColaboracionPorId (int idColaboracion) throws SQLException {
-        String colaboracionPorIdSQL = "SELECT * from colaboracion WHERE idColaboracion = ?";
+        String colaboracionPorIdSQL = "SELECT c.*, va.*\n" +
+                "FROM colaboracion c\n" +
+                "INNER JOIN academicodesarrolla ad ON c.idColaboracion = ad.idColaboracion\n" +
+                "INNER JOIN vista_academico va ON ad.idAcademico = va.cedulaProfesional\n" +
+                "WHERE c.idColaboracion = ?";
         Colaboracion colaboracion = null;
 
         try {
@@ -56,8 +65,12 @@ public class ColaboracionDB {
 
             if (resultadoColaboracionPorId.next()) {
                 colaboracion = convertirColaboracion(resultadoColaboracionPorId);
-            }
+                colaboracion.setAnfitrion(convertirAcademico(resultadoColaboracionPorId));
 
+                if (resultadoColaboracionPorId.next()) {
+                    colaboracion.setAcademicoPar(convertirAcademico(resultadoColaboracionPorId));
+                }
+            }
             resultadoColaboracionPorId.close();
             colaboracionPorId.close();
 
@@ -128,8 +141,14 @@ public class ColaboracionDB {
 
     }
 
+
     public static List<Colaboracion> getColaboracionPorPeriodo (Periodo periodo) throws SQLException {
-        String colaboracionPorPeriodoSQL = "SELECT * from colaboracion WHERE fechaInicio = ? AND fechaFin = ?";
+        String colaboracionPorPeriodoSQL = "SELECT c.*, va.*\n" +
+                "FROM colaboracion c\n" +
+                "INNER JOIN academicodesarrolla ad ON c.idColaboracion = ad.idColaboracion\n" +
+                "INNER JOIN vista_academico va ON ad.idAcademico = va.cedulaProfesional\n" +
+                "WHERE c.fechaInicio =? AND fechaFin = ?";
+
         List<Colaboracion> listaColaboracion = new ArrayList<>();
         try {
             CONEXION_BASE_DATOS.conectar();
@@ -140,10 +159,8 @@ public class ColaboracionDB {
 
             ResultSet resultadoColaboracionPorPeriodo = colaboracionPorPeriodo.executeQuery();
 
-            while (resultadoColaboracionPorPeriodo.next()) {
-                Colaboracion colaboracion = convertirColaboracion(resultadoColaboracionPorPeriodo);
-                listaColaboracion.add(colaboracion);
-            }
+            procesarResultadosColaboracionConLista(resultadoColaboracionPorPeriodo, listaColaboracion);
+
 
             colaboracionPorPeriodo.close();
             resultadoColaboracionPorPeriodo.close();
@@ -158,7 +175,11 @@ public class ColaboracionDB {
 
     }
     public static List<Colaboracion> getColaboracionPorIdioma (String idioma) throws SQLException {
-        String colaboracionPorIdiomaSQL = "SELECT * FROM colaboracion WHERE idioma = ?";
+        String colaboracionPorIdiomaSQL = "SELECT c.*, va.*\n" +
+                "FROM colaboracion c\n" +
+                "INNER JOIN academicodesarrolla ad ON c.idColaboracion = ad.idColaboracion\n" +
+                "INNER JOIN vista_academico va ON ad.idAcademico = va.cedulaProfesional\n" +
+                "WHERE c.idioma = ?";
         List<Colaboracion> listaColaboracion = new ArrayList<>();
 
         try {
@@ -169,10 +190,7 @@ public class ColaboracionDB {
 
             ResultSet resultadoColaboracionPorIdioma = colaboracionPorIdioma.executeQuery();
 
-            while (resultadoColaboracionPorIdioma.next()) {
-                Colaboracion colaboracion = convertirColaboracion(resultadoColaboracionPorIdioma);
-                listaColaboracion.add(colaboracion);
-            }
+            procesarResultadosColaboracionConLista(resultadoColaboracionPorIdioma, listaColaboracion);
             colaboracionPorIdioma.close();
             resultadoColaboracionPorIdioma.close();
         }
@@ -184,7 +202,11 @@ public class ColaboracionDB {
     }
 
     public static List<Colaboracion> getColaboracionPorEstado (String estado) throws SQLException {
-        String colaboracionPorEstadoSQL = "SELECT * FROM colaboracion WHERE estado = ?";
+        String colaboracionPorEstadoSQL =  "SELECT c.*, va.*\n" +
+                "FROM colaboracion c\n" +
+                "INNER JOIN academicodesarrolla ad ON c.idColaboracion = ad.idColaboracion\n" +
+                "INNER JOIN vista_academico va ON ad.idAcademico = va.cedulaProfesional\n" +
+                "WHERE c.estado = ?";
         List<Colaboracion> listaColaboraciones = new ArrayList<>();
 
         try {
@@ -195,10 +217,7 @@ public class ColaboracionDB {
 
             ResultSet resultadoColaboracionPorEstado = colaboracionPorEstado.executeQuery();
 
-            while (resultadoColaboracionPorEstado.next()) {
-                Colaboracion colaboracion = convertirColaboracion(resultadoColaboracionPorEstado);
-                listaColaboraciones.add(colaboracion);
-            }
+            procesarResultadosColaboracionConLista(resultadoColaboracionPorEstado, listaColaboraciones);
             resultadoColaboracionPorEstado.close();
             colaboracionPorEstado.close();
         }
@@ -358,7 +377,11 @@ public class ColaboracionDB {
     }
 
     public static Colaboracion getPorId (int id) throws SQLException {
-        String getPorIdSQL = "SELECT * FROM colaboracion WHERE idColaboraion = ?";
+        String getPorIdSQL = "SELECT c.*, va.*\n" +
+                "FROM colaboracion c\n" +
+                "INNER JOIN academicodesarrolla ad ON c.idColaboracion = ad.idColaboracion\n" +
+                "INNER JOIN vista_academico va ON ad.idAcademico = va.cedulaProfesional\n" +
+                "WHERE c.idColaboracion = ?";
         Colaboracion colaboracion = null;
 
         try {
@@ -386,7 +409,10 @@ public class ColaboracionDB {
     }
 
     public static List<Colaboracion> getTodos () throws SQLException {
-        String getTodosSQL = "SELECT * FROM colaboracion";
+        String getTodosSQL = "SELECT c.*, va.*\n" +
+                "FROM colaboracion c\n" +
+                "LEFT JOIN academicodesarrolla ad ON c.idColaboracion = ad.idColaboracion\n" +
+                "LEFT JOIN vista_academico va ON ad.idAcademico = va.cedulaProfesional";
         List<Colaboracion> listaColaboracion = new ArrayList<>();
 
         try {
@@ -395,10 +421,7 @@ public class ColaboracionDB {
                                                             prepareStatement(getTodosSQL);
             ResultSet resultadoGetTodos = getTodos.executeQuery();
 
-            while (resultadoGetTodos.next()) {
-                Colaboracion colaboracion = convertirColaboracion(resultadoGetTodos);
-                listaColaboracion.add(colaboracion);
-            }
+            procesarResultadosColaboracionConLista(resultadoGetTodos, listaColaboracion);
 
             resultadoGetTodos.close();
             getTodos.close();
@@ -444,15 +467,15 @@ public class ColaboracionDB {
         colaboracion.setPeriodo(periodo);
         colaboracion.setPerfilEstudiante(resultado.getString("perfilEstudiante"));
 
+        Academico academico = convertirAcademico(resultado);
+
+
+
         return colaboracion;
     }
 
     //todo
 
-    public Colaboracion getActivaPorAcademico (Academico academico) throws SQLException {
-        Colaboracion colaboracion = new Colaboracion();
-        return colaboracion;
-    }
 
     private static Estudiante convertirEstudiante (ResultSet resultado) throws SQLException {
 
@@ -486,6 +509,30 @@ public class ColaboracionDB {
         academico.setIdFacultad(resultado.getInt("idFacultad"));
 
         return academico;
+    }
+
+    private static void procesarResultadosColaboracionConLista (ResultSet resultados, List<Colaboracion> listaColaboracion) throws SQLException {
+        while (resultados.next()) {
+            Colaboracion colaboracion = convertirColaboracion(resultados);
+            Academico academico = convertirAcademico(resultados);
+
+            if (!listaColaboracion.isEmpty()) {
+                Colaboracion colaboracionActual = listaColaboracion.get(listaColaboracion.size() - 1);
+                if (colaboracion.getIdColaboracion() == colaboracionActual.getIdColaboracion()) {
+                    if (colaboracionActual.getAnfitrion() == null) {
+                        colaboracionActual.setAnfitrion(academico);
+                    } else {
+                        colaboracionActual.setAcademicoPar(academico);
+                    }
+                } else {
+                    colaboracion.setAnfitrion(academico);
+                    listaColaboracion.add(colaboracion);
+                }
+            } else {
+                listaColaboracion.add(colaboracion);
+                colaboracion.setAnfitrion(academico);
+            }
+        }
     }
 
     private static Periodo convertirPeriodo (ResultSet resultSet) throws SQLException {

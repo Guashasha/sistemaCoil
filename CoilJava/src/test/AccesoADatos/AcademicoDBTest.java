@@ -4,15 +4,18 @@ import AccesoADatos.AcademicoDB;
 import Logica.Dominio.Academico;
 import org.junit.jupiter.api.*;
 import test.ConfiguracionPrueba;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static test.ConfiguracionPrueba.*;
 
 class AcademicoDBTest {
     private Academico academicoFilosofia;
     private Academico academicoComputacion;
+
     @BeforeAll
     static void beforeAll () {
         ConfiguracionPrueba.borrarDatosTablaAcademico();
@@ -21,7 +24,7 @@ class AcademicoDBTest {
         ConfiguracionPrueba.borrarDatosTablaFacultad();
         ConfiguracionPrueba.borrarDatosTablaRegion();
         ConfiguracionPrueba.borrarDatosTablaPais();
-        
+
     }
 
     @BeforeEach
@@ -50,7 +53,7 @@ class AcademicoDBTest {
 
     @Test
     void pruebaGetListaAcademicoPorCamposFallida () {
-        assertThrows(SQLException.class, ()-> AcademicoDB.getListaAcademicoPorCampos("TipoContratacion", "Fijo"),"pruebaGetListaAcademicoPorCamposFallida");
+        assertThrows(SQLException.class, () -> AcademicoDB.getListaAcademicoPorCampos("TipoContratacion", "Fijo"), "pruebaGetListaAcademicoPorCamposFallida");
     }
 
     @Test
@@ -86,9 +89,9 @@ class AcademicoDBTest {
             fail("Fallido: pruebaGetListaAcademicoPorCampoFacultadExitosa");
         }
 
-        assertEquals(listaEsperada.size(),listaObtenida.size(),"pruebaGetListaAcademicoPorCampoFacultadExitosa");
+        assertEquals(listaEsperada.size(), listaObtenida.size(), "pruebaGetListaAcademicoPorCampoFacultadExitosa");
         for (Academico acad : listaEsperada) {
-            assertEquals(acad,listaObtenida.get(0));
+            assertEquals(acad, listaObtenida.get(0));
             listaObtenida.remove(0);
         }
     }
@@ -97,7 +100,7 @@ class AcademicoDBTest {
     void pruebaGetListaAcademicoPorCampoFacultadVacia () {
         try {
             List<Academico> listaObtenida = AcademicoDB.getListaAcademicoPorCampos("facultad", "FEI");
-            assertTrue(listaObtenida.isEmpty(),"pruebaGetListaAcademicoPorCampoFacultadVacia");
+            assertTrue(listaObtenida.isEmpty(), "pruebaGetListaAcademicoPorCampoFacultadVacia");
         }
         catch (SQLException error) {
             fail("Fallido: pruebaGetListaAcademicoPorCampoFacultadVacia");
@@ -126,15 +129,15 @@ class AcademicoDBTest {
             fail("Fallida: pruebaGetListaAcademicoPorCampoAreaExitosa");
         }
 
-        assertFalse(listaObtenida.isEmpty(),"pruebaGetListaAcademicoPorCampoAreaExitosa");
-        assertEquals(listaEsperada.get(0),listaObtenida.get(0),"pruebaGetListaAcademicoPorCampoAreaExitosa");
+        assertFalse(listaObtenida.isEmpty(), "pruebaGetListaAcademicoPorCampoAreaExitosa");
+        assertEquals(listaEsperada.get(0), listaObtenida.get(0), "pruebaGetListaAcademicoPorCampoAreaExitosa");
     }
 
     @Test
     void pruebaGetListaAcademicoPorCampoAreaVacia () {
         try {
             List<Academico> listaObtenida = AcademicoDB.getListaAcademicoPorCampos("area", "F");
-            assertTrue(listaObtenida.isEmpty(),"pruebaGetListaAcademicoPorCampoAreaVacia");
+            assertTrue(listaObtenida.isEmpty(), "pruebaGetListaAcademicoPorCampoAreaVacia");
         }
         catch (SQLException error) {
             fail("Fallida: pruebaGetListaAcademicoPorCampoAreaVacia");
@@ -165,8 +168,8 @@ class AcademicoDBTest {
             fail("Fallido: pruebaGetAcademicoPorCampoCategoriaContratacionExitosa");
         }
 
-        assertTrue(!listaObtenida.isEmpty(),"pruebaGetAcademicoPorCampoCategoriaContratacionExitosa");
-        assertEquals(listaEsperada.get(0),listaObtenida.get(0),"pruebaGetAcademicoPorCampoCategoriaContratacionExitosa");
+        assertTrue(!listaObtenida.isEmpty(), "pruebaGetAcademicoPorCampoCategoriaContratacionExitosa");
+        assertEquals(listaEsperada.get(0), listaObtenida.get(0), "pruebaGetAcademicoPorCampoCategoriaContratacionExitosa");
     }
 
     @Test
@@ -537,7 +540,7 @@ class AcademicoDBTest {
         academico.setNumeroTelefonico("522288536230");
         academico.setIdFacultad(-5);
 
-        assertThrows(SQLException   .class, () -> AcademicoDB.editarAcademico(academico));
+        assertThrows(SQLException.class, () -> AcademicoDB.editarAcademico(academico));
 
     }
 }
