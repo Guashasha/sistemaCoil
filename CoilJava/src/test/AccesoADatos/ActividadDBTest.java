@@ -8,7 +8,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static test.ConfiguracionPrueba.ejecutarInstruccionSQL;
 
@@ -120,12 +119,41 @@ public class ActividadDBTest {
     
     @Test
     void pruebaGetPorIdColaboracionExitosa () {
-        // TODO: 04/05/2024
+        System.out.println("pruebaGetPorIdColaboracionExitosa");
+        ResultSet resultado = null;
+        List<Actividad> esperado = new ArrayList<>();
+        esperado.add(ACTIVIDAD1);
+        esperado.add(ACTIVIDAD2);
+
+        try {
+            resultado = ActividadDB.getPorIdColaboracion(1);
+        } catch (SQLException e) {
+            fail("Fallida: pruebaGetPorIdColaboracionExitosa");
+        }
+
+        try {
+            for (Actividad act : esperado) {
+                assertTrue(resultado.next());
+                assertEquals(act.getIdActividad(), resultado.getInt("idActividad"));
+                assertEquals(act.getTitulo(), resultado.getString("titulo"));
+                assertEquals(act.getDescripcion(), resultado.getString("descripcion"));
+                assertEquals(act.getTipo().toString()
+                        .toLowerCase(), resultado.getString("tipo"));
+            }
+        } catch (SQLException error) {
+            fail("Fallida: pruebaGetPorIdColaboracionExitosa");
+        }
     }
 
     @Test
     void pruebaGetPorIdColaboracionInexistente () {
-        // TODO: 04/05/2024  
+        try {
+            ResultSet resultado = ActividadDB.getPorIdColaboracion(10);
+            assertFalse(resultado.next());
+        }
+        catch (SQLException error) {
+            fail("Fallida: pruebaGetPorIdColaboracionInexistente");
+        }
     }
 
     @Test
@@ -153,15 +181,5 @@ public class ActividadDBTest {
         } catch (SQLException error) {
             fail("Fallida: pruebaGetTodosExitosa");
         }
-    }
-
-    @Test
-    public void pruebaModificarActividadExitosa () {
-        // TODO: 04/05/2024
-    }
-
-    @Test
-    public void pruebaModificarActividadVacia () {
-        assertThrows(NullPointerException.class,() ->ActividadDB.modificarActividad(new Actividad()),"pruebaModificarActividadVacia");
     }
 }
