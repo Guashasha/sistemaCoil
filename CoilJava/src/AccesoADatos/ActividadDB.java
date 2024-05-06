@@ -69,7 +69,7 @@ public class ActividadDB {
         ResultSet resultado;
 
         try {
-            PreparedStatement consulta = CONEXION.getConexion().prepareStatement("select * from actividad where idColaboracion=?");
+            PreparedStatement consulta = CONEXION.getConexion().prepareStatement("select idActividad, titulo, descripcion, tipo from actividad natural join calendarioActividades where idColaboracion=?");
 
             consulta.setInt(1, idColaboracion);
 
@@ -90,26 +90,6 @@ public class ActividadDB {
             PreparedStatement consulta = CONEXION.getConexion().prepareStatement("select * from actividad");
 
             resultado = consulta.executeQuery();
-            consulta.close();
-        }
-        finally {
-            CONEXION.desconectar();
-        }
-
-        return resultado;
-    }
-
-    public static int modificarActividad (Actividad actividad) throws SQLException {
-        int resultado = -1;
-
-        try {
-            PreparedStatement consulta = CONEXION.getConexion().prepareStatement("update actividad set descripcion=?, tipo=? where titulo=?");
-
-            consulta.setString(1, actividad.getDescripcion());
-            consulta.setString(2, actividad.getTipo().toString());
-            consulta.setString(3, actividad.getTitulo());
-
-            resultado = consulta.executeUpdate();
             consulta.close();
         }
         finally {
