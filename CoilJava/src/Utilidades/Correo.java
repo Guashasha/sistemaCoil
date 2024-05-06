@@ -6,8 +6,8 @@ import javax.mail.*;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Properties;
 
 public class Correo {
@@ -24,14 +24,12 @@ public class Correo {
 
     private Correo () {
         PROPIEDADES_CORREO = new Properties();
-        try (InputStream input = Correo.class.getClassLoader()
-                                             .getResourceAsStream("Utilidades/configuracionCorreo.properties")) {
-            PROPIEDADES_CORREO.load(input);
+        try (FileInputStream archivoConfiguracion = new FileInputStream("src/Utilidades/configuracionCorreo.properties")) {
+            PROPIEDADES_CORREO.load(archivoConfiguracion);
             remitente = PROPIEDADES_CORREO.getProperty("mail.smtp.user");
             contrasena = PROPIEDADES_CORREO.getProperty("mail.smtp.password");
-        }
-        catch (IOException e) {
-            BITACORA.error(e.getMessage());
+        } catch (IOException error) {
+            BITACORA.error(error.getMessage());
         }
     }
 
