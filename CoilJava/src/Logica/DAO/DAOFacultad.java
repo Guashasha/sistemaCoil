@@ -19,7 +19,7 @@ public class DAOFacultad implements IFacultadDAO {
 
         if (cadenaValida(nombre)) {
             try {
-                facultad = FacultadDB.getFacultadPorNombre(nombre);
+                facultad = FacultadDB.getFacultadPorNombre(nombre.trim());
             }
             catch (SQLException error) {
                 bitacora.info(error.getMessage());
@@ -33,9 +33,9 @@ public class DAOFacultad implements IFacultadDAO {
     @Override
     public List<Facultad> getFacultadPorRegion(String region) throws ErrorDAO {
         List<Facultad> listaFacultades = new ArrayList<>();
-        if ((cadenaValida(region))) {
+        if (cadenaValida(region)) {
             try {
-                listaFacultades = FacultadDB.getFacultadPorRegion(region);
+                listaFacultades = FacultadDB.getFacultadPorRegion(region.trim());
             } catch (SQLException error) {
                 bitacora.info(error.getMessage());
                 throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
