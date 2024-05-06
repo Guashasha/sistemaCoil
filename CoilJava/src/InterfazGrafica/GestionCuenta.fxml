@@ -1,48 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="883.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.GestionCuentaControlador">
-   <top>
-      <Pane prefHeight="108.0" prefWidth="883.0" BorderPane.alignment="CENTER" />
-   </top>
-   <left>
-      <Pane prefHeight="342.0" prefWidth="76.0" BorderPane.alignment="CENTER" />
-   </left>
    <center>
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <ScrollPane prefHeight="426.0" prefWidth="807.0">
+            <ScrollPane prefHeight="480.0" prefWidth="885.0">
                <content>
-                  <VBox fx:id="lyInformacionCuenta" prefHeight="126.0" prefWidth="791.0">
+                  <VBox fx:id="lyInformacionCuenta" prefHeight="126.0" prefWidth="885.0">
                      <children>
-                        <HBox alignment="CENTER_LEFT" prefHeight="55.0" prefWidth="514.0">
+                        <HBox alignment="CENTER_LEFT" prefHeight="55.0" prefWidth="878.0">
                            <children>
                               <Label alignment="CENTER" contentDisplay="TOP" prefHeight="18.0" prefWidth="66.0" text="Usuario">
                                  <cursor>
                                     <Cursor fx:constant="W_RESIZE" />
                                  </cursor>
+                                 <padding>
+                                    <Insets right="5.0" />
+                                 </padding>
                               </Label>
-                              <Label alignment="CENTER" prefHeight="18.0" prefWidth="94.0" text="Nombre" />
-                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="108.0" text="Apellidos" />
-                              <Label alignment="CENTER" prefHeight="18.0" prefWidth="118.0" text="Correo electrónico" textAlignment="CENTER" />
-                              <Label alignment="CENTER" prefHeight="18.0" prefWidth="126.0" text="Universidad" />
-                              <Label alignment="CENTER" prefHeight="18.0" prefWidth="53.0" text="Pais" />
-                              <Label alignment="CENTER" prefHeight="18.0" prefWidth="117.0" text="Cedúla profesional" />
+                              <Label alignment="CENTER" prefHeight="18.0" prefWidth="94.0" text="Nombre">
+                                 <padding>
+                                    <Insets right="5.0" />
+                                 </padding></Label>
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="108.0" text="Apellidos">
+                                 <padding>
+                                    <Insets right="5.0" />
+                                 </padding></Label>
+                              <Label alignment="CENTER" prefHeight="18.0" prefWidth="123.0" text="Correo electrónico" textAlignment="CENTER">
+                                 <padding>
+                                    <Insets right="5.0" />
+                                 </padding></Label>
+                              <Label alignment="CENTER" prefHeight="18.0" prefWidth="129.0" text="Universidad">
+                                 <padding>
+                                    <Insets right="5.0" />
+                                 </padding></Label>
+                              <Label alignment="CENTER" prefHeight="18.0" prefWidth="89.0" text="Pais">
+                                 <padding>
+                                    <Insets right="5.0" />
+                                 </padding></Label>
+                              <Label alignment="CENTER" prefHeight="18.0" prefWidth="158.0" text="Cedúla profesional">
+                                 <padding>
+                                    <Insets right="5.0" />
+                                 </padding></Label>
                            </children>
                         </HBox>
                         <HBox prefHeight="4.0" prefWidth="791.0">
                            <children>
-                              <HBox alignment="CENTER" prefHeight="46.0" prefWidth="95.0" />
+                              <HBox alignment="CENTER" prefHeight="46.0" prefWidth="95.0">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin></HBox>
                            </children>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
                         </HBox>
                      </children>
+                     <padding>
+                        <Insets top="5.0" />
+                     </padding>
+                     <opaqueInsets>
+                        <Insets top="10.0" />
+                     </opaqueInsets>
                   </VBox>
                </content>
             </ScrollPane>

@@ -206,13 +206,13 @@ public class AcademicoDB {
         academico.setApellidoPaterno(resultado.getString("apellidoPaterno"));
         academico.setApellidoMaterno(resultado.getString("apellidoMaterno"));
         academico.setIdUniversidad(resultado.getInt("idUniversidad"));
+        academico.setCedulaProfesional(resultado.getString("cedulaProfesional"));
 
-        // Verifica si la columna categoriaContratacion es nula
         if (resultado.getString("categoriaContratacion") != null) {
             academico.setCategoriaContratacion(resultado.getString("categoriaContratacion"));
         }
 
-        // Verifica si la columna idFacultad es nula
+
         if (resultado.getObject("idFacultad") != null) {
             academico.setIdFacultad(resultado.getInt("idFacultad"));
         }

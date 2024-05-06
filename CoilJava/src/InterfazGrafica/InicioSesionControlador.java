@@ -19,6 +19,8 @@ import java.util.ResourceBundle;
 
 public class InicioSesionControlador implements Initializable {
 
+
+
     @FXML
     private TextField tfUsuario;
     @FXML
@@ -100,7 +102,6 @@ public class InicioSesionControlador implements Initializable {
             Parent root = fxmlLoader.load();
             Scene nuevaEscena = new Scene(root);
             stagePrincipal.setScene(nuevaEscena);
-
         }
         catch (IOException error) {
             error.printStackTrace();
