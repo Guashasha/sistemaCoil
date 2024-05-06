@@ -1,5 +1,7 @@
 package Logica.Dominio;
 
+import AccesoADatos.AcademicoDB;
+
 public class Academico extends Persona {
     private String cedulaProfesional;
     private String numeroPersonal;
@@ -8,6 +10,20 @@ public class Academico extends Persona {
     private String numeroTelefonico;
     private String categoriaContratacion;
     private Integer idFacultad;
+
+    public Academico () {
+        super();
+    }
+    public Academico(int idPersona, String nombre, String apellidoPaterno, String apellidoMaterno, int idUniversidad, String cedulaProfesional, String numeroPersonal, String areaEstudios, String correoElectronico, String numeroTelefonico, String categoriaContratacion, Integer idFacultad) {
+        super(idPersona, nombre, apellidoPaterno, apellidoMaterno, idUniversidad);
+        this.cedulaProfesional = cedulaProfesional;
+        this.numeroPersonal = numeroPersonal;
+        this.areaEstudios = areaEstudios;
+        this.correoElectronico = correoElectronico;
+        this.numeroTelefonico = numeroTelefonico;
+        this.categoriaContratacion = categoriaContratacion;
+        this.idFacultad = idFacultad;
+    }
 
     public String getCedulaProfesional () {
         return cedulaProfesional;

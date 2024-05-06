@@ -7,6 +7,16 @@ public abstract class Persona {
     private String apellidoMaterno;
     private int idUniversidad;
 
+    public Persona () {}
+
+    public Persona(int idPersona, String nombre, String apellidoPaterno, String apellidoMaterno, int idUniversidad) {
+        this.idPersona = idPersona;
+        this.nombre = nombre;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.idUniversidad = idUniversidad;
+    }
+
     public int getIdPersona () {
         return idPersona;
     }
