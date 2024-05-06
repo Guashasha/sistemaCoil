@@ -467,9 +467,6 @@ public class ColaboracionDB {
         colaboracion.setPeriodo(periodo);
         colaboracion.setPerfilEstudiante(resultado.getString("perfilEstudiante"));
 
-        Academico academico = convertirAcademico(resultado);
-
-
 
         return colaboracion;
     }

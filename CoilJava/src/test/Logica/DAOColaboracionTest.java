@@ -22,6 +22,7 @@ class DAOColaboracionTest {
 
     @BeforeEach
     void setUp () {
+        AyudantePruebasColaboracionDB.borrarTodosDatosTabla();
         AyudantePruebasColaboracionDB.agregarPrecondiciones();
     }
 

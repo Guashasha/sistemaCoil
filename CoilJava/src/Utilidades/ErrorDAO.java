@@ -9,7 +9,9 @@ public class ErrorDAO extends Error {
         DUPLICIDAD,
         VALIDACION,
         INICIO_SESION,
-        NO_IMPLEMENTADO
+        NO_IMPLEMENTADO,
+        ERROR_CONEXION_INTERNET,
+        CORREO
     }
 
     private String mensaje;
