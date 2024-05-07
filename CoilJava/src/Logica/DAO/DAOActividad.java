@@ -6,8 +6,8 @@ import Utilidades.ErrorDAO;
 import Utilidades.ErrorDAO.Tipo;
 import Logica.Interfaces.IActividadDAO;
 import AccesoADatos.ActividadDB;
+import jdk.jshell.spi.ExecutionControl;
 import org.apache.log4j.Logger;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -41,26 +41,8 @@ public class DAOActividad implements IActividadDAO {
     }
 
     @Override
-    public int modificar (Actividad actividad) throws ErrorDAO {
-        if (!actividad.esCorrecta()) {
-            throw new ErrorDAO("La actividad es incorrecta", Tipo.VALIDACION);
-        }
-
-        if (getPorTitulo(actividad.getTitulo()).isPresent()) {
-            throw new ErrorDAO("la actividad ya existe", Tipo.DUPLICIDAD);
-        }
-
-        int resultado = -1;
-
-        try {
-            resultado = ActividadDB.modificarActividad(actividad);
-        }
-        catch (SQLException error) {
-            BITACORA.error(error);
-            throw new ErrorDAO("Ocurrió un error con la base de datos: " + error.getMessage(), Tipo.CONEXION);
-        }
-
-        return resultado;
+    public int modificar (Actividad actividad) throws ExecutionControl.NotImplementedException {
+        throw new ExecutionControl.NotImplementedException("Metodo no implementado");
     }
 
     @Override

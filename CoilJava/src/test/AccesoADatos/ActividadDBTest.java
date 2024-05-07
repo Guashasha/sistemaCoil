@@ -126,6 +126,7 @@ public class ActividadDBTest {
         esperado.add(ACTIVIDAD2);
 
         try {
+            //ejecutarInstruccionSQL();
             resultado = ActividadDB.getPorIdColaboracion(1);
         } catch (SQLException e) {
             fail("Fallida: pruebaGetPorIdColaboracionExitosa");
