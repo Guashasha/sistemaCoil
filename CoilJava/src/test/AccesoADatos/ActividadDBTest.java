@@ -3,6 +3,7 @@ package test.AccesoADatos;
 import AccesoADatos.ActividadDB;
 import Logica.Dominio.Actividad;
 import org.junit.jupiter.api.*;
+import test.AyudantePruebasColaboracionDB;
 import test.ConfiguracionPrueba;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -126,7 +127,8 @@ public class ActividadDBTest {
         esperado.add(ACTIVIDAD2);
 
         try {
-            //ejecutarInstruccionSQL();
+            AyudantePruebasColaboracionDB.agregarPrecondiciones();
+            // TODO: 06/05/2024 Vincular actividades con colaboración. Unificar resgistros en DB que se usan en los test 
             resultado = ActividadDB.getPorIdColaboracion(1);
         } catch (SQLException e) {
             fail("Fallida: pruebaGetPorIdColaboracionExitosa");
