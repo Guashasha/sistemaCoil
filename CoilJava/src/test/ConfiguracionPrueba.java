@@ -70,6 +70,10 @@ public class ConfiguracionPrueba {
         ejecutarInstruccionSQL("ALTER TABLE pais AUTO_INCREMENT = 0;");
     }
 
+    public static void borrarDatosTablaCalendarioActividades () {
+        ejecutarInstruccionSQL("DELETE FROM calendarioactividades;");
+    }
+
     public static void ejecutarInstruccionSQL (String instruccionSQL) {
         try {
             String urlBaseDatos = "jdbc:mariadb://localhost:3307/COIL";

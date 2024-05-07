@@ -9,6 +9,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import test.AyudantePruebasColaboracionDB;
+import test.ConfiguracionPrueba;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -30,40 +31,35 @@ class ColaboracionDBTest {
 
     @Test
     void pruebaGetColaboracionPorAcademicosParticipantesExitosa () {
-        System.out.println("pruebaGetColaboracionPorAcademicosParticipantesExitosa");
-
-        Colaboracion colaboracion = new Colaboracion();
-        colaboracion.setIdColaboracion(1);
-        colaboracion.setEstado(Colaboracion.EstadoColaboracion.valueOf("propuesta"));
-        colaboracion.setTipo(Colaboracion.TipoColaboracion.claseEspejo);
-        colaboracion.setTemaInteres("Inteligencia Artificial");
-        colaboracion.setIdioma("Español");
-        colaboracion.setObjetivo("Mejorar habilidades en IA");
+        Colaboracion obtenida = null;
+        Colaboracion esperada = new Colaboracion();
+        esperada.setIdColaboracion(1);
+        esperada.setEstado(Colaboracion.EstadoColaboracion.valueOf("propuesta"));
+        esperada.setTipo(Colaboracion.TipoColaboracion.claseEspejo);
+        esperada.setTemaInteres("Inteligencia Artificial");
+        esperada.setIdioma("Español");
+        esperada.setObjetivo("Mejorar habilidades en IA");
 
         Periodo periodo = new Periodo();
-
         periodo.setFechaInicio(LocalDate.parse("2024-05-01"));
         periodo.setFechaFin(LocalDate.parse("2024-06-30"));
-        colaboracion.setPeriodo(periodo);
-        colaboracion.setPerfilEstudiante("Estudiantes de informática");
+        esperada.setPeriodo(periodo);
+
+        esperada.setPerfilEstudiante("Estudiantes de informática");
 
         Academico academico1 = new Academico();
-        academico1.setCedulaProfesional("ABC123");
-
         Academico academico2 = new Academico();
+        academico1.setCedulaProfesional("ABC123");
         academico2.setCedulaProfesional("200011");
 
-        Colaboracion colaboracionReal = null;
-
         try {
-            colaboracionReal = ColaboracionDB.getColaboracionPorAcademicosParticipantes(academico1, academico2);
-
+            obtenida = ColaboracionDB.getColaboracionPorAcademicosParticipantes(academico1, academico2);
         }
         catch (SQLException error) {
             fail("Error en pruebaGetColaboracionPorAcademicosParticipantesExitosa" + error.getMessage());
         }
 
-        assertEquals(colaboracion.getIdColaboracion(), colaboracionReal.getIdColaboracion());
+        assertEquals(esperada,obtenida,"pruebaGetColaboracionPorAcademicosParticipantesExitosa");
     }
 
     @Test

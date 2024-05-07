@@ -18,8 +18,7 @@ public class ActividadDBTest {
     @BeforeEach
     void setUp () {
         ConfiguracionPrueba.borrarDatosTablaActividad();
-        ejecutarInstruccionSQL("INSERT INTO actividad (titulo, descripcion, tipo) values ('kahoot prueba','descripcion de la actividad prueba','cierre');");
-        ejecutarInstruccionSQL("INSERT INTO actividad (titulo, descripcion, tipo) values ('Presentacion','presentacion individual ante grupo','rompeHielo');");
+        AyudantePruebasColaboracionDB.agregarActividades();
     }
 
     @AfterAll
@@ -127,8 +126,7 @@ public class ActividadDBTest {
         esperado.add(ACTIVIDAD2);
 
         try {
-            AyudantePruebasColaboracionDB.agregarPrecondiciones();
-            // TODO: 06/05/2024 Vincular actividades con colaboración. Unificar resgistros en DB que se usan en los test 
+            AyudantePruebasColaboracionDB.vincularActividadConColaboracion();
             resultado = ActividadDB.getPorIdColaboracion(1);
         } catch (SQLException e) {
             fail("Fallida: pruebaGetPorIdColaboracionExitosa");
@@ -143,6 +141,7 @@ public class ActividadDBTest {
                 assertEquals(act.getTipo().toString()
                         .toLowerCase(), resultado.getString("tipo"));
             }
+            AyudantePruebasColaboracionDB.borrarTablasActividadTest();
         } catch (SQLException error) {
             fail("Fallida: pruebaGetPorIdColaboracionExitosa");
         }
