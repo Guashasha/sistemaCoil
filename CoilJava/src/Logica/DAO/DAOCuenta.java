@@ -4,6 +4,7 @@ import AccesoADatos.CuentaDB;
 import Logica.Dominio.Cuenta;
 import Utilidades.ErrorDAO;
 import Logica.Interfaces.ICuentaDAO;
+import javafx.beans.property.StringProperty;
 import org.apache.log4j.Logger;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -71,6 +72,7 @@ public class DAOCuenta implements ICuentaDAO {
         }
         catch (SQLException error) {
             BITACORA.error(error.getMessage());
+            throw new ErrorDAO("Error en la conexión con la base de datos. Notifique a un técnico", ErrorDAO.Tipo.CONEXION);
         }
 
         return resultado;
@@ -168,6 +170,7 @@ public class DAOCuenta implements ICuentaDAO {
         }
         return filasAfectadas;
     }
+
 
     @Override
     public int modificar (Cuenta cuenta) throws ErrorDAO {

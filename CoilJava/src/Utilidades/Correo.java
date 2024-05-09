@@ -20,16 +20,15 @@ public class Correo {
     private final Properties PROPIEDADES_CORREO;
     private Session sesion;
     private MimeMessage mimeCorreo;
-    private static Correo instancia;
 
-    private Correo () {
+    public Correo () {
         PROPIEDADES_CORREO = new Properties();
         try (FileInputStream archivoConfiguracion = new FileInputStream("src/Utilidades/configuracionCorreo.properties")) {
             PROPIEDADES_CORREO.load(archivoConfiguracion);
             remitente = PROPIEDADES_CORREO.getProperty("mail.smtp.user");
             contrasena = PROPIEDADES_CORREO.getProperty("mail.smtp.password");
         } catch (IOException error) {
-            BITACORA.error(error.getMessage());
+            BITACORA.fatal(error.getMessage());
         }
     }
 
@@ -69,8 +68,6 @@ public class Correo {
             BITACORA.error(error.getMessage());
             throw new ErrorDAO("Error de mensajería al enviar el correo electrónico ", ErrorDAO.Tipo.CORREO);
         }
-
-
     }
 
     public void setDestinario (String destinario) {
@@ -84,12 +81,5 @@ public class Correo {
 
     public void setContenido (String contenido) {
         this.contenido = contenido;
-    }
-
-    public static Correo getInstancia () {
-        if (instancia == null) {
-            instancia = new Correo();
-        }
-        return instancia;
     }
 }

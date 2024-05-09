@@ -9,12 +9,8 @@ public class Main {
     public static void main(String[] args) {
         
         System.out.printf("Hello and welcome!");
-        Correo correo = Correo.getInstancia();
-        correo.setContenido("Meow");
-        correo.setTema("Sniff sniff");
-        correo.setDestinario("ferram200011@gmail.com");
-        correo.crearCorreo();
-        correo.enviarCorreo();
+
+        bitacora.fatal("A");
 
     }
 
