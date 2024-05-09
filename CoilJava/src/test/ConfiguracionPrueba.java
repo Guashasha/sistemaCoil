@@ -9,7 +9,6 @@ import java.sql.*;
 public class ConfiguracionPrueba {
     private static final Logger BITACORA = Logger.getLogger(ConfiguracionPrueba.class);
 
-
     public static void borrarDatosTablaAcademico () {
         ejecutarInstruccionSQL("DELETE FROM academico;");
     }

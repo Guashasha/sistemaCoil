@@ -37,6 +37,7 @@ public class AyudantePruebasColaboracionDB {
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO academicodesarrolla (idColaboracion, idAcademico, estado) VALUES (1, '200011', 'pendiente')");
 
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO estudiantescolaboracion (idColaboracion, idEstudiante) VALUES (1, 1)");
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO estudiantescolaboracion (idColaboracion, idEstudiante) VALUES (1, 2)");
     }
 
     public static void vincularActividadConColaboracion() {
