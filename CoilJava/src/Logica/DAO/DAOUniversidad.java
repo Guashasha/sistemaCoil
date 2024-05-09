@@ -149,7 +149,6 @@ public class DAOUniversidad implements IUniversidadDAO {
     public List<Universidad> getTodasAlfabeticamente () throws ErrorDAO {
         try {
             return UniversidadDB.getTodasAlfabeticamente();
-
         }
         catch (SQLException error) {
             bitacora.fatal(error.getMessage());

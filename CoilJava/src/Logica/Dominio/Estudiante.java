@@ -4,6 +4,15 @@ public class Estudiante extends Persona {
     private int idEstudiante;
     private String matricula;
 
+    public Estudiante () {
+        super();
+    }
+    public Estudiante(int idPersona, String nombre, String apellidoPaterno, String apellidoMaterno, int idUniversidad, int idEstudiante, String matricula) {
+        super(idPersona, nombre, apellidoPaterno, apellidoMaterno, idUniversidad);
+        this.idEstudiante = idEstudiante;
+        this.matricula = matricula;
+    }
+
     public int getIdEstudiante () {
         return idEstudiante;
     }
@@ -19,7 +28,6 @@ public class Estudiante extends Persona {
     public void setMatricula (String matricula) {
         this.matricula = matricula;
     }
-
 
     @Override
     public boolean validarNulos() {

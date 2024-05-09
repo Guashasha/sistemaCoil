@@ -43,8 +43,8 @@ CREATE TABLE `academico` (
   `areaEstudios` varchar(40) NOT NULL,
   `correoElectronico` varchar(30) NOT NULL,
   `numeroTelefonico` char(12) NOT NULL,
-  `categoriaContratacion` varchar(40),
-  `facultad` int,
+  `categoriaContratacion` varchar(40) NULL,
+  `facultad` int NULL,
   PRIMARY KEY (`cedulaProfesional`, `numeroDePersonal`)
 );
 

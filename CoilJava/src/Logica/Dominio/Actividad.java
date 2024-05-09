@@ -19,6 +19,13 @@ public class Actividad {
         this.tipo = tipo;
     }
 
+    public Actividad (int idActividad, String titulo, String descripcion, TipoActividad tipo) {
+        this.idActividad = idActividad;
+        this.titulo = titulo;
+        this.descripcion = descripcion;
+        this.tipo = tipo;
+    }
+
     public Actividad () {}
 
     public int getIdActividad () {
