@@ -64,10 +64,16 @@ public class SolicitarCuentaControlador implements Initializable {
     @FXML
     private ComboBox<String> cmbUniversidad;
 
+    //fixme quitar metodos de validación y pasarlos al DAO. No implementar tanta logica.
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle) throws ErrorDAO {
         List<Universidad> listaUniversidad;
-        listaUniversidad = DAO_UNIVERSIDAD.getTodasAlfabeticamente();
+        try {
+            listaUniversidad = DAO_UNIVERSIDAD.getTodasAlfabeticamente();
+        }
+        catch (ErrorDAO errorDAO){
+            throw errorDAO;
+        }
         if (listaUniversidad != null) {
             cargarCacheUniversidades(listaUniversidad);
             cargarListaUniversidad();

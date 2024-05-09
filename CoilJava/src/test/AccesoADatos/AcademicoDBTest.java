@@ -2,6 +2,7 @@ package test.AccesoADatos;
 
 import AccesoADatos.AcademicoDB;
 import Logica.Dominio.Academico;
+import Utilidades.ErrorDAO;
 import org.junit.jupiter.api.*;
 import test.ConfiguracionPrueba;
 import java.sql.SQLException;
@@ -62,7 +63,7 @@ class AcademicoDBTest {
             List<Academico> resultado = AcademicoDB.getListaAcademicoPorCampos("categoria",null);
             assertTrue(resultado.isEmpty(),"pruebaGetListaAcademicoPorCampoNulo");
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetListaAcademicoPorCampoNulo");
         }
     }
@@ -77,7 +78,7 @@ class AcademicoDBTest {
         try {
             listaObtenida = AcademicoDB.getListaAcademicoPorCampos("facultad", "Economia");
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallido: pruebaGetListaAcademicoPorCampoFacultadExitosa");
         }
 
@@ -94,7 +95,7 @@ class AcademicoDBTest {
             List<Academico> listaObtenida = AcademicoDB.getListaAcademicoPorCampos("facultad", "FEI");
             assertTrue(listaObtenida.isEmpty(),"pruebaGetListaAcademicoPorCampoFacultadVacia");
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallido: pruebaGetListaAcademicoPorCampoFacultadVacia");
         }
     }
@@ -109,7 +110,7 @@ class AcademicoDBTest {
         try {
             listaObtenida = AcademicoDB.getListaAcademicoPorCampos("universidad", "Universidad Veracruzana");
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetListaAcademicoPorCampoUniversidadExitoso");
         }
 
@@ -126,7 +127,7 @@ class AcademicoDBTest {
             List<Academico> resultado = AcademicoDB.getListaAcademicoPorCampos("universidad","UNAM");
             assertTrue(resultado.isEmpty(),"pruebaGetListaAcademicoPorCampoUniversidadVacia");
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetListaAcademicoPorCampoUniversidadVacia");
         }
     }
@@ -140,7 +141,7 @@ class AcademicoDBTest {
         try {
             listaObtenida = AcademicoDB.getListaAcademicoPorCampos("area", "Filosofia");
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetListaAcademicoPorCampoAreaExitosa");
         }
 
@@ -154,7 +155,7 @@ class AcademicoDBTest {
             List<Academico> listaObtenida = AcademicoDB.getListaAcademicoPorCampos("area", "F");
             assertTrue(listaObtenida.isEmpty(),"pruebaGetListaAcademicoPorCampoAreaVacia");
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetListaAcademicoPorCampoAreaVacia");
         }
     }
@@ -168,7 +169,7 @@ class AcademicoDBTest {
         try {
             listaObtenida = AcademicoDB.getListaAcademicoPorCampos("categoria", "Investigador");
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallido: pruebaGetAcademicoPorCampoCategoriaContratacionExitosa");
         }
 
@@ -182,7 +183,7 @@ class AcademicoDBTest {
             List<Academico> resultado = AcademicoDB.getListaAcademicoPorCampos("categoria", "Profe");
             assertTrue(resultado.isEmpty(),"pruebaGetListaAcademicoPorCampoCategoriaContratacionVacia");
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetListaAcademicoPorCampoCategoriaContratacionVacia");
         }
     }
@@ -197,7 +198,7 @@ class AcademicoDBTest {
         try {
             listaObtenida = AcademicoDB.getListaAcademicoPorCampos("region", "Xalapa");
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetAcademicoPorRegionExitoso");
         }
 
@@ -214,7 +215,7 @@ class AcademicoDBTest {
             List<Academico> resultado = AcademicoDB.getListaAcademicoPorCampos("region","Veracruz");
             assertTrue(resultado.isEmpty(),"pruebaGetAcademicoPorRegionVacia");
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetAcademicoPorRegionVacia");
         }
     }
@@ -225,7 +226,7 @@ class AcademicoDBTest {
             Academico obtenido = AcademicoDB.getAcademicoPorCedula("200011");
             assertEquals(this.ACADEMICO_FILOSOFIA,obtenido,"pruebaGetAcademicoPorCedulaExitosa");
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetAcademicoPorCedulaExitosa");
         }
     }
@@ -236,7 +237,7 @@ class AcademicoDBTest {
             Academico resultado = AcademicoDB.getAcademicoPorCedula("123456");
             assertNull(resultado,"pruebaGetAcademicoPorCedulaInexistente");
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetAcademicoPorCedulaInexistente");
         }
     }
@@ -247,7 +248,7 @@ class AcademicoDBTest {
             Academico resultado = AcademicoDB.getAcademicoPorCedula(null);
             assertNull(resultado,"pruebaGetAcademicoPorCedulaNula");
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetAcademicoPorCedulaNula");
         }
     }
@@ -271,7 +272,7 @@ class AcademicoDBTest {
         try {
             obtenido = AcademicoDB.agregarAcademicoUV(academico);
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaAgregarAcademicoUVExitoso\n" + error.getMessage());
         }
         assertEquals(esperado,obtenido,"pruebaAgregarAcademicoUVExitoso");
@@ -379,7 +380,7 @@ class AcademicoDBTest {
         try {
             obtenido = AcademicoDB.agregarAcademicoExterno(academico);
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaAgregarAcademicoExternoExitosa\n" + error.getMessage());
         }
         assertEquals(esperado,obtenido,"pruebaAgregarAcademicoExternoExitosa");
@@ -421,7 +422,7 @@ class AcademicoDBTest {
         try {
             resultado = AcademicoDB.agregarAcademicoExterno(academico);
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaAgregarAcademicoExternoCedulaRepetida");
         }
         assertEquals(1,resultado,"pruebaAgregarAcademicoExternoCedulaRepetida");
@@ -463,7 +464,7 @@ class AcademicoDBTest {
             Academico resultado = AcademicoDB.getAcademicoPorId(1);
             assertEquals(ACADEMICO_COMPUTACION,resultado,"pruebaGetAcademicoPorIdExitoso");
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetAcademicoPorIdExitoso");
         }
     }
@@ -474,7 +475,7 @@ class AcademicoDBTest {
             Academico resultado = AcademicoDB.getAcademicoPorId(99);
             assertNull(resultado);
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetAcademicoPorIdInexistente");
         }
     }
@@ -488,7 +489,7 @@ class AcademicoDBTest {
         try {
             listaObtenida = AcademicoDB.getTodos();
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetTodosExitosa");
         }
         assertEquals(listaEsperada.size(),listaObtenida.size(),"pruebaGetTodosExitosa");
@@ -517,7 +518,7 @@ class AcademicoDBTest {
         try {
             obtenido = AcademicoDB.editarAcademico(academico);
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaEditarAcademicoExitoso");
         }
         assertEquals(esperado, obtenido);
@@ -541,7 +542,7 @@ class AcademicoDBTest {
         try {
             obtenido = AcademicoDB.editarAcademico(academico);
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaEditarAcademicoCedulaInexistente");
         }
         assertEquals(esperado, obtenido);

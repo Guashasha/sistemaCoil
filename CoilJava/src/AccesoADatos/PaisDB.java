@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PaisDB {
-    private static final ConexionBaseDatos CONEXION_BASE_DATOS = new ConexionBaseDatos();
-
     public static List<Pais> paisesAlfabeticamente () throws SQLException {
         List<Pais> listaPaises = new ArrayList<>();
         String consultaPaisesSQL = "SELECT idPais, iso, nombre FROM pais ORDER BY nombre ASC";
@@ -17,7 +15,7 @@ public class PaisDB {
         ResultSet resultadoConsulta = null;
 
         try {
-            consultaPaises = CONEXION_BASE_DATOS.getConexion().
+            consultaPaises = ConexionBaseDatos.getInstancia().
                     prepareStatement(consultaPaisesSQL);
             resultadoConsulta = consultaPaises.executeQuery();
 
@@ -26,7 +24,7 @@ public class PaisDB {
             }
             consultaPaises.close();
             resultadoConsulta.close();
-            CONEXION_BASE_DATOS.desconectar();
+            ConexionBaseDatos.desconectar();
         }
         catch (SQLException error) {
             throw error;
@@ -42,7 +40,7 @@ public class PaisDB {
         ResultSet resultadoConsulta = null;
 
         try {
-            consultaPaises = CONEXION_BASE_DATOS.getConexion().
+            consultaPaises = ConexionBaseDatos.getInstancia().
                     prepareStatement(consultaPaisesSQL);
             consultaPaises.setString(1,nombre);
             resultadoConsulta = consultaPaises.executeQuery();
@@ -52,7 +50,7 @@ public class PaisDB {
             }
             consultaPaises.close();
             resultadoConsulta.close();
-            CONEXION_BASE_DATOS.desconectar();
+            ConexionBaseDatos.desconectar();
         }
         catch (SQLException error) {
             throw error;
@@ -68,7 +66,7 @@ public class PaisDB {
         ResultSet resultadoConsulta = null;
 
         try {
-            consultaPaises = CONEXION_BASE_DATOS.getConexion().
+            consultaPaises = ConexionBaseDatos.getInstancia().
                     prepareStatement(consultaPaisesSQL);
             consultaPaises.setInt(1,id);
             resultadoConsulta = consultaPaises.executeQuery();
@@ -78,7 +76,7 @@ public class PaisDB {
             }
             consultaPaises.close();
             resultadoConsulta.close();
-            CONEXION_BASE_DATOS.desconectar();
+            ConexionBaseDatos.desconectar();
         }
         catch (SQLException error) {
             throw error;

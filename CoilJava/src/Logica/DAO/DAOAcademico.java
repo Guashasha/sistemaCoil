@@ -8,14 +8,13 @@ import javafx.beans.property.StringProperty;
 import org.apache.log4j.Logger;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class DAOAcademico implements IAcademicoDAO {
-    //fixme considerar hacer un metodo generico;
+    //fixme reducir redundancia;
 
     private static final Logger BITACORA = Logger.getLogger(DAOAcademico.class);
 
@@ -29,7 +28,7 @@ public class DAOAcademico implements IAcademicoDAO {
             listaAcademicos = AcademicoDB.getListaAcademicoPorCampos("facultad",nombrefacultad);
 
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             BITACORA.error(error);
             throw new ErrorDAO("Error en la base de datos", ErrorDAO.Tipo.CONEXION);
         }
@@ -47,7 +46,7 @@ public class DAOAcademico implements IAcademicoDAO {
             academico = AcademicoDB.getAcademicoPorCedula(cedula);
 
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             BITACORA.fatal(error);
             throw new ErrorDAO("Error en la base de datos", ErrorDAO.Tipo.CONEXION);
         }
@@ -64,7 +63,7 @@ public class DAOAcademico implements IAcademicoDAO {
         try {
             listaAcademicos = AcademicoDB.getListaAcademicoPorCampos("universidad", nombreUniversidad);
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             BITACORA.fatal(error);
             throw new ErrorDAO("Error en la base de datos", ErrorDAO.Tipo.CONEXION);
         }
@@ -81,11 +80,10 @@ public class DAOAcademico implements IAcademicoDAO {
         try {
             listaAcademicos = AcademicoDB.getListaAcademicoPorCampos("area", areaEstudios);
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             BITACORA.fatal(error);
             throw new ErrorDAO("Error en la base de datos", ErrorDAO.Tipo.CONEXION);
         }
-
         return listaAcademicos;
     }
 
@@ -100,7 +98,7 @@ public class DAOAcademico implements IAcademicoDAO {
         try {
             listaAcademicos = AcademicoDB.getListaAcademicoPorCampos("categoria", categoriaContratacion);
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             BITACORA.fatal(error);
             throw new ErrorDAO("Error en la base de datos", ErrorDAO.Tipo.CONEXION);
         }
@@ -117,7 +115,7 @@ public class DAOAcademico implements IAcademicoDAO {
         try {
             listaAcademicos = AcademicoDB.getListaAcademicoPorCampos("region", region);
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             BITACORA.error(error);
             throw new ErrorDAO("Error en la base de datos", ErrorDAO.Tipo.CONEXION);
         }
@@ -134,7 +132,7 @@ public class DAOAcademico implements IAcademicoDAO {
         try {
             academico = AcademicoDB.getAcademicoPorId(idPersona);
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             BITACORA.error(error);
             throw new ErrorDAO("Error en la base de datos", ErrorDAO.Tipo.CONEXION);
         }
@@ -156,7 +154,7 @@ public class DAOAcademico implements IAcademicoDAO {
             filasAfectadas = AcademicoDB.agregarAcademicoExterno(academico);
 
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             BITACORA.error(error);
             throw new ErrorDAO("Error en la base de datos", ErrorDAO.Tipo.CONEXION);
         }
@@ -177,7 +175,7 @@ public class DAOAcademico implements IAcademicoDAO {
             filasAfectadas = AcademicoDB.agregarAcademicoUV(academico);
 
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             BITACORA.error(error);
             throw new ErrorDAO("Error en la base de datos", ErrorDAO.Tipo.CONEXION);
         }
@@ -196,7 +194,7 @@ public class DAOAcademico implements IAcademicoDAO {
             filasAfectadas = AcademicoDB.editarAcademico(academico);
 
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             BITACORA.error(error);
         }
 
@@ -216,7 +214,7 @@ public class DAOAcademico implements IAcademicoDAO {
             listaAcademicos = AcademicoDB.getTodos();
 
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             BITACORA.error(error);
         }
 

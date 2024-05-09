@@ -94,11 +94,10 @@ public class InicioSesionControlador extends Application implements Initializabl
                 stagePrincipal.setScene(nuevaEscena);
             }
             catch (ErrorDAO errorDAO) {
-                mostrarVentanaAlert(errorDAO.getMessage() + ".\nContacte con un técnico de la aplicación MiCoil", Alert.AlertType.ERROR);
+                mostrarVentanaAlert(errorDAO.getMessage(), Alert.AlertType.ERROR);
             }
         }
         catch (IOException error) {
-            error.printStackTrace();
             bitacora.fatal(error.getMessage());
         }
     }

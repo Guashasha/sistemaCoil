@@ -7,16 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CuentaDB {
-
-    private static final ConexionBaseDatos CONEXION_BASE_DATOS = new ConexionBaseDatos();
-
     public static Cuenta getCuentaPorUsuario (String nombreUsuario) throws SQLException {
         String cuentaPorUsuarioSQL = "SELECT * from cuenta WHERE nombreUsuario = ?";
         Cuenta cuenta = null;
 
         try {
-            CONEXION_BASE_DATOS.conectar();
-            PreparedStatement cuentaPorUsuario = CONEXION_BASE_DATOS.getConexion().
+            
+            PreparedStatement cuentaPorUsuario = ConexionBaseDatos.getInstancia().
                                                                     prepareStatement(cuentaPorUsuarioSQL);
             cuentaPorUsuario.setString(1, nombreUsuario);
             ResultSet resultadoCuentaUsuario = cuentaPorUsuario.executeQuery();
@@ -30,7 +27,7 @@ public class CuentaDB {
 
         }
         finally {
-            CONEXION_BASE_DATOS.desconectar();
+            ConexionBaseDatos.desconectar();
 
         }
 
@@ -43,8 +40,8 @@ public class CuentaDB {
         int filasAfectadas;
 
         try {
-            CONEXION_BASE_DATOS.conectar();
-            PreparedStatement actualizarUsuario = CONEXION_BASE_DATOS.getConexion().
+            
+            PreparedStatement actualizarUsuario = ConexionBaseDatos.getInstancia().
                                                                      prepareStatement(actualizarUsuarioSQL);
             actualizarUsuario.setString(1, cuenta.getNombreUsuario());
             actualizarUsuario.setInt(2, cuenta.getIdCuenta());
@@ -55,7 +52,7 @@ public class CuentaDB {
 
         }
         finally {
-            CONEXION_BASE_DATOS.desconectar();
+            ConexionBaseDatos.desconectar();
 
         }
 
@@ -67,8 +64,8 @@ public class CuentaDB {
         boolean validacion;
 
         try {
-            CONEXION_BASE_DATOS.conectar();
-            CallableStatement verificarCredenciales = CONEXION_BASE_DATOS.getConexion().
+            
+            CallableStatement verificarCredenciales = ConexionBaseDatos.getInstancia().
                                                                          prepareCall(verificarCredencialesSQL);
             verificarCredenciales.setString(1, nombreUsuario);
             verificarCredenciales.setString(2, contrasena);
@@ -81,7 +78,7 @@ public class CuentaDB {
             verificarCredenciales.close();
         }
         finally {
-            CONEXION_BASE_DATOS.desconectar();
+            ConexionBaseDatos.desconectar();
 
         }
 
@@ -94,8 +91,8 @@ public class CuentaDB {
         int filasAfectadas;
 
         try {
-            CONEXION_BASE_DATOS.conectar();
-            CallableStatement actualizarContrasena = CONEXION_BASE_DATOS.getConexion().
+            
+            CallableStatement actualizarContrasena = ConexionBaseDatos.getInstancia().
                                                                         prepareCall(actualizarContrasenaSQL);
             actualizarContrasena.setInt(1, cuenta.getIdCuenta());
             actualizarContrasena.setString(2, cuenta.getNombreUsuario());
@@ -108,7 +105,7 @@ public class CuentaDB {
 
         }
         finally {
-            CONEXION_BASE_DATOS.desconectar();
+            ConexionBaseDatos.desconectar();
 
         }
 
@@ -121,8 +118,8 @@ public class CuentaDB {
         int filasAfectadas;
 
         try {
-            CONEXION_BASE_DATOS.conectar();
-            PreparedStatement cambiarEstadoCuenta = CONEXION_BASE_DATOS.getConexion().
+            
+            PreparedStatement cambiarEstadoCuenta = ConexionBaseDatos.getInstancia().
                                                                        prepareStatement(cambiarEstadoCuentaSQL);
             cambiarEstadoCuenta.setString(1, estado);
             cambiarEstadoCuenta.setInt(2, cuenta.getIdCuenta());
@@ -133,7 +130,7 @@ public class CuentaDB {
 
         }
         finally {
-            CONEXION_BASE_DATOS.desconectar();
+            ConexionBaseDatos.desconectar();
 
         }
         return filasAfectadas;
@@ -145,8 +142,8 @@ public class CuentaDB {
         List<Cuenta> listaCuentas = new ArrayList<>();
 
         try {
-            CONEXION_BASE_DATOS.conectar();
-            PreparedStatement getCuentaPorTipo = CONEXION_BASE_DATOS.getConexion().
+            
+            PreparedStatement getCuentaPorTipo = ConexionBaseDatos.getInstancia().
                                                                     prepareStatement(getCuentaPorTipoSQL);
             getCuentaPorTipo.setString(1, tipo);
 
@@ -162,7 +159,7 @@ public class CuentaDB {
 
         }
         finally {
-            CONEXION_BASE_DATOS.desconectar();
+            ConexionBaseDatos.desconectar();
 
         }
 
@@ -175,8 +172,8 @@ public class CuentaDB {
         List<Cuenta> listaCuentas = new ArrayList<>();
 
         try {
-            CONEXION_BASE_DATOS.conectar();
-            PreparedStatement getCuentasPorEstado = CONEXION_BASE_DATOS.getConexion().
+            
+            PreparedStatement getCuentasPorEstado = ConexionBaseDatos.getInstancia().
                                                                        prepareStatement(getCuentasPorEstadoSQL);
             getCuentasPorEstado.setString(1, estado);
 
@@ -192,7 +189,7 @@ public class CuentaDB {
 
         }
         finally {
-            CONEXION_BASE_DATOS.desconectar();
+            ConexionBaseDatos.desconectar();
 
         }
 
@@ -205,8 +202,8 @@ public class CuentaDB {
         int filasAfectadas = -1;
 
         try {
-            CONEXION_BASE_DATOS.conectar();
-            CallableStatement agregarCuenta = CONEXION_BASE_DATOS.getConexion().
+            
+            CallableStatement agregarCuenta = ConexionBaseDatos.getInstancia().
                                                                  prepareCall(agregarCuentaSQL);
             agregarCuenta.setInt(1, cuenta.getIdPersona());
             agregarCuenta.setString(2, cuenta.getNombreUsuario());
@@ -222,7 +219,7 @@ public class CuentaDB {
 
         }
         finally {
-            CONEXION_BASE_DATOS.desconectar();
+            ConexionBaseDatos.desconectar();
 
         }
 
@@ -235,8 +232,8 @@ public class CuentaDB {
         Cuenta cuenta = null;
 
         try {
-            CONEXION_BASE_DATOS.conectar();
-            PreparedStatement getPorId = CONEXION_BASE_DATOS.getConexion().
+            
+            PreparedStatement getPorId = ConexionBaseDatos.getInstancia().
                                                             prepareStatement(getPorIdSQL);
             getPorId.setInt(1, id);
 
@@ -251,7 +248,7 @@ public class CuentaDB {
 
         }
         finally {
-            CONEXION_BASE_DATOS.desconectar();
+            ConexionBaseDatos.desconectar();
 
         }
 
@@ -264,8 +261,8 @@ public class CuentaDB {
         List<Cuenta> listaCuenta = new ArrayList<>();
 
         try {
-            CONEXION_BASE_DATOS.conectar();
-            PreparedStatement getTodos = CONEXION_BASE_DATOS.getConexion().
+            
+            PreparedStatement getTodos = ConexionBaseDatos.getInstancia().
                                                             prepareStatement(getTodosSQL);
 
             ResultSet resultadoGetTodos = getTodos.executeQuery();
@@ -280,7 +277,7 @@ public class CuentaDB {
 
         }
         finally {
-            CONEXION_BASE_DATOS.desconectar();
+            ConexionBaseDatos.desconectar();
 
         }
 

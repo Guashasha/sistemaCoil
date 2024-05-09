@@ -123,7 +123,7 @@ class CuentaDBTest {
         System.out.println("pruebaVerificarCredencialesUsuarioDistintoFallida");
 
         String nombreUsuario = "EduVIllegas";
-        String contrasena = "eduVillegas2000";
+        String contrasena = "eduVillegas2001";
 
         boolean validacion = false;
 
