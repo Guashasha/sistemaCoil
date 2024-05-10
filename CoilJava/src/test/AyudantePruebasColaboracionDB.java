@@ -60,7 +60,6 @@ public class AyudantePruebasColaboracionDB {
     }
 
     public static void borrarTodosDatosTabla () {
-        ConfiguracionPrueba.borrarDatosTablaCalendarioActividades();
         ConfiguracionPrueba.borrarDatosTablaEstudiantesColaboracion();
         ConfiguracionPrueba.borrarDatosTablaAcademicoDesarrolla();
         ConfiguracionPrueba.borrarDatosTablaColaboracion();

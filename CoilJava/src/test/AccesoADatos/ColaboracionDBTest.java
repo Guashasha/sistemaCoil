@@ -5,13 +5,11 @@ import Logica.Dominio.Academico;
 import Logica.Dominio.Colaboracion;
 import Logica.Dominio.Estudiante;
 import Logica.Dominio.Periodo;
+import Utilidades.ErrorDAO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import test.AyudantePruebasColaboracionDB;
-import test.ConfiguracionPrueba;
-
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ColaboracionDBTest {
     @BeforeEach
     void setUp () {
+        AyudantePruebasColaboracionDB.borrarTodosDatosTabla();
         AyudantePruebasColaboracionDB.agregarPrecondiciones();
     }
 
@@ -58,7 +57,7 @@ class ColaboracionDBTest {
         try {
             obtenida = ColaboracionDB.getColaboracionPorAcademicosParticipantes(academico1, academico2);
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetColaboracionPorAcademicosParticipantesExitosa" + error.getMessage());
         }
 
@@ -75,11 +74,10 @@ class ColaboracionDBTest {
         try {
             resultado = ColaboracionDB.getColaboracionPorAcademicosParticipantes(academico1, academico2);
         }
-        catch (SQLException error) {
-            fail("Error en pruebaGetColaboracion");
-
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaGetColaboracionPorAcademicosParticipantesFallida");
         }
-        assertNull(resultado);
+        assertNull(resultado,"pruebaGetColaboracionPorAcademicosParticipantesFallida");
     }
 
     @Test
@@ -91,7 +89,7 @@ class ColaboracionDBTest {
         try {
             resultado = ColaboracionDB.getColaboracionPorAcademicosParticipantes(academico1, academico2);
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetColaboracionPorAcademicosParticipantesAcademicoVacio");
         }
         assertNull(resultado,"pruebaGetColaboracionPorAcademicosParticipantesAcademicoVacio");
@@ -104,7 +102,7 @@ class ColaboracionDBTest {
         try {
             obtenido = ColaboracionDB.getColaboracionPorId(1);
         }
-        catch (SQLException errorDAO) {
+        catch (ErrorDAO errorDAO) {
             fail("Falida: pruebaGetColaboracionPorIdExitosa" + errorDAO.getMessage());
         }
         assertEquals(esperado,obtenido,"pruebaGetColaboracionPorIdExitosa");
@@ -116,7 +114,7 @@ class ColaboracionDBTest {
             Colaboracion resultado = ColaboracionDB.getColaboracionPorId(10);
             assertNull(resultado,"pruebaGetColaboracionIdInexistente");
         }
-        catch (SQLException errorDAO) {
+        catch (ErrorDAO errorDAO) {
             fail("Fallida: pruebaGetColaboracionPorIdExitosa" + errorDAO.getMessage());
         }
     }
@@ -154,7 +152,7 @@ class ColaboracionDBTest {
         try {
             obtenida = ColaboracionDB.getListaDeEstudiantes(colaboracionPrueba);
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetListaDeEstudiantesExitosa " + error.getMessage());
         }
 
@@ -169,11 +167,11 @@ class ColaboracionDBTest {
     void pruebaGetListadeEstudiantesColaboracionInexistente () {
         Colaboracion colaboracion = new Colaboracion();
         colaboracion.setIdColaboracion(40);
-        List<Estudiante> resultado =null;
+        List<Estudiante> resultado = null;
         try {
             resultado = ColaboracionDB.getListaDeEstudiantes(colaboracion);
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetListadeEstudiantesColaboracionInexistente" + error.getMessage());
         }
         assertTrue(resultado.isEmpty(),"pruebaGetListadeEstudiantesColaboracionInexistente");
@@ -185,7 +183,7 @@ class ColaboracionDBTest {
             List<Estudiante> resultado = ColaboracionDB.getListaDeEstudiantes(new Colaboracion());
             assertTrue(resultado.isEmpty(), "pruebaGetListadeEstudiantesColaboracionVacia");
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetListadeEstudiantesColaboracionVacia");
         }
     }
@@ -208,7 +206,7 @@ class ColaboracionDBTest {
         try {
             obtenida = ColaboracionDB.getAcademicosParticipantes(colaboracionPrueba);
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetAcademicosParticipantesExitoso " + error.getMessage());
         }
 
@@ -247,7 +245,7 @@ class ColaboracionDBTest {
             listaColaboraciones = ColaboracionDB.getColaboracionPorPeriodo(periodo);
 
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Error en pruebaGetColaboracionPorPeriodoExitosa: " + error.getMessage());
 
         }
@@ -273,7 +271,7 @@ class ColaboracionDBTest {
             obtenido = ColaboracionDB.cambiarEstadoColaboracion(colaboracionPrueba);
 
 
-        } catch (SQLException error) {
+        } catch (ErrorDAO error) {
 
             fail("Error en pruebaCambiarEstadoColaboracionExitosa: " + error.getMessage());
         }
@@ -299,7 +297,7 @@ class ColaboracionDBTest {
             obtenido = ColaboracionDB.agregarEstudianteAColaboracion(colaboracionPrueba, estudiantePrueba);
 
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("pruebaAgregarEstudianteAColaboracionExitoso " + error.getMessage());
 
         }
@@ -325,7 +323,7 @@ class ColaboracionDBTest {
             obtenido = ColaboracionDB.agregarAcademicoAColaboracion(colaboracionPrueba,academicoPrueba);
 
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("pruebaAgregarAcademicoAColaboracionExitoso " + error.getMessage());
 
         }
@@ -345,7 +343,7 @@ class ColaboracionDBTest {
             obtenido = ColaboracionDB.registrarColaboracion(colaboracionPrueba);
 
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("pruebaRegistrarColaboracionExitoso " + error.getMessage());
 
         }
@@ -381,7 +379,7 @@ class ColaboracionDBTest {
             obtenido = ColaboracionDB.actualizarColaboracion(colaboracionPrueba);
 
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("pruebaActualizarColaboracionExitoso " + error.getMessage());
 
         }
@@ -402,7 +400,7 @@ class ColaboracionDBTest {
             listaColaboracion = ColaboracionDB.getTodos();
 
         }
-        catch (SQLException errorDAO) {
+        catch (ErrorDAO errorDAO) {
             fail("pruebaGetTodosExitosa " + errorDAO.getMessage());
 
         }
