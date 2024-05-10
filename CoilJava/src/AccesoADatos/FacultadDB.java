@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FacultadDB {
-    private static final ConexionBaseDatos CONEXION_BASE_DATOS = new ConexionBaseDatos();
-
     public static Facultad getFacultadPorNombre (String nombre) throws SQLException {
         Facultad facultad = new Facultad(0);
         String consultaUniversidadSQL = "SELECT * FROM facultad_con_region WHERE facultad = ?";
@@ -18,7 +16,7 @@ public class FacultadDB {
         ResultSet resultadoConsulta = null;
 
         try {
-            consultaUniversidad = CONEXION_BASE_DATOS.getConexion().
+            consultaUniversidad = ConexionBaseDatos.getInstancia().
                     prepareStatement(consultaUniversidadSQL);
             consultaUniversidad.setString(1,nombre);
             resultadoConsulta = consultaUniversidad.executeQuery();
@@ -28,7 +26,7 @@ public class FacultadDB {
             }
             consultaUniversidad.close();
             resultadoConsulta.close();
-            CONEXION_BASE_DATOS.desconectar();
+            ConexionBaseDatos.desconectar();
         }
         catch (SQLException error) {
             throw error;
@@ -44,7 +42,7 @@ public class FacultadDB {
         ResultSet resultadoConsulta = null;
 
         try {
-            consultaFacultades = CONEXION_BASE_DATOS.getConexion().
+            consultaFacultades = ConexionBaseDatos.getInstancia().
                     prepareStatement(consultaFacultadesSQL);
             consultaFacultades.setString(1, region);
             resultadoConsulta = consultaFacultades.executeQuery();
@@ -54,7 +52,7 @@ public class FacultadDB {
             }
             consultaFacultades.close();
             resultadoConsulta.close();
-            CONEXION_BASE_DATOS.desconectar();
+            ConexionBaseDatos.desconectar();
         }
         catch (SQLException error) {
             throw error;
@@ -70,7 +68,7 @@ public class FacultadDB {
         ResultSet resultadoConsulta = null;
 
         try {
-            consultaFacultades = CONEXION_BASE_DATOS.getConexion().
+            consultaFacultades = ConexionBaseDatos.getInstancia().
                     prepareStatement(consultaFacultadesSQL);
             resultadoConsulta = consultaFacultades.executeQuery();
 
@@ -79,7 +77,7 @@ public class FacultadDB {
             }
             consultaFacultades.close();
             resultadoConsulta.close();
-            CONEXION_BASE_DATOS.desconectar();
+            ConexionBaseDatos.desconectar();
         }
         catch (SQLException error) {
             throw error;

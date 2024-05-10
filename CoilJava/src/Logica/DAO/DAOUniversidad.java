@@ -151,7 +151,7 @@ public class DAOUniversidad implements IUniversidadDAO {
             return UniversidadDB.getTodasAlfabeticamente();
         }
         catch (SQLException error) {
-            bitacora.info(error.getMessage());
+            bitacora.fatal(error.getMessage());
             throw new ErrorDAO("Error al establecer conexión con la base de datos", ErrorDAO.Tipo.CONEXION);
         }
     }

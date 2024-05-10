@@ -1,5 +1,6 @@
 package AccesoADatos;
 
+import Utilidades.ErrorDAO;
 import org.apache.log4j.Logger;
 
 import java.io.*;
@@ -10,56 +11,90 @@ import java.util.Properties;
 
 public class ConexionBaseDatos {
     private static final Logger BITACORA = Logger.getLogger(ConexionBaseDatos.class);
+    private static Connection conexion;
+    private static final String URL_DB_PROPERTY = "db.url";
+    private static final String USUARIO_DB_PROPERTY = "db.usuario";
+    private static final String CLAVE_DB_PROPERTY = "db.clave";
 
+    private ConexionBaseDatos () {
 
-    private Connection conexion;
-    private final String NOMBRE_DB_PROPERTY = "db.nombreDB";
-    private final String USUARIO_DB_PROPERTY = "db.usuario";
-    private final String CLAVE_DB_PROPERTY = "db.clave";
-
-    public void conectar () throws SQLException {
-        Properties configuracion = getConfiguracionDB();
-        String nombreDb = configuracion.getProperty(NOMBRE_DB_PROPERTY);
-        String usuarioDb = configuracion.getProperty(USUARIO_DB_PROPERTY);
-        String claveDB = configuracion.getProperty(CLAVE_DB_PROPERTY);
-
-        if (this.conexion == null || this.conexion.isClosed()) {
-            this.conexion = DriverManager.getConnection(nombreDb, usuarioDb, claveDB);
-        }
     }
 
-    public Connection getConexion () throws SQLException {
-        conectar();
-        return this.conexion;
+    public static Connection getInstancia () throws ErrorDAO {
+        try {
+            if (conexion == null || conexion.isClosed()) {
+                conexion = getConexion();
+            }
+        }
+        catch (SQLException error) {
+            BITACORA.fatal(error.getMessage());
+            throw new ErrorDAO("No fue posible realizar la conexion con la base de datos.\nConctacte a un técnico"
+                    , ErrorDAO.Tipo.CONEXION);
+        }
+        return conexion;
     }
 
-    public void desconectar () throws SQLException {
-        if (this.conexion != null && !this.conexion.isClosed()) {
-            this.conexion.close();
+    private static Connection getConexion () throws SQLException {
+        Connection nuevaConexion;
+        Properties propiedades = new ConexionBaseDatos().getConfiguracionDB();
+        if (propiedades != null) {
+            nuevaConexion = DriverManager.getConnection(
+                    propiedades.getProperty(URL_DB_PROPERTY),
+                    propiedades.getProperty(USUARIO_DB_PROPERTY),
+                    propiedades.getProperty(CLAVE_DB_PROPERTY)
+            );
         }
+        else {
+            throw new SQLException("No es posible encontrar las credenciales de la base de datos");
+        }
+        return nuevaConexion;
+    }
+
+    public static boolean desconectar () throws ErrorDAO {
+       boolean estaCerrado = false;
+       try {
+           if (conexion != null) {
+               conexion.close();
+           }
+           estaCerrado = true;
+       } catch (SQLException error) {
+           BITACORA.fatal(error.getMessage());
+           throw new ErrorDAO("Algo sucedio mal con el sistema. \nContacte con un técnico", ErrorDAO.Tipo.CONEXION);
+       }
+       return estaCerrado;
+    }
+
+    public boolean rollback () throws SQLException {
+        boolean seRevirtio = false;
+        try {
+            if (conexion != null) {
+                conexion.rollback();
+            }
+            seRevirtio = true;
+        }
+        catch (SQLException error) {
+            BITACORA.fatal(error.getMessage());
+            throw new SQLException(error.getMessage());
+        }
+        return seRevirtio;
     }
 
     private Properties getConfiguracionDB () {
-        Properties configuracion = new Properties();
-        InputStream archivoConfiguracion = null;
+        Properties configuracion = null;
         try {
-            archivoConfiguracion = new FileInputStream("src/configuracionDB.properties");
-            configuracion.load(archivoConfiguracion);
+            InputStream archivoConfiguracion = new FileInputStream("src/Utilidades/configuracionDB.properties");
+            if (archivoConfiguracion != null) {
+                configuracion = new Properties();
+                configuracion.load(archivoConfiguracion);
+            }
+            archivoConfiguracion.close();
         }
-        catch (IOException error) {
+        catch (FileNotFoundException error) {
             BITACORA.fatal(error.getMessage());
         }
-        finally {
-            try {
-                if (archivoConfiguracion != null) {
-                    archivoConfiguracion.close();
-                }
-            }
-            catch (IOException error) {
-                BITACORA.fatal(error.getMessage());
-            }
+        catch (IOException error){
+            BITACORA.fatal(error.getMessage());
         }
-
         return configuracion;
     }
 

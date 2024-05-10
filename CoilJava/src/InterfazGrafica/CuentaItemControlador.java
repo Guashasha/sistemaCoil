@@ -49,6 +49,7 @@ public class CuentaItemControlador implements Initializable {
     private Cuenta cuentaObtenida;
 
     private VBox lyInformacionCuenta;
+    private Academico academico;
 
 
     public VBox getLyInformacionCuenta () {
@@ -126,6 +127,7 @@ public class CuentaItemControlador implements Initializable {
         catch (ErrorDAO errorDAO) {
             System.out.println("Implementar un alert");
         }
+        this.academico = academico;
         return academico;
     }
 
@@ -197,6 +199,7 @@ public class CuentaItemControlador implements Initializable {
         Tooltip tooltip = new Tooltip(label.getText());
         Tooltip.install(label, tooltip);
     }
+
 
 
 }

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UniversidadDB {
-    private static final ConexionBaseDatos CONEXION_BASE_DATOS = new ConexionBaseDatos();
+    
 
     public static int registrarUniversidad (Universidad universidad) throws SQLException {
         int filasAfectadas;
@@ -17,14 +17,14 @@ public class UniversidadDB {
         PreparedStatement insertarUniversidad = null;
 
         try {
-            insertarUniversidad = CONEXION_BASE_DATOS.getConexion().
+            insertarUniversidad = ConexionBaseDatos.getInstancia().
                                                      prepareStatement(insertarUniversidadSQL);
             insertarUniversidad.setString(1, universidad.getNombre());
             insertarUniversidad.setInt(2, universidad.getIdPais());
             filasAfectadas = insertarUniversidad.executeUpdate();
 
             insertarUniversidad.close();
-            CONEXION_BASE_DATOS.desconectar();
+            ConexionBaseDatos.desconectar();
         }
         catch (SQLException error) {
             throw error;
@@ -39,7 +39,7 @@ public class UniversidadDB {
         PreparedStatement actualizarUniversidad = null;
 
         try {
-            actualizarUniversidad = CONEXION_BASE_DATOS.getConexion().
+            actualizarUniversidad = ConexionBaseDatos.getInstancia().
                                                        prepareStatement(actualizarUniversidadSQL);
             actualizarUniversidad.setString(1, universidad.getNombre());
             actualizarUniversidad.setInt(2, universidad.getIdPais());
@@ -47,7 +47,7 @@ public class UniversidadDB {
             filasAfectadas = actualizarUniversidad.executeUpdate();
 
             actualizarUniversidad.close();
-            CONEXION_BASE_DATOS.desconectar();
+            ConexionBaseDatos.desconectar();
         }
         catch (SQLException error) {
             throw error;
@@ -63,7 +63,7 @@ public class UniversidadDB {
         ResultSet resultadoConsulta = null;
 
         try {
-            consultaUniversidad = CONEXION_BASE_DATOS.getConexion().
+            consultaUniversidad = ConexionBaseDatos.getInstancia().
                                                      prepareStatement(consultaUniversidadSQL);
             consultaUniversidad.setString(1, nombre);
             resultadoConsulta = consultaUniversidad.executeQuery();
@@ -73,7 +73,7 @@ public class UniversidadDB {
             }
             consultaUniversidad.close();
             resultadoConsulta.close();
-            CONEXION_BASE_DATOS.desconectar();
+            ConexionBaseDatos.desconectar();
         }
         catch (SQLException error) {
             throw error;
@@ -89,7 +89,7 @@ public class UniversidadDB {
         ResultSet resultadoConsulta;
 
         try {
-            consultaUniversidades = CONEXION_BASE_DATOS.getConexion().
+            consultaUniversidades = ConexionBaseDatos.getInstancia().
                                                        prepareStatement(consultarUniversidadesSQL);
             consultaUniversidades.setString(1, paisOrigen);
             resultadoConsulta = consultaUniversidades.executeQuery();
@@ -99,7 +99,7 @@ public class UniversidadDB {
             }
             consultaUniversidades.close();
             resultadoConsulta.close();
-            CONEXION_BASE_DATOS.desconectar();
+            ConexionBaseDatos.desconectar();
         }
         catch (SQLException error) {
             throw error;
@@ -115,7 +115,7 @@ public class UniversidadDB {
         ResultSet resultadoConsulta;
 
         try {
-            consultaUniversidades = CONEXION_BASE_DATOS.getConexion().
+            consultaUniversidades = ConexionBaseDatos.getInstancia().
                     prepareStatement(consultarUniversidadesSQL);
             consultaUniversidades.setString(1, "%" + nombre + "%");
             resultadoConsulta = consultaUniversidades.executeQuery();
@@ -125,7 +125,7 @@ public class UniversidadDB {
             }
             consultaUniversidades.close();
             resultadoConsulta.close();
-            CONEXION_BASE_DATOS.desconectar();
+            ConexionBaseDatos.desconectar();
         }
         catch (SQLException error) {
             throw error;
@@ -141,7 +141,7 @@ public class UniversidadDB {
         ResultSet resultadoConsulta = null;
 
         try {
-            consultaUniversidades = CONEXION_BASE_DATOS.getConexion().
+            consultaUniversidades = ConexionBaseDatos.getInstancia().
                                                        prepareStatement(consultarUniversidadesSQL);
             resultadoConsulta = consultaUniversidades.executeQuery();
 
@@ -150,7 +150,7 @@ public class UniversidadDB {
             }
             consultaUniversidades.close();
             resultadoConsulta.close();
-            CONEXION_BASE_DATOS.desconectar();
+            ConexionBaseDatos.desconectar();
         }
         catch (SQLException error) {
             throw error;
@@ -166,7 +166,7 @@ public class UniversidadDB {
         ResultSet resultadoConsulta = null;
 
         try {
-            consultaUniversidad = CONEXION_BASE_DATOS.getConexion().
+            consultaUniversidad = ConexionBaseDatos.getInstancia().
                                                      prepareStatement(consultaUniversidadSQL);
             consultaUniversidad.setString(1, nombre);
             consultaUniversidad.setString(2, pais);
@@ -177,7 +177,7 @@ public class UniversidadDB {
             }
             consultaUniversidad.close();
             resultadoConsulta.close();
-            CONEXION_BASE_DATOS.desconectar();
+            ConexionBaseDatos.desconectar();
         }
         catch (SQLException error) {
             throw error;
@@ -193,7 +193,7 @@ public class UniversidadDB {
         ResultSet resultadoConsulta;
 
         try {
-            consultaUniversidad = CONEXION_BASE_DATOS.getConexion().
+            consultaUniversidad = ConexionBaseDatos.getInstancia().
                                                      prepareStatement(consultaUniversidadSQL);
             consultaUniversidad.setInt(1, idUniversidad);
             resultadoConsulta = consultaUniversidad.executeQuery();
@@ -203,7 +203,7 @@ public class UniversidadDB {
             }
             consultaUniversidad.close();
             resultadoConsulta.close();
-            CONEXION_BASE_DATOS.desconectar();
+            ConexionBaseDatos.desconectar();
         }
         catch (SQLException error) {
             throw error;

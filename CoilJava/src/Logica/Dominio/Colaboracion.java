@@ -120,6 +120,22 @@ public class Colaboracion {
     }
 
     @Override
+    public String toString () {
+        return "Colaboracion{" +
+                "idColaboracion=" + idColaboracion +
+                ", tipo=" + tipo +
+                ", estado=" + estado +
+                ", temaInteres='" + temaInteres + '\'' +
+                ", idioma='" + idioma + '\'' +
+                ", objetivo='" + objetivo + '\'' +
+                ", periodo=" + periodo +
+                ", perfilEstudiante='" + perfilEstudiante + '\'' +
+                ", academicoPar=" + academicoPar.getNombre() +
+                ", anfitrion=" + anfitrion.getNombre() +
+                '}';
+    }
+
+    @Override
     public boolean equals (Object obj) {
         boolean igual;
         if (this == obj) {

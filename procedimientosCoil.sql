@@ -302,7 +302,11 @@ begin
     group by idColaboracion
     having COUNT(DISTINCT idAcademico) = 2;
 
-    select * from colaboracion where idColaboracion = v_idColaboracion;
+    SELECT c.*, va.*
+    FROM colaboracion c
+    INNER JOIN academicodesarrolla ad ON c.idColaboracion = ad.idColaboracion
+    INNER JOIN vista_academico va ON ad.idAcademico = va.cedulaProfesional
+    WHERE c.idColaboracion = v_idColaboracion;
 end //
 
 

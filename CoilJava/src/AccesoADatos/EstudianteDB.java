@@ -10,16 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EstudianteDB {
-
-    private static final ConexionBaseDatos CONEXION_BASE_DATOS = new ConexionBaseDatos();
-
     public static int agregarEstudiante (Estudiante estudiante) throws SQLException {
         String procedimientoSQL = "{CALL registrar_Estudiante(?, ?, ?, ?, ?)}";
         int resultado = 0;
 
         try {
-            CONEXION_BASE_DATOS.conectar();
-            CallableStatement registrarEstudiante = CONEXION_BASE_DATOS.getConexion().
+            
+            CallableStatement registrarEstudiante = ConexionBaseDatos.getInstancia().
                                                                       prepareCall(procedimientoSQL);
             registrarEstudiante.setString(1, estudiante.getNombre());
             registrarEstudiante.setString(2, estudiante.getApellidoPaterno());
@@ -33,7 +30,7 @@ public class EstudianteDB {
 
         }
         finally {
-            CONEXION_BASE_DATOS.desconectar();
+            ConexionBaseDatos.desconectar();
 
         }
         return resultado;
@@ -44,8 +41,8 @@ public class EstudianteDB {
         int resultado = 0;
 
         try {
-            CONEXION_BASE_DATOS.conectar();
-            CallableStatement editarEstudiante = CONEXION_BASE_DATOS.getConexion().
+            
+            CallableStatement editarEstudiante = ConexionBaseDatos.getInstancia().
                                                                        prepareCall(procedimientoSQL);
             editarEstudiante.setString(1, estudiante.getNombre());
             editarEstudiante.setString(2, estudiante.getApellidoPaterno());
@@ -58,7 +55,7 @@ public class EstudianteDB {
 
         }
         finally {
-            CONEXION_BASE_DATOS.desconectar();
+            ConexionBaseDatos.desconectar();
 
         }
         return resultado;
@@ -70,8 +67,8 @@ public class EstudianteDB {
         Estudiante estudiante = null;
 
         try {
-            CONEXION_BASE_DATOS.conectar();
-            PreparedStatement consultaEstudianteId = CONEXION_BASE_DATOS.getConexion().
+            
+            PreparedStatement consultaEstudianteId = ConexionBaseDatos.getInstancia().
                                                                       prepareStatement(consulta);
             consultaEstudianteId.setInt(1,id);
             ResultSet resultadoConsulta = consultaEstudianteId.executeQuery();
@@ -82,7 +79,7 @@ public class EstudianteDB {
             resultadoConsulta.close();
         }
         finally {
-            CONEXION_BASE_DATOS.desconectar();
+            ConexionBaseDatos.desconectar();
 
         }
         return estudiante;
@@ -94,8 +91,8 @@ public class EstudianteDB {
         Estudiante estudiante = null;
 
         try {
-            CONEXION_BASE_DATOS.conectar();
-            PreparedStatement cosnsultaEstudianteIdPersona = CONEXION_BASE_DATOS.getConexion().
+            
+            PreparedStatement cosnsultaEstudianteIdPersona = ConexionBaseDatos.getInstancia().
                                                                         prepareStatement(consulta);
             cosnsultaEstudianteIdPersona.setInt(1,idPersona);
             ResultSet resultadoConsulta = cosnsultaEstudianteIdPersona.executeQuery();
@@ -107,7 +104,7 @@ public class EstudianteDB {
 
         }
         finally {
-            CONEXION_BASE_DATOS.desconectar();
+            ConexionBaseDatos.desconectar();
 
         }
 
@@ -120,8 +117,8 @@ public class EstudianteDB {
         Estudiante estudiante = null;
 
         try {
-            CONEXION_BASE_DATOS.conectar();
-            PreparedStatement cosnsultaEstudianteMatricula = CONEXION_BASE_DATOS.getConexion().
+            
+            PreparedStatement cosnsultaEstudianteMatricula = ConexionBaseDatos.getInstancia().
                                                                                 prepareStatement(consulta);
             cosnsultaEstudianteMatricula.setString(1,matricula);
             ResultSet resultadoConsulta = cosnsultaEstudianteMatricula.executeQuery();
@@ -132,7 +129,7 @@ public class EstudianteDB {
             resultadoConsulta.close();
         }
         finally {
-            CONEXION_BASE_DATOS.desconectar();
+            ConexionBaseDatos.desconectar();
 
         }
         return estudiante;
@@ -144,8 +141,8 @@ public class EstudianteDB {
         ArrayList<Estudiante> listaEstudiantes = new ArrayList<>();
 
         try {
-            CONEXION_BASE_DATOS.conectar();
-            PreparedStatement cosnsultaEstudianteUniversidad = CONEXION_BASE_DATOS.getConexion().
+            
+            PreparedStatement cosnsultaEstudianteUniversidad = ConexionBaseDatos.getInstancia().
                                                                                 prepareStatement(consulta);
             cosnsultaEstudianteUniversidad.setInt(1,idUniversidad);
             ResultSet resultadoConsulta = cosnsultaEstudianteUniversidad.executeQuery();
@@ -160,7 +157,7 @@ public class EstudianteDB {
 
         }
         finally {
-            CONEXION_BASE_DATOS.desconectar();
+            ConexionBaseDatos.desconectar();
 
         }
         return listaEstudiantes;
@@ -172,8 +169,8 @@ public class EstudianteDB {
         List<Estudiante> listaEstudiantes = new ArrayList<>();
 
         try {
-            CONEXION_BASE_DATOS.conectar();
-            PreparedStatement consultaEstudiante = CONEXION_BASE_DATOS.getConexion().
+            
+            PreparedStatement consultaEstudiante = ConexionBaseDatos.getInstancia().
                                                                      prepareStatement(consulta);
             ResultSet resultadoConsulta = consultaEstudiante.executeQuery();
             while (resultadoConsulta.next()) {
@@ -184,7 +181,7 @@ public class EstudianteDB {
             resultadoConsulta.close();
         }
         finally {
-            CONEXION_BASE_DATOS.desconectar();
+            ConexionBaseDatos.desconectar();
 
         }
         return listaEstudiantes;

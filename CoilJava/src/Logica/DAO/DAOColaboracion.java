@@ -7,10 +7,10 @@ import Logica.Dominio.Estudiante;
 import Logica.Dominio.Periodo;
 import Utilidades.ErrorDAO;
 import Logica.Interfaces.IColaboracionDAO;
+import org.apache.commons.lang3.NotImplementedException;
 import org.apache.log4j.Logger;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +26,7 @@ public class DAOColaboracion implements IColaboracionDAO {
         try {
             colaboracion = ColaboracionDB.getColaboracionPorAcademicosParticipantes(academico1, academico2);
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             BITACORA.error(error);
         }
 
@@ -42,7 +42,7 @@ public class DAOColaboracion implements IColaboracionDAO {
         try {
             colaboracion = ColaboracionDB.getColaboracionPorId(idColaboracion);
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             BITACORA.error(error);
 
         }
@@ -59,7 +59,7 @@ public class DAOColaboracion implements IColaboracionDAO {
         try {
             listaEstudiantes = ColaboracionDB.getListaDeEstudiantes(colaboracion);
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             BITACORA.error(error.getMessage());
         }
 
@@ -75,7 +75,7 @@ public class DAOColaboracion implements IColaboracionDAO {
         try {
             listaAcademicos = ColaboracionDB.getAcademicosParticipantes(colaboracion);
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             BITACORA.error(error.getMessage());
         }
         return listaAcademicos;
@@ -90,7 +90,7 @@ public class DAOColaboracion implements IColaboracionDAO {
         try {
             listaColaboracion = ColaboracionDB.getColaboracionPorPeriodo(periodo);
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             BITACORA.error(error.getMessage());
         }
         return listaColaboracion;
@@ -106,7 +106,7 @@ public class DAOColaboracion implements IColaboracionDAO {
         try {
             listaColaboracion = ColaboracionDB.getColaboracionPorIdioma(idioma);
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             BITACORA.error(error.getMessage());
         }
         return listaColaboracion;
@@ -121,7 +121,7 @@ public class DAOColaboracion implements IColaboracionDAO {
         try {
             listaColaboracion = ColaboracionDB.getColaboracionPorEstado(estado);
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             BITACORA.error(error.getMessage());
         }
         return listaColaboracion;
@@ -139,7 +139,7 @@ public class DAOColaboracion implements IColaboracionDAO {
         try {
             filasAfectadas = ColaboracionDB.cambiarEstadoColaboracion(colaboracion);
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             BITACORA.error(error.getMessage());
         }
         return filasAfectadas;
@@ -157,7 +157,7 @@ public class DAOColaboracion implements IColaboracionDAO {
         try {
             filasAfectadas = ColaboracionDB.agregarEstudianteAColaboracion(colaboracion, estudiante);
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             BITACORA.error(error.getMessage());
         }
         return filasAfectadas;
@@ -176,7 +176,7 @@ public class DAOColaboracion implements IColaboracionDAO {
         try {
             filasAfectadas = ColaboracionDB.agregarAcademicoAColaboracion(colaboracion, academico);
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             BITACORA.error(error.getMessage());
         }
         return filasAfectadas;
@@ -196,7 +196,7 @@ public class DAOColaboracion implements IColaboracionDAO {
         try {
             filasAfectadas = ColaboracionDB.registrarColaboracion(colaboracion);
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             BITACORA.error(error.getMessage());
         }
         return filasAfectadas;
@@ -211,7 +211,7 @@ public class DAOColaboracion implements IColaboracionDAO {
         try {
             filasAfectadas = ColaboracionDB.actualizarColaboracion(colaboracion);
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             BITACORA.error(error.getMessage());
         }
         return filasAfectadas;
@@ -226,7 +226,7 @@ public class DAOColaboracion implements IColaboracionDAO {
         try {
             colaboracion = ColaboracionDB.getPorId(id);
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             BITACORA.error(error.getMessage());
         }
         return Optional.ofNullable(colaboracion);
@@ -238,7 +238,7 @@ public class DAOColaboracion implements IColaboracionDAO {
         try {
             listaColaboracion = ColaboracionDB.getTodos();
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             BITACORA.error(error.getMessage());
         }
         return listaColaboracion;
@@ -246,7 +246,7 @@ public class DAOColaboracion implements IColaboracionDAO {
 
     @Override
     public Colaboracion resultSetAObjeto (ResultSet resultados) {
-        return null;
+        throw new NotImplementedException("No esta implementada esta función");
     }
 
     private boolean cadenaValida (String cadena) {

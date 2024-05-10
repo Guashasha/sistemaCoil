@@ -4,15 +4,17 @@ import AccesoADatos.AcademicoDB;
 import Logica.Dominio.Academico;
 import Utilidades.ErrorDAO;
 import Logica.Interfaces.IAcademicoDAO;
+import javafx.beans.property.StringProperty;
 import org.apache.log4j.Logger;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class DAOAcademico implements IAcademicoDAO {
-    //fixme considerar hacer un metodo generico;
+    //fixme reducir redundancia;
 
     private static final Logger BITACORA = Logger.getLogger(DAOAcademico.class);
 
@@ -26,9 +28,9 @@ public class DAOAcademico implements IAcademicoDAO {
             listaAcademicos = AcademicoDB.getListaAcademicoPorCampos("facultad",nombrefacultad);
 
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             BITACORA.error(error);
-
+            throw new ErrorDAO("Error en la base de datos", ErrorDAO.Tipo.CONEXION);
         }
 
         return listaAcademicos;
@@ -44,9 +46,9 @@ public class DAOAcademico implements IAcademicoDAO {
             academico = AcademicoDB.getAcademicoPorCedula(cedula);
 
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             BITACORA.fatal(error);
-
+            throw new ErrorDAO("Error en la base de datos", ErrorDAO.Tipo.CONEXION);
         }
 
         return Optional.ofNullable(academico);
@@ -61,9 +63,9 @@ public class DAOAcademico implements IAcademicoDAO {
         try {
             listaAcademicos = AcademicoDB.getListaAcademicoPorCampos("universidad", nombreUniversidad);
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             BITACORA.fatal(error);
-
+            throw new ErrorDAO("Error en la base de datos", ErrorDAO.Tipo.CONEXION);
         }
 
         return listaAcademicos;
@@ -78,10 +80,10 @@ public class DAOAcademico implements IAcademicoDAO {
         try {
             listaAcademicos = AcademicoDB.getListaAcademicoPorCampos("area", areaEstudios);
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             BITACORA.fatal(error);
+            throw new ErrorDAO("Error en la base de datos", ErrorDAO.Tipo.CONEXION);
         }
-
         return listaAcademicos;
     }
 
@@ -96,8 +98,9 @@ public class DAOAcademico implements IAcademicoDAO {
         try {
             listaAcademicos = AcademicoDB.getListaAcademicoPorCampos("categoria", categoriaContratacion);
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             BITACORA.fatal(error);
+            throw new ErrorDAO("Error en la base de datos", ErrorDAO.Tipo.CONEXION);
         }
 
         return listaAcademicos;
@@ -112,9 +115,9 @@ public class DAOAcademico implements IAcademicoDAO {
         try {
             listaAcademicos = AcademicoDB.getListaAcademicoPorCampos("region", region);
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             BITACORA.error(error);
-
+            throw new ErrorDAO("Error en la base de datos", ErrorDAO.Tipo.CONEXION);
         }
 
         return listaAcademicos;
@@ -129,8 +132,9 @@ public class DAOAcademico implements IAcademicoDAO {
         try {
             academico = AcademicoDB.getAcademicoPorId(idPersona);
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             BITACORA.error(error);
+            throw new ErrorDAO("Error en la base de datos", ErrorDAO.Tipo.CONEXION);
         }
 
         return Optional.ofNullable(academico);
@@ -143,15 +147,16 @@ public class DAOAcademico implements IAcademicoDAO {
         if (!academico.validarNulos()) {
             throw new ErrorDAO ("Existe al menos un campo vacio en el academico", ErrorDAO.Tipo.VALIDACION);
         }
-        if (academico.esLongitudValidad()) {
+        if (!academico.esLongitudValidad()) {
             throw new ErrorDAO ("El numero telefonico es menor o mayor a 11 caracteres", ErrorDAO.Tipo.VALIDACION);
         }
         try {
             filasAfectadas = AcademicoDB.agregarAcademicoExterno(academico);
 
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             BITACORA.error(error);
+            throw new ErrorDAO("Error en la base de datos", ErrorDAO.Tipo.CONEXION);
         }
 
         return filasAfectadas;
@@ -160,7 +165,9 @@ public class DAOAcademico implements IAcademicoDAO {
     @Override
     public int agregar (Academico academico) throws ErrorDAO {
         int filasAfectadas = -1;
-
+        if (!academico.esLongitudValidad()) {
+            throw new ErrorDAO("Al menos un campo sobrepasa el limite de caracteres establecio", ErrorDAO.Tipo.VALIDACION);
+        }
         if (!academico.validarNulos()) {
             throw new ErrorDAO ("Existe al menos un campo vacio en el academico", ErrorDAO.Tipo.VALIDACION);
         }
@@ -168,8 +175,9 @@ public class DAOAcademico implements IAcademicoDAO {
             filasAfectadas = AcademicoDB.agregarAcademicoUV(academico);
 
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             BITACORA.error(error);
+            throw new ErrorDAO("Error en la base de datos", ErrorDAO.Tipo.CONEXION);
         }
 
         return filasAfectadas;
@@ -186,7 +194,7 @@ public class DAOAcademico implements IAcademicoDAO {
             filasAfectadas = AcademicoDB.editarAcademico(academico);
 
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             BITACORA.error(error);
         }
 
@@ -194,7 +202,6 @@ public class DAOAcademico implements IAcademicoDAO {
     }
 
 
-    //fixme nombre nada descriptivo.
     @Override
     public Optional<Academico> getPorId (String y) throws ErrorDAO {
         return Optional.empty();
@@ -207,7 +214,7 @@ public class DAOAcademico implements IAcademicoDAO {
             listaAcademicos = AcademicoDB.getTodos();
 
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             BITACORA.error(error);
         }
 
@@ -219,11 +226,27 @@ public class DAOAcademico implements IAcademicoDAO {
         return null;
     }
 
-    private boolean cadenaValida (String cadena) {
+    public static boolean cadenaValida (String cadena) {
         return cadena != null && !cadena.isBlank();
     }
+    public static boolean esNulo (Object objeto) {
+        return Optional.ofNullable(objeto)
+                       .isEmpty();
+    }
 
-    private boolean idValido (int id) {
+    public static boolean esCadenaValidaProperty(StringProperty cadenaProperty) {
+        return cadenaProperty != null && cadenaProperty.get() != null && !cadenaProperty.get().isBlank();
+    }
+    public static boolean esCorreoValido (StringProperty correoProperty) {
+        Pattern pattern = Pattern.compile("[A-z0-9./+-]+@[A-z]+\\.[A-z]{1,3}", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(correoProperty.get());
+        return matcher.find();
+    }
+    public static boolean esLongitudNumeroTelefonoValida (StringProperty numeroTelefono) {
+        return numeroTelefono.get().length() == 12;
+    }
+
+    public static boolean idValido (int id) {
         return id > 0;
     }
 

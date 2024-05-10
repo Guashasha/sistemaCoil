@@ -1,8 +1,11 @@
 package InterfazGrafica;
 
 import Logica.DAO.DAOCuenta;
+import Logica.Dominio.Academico;
 import Logica.Dominio.Cuenta;
+import Utilidades.Correo;
 import Utilidades.ErrorDAO;
+import Utilidades.ManejadorCorreo;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,19 +29,13 @@ import java.util.ResourceBundle;
 
 public class GestionCuentaControlador extends Application implements Initializable {
     private static final Logger BITACORA = Logger.getLogger(GestionCuentaControlador.class);
-
-
     @FXML
     private VBox lyInformacionCuenta;
-
     @FXML
     private BorderPane root;
-
-
     public void setRoot (BorderPane root) {
         this.root = root;
     }
-
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle) {
         List<Cuenta> cuentasPendientes = getCuentaEnEstadoPendiente();
@@ -69,11 +66,14 @@ public class GestionCuentaControlador extends Application implements Initializab
         cuentaItemController.getBtEvaluar()
                             .setOnAction(event -> {
                                 Cuenta cuentaSeleccionada = cuentaItemController.getCuentaObtenida();
+                                Academico academico = cuentaItemController.getAcademico(cuentaSeleccionada.getIdPersona());
                                 int resultado = confirmarAccionCuenta();
                                 if (resultado != -1) {
                                     cambiarEstadoCuenta(cuentaSeleccionada, resultado);
                                     lyInformacionCuenta.getChildren()
                                                        .remove(vBox);
+                                    ManejadorCorreo manejadorCorreo = ManejadorCorreo.getInstancia();
+                                    manejadorCorreo.enviarCorreoHilo(academico.getCorreoElectronico(), "Tema", "Meo");
                                 }
                             });
     }
@@ -133,6 +133,8 @@ public class GestionCuentaControlador extends Application implements Initializab
         }
         return resultado;
     }
+
+
 
 
     @Override

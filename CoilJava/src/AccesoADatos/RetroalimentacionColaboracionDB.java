@@ -8,13 +8,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class RetroalimentacionColaboracionDB {
-    private static final ConexionBaseDatos CONEXION = new ConexionBaseDatos();
 
     public static int agregarRetroalimentacion (RetroalimentacionColaboracion retroalimentacion) throws SQLException {
         int resultado = -1;
 
         try {
-            CallableStatement consulta = CONEXION.getConexion().prepareCall("call insertarRetroalimentacionColaboracion(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            CallableStatement consulta = ConexionBaseDatos.getInstancia().prepareCall("call insertarRetroalimentacionColaboracion(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
             consulta.setInt(1, retroalimentacion.getInteraccionConPar());
             consulta.setInt(3, retroalimentacion.getHabilidadesObtenidas());
@@ -37,7 +36,7 @@ public class RetroalimentacionColaboracionDB {
             consulta.close();
         }
         finally {
-            CONEXION.desconectar();
+            ConexionBaseDatos.desconectar();
         }
 
         return resultado;
@@ -47,7 +46,7 @@ public class RetroalimentacionColaboracionDB {
         ResultSet resultado = null;
 
         try {
-            PreparedStatement consulta = CONEXION.getConexion().prepareStatement("select * from retroalimentacion as rt natural join retroalimentacionColaboracion where rt.usuario=?");
+            PreparedStatement consulta = ConexionBaseDatos.getInstancia().prepareStatement("select * from retroalimentacion as rt natural join retroalimentacionColaboracion where rt.usuario=?");
 
             consulta.setInt(1, id);
 
@@ -55,7 +54,7 @@ public class RetroalimentacionColaboracionDB {
             consulta.close();
         }
         finally {
-            CONEXION.desconectar();
+            ConexionBaseDatos.desconectar();
         }
 
         return resultado;
@@ -65,7 +64,7 @@ public class RetroalimentacionColaboracionDB {
         ResultSet resultado = null;
 
         try {
-            PreparedStatement consulta = CONEXION.getConexion().prepareStatement("select * from retroalimentacion as rt natural join retroalimentacionColaboracion as rc where rt.usuario=? and rc.colaboracion=?");
+            PreparedStatement consulta = ConexionBaseDatos.getInstancia().prepareStatement("select * from retroalimentacion as rt natural join retroalimentacionColaboracion as rc where rt.usuario=? and rc.colaboracion=?");
 
             consulta.setInt(1, idPersona);
             consulta.setInt(2, idColaboracion);
@@ -74,7 +73,7 @@ public class RetroalimentacionColaboracionDB {
             consulta.close();
         }
         finally {
-            CONEXION.desconectar();
+            ConexionBaseDatos.desconectar();
         }
 
         return resultado;
@@ -84,13 +83,13 @@ public class RetroalimentacionColaboracionDB {
         ResultSet resultado = null;
 
         try {
-            PreparedStatement consulta = CONEXION.getConexion().prepareStatement("select * from retroalimentacion natural join retroalimentacionColaboracion");
+            PreparedStatement consulta = ConexionBaseDatos.getInstancia().prepareStatement("select * from retroalimentacion natural join retroalimentacionColaboracion");
 
             resultado = consulta.executeQuery();
             consulta.close();
         }
         finally {
-            CONEXION.desconectar();
+            ConexionBaseDatos.desconectar();
         }
 
         return resultado;
