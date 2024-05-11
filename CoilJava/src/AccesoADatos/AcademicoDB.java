@@ -197,7 +197,7 @@ public class AcademicoDB {
         } catch (SQLException error) {
             BITACORA.fatal(error.getMessage());
             ConexionBaseDatos.rollback();
-            throw new ErrorDAO("Error al registrar al academico junto con su cuenta", ErrorDAO.Tipo.CONEXION);
+            throw new ErrorDAO("Error al registrar al academico junto con su cuenta", ErrorDAO.Tipo.INSERCION);
         }
         return resultado;
     }

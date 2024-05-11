@@ -100,6 +100,8 @@ public class DAOAcademico implements IAcademicoDAO {
     @Override
     public int agregarAcademicoConCuenta (Academico academico, Cuenta cuenta) throws ErrorDAO {
         try {
+            DAOCuenta daoCuenta = new DAOCuenta();
+            daoCuenta.usuarioExistente(cuenta);
             return AcademicoDB.agregarAcademicoConCuenta(academico, cuenta);
         }
         catch (ErrorDAO errorDAO) {
@@ -151,11 +153,6 @@ public class DAOAcademico implements IAcademicoDAO {
 
     public static boolean cadenaValida (String cadena) {
         return cadena != null && !cadena.isBlank();
-    }
-
-    public static boolean esCadenaValidaProperty (StringProperty cadenaProperty) {
-        return cadenaProperty != null && cadenaProperty.get() != null && !cadenaProperty.get()
-                                                                                        .isBlank();
     }
 
     private static boolean idValido (int id) {

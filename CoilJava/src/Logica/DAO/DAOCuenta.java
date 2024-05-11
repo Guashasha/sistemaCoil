@@ -157,6 +157,12 @@ public class DAOCuenta implements ICuentaDAO {
     private boolean existeNombreUsuario (Cuenta cuenta) {
         return getCuentaPorUsuario(cuenta.getNombreUsuario()).isPresent();
     }
+    public void usuarioExistente (Cuenta cuenta) {
+        if (getCuentaPorUsuario(cuenta.getNombreUsuario()).isPresent()) {
+            throw new ErrorDAO("El nombre de usuario " + cuenta.getNombreUsuario() + " ya se encuentra registado", Tipo.DUPLICIDAD);
+        }
+    }
+
 
     private void probarUsuario (String nombre, String contrasena) {
         Cuenta cuenta = new Cuenta();

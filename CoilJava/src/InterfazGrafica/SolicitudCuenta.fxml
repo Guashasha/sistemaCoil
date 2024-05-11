@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="708.0" prefWidth="859.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.SolicitudCuentaControlador">
+   <left>
+      <Pane prefHeight="708.0" prefWidth="306.0" styleClass="leftBoarder-pane-solicitud" stylesheets="@Recursos/EstiloVentanas.css" BorderPane.alignment="CENTER">
+         <children>
+            <Circle fill="WHITE" layoutX="153.0" layoutY="343.0" radius="100.0" stroke="BLACK" strokeType="INSIDE" />
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="78.0" layoutY="268.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Recursos/LogoCoil.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="22.0" layoutY="183.0" prefHeight="45.0" prefWidth="263.0" text="Collaborative Online" textFill="WHITE">
+               <font>
+                  <Font name="Arial Black" size="22.0" />
+               </font>
+            </Label>
+            <Label layoutX="29.0" layoutY="456.0" text="International Learnig " textFill="WHITE">
+               <font>
+                  <Font name="Arial Black" size="21.0" />
+               </font>
+            </Label>
+            <Label layoutX="86.0" layoutY="76.0" text="MiCoil">
+               <font>
+                  <Font name="Arial Black" size="40.0" />
+               </font>
+               <textFill>
+                  <LinearGradient cycleMethod="REFLECT" endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.7942436337471008" green="0.800000011920929" blue="0.15199999511241913" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="0.8947368264198303" green="0.8631448745727539" blue="0.7224171757698059" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+            </Label>
+         </children>
+      </Pane>
+   </left>
+   <center>
+      <AnchorPane prefHeight="588.0" prefWidth="402.0" styleClass="root" stylesheets="@Recursos/EstiloVentanas.css" BorderPane.alignment="CENTER">
+         <children>
+            <Label layoutX="95.0" layoutY="78.0" prefHeight="22.0" prefWidth="93.0" text="Nombre">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="160.0" layoutY="24.0" text="Solicitud de cuenta">
+               <textFill>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.8078431487083435" green="0.15294118225574493" blue="0.3921568691730499" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="0.8627451062202454" green="0.3960784375667572" blue="0.01568627543747425" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="24.0" />
+               </font>
+            </Label>
+            <Label layoutX="94.0" layoutY="145.0" text="Apellido paterno">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="92.0" layoutY="211.0" text="Apellido materno">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="cmbUniversidad" layoutX="95.0" layoutY="359.0" prefHeight="26.0" prefWidth="178.0" promptText="Universidad" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" />
+            <Label layoutX="90.0" layoutY="284.0" prefHeight="20.0" prefWidth="138.0" text="Correo electrónico">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="95.0" layoutY="407.0" text="Usuario">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="89.0" layoutY="541.0" text="Contraseña" />
+            <Label layoutX="284.0" layoutY="541.0" text="Confirma contraseña" />
+            <TextField fx:id="tfNombre" layoutX="91.0" layoutY="108.0" prefHeight="26.0" prefWidth="366.0" promptText="Nombre" styleClass="label-inicioSesion-rosado" stylesheets="@Recursos/EstiloLabels.css" />
+            <TextField fx:id="tfApellidoP" layoutX="92.0" layoutY="178.0" prefHeight="26.0" prefWidth="366.0" promptText="Apellido paterno" styleClass="label-inicioSesion-rosado" stylesheets="@Recursos/EstiloLabels.css" />
+            <TextField fx:id="tfApellidoM" layoutX="92.0" layoutY="247.0" prefHeight="26.0" prefWidth="366.0" promptText="Apellido materno" styleClass="label-inicioSesion-rosado" stylesheets="@Recursos/EstiloLabels.css" />
+            <TextField fx:id="tfCorreo" layoutX="92.0" layoutY="314.0" prefHeight="26.0" prefWidth="366.0" promptText="Correo electrónico" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" />
+            <TextField fx:id="tfUsuario" layoutX="93.0" layoutY="434.0" prefHeight="26.0" prefWidth="365.0" promptText="Usuario" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" />
+            <TextField fx:id="pfContrasena" layoutX="90.0" layoutY="568.0" prefHeight="26.0" prefWidth="178.0" promptText="*******" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" />
+            <TextField fx:id="pfConfirmaContrasena" layoutX="291.0" layoutY="568.0" prefHeight="26.0" prefWidth="171.0" promptText="*******" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" />
+            <Button fx:id="btnSolicitar" layoutX="171.0" layoutY="623.0" mnemonicParsing="false" onAction="#realizarSolicitud" prefHeight="32.0" prefWidth="209.0" styleClass="button-solicitar" stylesheets="@Recursos/EstiloVentanas.css" text="Solicitar" textAlignment="CENTER" textFill="WHITE" underline="true">
+               <font>
+                  <Font name="Arial Black" size="12.0" />
+               </font>
+            </Button>
+            <Hyperlink fx:id="hpkRegresar" layoutX="209.0" layoutY="670.0" onAction="#regresarAInicio" text="¿Ya tienes una cuenta?" />
+            <TextField fx:id="tfCedula" layoutX="93.0" layoutY="504.0" prefHeight="26.0" prefWidth="363.0" promptText="Cédula profesional" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" />
+            <Label layoutX="95.0" layoutY="478.0" text="Cédula profesional">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>
