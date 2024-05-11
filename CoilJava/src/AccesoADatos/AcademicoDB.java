@@ -27,7 +27,6 @@ public class AcademicoDB {
                 Academico academico = convertirAcademico(resultadoLLamada);
                 listaAcademicos.add(academico);
             }
-
             obtenerPorCampo.close();
             resultadoLLamada.close();
         }
@@ -68,25 +67,14 @@ public class AcademicoDB {
         return academico;
     }
 
-    public static int agregarAcademicoUV (Academico academico) throws ErrorDAO {
-        String procedimientoSQL = "{CALL registrar_AcademicoUV(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
+    public static int agregarAcademico (Academico academico) throws ErrorDAO {
+        String procedimientoSQL = "{CALL registrar_Academico(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
         int resultado = -1;
-
         try {
-            
+
             CallableStatement registrarAcademico = ConexionBaseDatos.getInstancia().
                                                                       prepareCall(procedimientoSQL);
-            registrarAcademico.setString(1, academico.getNombre());
-            registrarAcademico.setString(2, academico.getApellidoPaterno());
-            registrarAcademico.setString(3, academico.getApellidoMaterno());
-            registrarAcademico.setInt(4, academico.getIdUniversidad());
-            registrarAcademico.setString(5, academico.getCedulaProfesional());
-            registrarAcademico.setString(6, academico.getNumeroPersonal());
-            registrarAcademico.setString(7, academico.getAreaEstudios());
-            registrarAcademico.setString(8, academico.getCorreoElectronico());
-            registrarAcademico.setString(9, academico.getNumeroTelefonico());
-            registrarAcademico.setString(10, academico.getCategoriaContratacion());
-            registrarAcademico.setInt(11, academico.getIdFacultad());
+            setAcademicoParametros(registrarAcademico, academico);
             resultado = registrarAcademico.executeUpdate();
             registrarAcademico.close();
         }
@@ -96,41 +84,9 @@ public class AcademicoDB {
         }
         finally {
             ConexionBaseDatos.desconectar();
-
         }
         return resultado;
     }
-
-    public static int agregarAcademicoExterno (Academico academico) throws ErrorDAO {
-        String procedimientoSQL = "{CALL registrar_AcademicoExterno(?, ?, ?, ?, ?, ?, ?, ?, ?)}";
-        int resultado = -1;
-        try {
-            
-            CallableStatement registrarAcademico = ConexionBaseDatos.getInstancia().
-                                                                      prepareCall(procedimientoSQL);
-            registrarAcademico.setString(1, academico.getNombre());
-            registrarAcademico.setString(2, academico.getApellidoPaterno());
-            registrarAcademico.setString(3, academico.getApellidoMaterno());
-            registrarAcademico.setInt(4, academico.getIdUniversidad());
-            registrarAcademico.setString(5, academico.getCedulaProfesional());
-            registrarAcademico.setString(6, academico.getNumeroPersonal());
-            registrarAcademico.setString(7, academico.getAreaEstudios());
-            registrarAcademico.setString(8, academico.getCorreoElectronico());
-            registrarAcademico.setString(9, academico.getNumeroTelefonico());
-
-            resultado = registrarAcademico.executeUpdate();
-            registrarAcademico.close();
-        }
-        catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
-            throw new ErrorDAO("Error al agregar al academico externo", ErrorDAO.Tipo.INSERCION);
-        }
-        finally {
-            ConexionBaseDatos.desconectar();
-        }
-        return resultado;
-    }
-
     public static Academico getAcademicoPorId (int id) throws ErrorDAO {
         String consulta = "SELECT * from vista_Academico WHERE idPersona = ?";
         Academico academico = null;
@@ -184,7 +140,7 @@ public class AcademicoDB {
         int resultado = -1;
         String procedimientoSQL = "{CALL editar_academico(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
         try {
-            
+
             CallableStatement editarAcademico = ConexionBaseDatos.getInstancia().
                                                                    prepareCall(procedimientoSQL);
             editarAcademico.setString(1, academico.getNombre());
@@ -197,7 +153,8 @@ public class AcademicoDB {
             editarAcademico.setString(8, academico.getCorreoElectronico());
             editarAcademico.setString(9, academico.getNumeroTelefonico());
             editarAcademico.setString(10, academico.getCategoriaContratacion());
-            editarAcademico.setInt(11, academico.getIdFacultad());
+            editarAcademico.setObject(11, academico.getIdFacultad());
+
             resultado = editarAcademico.executeUpdate();
             editarAcademico.close();
 
@@ -208,10 +165,58 @@ public class AcademicoDB {
         }
         finally {
             ConexionBaseDatos.desconectar();
-
         }
         return resultado;
     }
+
+    public static int agregarAcademicoConCuenta(Academico academico, Cuenta cuenta) throws ErrorDAO {
+        String procedimientoSQL = "{CALL registrar_Academico(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
+        int resultado = -1;
+        try {
+            Connection conexion = ConexionBaseDatos.getInstancia();
+            conexion.setAutoCommit(false);
+            CallableStatement registrarAcademico = conexion.prepareCall(procedimientoSQL);
+            setAcademicoParametros(registrarAcademico, academico);
+            resultado = registrarAcademico.executeUpdate();
+            int idPersona = registrarAcademico.getInt(12);
+
+            CallableStatement agregarCuenta = conexion.prepareCall("{CALL registrar_cuenta(?,?,?,?,?)}");
+            cuenta.setIdPersona(idPersona);
+            agregarCuenta.setInt(1, cuenta.getIdPersona());
+            agregarCuenta.setString(2, cuenta.getNombreUsuario());
+            agregarCuenta.setString(3, cuenta.getContrasena());
+            agregarCuenta.setString(4, cuenta.getTipo().
+                                             toString());
+            agregarCuenta.setString(5, cuenta.getEstado().
+                                             toString());
+            resultado += agregarCuenta.executeUpdate();
+
+            agregarCuenta.close();
+            registrarAcademico.close();
+            conexion.commit();
+        } catch (SQLException error) {
+            BITACORA.fatal(error.getMessage());
+            ConexionBaseDatos.rollback();
+            throw new ErrorDAO("Error al registrar al academico junto con su cuenta", ErrorDAO.Tipo.INSERCION);
+        }
+        return resultado;
+    }
+    private static void setAcademicoParametros(CallableStatement declaracion, Academico academico) throws SQLException {
+        declaracion.setString(1, academico.getNombre());
+        declaracion.setString(2, academico.getApellidoPaterno());
+        declaracion.setString(3, academico.getApellidoMaterno());
+        declaracion.setInt(4, academico.getIdUniversidad());
+        declaracion.setString(5, academico.getCedulaProfesional());
+        declaracion.setString(6, academico.getNumeroPersonal());
+        declaracion.setString(7, academico.getAreaEstudios());
+        declaracion.setString(8, academico.getCorreoElectronico());
+        declaracion.setString(9, academico.getNumeroTelefonico());
+        declaracion.setString(10, academico.getCategoriaContratacion());
+        declaracion.setObject(11, academico.getIdFacultad());
+        declaracion.registerOutParameter(12, Types.INTEGER);
+
+    }
+
 
     private static Academico convertirAcademico(ResultSet resultado) throws SQLException {
         Academico academico = new Academico();
@@ -222,13 +227,8 @@ public class AcademicoDB {
         academico.setApellidoMaterno(resultado.getString("apellidoMaterno"));
         academico.setIdUniversidad(resultado.getInt("idUniversidad"));
         academico.setCedulaProfesional(resultado.getString("cedulaProfesional"));
-
-        if (resultado.getString("categoriaContratacion") != null) {
-            academico.setCategoriaContratacion(resultado.getString("categoriaContratacion"));
-        }
-        if (resultado.getObject("idFacultad") != null) {
-            academico.setIdFacultad(resultado.getInt("idFacultad"));
-        }
+        academico.setCategoriaContratacion(resultado.getString("categoriaContratacion"));
+        academico.setIdFacultad(resultado.getInt("idFacultad"));
         academico.setNumeroPersonal(resultado.getString("numeroDePersonal"));
         academico.setAreaEstudios(resultado.getString("areaEstudios"));
         academico.setCorreoElectronico(resultado.getString("correoElectronico"));

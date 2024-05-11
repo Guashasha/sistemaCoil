@@ -1,5 +1,10 @@
 package Logica.Dominio;
 
+import Utilidades.ErrorDAO;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Cuenta {
 
     public enum TipoUsuario {
@@ -40,6 +45,7 @@ public class Cuenta {
     }
 
     public void setNombreUsuario (String nombreUsuario) {
+        checarUsuario(nombreUsuario);
         this.nombreUsuario = nombreUsuario;
     }
 
@@ -48,6 +54,7 @@ public class Cuenta {
     }
 
     public void setContrasena (String contrasena) {
+        checarContrasena(contrasena);
         this.contrasena = contrasena;
     }
 
@@ -67,6 +74,37 @@ public class Cuenta {
         this.tipo = tipo;
     }
 
+    private void checarUsuario (String usuario) {
+        String usuarioRegex = "^(?!\\s)(?=.{3,50}$)[A-Za-z][A-Za-z\\s]*[A-Za-z]$";
+        Pattern patron = Pattern.compile(usuarioRegex);
+        if (usuario == null || usuario.isEmpty()) {
+            throw new ErrorDAO("El nombre de usuario no puede estar vacío", ErrorDAO.Tipo.VALIDACION);
+        }
+        Matcher matcher = patron.matcher(usuario);
+        if (!matcher.matches()) {
+            throw new ErrorDAO("""
+                                                       El nombre de usuario no es válido.
+                                                       1. La longitud debe ser de mínimo 3 caracteres y máximo 50
+                                                       2. No debe tener espacios al principio ni al final.
+                                                       3. Solo se permiten letras del alfabeto ingles.
+                                                       2. No se permiten caracteres especiales.""", ErrorDAO.Tipo.VALIDACION);
+        }
+    }
+    private void checarContrasena (String contrasena) {
+        String contrasenaRegex = "^.{8,100}$";
+        Pattern patron = Pattern.compile(contrasenaRegex);
+        if (contrasena == null || contrasena.isEmpty()) {
+            throw new ErrorDAO("La contraseña no puede estar vacía", ErrorDAO.Tipo.VALIDACION);
+        }
+        Matcher matcher = patron.matcher(contrasena);
+        if (!matcher.matches()) {
+            throw new ErrorDAO("""
+                                                       La contraseña no es válida.
+                                                       1. La longitud de la contraseña debe ser mayor a 8 y menor a 300 caracteres.""", ErrorDAO.Tipo.VALIDACION);
+        }
+    }
+
+
     public boolean validarNulos() {
         return cadenaValida(nombreUsuario) &&
                 cadenaValida(contrasena) &&
@@ -82,7 +120,6 @@ public class Cuenta {
         return nombreUsuario.length() <= 50 &&
                 contrasena.length() <= 300;
     }
-
     @Override
     public boolean equals (Object obj) {
         boolean igual;

@@ -2,6 +2,7 @@ package test.AccesoADatos;
 
 import AccesoADatos.EstudianteDB;
 import Logica.Dominio.Estudiante;
+import Utilidades.ErrorDAO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,7 +26,6 @@ class EstudianteDBTest {
 
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO persona (idPersona, nombre, apellidoPaterno, apellidoMaterno, universidad) VALUES (1, 'Jose', 'Lopez', 'Perez', 1);");
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO estudiante (idEstudiante, idPersona, matricula) VALUES (1, 1, 'zs22013690')");
-
     }
 
     @AfterEach
@@ -56,12 +56,11 @@ class EstudianteDBTest {
             obtenido = EstudianteDB.agregarEstudiante(estudiante);
 
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaAgregarEstudianteExitoso");
 
         }
         assertEquals(esperado, obtenido);
-
     }
 
     @Test
@@ -70,7 +69,7 @@ class EstudianteDBTest {
 
         Estudiante estudiante = new Estudiante();
 
-        assertThrows(SQLException.class, () -> EstudianteDB.agregarEstudiante(estudiante));
+        assertThrows(ErrorDAO.class, () -> EstudianteDB.agregarEstudiante(estudiante));
     }
 
     @Test
@@ -78,13 +77,19 @@ class EstudianteDBTest {
         System.out.println("pruebaAgregarEstudianteMatriculaLargaFallida");
 
         Estudiante estudiante = new Estudiante();
-        estudiante.setNombre("Jose");
-        estudiante.setApellidoPaterno("Lopez");
-        estudiante.setApellidoMaterno("Lara");
-        estudiante.setMatricula("12345678912345");
-        estudiante.setIdUniversidad(1);
-
-        assertThrows(SQLException.class, () -> EstudianteDB.agregarEstudiante(estudiante));
+        boolean resultado = false;
+        try {
+            estudiante.setNombre("Jose");
+            estudiante.setApellidoPaterno("Lopez");
+            estudiante.setApellidoMaterno("Lara");
+            estudiante.setMatricula("12345678912345");
+            estudiante.setIdUniversidad(1);
+            EstudianteDB.agregarEstudiante(estudiante);
+        }
+        catch (ErrorDAO errorDAO) {
+            resultado = true;
+        }
+        assertTrue(resultado);
     }
 
     @Test
@@ -92,13 +97,19 @@ class EstudianteDBTest {
         System.out.println("pruebaAgregarEstudianteMatriculaVaciaFallida");
 
         Estudiante estudiante = new Estudiante();
-        estudiante.setNombre("Jose");
-        estudiante.setApellidoPaterno("Lopez");
-        estudiante.setApellidoMaterno("Lara");
-        estudiante.setMatricula(null);
-        estudiante.setIdUniversidad(1);
-
-        assertThrows(SQLException.class, () -> EstudianteDB.agregarEstudiante(estudiante));
+        boolean resultado = false;
+        try {
+            estudiante.setNombre("Jose");
+            estudiante.setApellidoPaterno("Lopez");
+            estudiante.setApellidoMaterno("Lara");
+            estudiante.setMatricula(null);
+            estudiante.setIdUniversidad(1);
+            EstudianteDB.agregarEstudiante(estudiante);
+        }
+        catch (ErrorDAO errorDAO) {
+            resultado = true;
+        }
+        assertTrue(resultado);
     }
 
     @Test
@@ -106,14 +117,19 @@ class EstudianteDBTest {
         System.out.println("pruebaAgregarEstudianteNombreVacioFallida");
 
         Estudiante estudiante = new Estudiante();
-        estudiante.setNombre(null);
-        estudiante.setApellidoPaterno("Lopez");
-        estudiante.setApellidoMaterno("Lara");
-        estudiante.setMatricula("zs22013690");
-        estudiante.setIdUniversidad(1);
-
-        assertThrows(SQLException.class, () -> EstudianteDB.agregarEstudiante(estudiante));
-
+        boolean resultado = false;
+        try {
+            estudiante.setNombre(null);
+            estudiante.setApellidoPaterno("Lopez");
+            estudiante.setApellidoMaterno("Lara");
+            estudiante.setMatricula("zs22013690");
+            estudiante.setIdUniversidad(1);
+            EstudianteDB.agregarEstudiante(estudiante);
+        }
+        catch (ErrorDAO errorDAO) {
+            resultado = true;
+        }
+        assertTrue(resultado);
     }
 
     @Test
@@ -121,14 +137,19 @@ class EstudianteDBTest {
         System.out.println("pruebaAgregarEstudianteNombreVaciaFallida");
 
         Estudiante estudiante = new Estudiante();
-        estudiante.setNombre("Jose");
-        estudiante.setApellidoPaterno(null);
-        estudiante.setApellidoMaterno("Lara");
-        estudiante.setMatricula("zs22013690");
-        estudiante.setIdUniversidad(1);
-
-        assertThrows(SQLException.class, () -> EstudianteDB.agregarEstudiante(estudiante));
-
+        boolean resultado = false;
+        try {
+            estudiante.setNombre("Jose");
+            estudiante.setApellidoPaterno(null);
+            estudiante.setApellidoMaterno("Lara");
+            estudiante.setMatricula("zs22013690");
+            estudiante.setIdUniversidad(1);
+            EstudianteDB.agregarEstudiante(estudiante);
+        }
+        catch (ErrorDAO errorDAO) {
+            resultado = true;
+        }
+        assertTrue(resultado);
     }
 
     @Test
@@ -136,14 +157,19 @@ class EstudianteDBTest {
         System.out.println("pruebaAgregarEstudianteApellidoMaternoVacioFallida");
 
         Estudiante estudiante = new Estudiante();
-        estudiante.setNombre("Jose");
-        estudiante.setApellidoPaterno("Lopez");
-        estudiante.setApellidoMaterno(null);
-        estudiante.setMatricula("zs22013690");
-        estudiante.setIdUniversidad(1);
-
-        assertThrows(SQLException.class, () -> EstudianteDB.agregarEstudiante(estudiante));
-
+        boolean resultado = false;
+        try {
+            estudiante.setNombre("Jose");
+            estudiante.setApellidoPaterno("Lopez");
+            estudiante.setApellidoMaterno(null);
+            estudiante.setMatricula("zs22013690");
+            estudiante.setIdUniversidad(1);
+            EstudianteDB.agregarEstudiante(estudiante);
+        }
+        catch (ErrorDAO errorDAO) {
+            resultado = true;
+        }
+        assertTrue(resultado);
     }
 
     @Test
@@ -151,14 +177,18 @@ class EstudianteDBTest {
         System.out.println("pruebaAgregarEstudianteUniversidadVaciaFallida");
 
         Estudiante estudiante = new Estudiante();
-        estudiante.setNombre("Jose");
-        estudiante.setApellidoPaterno("Lopez");
-        estudiante.setApellidoMaterno("");
-        estudiante.setMatricula("zs22013690");
-
-        assertThrows(SQLException.class,
-                     () -> EstudianteDB.agregarEstudiante(estudiante));
-
+        boolean resultado = false;
+        try {
+            estudiante.setNombre("Jose");
+            estudiante.setApellidoPaterno("Lopez");
+            estudiante.setApellidoMaterno("");
+            estudiante.setMatricula("zs22013690");
+            EstudianteDB.agregarEstudiante(estudiante);
+        }
+        catch (ErrorDAO errorDAO) {
+            resultado = true;
+        }
+        assertTrue(resultado);
     }
 
     @Test
@@ -172,7 +202,7 @@ class EstudianteDBTest {
         estudiante.setMatricula("zs22013690");
         estudiante.setIdUniversidad(10);
 
-        assertThrows(SQLException.class, () -> EstudianteDB.agregarEstudiante(estudiante));
+        assertThrows(ErrorDAO.class, () -> EstudianteDB.agregarEstudiante(estudiante));
 
     }
 
@@ -195,7 +225,7 @@ class EstudianteDBTest {
             estudianteObtenido = EstudianteDB.getPorId(1);
 
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetEstudiantePorIDExitosa " + error.getMessage());
 
         }
@@ -219,7 +249,7 @@ class EstudianteDBTest {
             tamanoListaReal = listaEstudiantes.size();
 
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetEstudiantePorIDExitosa " + error.getMessage());
 
         }
@@ -243,19 +273,14 @@ class EstudianteDBTest {
 
         int resultadoEsperado = 2;
         int resultadoReal = -1;
-
         try {
             resultadoReal = EstudianteDB.editarEstudiante(estudiante);
-
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaEditarEstudianteExitoso " + error.getMessage());
 
         }
-
         assertEquals(resultadoEsperado, resultadoReal);
-
-
     }
 
 

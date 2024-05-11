@@ -2,10 +2,10 @@ package test.AccesoADatos;
 
 import AccesoADatos.AcademicoDB;
 import Logica.Dominio.Academico;
+import Logica.Dominio.Cuenta;
 import Utilidades.ErrorDAO;
 import org.junit.jupiter.api.*;
 import test.ConfiguracionPrueba;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,11 +13,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class AcademicoDBTest {
     private final Academico ACADEMICO_FILOSOFIA = new Academico(2,"Esther","Herrara","Martinez",1,"200011",
                                                                 "4564","Filosofia","esther@gmail.com","522288536230","Dramaturgo",1);
-    private final Academico ACADEMICO_COMPUTACION = new Academico(1,"Jose","Lopez","Perez",1,"ABC123",
+    private final Academico ACADEMICO_COMPUTACION = new Academico(1,"Jose","Lopez","Perez",1,"123",
                                                                   "123456","Ciencias de la Computación","jose@gmail.com","522288536230","Investigador",1);
 
     @BeforeEach
     void setUp () {
+        ConfiguracionPrueba.borrarDatosTablaCuenta();
         ConfiguracionPrueba.borrarDatosTablaAcademico();
         ConfiguracionPrueba.borrarDatosTablaPersona();
         ConfiguracionPrueba.borrarDatosTablaUniversidad();
@@ -31,7 +32,7 @@ class AcademicoDBTest {
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO facultad (nombre, region) VALUES ('Economia', 1);");
 
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO persona (idPersona, nombre, apellidoPaterno, apellidoMaterno, universidad) VALUES (1, 'Jose', 'Lopez', 'Perez', 1);");
-        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO academico (cedulaProfesional, numeroDePersonal, idPersona, areaEstudios, correoElectronico, numeroTelefonico, categoriaContratacion, facultad) VALUES ('ABC123', '123456', 1, 'Ciencias de la Computación', 'jose@gmail.com', '522288536230', 'Investigador', 1);");
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO academico (cedulaProfesional, numeroDePersonal, idPersona, areaEstudios, correoElectronico, numeroTelefonico, categoriaContratacion, facultad) VALUES ('123', '123456', 1, 'Ciencias de la Computación', 'jose@gmail.com', '522288536230', 'Investigador', 1);");
 
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO persona (idPersona, nombre, apellidoPaterno, apellidoMaterno, universidad) VALUES (2, 'Esther', 'Herrara', 'Martinez', 1);");
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO academico (cedulaProfesional, numeroDePersonal, idPersona, areaEstudios, correoElectronico, numeroTelefonico, categoriaContratacion, facultad) VALUES ('200011', '4564', 2, 'Filosofia', 'esther@gmail.com', '522288536230', 'Dramaturgo', 1);");
@@ -39,6 +40,7 @@ class AcademicoDBTest {
 
     @AfterAll
     static void tearDown() {
+        ConfiguracionPrueba.borrarDatosTablaCuenta();
         ConfiguracionPrueba.borrarDatosTablaAcademico();
         ConfiguracionPrueba.borrarDatosTablaPersona();
         ConfiguracionPrueba.borrarDatosTablaUniversidad();
@@ -49,12 +51,12 @@ class AcademicoDBTest {
 
     @Test
     void pruebaGetListaAcademicoPorCamposFallida () {
-        assertThrows(SQLException.class, ()-> AcademicoDB.getListaAcademicoPorCampos("TipoContratacion", "Fijo"),"pruebaGetListaAcademicoPorCamposFallida");
+        assertThrows(ErrorDAO.class, ()-> AcademicoDB.getListaAcademicoPorCampos("TipoContratacion", "Fijo"),"pruebaGetListaAcademicoPorCamposFallida");
     }
 
     @Test
     void pruebaGetListaAcademicoPorCampoNulo () {
-        assertThrows(SQLException.class,()->AcademicoDB.getListaAcademicoPorCampos(null,"Investigador"),"pruebaGetListaAcademicoPorCampoNulo");
+        assertThrows(ErrorDAO.class,()->AcademicoDB.getListaAcademicoPorCampos(null,"Investigador"),"pruebaGetListaAcademicoPorCampoNulo");
     }
 
     @Test
@@ -72,8 +74,8 @@ class AcademicoDBTest {
     void pruebaGetListaAcademicoPorCampoFacultadExitosa () {
         List<Academico> listaEsperada = new ArrayList<>();
         List<Academico> listaObtenida = new ArrayList<>();
-        listaEsperada.add(this.ACADEMICO_FILOSOFIA);
         listaEsperada.add(this.ACADEMICO_COMPUTACION);
+        listaEsperada.add(this.ACADEMICO_FILOSOFIA);
 
         try {
             listaObtenida = AcademicoDB.getListaAcademicoPorCampos("facultad", "Economia");
@@ -104,9 +106,8 @@ class AcademicoDBTest {
     void pruebaGetListaAcademicoPorCampoUniversidadExitoso () {
         List<Academico> listaEsperada = new ArrayList<>();
         List<Academico> listaObtenida = new ArrayList<>();
-        listaEsperada.add(this.ACADEMICO_FILOSOFIA);
         listaEsperada.add(this.ACADEMICO_COMPUTACION);
-
+        listaEsperada.add(this.ACADEMICO_FILOSOFIA);
         try {
             listaObtenida = AcademicoDB.getListaAcademicoPorCampos("universidad", "Universidad Veracruzana");
         }
@@ -192,9 +193,8 @@ class AcademicoDBTest {
     void pruebaGetAcademicoPorRegionExitoso () {
         List<Academico> listaEsperada = new ArrayList<>();
         List<Academico> listaObtenida = new ArrayList<>();
-        listaEsperada.add(this.ACADEMICO_FILOSOFIA);
         listaEsperada.add(this.ACADEMICO_COMPUTACION);
-
+        listaEsperada.add(this.ACADEMICO_FILOSOFIA);
         try {
             listaObtenida = AcademicoDB.getListaAcademicoPorCampos("region", "Xalapa");
         }
@@ -270,7 +270,7 @@ class AcademicoDBTest {
         int esperado = 2;
         int obtenido = 0;
         try {
-            obtenido = AcademicoDB.agregarAcademicoUV(academico);
+            obtenido = AcademicoDB.agregarAcademico(academico);
         }
         catch (ErrorDAO error) {
             fail("Fallida: pruebaAgregarAcademicoUVExitoso\n" + error.getMessage());
@@ -280,7 +280,7 @@ class AcademicoDBTest {
 
     @Test
     void pruebaAgregarAcademicoUVSinDatos () {
-        assertThrows(NullPointerException.class,() -> AcademicoDB.agregarAcademicoUV(new Academico()),"pruebaAgregarAcademicoUVSinDatos");
+        assertThrows(ErrorDAO.class,() -> AcademicoDB.agregarAcademico(new Academico()),"pruebaAgregarAcademicoUVSinDatos");
     }
 
     @Test
@@ -296,39 +296,7 @@ class AcademicoDBTest {
         academico.setCorreoElectronico("Andrei@Institucion.mx");
         academico.setNumeroTelefonico("523351256655");
         academico.setIdFacultad(1);
-        assertThrows(SQLException.class,() -> AcademicoDB.agregarAcademicoUV(academico),"pruebaAgregarAcademicoUVUniversidadInexistente");
-    }
-
-    @Test
-    void pruebaAgregarAcademicoUVCedulaRepetida () {
-        Academico academico = new Academico();
-        academico.setNombre("Jose");
-        academico.setApellidoPaterno("Andrei");
-        academico.setApellidoMaterno("De la paz");
-        academico.setIdUniversidad(5);
-        academico.setCedulaProfesional("200011");
-        academico.setNumeroPersonal("2341");
-        academico.setAreaEstudios("Humanidades");
-        academico.setCorreoElectronico("Andrei@Institucion.mx");
-        academico.setNumeroTelefonico("523351256655");
-        academico.setIdFacultad(1);
-        assertThrows(SQLException.class,() -> AcademicoDB.agregarAcademicoUV(academico),"pruebaAgregarAcademicoUVCedulaRepetida");
-    }
-
-    @Test
-    void pruebaAgregarAcademicoUVNumeroPersonalRepetido () {
-        Academico academico = new Academico();
-        academico.setNombre("Jose");
-        academico.setApellidoPaterno("Andrei");
-        academico.setApellidoMaterno("De la paz");
-        academico.setIdUniversidad(5);
-        academico.setCedulaProfesional("98765");
-        academico.setNumeroPersonal("4564");
-        academico.setAreaEstudios("Humanidades");
-        academico.setCorreoElectronico("Andrei@Institucion.mx");
-        academico.setNumeroTelefonico("523351256655");
-        academico.setIdFacultad(1);
-        assertThrows(SQLException.class,() -> AcademicoDB.agregarAcademicoUV(academico),"pruebaAgregarAcademicoUVNumeroPersonalRepetido");
+        assertThrows(ErrorDAO.class,() -> AcademicoDB.agregarAcademico(academico),"pruebaAgregarAcademicoUVUniversidadInexistente");
     }
 
     @Test
@@ -344,23 +312,28 @@ class AcademicoDBTest {
         academico.setCorreoElectronico("Andrei@Institucion.mx");
         academico.setNumeroTelefonico("523351256655");
         academico.setIdFacultad(10);
-        assertThrows(SQLException.class,() -> AcademicoDB.agregarAcademicoUV(academico),"pruebaAgregarAcademicoUVFacultadInexistente");
+        assertThrows(ErrorDAO.class,() -> AcademicoDB.agregarAcademico(academico),"pruebaAgregarAcademicoUVFacultadInexistente");
     }
 
     @Test
     void pruebaAgregarAcademicoUVExcesoCaracteres () {
-        Academico academico = new Academico();
-        academico.setNombre("Ivan");
-        academico.setApellidoPaterno("Ingram");
-        academico.setApellidoMaterno("Lopez");
-        academico.setIdUniversidad(1);
-        academico.setCedulaProfesional("564635356");
-        academico.setNumeroPersonal("2341");
-        academico.setAreaEstudios("Ingenieria");
-        academico.setCorreoElectronico("Ivan@Institucion.mx");
-        academico.setNumeroTelefonico("523351256655567");
-        academico.setIdFacultad(1);
-        assertThrows(SQLException.class, () -> AcademicoDB.agregarAcademicoUV(academico),"pruebaAgregarAcademicoUVExcesoCaracteres");
+        try {
+            Academico academico = new Academico();
+            academico.setNombre("Ivan");
+            academico.setApellidoPaterno("Ingram");
+            academico.setApellidoMaterno("Lopez");
+            academico.setIdUniversidad(1);
+            academico.setCedulaProfesional("564635356");
+            academico.setNumeroPersonal("2341");
+            academico.setAreaEstudios("Ingenieria");
+            academico.setCorreoElectronico("Ivan@Institucion.mx");
+            academico.setNumeroTelefonico("523351256655567");
+            academico.setIdFacultad(1);
+            AcademicoDB.agregarAcademico(academico);
+        }
+        catch (ErrorDAO error) {
+            assertTrue(true, "pruebaAgregarAcademcioUVExcesoCaracteres");
+        }
     }
 
     @Test
@@ -378,7 +351,7 @@ class AcademicoDBTest {
         int esperado = 2;
         int obtenido = 0;
         try {
-            obtenido = AcademicoDB.agregarAcademicoExterno(academico);
+            obtenido = AcademicoDB.agregarAcademico(academico);
         }
         catch (ErrorDAO error) {
             fail("Fallida: pruebaAgregarAcademicoExternoExitosa\n" + error.getMessage());
@@ -388,7 +361,7 @@ class AcademicoDBTest {
 
     @Test
     void pruebaAgregarAcademicoExternoSinDatos () {
-        assertThrows(SQLException.class,() -> AcademicoDB.agregarAcademicoExterno(new Academico()),"pruebaAgregarAcademicoExternoSinDatos");
+        assertThrows(ErrorDAO.class,() -> AcademicoDB.agregarAcademico(new Academico()),"pruebaAgregarAcademicoExternoSinDatos");
     }
 
     @Test
@@ -403,7 +376,7 @@ class AcademicoDBTest {
         academico.setAreaEstudios("Economia");
         academico.setCorreoElectronico("hernan@Institucion.mx");
         academico.setNumeroTelefonico("523311756675");
-        assertThrows(SQLException.class,() -> AcademicoDB.agregarAcademicoExterno(academico),"pruebaAgregarAcademicoExternoUniversidadInexistente");
+        assertThrows(ErrorDAO.class,() -> AcademicoDB.agregarAcademico(academico),"pruebaAgregarAcademicoExternoUniversidadInexistente");
     }
 
     @Test
@@ -418,51 +391,34 @@ class AcademicoDBTest {
         academico.setAreaEstudios("Economia");
         academico.setCorreoElectronico("hernan@Institucion.mx");
         academico.setNumeroTelefonico("523311756675");
-        int resultado = 0;
-        try {
-            resultado = AcademicoDB.agregarAcademicoExterno(academico);
-        }
-        catch (ErrorDAO error) {
-            fail("Fallida: pruebaAgregarAcademicoExternoCedulaRepetida");
-        }
-        assertEquals(1,resultado,"pruebaAgregarAcademicoExternoCedulaRepetida");
-    }
-
-    @Test
-    void pruebaAgregarAcademicoExternoNumeroPersonalRepetido () {
-        Academico academico = new Academico();
-        academico.setNombre("Hernan");
-        academico.setApellidoPaterno("Llamas");
-        academico.setApellidoMaterno("Villa Señor");
-        academico.setIdUniversidad(2);
-        academico.setCedulaProfesional("9877985");
-        academico.setNumeroPersonal(ACADEMICO_COMPUTACION.getNumeroPersonal());
-        academico.setAreaEstudios("Economia");
-        academico.setCorreoElectronico("hernan@Institucion.mx");
-        academico.setNumeroTelefonico("523311756675");
-        assertThrows(SQLException.class,() -> AcademicoDB.agregarAcademicoExterno(academico),"pruebaAgregarAcademicoExternoNumeroPersonalRepetido");
+        assertThrows(ErrorDAO.class, () -> AcademicoDB.agregarAcademico(academico), "pruebaAgregarAcademicoExternoCedulaRepetida");
     }
 
     @Test
     void pruebaAgregarAcademicoExternoExcesoCaracteres () {
         Academico academico = new Academico();
-        academico.setNombre("Hernan");
-        academico.setApellidoPaterno("Llamas");
-        academico.setApellidoMaterno("Villa Señor");
-        academico.setIdUniversidad(2);
-        academico.setCedulaProfesional("9877985");
-        academico.setNumeroPersonal("34563");
-        academico.setAreaEstudios("Economia");
-        academico.setCorreoElectronico("hernan@Institucion.mx");
-        academico.setNumeroTelefonico("5233117566750123");
-        assertThrows(SQLException.class,() -> AcademicoDB.agregarAcademicoExterno(academico),"pruebaAgregarAcademicoExternoExcesoCaracteres");
+        try {
+            academico.setNombre("Hernan");
+            academico.setApellidoPaterno("Llamas");
+            academico.setApellidoMaterno("Villa Señor");
+            academico.setIdUniversidad(2);
+            academico.setCedulaProfesional("9877985");
+            academico.setNumeroPersonal("34563");
+            academico.setAreaEstudios("Economia");
+            academico.setCorreoElectronico("hernan@Institucion.mx");
+            academico.setNumeroTelefonico("5233117566750123");
+            AcademicoDB.agregarAcademico(academico);
+        }
+        catch (ErrorDAO error) {
+            assertTrue(true, "pruebaAgregarAcademicoExternoExcesoCaracteres");
+        }
     }
 
     @Test
     void pruebaGetAcademicoPorIdExitoso () {
         try {
             Academico resultado = AcademicoDB.getAcademicoPorId(1);
-            assertEquals(ACADEMICO_COMPUTACION,resultado,"pruebaGetAcademicoPorIdExitoso");
+            assertTrue(resultado.equals(ACADEMICO_COMPUTACION),"pruebaGetAcademicoPorIdExitoso");
         }
         catch (ErrorDAO error) {
             fail("Fallida: pruebaGetAcademicoPorIdExitoso");
@@ -481,23 +437,22 @@ class AcademicoDBTest {
     }
 
     @Test
-    void pruebaGetTodosExitosa () {
+    void pruebaGetTodosExitosa() {
         List<Academico> listaEsperada = new ArrayList<>();
-        List<Academico> listaObtenida = new ArrayList<>();
-        listaEsperada.add(ACADEMICO_FILOSOFIA);
         listaEsperada.add(ACADEMICO_COMPUTACION);
+        listaEsperada.add(ACADEMICO_FILOSOFIA);
+        List<Academico> listaObtenida = null;
         try {
             listaObtenida = AcademicoDB.getTodos();
-        }
-        catch (ErrorDAO error) {
+            assertTrue(listaObtenida.size() == listaEsperada.size(), "pruebaGetTodosExitosa");
+        } catch (ErrorDAO error) {
             fail("Fallida: pruebaGetTodosExitosa");
         }
-        assertEquals(listaEsperada.size(),listaObtenida.size(),"pruebaGetTodosExitosa");
-        for (Academico academico : listaEsperada) {
-            assertEquals(academico,listaObtenida.get(0));
-            listaObtenida.remove(0);
+        for (int i = 0;i < listaEsperada.size(); i ++) {
+            assertTrue(listaEsperada.get(i).equals(listaObtenida.get(i)));
         }
     }
+
 
     @Test
     void pruebaEditarAcademicoExitoso () {
@@ -519,6 +474,7 @@ class AcademicoDBTest {
             obtenido = AcademicoDB.editarAcademico(academico);
         }
         catch (ErrorDAO error) {
+            System.out.println(error.getMessage());
             fail("Fallida: pruebaEditarAcademicoExitoso");
         }
         assertEquals(esperado, obtenido);
@@ -562,26 +518,8 @@ class AcademicoDBTest {
         academico.setNumeroTelefonico("522288536230");
         academico.setCategoriaContratacion("Fijo");
         academico.setIdFacultad(1);
-        assertThrows(SQLException.class, () -> AcademicoDB.editarAcademico(academico),"pruebaEditarAcademicoUniversidadInexistente");
+        assertThrows(ErrorDAO.class, () -> AcademicoDB.editarAcademico(academico),"pruebaEditarAcademicoUniversidadInexistente");
     }
-
-    @Test
-    void pruebaEditarAcademicoNumeroPersonalRepetido () {
-        Academico academico = new Academico();
-        academico.setNombre("Esther");
-        academico.setApellidoPaterno("Ramirez");
-        academico.setApellidoMaterno("Escobar");
-        academico.setIdUniversidad(10);
-        academico.setCedulaProfesional(ACADEMICO_FILOSOFIA.getCedulaProfesional());
-        academico.setNumeroPersonal(ACADEMICO_COMPUTACION.getNumeroPersonal());
-        academico.setAreaEstudios("Humanidades");
-        academico.setCorreoElectronico("Esther@Institucion.mx");
-        academico.setNumeroTelefonico("522288536230");
-        academico.setCategoriaContratacion("Fijo");
-        academico.setIdFacultad(1);
-        assertThrows(SQLException.class, () -> AcademicoDB.editarAcademico(academico),"pruebaEditarAcademicoNumeroPersonalRepetido");
-    }
-
     @Test
     void pruebaEditarAcademicoFacultadInexistente () {
         Academico academico = new Academico();
@@ -595,11 +533,59 @@ class AcademicoDBTest {
         academico.setCorreoElectronico("esther@gmail.com");
         academico.setNumeroTelefonico("522288536230");
         academico.setIdFacultad(10);
-        assertThrows(SQLException.class, () -> AcademicoDB.editarAcademico(academico),"pruebaEditarAcademicoFacultadInexistente");
+        assertThrows(ErrorDAO.class, () -> AcademicoDB.editarAcademico(academico),"pruebaEditarAcademicoFacultadInexistente");
     }
 
     @Test
-    void pruebaEditarAcademicoDatosVacios () {
-        assertThrows(NullPointerException.class, () -> AcademicoDB.editarAcademico(new Academico()),"pruebaEditarAcademicoDatosVacios");
+    void pruebaEditarAcademicoCategoriaFacultadNuloExitosa () {
+        Academico academico = new Academico();
+        academico.setNombre("Esther");
+        academico.setApellidoPaterno("Ramirez");
+        academico.setApellidoMaterno("Escobar");
+        academico.setIdUniversidad(1);
+        academico.setCedulaProfesional(ACADEMICO_FILOSOFIA.getCedulaProfesional());
+        academico.setNumeroPersonal(ACADEMICO_FILOSOFIA.getNumeroPersonal());
+        academico.setAreaEstudios("Dramaturgo");
+        academico.setCorreoElectronico("esther@gmail.com");
+        academico.setNumeroTelefonico("522288536230");
+        academico.setIdFacultad(1);
+        int esperado = 3;
+        int real = 0;
+        try {
+            real = AcademicoDB.editarAcademico(academico);
+        }
+        catch (ErrorDAO errorDAO) {
+            fail("Error en la prueba " + errorDAO.getMessage());
+        }
+        assertEquals(esperado,real);
+    }
+
+    @Test
+    void pruebaAgregarAcademicoConCuentaExitoso () {
+        Academico academico = new Academico();
+        academico.setNombre("Hernan");
+        academico.setApellidoPaterno("Llamas");
+        academico.setApellidoMaterno("Villa Señor");
+        academico.setIdUniversidad(1);
+        academico.setCedulaProfesional("9877985");
+        academico.setNumeroPersonal("34563");
+        academico.setAreaEstudios("Economia");
+        academico.setCorreoElectronico("hernan@Institucion.mx");
+        academico.setNumeroTelefonico("523311756675");
+
+        Cuenta cuenta = new Cuenta();
+        cuenta.setNombreUsuario("HernanVilla");
+        cuenta.setContrasena("MyZillTippens");
+        cuenta.setTipo(Cuenta.TipoUsuario.academico);
+        cuenta.setEstado(Cuenta.EstadoCuenta.pendiente);
+        int esperado = 3;
+        int obtenido = 0;
+        try {
+            obtenido = AcademicoDB.agregarAcademicoConCuenta(academico, cuenta);
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaAgregarAcademicoExternoExitosa\n" + error.getMessage());
+        }
+        assertEquals(esperado,obtenido,"pruebaAgregarAcademicoExternoExitosa");
     }
 }

@@ -68,58 +68,33 @@ END //
 
 
 -- Procedimientos academicos
-DROP PROCEDURE IF EXISTS registrar_AcademicoUV;
-create procedure registrar_AcademicoUV(IN p_nombre varchar(50), IN p_apellidoPaterno varchar(50),
-                                                           IN p_apellidoMaterno varchar(50), IN p_universidad int,
-                                                           IN p_cedulaProfesional varchar(30),
-                                                           IN p_numeroDePersonal varchar(40),
-                                                           IN p_areaEstudios varchar(40),
-                                                           IN p_correoElectronico varchar(30),
-                                                           IN p_numeroTelefono varchar(12),
-                                                           IN p_categoriaContratacion varchar(40), IN p_facultad int)
-BEGIN
-	DECLARE id_persona INT;
-	INSERT INTO persona (nombre, apellidoPaterno, apellidoMaterno, universidad) 
-	VALUES (p_nombre, p_apellidoPaterno, p_apellidoMaterno, p_universidad);
-	SET id_persona = LAST_INSERT_ID();
-	INSERT INTO academico (cedulaProfesional, numeroDePersonal, idPersona, areaEstudios, correoElectronico, numeroTelefonico, categoriaContratacion, facultad)
-	VALUES (p_cedulaProfesional, p_numeroDePersonal, id_persona, p_areaEstudios, p_correoElectronico, p_numeroTelefono, p_categoriaContratacion, p_facultad);	
-END //
-
-DROP PROCEDURE IF EXISTS registrar_AcademicoExterno;
-CREATE PROCEDURE registrar_AcademicoExterno(
-    IN p_nombre varchar(50),
-    IN p_apellidoPaterno varchar(50),
-    IN p_apellidoMaterno varchar(50),
-    IN p_universidad int,
-    IN p_cedulaProfesional varchar(30),
-    IN p_numeroDePersonal varchar(40),
-    IN p_areaEstudios varchar(40),
-    IN p_correoElectronico varchar(30),
-    IN p_numeroTelefono varchar(12)
+DROP PROCEDURE IF EXISTS registrar_Academico;
+CREATE PROCEDURE registrar_Academico (
+    IN p_nombre VARCHAR(50), 
+    IN p_apellidoPaterno VARCHAR(50),
+    IN p_apellidoMaterno VARCHAR(50), 
+    IN p_universidad INT,
+    IN p_cedulaProfesional VARCHAR(30),
+    IN p_numeroDePersonal VARCHAR(40),
+    IN p_areaEstudios VARCHAR(40),
+    IN p_correoElectronico VARCHAR(30),
+    IN p_numeroTelefono VARCHAR(12),
+    IN p_categoriaContratacion VARCHAR(40), 
+    IN p_facultad INT,
+    OUT p_id_persona INT
 )
 BEGIN
     DECLARE id_persona INT;
+
     INSERT INTO persona (nombre, apellidoPaterno, apellidoMaterno, universidad) 
     VALUES (p_nombre, p_apellidoPaterno, p_apellidoMaterno, p_universidad);
+
     SET id_persona = LAST_INSERT_ID();
-    
-    INSERT INTO academico (
-        cedulaProfesional, 
-        numeroDePersonal, 
-        idPersona, 
-        areaEstudios, 
-        correoElectronico, 
-        numeroTelefonico
-    ) VALUES (
-        p_cedulaProfesional, 
-        p_numeroDePersonal, 
-        id_persona, 
-        p_areaEstudios, 
-        p_correoElectronico, 
-        p_numeroTelefono
-    );
-END //
+    SET p_id_persona = id_persona;
+
+    INSERT INTO academico (cedulaProfesional, numeroDePersonal, idPersona, areaEstudios, correoElectronico, numeroTelefonico, categoriaContratacion, facultad)
+    VALUES (p_cedulaProfesional, p_numeroDePersonal, id_persona, p_areaEstudios, p_correoElectronico, p_numeroTelefono, p_categoriaContratacion, p_facultad);
+END;
 
 
 DROP PROCEDURE IF EXISTS editar_academico;

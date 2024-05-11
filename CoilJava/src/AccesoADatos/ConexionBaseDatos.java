@@ -28,7 +28,7 @@ public class ConexionBaseDatos {
         }
         catch (SQLException error) {
             BITACORA.fatal(error.getMessage());
-            throw new ErrorDAO("No fue posible realizar la conexion con la base de datos.\nConctacte a un técnico"
+           throw new ErrorDAO("No fue posible realizar la conexion con la base de datos.\nConctacte a un técnico"
                     , ErrorDAO.Tipo.CONEXION);
         }
         return conexion;
@@ -64,7 +64,7 @@ public class ConexionBaseDatos {
        return estaCerrado;
     }
 
-    public boolean rollback () throws SQLException {
+    public static boolean rollback () throws ErrorDAO {
         boolean seRevirtio = false;
         try {
             if (conexion != null) {
@@ -74,7 +74,7 @@ public class ConexionBaseDatos {
         }
         catch (SQLException error) {
             BITACORA.fatal(error.getMessage());
-            throw new SQLException(error.getMessage());
+            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
         }
         return seRevirtio;
     }

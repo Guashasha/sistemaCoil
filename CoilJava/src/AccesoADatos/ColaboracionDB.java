@@ -19,7 +19,6 @@ public class ColaboracionDB {
         Colaboracion colaboracion = null;
 
         try {
-
             CallableStatement getColaboracionPorAcademico = ConexionBaseDatos.getInstancia().
                                                                              prepareCall(getColaboracionPorAcademicoSQL);
             getColaboracionPorAcademico.setString(1, academico1.getCedulaProfesional());
@@ -35,7 +34,6 @@ public class ColaboracionDB {
                     colaboracion.setAcademicoPar(convertirAcademico(resultadoGetColaboracionPorAcademico));
                 }
             }
-
             resultadoGetColaboracionPorAcademico.close();
             getColaboracionPorAcademico.close();
 
@@ -59,16 +57,12 @@ public class ColaboracionDB {
                 INNER JOIN vista_academico va ON ad.idAcademico = va.cedulaProfesional
                 WHERE c.idColaboracion = ?""";
         Colaboracion colaboracion = null;
-
         try {
-
             PreparedStatement colaboracionPorId = ConexionBaseDatos.getInstancia()
                                                                    .prepareStatement(colaboracionPorIdSQL);
 
             colaboracionPorId.setInt(1, idColaboracion);
-
             ResultSet resultadoColaboracionPorId = colaboracionPorId.executeQuery();
-
             if (resultadoColaboracionPorId.next()) {
                 colaboracion = convertirColaboracion(resultadoColaboracionPorId);
                 colaboracion.setAnfitrion(convertirAcademico(resultadoColaboracionPorId));
@@ -79,7 +73,6 @@ public class ColaboracionDB {
             }
             resultadoColaboracionPorId.close();
             colaboracionPorId.close();
-
         }
         catch (SQLException error) {
             BITACORA.fatal(error.getMessage());
@@ -88,16 +81,13 @@ public class ColaboracionDB {
         finally {
             ConexionBaseDatos.desconectar();
         }
-
         return colaboracion;
-
     }
 
     public static List<Estudiante> getListaDeEstudiantes (Colaboracion colaboracion) throws ErrorDAO {
         String listaDeEstudiantesSQL = "{CALL obtener_estudiantes_colaboracion(?)}";
         List<Estudiante> listaEstudiantes = new ArrayList<>();
         try {
-
             CallableStatement procedimientoListaDeEstudiantes = ConexionBaseDatos.getInstancia().
                                                                                  prepareCall(listaDeEstudiantesSQL);
             procedimientoListaDeEstudiantes.setInt(1, colaboracion.getIdColaboracion());
@@ -496,7 +486,7 @@ public class ColaboracionDB {
         return estudiante;
     }
 
-    private static Academico convertirAcademico (ResultSet resultado) throws SQLException {
+    private static Academico convertirAcademico(ResultSet resultado) throws SQLException {
         Academico academico = new Academico();
 
         academico.setIdPersona(resultado.getInt("idPersona"));
@@ -504,14 +494,18 @@ public class ColaboracionDB {
         academico.setApellidoPaterno(resultado.getString("apellidoPaterno"));
         academico.setApellidoMaterno(resultado.getString("apellidoMaterno"));
         academico.setIdUniversidad(resultado.getInt("idUniversidad"));
-        academico.setCategoriaContratacion(resultado.getString("cedulaProfesional"));
+        academico.setCedulaProfesional(resultado.getString("cedulaProfesional"));
+
+        if (resultado.getString("categoriaContratacion") != null) {
+            academico.setCategoriaContratacion(resultado.getString("categoriaContratacion"));
+        }
+        if (resultado.getObject("idFacultad") != null) {
+            academico.setIdFacultad(resultado.getInt("idFacultad"));
+        }
         academico.setNumeroPersonal(resultado.getString("numeroDePersonal"));
         academico.setAreaEstudios(resultado.getString("areaEstudios"));
         academico.setCorreoElectronico(resultado.getString("correoElectronico"));
         academico.setNumeroTelefonico(resultado.getString("numeroTelefonico"));
-        academico.setCategoriaContratacion(resultado.getString("categoriaContratacion"));
-        academico.setIdFacultad(resultado.getInt("idFacultad"));
-
         return academico;
     }
 

@@ -5,9 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import AccesoADatos.ConexionBaseDatos;
 import Utilidades.ErrorDAO;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
 import java.sql.Connection;
-import java.sql.SQLException;
 
 class ConexionBaseDatosTest {
 
@@ -31,6 +29,18 @@ class ConexionBaseDatosTest {
         try {
             resultado = ConexionBaseDatos.desconectar();
         } catch (ErrorDAO errorDAO) {
+            fail("Prueba fallida: " + errorDAO.getMessage());
+        }
+        assertTrue(resultado);
+    }
+
+    @Test
+    void rollaback () {
+        boolean resultado = false;
+        try {
+            resultado = ConexionBaseDatos.rollback();
+        }
+        catch (ErrorDAO errorDAO) {
             fail("Prueba fallida: " + errorDAO.getMessage());
         }
         assertTrue(resultado);

@@ -95,4 +95,6 @@
   2024-04-18 20:11:52 FATAL ConfiguracionPrueba:88 - (conn=280) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionActividad`, CONSTRAINT `retroalimentacionActividad_ibfk_2` FOREIGN KEY (`actividad`) REFERENCES `actividad` (`idActividad`))
   2024-04-18 20:15:04 FATAL ConfiguracionPrueba:88 - (conn=290) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionActividad`, CONSTRAINT `retroalimentacionActividad_ibfk_2` FOREIGN KEY (`actividad`) REFERENCES `actividad` (`idActividad`))
 2024-04-30 11:33:02 ERROR RetroalimentacionActividad:103 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=3307)(type=primary). Connection refused
-  
+  2024-05-11 02:32:52 FATAL ConexionBaseDatos:30 - Socket fail to connect to host:address=(host=localhost)(port=3307)(type=primary). Connection refused: getsockopt
+2024-05-11 02:59:35 FATAL ConexionBaseDatos:30 - Socket fail to connect to host:address=(host=localhost)(port=3307)(type=primary). Connection refused: getsockopt
+2024-05-11 02:59:49 FATAL ConexionBaseDatos:30 - Socket fail to connect to host:address=(host=localhost)(port=3307)(type=primary). Connection refused: getsockopt

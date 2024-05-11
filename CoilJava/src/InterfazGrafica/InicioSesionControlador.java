@@ -1,9 +1,12 @@
 package InterfazGrafica;
 
 import Logica.DAO.DAOCuenta;
-import Logica.DAO.DAOUniversidad;
 import Logica.Dominio.Cuenta;
 import Utilidades.ErrorDAO;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,7 +16,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -22,24 +29,34 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 
+
 public class InicioSesionControlador extends Application implements Initializable {
 
-    private static Logger bitacora = Logger.getLogger(InicioSesionControlador.class);
-    private String nombreUsuario;
-    private String contrasena;
-    private Cuenta cuenta;
+    private static final Logger BITACORA = Logger.getLogger(InicioSesionControlador.class);
+    private static final DAOCuenta DAO_CUENTA = new DAOCuenta();
+
     @FXML
     private TextField tfUsuario;
     @FXML
     private TextField tfContrasena;
-    private Stage stageInicio;
-
-
+    @FXML
+    public BorderPane bdPane;
+    @FXML
+    private AnchorPane apPane;
+    @FXML
+    private Pane pPane;
 
     @FXML
     public void solicitarCuenta (ActionEvent evento) {
-        mostrarVentanaWindowSolicitarCuenta();
-
+        try {
+            hacerTransicion();
+        }
+        catch (ErrorDAO errorDAO) {
+            mostrarVentanaAlert(errorDAO.getMessage(), Alert.AlertType.ERROR);
+        }
+        catch (IOException e) {
+            mostrarVentanaAlert("Error a mostrar la ventana solicitar cuenta", Alert.AlertType.ERROR);
+        }
     }
 
     @Override
@@ -49,12 +66,14 @@ public class InicioSesionControlador extends Application implements Initializabl
 
     @FXML
     public void ingresarCuenta (ActionEvent evento) {
-        obtenerContenidoTextField();
-        if (!estanVaciosTextField() && sonCredencialesValidas()) {
-            getCuenta();
-            if (esCuentaAceptada()) {
-                abrirVentanaPorTipoCuenta(evento);
-            }
+        try {
+            Cuenta cuenta = getCuentaRegistrada();
+            sonCredencialesValidas(cuenta);
+            esCuentaAceptada(cuenta);
+            abrirVentanaPorTipoCuenta(cuenta);
+        }
+        catch (ErrorDAO errorDAO) {
+            mostrarVentanaAlert(errorDAO.getMessage(), Alert.AlertType.WARNING);
         }
     }
 
@@ -70,7 +89,8 @@ public class InicioSesionControlador extends Application implements Initializabl
             stagePrincipal.setScene(nuevaEscena);
         }
         catch (IOException error) {
-            bitacora.fatal(error.getMessage());
+            BITACORA.fatal(error.getMessage());
+
         }
     }
 
@@ -81,6 +101,28 @@ public class InicioSesionControlador extends Application implements Initializabl
         alert.showAndWait();
     }
 
+    @FXML
+    private void hacerTransicion () throws IOException, ErrorDAO {
+        Parent root = FXMLLoader.load(getClass().getResource("SolicitudCuenta.fxml"));
+        Scene scene = tfContrasena.getScene();
+        root.translateXProperty()
+            .set(scene.getWidth());
+        bdPane.getChildren()
+              .add(root);
+        Timeline timeline = new Timeline();
+        KeyValue keyValue = new KeyValue(root.translateXProperty(), 0, Interpolator.EASE_IN);
+        KeyFrame keyFrame = new KeyFrame(Duration.seconds(0.5), keyValue);
+        timeline.getKeyFrames()
+                .add(keyFrame);
+        timeline.setOnFinished(event -> {
+            bdPane.getChildren()
+                  .remove(pPane);
+            bdPane.getChildren()
+                  .remove(apPane);
+        });
+        timeline.play();
+    }
+
 
     @FXML
     private void mostrarVentanaWindowSolicitarCuenta () {
@@ -88,7 +130,7 @@ public class InicioSesionControlador extends Application implements Initializabl
             Stage stagePrincipal = (Stage) tfUsuario.getScene()
                                                     .getWindow();
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SolicitarCuenta.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SolicitudCuenta.fxml"));
                 Parent root = fxmlLoader.load();
                 Scene nuevaEscena = new Scene(root);
                 stagePrincipal.setScene(nuevaEscena);
@@ -98,68 +140,25 @@ public class InicioSesionControlador extends Application implements Initializabl
             }
         }
         catch (IOException error) {
-            bitacora.fatal(error.getMessage());
+            BITACORA.fatal(error.getMessage());
         }
     }
 
 
-    private boolean sonCredencialesValidas () {
-        boolean coincidenEnBD = false;
-        DAOCuenta daoCuenta = new DAOCuenta();
-        try {
-            coincidenEnBD = daoCuenta.verificarCredenciales(this.nombreUsuario, this.contrasena);
-        }
-        catch (ErrorDAO errorDAO) {
-            mostrarVentanaAlert(errorDAO.getMessage(), Alert.AlertType.ERROR);
-        }
-        if (!coincidenEnBD) {
-            mostrarVentanaAlert("Contraseña o usuario incorrecto", Alert.AlertType.WARNING);
-        }
-        return coincidenEnBD;
-    }
-
-    private boolean estanVaciosTextField () {
-        boolean estanVacios = nombreUsuario.isEmpty() && contrasena.isEmpty();
-        if (estanVacios) {
-            mostrarVentanaAlert("No se ingresó una contraseña o un usuario", Alert.AlertType.WARNING);
-        }
-        return estanVacios;
-    }
-
-    private void obtenerContenidoTextField () {
-        this.nombreUsuario = tfUsuario.getText()
-                                      .trim();
-        this.contrasena = tfContrasena.getText()
-                                      .trim();
-    }
-
-    private void getCuenta () {
-        DAOCuenta daoCuenta = new DAOCuenta();
-        try {
-            Optional<Cuenta> cuentaOptional;
-            cuentaOptional = daoCuenta.getCuentaPorUsuario(this.nombreUsuario);
-            if (cuentaOptional.isPresent()) {
-                this.cuenta = cuentaOptional.get();
-            }
-        }
-        catch (ErrorDAO errorDAO) {
-            mostrarVentanaAlert(errorDAO.getMessage(), Alert.AlertType.ERROR);
+    private void sonCredencialesValidas (Cuenta cuenta) {
+        if (!DAO_CUENTA.verificarCredenciales(cuenta.getNombreUsuario(), cuenta.getContrasena())) {
+            throw new ErrorDAO("Cuentas no validas", ErrorDAO.Tipo.VALIDACION);
         }
     }
-
-    private boolean esCuentaAceptada () {
-        boolean esAceptada = true;
+    private void esCuentaAceptada (Cuenta cuenta) {
         if (cuenta.getEstado() != Cuenta.EstadoCuenta.aceptada) {
-            mostrarVentanaAlert("La cuenta " + cuenta.getNombreUsuario() + " Se encuentra en estado " +
-                                        cuenta.getEstado()
-                                              .toString(), Alert.AlertType.WARNING);
-            esAceptada = false;
+            throw new ErrorDAO("El estado de la cuenta esta en " + cuenta.getEstado().toString() +"\n" +
+                                       "En caso de dudas, mande mensaje un correo a vic@uv.mx", ErrorDAO.Tipo.VALIDACION);
         }
-        return esAceptada;
     }
 
-    private void abrirVentanaPorTipoCuenta (ActionEvent evento) {
-        switch (this.cuenta.getTipo()) {
+    private void abrirVentanaPorTipoCuenta (Cuenta cuenta) {
+        switch (cuenta.getTipo()) {
             case academico:
                 mostrarVentanaWindowMenuPrincipalAcademico();
             case estudiante:
@@ -167,6 +166,21 @@ public class InicioSesionControlador extends Application implements Initializabl
             case administrador:
                 System.out.println("Implementar ventana admin");
         }
+    }
+
+    private Cuenta getCuentaPorTextField () {
+        Cuenta cuenta = new Cuenta();
+        cuenta.setNombreUsuario(tfUsuario.getText());
+        cuenta.setContrasena(tfUsuario.getText());
+        return cuenta;
+    }
+
+    private Cuenta getCuentaRegistrada () {
+        Optional<Cuenta> cuentaOptional = DAO_CUENTA.getCuentaPorUsuario(getCuentaPorTextField().getNombreUsuario());
+        if (cuentaOptional.isEmpty()) {
+            throw new ErrorDAO("Error al obtener la cuenta del usuario", ErrorDAO.Tipo.INICIO_SESION);
+        }
+        return cuentaOptional.get();
     }
 
     @Override
@@ -178,7 +192,6 @@ public class InicioSesionControlador extends Application implements Initializabl
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-
     public static void main (String[] args) {
         launch(args);
     }

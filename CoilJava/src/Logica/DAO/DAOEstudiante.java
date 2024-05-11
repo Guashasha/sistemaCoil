@@ -3,87 +3,63 @@ package Logica.DAO;
 import AccesoADatos.EstudianteDB;
 import Logica.Dominio.Estudiante;
 import Utilidades.ErrorDAO;
+import Utilidades.ErrorDAO.Tipo;
 import Logica.Interfaces.IEstudianteDAO;
-import org.apache.log4j.Logger;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
 public class DAOEstudiante implements IEstudianteDAO {
-    private static final Logger BITACORA = Logger.getLogger(DAOEstudiante.class);
-
 
     @Override
     public int agregar (Estudiante estudiante) throws ErrorDAO {
-        int filasAfectadas = -1;
-
-        if (!estudiante.validarNulos()) {
-            throw new ErrorDAO("Al menos un campo del estudiante esta vacio", ErrorDAO.Tipo.VALIDACION);
+        if (existe(estudiante.getMatricula())) {
+            throw new ErrorDAO("El estudiante con la matricula " + estudiante.getMatricula() + " ya se encuentra registrado", Tipo.VALIDACION);
         }
         try {
-            filasAfectadas = EstudianteDB.agregarEstudiante(estudiante);
+            return EstudianteDB.agregarEstudiante(estudiante);
         }
-        catch (SQLException error) {
-            BITACORA.error(error.getMessage());
+        catch (ErrorDAO error) {
+            throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
-        return filasAfectadas;
     }
 
     @Override
     public int modificar (Estudiante estudiante) throws ErrorDAO {
-        int filasAfectadas = -1;
-
-        if (!estudiante.validarNulos()) {
-            throw new ErrorDAO("Al menos un campo del estudiante esta vacio", ErrorDAO.Tipo.VALIDACION);
-
-        }
-        if (!getEstudiantePorMatricula(estudiante.getMatricula()).isPresent()) {
+        if (!existe(estudiante.getMatricula())) {
             throw new ErrorDAO("La matricula no se encuentra registrada", ErrorDAO.Tipo.VALIDACION);
         }
         try {
-            filasAfectadas = EstudianteDB.editarEstudiante(estudiante);
-
+            return EstudianteDB.editarEstudiante(estudiante);
         }
-        catch (SQLException error) {
-            BITACORA.error(error.getMessage());
+        catch (ErrorDAO error) {
+            throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
-        return filasAfectadas;
     }
 
     @Override
     public Optional<Estudiante> getPorId (Integer id) throws ErrorDAO {
-        Estudiante estudiante = null;
-
-        if (!idValido(id)) {
+        if (noEsIdValido(id)) {
             throw new ErrorDAO("El id del estudiante no es valido", ErrorDAO.Tipo.VALIDACION);
         }
         try {
-            estudiante = EstudianteDB.getPorId(id);
+            return Optional.ofNullable(EstudianteDB.getPorId(id));
         }
-        catch (SQLException error) {
-            BITACORA.error(error.getMessage());
+        catch (ErrorDAO error) {
+            throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
-
-        return Optional.ofNullable(estudiante);
     }
 
 
     @Override
     public List<Estudiante> getTodos () throws ErrorDAO {
-        List<Estudiante> listaEstudiantes = null;
-
         try {
-            listaEstudiantes = EstudianteDB.getTodos();
-
+            return EstudianteDB.getTodos();
         }
-        catch (SQLException error) {
-            BITACORA.error(error.getMessage());
-
+        catch (ErrorDAO error) {
+            throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
-
-        return listaEstudiantes;
     }
 
     @Override
@@ -93,59 +69,52 @@ public class DAOEstudiante implements IEstudianteDAO {
 
     @Override
     public Optional<Estudiante> getEstudiantePorIdPersona (int idPersona) throws ErrorDAO {
-        Estudiante estudiante = null;
-        if (!idValido(idPersona)) {
+        if (noEsIdValido(idPersona)) {
             throw new ErrorDAO("Id de persona invalido", ErrorDAO.Tipo.VALIDACION);
         }
         try {
-            estudiante = EstudianteDB.getEstudiantePorIdPersona(idPersona);
-
+            return Optional.ofNullable(EstudianteDB.getEstudiantePorIdPersona(idPersona));
         }
-        catch (SQLException error) {
-            BITACORA.error(error.getMessage());
-
+        catch (ErrorDAO error) {
+            throw new ErrorDAO(error.getMessage(),error.getTipo());
         }
-        return Optional.ofNullable(estudiante);
     }
 
     @Override
     public Optional<Estudiante> getEstudiantePorMatricula (String matricula) throws ErrorDAO {
-        Estudiante estudiante = null;
-        if (!cadenaValida(matricula)) {
-            throw new ErrorDAO("matricula no valida", ErrorDAO.Tipo.VALIDACION);
-
-        }
         try {
-            estudiante = EstudianteDB.getEstudiantePorMatricula(matricula);
+            probarMatricula(matricula);
+            return Optional.ofNullable(EstudianteDB.getEstudiantePorMatricula(matricula));
         }
-        catch (SQLException error) {
-            BITACORA.error(error.getMessage());
+        catch (ErrorDAO error) {
+            throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
-        return Optional.ofNullable(estudiante);
     }
 
     @Override
     public List<Estudiante> getEstudiantePorUniversidad (int idUniversidad) throws ErrorDAO {
-        List<Estudiante> listaEstudiantes = null;
-        if (!idValido(idUniversidad)) {
+        List<Estudiante> listaEstudiantes;
+        if (noEsIdValido(idUniversidad)) {
             throw new ErrorDAO("Id de una universidad invalido", ErrorDAO.Tipo.VALIDACION);
         }
         try {
             listaEstudiantes = EstudianteDB.getEstudiantePorUniversidad(idUniversidad);
         }
-        catch (SQLException error) {
-            BITACORA.error(error.getMessage());
+        catch (ErrorDAO error) {
+            throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
         return listaEstudiantes;
     }
-
-
-    private boolean cadenaValida (String cadena) {
-        return cadena != null && !cadena.isBlank();
+    private boolean noEsIdValido (int id) {
+        return id <= 0;
     }
 
-    private boolean idValido (int id) {
-        return id > 0;
+    private boolean existe (String matricula) {
+        return getEstudiantePorMatricula(matricula).isPresent();
+    }
+    private void probarMatricula (String matricula) {
+        Estudiante estudiante = new Estudiante();
+        estudiante.setMatricula(matricula);
     }
 
 
