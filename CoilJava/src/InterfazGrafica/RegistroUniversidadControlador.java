@@ -5,19 +5,12 @@ import Logica.DAO.DAOUniversidad;
 import Logica.Dominio.Pais;
 import Logica.Dominio.Universidad;
 import Utilidades.ErrorDAO;
-import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import org.apache.log4j.Logger;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +27,7 @@ public class RegistroUniversidadControlador implements Initializable {
     private ComboBox<String> cmbPaises;
     @FXML
     private Button btnCancelar;
+    private final int LONGITUD_NOMBRE = 20;
 
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle) {
@@ -41,7 +35,7 @@ public class RegistroUniversidadControlador implements Initializable {
     }
 
     @FXML
-    void registrarUniversidad () {
+    protected void registrarUniversidad () {
         if (camposValidos()) {
             Universidad universidad = new Universidad(tfNombre.getText());
             Pais pais = new Pais(cmbPaises.getValue());
@@ -77,6 +71,16 @@ public class RegistroUniversidadControlador implements Initializable {
                 window.close();
             }
         });
+    }
+
+    @FXML
+    private void limitarCaracteres () {
+        int longitud = tfNombre.getLength();
+        if (longitud > LONGITUD_NOMBRE) {
+            tfNombre.setText(tfNombre.getText()
+                    .substring(0,LONGITUD_NOMBRE));
+            tfNombre.positionCaret(tfNombre.getLength());
+        }
     }
 
     private void llenarComboBoxPaises () {
