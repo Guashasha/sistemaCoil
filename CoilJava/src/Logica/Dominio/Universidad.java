@@ -53,6 +53,10 @@ public class Universidad {
         this.idPais = idPais;
     }
 
+    public boolean nombreValido () {
+        return this.nombre != null && !this.nombre.isBlank();
+    }
+
     @Override
     public boolean equals (Object obj) {
         boolean igual;

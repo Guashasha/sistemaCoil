@@ -35,7 +35,7 @@ public class DAOPais implements IPaisDAO {
     @Override
     public Optional<Pais> getPaisPorNombre (String nombre) throws ErrorDAO {
         Pais pais = null;
-        if (Optional.ofNullable(nombre).isPresent() && !nombre.isBlank()) {
+        if (nombre != null && !nombre.isBlank()) {
             try {
                 pais = PaisDB.getPaisPorNombre(nombre.trim());
             } catch (SQLException error) {
@@ -47,7 +47,7 @@ public class DAOPais implements IPaisDAO {
     }
 
     @Override
-    public Optional<Pais> getPaisPorId(int id) throws ErrorDAO {
+    public Optional<Pais> getPaisPorId (int id) throws ErrorDAO {
         Pais pais = null;
         if (id > 0) {
             try {

@@ -23,8 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class RegistroUniversidadControlador extends Application implements Initializable {
-    private static final Logger BITACORA = Logger.getLogger(RegistroUniversidadControlador.class);
+public class RegistroUniversidadControlador implements Initializable {
     @FXML
     private Label txtObligatorioNombre;
     @FXML
@@ -36,35 +35,9 @@ public class RegistroUniversidadControlador extends Application implements Initi
     @FXML
     private Button btnCancelar;
 
-    public static void main (String[] args) {
-        launch(args);
-    }
-
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle) {
         llenarComboBoxPaises();
-    }
-
-    @Override
-    public void start(Stage stage) {
-        Parent root = null;
-
-        try {
-            root = FXMLLoader.load(getClass().getResource("RegistroUniversidad.fxml"));
-        }
-        catch (IOException e) {
-            BITACORA.error(e);
-        }
-
-        if (root != null) {
-            stage.initStyle(StageStyle.TRANSPARENT);
-            Scene escena = new Scene(root);
-            stage.setScene(escena);
-            stage.show();
-        }
-        else {
-            BITACORA.error("Ocurrió un error al iniciar la ventana windowRegistroUniversidad");
-        }
     }
 
     @FXML

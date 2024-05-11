@@ -12,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -31,6 +32,8 @@ public class ConsultaUniversidadesControlador extends Application implements Ini
     private VBox vboxConsultaUniversidades;
     @FXML
     private TextField tfBarraBusqueda;
+    @FXML
+    private Button btnRegistrarUniversidad;
 
     public static void main (String[] args) {
         launch(args);
@@ -38,7 +41,7 @@ public class ConsultaUniversidadesControlador extends Application implements Ini
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        consultaTodasAlfaticamente();
+        consultaTodasAlfabeticamente();
     }
 
     @Override
@@ -63,7 +66,7 @@ public class ConsultaUniversidadesControlador extends Application implements Ini
         }
     }
 
-    private void consultaTodasAlfaticamente() {
+    private void consultaTodasAlfabeticamente() {
         DAOUniversidad daoUniversidad = new DAOUniversidad();
         List<Universidad> listaUniversidades = new ArrayList<>();
         try {
@@ -94,8 +97,17 @@ public class ConsultaUniversidadesControlador extends Application implements Ini
 
     @FXML
     private void registrarUniversidad () {
-        RegistroUniversidadControlador ventanaRegistro = new RegistroUniversidadControlador();
-        ventanaRegistro.start(new Stage());
+        try {
+            Stage stagePrincipal = (Stage)  btnRegistrarUniversidad.getScene().getWindow();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("RegistroUniversidad.fxml"));
+            Parent root = fxmlLoader.load();
+            Scene nuevaEscena = new Scene(root);
+            stagePrincipal.setScene(nuevaEscena);
+        }
+        catch (IOException error) {
+            BITACORA.info(error.getMessage());
+            mostrarMensajeEmergente("Algo salió mal, inténtelo de nuevo más tarde", Alert.AlertType.ERROR);
+        }
     }
 
     private void mostrarConsulta (List<Universidad> listaUniversidades) {

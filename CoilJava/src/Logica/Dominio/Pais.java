@@ -51,6 +51,10 @@ public class Pais {
         return this.nombre;
     }
 
+    public boolean nombreValido () {
+        return this.nombre != null && !this.nombre.isBlank();
+    }
+
     @Override
     public boolean equals (Object obj) {
         boolean igual;

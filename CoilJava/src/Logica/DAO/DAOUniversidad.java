@@ -22,7 +22,7 @@ public class DAOUniversidad implements IUniversidadDAO {
         }
         int filasAfectadas;
 
-        if (cadenasValidas(new String[]{universidad.getNombre(), pais.getNombre()})) {
+        if (universidad.nombreValido() && pais.nombreValido()) {
             String nombreUnivesidad = universidad.getNombre()
                     .trim();
             String nombrePais = pais.getNombre()
@@ -57,7 +57,7 @@ public class DAOUniversidad implements IUniversidadDAO {
         }
         int filasAfectadas;
 
-        if (cadenasValidas(new String[]{universidadActual.getNombre(),nuevaUniversidad.getNombre(),nuevoPais.getNombre()})) {
+        if (universidadActual.nombreValido() && nuevaUniversidad.nombreValido() && nuevoPais.nombreValido()) {
             String nombreActual = universidadActual.getNombre()
                     .trim();
             String nuevoNombre = nuevaUniversidad.getNombre()
@@ -127,7 +127,7 @@ public class DAOUniversidad implements IUniversidadDAO {
         }
         List<Universidad> listaUniversidades;
 
-        if (cadenaValida(universidad.getNombre())) {
+        if (universidad.nombreValido()) {
             String nombre = universidad.getNombre().
                     trim();
             try{
@@ -171,8 +171,6 @@ public class DAOUniversidad implements IUniversidadDAO {
         return Optional.ofNullable(universidad);
     }
 
-
-    
     public boolean universidadExiste (String universidad, String pais) throws ErrorDAO {
         boolean existe = false;
         Universidad universidadEncontrada;
@@ -193,26 +191,10 @@ public class DAOUniversidad implements IUniversidadDAO {
     }
 
     public static boolean esNulo (Object objeto) {
-        return Optional.ofNullable(objeto)
-                .isEmpty();
+        return objeto == null;
     }
 
     public static boolean cadenaValida (String cadena) {
         return !esNulo(cadena) && !cadena.isBlank();
-    }
-
-    public static boolean cadenasValidas (String[] cadenas) {
-        boolean validas = true;
-        int i = 0;
-
-        while (i < cadenas.length) {
-            if (!cadenaValida(cadenas[i])) {
-                validas = false;
-                break;
-            }
-            i++;
-        }
-
-        return validas;
     }
 }
