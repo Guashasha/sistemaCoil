@@ -152,11 +152,9 @@ public class SolicitarCuentaControlador implements Initializable {
                 DAOAcademico.esCadenaValidaProperty(apellidoMaternoProperty) &&
                 DAOAcademico.esCadenaValidaProperty(cedulaProperty) &&
                 DAOAcademico.esCadenaValidaProperty(correoElectronicoProperty) &&
-                DAOAcademico.esCorreoValido(correoElectronicoProperty) &&
                 DAOAcademico.esCadenaValidaProperty(areaProperty) &&
                 DAOAcademico.esCadenaValidaProperty(numeroPersonalProperty) &&
                 DAOAcademico.esCadenaValidaProperty(numeroTelefonoProperty) &&
-                DAOAcademico.esLongitudNumeroTelefonoValida(numeroTelefonoProperty) &&
                 DAOAcademico.esCadenaValidaProperty(usuarioProperty) &&
                 DAOAcademico.esCadenaValidaProperty(contrasenaProperty) &&
                 DAOAcademico.esCadenaValidaProperty(univeridadProperty);
@@ -236,7 +234,7 @@ public class SolicitarCuentaControlador implements Initializable {
         Academico academico = crearAcademico();
         int filasAfectadas = -1;
         try {
-            filasAfectadas = DAO_ACADEMICO.agregarAcademicoExterno(academico);
+            filasAfectadas = DAO_ACADEMICO.agregar(academico);
 
         }
         catch (ErrorDAO errorDAO) {

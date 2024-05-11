@@ -38,14 +38,14 @@ CREATE TABLE `facultad` (
 
 CREATE TABLE `academico` (
   `cedulaProfesional` varchar(30) NOT NULL,
-  `numeroDePersonal` varchar(40) NOT NULL,
+  `numeroDePersonal` varchar(40) NULL,
   `idPersona` int NOT NULL,
-  `areaEstudios` varchar(40) NOT NULL,
+  `areaEstudios` varchar(40) NULL,
   `correoElectronico` varchar(30) NOT NULL,
-  `numeroTelefonico` char(12) NOT NULL,
-  `categoriaContratacion` varchar(40) NULL,
+  `numeroTelefonico` char(12) NULL,
+  `categoriaContratacion` varchar(40), NULL,
   `facultad` int NULL,
-  PRIMARY KEY (`cedulaProfesional`, `numeroDePersonal`)
+  PRIMARY KEY (`cedulaProfesional`)
 );
 
 CREATE TABLE `colaboracion` (

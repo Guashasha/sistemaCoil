@@ -36,5 +36,17 @@ class ConexionBaseDatosTest {
         assertTrue(resultado);
     }
 
+    @Test
+    void rollaback () {
+        boolean resultado = false;
+        try {
+            resultado = ConexionBaseDatos.rollback();
+        }
+        catch (ErrorDAO errorDAO) {
+            fail("Prueba fallida: " + errorDAO.getMessage());
+        }
+        assertTrue(resultado);
+    }
+
 
 }

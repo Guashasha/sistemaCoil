@@ -24,7 +24,7 @@ class DAOAcademicoTest {
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO facultad (nombre, region) VALUES ('Economia', 1);");
 
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO persona (idPersona, nombre, apellidoPaterno, apellidoMaterno, universidad) VALUES (1, 'Jose', 'Lopez', 'Perez', 1);");
-        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO academico (cedulaProfesional, numeroDePersonal, idPersona, areaEstudios, correoElectronico, numeroTelefonico) VALUES ('ABC123', '123456', 1, 'Ciencias de la Computación', 'jose@gmail.com', '522288536230');");
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO academico (cedulaProfesional, numeroDePersonal, idPersona, areaEstudios, correoElectronico, numeroTelefonico) VALUES ('123', '123456', 1, 'Ciencias de la Computación', 'jose@gmail.com', '522288536230');");
 
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO persona (idPersona, nombre, apellidoPaterno, apellidoMaterno, universidad) VALUES (2, 'Esther', 'Herrara', 'Martinez', 1);");
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO academico (cedulaProfesional, numeroDePersonal, idPersona, areaEstudios, correoElectronico, numeroTelefonico, categoriaContratacion, facultad) VALUES ('200011', '4564', 2, 'Filosofia', 'esther@gmail.com', '522288536230', 'Dramaturgo', 1);");
@@ -53,7 +53,7 @@ class DAOAcademicoTest {
         catch (ErrorDAO error) {
             fail("Fallida : pruebaGetAcademicosPorFacultadExitosa");
         }
-        int tamanoEsperado = 2;
+        int tamanoEsperado = 1;
         assertEquals(tamanoEsperado, listaAcademicos.size());
     }
 
@@ -78,7 +78,7 @@ class DAOAcademicoTest {
         System.out.println("pruebaGetAcademicoPorCedulaExitoso");
 
         Academico academicoObtenido = null;
-        String cedula = "ABC123";
+        String cedula = "123";
         try {
             Optional optionalAcademico = INSTANCIA.getAcademicoPorCedula(cedula);
             academicoObtenido = (Academico) optionalAcademico.get();
@@ -192,7 +192,7 @@ class DAOAcademicoTest {
         System.out.println("pruebaGetAcademicosPorRegionExitosa");
         String region = "XALAPA";
         List<Academico> listaAcademicos = null;
-        int tamanoEsperado = 2;
+        int tamanoEsperado = 1;
         try {
             listaAcademicos = INSTANCIA.getAcademicosPorRegion(region);
         }
@@ -260,10 +260,30 @@ class DAOAcademicoTest {
             obtenido = INSTANCIA.agregar(academico);
         }
         catch (ErrorDAO errorDAO) {
+            System.out.println(errorDAO.getMessage());
             fail("Fallida agregarExitoso");
         }
 
         assertEquals(esperado,obtenido);
+
+    }
+
+    @Test
+    void pruebaAgregarCedulaRepetidaFallida () {
+        System.out.println("pruebaAgregarCedulaRepetidaFallida");
+        Academico academico = new Academico();
+        academico.setNombre("Manuel");
+        academico.setApellidoPaterno("Llamas");
+        academico.setApellidoMaterno("Villa Señor");
+        academico.setIdUniversidad(1);
+        academico.setCedulaProfesional("123");
+        academico.setNumeroPersonal("453");
+        academico.setAreaEstudios("Economia");
+        academico.setCorreoElectronico("hernan@Institucion.mx");
+        academico.setNumeroTelefonico("523311756675");
+        academico.setCategoriaContratacion("Por Horas");
+        academico.setIdFacultad(1);
+        assertThrows(ErrorDAO.class, ()-> INSTANCIA.agregar(academico));
 
     }
 

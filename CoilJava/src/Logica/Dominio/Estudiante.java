@@ -1,5 +1,10 @@
 package Logica.Dominio;
 
+import Utilidades.ErrorDAO;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Estudiante extends Persona {
     private int idEstudiante;
     private String matricula;
@@ -26,7 +31,23 @@ public class Estudiante extends Persona {
     }
 
     public void setMatricula (String matricula) {
+        checarMatricula(matricula);
         this.matricula = matricula;
+    }
+
+    private void checarMatricula (String matricula) {
+        String matriculaRegex = "^[A-Za-z0-9]{10}$";
+        Pattern patron = Pattern.compile(matriculaRegex);
+        if (matricula == null || matricula.isEmpty()) {
+            throw new ErrorDAO("La matricula no puede estar vacía", ErrorDAO.Tipo.VALIDACION);
+        }
+        Matcher matcher = patron.matcher(matricula);
+        if (!matcher.matches()) {
+            throw new ErrorDAO("""
+                                                       La matrícula no es valida.
+                                                       1. Su longitud debe ser exactamente de 10 caracteres.
+                                                       2. No debe tener espacios.""", ErrorDAO.Tipo.VALIDACION);
+        }
     }
 
     @Override

@@ -20,7 +20,7 @@ public class DAOColaboracion implements IColaboracionDAO {
     @Override
     public Optional<Colaboracion> getColaboracionPorAcademicosParticipantes (Academico academico1, Academico academico2) throws ErrorDAO {
         Colaboracion colaboracion = null;
-        if (!cadenaValida(academico1.getCedulaProfesional()) && !cadenaValida(academico2.getCedulaProfesional())) {
+        if (esCadaInvalida(academico1.getCedulaProfesional()) && esCadaInvalida(academico2.getCedulaProfesional())) {
             throw new ErrorDAO("Error en los academicos de la colaboracion", ErrorDAO.Tipo.VALIDACION);
         }
         try {
@@ -35,151 +35,131 @@ public class DAOColaboracion implements IColaboracionDAO {
 
     @Override
     public Optional<Colaboracion> getColaboracionPorId (int idColaboracion) throws ErrorDAO {
-        Colaboracion colaboracion = null;
-        if (!idValido(idColaboracion)) {
+        if (esIdInvalido(idColaboracion)) {
             throw new ErrorDAO("Error en el identificador de la colaboracion", ErrorDAO.Tipo.VALIDACION);
         }
         try {
-            colaboracion = ColaboracionDB.getColaboracionPorId(idColaboracion);
+            return Optional.ofNullable(ColaboracionDB.getColaboracionPorId(idColaboracion));
         }
         catch (ErrorDAO error) {
-            BITACORA.error(error);
-
+            throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
-
-        return Optional.ofNullable(colaboracion);
     }
 
     @Override
     public List<Estudiante> getListaDeEstudiantes (Colaboracion colaboracion) throws ErrorDAO {
-        List<Estudiante> listaEstudiantes = null;
-        if (!idValido(colaboracion.getIdColaboracion())) {
+        if (esIdInvalido(colaboracion.getIdColaboracion())) {
             throw new ErrorDAO("Error en el id de la colaboracion", ErrorDAO.Tipo.VALIDACION);
         }
         try {
-            listaEstudiantes = ColaboracionDB.getListaDeEstudiantes(colaboracion);
+            return ColaboracionDB.getListaDeEstudiantes(colaboracion);
         }
         catch (ErrorDAO error) {
-            BITACORA.error(error.getMessage());
+            throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
-
-        return listaEstudiantes;
     }
 
     @Override
     public List<Academico> getAcademicosParticipantes (Colaboracion colaboracion) throws ErrorDAO {
-        List<Academico> listaAcademicos = null;
-        if (!idValido(colaboracion.getIdColaboracion())) {
+        if (esIdInvalido(colaboracion.getIdColaboracion())) {
             throw new ErrorDAO("Error en el id de la colaboracion", ErrorDAO.Tipo.VALIDACION);
         }
         try {
-            listaAcademicos = ColaboracionDB.getAcademicosParticipantes(colaboracion);
+            return ColaboracionDB.getAcademicosParticipantes(colaboracion);
         }
         catch (ErrorDAO error) {
-            BITACORA.error(error.getMessage());
+            throw new ErrorDAO(error.getMessage(),error.getTipo());
         }
-        return listaAcademicos;
     }
 
     @Override
     public List<Colaboracion> getColaboracionPorPeriodo (Periodo periodo) {
-        List<Colaboracion> listaColaboracion = null;
         if (!periodo.validarNulo()) {
             throw new ErrorDAO("Periodo con fecha de inicio o de fin vacia", ErrorDAO.Tipo.VALIDACION);
         }
         try {
-            listaColaboracion = ColaboracionDB.getColaboracionPorPeriodo(periodo);
+            return ColaboracionDB.getColaboracionPorPeriodo(periodo);
         }
         catch (ErrorDAO error) {
-            BITACORA.error(error.getMessage());
+            throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
-        return listaColaboracion;
-
     }
 
     @Override
     public List<Colaboracion> getColaboracionPorIdioma (String idioma) {
-        List<Colaboracion> listaColaboracion = null;
-        if (!cadenaValida(idioma)) {
+        if (esCadaInvalida(idioma)) {
             throw new ErrorDAO("Idioma invalido", ErrorDAO.Tipo.VALIDACION);
         }
         try {
-            listaColaboracion = ColaboracionDB.getColaboracionPorIdioma(idioma);
+            return ColaboracionDB.getColaboracionPorIdioma(idioma);
         }
         catch (ErrorDAO error) {
-            BITACORA.error(error.getMessage());
+            throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
-        return listaColaboracion;
     }
 
     @Override
     public List<Colaboracion> getColaboracionPorEstado (String estado) throws ErrorDAO {
-        List<Colaboracion> listaColaboracion = null;
-        if (!cadenaValida(estado)) {
+        if (esCadaInvalida(estado)) {
             throw new ErrorDAO("Pais invalido", ErrorDAO.Tipo.VALIDACION);
         }
         try {
-            listaColaboracion = ColaboracionDB.getColaboracionPorEstado(estado);
+            return ColaboracionDB.getColaboracionPorEstado(estado);
         }
         catch (ErrorDAO error) {
-            BITACORA.error(error.getMessage());
+            throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
-        return listaColaboracion;
     }
 
     @Override
     public int cambiarEstadoColaboracion (Colaboracion colaboracion) {
-        int filasAfectadas = 0;
-        if (!idValido(colaboracion.getIdColaboracion())) {
+
+        if (esIdInvalido(colaboracion.getIdColaboracion())) {
             throw new ErrorDAO("id de la colaboracion invalido", ErrorDAO.Tipo.VALIDACION);
         }
-        if (!cadenaValida(colaboracion.getEstado().toString())) {
+        if (esCadaInvalida(colaboracion.getEstado()
+                                       .toString())) {
             throw new ErrorDAO("Error en el estado de la colaboracion", ErrorDAO.Tipo.VALIDACION);
         }
         try {
-            filasAfectadas = ColaboracionDB.cambiarEstadoColaboracion(colaboracion);
+            return ColaboracionDB.cambiarEstadoColaboracion(colaboracion);
         }
         catch (ErrorDAO error) {
-            BITACORA.error(error.getMessage());
+            throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
-        return filasAfectadas;
     }
 
     @Override
     public int agregarEstudianteAColaboracion (Colaboracion colaboracion, Estudiante estudiante) throws ErrorDAO {
-        if (!idValido(colaboracion.getIdColaboracion())) {
+        if (esIdInvalido(colaboracion.getIdColaboracion())) {
             throw new ErrorDAO("Error en el id de la colaboracion", ErrorDAO.Tipo.VALIDACION);
         }
-        if (!idValido(estudiante.getIdEstudiante())) {
+        if (esIdInvalido(estudiante.getIdEstudiante())) {
             throw new ErrorDAO("Error en el id del estudiante", ErrorDAO.Tipo.VALIDACION);
         }
-        int filasAfectadas = 0;
         try {
-            filasAfectadas = ColaboracionDB.agregarEstudianteAColaboracion(colaboracion, estudiante);
+            return ColaboracionDB.agregarEstudianteAColaboracion(colaboracion, estudiante);
         }
         catch (ErrorDAO error) {
-            BITACORA.error(error.getMessage());
+            throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
-        return filasAfectadas;
     }
 
 
     @Override
     public int agregarAcademicoAColaboracion (Colaboracion colaboracion, Academico academico) throws ErrorDAO {
-        if (!idValido(colaboracion.getIdColaboracion())) {
+        if (esIdInvalido(colaboracion.getIdColaboracion())) {
             throw new ErrorDAO("Error en el id de la colaboracion", ErrorDAO.Tipo.VALIDACION);
         }
-        if (!cadenaValida(academico.getCedulaProfesional())) {
+        if (esCadaInvalida(academico.getCedulaProfesional())) {
             throw new ErrorDAO("Error en la cedula del academico", ErrorDAO.Tipo.VALIDACION);
         }
-        int filasAfectadas = 0;
         try {
-            filasAfectadas = ColaboracionDB.agregarAcademicoAColaboracion(colaboracion, academico);
+            return ColaboracionDB.agregarAcademicoAColaboracion(colaboracion, academico);
         }
         catch (ErrorDAO error) {
-            BITACORA.error(error.getMessage());
+            throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
-        return filasAfectadas;
     }
 
     @Override
@@ -192,14 +172,12 @@ public class DAOColaboracion implements IColaboracionDAO {
         if (!colaboracion.esValido()) {
             throw new ErrorDAO("Al menos un dato de la colaboracion esta vacia", ErrorDAO.Tipo.VALIDACION);
         }
-        int filasAfectadas = 0;
         try {
-            filasAfectadas = ColaboracionDB.registrarColaboracion(colaboracion);
+            return ColaboracionDB.registrarColaboracion(colaboracion);
         }
         catch (ErrorDAO error) {
-            BITACORA.error(error.getMessage());
+            throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
-        return filasAfectadas;
     }
 
     @Override
@@ -207,41 +185,35 @@ public class DAOColaboracion implements IColaboracionDAO {
         if (!colaboracion.esValido()) {
             throw new ErrorDAO("Al menos un dato de la colaboracion esta vacio", ErrorDAO.Tipo.VALIDACION);
         }
-        int filasAfectadas = 0;
         try {
-            filasAfectadas = ColaboracionDB.actualizarColaboracion(colaboracion);
+            return ColaboracionDB.actualizarColaboracion(colaboracion);
         }
         catch (ErrorDAO error) {
-            BITACORA.error(error.getMessage());
+            throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
-        return filasAfectadas;
     }
 
     @Override
     public Optional<Colaboracion> getPorId (Integer id) throws ErrorDAO {
-        if (!idValido(id)) {
+        if (esIdInvalido(id)) {
             throw new ErrorDAO("Id invalido", ErrorDAO.Tipo.VALIDACION);
         }
-        Colaboracion colaboracion = null;
         try {
-            colaboracion = ColaboracionDB.getPorId(id);
+            return Optional.ofNullable(ColaboracionDB.getPorId(id));
         }
         catch (ErrorDAO error) {
-            BITACORA.error(error.getMessage());
+            throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
-        return Optional.ofNullable(colaboracion);
     }
 
     @Override
     public List<Colaboracion> getTodos () throws ErrorDAO {
-        List<Colaboracion> listaColaboracion = null;
         try {
-            listaColaboracion = ColaboracionDB.getTodos();
+            return ColaboracionDB.getTodos();
         }
         catch (ErrorDAO error) {
-            BITACORA.error(error.getMessage());
+            throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
-        return listaColaboracion;
     }
 
     @Override
@@ -249,11 +221,11 @@ public class DAOColaboracion implements IColaboracionDAO {
         throw new NotImplementedException("No esta implementada esta función");
     }
 
-    private boolean cadenaValida (String cadena) {
-        return cadena != null && !cadena.isBlank();
+    private boolean esCadaInvalida (String cadena) {
+        return cadena == null || cadena.isBlank();
     }
 
-    private boolean idValido (int id) {
-        return id > 0;
+    private boolean esIdInvalido (int id) {
+        return id <= 0;
     }
 }

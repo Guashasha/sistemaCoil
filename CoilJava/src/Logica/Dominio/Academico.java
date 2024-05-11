@@ -1,5 +1,7 @@
 package Logica.Dominio;
 
+import Utilidades.ErrorDAO;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -81,7 +83,7 @@ public class Academico extends Persona {
         this.categoriaContratacion = categoriaContratacion;
     }
 
-    public int getIdFacultad () {
+    public Integer getIdFacultad () {
         return idFacultad;
     }
 
@@ -102,84 +104,86 @@ public class Academico extends Persona {
     }
 
     private void checharCedula (String cedulaProfesional) {
-        String CEDULA_REGEX = "^(?!0)[1-9]\\\\d{0,30}$";
+        String CEDULA_REGEX = "^[0-9]{1,30}$";
         Pattern patron = Pattern.compile(CEDULA_REGEX);
+        if (cedulaProfesional == null || cedulaProfesional.isEmpty()) {
+            throw new ErrorDAO("La cédula profesional no puede estar vacía", ErrorDAO.Tipo.VALIDACION);
+        }
         Matcher matcher = patron.matcher(cedulaProfesional);
         if (!matcher.matches()) {
-            throw new IllegalArgumentException("""
-                                                       La cedula profesional no es válida
-                                                       1. Solo debe tener números
-                                                       2. Su longitud debe ser máximo 30 caracteres""");
+            throw new ErrorDAO("La cédula profesional no es válida. Debe contener solo números y tener como máximo 30 caracteres.", ErrorDAO.Tipo.VALIDACION);
         }
     }
 
     private void checharCorreo (String correoElectronico) {
-        String CORREO_REGEX = "^(?=.{1,30}$)[A-Za-z0-9./+-]+@[A-Za-z]+\\\\.[A-Za-z]{1,3}$";
+        String CORREO_REGEX = "[A-z0-9./+-]+@[A-z]+\\.[A-z]{1,3}";
         Pattern patron = Pattern.compile(CORREO_REGEX);
+        if (correoElectronico == null || correoElectronico.isEmpty()) {
+            throw new ErrorDAO("El correo electrónico no puede estar vacío", ErrorDAO.Tipo.VALIDACION);
+        }
         Matcher matcher = patron.matcher(correoElectronico);
         if (!matcher.matches()) {
-            throw new IllegalArgumentException("El correo electrónico no es válido\n" +
-                                                       "1.No debe tener espacios en blanco");
+            throw new ErrorDAO("El correo electrónico no es válido\n" +
+                                       "1.No debe tener espacios en blanco", ErrorDAO.Tipo.VALIDACION);
         }
     }
 
     private void checharNumeroPersonal (String numeroPersonal) {
-        String NUMERO_P_REGEX = "(?!0)[1-9]\\\\d{0,39}$";
+        String NUMERO_P_REGEX = "(?!0)[1-9]{0,39}$";
         Pattern patron = Pattern.compile(NUMERO_P_REGEX);
-        Matcher matcher = patron.matcher(numeroPersonal);
-        if (!matcher.matches()) {
-            throw new IllegalArgumentException("""
-                                                       El número de personal no es válido
-                                                       1.No debe tener espacios en blanco
-                                                       2. Solo debe contener números y estos deben ser positivos
-                                                       3. No debe ser un número mayor a 40 digitos""");
+        if (numeroPersonal != null || !numeroPersonal.isEmpty()) {
+            Matcher matcher = patron.matcher(numeroPersonal);
+            if (!matcher.find()) {
+                throw new ErrorDAO("""
+                                           El número de personal no es válido
+                                           1.No debe tener espacios en blanco
+                                           2. Solo debe contener números y estos deben ser positivos
+                                           3. No debe ser un número mayor a 40 digitos""", ErrorDAO.Tipo.VALIDACION);
+            }
         }
     }
 
     private void checharCategoria (String categoriaContratacion) {
-        String CATEGORIA_REGEX = "^[a-zA-Z][a-zA-Z\\\\s]{0,39}$";
-        Pattern patron = Pattern.compile(CATEGORIA_REGEX);
-        Matcher matcher = patron.matcher(categoriaContratacion);
-        if (!matcher.matches()) {
-            throw new IllegalArgumentException("""
-                                                       La categoria de contración no es válida
-                                                       1. Solo debe contener letras
-                                                       2. No debe ser mayor a 40 caracteres""");
+        String categoriaRex = "[a-zA-ZáéíóúÁÉÍÓÚüÜ][a-zA-ZáéíóúÁÉÍÓÚüÜ\\s]*";
+        Pattern patron = Pattern.compile(categoriaRex);
+        if (categoriaContratacion != null && !categoriaContratacion.isEmpty()) {
+            Matcher matcher = patron.matcher(categoriaContratacion);
+            if (!matcher.matches()) {
+                throw new ErrorDAO("""
+                                           La categoria de contratación no es válida
+                                           1. Solo debe contener letras
+                                           2. No debe ser mayor a 40 caracteres""", ErrorDAO.Tipo.VALIDACION);
+            }
         }
     }
 
     private void checarArea (String areaEstudios) {
-        String AREA_REGEX = "^[a-zA-Z][a-zA-Z\\\\s]{0,39}$";
+        String AREA_REGEX = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]{1,40}$";
         Pattern patron = Pattern.compile(AREA_REGEX);
-        Matcher matcher = patron.matcher(areaEstudios);
-        if (!matcher.matches()) {
-            throw new IllegalArgumentException("""
-                                                       El area de estudios no es válida
-                                                       1. Solo debe contener letras
-                                                       2. No debe ser mayor a 40 caracteres""");
+        if (areaEstudios != null || !areaEstudios.isEmpty()) {
+            Matcher matcher = patron.matcher(areaEstudios);
+            if (!matcher.matches()) {
+                throw new ErrorDAO("""
+                                           El area de estudios no es válida
+                                           1. Solo debe contener letras
+                                           2. No debe ser mayor a 40 caracteres""", ErrorDAO.Tipo.VALIDACION);
+            }
         }
     }
 
     private void checarNumeroTelefono (String numeroTelefonico) {
         String NUMERO_TELEFONO_REGEX = "^(?!0)[1-9]\\d{11}$";
         Pattern patron = Pattern.compile(NUMERO_TELEFONO_REGEX);
-        Matcher matcher = patron.matcher(numeroTelefonico);
-        if (!matcher.matches()) {
-            throw new IllegalArgumentException("""
-                                                       El numero telefónico no es válido
-                                                       1. Debe ser de 12 dígitos
-                                                       2. Debe contener la lada al inicio:
-                                                       +xxzzccvvbbnn""");
+        if (numeroTelefonico != null || !numeroTelefonico.isEmpty()) {
+            Matcher matcher = patron.matcher(numeroTelefonico);
+            if (!matcher.matches()) {
+                throw new ErrorDAO("""
+                                           El numero telefónico no es válido
+                                           1. Debe ser de 12 dígitos
+                                           2. Debe contener la lada al inicio:
+                                           +xxzzccvvbbnn""", ErrorDAO.Tipo.VALIDACION);
+            }
         }
-    }
-
-    public boolean esLongitudValidad () {
-        return cedulaProfesional.length() <= 30 &&
-                numeroPersonal.length() <= 40 &&
-                areaEstudios.length() <= 40 &&
-                correoElectronico.length() <= 30 &&
-                numeroPersonal.length() == 12;
-        //categoriaContratacion.length() <= 40;
     }
 
     @Override

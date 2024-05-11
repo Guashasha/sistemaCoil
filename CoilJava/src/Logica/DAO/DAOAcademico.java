@@ -2,223 +2,146 @@ package Logica.DAO;
 
 import AccesoADatos.AcademicoDB;
 import Logica.Dominio.Academico;
+import Logica.Dominio.Cuenta;
 import Utilidades.ErrorDAO;
 import Logica.Interfaces.IAcademicoDAO;
 import javafx.beans.property.StringProperty;
-import org.apache.log4j.Logger;
 
 import java.sql.ResultSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class DAOAcademico implements IAcademicoDAO {
-    //fixme reducir redundancia;
-
-    private static final Logger BITACORA = Logger.getLogger(DAOAcademico.class);
-
     @Override
     public List<Academico> getAcademicosPorFacultad (String nombrefacultad) throws ErrorDAO {
-        List<Academico>  listaAcademicos= null;
         if (!cadenaValida(nombrefacultad)) {
-            throw new ErrorDAO ("El nombre de la facultad es incorrecto", ErrorDAO.Tipo.VALIDACION);
+            throw new ErrorDAO("El nombre de la facultad es incorrecto", ErrorDAO.Tipo.VALIDACION);
         }
         try {
-            listaAcademicos = AcademicoDB.getListaAcademicoPorCampos("facultad",nombrefacultad);
-
+            return AcademicoDB.getListaAcademicoPorCampos("facultad", nombrefacultad);
         }
         catch (ErrorDAO error) {
-            BITACORA.error(error);
-            throw new ErrorDAO("Error en la base de datos", ErrorDAO.Tipo.CONEXION);
+            throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
-
-        return listaAcademicos;
     }
 
     @Override
     public Optional<Academico> getAcademicoPorCedula (String cedula) throws ErrorDAO {
-        Academico academico = null;
-        if (!cadenaValida(cedula)) {
-            throw new ErrorDAO ("La cedula profesional esta incorrecta", ErrorDAO.Tipo.VALIDACION);
-        }
         try {
-            academico = AcademicoDB.getAcademicoPorCedula(cedula);
-
+            probarCedula(cedula);
+            return Optional.ofNullable(AcademicoDB.getAcademicoPorCedula(cedula));
         }
         catch (ErrorDAO error) {
-            BITACORA.fatal(error);
-            throw new ErrorDAO("Error en la base de datos", ErrorDAO.Tipo.CONEXION);
+            throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
-
-        return Optional.ofNullable(academico);
     }
 
     @Override
     public List<Academico> getAcademicosPorUniversidad (String nombreUniversidad) throws ErrorDAO {
-        List<Academico> listaAcademicos = null;
         if (!cadenaValida(nombreUniversidad)) {
-            throw new ErrorDAO ("El nombre de la univesidad esta incorrecto", ErrorDAO.Tipo.VALIDACION);
+            throw new ErrorDAO("El nombre de la univesidad esta incorrecto", ErrorDAO.Tipo.VALIDACION);
         }
         try {
-            listaAcademicos = AcademicoDB.getListaAcademicoPorCampos("universidad", nombreUniversidad);
+            return AcademicoDB.getListaAcademicoPorCampos("universidad", nombreUniversidad);
         }
         catch (ErrorDAO error) {
-            BITACORA.fatal(error);
-            throw new ErrorDAO("Error en la base de datos", ErrorDAO.Tipo.CONEXION);
+            throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
-
-        return listaAcademicos;
     }
 
     @Override
     public List<Academico> getAcademicosPorAreaEstudios (String areaEstudios) throws ErrorDAO {
-        List<Academico> listaAcademicos = null;
-        if (!cadenaValida(areaEstudios)) {
-            throw new ErrorDAO ("El nombre del area de estudios es incorrecto", ErrorDAO.Tipo.VALIDACION);
-        }
         try {
-            listaAcademicos = AcademicoDB.getListaAcademicoPorCampos("area", areaEstudios);
+            probarAreaEstudios(areaEstudios);
+            return AcademicoDB.getListaAcademicoPorCampos("area", areaEstudios);
         }
         catch (ErrorDAO error) {
-            BITACORA.fatal(error);
-            throw new ErrorDAO("Error en la base de datos", ErrorDAO.Tipo.CONEXION);
+            throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
-        return listaAcademicos;
     }
-
-
 
     @Override
     public List<Academico> getAcademicosPorCategoriaContratacion (String categoriaContratacion) throws ErrorDAO {
-        List<Academico> listaAcademicos = null;
-        if (!cadenaValida(categoriaContratacion)) {
-            throw new ErrorDAO ("El nombre de la categoria de contratacion es incorrecta", ErrorDAO.Tipo.VALIDACION);
-        }
         try {
-            listaAcademicos = AcademicoDB.getListaAcademicoPorCampos("categoria", categoriaContratacion);
+            probarCategoria(categoriaContratacion);
+            return AcademicoDB.getListaAcademicoPorCampos("categoria", categoriaContratacion);
         }
         catch (ErrorDAO error) {
-            BITACORA.fatal(error);
-            throw new ErrorDAO("Error en la base de datos", ErrorDAO.Tipo.CONEXION);
+            throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
-
-        return listaAcademicos;
     }
 
     @Override
     public List<Academico> getAcademicosPorRegion (String region) throws ErrorDAO {
-        List<Academico> listaAcademicos = null;
         if (!cadenaValida(region)) {
-            throw new ErrorDAO ("El nombre de la region es incorrecto", ErrorDAO.Tipo.VALIDACION);
+            throw new ErrorDAO("El nombre de la region es incorrecto", ErrorDAO.Tipo.VALIDACION);
         }
         try {
-            listaAcademicos = AcademicoDB.getListaAcademicoPorCampos("region", region);
+            return AcademicoDB.getListaAcademicoPorCampos("region", region);
         }
         catch (ErrorDAO error) {
-            BITACORA.error(error);
-            throw new ErrorDAO("Error en la base de datos", ErrorDAO.Tipo.CONEXION);
+            throw new ErrorDAO("Error en la base de datos", error.getTipo());
         }
-
-        return listaAcademicos;
     }
 
     @Override
     public Optional<Academico> getAcademicoPorIdPersona (int idPersona) throws ErrorDAO {
-        Academico academico = null;
         if (!idValido(idPersona)) {
-            throw new ErrorDAO ("id de la persona invalido", ErrorDAO.Tipo.VALIDACION);
+            throw new ErrorDAO("id de la persona invalido", ErrorDAO.Tipo.VALIDACION);
         }
         try {
-            academico = AcademicoDB.getAcademicoPorId(idPersona);
+            return Optional.ofNullable(AcademicoDB.getAcademicoPorId(idPersona));
         }
         catch (ErrorDAO error) {
-            BITACORA.error(error);
-            throw new ErrorDAO("Error en la base de datos", ErrorDAO.Tipo.CONEXION);
+            throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
-
-        return Optional.ofNullable(academico);
     }
 
     @Override
-    public int agregarAcademicoExterno (Academico academico) throws ErrorDAO {
-        int filasAfectadas = -1;
-
-        if (!academico.validarNulos()) {
-            throw new ErrorDAO ("Existe al menos un campo vacio en el academico", ErrorDAO.Tipo.VALIDACION);
-        }
-        if (!academico.esLongitudValidad()) {
-            throw new ErrorDAO ("El numero telefonico es menor o mayor a 11 caracteres", ErrorDAO.Tipo.VALIDACION);
-        }
+    public int agregarAcademicoConCuenta (Academico academico, Cuenta cuenta) throws ErrorDAO {
         try {
-            filasAfectadas = AcademicoDB.agregarAcademicoExterno(academico);
-
+            return AcademicoDB.agregarAcademicoConCuenta(academico, cuenta);
         }
-        catch (ErrorDAO error) {
-            BITACORA.error(error);
-            throw new ErrorDAO("Error en la base de datos", ErrorDAO.Tipo.CONEXION);
+        catch (ErrorDAO errorDAO) {
+            throw new ErrorDAO(errorDAO.getMessage(), errorDAO.getTipo());
         }
-
-        return filasAfectadas;
     }
 
     @Override
     public int agregar (Academico academico) throws ErrorDAO {
-        int filasAfectadas = -1;
-        if (!academico.esLongitudValidad()) {
-            throw new ErrorDAO("Al menos un campo sobrepasa el limite de caracteres establecio", ErrorDAO.Tipo.VALIDACION);
-        }
-        if (!academico.validarNulos()) {
-            throw new ErrorDAO ("Existe al menos un campo vacio en el academico", ErrorDAO.Tipo.VALIDACION);
-        }
         try {
-            filasAfectadas = AcademicoDB.agregarAcademicoUV(academico);
-
+            existe(academico);
+            return AcademicoDB.agregarAcademico(academico);
         }
         catch (ErrorDAO error) {
-            BITACORA.error(error);
-            throw new ErrorDAO("Error en la base de datos", ErrorDAO.Tipo.CONEXION);
+            throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
-
-        return filasAfectadas;
     }
 
     @Override
     public int modificar (Academico academico) throws ErrorDAO {
-        int filasAfectadas = -1;
-
-        if (!academico.validarNulos()) {
-            throw new ErrorDAO ("Existe al menos un campo vacio en el academico", ErrorDAO.Tipo.VALIDACION);
-        }
         try {
-            filasAfectadas = AcademicoDB.editarAcademico(academico);
-
+            return AcademicoDB.editarAcademico(academico);
         }
         catch (ErrorDAO error) {
-            BITACORA.error(error);
+            throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
-
-        return filasAfectadas;
     }
 
-
     @Override
-    public Optional<Academico> getPorId (String y) throws ErrorDAO {
+    public Optional<Academico> getPorId (String y) {
+        // throw new ExecutionControl.NotImplementedException("Metodo no implementado");
         return Optional.empty();
     }
 
     @Override
     public List<Academico> getTodos () throws ErrorDAO {
-        List<Academico> listaAcademicos = null;
         try {
-            listaAcademicos = AcademicoDB.getTodos();
-
+            return AcademicoDB.getTodos();
         }
         catch (ErrorDAO error) {
-            BITACORA.error(error);
+            throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
-
-        return listaAcademicos;
     }
 
     @Override
@@ -229,25 +152,35 @@ public class DAOAcademico implements IAcademicoDAO {
     public static boolean cadenaValida (String cadena) {
         return cadena != null && !cadena.isBlank();
     }
-    public static boolean esNulo (Object objeto) {
-        return Optional.ofNullable(objeto)
-                       .isEmpty();
+
+    public static boolean esCadenaValidaProperty (StringProperty cadenaProperty) {
+        return cadenaProperty != null && cadenaProperty.get() != null && !cadenaProperty.get()
+                                                                                        .isBlank();
     }
 
-    public static boolean esCadenaValidaProperty(StringProperty cadenaProperty) {
-        return cadenaProperty != null && cadenaProperty.get() != null && !cadenaProperty.get().isBlank();
-    }
-    public static boolean esCorreoValido (StringProperty correoProperty) {
-        Pattern pattern = Pattern.compile("[A-z0-9./+-]+@[A-z]+\\.[A-z]{1,3}", Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(correoProperty.get());
-        return matcher.find();
-    }
-    public static boolean esLongitudNumeroTelefonoValida (StringProperty numeroTelefono) {
-        return numeroTelefono.get().length() == 12;
-    }
-
-    public static boolean idValido (int id) {
+    private static boolean idValido (int id) {
         return id > 0;
     }
 
+    private void existe (Academico academico) throws ErrorDAO {
+        Optional<Academico> optionalAcademico = getAcademicoPorCedula(academico.getCedulaProfesional());
+        if (optionalAcademico.isPresent()) {
+            throw new ErrorDAO("La cedula profesional " + academico.getCedulaProfesional() + " se encuentra registrada en el sistema", ErrorDAO.Tipo.VALIDACION);
+        }
+    }
+
+    private void probarCedula (String cedula) {
+        Academico academico = new Academico();
+        academico.setCedulaProfesional(cedula);
+    }
+
+    private void probarAreaEstudios (String area) {
+        Academico academico = new Academico();
+        academico.setAreaEstudios(area);
+    }
+
+    private void probarCategoria (String categoria) {
+        Academico academico = new Academico();
+        academico.setCategoriaContratacion(categoria);
+    }
 }
