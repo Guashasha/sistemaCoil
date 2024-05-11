@@ -444,7 +444,7 @@ class AcademicoDBTest {
         List<Academico> listaObtenida = null;
         try {
             listaObtenida = AcademicoDB.getTodos();
-            assertTrue(listaObtenida.size() == listaObtenida.size(), "pruebaGetTodosExitosa");
+            assertTrue(listaObtenida.size() == listaEsperada.size(), "pruebaGetTodosExitosa");
         } catch (ErrorDAO error) {
             fail("Fallida: pruebaGetTodosExitosa");
         }

@@ -5,9 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import AccesoADatos.ConexionBaseDatos;
 import Utilidades.ErrorDAO;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
 import java.sql.Connection;
-import java.sql.SQLException;
 
 class ConexionBaseDatosTest {
 
