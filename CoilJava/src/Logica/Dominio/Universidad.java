@@ -1,11 +1,10 @@
 package Logica.Dominio;
 
-import AccesoADatos.UniversidadDB;
-
 public class Universidad {
     private int id;
     private String nombre;
     private int idPais;
+    public static final int LONGITUD_NOMBRE = 50;
 
     public Universidad () {
     }
@@ -68,7 +67,7 @@ public class Universidad {
         }
         else {
             Universidad universidad = (Universidad) obj;
-            igual = this.id == universidad.getId() && this.nombre.equals(universidad.getNombre()) && this.idPais == universidad.getIdPais()? true:false;
+            igual = this.id == universidad.getId() && this.nombre.equals(universidad.getNombre()) && this.idPais == universidad.getIdPais();
         }
         return igual;
     }

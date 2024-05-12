@@ -93,7 +93,7 @@ public class DAOUniversidad implements IUniversidadDAO {
     @Override
     public Optional<Universidad> getUniversidadPorNombre (String nombre) throws ErrorDAO {
         Universidad universidad = null;
-        if (cadenaValida(nombre.trim())) {
+        if (cadenaValida(nombre)) {
             try {
                 universidad = UniversidadDB.getUniversidadPorNombre(nombre.trim());
             }
@@ -108,7 +108,7 @@ public class DAOUniversidad implements IUniversidadDAO {
     @Override
     public List<Universidad> getUniversidadesPorPaisOrigen (String paisOrigen) throws ErrorDAO {
         List<Universidad> listaUniversidades = new ArrayList<>();
-        if (cadenaValida(paisOrigen.trim())) {
+        if (cadenaValida(paisOrigen)) {
             try {
                 listaUniversidades = UniversidadDB.getUniversidadesPorPaisOrigen(paisOrigen.trim());
             }

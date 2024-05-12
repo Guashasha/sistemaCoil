@@ -138,9 +138,7 @@ public class ConsultaUniversidadesControlador extends Application implements Ini
             }
 
             controladorFilaUniversidad.setUniversidad(universidad);
-            if (paisOptional.isPresent()) {
-                controladorFilaUniversidad.setPais(paisOptional.get());
-            }
+            paisOptional.ifPresent(controladorFilaUniversidad::setPais);
             this.vboxConsultaUniversidades.getChildren().add(hboxFila);
         }
     }

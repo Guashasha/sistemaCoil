@@ -27,7 +27,6 @@ public class RegistroUniversidadControlador implements Initializable {
     private ComboBox<String> cmbPaises;
     @FXML
     private Button btnCancelar;
-    private final int LONGITUD_NOMBRE = 20;
 
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle) {
@@ -36,7 +35,7 @@ public class RegistroUniversidadControlador implements Initializable {
 
     @FXML
     protected void registrarUniversidad () {
-        if (camposValidos()) {
+        if (!camposVacios()) {
             Universidad universidad = new Universidad(tfNombre.getText());
             Pais pais = new Pais(cmbPaises.getValue());
             int filasAfectadas;
@@ -61,7 +60,7 @@ public class RegistroUniversidadControlador implements Initializable {
     }
 
     @FXML
-    void cancelarRegistro () {
+    protected void cancelarRegistro () {
         Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
         alerta.setContentText("No se registrará la universidad");
         alerta.setHeaderText(null);
@@ -76,9 +75,9 @@ public class RegistroUniversidadControlador implements Initializable {
     @FXML
     private void limitarCaracteres () {
         int longitud = tfNombre.getLength();
-        if (longitud > LONGITUD_NOMBRE) {
+        if (longitud > Universidad.LONGITUD_NOMBRE) {
             tfNombre.setText(tfNombre.getText()
-                    .substring(0,LONGITUD_NOMBRE));
+                    .substring(0,Universidad.LONGITUD_NOMBRE));
             tfNombre.positionCaret(tfNombre.getLength());
         }
     }
@@ -108,11 +107,16 @@ public class RegistroUniversidadControlador implements Initializable {
         cmbPaises.setValue(null);
     }
 
-    private boolean camposValidos () {
-        boolean nombreValido = DAOUniversidad.cadenaValida(tfNombre.getText());
-        boolean paisValido = DAOUniversidad.cadenaValida(cmbPaises.getValue());
-        txtObligatorioNombre.setVisible(!nombreValido);
-        txtObligatorioPais.setVisible(!paisValido);
-        return nombreValido && paisValido;
+    private boolean camposVacios() {
+        boolean nombreVacio = tfNombre.getText().
+                isBlank();
+        boolean paisVacio = cmbPaises.getValue() == null;
+        etiquetarCamposVacios(nombreVacio,paisVacio);
+        return nombreVacio || paisVacio;
+    }
+
+    private void etiquetarCamposVacios (boolean nombreVacio, boolean paisVacio) {
+        txtObligatorioNombre.setVisible(nombreVacio);
+        txtObligatorioPais.setVisible(paisVacio);
     }
 }

@@ -53,10 +53,6 @@ public class EditarUniversidadControlador implements Initializable {
         llenarComboBoxPaises();
     }
 
-    private boolean objetosValidos () {
-        return this.universidadActual != null && this.paisActual != null;
-    }
-
     @FXML
     private void editarUniversidad () {
         if (!objetosValidos()) {
@@ -65,7 +61,7 @@ public class EditarUniversidadControlador implements Initializable {
             window.close();
         }
 
-        if (camposValidos() && !camposIguales()) {
+        if (!camposVacios() && !camposIguales()) {
             Universidad universidad = new Universidad(tfNombre.getText());
             Pais pais = new Pais(cmbPaises.getValue());
             int filasAfectadas;
@@ -88,6 +84,20 @@ public class EditarUniversidadControlador implements Initializable {
                 mostrarMensajeEmergente("Algo salió mal. Intentelo de nuevo más tarde", Alert.AlertType.ERROR);
             }
         }
+    }
+
+    @FXML
+    private void limitarCaracteres () {
+        int longitud = tfNombre.getLength();
+        if (longitud > Universidad.LONGITUD_NOMBRE) {
+            tfNombre.setText(tfNombre.getText()
+                    .substring(0,Universidad.LONGITUD_NOMBRE));
+            tfNombre.positionCaret(tfNombre.getLength());
+        }
+    }
+
+    private boolean objetosValidos () {
+        return this.universidadActual != null && this.paisActual != null;
     }
 
     @FXML
@@ -123,17 +133,25 @@ public class EditarUniversidadControlador implements Initializable {
         alerta.show();
     }
 
-    private boolean camposValidos () {
-        boolean nombreValido = DAOUniversidad.cadenaValida(tfNombre.getText());
-        boolean paisValido = DAOUniversidad.cadenaValida(cmbPaises.getValue());
-        txtObligatorioNombre.setVisible(!nombreValido);
-        txtObligatorioPais.setVisible(!paisValido);
-        return nombreValido && paisValido;
+    private boolean camposVacios() {
+        boolean nombreVacio = tfNombre.getText().
+                isBlank();
+        boolean paisVacio = cmbPaises.getValue() == null;
+        etiquetarCamposVacios(nombreVacio,paisVacio);
+        return nombreVacio || paisVacio;
+    }
+
+    private void etiquetarCamposVacios (boolean nombreVacio, boolean paisVacio) {
+        txtObligatorioNombre.setVisible(nombreVacio);
+        txtObligatorioPais.setVisible(paisVacio);
     }
 
     private boolean camposIguales () {
-        String nuevoNombre = tfNombre.getText().trim();
+        String nuevoNombre = tfNombre.getText().
+                trim();
         String nuevoPais = cmbPaises.getValue();
-        return nuevoNombre.equals(this.universidadActual.getNombre()) && nuevoPais.equals(this.paisActual.getNombre());
+        return nuevoNombre.equals(this.universidadActual.
+                getNombre()) && nuevoPais.equals(this.paisActual.
+                getNombre());
     }
 }
