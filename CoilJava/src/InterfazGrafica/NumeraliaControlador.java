@@ -59,36 +59,7 @@ public class NumeraliaControlador extends Application implements Initializable {
 
     }
 
-    private void mostrarEstadisticasRegion (List<Map> EstadísticasRegion) {
-        //vboxConsultaUniversidades.getChildren().clear();
-        for (Universidad universidad : listaUniversidades) {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("UniversidadItem.fxml"));
-            HBox hboxFila;
+    private void mostrarEstadisticasRegion (Map<String,int[]> numeraliRegion) {
 
-            try {
-                hboxFila = fxmlLoader.load();
-            }
-            catch (IOException error) {
-                BITACORA.info(error.getMessage());
-                mostrarMensajeEmergente("Algo salió mal, inténtelo de nuevo más tarde", Alert.AlertType.ERROR);
-                break;
-            }
-
-            DAOPais daoPais = new DAOPais();
-            UniversidadItemControlador controladorFilaUniversidad = fxmlLoader.getController();
-            Optional<Pais> paisOptional;
-
-            try {
-                paisOptional = daoPais.getPaisPorId(universidad.getIdPais());
-            }
-            catch (ErrorDAO error) {
-                mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
-                break;
-            }
-
-            controladorFilaUniversidad.setUniversidad(universidad);
-            paisOptional.ifPresent(controladorFilaUniversidad::setPais);
-            this.vboxConsultaUniversidades.getChildren().add(hboxFila);
-        }
     }
 }

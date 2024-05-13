@@ -9,7 +9,9 @@ import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ColaboracionDB {
     private static final Logger BITACORA = Logger.getLogger(ColaboracionDB.class);
@@ -534,5 +536,33 @@ public class ColaboracionDB {
                 colaboracion.setAnfitrion(academico);
             }
         }
+    }
+
+    public static Map<String,int[]> getNumeraliaRegion (Periodo periodo) {
+        Map<String,int[]> numeraliaRegiones = new HashMap<>();
+        String numeraliaRegionSQL = "{CALL numeralia_region(?,?)}";
+        CallableStatement llamadaProcedimiento;
+        ResultSet resultado;
+
+        try {
+            llamadaProcedimiento = ConexionBaseDatos.getInstancia()
+                    .prepareCall(numeraliaRegionSQL);
+            llamadaProcedimiento.setDate(1,Date.valueOf(periodo.getFechaInicio()));
+            llamadaProcedimiento.setDate(2,Date.valueOf(periodo.getFechaFin()));
+
+        }
+        catch (SQLException error) {
+
+        }
+
+        return numeraliaRegiones;
+    }
+
+    public static Map<String,int[]> getNumeraliaAreaAcademica (Periodo perido) {
+        Map<String,int[]> numeraliaAreaAcademica = new HashMap<>();
+
+
+
+        return numeraliaAreaAcademica;
     }
 }
