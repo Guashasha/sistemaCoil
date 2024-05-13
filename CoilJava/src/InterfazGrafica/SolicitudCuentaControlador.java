@@ -14,7 +14,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.apache.log4j.Logger;
 
@@ -27,7 +26,6 @@ public class SolicitudCuentaControlador implements Initializable {
     private Map<String, Universidad> cacheUniversidades = new HashMap<>();
     private final DAOUniversidad DAO_UNIVERSIDAD = new DAOUniversidad();
     private final DAOAcademico DAO_ACADEMICO = new DAOAcademico();
-    private final String DIRECCION_COIL_ICON = "InterfazGrafica/Recursos/LogoCoil.png";
     @FXML
     private ComboBox<String> cmbUniversidad;
     @FXML
@@ -56,7 +54,7 @@ public class SolicitudCuentaControlador implements Initializable {
             cargarListaUniversidad();
         }
         else {
-            //throw new ErrorDAO("No se encuentran universidades registradas en la base de datos\nInténtelo mas tarde", ErrorDAO.Tipo.CONSULTA);
+            throw new ErrorDAO("No se encuentran universidades registradas en la base de datos\nInténtelo mas tarde", ErrorDAO.Tipo.CONSULTA);
         }
     }
 
@@ -75,23 +73,28 @@ public class SolicitudCuentaControlador implements Initializable {
     }
 
     @FXML
-    public void realizarSolicitud () {
-        try {
-            registarCuenta(getDatosAcademico(), getDatosCuenta());
-        }
-        catch (ErrorDAO errorDAO) {
-            mostrarAlert(errorDAO.getMessage(), Alert.AlertType.WARNING);
-            if (errorDAO.getTipo() == ErrorDAO.Tipo.CONEXION) {
-                try {
-                    cargarVentanaInicioSesion();
-                }
-                catch (IOException ioException) {
-                    mostrarAlert(ioException.getMessage(), Alert.AlertType.ERROR);
-                }
+    public void realizarSolicitud() {
+        if (sonContrasenasIguales()) {
+            try {
+                registarCuenta(getDatosAcademico(), getDatosCuenta());
+            } catch (ErrorDAO errorDAO) {
+                manejarErrorDAO(errorDAO);
+            } catch (IOException ioException) {
+                mostrarAlert(ioException.getMessage(), Alert.AlertType.ERROR);
             }
+        } else {
+            mostrarAlert("Las contraseñas no coinciden", Alert.AlertType.WARNING);
         }
-        catch (IOException ioException) {
-            mostrarAlert(ioException.getMessage(), Alert.AlertType.ERROR);
+    }
+
+    private void manejarErrorDAO(ErrorDAO errorDAO) {
+        mostrarAlert(errorDAO.getMessage(), Alert.AlertType.WARNING);
+        if (errorDAO.getTipo() == ErrorDAO.Tipo.CONEXION) {
+            try {
+                cargarVentanaInicioSesion();
+            } catch (IOException ioException) {
+                mostrarAlert(ioException.getMessage(), Alert.AlertType.ERROR);
+            }
         }
     }
 
@@ -146,18 +149,6 @@ public class SolicitudCuentaControlador implements Initializable {
         return alert.getResult() == btmAceptar;
     }
 
-    private void limpiarCamposYComboBox () {
-        tfNombre.clear();
-        tfApellidoP.clear();
-        tfApellidoM.clear();
-        tfCedula.clear();
-        cmbUniversidad.setValue(null);
-        tfCorreo.clear();
-        tfUsuario.clear();
-        pfContrasena.clear();
-        pfConfirmaContrasena.clear();
-    }
-
     private int obtenerIdUniversidad () {
         String nombreUniversidad = cmbUniversidad.getValue();
         int idUniversidad = -1;
@@ -186,8 +177,13 @@ public class SolicitudCuentaControlador implements Initializable {
         academico.setApellidoPaterno(tfApellidoP.getText());
         academico.setApellidoMaterno(tfApellidoM.getText());
         academico.setCorreoElectronico(tfCorreo.getText());
+        academico.setCedulaProfesional(tfCedula.getText());
         academico.setIdUniversidad(obtenerIdUniversidad());
         return academico;
+    }
+
+    private boolean sonContrasenasIguales () {
+        return pfConfirmaContrasena.getText().equals(pfContrasena.getText());
     }
 
     private void cargarListaUniversidad () {
@@ -205,13 +201,5 @@ public class SolicitudCuentaControlador implements Initializable {
     private void eliminarUniversidadEspecifica () {
         cmbUniversidad.getItems()
                       .remove("Universidad Veracruzana");
-    }
-
-    private void setIconoYTitulo () {
-        Stage escenario = (Stage) tfCorreo.getScene()
-                                          .getWindow();
-        escenario.getIcons()
-                 .add(new Image(DIRECCION_COIL_ICON));
-        escenario.setTitle("Mi coil | Solicitud de cuenta");
     }
 }

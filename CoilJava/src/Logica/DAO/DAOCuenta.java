@@ -1,10 +1,13 @@
 package Logica.DAO;
 
 import AccesoADatos.CuentaDB;
+import Logica.Dominio.Academico;
 import Logica.Dominio.Cuenta;
 import Utilidades.ErrorDAO;
 import Utilidades.ErrorDAO.Tipo;
 import Logica.Interfaces.ICuentaDAO;
+import Utilidades.ManejadorCorreo;
+import Utilidades.PlantillasCorreo;
 
 import java.sql.ResultSet;
 import java.util.List;
@@ -162,6 +165,8 @@ public class DAOCuenta implements ICuentaDAO {
             throw new ErrorDAO("El nombre de usuario " + cuenta.getNombreUsuario() + " ya se encuentra registado", Tipo.DUPLICIDAD);
         }
     }
+
+
 
 
     private void probarUsuario (String nombre, String contrasena) {

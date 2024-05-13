@@ -115,17 +115,12 @@ public class CuentaItemControlador implements Initializable {
         return lbUsuario;
     }
 
-    public Academico getAcademico (int idPersona) {
+    public Academico getAcademico (int idPersona) throws ErrorDAO{
         Academico academico = null;
         DAOAcademico daoAcademico = new DAOAcademico();
-        try {
-            Optional academicoOptional = daoAcademico.getAcademicoPorIdPersona(idPersona);
-            if (academicoOptional.isPresent()) {
-                academico = (Academico) academicoOptional.get();
-            }
-        }
-        catch (ErrorDAO errorDAO) {
-            System.out.println("Implementar un alert");
+        Optional academicoOptional = daoAcademico.getAcademicoPorIdPersona(idPersona);
+        if (academicoOptional.isPresent()) {
+            academico = (Academico) academicoOptional.get();
         }
         this.academico = academico;
         return academico;

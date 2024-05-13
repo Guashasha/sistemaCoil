@@ -16,7 +16,7 @@
                <content>
                   <VBox fx:id="lyInformacionCuenta" prefHeight="126.0" prefWidth="885.0">
                      <children>
-                        <HBox alignment="CENTER_LEFT" prefHeight="55.0" prefWidth="878.0">
+                        <HBox alignment="CENTER_LEFT" prefHeight="55.0" prefWidth="878.0" style="-fx-background-color: e7c736;">
                            <children>
                               <Label alignment="CENTER" contentDisplay="TOP" prefHeight="18.0" prefWidth="66.0" text="Usuario">
                                  <cursor>
@@ -52,9 +52,9 @@
                                  </padding></Label>
                            </children>
                         </HBox>
-                        <HBox prefHeight="4.0" prefWidth="791.0">
+                        <HBox prefHeight="9.0" prefWidth="886.0">
                            <children>
-                              <HBox alignment="CENTER" prefHeight="46.0" prefWidth="95.0">
+                              <HBox alignment="CENTER" prefHeight="114.0" prefWidth="883.0">
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin></HBox>
@@ -64,9 +64,6 @@
                            </VBox.margin>
                         </HBox>
                      </children>
-                     <padding>
-                        <Insets top="5.0" />
-                     </padding>
                      <opaqueInsets>
                         <Insets top="10.0" />
                      </opaqueInsets>

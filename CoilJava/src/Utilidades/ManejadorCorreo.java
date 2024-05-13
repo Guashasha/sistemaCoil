@@ -23,8 +23,13 @@ public class ManejadorCorreo {
             correo.setDestinario(destinatario);
             correo.setTema(tema);
             correo.setContenido(contenido);
-            correo.crearCorreo();
-            correo.enviarCorreo();
+            try {
+                correo.crearCorreo();
+                correo.enviarCorreo();
+            }
+            finally {
+                executorService.shutdown();
+            }
         });
     }
 

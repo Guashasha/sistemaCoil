@@ -18,7 +18,7 @@ public class AcademicoDB {
 
         try {
             CallableStatement obtenerPorCampo = ConexionBaseDatos.getInstancia().
-                                                                   prepareCall(procedimientoSQL);
+                                                                 prepareCall(procedimientoSQL);
             obtenerPorCampo.setString(1, campo);
             obtenerPorCampo.setString(2, valor);
             ResultSet resultadoLLamada = obtenerPorCampo.executeQuery();
@@ -45,7 +45,7 @@ public class AcademicoDB {
         Academico academico = null;
         try {
             CallableStatement obtenerPorCampo = ConexionBaseDatos.getInstancia().
-                                                                   prepareCall(procedimientoSQL);
+                                                                 prepareCall(procedimientoSQL);
             obtenerPorCampo.setString(1, "cedula");
             obtenerPorCampo.setString(2, cedula);
             ResultSet resultadoLLamada = obtenerPorCampo.executeQuery();
@@ -73,7 +73,7 @@ public class AcademicoDB {
         try {
 
             CallableStatement registrarAcademico = ConexionBaseDatos.getInstancia().
-                                                                      prepareCall(procedimientoSQL);
+                                                                    prepareCall(procedimientoSQL);
             setAcademicoParametros(registrarAcademico, academico);
             resultado = registrarAcademico.executeUpdate();
             registrarAcademico.close();
@@ -87,12 +87,13 @@ public class AcademicoDB {
         }
         return resultado;
     }
+
     public static Academico getAcademicoPorId (int id) throws ErrorDAO {
         String consulta = "SELECT * from vista_Academico WHERE idPersona = ?";
         Academico academico = null;
         try {
             PreparedStatement consultarAcademico = ConexionBaseDatos.getInstancia().
-                                                                      prepareStatement(consulta);
+                                                                    prepareStatement(consulta);
             consultarAcademico.setInt(1, id);
             ResultSet resultadoConsulta = consultarAcademico.executeQuery();
             if (resultadoConsulta.next()) {
@@ -117,7 +118,7 @@ public class AcademicoDB {
 
         try {
             PreparedStatement consultaAcademico = ConexionBaseDatos.getInstancia().
-                                                                     prepareStatement(consulta);
+                                                                   prepareStatement(consulta);
             ResultSet resultadoConsulta = consultaAcademico.executeQuery();
             while (resultadoConsulta.next()) {
                 Academico academico = convertirAcademico(resultadoConsulta);
@@ -142,7 +143,7 @@ public class AcademicoDB {
         try {
 
             CallableStatement editarAcademico = ConexionBaseDatos.getInstancia().
-                                                                   prepareCall(procedimientoSQL);
+                                                                 prepareCall(procedimientoSQL);
             editarAcademico.setString(1, academico.getNombre());
             editarAcademico.setString(2, academico.getApellidoPaterno());
             editarAcademico.setString(3, academico.getApellidoMaterno());
@@ -153,7 +154,9 @@ public class AcademicoDB {
             editarAcademico.setString(8, academico.getCorreoElectronico());
             editarAcademico.setString(9, academico.getNumeroTelefonico());
             editarAcademico.setString(10, academico.getCategoriaContratacion());
+            System.out.println(academico.getIdFacultad());
             editarAcademico.setObject(11, academico.getIdFacultad());
+
 
             resultado = editarAcademico.executeUpdate();
             editarAcademico.close();
@@ -169,7 +172,7 @@ public class AcademicoDB {
         return resultado;
     }
 
-    public static int agregarAcademicoConCuenta(Academico academico, Cuenta cuenta) throws ErrorDAO {
+    public static int agregarAcademicoConCuenta (Academico academico, Cuenta cuenta) throws ErrorDAO {
         String procedimientoSQL = "{CALL registrar_Academico(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
         int resultado = -1;
         try {
@@ -194,14 +197,16 @@ public class AcademicoDB {
             agregarCuenta.close();
             registrarAcademico.close();
             conexion.commit();
-        } catch (SQLException error) {
+        }
+        catch (SQLException error) {
             BITACORA.fatal(error.getMessage());
             ConexionBaseDatos.rollback();
             throw new ErrorDAO("Error al registrar al academico junto con su cuenta", ErrorDAO.Tipo.INSERCION);
         }
         return resultado;
     }
-    private static void setAcademicoParametros(CallableStatement declaracion, Academico academico) throws SQLException {
+
+    private static void setAcademicoParametros (CallableStatement declaracion, Academico academico) throws SQLException {
         declaracion.setString(1, academico.getNombre());
         declaracion.setString(2, academico.getApellidoPaterno());
         declaracion.setString(3, academico.getApellidoMaterno());
@@ -218,7 +223,7 @@ public class AcademicoDB {
     }
 
 
-    private static Academico convertirAcademico(ResultSet resultado) throws SQLException {
+    private static Academico convertirAcademico (ResultSet resultado) throws SQLException {
         Academico academico = new Academico();
 
         academico.setIdPersona(resultado.getInt("idPersona"));
@@ -228,7 +233,7 @@ public class AcademicoDB {
         academico.setIdUniversidad(resultado.getInt("idUniversidad"));
         academico.setCedulaProfesional(resultado.getString("cedulaProfesional"));
         academico.setCategoriaContratacion(resultado.getString("categoriaContratacion"));
-        academico.setIdFacultad(resultado.getInt("idFacultad"));
+        academico.setIdFacultad((Integer) resultado.getObject("idFacultad"));
         academico.setNumeroPersonal(resultado.getString("numeroDePersonal"));
         academico.setAreaEstudios(resultado.getString("areaEstudios"));
         academico.setCorreoElectronico(resultado.getString("correoElectronico"));

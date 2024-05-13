@@ -100,7 +100,8 @@ public class Cuenta {
         if (!matcher.matches()) {
             throw new ErrorDAO("""
                                                        La contraseña no es válida.
-                                                       1. La longitud de la contraseña debe ser mayor a 8 y menor a 300 caracteres.""", ErrorDAO.Tipo.VALIDACION);
+                                                       1. La longitud de la contraseña debe ser mayor a 8
+                                                       3. Debe ser menor a 300 caracteres.""", ErrorDAO.Tipo.VALIDACION);
         }
     }
 

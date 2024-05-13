@@ -52,7 +52,6 @@ public class Academico extends Persona {
     }
 
     public void setAreaEstudios (String areaEstudios) {
-        checarArea(areaEstudios);
         this.areaEstudios = areaEstudios;
     }
 
@@ -131,7 +130,7 @@ public class Academico extends Persona {
     private void checharNumeroPersonal (String numeroPersonal) {
         String NUMERO_P_REGEX = "(?!0)[1-9]{0,39}$";
         Pattern patron = Pattern.compile(NUMERO_P_REGEX);
-        if (numeroPersonal != null || !numeroPersonal.isEmpty()) {
+        if (numeroPersonal != null) {
             Matcher matcher = patron.matcher(numeroPersonal);
             if (!matcher.find()) {
                 throw new ErrorDAO("""
@@ -157,24 +156,12 @@ public class Academico extends Persona {
         }
     }
 
-    private void checarArea (String areaEstudios) {
-        String AREA_REGEX = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]{1,40}$";
-        Pattern patron = Pattern.compile(AREA_REGEX);
-        if (areaEstudios != null || !areaEstudios.isEmpty()) {
-            Matcher matcher = patron.matcher(areaEstudios);
-            if (!matcher.matches()) {
-                throw new ErrorDAO("""
-                                           El area de estudios no es válida
-                                           1. Solo debe contener letras
-                                           2. No debe ser mayor a 40 caracteres""", ErrorDAO.Tipo.VALIDACION);
-            }
-        }
-    }
+
 
     private void checarNumeroTelefono (String numeroTelefonico) {
         String NUMERO_TELEFONO_REGEX = "^(?!0)[1-9]\\d{11}$";
         Pattern patron = Pattern.compile(NUMERO_TELEFONO_REGEX);
-        if (numeroTelefonico != null || !numeroTelefonico.isEmpty()) {
+        if (numeroTelefonico != null) {
             Matcher matcher = patron.matcher(numeroTelefonico);
             if (!matcher.matches()) {
                 throw new ErrorDAO("""

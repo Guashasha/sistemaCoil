@@ -5,7 +5,6 @@ import Logica.Dominio.Academico;
 import Logica.Dominio.Cuenta;
 import Utilidades.ErrorDAO;
 import Logica.Interfaces.IAcademicoDAO;
-import javafx.beans.property.StringProperty;
 
 import java.sql.ResultSet;
 import java.util.List;
@@ -102,6 +101,7 @@ public class DAOAcademico implements IAcademicoDAO {
         try {
             DAOCuenta daoCuenta = new DAOCuenta();
             daoCuenta.usuarioExistente(cuenta);
+            existe(academico);
             return AcademicoDB.agregarAcademicoConCuenta(academico, cuenta);
         }
         catch (ErrorDAO errorDAO) {
