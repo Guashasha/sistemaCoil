@@ -10,10 +10,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FacultadDAO implements IFacultadDAO {
+public class FacultadDAO {
 
-    @Override
-    public FacultadDTO getFacultadPorNombre (String nombre) throws SQLException {
+    public static FacultadDTO getFacultadPorNombre (String nombre) throws SQLException {
         FacultadDTO facultadDTO = new FacultadDTO(0);
         String consultaUniversidadSQL = "SELECT * FROM facultad_con_region WHERE facultad = ?";
         PreparedStatement consultaUniversidad;
