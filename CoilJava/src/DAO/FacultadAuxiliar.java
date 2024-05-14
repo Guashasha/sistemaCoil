@@ -9,10 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class FacultadAuxiliar implements IFacultadDAO {
+public class FacultadAuxiliar {
     private static Logger bitacora = Logger.getLogger(FacultadAuxiliar.class);
 
-    @Override
     public Optional<FacultadDTO> getFacultadPorNombre (String nombre) throws ErrorDAO {
         FacultadDTO facultadDTO = null;
 
@@ -29,7 +28,6 @@ public class FacultadAuxiliar implements IFacultadDAO {
         return Optional.ofNullable(facultadDTO);
     }
 
-    @Override
     public List<FacultadDTO> getFacultadPorRegion (String region) throws ErrorDAO {
         List<FacultadDTO> listaFacultades = new ArrayList<>();
         if (cadenaValida(region)) {
@@ -43,7 +41,6 @@ public class FacultadAuxiliar implements IFacultadDAO {
         return listaFacultades;
     }
 
-    @Override
     public List<FacultadDTO> getTodasAlfabeticamente () throws ErrorDAO {
         try {
             return FacultadDAO.getTodasAlfabeticamente();

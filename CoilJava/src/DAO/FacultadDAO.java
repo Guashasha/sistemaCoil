@@ -1,5 +1,6 @@
 package DAO;
 
+import DAO.Interfaces.IFacultadDAO;
 import DTO.FacultadDTO;
 import AccesoDatos.AdministradorBaseDatos;
 
@@ -9,12 +10,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FacultadDAO {
-    public static FacultadDTO getFacultadPorNombre (String nombre) throws SQLException {
+public class FacultadDAO implements IFacultadDAO {
+
+    @Override
+    public FacultadDTO getFacultadPorNombre (String nombre) throws SQLException {
         FacultadDTO facultadDTO = new FacultadDTO(0);
         String consultaUniversidadSQL = "SELECT * FROM facultad_con_region WHERE facultad = ?";
-        PreparedStatement consultaUniversidad = null;
-        ResultSet resultadoConsulta = null;
+        PreparedStatement consultaUniversidad;
+        ResultSet resultadoConsulta;
 
         try {
             consultaUniversidad = AdministradorBaseDatos.getInstancia().
