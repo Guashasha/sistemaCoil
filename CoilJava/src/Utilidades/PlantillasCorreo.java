@@ -1,6 +1,6 @@
 package Utilidades;
 
-import Logica.Dominio.Cuenta;
+import DTO.CuentaDTO;
 
 public class PlantillasCorreo {
     private static final String HTML_IMAGEN = """
@@ -46,7 +46,7 @@ public class PlantillasCorreo {
     }
 
 
-    public static String cuentaEstudiante (String nombreEstudiante, String nombreAcademico, Cuenta cuenta) {
+    public static String cuentaEstudiante (String nombreEstudiante, String nombreAcademico, CuentaDTO cuenta) {
         return "<html>\n" +
                 "<head>\n" +
                 "    <title>Registro en MiCoil</title>\n" +

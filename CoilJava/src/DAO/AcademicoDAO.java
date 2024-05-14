@@ -14,7 +14,6 @@ public class AcademicoDAO {
     private static final Logger BITACORA = Logger.getLogger(AcademicoDAO.class);
 
     public static List<AcademicoDTO> getListaAcademicoPorCampos (String campo, String valor) throws ErrorDAO {
-
         String procedimientoSQL = "{CALL obtener_academicos_campos(?,?)}";
         List<AcademicoDTO> listaAcademicoDTOS = new ArrayList<>();
 
@@ -156,7 +155,6 @@ public class AcademicoDAO {
             editarAcademico.setString(8, academicoDTO.getCorreoElectronico());
             editarAcademico.setString(9, academicoDTO.getNumeroTelefonico());
             editarAcademico.setString(10, academicoDTO.getCategoriaContratacion());
-            System.out.println(academicoDTO.getIdFacultad());
             editarAcademico.setObject(11, academicoDTO.getIdFacultad());
 
 

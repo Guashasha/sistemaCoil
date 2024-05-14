@@ -14,11 +14,11 @@ public class AcademicoDTO extends PersonaDTO {
     private String categoriaContratacion;
     private Integer idFacultad;
 
-    public AcademicoDTO() {
+    public AcademicoDTO () {
         super();
     }
 
-    public AcademicoDTO(int idPersona, String nombre, String apellidoPaterno, String apellidoMaterno, int idUniversidad, String cedulaProfesional, String numeroPersonal, String areaEstudios, String correoElectronico, String numeroTelefonico, String categoriaContratacion, Integer idFacultad) {
+    public AcademicoDTO (int idPersona, String nombre, String apellidoPaterno, String apellidoMaterno, int idUniversidad, String cedulaProfesional, String numeroPersonal, String areaEstudios, String correoElectronico, String numeroTelefonico, String categoriaContratacion, Integer idFacultad) {
         super(idPersona, nombre, apellidoPaterno, apellidoMaterno, idUniversidad);
         this.cedulaProfesional = cedulaProfesional;
         this.numeroPersonal = numeroPersonal;
@@ -52,7 +52,6 @@ public class AcademicoDTO extends PersonaDTO {
     }
 
     public void setAreaEstudios (String areaEstudios) {
-        checarArea(areaEstudios);
         this.areaEstudios = areaEstudios;
     }
 
@@ -131,7 +130,7 @@ public class AcademicoDTO extends PersonaDTO {
     private void checharNumeroPersonal (String numeroPersonal) {
         String NUMERO_P_REGEX = "(?!0)[1-9]{0,39}$";
         Pattern patron = Pattern.compile(NUMERO_P_REGEX);
-        if (numeroPersonal != null || !numeroPersonal.isEmpty()) {
+        if (numeroPersonal != null) {
             Matcher matcher = patron.matcher(numeroPersonal);
             if (!matcher.find()) {
                 throw new ErrorDAO("""
@@ -157,24 +156,12 @@ public class AcademicoDTO extends PersonaDTO {
         }
     }
 
-    private void checarArea (String areaEstudios) {
-        String AREA_REGEX = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]{1,40}$";
-        Pattern patron = Pattern.compile(AREA_REGEX);
-        if (areaEstudios != null || !areaEstudios.isEmpty()) {
-            Matcher matcher = patron.matcher(areaEstudios);
-            if (!matcher.matches()) {
-                throw new ErrorDAO("""
-                                           El area de estudios no es válida
-                                           1. Solo debe contener letras
-                                           2. No debe ser mayor a 40 caracteres""", ErrorDAO.Tipo.VALIDACION);
-            }
-        }
-    }
+
 
     private void checarNumeroTelefono (String numeroTelefonico) {
         String NUMERO_TELEFONO_REGEX = "^(?!0)[1-9]\\d{11}$";
         Pattern patron = Pattern.compile(NUMERO_TELEFONO_REGEX);
-        if (numeroTelefonico != null || !numeroTelefonico.isEmpty()) {
+        if (numeroTelefonico != null) {
             Matcher matcher = patron.matcher(numeroTelefonico);
             if (!matcher.matches()) {
                 throw new ErrorDAO("""
@@ -196,16 +183,16 @@ public class AcademicoDTO extends PersonaDTO {
             igual = false;
         }
         else {
-            AcademicoDTO academicoDTO = (AcademicoDTO) obj;
-            igual = this.getIdPersona() == academicoDTO.getIdPersona() && this.getNombre()
-                                                                           .equals(academicoDTO.getNombre())
+            AcademicoDTO academico = (AcademicoDTO) obj;
+            igual = this.getIdPersona() == academico.getIdPersona() && this.getNombre()
+                                                                           .equals(academico.getNombre())
                     && this.getApellidoPaterno()
-                           .equals(academicoDTO.getApellidoPaterno()) && this.getApellidoMaterno()
-                                                                          .equals(academicoDTO.getApellidoMaterno())
-                    && this.getIdUniversidad() == academicoDTO.getIdUniversidad() && this.cedulaProfesional.equals(academicoDTO.getCedulaProfesional())
-                    && this.numeroPersonal.equals(academicoDTO.getNumeroPersonal()) && this.areaEstudios.equals(academicoDTO.getAreaEstudios())
-                    && this.correoElectronico.equals(academicoDTO.getCorreoElectronico()) && this.numeroTelefonico.equals(academicoDTO.getNumeroTelefonico())
-                    && this.categoriaContratacion.equals(academicoDTO.getCategoriaContratacion()) && this.idFacultad == academicoDTO.getIdFacultad();
+                           .equals(academico.getApellidoPaterno()) && this.getApellidoMaterno()
+                                                                          .equals(academico.getApellidoMaterno())
+                    && this.getIdUniversidad() == academico.getIdUniversidad() && this.cedulaProfesional.equals(academico.getCedulaProfesional())
+                    && this.numeroPersonal.equals(academico.getNumeroPersonal()) && this.areaEstudios.equals(academico.getAreaEstudios())
+                    && this.correoElectronico.equals(academico.getCorreoElectronico()) && this.numeroTelefonico.equals(academico.getNumeroTelefonico())
+                    && this.categoriaContratacion.equals(academico.getCategoriaContratacion()) && this.idFacultad == academico.getIdFacultad();
         }
         return igual;
     }

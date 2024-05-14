@@ -1,7 +1,7 @@
 package InterfazGrafica;
 
-import Logica.DAO.DAOAcademico;
-import Logica.Dominio.Academico;
+import DAO.AcademicoAuxiliar;
+import DTO.AcademicoDTO;
 import Utilidades.ErrorDAO;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -26,8 +26,8 @@ import java.util.ResourceBundle;
 public class FormularioCompletarDatosControlador extends Application implements Initializable {
     private static final Logger BITACORA = Logger.getLogger(FormularioCompletarDatosControlador.class);
 
-    private Academico academico;
-    private final DAOAcademico DAO_ACADEMICO = new DAOAcademico();
+    private AcademicoDTO academico;
+    private final AcademicoAuxiliar ACADEMICO_AUXILIAR = new AcademicoAuxiliar();
     @FXML
     private ComboBox<String> cmbAreaEstudios;
 
@@ -80,7 +80,7 @@ public class FormularioCompletarDatosControlador extends Application implements 
     }
 
     private void agregarDatosFaltantes () {
-        if (DAO_ACADEMICO.modificar(this.academico) < 0) {
+        if (ACADEMICO_AUXILIAR.modificar(this.academico) < 0) {
             throw new ErrorDAO("Eror al registrar los datos faltantes", ErrorDAO.Tipo.INSERCION);
         }
     }
@@ -145,8 +145,7 @@ public class FormularioCompletarDatosControlador extends Application implements 
         }
     }
 
-
-    public void setAcademico (Academico academico) {
+    public void setAcademico (AcademicoDTO academico) {
         this.academico = academico;
     }
 
