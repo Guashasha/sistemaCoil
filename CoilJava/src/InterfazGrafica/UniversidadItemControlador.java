@@ -1,7 +1,7 @@
 package InterfazGrafica;
 
-import Logica.Dominio.Pais;
-import Logica.Dominio.Universidad;
+import DTO.PaisDTO;
+import DTO.UniversidadDTO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,12 +19,12 @@ public class UniversidadItemControlador {
     @FXML
     private Label lbUniversidad;
 
-    public void setUniversidad (Universidad universidad) {
-        this.lbUniversidad.setText(universidad.getNombre());
+    public void setUniversidad (UniversidadDTO universidadDTO) {
+        this.lbUniversidad.setText(universidadDTO.getNombre());
     }
 
-    public void setPais (Pais pais) {
-        this.lbPais.setText(pais.getNombre());
+    public void setPais (PaisDTO paisDTO) {
+        this.lbPais.setText(paisDTO.getNombre());
     }
 
     @FXML
@@ -47,8 +47,8 @@ public class UniversidadItemControlador {
 
     private void agregarDatosVentanEditar (FXMLLoader fxmlLoader) {
         EditarUniversidadControlador ventanaEditar = fxmlLoader.getController();
-        ventanaEditar.setUniversidadActual(new Universidad(lbUniversidad.getText()));
-        ventanaEditar.setPaisActual(new Pais(lbPais.getText()));
+        ventanaEditar.setUniversidadActual(new UniversidadDTO(lbUniversidad.getText()));
+        ventanaEditar.setPaisActual(new PaisDTO(lbPais.getText()));
         ventanaEditar.getTfNombre().
                 setText(lbUniversidad.getText());
         ventanaEditar.getCmbPaises().

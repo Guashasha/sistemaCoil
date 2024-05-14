@@ -67,7 +67,7 @@
          <children>
             <HBox alignment="CENTER" layoutX="29.0" layoutY="12.0" prefHeight="42.0" prefWidth="373.0" style="-fx-background-radius: 100; -fx-background-color: #FFFFFF;">
                <children>
-                  <TextField fx:id="tfBarraBusqueda" alignment="CENTER" prefHeight="26.0" prefWidth="315.0" promptText="Buscar universidad" style="-fx-background-color: rgba(0,0,0,0);" />
+                  <TextField fx:id="tfBarraBusqueda" alignment="CENTER" prefHeight="26.0" prefWidth="315.0" promptText="Buscar universidadDTO" style="-fx-background-color: rgba(0,0,0,0);" />
                   <Button fx:id="btnBuscar" minWidth="37.0" mnemonicParsing="false" onAction="#consultar" prefHeight="30.0" prefWidth="37.0" style="-fx-background-radius: 30;" styleClass="button-principal">
                      <graphic>
                         <ImageView fitHeight="23.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
@@ -79,7 +79,7 @@
                   </Button>
                </children>
             </HBox>
-            <Button fx:id="btnRegistrarUniversidad" layoutX="738.0" layoutY="16.0" mnemonicParsing="false" onAction="#registrarUniversidad" styleClass="button-principal" text="Registrar universidad" textFill="WHITE" />
+            <Button fx:id="btnRegistrarUniversidad" layoutX="738.0" layoutY="16.0" mnemonicParsing="false" onAction="#registrarUniversidad" styleClass="button-principal" text="Registrar universidadDTO" textFill="WHITE" />
          </children></AnchorPane>
    </center>
 </BorderPane>

@@ -1,26 +1,18 @@
 package InterfazGrafica;
 
-import Logica.DAO.DAOPais;
-import Logica.Dominio.Pais;
-import Logica.Dominio.Universidad;
-import Utilidades.ErrorDAO;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.apache.log4j.Logger;
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class NumeraliaControlador extends Application implements Initializable {

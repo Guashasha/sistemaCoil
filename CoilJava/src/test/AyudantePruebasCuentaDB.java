@@ -1,8 +1,8 @@
 package test;
 
-import AccesoADatos.CuentaDB;
-import Logica.DAO.DAOAcademico;
-import Logica.Dominio.Cuenta;
+import DAO.CuentaDAO;
+import DAO.AcademicoAuxiliar;
+import DTO.CuentaDTO;
 import Utilidades.ErrorDAO;
 import org.apache.log4j.Logger;
 
@@ -10,12 +10,12 @@ import org.apache.log4j.Logger;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AyudantePruebasCuentaDB {
-    private static final Logger BITACORA = Logger.getLogger(DAOAcademico.class);
+    private static final Logger BITACORA = Logger.getLogger(AcademicoAuxiliar.class);
 
 
     public static void agregarPrecondiciones () {
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO pais (Iso,nombre) VALUES ('MX','México');");
-        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO universidad (nombre,paisOrigen) VALUES ('Universidad Veracruzana',1);");
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO universidad (nombre,paisOrigen) VALUES ('UniversidadDTO Veracruzana',1);");
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO region (nombre) VALUES ('XALAPA');");
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO facultad (nombre, region) VALUES ('Economia', 1);");
 
@@ -46,18 +46,18 @@ public class AyudantePruebasCuentaDB {
     }
 
     private static void agregarCuentaTipoEstudiantePrueba () {
-        Cuenta cuenta = new Cuenta();
+        CuentaDTO cuentaDTO = new CuentaDTO();
 
         int filasAfectadas = 0;
 
-        cuenta.setIdCuenta(1);
-        cuenta.setIdPersona(4);
-        cuenta.setNombreUsuario("EduVillegas");
-        cuenta.setContrasena("eduVillegas2000");
-        cuenta.setTipo(Cuenta.TipoUsuario.estudiante);
-        cuenta.setEstado(Cuenta.EstadoCuenta.aceptada);
+        cuentaDTO.setIdCuenta(1);
+        cuentaDTO.setIdPersona(4);
+        cuentaDTO.setNombreUsuario("EduVillegas");
+        cuentaDTO.setContrasena("eduVillegas2000");
+        cuentaDTO.setTipo(CuentaDTO.TipoUsuario.estudiante);
+        cuentaDTO.setEstado(CuentaDTO.EstadoCuenta.aceptada);
         try {
-            filasAfectadas = CuentaDB.agregarCuenta(cuenta);
+            filasAfectadas = CuentaDAO.agregarCuenta(cuentaDTO);
         }
         catch (ErrorDAO error) {
             BITACORA.error(error.getMessage());

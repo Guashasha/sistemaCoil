@@ -1,7 +1,6 @@
 package test;
 
 
-import Logica.DAO.DAOColaboracion;
 import org.apache.log4j.Logger;
 
 import java.sql.*;

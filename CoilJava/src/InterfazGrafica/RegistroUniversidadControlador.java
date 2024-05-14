@@ -1,9 +1,9 @@
 package InterfazGrafica;
 
-import Logica.DAO.DAOPais;
-import Logica.DAO.DAOUniversidad;
-import Logica.Dominio.Pais;
-import Logica.Dominio.Universidad;
+import DAO.PaisAuxiliar;
+import DAO.UniversidadAuxiliar;
+import DTO.PaisDTO;
+import DTO.UniversidadDTO;
 import Utilidades.ErrorDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -36,13 +36,13 @@ public class RegistroUniversidadControlador implements Initializable {
     @FXML
     protected void registrarUniversidad () {
         if (!camposVacios()) {
-            Universidad universidad = new Universidad(tfNombre.getText());
-            Pais pais = new Pais(cmbPaises.getValue());
+            UniversidadDTO universidadDTO = new UniversidadDTO(tfNombre.getText());
+            PaisDTO paisDTO = new PaisDTO(cmbPaises.getValue());
             int filasAfectadas;
-            DAOUniversidad daoUniversidad = new DAOUniversidad();
+            UniversidadAuxiliar universidadAuxiliar = new UniversidadAuxiliar();
 
             try {
-                filasAfectadas = daoUniversidad.registrarUniversidad(universidad,pais);
+                filasAfectadas = universidadAuxiliar.registrarUniversidad(universidadDTO, paisDTO);
             }
             catch (ErrorDAO error) {
                 mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.WARNING);
@@ -50,7 +50,7 @@ public class RegistroUniversidadControlador implements Initializable {
             }
 
             if (filasAfectadas == 1) {
-                mostrarMensajeEmergente("Se ha registrado la universidad exitosamente", Alert.AlertType.INFORMATION);
+                mostrarMensajeEmergente("Se ha registrado la universidadDTO exitosamente", Alert.AlertType.INFORMATION);
                 limpiarCampos();
             }
             else {
@@ -75,18 +75,18 @@ public class RegistroUniversidadControlador implements Initializable {
     @FXML
     private void limitarCaracteres () {
         int longitud = tfNombre.getLength();
-        if (longitud > Universidad.LONGITUD_NOMBRE) {
+        if (longitud > UniversidadDTO.LONGITUD_NOMBRE) {
             tfNombre.setText(tfNombre.getText()
-                    .substring(0,Universidad.LONGITUD_NOMBRE));
+                    .substring(0, UniversidadDTO.LONGITUD_NOMBRE));
             tfNombre.positionCaret(tfNombre.getLength());
         }
     }
 
     private void llenarComboBoxPaises () {
-        DAOPais daoPais = new DAOPais();
+        PaisAuxiliar paisAuxiliar = new PaisAuxiliar();
         List<String> listaPaises = new ArrayList<>();
         try {
-            listaPaises = daoPais.getNombresPaisesAlfabeticamente();
+            listaPaises = paisAuxiliar.getNombresPaisesAlfabeticamente();
         }
         catch (ErrorDAO error) {
             mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);

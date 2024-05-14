@@ -24,7 +24,7 @@
                   <Insets bottom="15.0" />
                </VBox.margin>
             </TextField>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo de actividad">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo de actividadDTO">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin></Text>
@@ -45,7 +45,7 @@
             </Group>
          </children>
       </VBox>
-      <Text fx:id="Titulo" strokeType="OUTSIDE" strokeWidth="0.0" text="Nueva actividad" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="20.0">
+      <Text fx:id="Titulo" strokeType="OUTSIDE" strokeWidth="0.0" text="Nueva actividadDTO" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="20.0">
          <font>
             <Font name="System Bold" size="22.0" />
          </font>

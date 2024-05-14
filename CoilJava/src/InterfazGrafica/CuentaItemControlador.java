@@ -1,13 +1,13 @@
 package InterfazGrafica;
 
-import Logica.DAO.DAOAcademico;
-import Logica.DAO.DAOCuenta;
-import Logica.DAO.DAOPais;
-import Logica.DAO.DAOUniversidad;
-import Logica.Dominio.Academico;
-import Logica.Dominio.Cuenta;
-import Logica.Dominio.Pais;
-import Logica.Dominio.Universidad;
+import DAO.AcademicoAuxiliar;
+import DAO.CuentaAuxiliar;
+import DAO.PaisAuxiliar;
+import DAO.UniversidadAuxiliar;
+import DTO.AcademicoDTO;
+import DTO.CuentaDTO;
+import DTO.PaisDTO;
+import DTO.UniversidadDTO;
 import Utilidades.ErrorDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -46,10 +46,10 @@ public class CuentaItemControlador implements Initializable {
     @FXML
     private Label lbUsuario;
 
-    private Cuenta cuentaObtenida;
+    private CuentaDTO cuentaDTOObtenida;
 
     private VBox lyInformacionCuenta;
-    private Academico academico;
+    private AcademicoDTO academicoDTO;
 
 
     public VBox getLyInformacionCuenta () {
@@ -60,8 +60,8 @@ public class CuentaItemControlador implements Initializable {
         this.lyInformacionCuenta = lyInformacionCuenta;
     }
 
-    public void setCuentaObtenida (Cuenta cuentaObtenida) {
-        this.cuentaObtenida = cuentaObtenida;
+    public void setCuentaObtenida (CuentaDTO cuentaDTOObtenida) {
+        this.cuentaDTOObtenida = cuentaDTOObtenida;
     }
 
     public Button getBtEvaluar () {
@@ -72,8 +72,8 @@ public class CuentaItemControlador implements Initializable {
         this.btEvaluar = btEvaluar;
     }
 
-    public Cuenta getCuentaObtenida () {
-        return cuentaObtenida;
+    public CuentaDTO getCuentaObtenida () {
+        return cuentaDTOObtenida;
     }
 
     @Override
@@ -82,7 +82,7 @@ public class CuentaItemControlador implements Initializable {
     }
 
     private void initializeLabels() {
-        if (cuentaObtenida != null) {
+        if (cuentaDTOObtenida != null) {
             setLabel();
         }
     }
@@ -115,78 +115,83 @@ public class CuentaItemControlador implements Initializable {
         return lbUsuario;
     }
 
-    public Academico getAcademico (int idPersona) throws ErrorDAO{
-        Academico academico = null;
-        DAOAcademico daoAcademico = new DAOAcademico();
-        Optional academicoOptional = daoAcademico.getAcademicoPorIdPersona(idPersona);
-        if (academicoOptional.isPresent()) {
-            academico = (Academico) academicoOptional.get();
+    public AcademicoDTO getAcademico (int idPersona) {
+        AcademicoDTO academicoDTO = null;
+        AcademicoAuxiliar academicoAuxiliar = new AcademicoAuxiliar();
+        try {
+            Optional academicoOptional = academicoAuxiliar.getAcademicoPorIdPersona(idPersona);
+            if (academicoOptional.isPresent()) {
+                academicoDTO = (AcademicoDTO) academicoOptional.get();
+            }
         }
-        this.academico = academico;
-        return academico;
+        catch (ErrorDAO errorDAO) {
+            System.out.println("Implementar un alert");
+        }
+        this.academicoDTO = academicoDTO;
+        return academicoDTO;
     }
 
-    public List<Cuenta> getCuentaPorEstado () {
-        List<Cuenta> listaCuenta = null;
-        DAOCuenta daoCuenta = new DAOCuenta();
+    public List<CuentaDTO> getCuentaPorEstado () {
+        List<CuentaDTO> listaCuentaDTO = null;
+        CuentaAuxiliar cuentaAuxiliar = new CuentaAuxiliar();
         try {
-            listaCuenta = daoCuenta.getCuentasPorTipo(Cuenta.EstadoCuenta.pendiente.toString());
+            listaCuentaDTO = cuentaAuxiliar.getCuentasPorTipo(CuentaDTO.EstadoCuenta.pendiente.toString());
 
         }
         catch (ErrorDAO errorDAO) {
             System.out.println("Implementar un alert");
 
         }
-        return listaCuenta;
+        return listaCuentaDTO;
     }
 
-    public Universidad getUniversidadPorId (int idUnivesidad) {
-        Universidad universidad = null;
-        DAOUniversidad daoUniversidad = new DAOUniversidad();
+    public UniversidadDTO getUniversidadPorId (int idUnivesidad) {
+        UniversidadDTO universidadDTO = null;
+        UniversidadAuxiliar universidadAuxiliar = new UniversidadAuxiliar();
         try {
-            Optional universidadOptional = daoUniversidad.getUniversidadPorId(idUnivesidad);
+            Optional universidadOptional = universidadAuxiliar.getUniversidadPorId(idUnivesidad);
             if (universidadOptional.isPresent()) {
-                universidad = (Universidad) universidadOptional.get();
+                universidadDTO = (UniversidadDTO) universidadOptional.get();
             }
         }
         catch (ErrorDAO errorDAO) {
             System.out.println("Aqui va un alert");
         }
-        return universidad;
+        return universidadDTO;
     }
 
-    public Pais getPaisPorId (int idPais) {
-        Pais pais = null;
-        DAOPais daoPais = new DAOPais();
+    public PaisDTO getPaisPorId (int idPais) {
+        PaisDTO paisDTO = null;
+        PaisAuxiliar paisAuxiliar = new PaisAuxiliar();
         try {
-            Optional paisOptional = daoPais.getPaisPorId(idPais);
+            Optional paisOptional = paisAuxiliar.getPaisPorId(idPais);
             if (paisOptional.isPresent()) {
-                pais = (Pais) paisOptional.get();
+                paisDTO = (PaisDTO) paisOptional.get();
             }
         }
         catch (ErrorDAO errorDAO) {
             System.out.println("Aqui va un alert");
         }
-        return pais;
+        return paisDTO;
     }
 
     public void setLabel () {
-        lbUsuario.setText(cuentaObtenida.getNombreUsuario());
+        lbUsuario.setText(cuentaDTOObtenida.getNombreUsuario());
         setToolTip(lbUsuario);
-        Academico academico = getAcademico(cuentaObtenida.getIdPersona());
-        lbNombre.setText(academico.getNombre());
+        AcademicoDTO academicoDTO = getAcademico(cuentaDTOObtenida.getIdPersona());
+        lbNombre.setText(academicoDTO.getNombre());
         setToolTip(lbNombre);
-        lbApellidos.setText(academico.getApellidoPaterno() + " " + academico.getApellidoMaterno());
+        lbApellidos.setText(academicoDTO.getApellidoPaterno() + " " + academicoDTO.getApellidoMaterno());
         setToolTip(lbApellidos);
-        lbCorreo.setText(academico.getCorreoElectronico());
+        lbCorreo.setText(academicoDTO.getCorreoElectronico());
         setToolTip(lbCorreo);
-        lbCedula.setText(academico.getCedulaProfesional());
+        lbCedula.setText(academicoDTO.getCedulaProfesional());
         setToolTip(lbCedula);
-        Universidad universidad = getUniversidadPorId(academico.getIdUniversidad());
-        lbUniversidad.setText(universidad.getNombre());
+        UniversidadDTO universidadDTO = getUniversidadPorId(academicoDTO.getIdUniversidad());
+        lbUniversidad.setText(universidadDTO.getNombre());
         setToolTip(lbUniversidad);
-        Pais pais = getPaisPorId(universidad.getIdPais());
-        lbPais.setText(pais.getNombre());
+        PaisDTO paisDTO = getPaisPorId(universidadDTO.getIdPais());
+        lbPais.setText(paisDTO.getNombre());
         setToolTip(lbPais);
     }
 

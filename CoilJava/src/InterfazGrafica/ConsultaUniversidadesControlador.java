@@ -1,9 +1,9 @@
 package InterfazGrafica;
 
-import Logica.DAO.DAOPais;
-import Logica.DAO.DAOUniversidad;
-import Logica.Dominio.Pais;
-import Logica.Dominio.Universidad;
+import DAO.PaisAuxiliar;
+import DAO.UniversidadAuxiliar;
+import DTO.PaisDTO;
+import DTO.UniversidadDTO;
 import Utilidades.ErrorDAO;
 import javafx.application.Application;
 import javafx.fxml.FXML;
@@ -67,10 +67,10 @@ public class ConsultaUniversidadesControlador extends Application implements Ini
     }
 
     private void consultaTodasAlfabeticamente() {
-        DAOUniversidad daoUniversidad = new DAOUniversidad();
-        List<Universidad> listaUniversidades = new ArrayList<>();
+        UniversidadAuxiliar universidadAuxiliar = new UniversidadAuxiliar();
+        List<UniversidadDTO> listaUniversidades = new ArrayList<>();
         try {
-            listaUniversidades = daoUniversidad.getTodasAlfabeticamente();
+            listaUniversidades = universidadAuxiliar.getTodasAlfabeticamente();
         }
         catch (ErrorDAO error) {
             mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
@@ -82,11 +82,11 @@ public class ConsultaUniversidadesControlador extends Application implements Ini
     private void consultar () {
         String nombre = tfBarraBusqueda.getText();
         if (!nombre.isBlank()) {
-            DAOUniversidad daoUniversidad = new DAOUniversidad();
-            Universidad universidad = new Universidad(nombre);
-            List<Universidad> listaUniversidades = new ArrayList<>();
+            UniversidadAuxiliar universidadAuxiliar = new UniversidadAuxiliar();
+            UniversidadDTO universidadDTO = new UniversidadDTO(nombre);
+            List<UniversidadDTO> listaUniversidades = new ArrayList<>();
             try {
-                listaUniversidades = daoUniversidad.getUniversidadesPorNombre(universidad);
+                listaUniversidades = universidadAuxiliar.getUniversidadesPorNombre(universidadDTO);
             }
             catch (ErrorDAO error) {
                 mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
@@ -110,9 +110,9 @@ public class ConsultaUniversidadesControlador extends Application implements Ini
         }
     }
 
-    private void mostrarConsulta (List<Universidad> listaUniversidades) {
+    private void mostrarConsulta (List<UniversidadDTO> listaUniversidades) {
         vboxConsultaUniversidades.getChildren().clear();
-        for (Universidad universidad : listaUniversidades) {
+        for (UniversidadDTO universidadDTO : listaUniversidades) {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("UniversidadItem.fxml"));
             HBox hboxFila;
 
@@ -125,19 +125,19 @@ public class ConsultaUniversidadesControlador extends Application implements Ini
                 break;
             }
 
-            DAOPais daoPais = new DAOPais();
+            PaisAuxiliar paisAuxiliar = new PaisAuxiliar();
             UniversidadItemControlador controladorFilaUniversidad = fxmlLoader.getController();
-            Optional<Pais> paisOptional;
+            Optional<PaisDTO> paisOptional;
 
             try {
-                paisOptional = daoPais.getPaisPorId(universidad.getIdPais());
+                paisOptional = paisAuxiliar.getPaisPorId(universidadDTO.getIdPais());
             }
             catch (ErrorDAO error) {
                 mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
                 break;
             }
 
-            controladorFilaUniversidad.setUniversidad(universidad);
+            controladorFilaUniversidad.setUniversidad(universidadDTO);
             paisOptional.ifPresent(controladorFilaUniversidad::setPais);
             this.vboxConsultaUniversidades.getChildren().add(hboxFila);
         }

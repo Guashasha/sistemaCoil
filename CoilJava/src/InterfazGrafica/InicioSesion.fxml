@@ -28,11 +28,11 @@
                <font>
                   <Font size="14.0" />
                </font></PasswordField>
-            <Button fx:id="btnIniciarSesion" contentDisplay="CENTER" layoutX="104.0" layoutY="392.0" mnemonicParsing="false" onAction="#ingresarCuenta" prefHeight="42.0" prefWidth="254.0" styleClass="combo-box-universidad-solicitud" stylesheets="@Recursos/EstiloVentanas.css" text="Iniciar sesión" textAlignment="CENTER">
+            <Button fx:id="btnIniciarSesion" contentDisplay="CENTER" layoutX="104.0" layoutY="392.0" mnemonicParsing="false" onAction="#ingresarCuenta" prefHeight="42.0" prefWidth="254.0" styleClass="combo-box-universidadDTO-solicitud" stylesheets="@Recursos/EstiloVentanas.css" text="Iniciar sesión" textAlignment="CENTER">
                <font>
                   <Font size="16.0" />
                </font></Button>
-            <Button fx:id="btnSolicitarCuenta" layoutX="158.0" layoutY="453.0" mnemonicParsing="false" onAction="#solicitarCuenta" prefHeight="37.0" prefWidth="138.0" style="-fx-background-color: b7dcf5;" text="Solicitar cuenta" textAlignment="CENTER">
+            <Button fx:id="btnSolicitarCuenta" layoutX="158.0" layoutY="453.0" mnemonicParsing="false" onAction="#solicitarCuenta" prefHeight="37.0" prefWidth="138.0" style="-fx-background-color: b7dcf5;" text="Solicitar cuentaDTO" textAlignment="CENTER">
                <font>
                   <Font size="16.0" />
                </font></Button>

@@ -1,11 +1,11 @@
 package InterfazGrafica;
 
-import Logica.DAO.DAOActividad;
-import Logica.DAO.DAOCronogramaActividades;
-import Logica.Dominio.Actividad;
-import Logica.Dominio.ActividadVinculada;
-import Logica.Dominio.Colaboracion;
-import Logica.Dominio.Periodo;
+import DAO.ActividadAuxiliar;
+import DAO.CronogramaActividadeAuxiliar;
+import DTO.ActividadDTO;
+import DTO.ActividadVinculadaDTO;
+import DTO.ColaboracionDTO;
+import DTO.PeriodoDTO;
 import Utilidades.ErrorDAO;
 import javafx.application.Application;
 import javafx.fxml.FXML;
@@ -13,7 +13,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -21,12 +20,11 @@ import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Stack;
 
 public class NuevaActividadControlador extends Application {
     private static final Logger BITACORA = Logger.getLogger(NuevaActividadControlador.class);
 
-    private Colaboracion colaboracion;
+    private ColaboracionDTO colaboracionDTO;
 
     @FXML
     private Button btnAceptar = new Button();
@@ -43,9 +41,9 @@ public class NuevaActividadControlador extends Application {
     @FXML
     private TextField tfTitulo = new TextField();
 
-    public void setColaboracion (Colaboracion colaboracion) {
-        if (colaboracion.esValido()) {
-            this.colaboracion = colaboracion;
+    public void setColaboracion (ColaboracionDTO colaboracionDTO) {
+        if (colaboracionDTO.esValido()) {
+            this.colaboracionDTO = colaboracionDTO;
         }
         else {
             cerrarVentana();
@@ -107,19 +105,19 @@ public class NuevaActividadControlador extends Application {
 
         String titulo = tfTitulo.getText();
         String descripcion = tfDescripcion.getText();
-        Actividad.TipoActividad tipo = Actividad.TipoActividad.valueOf(rbTipoActividad.getText());
+        ActividadDTO.TipoActividad tipo = ActividadDTO.TipoActividad.valueOf(rbTipoActividad.getText());
         LocalDate fechaInicio = dpFechaInicio.getValue();
         LocalDate fechaFin = dpFechaFin.getValue();
 
-        Periodo periodo = new Periodo(fechaInicio, fechaFin);
+        PeriodoDTO periodoDTO = new PeriodoDTO(fechaInicio, fechaFin);
 
-        Actividad actividad = new Actividad(titulo, descripcion, tipo);
+        ActividadDTO actividadDTO = new ActividadDTO(titulo, descripcion, tipo);
 
-        DAOActividad dao = new DAOActividad();
+        ActividadAuxiliar dao = new ActividadAuxiliar();
         int resultado = -1;
 
         try {
-            resultado = dao.agregar(actividad);
+            resultado = dao.agregar(actividadDTO);
         }
         catch (ErrorDAO error) {
             Alert errorAlert = crearAlerta(error);
@@ -130,18 +128,18 @@ public class NuevaActividadControlador extends Application {
 
         if (resultado < 1) {
             Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-            errorAlert.setHeaderText("Error al agregar actividad");
-            errorAlert.setContentText("Ocurrió un error al agregar la actividad");
+            errorAlert.setHeaderText("Error al agregar actividadDTO");
+            errorAlert.setContentText("Ocurrió un error al agregar la actividadDTO");
             errorAlert.showAndWait();
 
             return;
         }
 
-        ActividadVinculada actividadVinculada = new ActividadVinculada(actividad, colaboracion, periodo);
-        DAOCronogramaActividades cronograma = new DAOCronogramaActividades();
+        ActividadVinculadaDTO actividadVinculadaDTO = new ActividadVinculadaDTO(actividadDTO, colaboracionDTO, periodoDTO);
+        CronogramaActividadeAuxiliar cronograma = new CronogramaActividadeAuxiliar();
 
         try {
-            resultado = cronograma.agregar(actividadVinculada);
+            resultado = cronograma.agregar(actividadVinculadaDTO);
         }
         catch (ErrorDAO error) {
             Alert errorAlert = crearAlerta(error);
@@ -153,7 +151,7 @@ public class NuevaActividadControlador extends Application {
         if (resultado < 1) {
             Alert errorAlert = new Alert(Alert.AlertType.ERROR);
             errorAlert.setHeaderText("Error al agregar");
-            errorAlert.setContentText("Ocurrió un error al vincular la actividad");
+            errorAlert.setContentText("Ocurrió un error al vincular la actividadDTO");
             errorAlert.showAndWait();
         }
     }

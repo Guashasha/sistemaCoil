@@ -1,16 +1,14 @@
 package InterfazGrafica;
 
-import Logica.DAO.DAOActividad;
-import Logica.DAO.DAOColaboracion;
-import Logica.Dominio.Academico;
-import Logica.Dominio.Actividad;
-import Logica.Dominio.Colaboracion;
+import DAO.ActividadAuxiliar;
+import DAO.ColaboracionAuxiliar;
+import DTO.AcademicoDTO;
+import DTO.ActividadDTO;
+import DTO.ColaboracionDTO;
 import Utilidades.ErrorDAO;
-import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
@@ -18,9 +16,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -33,10 +28,10 @@ public class InicioAcademicoControlador{
     @FXML
     VBox pnInicio;
 
-    private Academico usuario;
-    private Optional<Colaboracion> colaboracion = Optional.empty();
+    private AcademicoDTO usuario;
+    private Optional<ColaboracionDTO> colaboracion = Optional.empty();
 
-    public InicioAcademicoControlador (Academico usuario) {
+    public InicioAcademicoControlador (AcademicoDTO usuario) {
         this.usuario = usuario;
 
         try {
@@ -74,7 +69,7 @@ public class InicioAcademicoControlador{
         }
 
         HBox informacionColaboracion;
-        TableView<Actividad> informacionActividades;
+        TableView<ActividadDTO> informacionActividades;
 
         try {
              informacionColaboracion = getInfoHBox();
@@ -92,15 +87,15 @@ public class InicioAcademicoControlador{
     }
 
     private void getInformacionColaboracion () throws ErrorDAO {
-        DAOColaboracion daoColaboracion = new DAOColaboracion();
-        //colaboracion = daoColaboracion.getActivaPorAcademico(this.usuario.getIdPersona());
+        ColaboracionAuxiliar colaboracionAuxiliar = new ColaboracionAuxiliar();
+        //colaboracion = colaboracionAuxiliar.getActivaPorAcademico(this.usuario.getIdPersona());
     }
 
     private HBox getInfoHBox () {
         HBox informacionColaboracion = new HBox();
 
         Label temaInteres = new Label(this.colaboracion.get().getTemaInteres());
-        Label colaborador = new Label("Academico colaborador: " + this.colaboracion.get().getAcademicoPar().getNombre());
+        Label colaborador = new Label("AcademicoDTO colaborador: " + this.colaboracion.get().getAcademicoPar().getNombre());
         Label fechaFin = new Label("Fecha de finalización: " + this.colaboracion.get().getPeriodo()
                 .getFechaFin());
 
@@ -110,13 +105,13 @@ public class InicioAcademicoControlador{
         return informacionColaboracion;
     }
 
-    private TableView<Actividad> getInformacionActividades () throws ErrorDAO {
-        DAOActividad daoActividad = new DAOActividad();
-        List<Actividad> resultado;
+    private TableView<ActividadDTO> getInformacionActividades () throws ErrorDAO {
+        ActividadAuxiliar actividadAuxiliar = new ActividadAuxiliar();
+        List<ActividadDTO> resultado;
 
-        resultado = daoActividad.getPorIdColaboracion(this.colaboracion.get().getIdColaboracion());
+        resultado = actividadAuxiliar.getPorIdColaboracion(this.colaboracion.get().getIdColaboracion());
 
-        TableView<Actividad> actividades = new TableView<>(FXCollections.observableList(resultado));
+        TableView<ActividadDTO> actividades = new TableView<>(FXCollections.observableList(resultado));
         actividades.setEditable(false);
 
         return actividades;

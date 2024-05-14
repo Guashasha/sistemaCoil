@@ -1,11 +1,7 @@
 package InterfazGrafica;
 
-import Logica.DAO.DAOAcademico;
-import Logica.DAO.DAOCuenta;
-import Logica.DAO.DAOEstudiante;
-import Logica.Dominio.Academico;
-import Logica.Dominio.Cuenta;
-import Logica.Dominio.Estudiante;
+import DAO.CuentaAuxiliar;
+import DTO.CuentaDTO;
 import Utilidades.ErrorDAO;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
@@ -37,7 +33,7 @@ import java.util.ResourceBundle;
 public class InicioSesionControlador extends Application implements Initializable {
 
     private static final Logger BITACORA = Logger.getLogger(InicioSesionControlador.class);
-    private static final DAOCuenta DAO_CUENTA = new DAOCuenta();
+    private static final CuentaAuxiliar DAO_CUENTA = new CuentaAuxiliar();
 
     @FXML
     private TextField tfUsuario;
@@ -53,10 +49,13 @@ public class InicioSesionControlador extends Application implements Initializabl
     @FXML
     public void solicitarCuenta (ActionEvent evento) {
         try {
-            mostrarVentanaSolicitudCuenta();
+            hacerTransicion();
         }
         catch (ErrorDAO errorDAO) {
             mostrarVentanaAlert(errorDAO.getMessage(), Alert.AlertType.ERROR);
+        }
+        catch (IOException e) {
+            mostrarVentanaAlert("Error a mostrar la ventana solicitar cuenta", Alert.AlertType.ERROR);
         }
     }
 
@@ -68,10 +67,10 @@ public class InicioSesionControlador extends Application implements Initializabl
     @FXML
     public void ingresarCuenta (ActionEvent evento) {
         try {
-            Cuenta cuenta = getCuentaRegistrada();
-            sonCredencialesValidas(tfUsuario.getText(), tfContrasena.getText());
-            esCuentaAceptada(cuenta);
-            abrirVentanaPorTipoCuenta(cuenta);
+            CuentaDTO cuentaDTO = getCuentaRegistrada();
+            sonCredencialesValidas(cuentaDTO);
+            esCuentaAceptada(cuentaDTO);
+            abrirVentanaPorTipoCuenta(cuentaDTO);
         }
         catch (ErrorDAO errorDAO) {
             mostrarVentanaAlert(errorDAO.getMessage(), Alert.AlertType.WARNING);
@@ -84,24 +83,8 @@ public class InicioSesionControlador extends Application implements Initializabl
         try {
             Stage stagePrincipal = (Stage) tfUsuario.getScene()
                                                     .getWindow();
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("VentanaPrincipal.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MenuPrincipalAcademico.fxml"));
             Parent root = fxmlLoader.load();
-            Scene nuevaEscena = new Scene(root);
-            stagePrincipal.setScene(nuevaEscena);
-        }
-        catch (IOException error) {
-            BITACORA.fatal(error.getMessage());
-
-        }
-    }
-    private void mostrarVentanaFormularioCompletarDatos (Academico academico) {
-        try {
-            Stage stagePrincipal = (Stage) tfUsuario.getScene()
-                                                    .getWindow();
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FormularioCompletarDatos.fxml"));
-            Parent root = fxmlLoader.load();
-            FormularioCompletarDatosControlador formularioCompletarDatosControlador = fxmlLoader.getController();
-            formularioCompletarDatosControlador.setAcademico(academico);
             Scene nuevaEscena = new Scene(root);
             stagePrincipal.setScene(nuevaEscena);
         }
@@ -141,8 +124,8 @@ public class InicioSesionControlador extends Application implements Initializabl
     }
 
 
-
-    private void mostrarVentanaSolicitudCuenta () {
+    @FXML
+    private void mostrarVentanaWindowSolicitarCuenta () {
         try {
             Stage stagePrincipal = (Stage) tfUsuario.getScene()
                                                     .getWindow();
@@ -158,84 +141,48 @@ public class InicioSesionControlador extends Application implements Initializabl
         }
         catch (IOException error) {
             BITACORA.fatal(error.getMessage());
-            throw new ErrorDAO("Error al abrir la ventana de solicitud de cuenta", ErrorDAO.Tipo.VALIDACION);
         }
     }
 
 
-    private void sonCredencialesValidas (String usuario, String contrasena) {
-        if (!DAO_CUENTA.verificarCredenciales(usuario, contrasena)) {
+    private void sonCredencialesValidas (CuentaDTO cuentaDTO) {
+        if (!DAO_CUENTA.verificarCredenciales(cuentaDTO.getNombreUsuario(), cuentaDTO.getContrasena())) {
             throw new ErrorDAO("Cuentas no validas", ErrorDAO.Tipo.VALIDACION);
         }
     }
-    private void esCuentaAceptada (Cuenta cuenta) {
-        if (cuenta.getEstado() != Cuenta.EstadoCuenta.aceptada) {
-            throw new ErrorDAO("El estado de la cuenta esta en " + cuenta.getEstado().toString() +"\n" +
+    private void esCuentaAceptada (CuentaDTO cuentaDTO) {
+        if (cuentaDTO.getEstado() != CuentaDTO.EstadoCuenta.aceptada) {
+            throw new ErrorDAO("El estado de la cuentaDTO esta en " + cuentaDTO.getEstado().toString() +"\n" +
                                        "En caso de dudas, mande mensaje un correo a vic@uv.mx", ErrorDAO.Tipo.VALIDACION);
         }
     }
 
-    private void abrirVentanaPorTipoCuenta (Cuenta cuenta) {
-        switch (cuenta.getTipo()) {
+    private void abrirVentanaPorTipoCuenta (CuentaDTO cuentaDTO) {
+        switch (cuentaDTO.getTipo()) {
             case academico:
-                procesarInicioSesionAcademico(cuenta);
-                break;
+                mostrarVentanaWindowMenuPrincipalAcademico();
             case estudiante:
                 System.out.println("Implementar ventana estudiante");
-                break;
             case administrador:
                 System.out.println("Implementar ventana admin");
-                break;
         }
     }
 
-    private void procesarInicioSesionAcademico (Cuenta cuenta) {
-        Optional <Academico> optionalAcademico = recuperarAcademicoPorCuenta(cuenta);
-        verificarOptional(optionalAcademico);
-        if (existenDatosNulosAcademico(optionalAcademico.get())) {
-            mostrarVentanaAlert("Para poder ingresar necesita completar sus datos.", Alert.AlertType.INFORMATION);
-            mostrarVentanaFormularioCompletarDatos(optionalAcademico.get());
-        }
-        else {
-            mostrarVentanaWindowMenuPrincipalAcademico();
-        }
+    private CuentaDTO getCuentaPorTextField () {
+        CuentaDTO cuentaDTO = new CuentaDTO();
+        cuentaDTO.setNombreUsuario(tfUsuario.getText());
+        cuentaDTO.setContrasena(tfUsuario.getText());
+        return cuentaDTO;
     }
 
-    private Cuenta getCuentaPorTextField () {
-        Cuenta cuenta = new Cuenta();
-        cuenta.setNombreUsuario(tfUsuario.getText());
-        cuenta.setContrasena(tfContrasena.getText());
-        return cuenta;
-    }
-
-    private Cuenta getCuentaRegistrada () {
-        Optional<Cuenta> cuentaOptional = DAO_CUENTA.getCuentaPorUsuario(getCuentaPorTextField().getNombreUsuario());
+    private CuentaDTO getCuentaRegistrada () {
+        Optional<CuentaDTO> cuentaOptional = DAO_CUENTA.getCuentaPorUsuario(getCuentaPorTextField().getNombreUsuario());
         if (cuentaOptional.isEmpty()) {
             throw new ErrorDAO("Error al obtener la cuenta del usuario", ErrorDAO.Tipo.INICIO_SESION);
         }
         return cuentaOptional.get();
     }
-    private Optional<Academico> recuperarAcademicoPorCuenta (Cuenta cuenta) {
-        DAOAcademico daoAcademico = new DAOAcademico();
-        Optional<Academico> optionalAcademico = daoAcademico.getAcademicoPorIdPersona(cuenta.getIdPersona());
-        return optionalAcademico;
-    }
-    private Optional<Estudiante> recupearEstudiantePorCuenta (Cuenta cuenta) {
-        DAOEstudiante daoEstudiante = new DAOEstudiante();
-        Optional<Estudiante> optionalEstudiante = daoEstudiante.getEstudiantePorIdPersona(cuenta.getIdPersona());
-        return optionalEstudiante;
-    }
 
-    private void verificarOptional (Optional optional) {
-        if (!optional.isPresent()) {
-            throw new ErrorDAO("No se puede obtener la información del usuario", ErrorDAO.Tipo.CONSULTA);
-        }
-
-    }
-    private boolean existenDatosNulosAcademico (Academico academico) {
-        return academico.getNumeroTelefonico() == null || academico.getAreaEstudios() == null
-                || academico.getNumeroPersonal() == null;
-    }
     @Override
     public void start (Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../InterfazGrafica/inicioSesion.fxml"));

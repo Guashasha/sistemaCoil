@@ -1,9 +1,9 @@
 package InterfazGrafica;
 
-import Logica.DAO.DAOPais;
-import Logica.DAO.DAOUniversidad;
-import Logica.Dominio.Pais;
-import Logica.Dominio.Universidad;
+import DAO.PaisAuxiliar;
+import DAO.UniversidadAuxiliar;
+import DTO.PaisDTO;
+import DTO.UniversidadDTO;
 import Utilidades.ErrorDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,8 +17,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class EditarUniversidadControlador implements Initializable {
-    private Universidad universidadActual;
-    private Pais paisActual;
+    private UniversidadDTO universidadDTOActual;
+    private PaisDTO paisDTOActual;
     @FXML
     private Label txtObligatorioNombre;
     @FXML
@@ -32,12 +32,12 @@ public class EditarUniversidadControlador implements Initializable {
     @FXML
     private Button btnGuardarCambios;
 
-    public void setUniversidadActual(Universidad universidadActual) {
-        this.universidadActual = universidadActual;
+    public void setUniversidadActual(UniversidadDTO universidadDTOActual) {
+        this.universidadDTOActual = universidadDTOActual;
     }
 
-    public void setPaisActual(Pais paisActual) {
-        this.paisActual = paisActual;
+    public void setPaisActual(PaisDTO paisDTOActual) {
+        this.paisDTOActual = paisDTOActual;
     }
 
     public TextField getTfNombre() {
@@ -62,13 +62,13 @@ public class EditarUniversidadControlador implements Initializable {
         }
 
         if (!camposVacios() && !camposIguales()) {
-            Universidad universidad = new Universidad(tfNombre.getText());
-            Pais pais = new Pais(cmbPaises.getValue());
+            UniversidadDTO universidadDTO = new UniversidadDTO(tfNombre.getText());
+            PaisDTO paisDTO = new PaisDTO(cmbPaises.getValue());
             int filasAfectadas;
-            DAOUniversidad daoUniversidad = new DAOUniversidad();
+            UniversidadAuxiliar universidadAuxiliar = new UniversidadAuxiliar();
 
             try {
-                filasAfectadas = daoUniversidad.editarUniversidad(this.universidadActual,universidad,pais);
+                filasAfectadas = universidadAuxiliar.editarUniversidad(this.universidadDTOActual, universidadDTO, paisDTO);
             }
             catch (ErrorDAO error) {
                 mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.WARNING);
@@ -76,8 +76,8 @@ public class EditarUniversidadControlador implements Initializable {
             }
 
             if (filasAfectadas == 1) {
-                this.universidadActual.setNombre(universidad.getNombre());
-                this.paisActual.setNombre(pais.getNombre());
+                this.universidadDTOActual.setNombre(universidadDTO.getNombre());
+                this.paisDTOActual.setNombre(paisDTO.getNombre());
                 mostrarMensajeEmergente("Se han guardado los cambios exitosamente", Alert.AlertType.INFORMATION);
             }
             else {
@@ -89,15 +89,15 @@ public class EditarUniversidadControlador implements Initializable {
     @FXML
     private void limitarCaracteres () {
         int longitud = tfNombre.getLength();
-        if (longitud > Universidad.LONGITUD_NOMBRE) {
+        if (longitud > UniversidadDTO.LONGITUD_NOMBRE) {
             tfNombre.setText(tfNombre.getText()
-                    .substring(0,Universidad.LONGITUD_NOMBRE));
+                    .substring(0, UniversidadDTO.LONGITUD_NOMBRE));
             tfNombre.positionCaret(tfNombre.getLength());
         }
     }
 
     private boolean objetosValidos () {
-        return this.universidadActual != null && this.paisActual != null;
+        return this.universidadDTOActual != null && this.paisDTOActual != null;
     }
 
     @FXML
@@ -114,10 +114,10 @@ public class EditarUniversidadControlador implements Initializable {
     }
 
     private void llenarComboBoxPaises () {
-        DAOPais daoPais = new DAOPais();
+        PaisAuxiliar paisAuxiliar = new PaisAuxiliar();
         List<String> listaPaises = new ArrayList<>();
         try {
-            listaPaises = daoPais.getNombresPaisesAlfabeticamente();
+            listaPaises = paisAuxiliar.getNombresPaisesAlfabeticamente();
         }
         catch (ErrorDAO error) {
             mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
@@ -150,8 +150,8 @@ public class EditarUniversidadControlador implements Initializable {
         String nuevoNombre = tfNombre.getText().
                 trim();
         String nuevoPais = cmbPaises.getValue();
-        return nuevoNombre.equals(this.universidadActual.
-                getNombre()) && nuevoPais.equals(this.paisActual.
+        return nuevoNombre.equals(this.universidadDTOActual.
+                getNombre()) && nuevoPais.equals(this.paisDTOActual.
                 getNombre());
     }
 }

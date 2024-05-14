@@ -7,7 +7,7 @@
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.MenuSinColaboracionAcademicoControlador">
    <children>
       <Pane layoutX="38.0" layoutY="26.0" prefHeight="336.0" prefWidth="523.0" styleClass="plaheholder-tabla" stylesheets="@Recursos/EstiloVentanas.css" />
-      <Text layoutX="43.0" layoutY="130.0" lineSpacing="3.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Aun no estas participando en una colaboracion. Haz clic en el boton &quot;colaboraciones&quot; para buscar o crear una colaboracion" textAlignment="CENTER" wrappingWidth="510.22607421875">
+      <Text layoutX="43.0" layoutY="130.0" lineSpacing="3.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Aun no estas participando en una colaboracionDTO. Haz clic en el boton &quot;colaboraciones&quot; para buscar o crear una colaboracionDTO" textAlignment="CENTER" wrappingWidth="510.22607421875">
          <font>
             <Font name="System Bold" size="25.0" />
          </font>
