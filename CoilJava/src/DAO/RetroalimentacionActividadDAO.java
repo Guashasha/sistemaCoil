@@ -1,16 +1,67 @@
 package DAO;
 
+import DAO.Interfaces.IRetroalimentacionActividadDAO;
 import DTO.RetroalimentacionActividadDTO;
 import AccesoDatos.AdministradorBaseDatos;
+import Utilidades.ErrorDAO;
+import jdk.jshell.spi.ExecutionControl;
 
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
-public class RetroalimentacionActividadDAO {
+class RetroalimentacionActividadDAO implements IRetroalimentacionActividadDAO {
 
-    public static int agregarRetroalimentacion (RetroalimentacionActividadDTO retroalimentacion) throws SQLException {
+    @Override
+    public Optional<RetroalimentacionActividadDTO> getPorId(Integer id) throws ErrorDAO {
+        ResultSet retroalimentacion = null;
+
+        try {
+            PreparedStatement consulta = AdministradorBaseDatos.getInstancia().prepareStatement("select idRetroalimentacion, interaccionPar, comentario, dificultad, interes, usuario, actividad from retroalimentacion natural join retroalimentacionActividad where retroalimentacion.idRetroalimentacion=?;");
+
+            consulta.setInt(1, id);
+
+            retroalimentacion = consulta.executeQuery();
+            consulta.close();
+        } catch (SQLException e) {
+            throw new ErrorDAO(e.getMessage(), ErrorDAO.Tipo.CONEXION);
+        } finally {
+            AdministradorBaseDatos.desconectar();
+        }
+
+        return Optional.of(resultSetAObjeto(retroalimentacion));
+    }
+
+    public Optional<RetroalimentacionActividadDTO> getPorPersonaYActividad(int idPersona, int idActividad) throws ErrorDAO {
+        ResultSet resultado = null;
+
+        try {
+            PreparedStatement consulta = AdministradorBaseDatos.getInstancia().prepareStatement("select idRetroalimentacion, interaccionPar, comentario, dificultad, interes, usuario, actividad from retroalimentacion natural join retroalimentacionActividad where retroalimentacion.usuario=? and retroalimentacionActividad.actividad=?;");
+
+            consulta.setInt(1, idPersona);
+            consulta.setInt(2, idActividad);
+
+            resultado = consulta.executeQuery();
+            consulta.close();
+        }
+        catch (SQLException error) {
+            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
+        }
+        finally {
+            AdministradorBaseDatos.desconectar();
+        }
+
+        RetroalimentacionActividadDTO retroalimentacion = resultSetAObjeto(resultado);
+
+        return Optional.of(retroalimentacion);
+    }
+
+    @Override
+    public int agregar(RetroalimentacionActividadDTO retroalimentacion) throws ErrorDAO {
         int resultado = -1;
 
         try {
@@ -31,52 +82,21 @@ public class RetroalimentacionActividadDAO {
 
             resultado = consulta.executeUpdate();
             consulta.close();
-        }
-        finally {
+        } catch (SQLException e) {
+            throw new ErrorDAO(e.getMessage(), ErrorDAO.Tipo.CONEXION);
+        } finally {
             AdministradorBaseDatos.desconectar();
         }
 
         return resultado;
     }
 
-    public static ResultSet getPorId (int id) throws SQLException {
-        ResultSet retroalimentacion = null;
-
-        try {
-            PreparedStatement consulta = AdministradorBaseDatos.getInstancia().prepareStatement("select idRetroalimentacion, interaccionPar, comentario, dificultad, interes, usuario, actividad from retroalimentacion natural join retroalimentacionActividad where retroalimentacion.idRetroalimentacion=?;");
-
-            consulta.setInt(1, id);
-
-            retroalimentacion = consulta.executeQuery();
-            consulta.close();
-        }
-        finally {
-            AdministradorBaseDatos.desconectar();
-        }
-
-        return retroalimentacion;
+    @Override
+    public int modificar(RetroalimentacionActividadDTO obj) throws ErrorDAO, ExecutionControl.NotImplementedException {
+        throw new ExecutionControl.NotImplementedException("metodo no implementado");
     }
 
-    public static ResultSet getPorPersonaYActividad (int idPersona, int idActividad) throws SQLException {
-        ResultSet retroalimentacion = null;
-
-        try {
-            PreparedStatement consulta = AdministradorBaseDatos.getInstancia().prepareStatement("select idRetroalimentacion, interaccionPar, comentario, dificultad, interes, usuario, actividad from retroalimentacion natural join retroalimentacionActividad where retroalimentacion.usuario=? and retroalimentacionActividad.actividad=?;");
-
-            consulta.setInt(1, idPersona);
-            consulta.setInt(2, idActividad);
-
-            retroalimentacion = consulta.executeQuery();
-            consulta.close();
-        }
-        finally {
-            AdministradorBaseDatos.desconectar();
-        }
-
-        return retroalimentacion;
-    }
-
-    public static ResultSet getTodos () throws SQLException {
+    public List<RetroalimentacionActividadDTO> getTodos() throws ErrorDAO {
         ResultSet resultado = null;
 
         try {
@@ -84,11 +104,52 @@ public class RetroalimentacionActividadDAO {
 
             resultado = consulta.executeQuery();
             consulta.close();
-        }
-        finally {
+        } catch (SQLException e) {
+            throw new ErrorDAO(e.getMessage(), ErrorDAO.Tipo.CONEXION);
+        } finally {
             AdministradorBaseDatos.desconectar();
         }
 
-        return resultado;
+        ArrayList<RetroalimentacionActividadDTO> retroalimentaciones = new ArrayList<>();
+
+        if (resultado == null) {
+            return retroalimentaciones;
+        }
+
+        try {
+            while (resultado.next()) {
+                RetroalimentacionActividadDTO retroalimentacion = resultSetAObjeto(resultado);
+
+                if (retroalimentacion.esCorrecto()) {
+                    retroalimentaciones.add(retroalimentacion);
+                }
+            }
+
+            resultado.close();
+        }
+        catch (SQLException error) {
+            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
+        }
+
+        return retroalimentaciones;
+    }
+
+    public static RetroalimentacionActividadDTO resultSetAObjeto(ResultSet resultados) {
+        RetroalimentacionActividadDTO retroalimentacion = new RetroalimentacionActividadDTO();
+
+        try {
+            retroalimentacion.setIdRetroalimentacion(resultados.getInt(1));
+            retroalimentacion.setInteraccionConPar(resultados.getInt(2));
+            retroalimentacion.setComentario(resultados.getString(3));
+            retroalimentacion.setDificultad(resultados.getInt(4));
+            retroalimentacion.setInteres(resultados.getInt(5));
+            retroalimentacion.setIdUsuario(resultados.getInt(6));
+            retroalimentacion.setIdActividad(resultados.getInt(7));
+        }
+        catch (SQLException error) {
+            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
+        }
+
+        return retroalimentacion;
     }
 }

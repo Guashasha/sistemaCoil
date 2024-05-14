@@ -12,5 +12,4 @@ public interface IDAO<Tipo, TipoId> {
     int modificar (Tipo obj) throws ErrorDAO, ExecutionControl.NotImplementedException;
     Optional<Tipo> getPorId (TipoId y) throws ErrorDAO;
     List<Tipo> getTodos () throws ErrorDAO;
-    Tipo resultSetAObjeto (ResultSet resultados);
 }

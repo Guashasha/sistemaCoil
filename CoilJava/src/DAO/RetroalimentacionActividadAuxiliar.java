@@ -13,11 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static DAO.RetroalimentacionActividadDAO.resultSetAObjeto;
 
-public class RetroalimentacionActividadAuxiliar implements IRetroalimentacionActividadDAO {
+
+public class RetroalimentacionActividadAuxiliar {
     private static final Logger BITACORA = Logger.getLogger(RetroalimentacionActividadDTO.class.getName());
 
-    @Override
     public int agregar (RetroalimentacionActividadDTO retroalimentacion) throws ErrorDAO {
         if (!retroalimentacion.esCorrecto()) {
             throw new ErrorDAO("La retroalimentacion es incorrecta", Tipo.VALIDACION);
@@ -35,137 +36,66 @@ public class RetroalimentacionActividadAuxiliar implements IRetroalimentacionAct
         }
 
         int resultado = -1;
+        RetroalimentacionActividadDAO retroalimentacionDAO = new RetroalimentacionActividadDAO();
 
         try {
-            resultado = RetroalimentacionActividadDAO.agregarRetroalimentacion(retroalimentacion);
+            resultado = retroalimentacionDAO.agregar(retroalimentacion);
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             BITACORA.error(error);
         }
 
         return resultado;
     }
 
-    @Override
-    public int modificar (RetroalimentacionActividadDTO retroalimentacion) throws ErrorDAO {
-        throw new ErrorDAO("metodo no disponible para el objeto", Tipo.VALIDACION);
-    }
-
-    @Override
     public Optional<RetroalimentacionActividadDTO> getPorId (Integer id) throws ErrorDAO {
         if (id < 1) {
             throw new ErrorDAO("El id es invalido" + id, Tipo.VALIDACION);
         }
 
-        ResultSet rsRetroalimentacion = null;
+        Optional<RetroalimentacionActividadDTO> rsRetroalimentacion = Optional.empty();
+        RetroalimentacionActividadDAO retroalimentacionDAO = new RetroalimentacionActividadDAO();
 
         try {
-            rsRetroalimentacion = RetroalimentacionActividadDAO.getPorId(id);
+            rsRetroalimentacion = retroalimentacionDAO.getPorId(id);
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             BITACORA.error(error);
         }
 
-
-        RetroalimentacionActividadDTO objRetroalimentacion = null;
-
-        try {
-            if (rsRetroalimentacion != null && rsRetroalimentacion.next()) {
-                objRetroalimentacion = resultSetAObjeto(rsRetroalimentacion);
-
-                rsRetroalimentacion.close();
-            }
-        }
-        catch (SQLException error) {
-            BITACORA.error(error);
-        }
-
-        return Optional.ofNullable(objRetroalimentacion);
+        return rsRetroalimentacion;
     }
 
-    @Override
     public List<RetroalimentacionActividadDTO> getTodos () throws ErrorDAO {
-        ResultSet resultsRetroalimentaciones = null;
+        List<RetroalimentacionActividadDTO> retroalimentaciones = null;
+        RetroalimentacionActividadDAO retroalimentacionDAO = new RetroalimentacionActividadDAO();
 
         try {
-            resultsRetroalimentaciones = RetroalimentacionActividadDAO.getTodos();
+            retroalimentaciones = retroalimentacionDAO.getTodos();
         }
-        catch (SQLException error) {
-            BITACORA.error(error);
-        }
-
-        ArrayList<RetroalimentacionActividadDTO> retroalimentaciones = new ArrayList<>();
-
-        if (resultsRetroalimentaciones == null) {
-            return retroalimentaciones;
-        }
-
-        try {
-            while (resultsRetroalimentaciones.next()) {
-                RetroalimentacionActividadDTO retroalimentacion = resultSetAObjeto(resultsRetroalimentaciones);
-
-                if (retroalimentacion.esCorrecto()) {
-                    retroalimentaciones.add(retroalimentacion);
-                }
-            }
-
-            resultsRetroalimentaciones.close();
-        }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             BITACORA.error(error);
         }
 
         return retroalimentaciones;
     }
 
-    @Override
     public Optional<RetroalimentacionActividadDTO> getPorPersonaYActividad (int idPersona, int idActividad) throws ErrorDAO {
         if (idPersona < 1 || idActividad < 1) {
             throw new ErrorDAO("Las id's ingresadas son incorrectas", Tipo.VALIDACION);
         }
 
-        ResultSet resultados = null;
+        Optional<RetroalimentacionActividadDTO> retroalimentacion = Optional.empty();
+        RetroalimentacionActividadDAO retroalimentacionDAO = new RetroalimentacionActividadDAO();
 
         try {
-            resultados = RetroalimentacionActividadDAO.getPorPersonaYActividad(idPersona, idActividad);
+            retroalimentacion = retroalimentacionDAO.getPorPersonaYActividad(idPersona, idActividad);
         }
-        catch (SQLException error) {
-            BITACORA.error(error);
-        }
-
-        RetroalimentacionActividadDTO retroalimentacion = null;
-
-        try {
-            if (resultados != null && resultados.next()) {
-                retroalimentacion = resultSetAObjeto(resultados);
-
-                resultados.close();
-            }
-        }
-        catch (SQLException error) {
-            BITACORA.error(error);
-        }
-
-        return Optional.ofNullable(retroalimentacion);
-    }
-
-    @Override
-    public RetroalimentacionActividadDTO resultSetAObjeto (ResultSet resultados) {
-        RetroalimentacionActividadDTO retroalimentacion = new RetroalimentacionActividadDTO();
-
-        try {
-            retroalimentacion.setIdRetroalimentacion(resultados.getInt(1));
-            retroalimentacion.setInteraccionConPar(resultados.getInt(2));
-            retroalimentacion.setComentario(resultados.getString(3));
-            retroalimentacion.setDificultad(resultados.getInt(4));
-            retroalimentacion.setInteres(resultados.getInt(5));
-            retroalimentacion.setIdUsuario(resultados.getInt(6));
-            retroalimentacion.setIdActividad(resultados.getInt(7));
-        }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             BITACORA.error(error);
         }
 
         return retroalimentacion;
     }
+
 }
