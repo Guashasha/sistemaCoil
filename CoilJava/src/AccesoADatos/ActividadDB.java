@@ -6,13 +6,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ActividadDB {
-    private static final ConexionBaseDatos CONEXION = new ConexionBaseDatos();
 
     public static int agregarActividad (Actividad actividad) throws SQLException {
         int resultado = -1;
 
         try {
-            PreparedStatement consulta = CONEXION.getConexion().prepareStatement("insert into actividad (titulo, descripcion, tipo) values (?, ?, ?);");
+            PreparedStatement consulta = ConexionBaseDatos.getInstancia().prepareStatement("insert into actividad (titulo, descripcion, tipo) values (?, ?, ?);");
 
             consulta.setString(1, actividad.getTitulo());
             consulta.setString(2, actividad.getDescripcion());
@@ -22,7 +21,7 @@ public class ActividadDB {
             consulta.close();
         }
         finally {
-            CONEXION.desconectar();
+            ConexionBaseDatos.desconectar();
         }
 
         return resultado;
@@ -32,7 +31,7 @@ public class ActividadDB {
         ResultSet resultado = null;
 
         try {
-            PreparedStatement consulta = CONEXION.getConexion().prepareStatement("select * from actividad where idActividad=?");
+            PreparedStatement consulta = ConexionBaseDatos.getInstancia().prepareStatement("select * from actividad where idActividad=?");
 
             consulta.setInt(1, idActividad);
 
@@ -40,7 +39,7 @@ public class ActividadDB {
             consulta.close();
         }
         finally {
-            CONEXION.desconectar();
+            ConexionBaseDatos.desconectar();
         }
 
         return resultado;
@@ -50,7 +49,7 @@ public class ActividadDB {
         ResultSet resultado = null;
 
         try {
-            PreparedStatement consulta = CONEXION.getConexion().prepareStatement("select * from actividad where titulo=?");
+            PreparedStatement consulta = ConexionBaseDatos.getInstancia().prepareStatement("select * from actividad where titulo=?");
 
             consulta.setString(1, titulo);
 
@@ -58,7 +57,7 @@ public class ActividadDB {
             consulta.close();
         }
         finally {
-            CONEXION.desconectar();
+            ConexionBaseDatos.desconectar();
         }
 
         return resultado;
@@ -68,7 +67,7 @@ public class ActividadDB {
         ResultSet resultado;
 
         try {
-            PreparedStatement consulta = CONEXION.getConexion().prepareStatement("select idActividad, titulo, descripcion, tipo from actividad natural join calendarioActividades where idColaboracion=?");
+            PreparedStatement consulta = ConexionBaseDatos.getInstancia().prepareStatement("select idActividad, titulo, descripcion, tipo from actividad natural join calendarioActividades where idColaboracion=?");
 
             consulta.setInt(1, idColaboracion);
 
@@ -76,7 +75,7 @@ public class ActividadDB {
             consulta.close();
         }
         finally {
-            CONEXION.desconectar();
+            ConexionBaseDatos.desconectar();
         }
 
         return resultado;
@@ -86,13 +85,13 @@ public class ActividadDB {
         ResultSet resultado = null;
 
         try {
-            PreparedStatement consulta = CONEXION.getConexion().prepareStatement("select * from actividad");
+            PreparedStatement consulta = ConexionBaseDatos.getInstancia().prepareStatement("select * from actividad");
 
             resultado = consulta.executeQuery();
             consulta.close();
         }
         finally {
-            CONEXION.desconectar();
+            ConexionBaseDatos.desconectar();
         }
 
         return resultado;

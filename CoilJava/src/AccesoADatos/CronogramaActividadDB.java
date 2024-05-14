@@ -10,12 +10,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class CronogramaActividadDB {
-    private static final ConexionBaseDatos CONEXION = new ConexionBaseDatos();
     public static int agregar (Actividad actividad, Colaboracion colaboracion, Periodo periodo) throws SQLException {
         int resultado = -1;
 
         try {
-            PreparedStatement consulta = CONEXION.getConexion().prepareStatement("insert into calendarioActividades (idActividad, idColaboracion, fechaInicio, fechaFin) values (?, ?, ?, ?);");
+            PreparedStatement consulta = ConexionBaseDatos.getInstancia().prepareStatement("insert into calendarioActividades (idActividad, idColaboracion, fechaInicio, fechaFin) values (?, ?, ?, ?);");
 
             consulta.setInt(1, actividad.getIdActividad());
             consulta.setInt(2, colaboracion.getIdColaboracion());
@@ -25,7 +24,7 @@ public class CronogramaActividadDB {
             resultado = consulta.executeUpdate();
         }
         finally {
-            CONEXION.desconectar();
+            ConexionBaseDatos.desconectar();
         }
 
         return resultado;
@@ -35,7 +34,7 @@ public class CronogramaActividadDB {
         ResultSet resultado = null;
 
         try {
-            PreparedStatement consulta = CONEXION.getConexion().prepareStatement("select * from calendarioActividades where idActividad=? and idColaboracion=?");
+            PreparedStatement consulta = ConexionBaseDatos.getInstancia().prepareStatement("select * from calendarioActividades where idActividad=? and idColaboracion=?");
 
             consulta.setInt(1, idActividad);
             consulta.setInt(2, idColaboracion);
@@ -43,7 +42,7 @@ public class CronogramaActividadDB {
             resultado = consulta.executeQuery();
         }
         finally {
-            CONEXION.desconectar();
+            ConexionBaseDatos.desconectar();
         }
 
         return resultado;
@@ -53,13 +52,13 @@ public class CronogramaActividadDB {
         ResultSet resultado = null;
 
         try {
-            PreparedStatement consulta = CONEXION.getConexion().prepareStatement("select * from calendarioActividades;");
+            PreparedStatement consulta = ConexionBaseDatos.getInstancia().prepareStatement("select * from calendarioActividades;");
 
             resultado = consulta.executeQuery();
             consulta.close();
         }
         finally {
-            CONEXION.desconectar();
+            ConexionBaseDatos.desconectar();
         }
 
         return resultado;

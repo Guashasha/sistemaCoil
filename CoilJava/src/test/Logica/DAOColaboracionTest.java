@@ -22,6 +22,7 @@ class DAOColaboracionTest {
 
     @BeforeEach
     void setUp () {
+        AyudantePruebasColaboracionDB.borrarTodosDatosTabla();
         AyudantePruebasColaboracionDB.agregarPrecondiciones();
     }
 
@@ -34,7 +35,7 @@ class DAOColaboracionTest {
     void pruebaGetColaboracionPorAcademicosParticipantesExitosa () {
         System.out.println("getColaboracionPorAcademicosParticipantes");
         Academico academico1 = new Academico();
-        academico1.setCedulaProfesional("ABC123");
+        academico1.setCedulaProfesional("123");
 
         Academico academico2 = new Academico();
         academico2.setCedulaProfesional("200011");
@@ -42,8 +43,8 @@ class DAOColaboracionTest {
         Colaboracion colaboracion = null;
 
         try {
-            Optional optional = INSTANCIA.getColaboracionPorAcademicosParticipantes(academico1, academico2);
-            colaboracion = (Colaboracion) optional.get();
+            Optional<Colaboracion> optional = INSTANCIA.getColaboracionPorAcademicosParticipantes(academico1, academico2);
+            colaboracion = optional.get();
 
         }
         catch (ErrorDAO errorDAO) {
@@ -59,8 +60,8 @@ class DAOColaboracionTest {
         Colaboracion colaboracion = null;
 
         try {
-            Optional optional = INSTANCIA.getColaboracionPorId(1);
-            colaboracion = (Colaboracion) optional.get();
+            Optional<Colaboracion> optional = INSTANCIA.getColaboracionPorId(1);
+            colaboracion = optional.get();
         }
         catch (ErrorDAO errorDAO) {
             fail("Fallido: pruebaGetColaboracionPorIdExitosa");

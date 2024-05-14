@@ -4,22 +4,23 @@ import Logica.Dominio.Academico;
 import Logica.Dominio.Colaboracion;
 import Logica.Dominio.Estudiante;
 import Logica.Dominio.Periodo;
+import Utilidades.ErrorDAO;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ColaboracionDB {
-    private static final ConexionBaseDatos CONEXION_BASE_DATOS = new ConexionBaseDatos();
+    private static final Logger BITACORA = Logger.getLogger(ColaboracionDB.class);
 
-    public static Colaboracion getColaboracionPorAcademicosParticipantes (Academico academico1, Academico academico2) throws SQLException {
+    public static Colaboracion getColaboracionPorAcademicosParticipantes (Academico academico1, Academico academico2) throws ErrorDAO {
         String getColaboracionPorAcademicoSQL = "{CALL obtener_colaboracion_academicos(?,?)}";
         Colaboracion colaboracion = null;
 
         try {
-            CONEXION_BASE_DATOS.conectar();
-            CallableStatement getColaboracionPorAcademico = CONEXION_BASE_DATOS.getConexion().
-                                                                               prepareCall(getColaboracionPorAcademicoSQL);
+            CallableStatement getColaboracionPorAcademico = ConexionBaseDatos.getInstancia().
+                                                                             prepareCall(getColaboracionPorAcademicoSQL);
             getColaboracionPorAcademico.setString(1, academico1.getCedulaProfesional());
             getColaboracionPorAcademico.setString(2, academico2.getCedulaProfesional());
 
@@ -27,58 +28,68 @@ public class ColaboracionDB {
 
             if (resultadoGetColaboracionPorAcademico.next()) {
                 colaboracion = convertirColaboracion(resultadoGetColaboracionPorAcademico);
-            }
+                colaboracion.setAnfitrion(convertirAcademico(resultadoGetColaboracionPorAcademico));
 
+                if (resultadoGetColaboracionPorAcademico.next()) {
+                    colaboracion.setAcademicoPar(convertirAcademico(resultadoGetColaboracionPorAcademico));
+                }
+            }
             resultadoGetColaboracionPorAcademico.close();
             getColaboracionPorAcademico.close();
 
         }
+        catch (SQLException error) {
+            BITACORA.fatal(error.getMessage());
+            throw new ErrorDAO("Error al obtener la colaboración", ErrorDAO.Tipo.CONSULTA);
+        }
         finally {
-            CONEXION_BASE_DATOS.desconectar();
+            ConexionBaseDatos.desconectar();
 
         }
         return colaboracion;
     }
 
-    public static Colaboracion getColaboracionPorId (int idColaboracion) throws SQLException {
-        String colaboracionPorIdSQL = "SELECT * from colaboracion WHERE idColaboracion = ?";
+    public static Colaboracion getColaboracionPorId (int idColaboracion) throws ErrorDAO {
+        String colaboracionPorIdSQL = """
+                SELECT c.*, va.*
+                FROM colaboracion c
+                INNER JOIN academicodesarrolla ad ON c.idColaboracion = ad.idColaboracion
+                INNER JOIN vista_academico va ON ad.idAcademico = va.cedulaProfesional
+                WHERE c.idColaboracion = ?""";
         Colaboracion colaboracion = null;
-
         try {
-            CONEXION_BASE_DATOS.conectar();
-            PreparedStatement colaboracionPorId = CONEXION_BASE_DATOS.getConexion()
-                                                                     .prepareStatement
-                                                                             (colaboracionPorIdSQL);
+            PreparedStatement colaboracionPorId = ConexionBaseDatos.getInstancia()
+                                                                   .prepareStatement(colaboracionPorIdSQL);
 
             colaboracionPorId.setInt(1, idColaboracion);
-
             ResultSet resultadoColaboracionPorId = colaboracionPorId.executeQuery();
-
             if (resultadoColaboracionPorId.next()) {
                 colaboracion = convertirColaboracion(resultadoColaboracionPorId);
-            }
+                colaboracion.setAnfitrion(convertirAcademico(resultadoColaboracionPorId));
 
+                if (resultadoColaboracionPorId.next()) {
+                    colaboracion.setAcademicoPar(convertirAcademico(resultadoColaboracionPorId));
+                }
+            }
             resultadoColaboracionPorId.close();
             colaboracionPorId.close();
-
+        }
+        catch (SQLException error) {
+            BITACORA.fatal(error.getMessage());
+            throw new ErrorDAO("Error al obtener las colaboraciones por su identificador", ErrorDAO.Tipo.CONSULTA);
         }
         finally {
-            CONEXION_BASE_DATOS.desconectar();
-
+            ConexionBaseDatos.desconectar();
         }
-
         return colaboracion;
-
     }
 
-    public static List<Estudiante> getListaDeEstudiantes (Colaboracion colaboracion) throws SQLException {
+    public static List<Estudiante> getListaDeEstudiantes (Colaboracion colaboracion) throws ErrorDAO {
         String listaDeEstudiantesSQL = "{CALL obtener_estudiantes_colaboracion(?)}";
         List<Estudiante> listaEstudiantes = new ArrayList<>();
-
         try {
-            CONEXION_BASE_DATOS.conectar();
-            CallableStatement procedimientoListaDeEstudiantes = CONEXION_BASE_DATOS.getConexion().
-                                                                                   prepareCall(listaDeEstudiantesSQL);
+            CallableStatement procedimientoListaDeEstudiantes = ConexionBaseDatos.getInstancia().
+                                                                                 prepareCall(listaDeEstudiantesSQL);
             procedimientoListaDeEstudiantes.setInt(1, colaboracion.getIdColaboracion());
             ResultSet resultadoListaDeEstudiantes = procedimientoListaDeEstudiantes.executeQuery();
 
@@ -86,165 +97,173 @@ public class ColaboracionDB {
                 Estudiante estudiante = convertirEstudiante(resultadoListaDeEstudiantes);
                 listaEstudiantes.add(estudiante);
             }
-
             resultadoListaDeEstudiantes.close();
             procedimientoListaDeEstudiantes.close();
-
+        }
+        catch (SQLException error) {
+            BITACORA.fatal(error.getMessage());
+            throw new ErrorDAO("Error al obtener los estudiantes participantes en la colaboración", ErrorDAO.Tipo.CONSULTA);
         }
         finally {
-            CONEXION_BASE_DATOS.desconectar();
-
+            ConexionBaseDatos.desconectar();
         }
         return listaEstudiantes;
     }
 
-    public static List<Academico> getAcademicosParticipantes (Colaboracion colaboracion) throws SQLException {
+    public static List<Academico> getAcademicosParticipantes (Colaboracion colaboracion) throws ErrorDAO {
         String academicosParticipantes = "{CALL obtener_academicos_colaboracion(?)}";
         List<Academico> listaAcademicos = new ArrayList<>();
-
         try {
-            CONEXION_BASE_DATOS.conectar();
-            CallableStatement procedimientoAcademicosParticipantes = CONEXION_BASE_DATOS.getConexion().
-                                                                                        prepareCall(academicosParticipantes);
+            CallableStatement procedimientoAcademicosParticipantes = ConexionBaseDatos.getInstancia().
+                                                                                      prepareCall(academicosParticipantes);
             procedimientoAcademicosParticipantes.setInt(1, colaboracion.getIdColaboracion());
 
             ResultSet resultadoAcademicosParticipantes = procedimientoAcademicosParticipantes.executeQuery();
-
             while (resultadoAcademicosParticipantes.next()) {
                 Academico academico = convertirAcademico(resultadoAcademicosParticipantes);
                 listaAcademicos.add(academico);
             }
-
             resultadoAcademicosParticipantes.close();
             procedimientoAcademicosParticipantes.close();
-
+        }
+        catch (SQLException error) {
+            BITACORA.fatal(error.getMessage());
+            throw new ErrorDAO("Error al obtneer lo academicos participantes en la colaboración", ErrorDAO.Tipo.CONSULTA);
         }
         finally {
-            CONEXION_BASE_DATOS.desconectar();
-
+            ConexionBaseDatos.desconectar();
         }
-
         return listaAcademicos;
-
     }
 
-    public static List<Colaboracion> getColaboracionPorPeriodo (Periodo periodo) throws SQLException {
-        String colaboracionPorPeriodoSQL = "SELECT * from colaboracion WHERE fechaInicio = ? AND fechaFin = ?";
+
+    public static List<Colaboracion> getColaboracionPorPeriodo (Periodo periodo) throws ErrorDAO {
+        String colaboracionPorPeriodoSQL = """
+                SELECT c.*, va.*
+                FROM colaboracion c
+                INNER JOIN academicodesarrolla ad ON c.idColaboracion = ad.idColaboracion
+                INNER JOIN vista_academico va ON ad.idAcademico = va.cedulaProfesional
+                WHERE c.fechaInicio =? AND fechaFin = ?""";
+
         List<Colaboracion> listaColaboracion = new ArrayList<>();
         try {
-            CONEXION_BASE_DATOS.conectar();
-            PreparedStatement colaboracionPorPeriodo = CONEXION_BASE_DATOS.getConexion().
-                                                                          prepareStatement(colaboracionPorPeriodoSQL);
+            PreparedStatement colaboracionPorPeriodo = ConexionBaseDatos.getInstancia().
+                                                                        prepareStatement(colaboracionPorPeriodoSQL);
             colaboracionPorPeriodo.setDate(1, Date.valueOf(periodo.getFechaInicio()));
             colaboracionPorPeriodo.setDate(2, Date.valueOf(periodo.getFechaFin()));
 
             ResultSet resultadoColaboracionPorPeriodo = colaboracionPorPeriodo.executeQuery();
 
-            while (resultadoColaboracionPorPeriodo.next()) {
-                Colaboracion colaboracion = convertirColaboracion(resultadoColaboracionPorPeriodo);
-                listaColaboracion.add(colaboracion);
-            }
+            procesarResultadosColaboracionConLista(resultadoColaboracionPorPeriodo, listaColaboracion);
 
             colaboracionPorPeriodo.close();
             resultadoColaboracionPorPeriodo.close();
 
         }
-        finally {
-            CONEXION_BASE_DATOS.desconectar();
-
+        catch (SQLException error) {
+            BITACORA.fatal(error.getMessage());
+            throw new ErrorDAO("Error al obtener las colaboraciones por periodo", ErrorDAO.Tipo.CONSULTA);
         }
-
+        finally {
+            ConexionBaseDatos.desconectar();
+        }
         return listaColaboracion;
-
     }
-    public static List<Colaboracion> getColaboracionPorIdioma (String idioma) throws SQLException {
-        String colaboracionPorIdiomaSQL = "SELECT * FROM colaboracion WHERE idioma = ?";
+
+    public static List<Colaboracion> getColaboracionPorIdioma (String idioma) throws ErrorDAO {
+        String colaboracionPorIdiomaSQL = """
+                SELECT c.*, va.*
+                FROM colaboracion c
+                INNER JOIN academicodesarrolla ad ON c.idColaboracion = ad.idColaboracion
+                INNER JOIN vista_academico va ON ad.idAcademico = va.cedulaProfesional
+                WHERE c.idioma = ?""";
         List<Colaboracion> listaColaboracion = new ArrayList<>();
 
         try {
-            CONEXION_BASE_DATOS.conectar();
-            PreparedStatement colaboracionPorIdioma = CONEXION_BASE_DATOS.getConexion().
-                                                                        prepareStatement(colaboracionPorIdiomaSQL);
+            PreparedStatement colaboracionPorIdioma = ConexionBaseDatos.getInstancia().
+                                                                       prepareStatement(colaboracionPorIdiomaSQL);
             colaboracionPorIdioma.setString(1, idioma);
 
             ResultSet resultadoColaboracionPorIdioma = colaboracionPorIdioma.executeQuery();
 
-            while (resultadoColaboracionPorIdioma.next()) {
-                Colaboracion colaboracion = convertirColaboracion(resultadoColaboracionPorIdioma);
-                listaColaboracion.add(colaboracion);
-            }
+            procesarResultadosColaboracionConLista(resultadoColaboracionPorIdioma, listaColaboracion);
             colaboracionPorIdioma.close();
             resultadoColaboracionPorIdioma.close();
         }
-        finally {
-            CONEXION_BASE_DATOS.desconectar();
+        catch (SQLException error) {
+            BITACORA.fatal(error.getMessage());
+            throw new ErrorDAO("Error al obtener las colaboraciones por idioma", ErrorDAO.Tipo.CONSULTA);
         }
-
+        finally {
+            ConexionBaseDatos.desconectar();
+        }
         return listaColaboracion;
     }
 
-    public static List<Colaboracion> getColaboracionPorEstado (String estado) throws SQLException {
-        String colaboracionPorEstadoSQL = "SELECT * FROM colaboracion WHERE estado = ?";
+    public static List<Colaboracion> getColaboracionPorEstado (String estado) throws ErrorDAO {
+        String colaboracionPorEstadoSQL = """
+                SELECT c.*, va.*
+                FROM colaboracion c
+                INNER JOIN academicodesarrolla ad ON c.idColaboracion = ad.idColaboracion
+                INNER JOIN vista_academico va ON ad.idAcademico = va.cedulaProfesional
+                WHERE c.estado = ?""";
         List<Colaboracion> listaColaboraciones = new ArrayList<>();
 
         try {
-            CONEXION_BASE_DATOS.conectar();
-            PreparedStatement colaboracionPorEstado = CONEXION_BASE_DATOS.getConexion().
-                                                                         prepareStatement(colaboracionPorEstadoSQL);
+            PreparedStatement colaboracionPorEstado = ConexionBaseDatos.getInstancia().
+                                                                       prepareStatement(colaboracionPorEstadoSQL);
             colaboracionPorEstado.setString(1, estado);
 
             ResultSet resultadoColaboracionPorEstado = colaboracionPorEstado.executeQuery();
 
-            while (resultadoColaboracionPorEstado.next()) {
-                Colaboracion colaboracion = convertirColaboracion(resultadoColaboracionPorEstado);
-                listaColaboraciones.add(colaboracion);
-            }
+            procesarResultadosColaboracionConLista(resultadoColaboracionPorEstado, listaColaboraciones);
             resultadoColaboracionPorEstado.close();
             colaboracionPorEstado.close();
         }
+        catch (SQLException error) {
+            BITACORA.fatal(error.getMessage());
+            throw new ErrorDAO("Error al obtener la colaboración", ErrorDAO.Tipo.CONSULTA);
+        }
         finally {
-            CONEXION_BASE_DATOS.desconectar();
+            ConexionBaseDatos.desconectar();
         }
 
         return listaColaboraciones;
     }
 
-    public static int cambiarEstadoColaboracion (Colaboracion colaboracion) throws SQLException{
+    public static int cambiarEstadoColaboracion (Colaboracion colaboracion) throws ErrorDAO {
         String cambiarEstadoColaboracionSQL = "UPDATE colaboracion SET estado = ? WHERE idColaboracion = ?";
         int filasAfectadas;
 
         try {
-            CONEXION_BASE_DATOS.conectar();
-            PreparedStatement cambiarEstadoColaboracion = CONEXION_BASE_DATOS.getConexion().
-                                                                             prepareStatement(cambiarEstadoColaboracionSQL);
+            PreparedStatement cambiarEstadoColaboracion = ConexionBaseDatos.getInstancia().
+                                                                           prepareStatement(cambiarEstadoColaboracionSQL);
             cambiarEstadoColaboracion.setString(1, colaboracion.getEstado().
-                                                               name().toLowerCase());
-
+                                                               name()
+                                                               .toLowerCase());
             cambiarEstadoColaboracion.setInt(2, colaboracion.getIdColaboracion());
-
             filasAfectadas = cambiarEstadoColaboracion.executeUpdate();
-
             cambiarEstadoColaboracion.close();
-
+        }
+        catch (SQLException error) {
+            BITACORA.fatal(error.getMessage());
+            throw new ErrorDAO("Error al cambiar el estado de la colaboración", ErrorDAO.Tipo.MODIFICACION);
         }
         finally {
-            CONEXION_BASE_DATOS.desconectar();
-
+            ConexionBaseDatos.desconectar();
         }
-
         return filasAfectadas;
-
     }
 
 
-    public static int agregarEstudianteAColaboracion (Colaboracion colaboracion, Estudiante estudiante) throws SQLException {
+    public static int agregarEstudianteAColaboracion (Colaboracion colaboracion, Estudiante estudiante) throws ErrorDAO {
         String agregarEstudianteAColaboracionSQL = "INSERT INTO estudiantescolaboracion (idEstudiante, idColaboracion) VALUES (?, ?)";
         int filasAfectadas;
 
         try {
-            CONEXION_BASE_DATOS.conectar();
-            PreparedStatement agregarEstudianteAColaboracion = CONEXION_BASE_DATOS.getConexion().
-                                                                                  prepareStatement(agregarEstudianteAColaboracionSQL);
+
+            PreparedStatement agregarEstudianteAColaboracion = ConexionBaseDatos.getInstancia().
+                                                                                prepareStatement(agregarEstudianteAColaboracionSQL);
             agregarEstudianteAColaboracion.setInt(1, estudiante.getIdEstudiante());
             agregarEstudianteAColaboracion.setInt(2, colaboracion.getIdColaboracion());
 
@@ -253,47 +272,49 @@ public class ColaboracionDB {
             agregarEstudianteAColaboracion.close();
 
         }
-        finally {
-            CONEXION_BASE_DATOS.desconectar();
-
+        catch (SQLException error) {
+            BITACORA.fatal(error.getMessage());
+            throw new ErrorDAO("El error al agregar un estudiante a la colaboración", ErrorDAO.Tipo.INSERCION);
         }
-
+        finally {
+            ConexionBaseDatos.desconectar();
+        }
         return filasAfectadas;
 
     }
 
-    public static int agregarAcademicoAColaboracion (Colaboracion colaboracion, Academico academico) throws SQLException {
+    public static int agregarAcademicoAColaboracion (Colaboracion colaboracion, Academico academico) throws ErrorDAO {
         String agregarAcademicoAColaboracionSQL = "INSERT INTO academicodesarrolla (idColaboracion, idAcademico) VALUES (?, ?)";
         int filasAfectadas;
 
         try {
-            CONEXION_BASE_DATOS.conectar();
-            PreparedStatement agregarAcademicoAColaboracion = CONEXION_BASE_DATOS.getConexion().
-                                                                                 prepareStatement(agregarAcademicoAColaboracionSQL);
+
+            PreparedStatement agregarAcademicoAColaboracion = ConexionBaseDatos.getInstancia().
+                                                                               prepareStatement(agregarAcademicoAColaboracionSQL);
             agregarAcademicoAColaboracion.setInt(1, colaboracion.getIdColaboracion());
             agregarAcademicoAColaboracion.setString(2, academico.getCedulaProfesional());
 
             filasAfectadas = agregarAcademicoAColaboracion.executeUpdate();
-
             agregarAcademicoAColaboracion.close();
-
+        }
+        catch (SQLException error) {
+            BITACORA.fatal(error.getMessage());
+            throw new ErrorDAO("Error al agregar a un académic a una colaboración", ErrorDAO.Tipo.INSERCION);
         }
         finally {
-            CONEXION_BASE_DATOS.desconectar();
-
+            ConexionBaseDatos.desconectar();
         }
-
         return filasAfectadas;
     }
 
-    public static int registrarColaboracion (Colaboracion colaboracion) throws SQLException {
+    public static int registrarColaboracion (Colaboracion colaboracion) throws ErrorDAO {
         String registrarColaboracionSQL = "{CALL registrar_Colaboracion(?,?,?,?,?,?,?,?)}";
         int filasAfectadas;
 
         try {
-            CONEXION_BASE_DATOS.conectar();
-            CallableStatement procedimientoRegistrarColaboracion = CONEXION_BASE_DATOS.getConexion().
-                                                                                      prepareCall(registrarColaboracionSQL);
+
+            CallableStatement procedimientoRegistrarColaboracion = ConexionBaseDatos.getInstancia().
+                                                                                    prepareCall(registrarColaboracionSQL);
             procedimientoRegistrarColaboracion.setString(1, colaboracion.getEstado()
                                                                         .name());
             procedimientoRegistrarColaboracion.setString(2, colaboracion.getTipo()
@@ -302,9 +323,9 @@ public class ColaboracionDB {
             procedimientoRegistrarColaboracion.setString(4, colaboracion.getIdioma());
             procedimientoRegistrarColaboracion.setString(5, colaboracion.getObjetivo());
             procedimientoRegistrarColaboracion.setDate(6, Date.valueOf(colaboracion.getPeriodo().
-                                                                      getFechaInicio()));
+                                                                                   getFechaInicio()));
             procedimientoRegistrarColaboracion.setDate(7, Date.valueOf(colaboracion.getPeriodo().
-                                                                      getFechaFin()));
+                                                                                   getFechaFin()));
             procedimientoRegistrarColaboracion.setString(8, colaboracion.getPerfilEstudiante());
 
             filasAfectadas = procedimientoRegistrarColaboracion.executeUpdate();
@@ -312,23 +333,23 @@ public class ColaboracionDB {
             procedimientoRegistrarColaboracion.close();
 
         }
-        finally {
-            CONEXION_BASE_DATOS.desconectar();
-
+        catch (SQLException error) {
+            BITACORA.fatal(error.getMessage());
+            throw new ErrorDAO("Error al registrar la colaboración", ErrorDAO.Tipo.INSERCION);
         }
-
+        finally {
+            ConexionBaseDatos.desconectar();
+        }
         return filasAfectadas;
-
     }
 
-    public static int actualizarColaboracion (Colaboracion colaboracion) throws SQLException {
+    public static int actualizarColaboracion (Colaboracion colaboracion) throws ErrorDAO {
         String actualizarColaboracionSQL = "{CALL actualizar_Colaboracion(?, ?, ?, ?, ?, ?, ?, ?, ?)}";
         int filasAfectadas;
-
         try {
-            CONEXION_BASE_DATOS.conectar();
-            CallableStatement procedimientoActualizarColaboracion = CONEXION_BASE_DATOS.getConexion()
-                                                                                       .prepareCall(actualizarColaboracionSQL);
+
+            CallableStatement procedimientoActualizarColaboracion = ConexionBaseDatos.getInstancia()
+                                                                                     .prepareCall(actualizarColaboracionSQL);
 
             procedimientoActualizarColaboracion.setInt(1, colaboracion.getIdColaboracion());
             procedimientoActualizarColaboracion.setString(2, colaboracion.getEstado()
@@ -339,9 +360,9 @@ public class ColaboracionDB {
             procedimientoActualizarColaboracion.setString(5, colaboracion.getIdioma());
             procedimientoActualizarColaboracion.setString(6, colaboracion.getObjetivo());
             procedimientoActualizarColaboracion.setDate(7, Date.valueOf(colaboracion.getPeriodo().
-                                                                       getFechaInicio()));
+                                                                                    getFechaInicio()));
             procedimientoActualizarColaboracion.setDate(8, Date.valueOf(colaboracion.getPeriodo().
-                                                                       getFechaFin()));
+                                                                                    getFechaFin()));
             procedimientoActualizarColaboracion.setString(9, colaboracion.getPerfilEstudiante());
 
             filasAfectadas = procedimientoActualizarColaboracion.executeUpdate();
@@ -349,22 +370,27 @@ public class ColaboracionDB {
             procedimientoActualizarColaboracion.close();
 
         }
-        finally {
-            CONEXION_BASE_DATOS.desconectar();
-
+        catch (SQLException error) {
+            BITACORA.fatal(error.getMessage());
+            throw new ErrorDAO("Error al actualizar la colaboración", ErrorDAO.Tipo.MODIFICACION);
         }
-
+        finally {
+            ConexionBaseDatos.desconectar();
+        }
         return filasAfectadas;
     }
 
-    public static Colaboracion getPorId (int id) throws SQLException {
-        String getPorIdSQL = "SELECT * FROM colaboracion WHERE idColaboraion = ?";
+    public static Colaboracion getPorId (int id) throws ErrorDAO {
+        String getPorIdSQL = """
+                SELECT c.*, va.*
+                FROM colaboracion c
+                INNER JOIN academicodesarrolla ad ON c.idColaboracion = ad.idColaboracion
+                INNER JOIN vista_academico va ON ad.idAcademico = va.cedulaProfesional
+                WHERE c.idColaboracion = ?""";
         Colaboracion colaboracion = null;
-
         try {
-            CONEXION_BASE_DATOS.conectar();
-            PreparedStatement getPorId = CONEXION_BASE_DATOS.getConexion().
-                                                            prepareStatement(getPorIdSQL);
+            PreparedStatement getPorId = ConexionBaseDatos.getInstancia().
+                                                          prepareStatement(getPorIdSQL);
             getPorId.setInt(1, id);
 
             ResultSet resultadoGetPorId = getPorId.executeQuery();
@@ -374,43 +400,43 @@ public class ColaboracionDB {
             }
             getPorId.close();
             resultadoGetPorId.close();
-
+        }
+        catch (SQLException error) {
+            BITACORA.fatal(error.getMessage());
+            throw new ErrorDAO("Error al obtener la colaboración", ErrorDAO.Tipo.CONSULTA);
         }
         finally {
-            CONEXION_BASE_DATOS.desconectar();
-
+            ConexionBaseDatos.desconectar();
         }
-
         return colaboracion;
-
     }
 
-    public static List<Colaboracion> getTodos () throws SQLException {
-        String getTodosSQL = "SELECT * FROM colaboracion";
+    public static List<Colaboracion> getTodos () throws ErrorDAO {
+        String getTodosSQL = """
+                SELECT c.*, va.*
+                FROM colaboracion c
+                LEFT JOIN academicodesarrolla ad ON c.idColaboracion = ad.idColaboracion
+                LEFT JOIN vista_academico va ON ad.idAcademico = va.cedulaProfesional""";
         List<Colaboracion> listaColaboracion = new ArrayList<>();
 
         try {
-            CONEXION_BASE_DATOS.conectar();
-            PreparedStatement getTodos = CONEXION_BASE_DATOS.getConexion().
-                                                            prepareStatement(getTodosSQL);
+            PreparedStatement getTodos = ConexionBaseDatos.getInstancia().
+                                                          prepareStatement(getTodosSQL);
             ResultSet resultadoGetTodos = getTodos.executeQuery();
 
-            while (resultadoGetTodos.next()) {
-                Colaboracion colaboracion = convertirColaboracion(resultadoGetTodos);
-                listaColaboracion.add(colaboracion);
-            }
+            procesarResultadosColaboracionConLista(resultadoGetTodos, listaColaboracion);
 
             resultadoGetTodos.close();
             getTodos.close();
-
+        }
+        catch (SQLException error) {
+            BITACORA.fatal(error.getMessage());
+            throw new ErrorDAO("Error al obtener todas las colaboraciones registradas", ErrorDAO.Tipo.CONSULTA);
         }
         finally {
-            CONEXION_BASE_DATOS.desconectar();
-
+            ConexionBaseDatos.desconectar();
         }
-
         return listaColaboracion;
-
     }
 
 
@@ -447,15 +473,7 @@ public class ColaboracionDB {
         return colaboracion;
     }
 
-    //todo
-
-    public Colaboracion getActivaPorAcademico (Academico academico) throws SQLException {
-        Colaboracion colaboracion = new Colaboracion();
-        return colaboracion;
-    }
-
     private static Estudiante convertirEstudiante (ResultSet resultado) throws SQLException {
-
         Estudiante estudiante = new Estudiante();
         estudiante.setIdPersona(resultado.getInt("idPersona"));
         estudiante.setNombre(resultado.getString("nombre"));
@@ -468,8 +486,7 @@ public class ColaboracionDB {
         return estudiante;
     }
 
-    private static Academico convertirAcademico (ResultSet resultado) throws SQLException {
-
+    private static Academico convertirAcademico(ResultSet resultado) throws SQLException {
         Academico academico = new Academico();
 
         academico.setIdPersona(resultado.getInt("idPersona"));
@@ -477,26 +494,45 @@ public class ColaboracionDB {
         academico.setApellidoPaterno(resultado.getString("apellidoPaterno"));
         academico.setApellidoMaterno(resultado.getString("apellidoMaterno"));
         academico.setIdUniversidad(resultado.getInt("idUniversidad"));
-        academico.setCategoriaContratacion(resultado.getString("cedulaProfesional"));
+        academico.setCedulaProfesional(resultado.getString("cedulaProfesional"));
+
+        if (resultado.getString("categoriaContratacion") != null) {
+            academico.setCategoriaContratacion(resultado.getString("categoriaContratacion"));
+        }
+        if (resultado.getObject("idFacultad") != null) {
+            academico.setIdFacultad(resultado.getInt("idFacultad"));
+        }
         academico.setNumeroPersonal(resultado.getString("numeroDePersonal"));
         academico.setAreaEstudios(resultado.getString("areaEstudios"));
         academico.setCorreoElectronico(resultado.getString("correoElectronico"));
         academico.setNumeroTelefonico(resultado.getString("numeroTelefonico"));
-        academico.setCategoriaContratacion(resultado.getString("categoriaContratacion"));
-        academico.setIdFacultad(resultado.getInt("idFacultad"));
-
         return academico;
     }
 
-    private static Periodo convertirPeriodo (ResultSet resultSet) throws SQLException {
-        Periodo periodo = new Periodo();
+    private static void procesarResultadosColaboracionConLista (ResultSet resultados, List<Colaboracion> listaColaboracion) throws SQLException {
+        while (resultados.next()) {
+            Colaboracion colaboracion = convertirColaboracion(resultados);
+            Academico academico = convertirAcademico(resultados);
 
-        periodo.setFechaInicio(resultSet.getDate("fechaInicio").
-                                        toLocalDate());
-        periodo.setFechaFin(resultSet.getDate("fechaFin").
-                                     toLocalDate());
-
-        return periodo;
+            if (!listaColaboracion.isEmpty()) {
+                Colaboracion colaboracionActual = listaColaboracion.get(listaColaboracion.size() - 1);
+                if (colaboracion.getIdColaboracion() == colaboracionActual.getIdColaboracion()) {
+                    if (colaboracionActual.getAnfitrion() == null) {
+                        colaboracionActual.setAnfitrion(academico);
+                    }
+                    else {
+                        colaboracionActual.setAcademicoPar(academico);
+                    }
+                }
+                else {
+                    colaboracion.setAnfitrion(academico);
+                    listaColaboracion.add(colaboracion);
+                }
+            }
+            else {
+                listaColaboracion.add(colaboracion);
+                colaboracion.setAnfitrion(academico);
+            }
+        }
     }
-
 }

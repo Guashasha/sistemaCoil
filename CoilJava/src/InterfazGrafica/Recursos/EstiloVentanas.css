@@ -44,3 +44,14 @@
     -fx-background-color: linear-gradient(from 0% 40% to 0% 100%, #D8316E, #FA790F);
     -fx-opacity: 0.5;
 }
+
+.leftBoarder-pane-solicitud {
+    -fx-background-color: linear-gradient(to right bottom, #ce2794, #dc6504);
+}
+.button-solicitar {
+    -fx-background-color: linear-gradient(to bottom right, #dc6504 4%, #e9c835 73%);
+}
+.combo-box-universidad-solicitud {
+    -fx-font: 14px "System";
+    -fx-background-color: #ffdf53;
+}

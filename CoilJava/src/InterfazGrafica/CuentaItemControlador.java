@@ -49,6 +49,7 @@ public class CuentaItemControlador implements Initializable {
     private Cuenta cuentaObtenida;
 
     private VBox lyInformacionCuenta;
+    private Academico academico;
 
 
     public VBox getLyInformacionCuenta () {
@@ -114,18 +115,14 @@ public class CuentaItemControlador implements Initializable {
         return lbUsuario;
     }
 
-    public Academico getAcademico (int idPersona) {
+    public Academico getAcademico (int idPersona) throws ErrorDAO{
         Academico academico = null;
         DAOAcademico daoAcademico = new DAOAcademico();
-        try {
-            Optional academicoOptional = daoAcademico.getAcademicoPorIdPersona(idPersona);
-            if (academicoOptional.isPresent()) {
-                academico = (Academico) academicoOptional.get();
-            }
+        Optional academicoOptional = daoAcademico.getAcademicoPorIdPersona(idPersona);
+        if (academicoOptional.isPresent()) {
+            academico = (Academico) academicoOptional.get();
         }
-        catch (ErrorDAO errorDAO) {
-            System.out.println("Implementar un alert");
-        }
+        this.academico = academico;
         return academico;
     }
 
@@ -197,6 +194,7 @@ public class CuentaItemControlador implements Initializable {
         Tooltip tooltip = new Tooltip(label.getText());
         Tooltip.install(label, tooltip);
     }
+
 
 
 }

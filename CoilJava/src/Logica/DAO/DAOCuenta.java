@@ -1,172 +1,114 @@
 package Logica.DAO;
 
 import AccesoADatos.CuentaDB;
+import Logica.Dominio.Academico;
 import Logica.Dominio.Cuenta;
 import Utilidades.ErrorDAO;
+import Utilidades.ErrorDAO.Tipo;
 import Logica.Interfaces.ICuentaDAO;
-import org.apache.log4j.Logger;
+import Utilidades.ManejadorCorreo;
+import Utilidades.PlantillasCorreo;
+
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
 public class DAOCuenta implements ICuentaDAO {
-    private static final Logger BITACORA = Logger.getLogger(DAOCuenta.class);
 
     @Override
     public Optional<Cuenta> getCuentaPorUsuario (String nombreUsuario) throws ErrorDAO {
-        Cuenta cuenta = null;
-        if (!cadenaValida(nombreUsuario)) {
-            throw new ErrorDAO("Nombre usuario invalido", ErrorDAO.Tipo.VALIDACION);
-        }
         try {
-            cuenta = CuentaDB.getCuentaPorUsuario(nombreUsuario);
-
+            probarNombreUsuario(nombreUsuario);
+            Cuenta cuenta = CuentaDB.getCuentaPorUsuario(nombreUsuario);
+            return Optional.ofNullable(cuenta);
         }
-        catch (SQLException error) {
-            BITACORA.error(error.getMessage());
-
+        catch (ErrorDAO error) {
+            throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
-        return Optional.ofNullable(cuenta);
     }
 
     @Override
     public int actualizarNombreUsuario (Cuenta cuenta) throws ErrorDAO {
-
-        if (!cuenta.validarNulos()) {
-            throw new ErrorDAO("Al menos un campo de la cuenta esta vacio", ErrorDAO.Tipo.VALIDACION);
+        if (existeNombreUsuario(cuenta)) {
+            throw new ErrorDAO("El nombre " + cuenta.getNombreUsuario() + " ya se encuentra ocupado", Tipo.VALIDACION);
         }
-        if (!getCuentaPorUsuario(cuenta.getNombreUsuario()).isPresent()) {
-            throw new ErrorDAO("El usuario ya se encuentra registrado", ErrorDAO.Tipo.DUPLICIDAD);
-        }
-        if (cuenta.esLongitudValida()) {
-            throw new ErrorDAO("La longitud del usuario excede el limite establecido", ErrorDAO.Tipo.VALIDACION);
-        }
-
-        int filasAfectadas = -1;
         try {
-            filasAfectadas = CuentaDB.actualizarNombreUsuario(cuenta);
-
+            return CuentaDB.actualizarNombreUsuario(cuenta);
         }
-        catch (SQLException error) {
-            BITACORA.error(error.getMessage());
+        catch (ErrorDAO error) {
+            throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
-
-        return filasAfectadas;
     }
 
     @Override
     public boolean verificarCredenciales (String nombreUsuario, String contrasena) throws ErrorDAO {
-        boolean resultado = false;
-
-        if (!cadenaValida(nombreUsuario)) {
-            throw new ErrorDAO("nombre de usuario invalido", ErrorDAO.Tipo.VALIDACION);
-        }
-        if (!cadenaValida(contrasena)) {
-            throw new ErrorDAO("contrasena invalido", ErrorDAO.Tipo.VALIDACION);
-        }
-
         try {
-            resultado = CuentaDB.verificarCredenciales(nombreUsuario, contrasena);
+            probarUsuario(nombreUsuario, contrasena);
+            return CuentaDB.verificarCredenciales(nombreUsuario, contrasena);
         }
-        catch (SQLException error) {
-            BITACORA.error(error.getMessage());
+        catch (ErrorDAO error) {
+            throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
-
-        return resultado;
     }
 
     @Override
     public int actualizarContrasena (Cuenta cuenta, String contrasenaAntigua, String nuevaContrasena) throws ErrorDAO {
-
-        if (!cadenaValida(contrasenaAntigua)) {
-            throw new ErrorDAO("contrasena antigua invalida", ErrorDAO.Tipo.VALIDACION);
-        }
-        if (!cadenaValida(nuevaContrasena)) {
-            throw new ErrorDAO("Nueva contrasena invalida", ErrorDAO.Tipo.VALIDACION);
-        }
-        if (!cuenta.validarNulos()) {
-            throw new ErrorDAO("Error en la cuenta", ErrorDAO.Tipo.VALIDACION);
-        }
-
-        int filasAfectadas = -1;
         try {
-            filasAfectadas = CuentaDB.actualizarContrasena(cuenta, contrasenaAntigua, nuevaContrasena);
-
+            probarContrasenas(contrasenaAntigua, nuevaContrasena);
+            return CuentaDB.actualizarContrasena(cuenta, contrasenaAntigua, nuevaContrasena);
         }
-        catch (SQLException error) {
-            BITACORA.error(error.getMessage());
+        catch (ErrorDAO error) {
+            throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
-        return filasAfectadas;
     }
 
     @Override
     public int cambiarEstadoCuenta (Cuenta cuenta, String estado) throws ErrorDAO {
-
-        if (!cuenta.validarNulos()) {
-            throw new ErrorDAO("Error en la cuenta", ErrorDAO.Tipo.VALIDACION);
-        }
         if (!cadenaValida(estado)) {
             throw new ErrorDAO("Error en el estado ingresado", ErrorDAO.Tipo.VALIDACION);
         }
-
-        int filasAfectadas = -1;
         try {
-            filasAfectadas = CuentaDB.cambiarEstadoCuenta(cuenta, estado);
+            return CuentaDB.cambiarEstadoCuenta(cuenta, estado);
         }
-        catch (SQLException error) {
-            BITACORA.error(error.getMessage());
+        catch (ErrorDAO error) {
+            throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
-        return filasAfectadas;
     }
-    //todo
+
     @Override
     public List<Cuenta> getCuentasPorTipo (String tipo) throws ErrorDAO {
-        List<Cuenta> listaCuenta = null;
         if (!cadenaValida(tipo)) {
             throw new ErrorDAO("Tipo de cuenta invalido", ErrorDAO.Tipo.VALIDACION);
         }
         try {
-            listaCuenta = CuentaDB.getCuentaPorTipo(tipo);
+            return CuentaDB.getCuentaPorTipo(tipo);
         }
-        catch (SQLException error) {
-            BITACORA.error(error.getMessage());
+        catch (ErrorDAO error) {
+            throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
-        return listaCuenta;
     }
 
     @Override
     public List<Cuenta> getCuentasPorEstado (String estado) throws ErrorDAO {
-        List<Cuenta> listaCuentas = null;
         if (!cadenaValida(estado)) {
             throw new ErrorDAO("Estado de cuenta invalido", ErrorDAO.Tipo.VALIDACION);
         }
         try {
-            listaCuentas = CuentaDB.getCuentasPorEstado(estado);
+            return CuentaDB.getCuentasPorEstado(estado);
         }
-        catch (SQLException error) {
-            BITACORA.error(error.getMessage());
+        catch (ErrorDAO error) {
+            throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
-        return listaCuentas;
     }
 
     @Override
     public int agregar (Cuenta cuenta) throws ErrorDAO {
-        if (!cuenta.esLongitudValida()) {
-            throw new ErrorDAO("La longitud de un dato de la cuenta sobrepasa los limites", ErrorDAO.Tipo.VALIDACION);
-        }
-        if (!cuenta.validarNulos()) {
-            throw new ErrorDAO("Al menos un dato de la cuenta esta vacio", ErrorDAO.Tipo.VALIDACION);
-        }
-
-        int filasAfectadas = -1;
         try {
-            filasAfectadas = CuentaDB.agregarCuenta(cuenta);
+            return CuentaDB.agregarCuenta(cuenta);
         }
-        catch (SQLException error) {
-            BITACORA.error(error.getMessage());
+        catch (ErrorDAO error) {
+            throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
-        return filasAfectadas;
     }
 
     @Override
@@ -176,29 +118,25 @@ public class DAOCuenta implements ICuentaDAO {
 
     @Override
     public Optional<Cuenta> getPorId (Integer id) throws ErrorDAO {
-        Cuenta cuenta = null;
         if (!idValido(id)) {
             throw new ErrorDAO("Id de la cuenta no valido", ErrorDAO.Tipo.VALIDACION);
         }
         try {
-            cuenta = CuentaDB.getPorId(id);
+            return Optional.ofNullable(CuentaDB.getPorId(id));
         }
-        catch (SQLException error) {
-            BITACORA.error(error.getMessage());
+        catch (ErrorDAO error) {
+            throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
-        return Optional.ofNullable(cuenta);
     }
 
     @Override
     public List<Cuenta> getTodos () throws ErrorDAO {
-        List<Cuenta> listaCuentas = null;
         try {
-            listaCuentas = CuentaDB.getTodos();
+            return CuentaDB.getTodos();
         }
-        catch (SQLException error) {
-            BITACORA.error(error.getMessage());
+        catch (ErrorDAO error) {
+            throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
-        return listaCuentas;
     }
 
     @Override
@@ -212,5 +150,34 @@ public class DAOCuenta implements ICuentaDAO {
 
     private boolean idValido (int id) {
         return id > 0;
+    }
+
+    private void probarNombreUsuario (String usuario) {
+        Cuenta cuenta = new Cuenta();
+        cuenta.setNombreUsuario(usuario);
+    }
+
+    private boolean existeNombreUsuario (Cuenta cuenta) {
+        return getCuentaPorUsuario(cuenta.getNombreUsuario()).isPresent();
+    }
+    public void usuarioExistente (Cuenta cuenta) {
+        if (getCuentaPorUsuario(cuenta.getNombreUsuario()).isPresent()) {
+            throw new ErrorDAO("El nombre de usuario " + cuenta.getNombreUsuario() + " ya se encuentra registado", Tipo.DUPLICIDAD);
+        }
+    }
+
+
+
+
+    private void probarUsuario (String nombre, String contrasena) {
+        Cuenta cuenta = new Cuenta();
+        cuenta.setNombreUsuario(nombre);
+        cuenta.setContrasena(contrasena);
+    }
+
+    private void probarContrasenas (String contrasenaAntigua, String contrasenaNueva) {
+        Cuenta cuenta = new Cuenta();
+        cuenta.setContrasena(contrasenaAntigua);
+        cuenta.setContrasena(contrasenaNueva);
     }
 }

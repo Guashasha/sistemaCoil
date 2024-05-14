@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RegionDB {
-    private static final ConexionBaseDatos CONEXION_BASE_DATOS = new ConexionBaseDatos();
+    
 
     public static List<Region> getTodasAlfabeticamente () throws SQLException {
         List<Region> listaRegiones = new ArrayList<>();
@@ -18,7 +18,7 @@ public class RegionDB {
         ResultSet resultadoConsulta = null;
 
         try {
-            consultaRegiones = CONEXION_BASE_DATOS.getConexion()
+            consultaRegiones = ConexionBaseDatos.getInstancia()
                     .prepareStatement(consultaRegionesSQL);
             resultadoConsulta = consultaRegiones.executeQuery();
 
@@ -27,7 +27,7 @@ public class RegionDB {
             }
             consultaRegiones.close();
             resultadoConsulta.close();
-            CONEXION_BASE_DATOS.desconectar();
+            ConexionBaseDatos.desconectar();
         }
         catch (SQLException error) {
             throw error;

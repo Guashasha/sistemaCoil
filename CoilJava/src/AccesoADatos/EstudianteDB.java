@@ -1,6 +1,9 @@
 package AccesoADatos;
 
 import Logica.Dominio.Estudiante;
+import Utilidades.ErrorDAO;
+import Utilidades.ErrorDAO.Tipo;
+import org.apache.log4j.Logger;
 
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
@@ -10,16 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EstudianteDB {
-
-    private static final ConexionBaseDatos CONEXION_BASE_DATOS = new ConexionBaseDatos();
-
-    public static int agregarEstudiante (Estudiante estudiante) throws SQLException {
+    private static final Logger BITACORA = Logger.getLogger(EstudianteDB.class);
+    public static int agregarEstudiante (Estudiante estudiante) throws ErrorDAO {
         String procedimientoSQL = "{CALL registrar_Estudiante(?, ?, ?, ?, ?)}";
         int resultado = 0;
-
         try {
-            CONEXION_BASE_DATOS.conectar();
-            CallableStatement registrarEstudiante = CONEXION_BASE_DATOS.getConexion().
+            CallableStatement registrarEstudiante = ConexionBaseDatos.getInstancia().
                                                                       prepareCall(procedimientoSQL);
             registrarEstudiante.setString(1, estudiante.getNombre());
             registrarEstudiante.setString(2, estudiante.getApellidoPaterno());
@@ -27,25 +26,25 @@ public class EstudianteDB {
             registrarEstudiante.setInt(4, estudiante.getIdUniversidad());
             registrarEstudiante.setString(5, estudiante.getMatricula());
 
-
             resultado = registrarEstudiante.executeUpdate();
             registrarEstudiante.close();
 
         }
+        catch (SQLException error) {
+            BITACORA.fatal(error.getMessage());
+            throw new ErrorDAO("Error al agregar estudiantes", Tipo.CONEXION);
+        }
         finally {
-            CONEXION_BASE_DATOS.desconectar();
-
+            ConexionBaseDatos.desconectar();
         }
         return resultado;
     }
 
-    public static int editarEstudiante (Estudiante estudiante) throws SQLException {
+    public static int editarEstudiante (Estudiante estudiante) throws ErrorDAO {
         String procedimientoSQL = "{CALL editar_Estudiante(?, ?, ?, ?, ?)}";
         int resultado = 0;
-
         try {
-            CONEXION_BASE_DATOS.conectar();
-            CallableStatement editarEstudiante = CONEXION_BASE_DATOS.getConexion().
+            CallableStatement editarEstudiante = ConexionBaseDatos.getInstancia().
                                                                        prepareCall(procedimientoSQL);
             editarEstudiante.setString(1, estudiante.getNombre());
             editarEstudiante.setString(2, estudiante.getApellidoPaterno());
@@ -55,23 +54,23 @@ public class EstudianteDB {
 
             resultado = editarEstudiante.executeUpdate();
             editarEstudiante.close();
-
+        }
+        catch (SQLException error) {
+            BITACORA.fatal(error.getMessage());
+            throw new ErrorDAO("Error al editar al estudiante", Tipo.CONEXION);
         }
         finally {
-            CONEXION_BASE_DATOS.desconectar();
-
+            ConexionBaseDatos.desconectar();
         }
         return resultado;
-
     }
 
-    public static Estudiante getPorId (int id) throws SQLException {
+    public static Estudiante getPorId (int id) throws ErrorDAO {
         String consulta = "SELECT * from vista_estudiante WHERE idEstudiante = ?";
         Estudiante estudiante = null;
 
         try {
-            CONEXION_BASE_DATOS.conectar();
-            PreparedStatement consultaEstudianteId = CONEXION_BASE_DATOS.getConexion().
+            PreparedStatement consultaEstudianteId = ConexionBaseDatos.getInstancia().
                                                                       prepareStatement(consulta);
             consultaEstudianteId.setInt(1,id);
             ResultSet resultadoConsulta = consultaEstudianteId.executeQuery();
@@ -81,21 +80,21 @@ public class EstudianteDB {
             consultaEstudianteId.close();
             resultadoConsulta.close();
         }
+        catch (SQLException error) {
+            BITACORA.fatal(error.getMessage());
+            throw new ErrorDAO("Error al obtener un estudiante", Tipo.CONEXION);
+        }
         finally {
-            CONEXION_BASE_DATOS.desconectar();
-
+            ConexionBaseDatos.desconectar();
         }
         return estudiante;
-
     }
 
-    public static Estudiante getEstudiantePorIdPersona (int idPersona) throws SQLException {
+    public static Estudiante getEstudiantePorIdPersona (int idPersona) throws ErrorDAO {
         String consulta = "SELECT * from vista_estudiante WHERE idPersona = ?";
         Estudiante estudiante = null;
-
         try {
-            CONEXION_BASE_DATOS.conectar();
-            PreparedStatement cosnsultaEstudianteIdPersona = CONEXION_BASE_DATOS.getConexion().
+            PreparedStatement cosnsultaEstudianteIdPersona = ConexionBaseDatos.getInstancia().
                                                                         prepareStatement(consulta);
             cosnsultaEstudianteIdPersona.setInt(1,idPersona);
             ResultSet resultadoConsulta = cosnsultaEstudianteIdPersona.executeQuery();
@@ -106,22 +105,21 @@ public class EstudianteDB {
             resultadoConsulta.close();
 
         }
-        finally {
-            CONEXION_BASE_DATOS.desconectar();
-
+        catch (SQLException error) {
+            BITACORA.fatal(error.getMessage());
+            throw new ErrorDAO("Error al consultar al estudiante", Tipo.CONEXION);
         }
-
+        finally {
+            ConexionBaseDatos.desconectar();
+        }
         return estudiante;
-
     }
 
-    public static Estudiante getEstudiantePorMatricula (String matricula) throws SQLException {
+    public static Estudiante getEstudiantePorMatricula (String matricula) throws ErrorDAO {
         String consulta = "SELECT * from vista_estudiante WHERE matricula = ?";
         Estudiante estudiante = null;
-
         try {
-            CONEXION_BASE_DATOS.conectar();
-            PreparedStatement cosnsultaEstudianteMatricula = CONEXION_BASE_DATOS.getConexion().
+            PreparedStatement cosnsultaEstudianteMatricula = ConexionBaseDatos.getInstancia().
                                                                                 prepareStatement(consulta);
             cosnsultaEstudianteMatricula.setString(1,matricula);
             ResultSet resultadoConsulta = cosnsultaEstudianteMatricula.executeQuery();
@@ -131,21 +129,22 @@ public class EstudianteDB {
             cosnsultaEstudianteMatricula.close();
             resultadoConsulta.close();
         }
+        catch (SQLException error) {
+            BITACORA.fatal(error.getMessage());
+            throw new ErrorDAO("Error al consultar al estudiante", Tipo.CONEXION);
+        }
         finally {
-            CONEXION_BASE_DATOS.desconectar();
-
+            ConexionBaseDatos.desconectar();
         }
         return estudiante;
 
     }
 
-    public static List<Estudiante> getEstudiantePorUniversidad (int idUniversidad) throws SQLException {
+    public static List<Estudiante> getEstudiantePorUniversidad (int idUniversidad) throws ErrorDAO {
         String consulta = "SELECT * from vista_estudiante WHERE universidad = ?";
         ArrayList<Estudiante> listaEstudiantes = new ArrayList<>();
-
         try {
-            CONEXION_BASE_DATOS.conectar();
-            PreparedStatement cosnsultaEstudianteUniversidad = CONEXION_BASE_DATOS.getConexion().
+            PreparedStatement cosnsultaEstudianteUniversidad = ConexionBaseDatos.getInstancia().
                                                                                 prepareStatement(consulta);
             cosnsultaEstudianteUniversidad.setInt(1,idUniversidad);
             ResultSet resultadoConsulta = cosnsultaEstudianteUniversidad.executeQuery();
@@ -154,26 +153,24 @@ public class EstudianteDB {
                 Estudiante estudiante = convertirEstudiante(resultadoConsulta);
                 listaEstudiantes.add(estudiante);
             }
-
             cosnsultaEstudianteUniversidad.close();
             resultadoConsulta.close();
-
+        }
+        catch (SQLException error) {
+            BITACORA.fatal(error.getMessage());
+            throw new ErrorDAO("Error al obtener a los estudiantes", Tipo.CONEXION);
         }
         finally {
-            CONEXION_BASE_DATOS.desconectar();
-
+            ConexionBaseDatos.desconectar();
         }
         return listaEstudiantes;
-
     }
 
-    public static List<Estudiante> getTodos () throws SQLException {
+    public static List<Estudiante> getTodos () throws ErrorDAO {
         String consulta = "SELECT * FROM vista_estudiante";
         List<Estudiante> listaEstudiantes = new ArrayList<>();
-
         try {
-            CONEXION_BASE_DATOS.conectar();
-            PreparedStatement consultaEstudiante = CONEXION_BASE_DATOS.getConexion().
+            PreparedStatement consultaEstudiante = ConexionBaseDatos.getInstancia().
                                                                      prepareStatement(consulta);
             ResultSet resultadoConsulta = consultaEstudiante.executeQuery();
             while (resultadoConsulta.next()) {
@@ -183,17 +180,17 @@ public class EstudianteDB {
             consultaEstudiante.close();
             resultadoConsulta.close();
         }
+        catch (SQLException error) {
+            BITACORA.fatal(error.getMessage());
+            throw new ErrorDAO("Error al obtener los estudiantes", Tipo.CONEXION);
+        }
         finally {
-            CONEXION_BASE_DATOS.desconectar();
-
+            ConexionBaseDatos.desconectar();
         }
         return listaEstudiantes;
-
-
     }
 
     private static Estudiante convertirEstudiante (ResultSet resultado) throws SQLException {
-
         Estudiante estudiante = new Estudiante();
         estudiante.setIdPersona(resultado.getInt("idPersona"));
         estudiante.setNombre(resultado.getString("nombre"));
@@ -202,7 +199,6 @@ public class EstudianteDB {
         estudiante.setIdEstudiante(resultado.getInt("idEstudiante"));
         estudiante.setMatricula(resultado.getString("matricula"));
         estudiante.setIdUniversidad(resultado.getInt("universidad"));
-
         return estudiante;
     }
 

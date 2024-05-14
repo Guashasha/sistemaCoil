@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="bdPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="708.0" prefWidth="859.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.FormularioCompletarDatosControlador">
+   <left>
+      <Pane fx:id="pPane" prefHeight="200.0" prefWidth="402.0" styleClass="leftBoarder-pane-solicitud" stylesheets="@Recursos/EstiloVentanas.css" BorderPane.alignment="CENTER">
+         <children>
+            <Circle fill="WHITE" layoutX="196.0" layoutY="343.0" radius="100.0" stroke="BLACK" strokeType="INSIDE" />
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="120.0" layoutY="268.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Recursos/LogoCoil.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="64.0" layoutY="183.0" prefHeight="45.0" prefWidth="263.0" text="Collaborative Online" textFill="WHITE">
+               <font>
+                  <Font name="Arial Black" size="22.0" />
+               </font>
+            </Label>
+            <Label layoutX="72.0" layoutY="456.0" text="International Learnig " textFill="WHITE">
+               <font>
+                  <Font name="Arial Black" size="21.0" />
+               </font>
+            </Label>
+            <Label layoutX="128.0" layoutY="76.0" text="MiCoil">
+               <font>
+                  <Font name="Arial Black" size="40.0" />
+               </font>
+               <textFill>
+                  <LinearGradient cycleMethod="REFLECT" endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.7942436337471008" green="0.800000011920929" blue="0.15199999511241913" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="0.8947368264198303" green="0.8631448745727539" blue="0.7224171757698059" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+            </Label>
+         </children>
+      </Pane>
+   </left>
+   <right>
+      <AnchorPane fx:id="apPane" prefHeight="708.0" prefWidth="459.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label layoutX="80.0" layoutY="46.0" stylesheets="@Recursos/EstiloVentanas.css" text="¡Completa tu registro!">
+               <font>
+                  <Font name="Arial Black" size="25.0" />
+               </font>
+               <textFill>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.8078431487083435" green="0.15294118225574493" blue="0.3921568691730499" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="0.9803921580314636" green="0.4745098054409027" blue="0.05882352963089943" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+            </Label>
+            <Label layoutX="66.0" layoutY="94.0" text="Estas solo a un paso de poder ser parte de MiCoil" textFill="#00000074">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <TextField fx:id="tfNumeroTelefono" layoutX="66.0" layoutY="159.0" onKeyTyped="#verificarEntradaNumeros" prefHeight="26.0" prefWidth="210.0" promptText="Número de teléfono" styleClass="label-inicioSesion-rosado" stylesheets="@Recursos/EstiloLabels.css" />
+            <TextField fx:id="tfNumeroPersonal" layoutX="64.0" layoutY="241.0" onKeyTyped="#verificarEntradaNumeros" prefHeight="28.0" prefWidth="214.0" promptText="Número de personal" styleClass="label-inicioSesion-rosado" stylesheets="@Recursos/EstiloLabels.css" />
+            <ComboBox fx:id="cmbAreaEstudios" layoutX="64.0" layoutY="315.0" prefHeight="28.0" prefWidth="188.0" promptText="Área de estudios" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" />
+            <Button fx:id="btnContinuar" layoutX="287.0" layoutY="505.0" mnemonicParsing="false" onAction="#continuarAccion" prefHeight="38.0" prefWidth="113.0" styleClass="button-principal" stylesheets="@Recursos/EstiloVentanas.css" text="Continuar" />
+            <Button fx:id="btnRegresar" layoutX="66.0" layoutY="504.0" mnemonicParsing="false" onAction="#regresarAccion" prefHeight="39.0" prefWidth="122.0" styleClass="button-secundario" stylesheets="@Recursos/EstiloVentanas.css" text="Regresar" />
+         </children>
+      </AnchorPane>
+   </right>
+</BorderPane>
