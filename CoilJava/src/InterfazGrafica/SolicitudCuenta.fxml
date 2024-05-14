@@ -89,7 +89,7 @@
             <TextField fx:id="tfApellidoP" layoutX="89.0" layoutY="140.0" prefHeight="26.0" prefWidth="366.0" promptText="Apellido paterno" styleClass="label-inicioSesion-rosado" stylesheets="@Recursos/EstiloLabels.css" />
             <TextField fx:id="tfApellidoM" layoutX="89.0" layoutY="194.0" prefHeight="26.0" prefWidth="366.0" promptText="Apellido materno" styleClass="label-inicioSesion-rosado" stylesheets="@Recursos/EstiloLabels.css" />
             <TextField fx:id="tfCorreo" layoutX="85.0" layoutY="243.0" prefHeight="26.0" prefWidth="366.0" promptText="Correo electrónico" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" />
-            <TextField fx:id="tfUsuario" layoutX="93.0" layoutY="354.0" prefHeight="26.0" prefWidth="365.0" promptText="Usuario" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" />
+            <TextField fx:id="tfUsuario" layoutX="93.0" layoutY="431.0" prefHeight="26.0" prefWidth="365.0" promptText="Usuario" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" />
             <TextField fx:id="pfContrasena" layoutX="90.0" layoutY="490.0" prefHeight="26.0" prefWidth="178.0" promptText="Contraseña" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" />
             <TextField fx:id="pfConfirmaContrasena" layoutX="295.0" layoutY="490.0" prefHeight="26.0" prefWidth="171.0" promptText="Confirmar contraseña" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" />
             <Button fx:id="btnSolicitar" layoutX="171.0" layoutY="568.0" mnemonicParsing="false" onAction="#realizarSolicitud" prefHeight="32.0" prefWidth="209.0" styleClass="button-solicitar" stylesheets="@Recursos/EstiloVentanas.css" text="Solicitar" textAlignment="CENTER" textFill="WHITE" underline="true">
@@ -98,7 +98,7 @@
                </font>
             </Button>
             <Hyperlink fx:id="hpkRegresar" layoutX="209.0" layoutY="630.0" onAction="#regresarAInicio" text="¿Ya tienes una cuentaDTO?" />
-            <TextField fx:id="tfCedula" layoutX="91.0" layoutY="414.0" prefHeight="26.0" prefWidth="363.0" promptText="Cédula profesional" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" />
+            <TextField fx:id="tfCedula" layoutX="94.0" layoutY="372.0" prefHeight="26.0" prefWidth="363.0" promptText="Cédula profesional" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" />
          </children>
       </AnchorPane>
    </center>
