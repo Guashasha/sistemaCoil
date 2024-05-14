@@ -49,8 +49,10 @@ public class UniversidadItemControlador {
         EditarUniversidadControlador ventanaEditar = fxmlLoader.getController();
         ventanaEditar.setUniversidadActual(new Universidad(lbUniversidad.getText()));
         ventanaEditar.setPaisActual(new Pais(lbPais.getText()));
-        ventanaEditar.getTfNombre().setText(lbUniversidad.getText());
-        ventanaEditar.getCmbPaises().setValue(lbPais.getText());
+        ventanaEditar.getTfNombre().
+                setText(lbUniversidad.getText());
+        ventanaEditar.getCmbPaises().
+                setValue(lbPais.getText());
     }
 
     private void mostrarMensajeEmergente (String mensaje, Alert.AlertType tipoAlerta) {

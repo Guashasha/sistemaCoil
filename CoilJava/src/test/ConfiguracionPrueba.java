@@ -9,7 +9,6 @@ import java.sql.*;
 public class ConfiguracionPrueba {
     private static final Logger BITACORA = Logger.getLogger(ConfiguracionPrueba.class);
 
-
     public static void borrarDatosTablaAcademico () {
         ejecutarInstruccionSQL("DELETE FROM academico;");
     }
@@ -70,9 +69,13 @@ public class ConfiguracionPrueba {
         ejecutarInstruccionSQL("ALTER TABLE pais AUTO_INCREMENT = 0;");
     }
 
+    public static void borrarDatosTablaCalendarioActividades () {
+        ejecutarInstruccionSQL("DELETE FROM calendarioactividades;");
+    }
+
     public static void ejecutarInstruccionSQL (String instruccionSQL) {
         try {
-            String urlBaseDatos = "jdbc:mariadb://localhost:3306/COIL";
+            String urlBaseDatos = "jdbc:mariadb://localhost:3307/COIL";
             String usuario = "CarrionMartinezPale";
             String contrasena = "cremaxx";
 

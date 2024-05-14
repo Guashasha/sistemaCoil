@@ -67,13 +67,13 @@ public class Estudiante extends Persona {
         }
         else {
             Estudiante estudiante = (Estudiante) obj;
-            igual = this.getIdPersona() == estudiante.getIdPersona() && this.getNombre()
-                                                                            .equals(estudiante.getNombre()) &&
-                    this.getApellidoPaterno()
-                        .equals(estudiante.getApellidoPaterno()) && this.getApellidoMaterno()
-                                                                        .equals(estudiante.getApellidoMaterno()) &&
-                    this.getIdUniversidad() == estudiante.getIdUniversidad() && this.idEstudiante == estudiante.getIdEstudiante() &&
-                    this.matricula.equals(estudiante.getMatricula());
+            igual = this.getIdPersona() == estudiante.getIdPersona()
+                    && this.getNombre().equals(estudiante.getNombre())
+                    && this.getApellidoPaterno().equals(estudiante.getApellidoPaterno())
+                    && this.getApellidoMaterno().equals(estudiante.getApellidoMaterno())
+                    && this.getIdUniversidad() == estudiante.getIdUniversidad()
+                    && this.idEstudiante == estudiante.getIdEstudiante()
+                    && this.matricula.equals(estudiante.getMatricula());
         }
         return igual;
     }

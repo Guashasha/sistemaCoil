@@ -54,4 +54,25 @@ public class Periodo {
     public boolean esCorrecto () {
         return this.fechaInicio.isBefore(this.fechaFin);
     }
+
+    @Override
+    public boolean equals (Object obj) {
+        boolean igual;
+        if (this == obj) {
+            igual = true;
+        }
+        else if (!(obj instanceof Periodo)) {
+            igual = false;
+        }
+        else {
+            Periodo periodo = (Periodo) obj;
+            igual = this.fechaInicio.toString()
+                    .equals(periodo.getFechaInicio()
+                            .toString())
+                    && this.fechaFin.toString()
+                    .equals(periodo.getFechaFin()
+                            .toString());
+        }
+        return igual;
+    }
 }

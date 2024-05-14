@@ -14,7 +14,7 @@ public class DAOFacultad implements IFacultadDAO {
     private static Logger bitacora = Logger.getLogger(DAOFacultad.class);
 
     @Override
-    public Optional<Facultad> getFacultadPorNombre(String nombre) throws ErrorDAO {
+    public Optional<Facultad> getFacultadPorNombre (String nombre) throws ErrorDAO {
         Facultad facultad = null;
 
         if (cadenaValida(nombre)) {
@@ -31,7 +31,7 @@ public class DAOFacultad implements IFacultadDAO {
     }
 
     @Override
-    public List<Facultad> getFacultadPorRegion(String region) throws ErrorDAO {
+    public List<Facultad> getFacultadPorRegion (String region) throws ErrorDAO {
         List<Facultad> listaFacultades = new ArrayList<>();
         if (cadenaValida(region)) {
             try {
@@ -45,7 +45,7 @@ public class DAOFacultad implements IFacultadDAO {
     }
 
     @Override
-    public List<Facultad> getTodasAlfabeticamente() throws ErrorDAO {
+    public List<Facultad> getTodasAlfabeticamente () throws ErrorDAO {
         try {
             return FacultadDB.getTodasAlfabeticamente();
         } catch (SQLException error) {
@@ -55,6 +55,6 @@ public class DAOFacultad implements IFacultadDAO {
     }
 
     private boolean cadenaValida (String cadena) {
-        return Optional.ofNullable(cadena).isPresent() && !cadena.isBlank();
+        return cadena != null && !cadena.isBlank();
     }
 }

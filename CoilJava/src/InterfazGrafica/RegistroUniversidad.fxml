@@ -25,7 +25,7 @@
             <Font size="20.0" />
          </font>
       </Text>
-      <TextField fx:id="tfNombre" layoutX="32.0" layoutY="131.0" prefHeight="40.0" prefWidth="462.0" promptText="Nombre de la institución universitaria" />
+      <TextField fx:id="tfNombre" layoutX="32.0" layoutY="131.0" onKeyTyped="#limitarCaracteres" prefHeight="40.0" prefWidth="462.0" promptText="Nombre de la institución universitaria" />
       <ComboBox fx:id="cmbPaises" layoutX="32.0" layoutY="247.0" prefHeight="40.0" prefWidth="462.0" />
       <Button layoutX="327.0" layoutY="343.0" mnemonicParsing="false" onAction="#registrarUniversidad" styleClass="button-principal" stylesheets="@Recursos/EstiloVentanas.css" text="Registrar" />
       <Button fx:id="btnCancelar" layoutX="421.0" layoutY="343.0" mnemonicParsing="false" onAction="#cancelarRegistro" styleClass="button-secundario" text="Cancelar" />

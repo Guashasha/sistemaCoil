@@ -1,5 +1,7 @@
 package test;
 
+import static test.ConfiguracionPrueba.ejecutarInstruccionSQL;
+
 public class AyudantePruebasColaboracionDB {
 
     public static void agregarPrecondiciones () {
@@ -35,6 +37,26 @@ public class AyudantePruebasColaboracionDB {
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO academicodesarrolla (idColaboracion, idAcademico, estado) VALUES (1, '200011', 'pendiente')");
 
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO estudiantescolaboracion (idColaboracion, idEstudiante) VALUES (1, 1)");
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO estudiantescolaboracion (idColaboracion, idEstudiante) VALUES (1, 2)");
+    }
+
+    public static void vincularActividadConColaboracion() {
+        borrarTablasActividadTest();
+        agregarActividades();
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO colaboracion (idColaboracion, estado, tipo, temaInteres, idioma, objetivo, fechaInicio, fechaFin, perfilEstudiante) VALUES (1, 'propuesta', 'claseEspejo', 'Inteligencia Artificial', 'Español', 'Mejorar habilidades en IA', '2024-05-01', '2024-06-30', 'Estudiantes de informática');");
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO calendarioactividades (idActividad, idColaboracion, fechaInicio, fechaFin) values (1,1,'2024-05-07','2024-07-05');");
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO calendarioactividades (idActividad, idColaboracion, fechaInicio, fechaFin) values (2,1,'2024-05-07','2024-07-05');");
+    }
+
+    public static void borrarTablasActividadTest () {
+        ConfiguracionPrueba.borrarDatosTablaCalendarioActividades();
+        ConfiguracionPrueba.borrarDatosTablaColaboracion();
+        ConfiguracionPrueba.borrarDatosTablaActividad();
+    }
+
+    public static void agregarActividades () {
+        ejecutarInstruccionSQL("INSERT INTO actividad (titulo, descripcion, tipo) values ('kahoot prueba','descripcion de la actividad prueba','cierre');");
+        ejecutarInstruccionSQL("INSERT INTO actividad (titulo, descripcion, tipo) values ('Presentacion','presentacion individual ante grupo','rompeHielo');");
     }
 
     public static void borrarTodosDatosTabla () {

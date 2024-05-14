@@ -11,12 +11,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import test.AyudantePruebasColaboracionDB;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ColaboracionDBTest {
-
     @BeforeEach
     void setUp () {
         AyudantePruebasColaboracionDB.borrarTodosDatosTabla();
@@ -28,221 +28,203 @@ class ColaboracionDBTest {
         AyudantePruebasColaboracionDB.borrarTodosDatosTabla();
     }
 
-    @Test
-    void pruebaGetColaboracionPorAcademicosParticipantesExitosa () {
-        System.out.println("pruebaGetColaboracionPorAcademicosParticipantesExitosa");
-
+    private static Colaboracion instanciarColaboracion () {
         Colaboracion colaboracion = new Colaboracion();
         colaboracion.setIdColaboracion(1);
-        colaboracion.setEstado(Colaboracion.EstadoColaboracion.valueOf("propuesta"));
+        colaboracion.setEstado(Colaboracion.EstadoColaboracion.propuesta);
         colaboracion.setTipo(Colaboracion.TipoColaboracion.claseEspejo);
         colaboracion.setTemaInteres("Inteligencia Artificial");
         colaboracion.setIdioma("Español");
         colaboracion.setObjetivo("Mejorar habilidades en IA");
 
         Periodo periodo = new Periodo();
-
         periodo.setFechaInicio(LocalDate.parse("2024-05-01"));
         periodo.setFechaFin(LocalDate.parse("2024-06-30"));
+
         colaboracion.setPeriodo(periodo);
         colaboracion.setPerfilEstudiante("Estudiantes de informática");
+        return colaboracion;
+    }
 
+    @Test
+    void pruebaGetColaboracionPorAcademicosParticipantesExitosa () {
+        Colaboracion esperada = instanciarColaboracion();
+        Colaboracion obtenida = null;
         Academico academico1 = new Academico();
+        Academico academico2 = new Academico();
         academico1.setCedulaProfesional("ABC123");
-
-        Academico academico2 = new Academico();
         academico2.setCedulaProfesional("200011");
-
-        Colaboracion colaboracionReal = null;
-
         try {
-            colaboracionReal = ColaboracionDB.getColaboracionPorAcademicosParticipantes(academico1, academico2);
-            System.out.println(colaboracionReal.toString());
-
+            obtenida = ColaboracionDB.getColaboracionPorAcademicosParticipantes(academico1, academico2);
         }
         catch (ErrorDAO error) {
-            fail("Error en pruebaGetColaboracionPorAcademicosParticipantesExitosa" + error.getMessage());
+            fail("Fallida: pruebaGetColaboracionPorAcademicosParticipantesExitosa" + error.getMessage());
         }
 
-        assertEquals(colaboracion.getIdColaboracion(), colaboracionReal.getIdColaboracion());
+        assertEquals(esperada,obtenida,"pruebaGetColaboracionPorAcademicosParticipantesExitosa");
     }
 
     @Test
-    void pruebaGetColaboracionPorAcademicosFallida () {
-        System.out.println("pruebaGetColaboracionPorAcademicosFallida");
-
+    void pruebaGetColaboracionPorAcademicosParticipantesFallida () {
         Academico academico1 = new Academico();
+        Academico academico2 = new Academico();
         academico1.setCedulaProfesional("ACDC123");
-
-        Academico academico2 = new Academico();
         academico2.setCedulaProfesional("22342011");
-
-        Colaboracion colaboracion = null;
-
+        Colaboracion resultado = null;
         try {
-            colaboracion = ColaboracionDB.getColaboracionPorAcademicosParticipantes(academico1, academico2);
+            resultado = ColaboracionDB.getColaboracionPorAcademicosParticipantes(academico1, academico2);
         }
         catch (ErrorDAO error) {
-            fail("Error en pruebaGetColaboracion");
-
+            fail("Fallida: pruebaGetColaboracionPorAcademicosParticipantesFallida");
         }
-
-        assertNull(colaboracion);
+        assertNull(resultado,"pruebaGetColaboracionPorAcademicosParticipantesFallida");
     }
 
     @Test
-    void pruebaGetColaboracionPorAcademicoUnAcademicoVacioFallida () {
+    void pruebaGetColaboracionPorAcademicosParticipantesAcademicoVacio () {
         Academico academico1 = new Academico();
-
         Academico academico2 = new Academico();
         academico2.setCedulaProfesional("22342011");
-
-        Colaboracion colaboracion = null;
-
+        Colaboracion resultado = null;
         try {
-            colaboracion = ColaboracionDB.getColaboracionPorAcademicosParticipantes(academico1, academico2);
+            resultado = ColaboracionDB.getColaboracionPorAcademicosParticipantes(academico1, academico2);
         }
         catch (ErrorDAO error) {
-            fail("Error en pruebaGetColaboracion");
-
+            fail("Fallida: pruebaGetColaboracionPorAcademicosParticipantesAcademicoVacio");
         }
-
-        assertNull(colaboracion);
+        assertNull(resultado,"pruebaGetColaboracionPorAcademicosParticipantesAcademicoVacio");
     }
-
-    @Test
-    void pruebaGetColaboracionPorAcademicosVacios () {
-        Academico academico1 = new Academico();
-
-        Academico academico2 = new Academico();
-
-        Colaboracion colaboracion = null;
-
-        try {
-            colaboracion = ColaboracionDB.getColaboracionPorAcademicosParticipantes(academico1, academico2);
-        }
-        catch (ErrorDAO error) {
-            fail("Error en pruebaGetColaboracion");
-
-        }
-
-        assertNull(colaboracion);
-    }
-
 
     @Test
     void pruebaGetColaboracionPorIdExitosa () {
-        System.out.println("pruebaGetColaboracionPorIdExitosa");
-
-        Colaboracion colaboracionPrueba = new Colaboracion();
-        colaboracionPrueba.setIdColaboracion(1);
-        colaboracionPrueba.setEstado(Colaboracion.EstadoColaboracion.valueOf("propuesta"));
-        colaboracionPrueba.setTipo(Colaboracion.TipoColaboracion.claseEspejo);
-        colaboracionPrueba.setTemaInteres("Inteligencia Artificial");
-        colaboracionPrueba.setIdioma("Español");
-        colaboracionPrueba.setObjetivo("Mejorar habilidades en IA");
-
-        Periodo periodo = new Periodo();
-
-        periodo.setFechaInicio(LocalDate.parse("2024-05-01"));
-        periodo.setFechaFin(LocalDate.parse("2024-06-30"));
-        colaboracionPrueba.setPeriodo(periodo);
-        colaboracionPrueba.setPerfilEstudiante("Estudiantes de informática");
-
-        Colaboracion colaboracionReal = null;
-
+        Colaboracion esperado = instanciarColaboracion();
+        Colaboracion obtenido = null;
         try {
-            colaboracionReal = ColaboracionDB.getColaboracionPorId(1);
-            System.out.print(colaboracionReal.toString());
-
+            obtenido = ColaboracionDB.getColaboracionPorId(1);
         }
         catch (ErrorDAO errorDAO) {
-            fail("Error en pruebaGetColaboracionPorIdExitosa" + errorDAO.getMessage());
+            fail("Falida: pruebaGetColaboracionPorIdExitosa" + errorDAO.getMessage());
         }
-
-        assertEquals(colaboracionPrueba.getIdColaboracion(), colaboracionReal.getIdColaboracion());
+        assertEquals(esperado,obtenido,"pruebaGetColaboracionPorIdExitosa");
     }
 
     @Test
     void pruebaGetColaboracionIdInexistente () {
-        System.out.println("pruebaGetColaboracionIdInexistente");
-
-        Colaboracion colaboracionReal = null;
-
         try {
-            colaboracionReal = ColaboracionDB.getColaboracionPorId(10);
-
+            Colaboracion resultado = ColaboracionDB.getColaboracionPorId(10);
+            assertNull(resultado,"pruebaGetColaboracionIdInexistente");
         }
         catch (ErrorDAO errorDAO) {
-            fail("Error en pruebaGetColaboracionPorIdExitosa" + errorDAO.getMessage());
+            fail("Fallida: pruebaGetColaboracionPorIdExitosa" + errorDAO.getMessage());
         }
-
-        assertNull(colaboracionReal);
     }
 
     @Test
     void pruebaGetListaDeEstudiantesExitosa () {
         System.out.println("pruebaGetListaDeEstudiantesExitosa");
-
         Colaboracion colaboracionPrueba = new Colaboracion();
         colaboracionPrueba.setIdColaboracion(1);
 
-        List<Estudiante> listaEstudiante =null;
+        List<Estudiante> esperada = new ArrayList<>();
+        List<Estudiante> obtenida = new ArrayList<>();
+        Estudiante estudiante1 = new Estudiante();
+        Estudiante estudiante2 = new Estudiante();
 
-        int tamanoEsperado = 1;
+        estudiante1.setIdPersona(4);
+        estudiante1.setNombre("Eduardo");
+        estudiante1.setApellidoPaterno("Villegas");
+        estudiante1.setApellidoMaterno("Hurtado");
+        estudiante1.setIdUniversidad(1);
+        estudiante1.setIdEstudiante(1);
+        estudiante1.setMatricula("zs22013693");
+
+        estudiante2.setIdPersona(5);
+        estudiante2.setNombre("John");
+        estudiante2.setApellidoPaterno("Smith");
+        estudiante2.setApellidoMaterno("Onell");
+        estudiante2.setIdUniversidad(2);
+        estudiante2.setIdEstudiante(2);
+        estudiante2.setMatricula("zs2201356");
+
+        esperada.add(estudiante1);
+        esperada.add(estudiante2);
 
         try {
-            listaEstudiante = ColaboracionDB.getListaDeEstudiantes(colaboracionPrueba);
-
+            obtenida = ColaboracionDB.getListaDeEstudiantes(colaboracionPrueba);
         }
         catch (ErrorDAO error) {
-            fail("Error pruebaGetListaDeEstudiantesExitosa " + error.getMessage());
-
+            fail("Fallida: pruebaGetListaDeEstudiantesExitosa " + error.getMessage());
         }
-        assertEquals(tamanoEsperado, listaEstudiante.size());
+
+        assertEquals(esperada.size(),obtenida.size());
+        for (Estudiante estudiante : esperada) {
+            assertEquals(estudiante,obtenida.get(0));
+            obtenida.remove(0);
+        }
     }
 
     @Test
     void pruebaGetListadeEstudiantesColaboracionInexistente () {
-        System.out.println("pruebaGetListadeEstudiantesColaboracionInexistente");
-
-        Colaboracion colaboracionPrueba = new Colaboracion();
-        colaboracionPrueba.setIdColaboracion(40);
-
-        List<Estudiante> listaEstudiante =null;
-        int tamanoEsperado = 0;
-
+        Colaboracion colaboracion = new Colaboracion();
+        colaboracion.setIdColaboracion(40);
+        List<Estudiante> resultado = null;
         try {
-            listaEstudiante = ColaboracionDB.getListaDeEstudiantes(colaboracionPrueba);
-
+            resultado = ColaboracionDB.getListaDeEstudiantes(colaboracion);
         }
         catch (ErrorDAO error) {
-            fail("Error pruebaGetListaDeEstudiantesExitosa " + error.getMessage());
-
+            fail("Fallida: pruebaGetListadeEstudiantesColaboracionInexistente" + error.getMessage());
         }
-        assertEquals(tamanoEsperado, listaEstudiante.size());
+        assertTrue(resultado.isEmpty(),"pruebaGetListadeEstudiantesColaboracionInexistente");
+    }
+
+    @Test
+    void pruebaGetListadeEstudiantesColaboracionVacia () {
+        try {
+            List<Estudiante> resultado = ColaboracionDB.getListaDeEstudiantes(new Colaboracion());
+            assertTrue(resultado.isEmpty(), "pruebaGetListadeEstudiantesColaboracionVacia");
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaGetListadeEstudiantesColaboracionVacia");
+        }
     }
 
     @Test
     void pruebaGetAcademicosParticipantesExitoso () {
         System.out.println("pruebaGetAcademicosParticipantesExitoso");
-
         Colaboracion colaboracionPrueba = new Colaboracion();
         colaboracionPrueba.setIdColaboracion(1);
+        List<Academico> esperada = new ArrayList<>();
+        List<Academico> obtenida = new ArrayList<>();
 
-        List<Academico> listaAcademico = null;
+        Academico academico1 = new Academico();
 
-        int tamanoEsperado = 2;
+        Academico academico2 = new Academico();
+
+        esperada.add(academico1);
+        obtenida.add(academico2);
 
         try {
-            listaAcademico = ColaboracionDB.getAcademicosParticipantes(colaboracionPrueba);
-
+            obtenida = ColaboracionDB.getAcademicosParticipantes(colaboracionPrueba);
         }
         catch (ErrorDAO error) {
-            fail("pruebaGetAcademicosParticipantesExitoso " + error.getMessage());
+            fail("Fallida: pruebaGetAcademicosParticipantesExitoso " + error.getMessage());
         }
 
-        assertEquals(tamanoEsperado, listaAcademico.size());
+        assertEquals(esperada.size(), obtenida.size());
+        for (Academico academico : esperada) {
+            assertEquals(academico,obtenida.get(0));
+            obtenida.remove(0);
+        }
+    }
+
+    @Test
+    void pruebaGetAcademicosParticipantesColaboracionInexistente () {
+
+    }
+
+    @Test
+    void pruebaGetAcademicosParticipantesColaboracionVacia () {
+
     }
 
     @Test
@@ -261,7 +243,6 @@ class ColaboracionDBTest {
 
         try {
             listaColaboraciones = ColaboracionDB.getColaboracionPorPeriodo(periodo);
-            System.out.println(listaColaboraciones.get(0).toString());
 
         }
         catch (ErrorDAO error) {
@@ -354,22 +335,7 @@ class ColaboracionDBTest {
     @Test
     void pruebaRegistrarColaboracionExitoso () {
         System.out.println("registrarColaboracion");
-
-        Colaboracion colaboracionPrueba = new Colaboracion();
-
-        colaboracionPrueba.setTipo(Colaboracion.TipoColaboracion.claseEspejo);
-        colaboracionPrueba.setEstado(Colaboracion.EstadoColaboracion.propuesta);
-        colaboracionPrueba.setTemaInteres("Inteligencia Artificial");
-        colaboracionPrueba.setIdioma("Español");
-        colaboracionPrueba.setObjetivo("Mejorar habilidades en IA");
-        colaboracionPrueba.setPerfilEstudiante("Estudiantes de informática");
-
-        Periodo periodoPrueba = new Periodo();
-        periodoPrueba.setFechaInicio(LocalDate.parse("2024-05-01"));
-        periodoPrueba.setFechaFin(LocalDate.parse("2024-06-30"));
-
-        colaboracionPrueba.setPeriodo(periodoPrueba);
-
+        Colaboracion colaboracionPrueba = instanciarColaboracion();
         int esperado = 1;
         int obtenido = -1;
 
@@ -432,7 +398,6 @@ class ColaboracionDBTest {
 
         try {
             listaColaboracion = ColaboracionDB.getTodos();
-            System.out.println(listaColaboracion.size());
 
         }
         catch (ErrorDAO errorDAO) {

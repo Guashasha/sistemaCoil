@@ -25,7 +25,7 @@
             <Font size="20.0" />
          </font>
       </Text>
-      <TextField fx:id="tfNombre" layoutX="26.0" layoutY="129.0" prefHeight="40.0" prefWidth="462.0" promptText="Nombre de la institución universitaria" />
+      <TextField fx:id="tfNombre" layoutX="26.0" layoutY="129.0" onKeyTyped="#limitarCaracteres" prefHeight="40.0" prefWidth="462.0" promptText="Nombre de la institución universitaria" />
       <ComboBox fx:id="cmbPaises" layoutX="26.0" layoutY="245.0" prefHeight="40.0" prefWidth="462.0" />
       <Label fx:id="txtObligatorioNombre" layoutX="106.0" layoutY="99.0" text="*Campo obligatorio" textFill="RED" visible="false" />
       <Label fx:id="txtObligatorioPais" layoutX="68.0" layoutY="215.0" text="*Campo obligatorio" textFill="RED" visible="false" />

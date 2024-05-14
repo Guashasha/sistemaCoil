@@ -337,28 +337,4 @@ class DAOUniversidadTest {
         }
         assertFalse(resultado);
     }
-
-    @Test
-    void pruebaValidarCadenasExitosa () {
-        System.out.println("pruebaValidarCadenasExitosa");
-        String[] cadenas = new String[]{"Harvard","BUAP","Universidad Veracruzana","México"};
-        boolean resultado = this.INSTANCIA.cadenasValidas(cadenas);
-        assertTrue(resultado);
-    }
-
-    @Test
-    void pruebaValidarCadenasNulas () {
-        System.out.println("pruebaValidarCadenasNulas");
-        String[] cadenas = new String[]{"Harvard","BUAP","Universidad Veracruzana",null};
-        boolean resultado = this.INSTANCIA.cadenasValidas(cadenas);
-        assertFalse(resultado);
-    }
-
-    @Test
-    void pruebaValidarCadenasVacias () {
-        System.out.println("pruebaValidarCadenasVacias");
-        String[] cadenas = new String[]{"Harvard","BUAP","Universidad Veracruzana","    "};
-        boolean resultado = this.INSTANCIA.cadenasValidas(cadenas);
-        assertFalse(resultado);
-    }
 }

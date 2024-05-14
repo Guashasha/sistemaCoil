@@ -5,26 +5,18 @@ import Logica.DAO.DAOUniversidad;
 import Logica.Dominio.Pais;
 import Logica.Dominio.Universidad;
 import Utilidades.ErrorDAO;
-import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import org.apache.log4j.Logger;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class RegistroUniversidadControlador extends Application implements Initializable {
-    private static final Logger BITACORA = Logger.getLogger(RegistroUniversidadControlador.class);
+public class RegistroUniversidadControlador implements Initializable {
     @FXML
     private Label txtObligatorioNombre;
     @FXML
@@ -36,40 +28,14 @@ public class RegistroUniversidadControlador extends Application implements Initi
     @FXML
     private Button btnCancelar;
 
-    public static void main (String[] args) {
-        launch(args);
-    }
-
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle) {
         llenarComboBoxPaises();
     }
 
-    @Override
-    public void start(Stage stage) {
-        Parent root = null;
-
-        try {
-            root = FXMLLoader.load(getClass().getResource("RegistroUniversidad.fxml"));
-        }
-        catch (IOException e) {
-            BITACORA.error(e);
-        }
-
-        if (root != null) {
-            stage.initStyle(StageStyle.TRANSPARENT);
-            Scene escena = new Scene(root);
-            stage.setScene(escena);
-            stage.show();
-        }
-        else {
-            BITACORA.error("Ocurrió un error al iniciar la ventana windowRegistroUniversidad");
-        }
-    }
-
     @FXML
-    void registrarUniversidad () {
-        if (camposValidos()) {
+    protected void registrarUniversidad () {
+        if (!camposVacios()) {
             Universidad universidad = new Universidad(tfNombre.getText());
             Pais pais = new Pais(cmbPaises.getValue());
             int filasAfectadas;
@@ -94,7 +60,7 @@ public class RegistroUniversidadControlador extends Application implements Initi
     }
 
     @FXML
-    void cancelarRegistro () {
+    protected void cancelarRegistro () {
         Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
         alerta.setContentText("No se registrará la universidad");
         alerta.setHeaderText(null);
@@ -104,6 +70,16 @@ public class RegistroUniversidadControlador extends Application implements Initi
                 window.close();
             }
         });
+    }
+
+    @FXML
+    private void limitarCaracteres () {
+        int longitud = tfNombre.getLength();
+        if (longitud > Universidad.LONGITUD_NOMBRE) {
+            tfNombre.setText(tfNombre.getText()
+                    .substring(0,Universidad.LONGITUD_NOMBRE));
+            tfNombre.positionCaret(tfNombre.getLength());
+        }
     }
 
     private void llenarComboBoxPaises () {
@@ -131,11 +107,16 @@ public class RegistroUniversidadControlador extends Application implements Initi
         cmbPaises.setValue(null);
     }
 
-    private boolean camposValidos () {
-        boolean nombreValido = DAOUniversidad.cadenaValida(tfNombre.getText());
-        boolean paisValido = DAOUniversidad.cadenaValida(cmbPaises.getValue());
-        txtObligatorioNombre.setVisible(!nombreValido);
-        txtObligatorioPais.setVisible(!paisValido);
-        return nombreValido && paisValido;
+    private boolean camposVacios() {
+        boolean nombreVacio = tfNombre.getText().
+                isBlank();
+        boolean paisVacio = cmbPaises.getValue() == null;
+        etiquetarCamposVacios(nombreVacio,paisVacio);
+        return nombreVacio || paisVacio;
+    }
+
+    private void etiquetarCamposVacios (boolean nombreVacio, boolean paisVacio) {
+        txtObligatorioNombre.setVisible(nombreVacio);
+        txtObligatorioPais.setVisible(paisVacio);
     }
 }

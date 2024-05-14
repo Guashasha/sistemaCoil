@@ -18,7 +18,7 @@ public class DAORegion implements IRegionDAO {
         }
         catch (SQLException error) {
             bitacora.info(error.getMessage());
-            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
+            throw new ErrorDAO("Error en la conexión a la base de datos", ErrorDAO.Tipo.CONSULTA);
         }
     }
 

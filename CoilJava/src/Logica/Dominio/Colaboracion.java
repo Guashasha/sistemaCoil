@@ -114,6 +114,7 @@ public class Colaboracion {
                 cadenaValida(objetivo) &&
                 cadenaValida(perfilEstudiante);
     }
+
     private boolean cadenaValida(String cadena) {
         return cadena != null && !cadena.isBlank();
     }
@@ -132,5 +133,29 @@ public class Colaboracion {
                 ", academicoPar=" + academicoPar.getNombre() +
                 ", anfitrion=" + anfitrion.getNombre() +
                 '}';
+    }
+
+    @Override
+    public boolean equals (Object obj) {
+        boolean igual;
+        if (this == obj) {
+            igual = true;
+        }
+        else if (!(obj instanceof Colaboracion)) {
+            igual = false;
+        }
+        else {
+            Colaboracion colaboracion = (Colaboracion) obj;
+            igual = this.idColaboracion == colaboracion.getIdColaboracion() && this.tipo.toString()
+                    .equals(colaboracion.getTipo()
+                            .toString()) && this.estado.toString()
+                    .equals(colaboracion.getEstado()
+                            .toString()) && this.temaInteres.equals(colaboracion.getTemaInteres())
+                    && this.idioma.equals(colaboracion.getIdioma()) && this.objetivo.equals(colaboracion.getObjetivo())
+                    && this.periodo.equals(colaboracion.getPeriodo()) && this.perfilEstudiante.equals(colaboracion.getPerfilEstudiante())
+                    && (this.academicoPar == colaboracion.getAcademicoPar() || this.academicoPar.equals(colaboracion.getAcademicoPar()))
+                    && (this.anfitrion == colaboracion.getAnfitrion() || this.anfitrion.equals(colaboracion.getAnfitrion()));
+        }
+        return igual;
     }
 }

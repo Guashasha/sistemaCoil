@@ -1,6 +1,6 @@
 DELIMITER //
 
-DROP PROCEDURE IF EXISTS insertarRetroalimentacionActividad;
+DROP PROCEDURE IF EXISTS insertarRetroalimentacionActividad//
 CREATE PROCEDURE insertarRetroalimentacionActividad (interaccionPar int, dificultad int, interes int, actividad int, comentario varchar(200), usuario int)
 BEGIN
   INSERT INTO retroalimentacion (interaccionPar, comentario, usuario)
@@ -10,7 +10,7 @@ BEGIN
   VALUES (LAST_INSERT_ID(), dificultad, interes, actividad);
 END //
 
-DROP PROCEDURE IF EXISTS insertarRetroalimentacionColaboracion;
+DROP PROCEDURE IF EXISTS insertarRetroalimentacionColaboracion//
 CREATE PROCEDURE IF NOT EXISTS insertarRetroalimentacionColaboracion (interaccionPar int, comentario varchar(200), habilidadesObtenidas int, calificacion int, intercambioCultural int, mejoraDelLenguaje int, trabajoColaborativo int, mejoraFormacionProfesional int, usuario int, colaboracion int)
 BEGIN
   INSERT INTO retroalimentacion (interaccionPar, comentario, usuario)
@@ -332,6 +332,27 @@ BEGIN
         fechaFin = p_fechaFinal,
         perfilEstudiante = p_perfilEstudiante
     WHERE idColaboracion = p_idColaboracion;
+END //
+
+
+-- Procedimientos numeralia
+DROP PROCEDURE if EXISTS numeralia_region//
+CREATE PROCEDURE numeralia_region (IN inicio DATE, IN fin DATE)
+BEGIN
+	SELECT region, SUM(alumnosUvTotales) AS alumnos, COUNT(idColaboracion) AS profesores
+	FROM numeralia 
+	WHERE fechaFin BETWEEN inicio AND fin
+	GROUP BY region; 
+END //
+
+
+DROP PROCEDURE if EXISTS numeralia_area_academica//
+CREATE PROCEDURE numeralia_area_academica (IN inicio DATE, IN fin DATE)
+BEGIN
+	SELECT areaAcademica, SUM(alumnosUvTotales) AS alumnos, COUNT(idColaboracion) AS profesores
+	FROM numeralia 
+	WHERE fechaFin BETWEEN inicio AND fin
+	GROUP BY areaAcademica; 
 END //
 
 

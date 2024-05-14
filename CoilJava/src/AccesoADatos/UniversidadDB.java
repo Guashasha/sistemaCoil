@@ -14,7 +14,7 @@ public class UniversidadDB {
     public static int registrarUniversidad (Universidad universidad) throws SQLException {
         int filasAfectadas;
         String insertarUniversidadSQL = "INSERT INTO universidad (nombre, paisOrigen) VALUES (?,?)";
-        PreparedStatement insertarUniversidad = null;
+        PreparedStatement insertarUniversidad;
 
         try {
             insertarUniversidad = ConexionBaseDatos.getInstancia().

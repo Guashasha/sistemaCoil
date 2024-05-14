@@ -1,7 +1,6 @@
 CREATE VIEW iF not exists universidad_con_pais AS 
 SELECT idUniversidad, universidad.nombre AS universidad, idPais, pais.nombre AS pais FROM universidad LEFT JOIN pais ON universidad.paisOrigen = pais.idPais;
 
-
 CREATE VIEW if not exists facultad_con_region AS
 SELECT idFacultad, facultad.nombre AS facultad, idRegion, region.nombre AS region FROM facultad LEFT JOIN region ON facultad.region = region.idRegion;
 
@@ -69,3 +68,56 @@ FROM
     JOIN universidad u ON u.idUniversidad = p.universidad
     JOIN pais pa ON pa.idPais = u.paisOrigen;
 
+
+CREATE VIEW if NOT EXISTS numeralia AS 
+SELECT 
+	ad.idColaboracion, 
+	areaEstudios AS areaAcademica, 
+	nombreFacultad AS facultad, 
+	nombreRegion AS region, 
+	fechaFin, 
+	COUNT(idEstudiante) AS alumnosUvTotales
+FROM
+	 academicodesarrolla AS ad 
+	LEFT JOIN vista_academico AS va
+	ON ad.idAcademico = va.cedulaProfesional
+	LEFT JOIN colaboracion AS c
+	ON ad.idColaboracion = c.idColaboracion
+	LEFT JOIN estudiantescolaboracion AS ec
+	ON ad.idColaboracion = ec.idColaboracion
+WHERE 
+	va.nombreUniversidad = 'Universidad Veracruzana' 
+	AND (ad.estado = 'anfitrion' OR ad.estado = 'aceptado')
+	AND idEstudiante IN 
+	(SELECT idEstudiante FROM vista_estudiante WHERE universidad IN (SELECT universidad.idUniversidad FROM universidad WHERE nombre = 'Universidad Veracruzana'))
+	AND ad.idColaboracion IN (SELECT colaboracion.idColaboracion FROM colaboracion WHERE estado = 'finalizada') 
+	GROUP BY idColaboracion;
+
+
+
+CREATE VIEW if NOT EXISTS colaboraciones_uv_finalizadas AS 
+SELECT 
+	ad.idColaboracion, 
+	cedulaProfesional, 
+	ad.estado, 
+	nombre, 
+	nombreUniversidad, 
+	areaEstudio, 
+	nombreFacultad, 
+	nombreRegion, 
+	fechaFin, 
+	COUNT(idEstudiante) AS alumnosUvTotales
+FROM 
+	academicodesarrolla AS ad 
+	LEFT JOIN vista_academico AS va
+	ON ad.idAcademico = va.cedulaProfesional
+	LEFT JOIN colaboracion AS c
+	ON ad.idColaboracion = c.idColaboracion
+	LEFT JOIN estudiantescolaboracion AS ec
+	ON ad.idColaboracion = ec.idColaboracion
+WHERE 
+	va.nombreUniversidad = 'Universidad Veracruzana' 
+	AND (ad.estado = 'anfitrion' OR ad.estado = 'aceptado')
+	AND idEstudiante IN (SELECT idEstudiante FROM vista_estudiante WHERE universidad IN (SELECT universidad.idUniversidad FROM universidad WHERE nombre = 'Universidad Veracruzana'))
+	AND ad.idColaboracion IN (SELECT colaboracion.idColaboracion FROM colaboracion WHERE estado = 'finalizada') 
+	GROUP BY idColaboracion;
