@@ -14,7 +14,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -25,54 +27,49 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-public class InicioAcademicoControlador extends Application {
+public class InicioAcademicoControlador{
     private static final Logger BITACORA = Logger.getLogger(InicioAcademicoControlador.class);
 
     @FXML
-    VBox pnInicio = new VBox();
+    VBox pnInicio;
 
     private Academico usuario;
-    private Optional<Colaboracion> colaboracion;
+    private Optional<Colaboracion> colaboracion = Optional.empty();
 
-    public static void main (String[] args) {
-        launch(args);
-    }
-
-    @Override
-    public void start (Stage stage) {
-        VBox root = null;
+    public InicioAcademicoControlador (Academico usuario) {
+        this.usuario = usuario;
 
         try {
-            root = FXMLLoader.load(getClass().getResource("InicioAcademico.fxml"));
+            pnInicio = FXMLLoader.load(getClass().getResource("InicioAcademico.fxml"));
         }
         catch (IOException error) {
             BITACORA.fatal(error);
             return;
         }
 
-        if (root != null) {
-            stage.initStyle(StageStyle.TRANSPARENT);
-
-            Scene escena = new Scene(root, Color.TRANSPARENT);
-            escena.getStylesheets()
-                    .add("InterfazGrafica/Recursos/EstiloVentanas.css");
-
-            stage.setScene(escena);
-            stage.show();
-        } else {
-            BITACORA.error("Ocurrió un error al iniciar el panel inicio academico");
-            return;
-        }
-
         setOverviewColaboracion();
     }
 
+    public Pane getPane () {
+        return pnInicio;
+    }
+
     private void setOverviewColaboracion () {
-        getInformacionColaboracion(this.usuario);
+        getInformacionColaboracion();
 
         if (this.colaboracion.isEmpty()) {
-            // TODO
-            // Si no hay colaboración activa mostrar otra cosa
+            AnchorPane menuSinColaboracion;
+
+            try {
+                menuSinColaboracion = FXMLLoader.load(getClass().getResource("MenuSinColaboracionAcademico.fxml"));
+            }
+            catch (IOException error) {
+                BITACORA.fatal(error);
+                return;
+            }
+
+            pnInicio.getChildren().add(menuSinColaboracion);
+
             return;
         }
 
@@ -94,9 +91,8 @@ public class InicioAcademicoControlador extends Application {
         pnInicio.getChildren().addAll(informacionColaboracion, informacionActividades);
     }
 
-    private void getInformacionColaboracion (Academico usuario) throws ErrorDAO {
+    private void getInformacionColaboracion () throws ErrorDAO {
         DAOColaboracion daoColaboracion = new DAOColaboracion();
-
         //colaboracion = daoColaboracion.getActivaPorAcademico(this.usuario.getIdPersona());
     }
 
