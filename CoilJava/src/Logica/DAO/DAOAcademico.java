@@ -180,4 +180,5 @@ public class DAOAcademico implements IAcademicoDAO {
         Academico academico = new Academico();
         academico.setCategoriaContratacion(categoria);
     }
+
 }

@@ -99,6 +99,7 @@ public class GestionCuentaControlador extends Application implements Initializab
         if (resultado != -1) {
             try {
                 cambiarEstadoCuenta(cuentaSeleccionada, resultado, academico);
+                lyInformacionCuenta.getChildren().remove(vBox);
             }
             catch (ErrorDAO errorDAO) {
                 if (errorDAO.getTipo() == ErrorDAO.Tipo.ERROR_CONEXION_INTERNET) {
