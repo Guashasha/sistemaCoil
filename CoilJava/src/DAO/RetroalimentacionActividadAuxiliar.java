@@ -4,17 +4,10 @@ import DTO.ActividadDTO;
 import DTO.RetroalimentacionActividadDTO;
 import Utilidades.ErrorDAO;
 import Utilidades.ErrorDAO.Tipo;
-import DAO.Interfaces.IRetroalimentacionActividadDAO;
 import org.apache.log4j.Logger;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import static DAO.RetroalimentacionActividadDAO.resultSetAObjeto;
-
 
 public class RetroalimentacionActividadAuxiliar {
     private static final Logger BITACORA = Logger.getLogger(RetroalimentacionActividadDTO.class.getName());

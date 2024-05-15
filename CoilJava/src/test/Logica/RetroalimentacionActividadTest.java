@@ -16,7 +16,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
-public class RetroalimentacionDTOActividadAuxiliarTestDTO {
+public class RetroalimentacionActividadTest {
     @BeforeAll
     static void setUp () {
         ConfiguracionPrueba.borrarDatosTablaRetroalimentacionActividad();
