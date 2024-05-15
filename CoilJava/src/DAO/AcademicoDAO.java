@@ -16,7 +16,6 @@ public class AcademicoDAO {
     public static List<AcademicoDTO> getListaAcademicoPorCampos (String campo, String valor) throws ErrorDAO {
         String procedimientoSQL = "{CALL obtener_academicos_campos(?,?)}";
         List<AcademicoDTO> listaAcademicoDTOS = new ArrayList<>();
-
         try {
             CallableStatement obtenerPorCampo = AdministradorBaseDatos.getInstancia().
                                                                  prepareCall(procedimientoSQL);
@@ -145,19 +144,7 @@ public class AcademicoDAO {
 
             CallableStatement editarAcademico = AdministradorBaseDatos.getInstancia().
                                                                  prepareCall(procedimientoSQL);
-            editarAcademico.setString(1, academicoDTO.getNombre());
-            editarAcademico.setString(2, academicoDTO.getApellidoPaterno());
-            editarAcademico.setString(3, academicoDTO.getApellidoMaterno());
-            editarAcademico.setInt(4, academicoDTO.getIdUniversidad());
-            editarAcademico.setString(5, academicoDTO.getCedulaProfesional());
-            editarAcademico.setString(6, academicoDTO.getNumeroPersonal());
-            editarAcademico.setString(7, academicoDTO.getAreaEstudios());
-            editarAcademico.setString(8, academicoDTO.getCorreoElectronico());
-            editarAcademico.setString(9, academicoDTO.getNumeroTelefonico());
-            editarAcademico.setString(10, academicoDTO.getCategoriaContratacion());
-            editarAcademico.setObject(11, academicoDTO.getIdFacultad());
-
-
+            setAcademicoParametros (editarAcademico, academicoDTO);
             resultado = editarAcademico.executeUpdate();
             editarAcademico.close();
 
@@ -180,6 +167,7 @@ public class AcademicoDAO {
             conexion.setAutoCommit(false);
             CallableStatement registrarAcademico = conexion.prepareCall(procedimientoSQL);
             setAcademicoParametros(registrarAcademico, academicoDTO);
+            registrarAcademico.registerOutParameter(12, Types.INTEGER);
             resultado = registrarAcademico.executeUpdate();
             int idPersona = registrarAcademico.getInt(12);
 
@@ -218,8 +206,6 @@ public class AcademicoDAO {
         declaracion.setString(9, academicoDTO.getNumeroTelefonico());
         declaracion.setString(10, academicoDTO.getCategoriaContratacion());
         declaracion.setObject(11, academicoDTO.getIdFacultad());
-        declaracion.registerOutParameter(12, Types.INTEGER);
-
     }
 
 
