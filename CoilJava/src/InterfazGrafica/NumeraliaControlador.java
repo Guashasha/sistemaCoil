@@ -1,6 +1,7 @@
 package InterfazGrafica;
 
 import DAO.ColaboracionAuxiliar;
+import DAO.ColaboracionDAO;
 import DTO.PeriodoDTO;
 import Utilidades.ErrorDAO;
 import javafx.application.Application;
@@ -12,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.apache.log4j.Logger;
@@ -19,9 +21,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.sql.Date;
 
 public class NumeraliaControlador extends Application implements Initializable {
     private static final Logger BITACORA = Logger.getLogger(NumeraliaControlador.class);
@@ -78,10 +82,10 @@ public class NumeraliaControlador extends Application implements Initializable {
     @FXML
     private Button btnAnioAdelante;
     @FXML
-    private Button btnPeriodoFebreroJulio;
-    @FXML
-    private Button btnPeriodoAgostoEnero;
-    private final Map<String,Label[]> mapaEtiquetas= new HashMap<>();
+    private HBox hboxTablas;
+    private final Map<String,Label[]> MAPA_ETIQUETAS = new HashMap<>();
+    private int anioMaximo;
+    private int anioMinimo;
 
 
     public static void main(String[] args) {
@@ -116,18 +120,62 @@ public class NumeraliaControlador extends Application implements Initializable {
         cargarNumeraliaPrincipal();
     }
 
+    @FXML
+    private void cambiarPeriodoFebreroJulio () {
+        int anio = Integer.parseInt(lbAnio.getText());
+        PeriodoDTO periodoFebreroJulio = new PeriodoDTO(LocalDate.of(anio,2,1),LocalDate.of(anio,7,31));
+        cargarNumeralia(periodoFebreroJulio);
+    }
+
+    @FXML
+    private void cambiarPeriodoAgostoEnero () {
+        int anio = Integer.parseInt(lbAnio.getText());
+        PeriodoDTO periodoAgostoEnero = new PeriodoDTO(LocalDate.of(anio,8,1),LocalDate.of(anio+1,1,31));
+        cargarNumeralia(periodoAgostoEnero);
+    }
+
+    @FXML
+    private void anioAtras () {
+        int anio = Integer.parseInt(this.lbAnio.getText()) - 1;
+        this.lbAnio.setText(String.valueOf(anio));
+        if (!this.btnAnioAdelante.isVisible()) {
+            this.btnAnioAdelante.setVisible(true);
+        }
+        if (anio == this.anioMinimo) {
+            this.btnAnioAtras.setVisible(false);
+        }
+        this.hboxTablas.setVisible(false);
+        this.lbPeriodo.setText("Elige un periodo");
+    }
+
+    @FXML
+    private void anioAdelante () {
+        int anio = Integer.parseInt(this.lbAnio.getText()) + 1;
+        this.lbAnio.setText(String.valueOf(anio));
+
+        if (!this.btnAnioAtras.isVisible()) {
+            this.btnAnioAtras.setVisible(true);
+        }
+        if (anio == this.anioMaximo) {
+            this.btnAnioAdelante.setVisible(false);
+        }
+
+        this.hboxTablas.setVisible(false);
+        this.lbPeriodo.setText("Elige un periodo");
+    }
+
     private void crearMapaEtiquetas () {
-        this.mapaEtiquetas.put("Xalapa",new Label[]{this.lbAlumnosXalapa,this.lbProfesoresXalapa});
-        this.mapaEtiquetas.put("Veracruz",new Label[]{lbAlumnosVeracruz,lbProfesoresVeracruz});
-        this.mapaEtiquetas.put("Poza Rica - Tuxpan",new Label[]{lbAlumnosPozaRica,lbProfesoresPozaRica});
-        this.mapaEtiquetas.put("Orizaba - Córdoba",new Label[]{lbAlumnosOrizaba,lbProfesoresOrizaba});
-        this.mapaEtiquetas.put("Coatzacoalcos - Minatitlán",new Label[]{lbAlumnosCoatzacoalcos,lbProfesoresCoatzacoalcos});
-        this.mapaEtiquetas.put("economico-administrativo",new Label[]{lbAlumnosEconomico,lbProfesoresEconomico});
-        this.mapaEtiquetas.put("humanidades",new Label[]{lbAlumnosHumanidades,lbProfesoresHumanidades});
-        this.mapaEtiquetas.put("tecnica",new Label[]{lbAlumnosTecnica,lbProfesoresTecnica});
-        this.mapaEtiquetas.put("ciencias de la salud",new Label[]{lbAlumnosSalud,lbProfesoresSalud});
-        this.mapaEtiquetas.put("biologia-agropecuarias",new Label[]{lbAlumnosBiologia,lbProfesoresBiologia});
-        this.mapaEtiquetas.put("DGRI",new Label[]{lbAlumnosDGRI,lbProfesoresDGRI});
+        MAPA_ETIQUETAS.put("Xalapa",new Label[]{this.lbAlumnosXalapa,this.lbProfesoresXalapa});
+        MAPA_ETIQUETAS.put("Veracruz",new Label[]{lbAlumnosVeracruz,lbProfesoresVeracruz});
+        MAPA_ETIQUETAS.put("Poza Rica - Tuxpan",new Label[]{lbAlumnosPozaRica,lbProfesoresPozaRica});
+        MAPA_ETIQUETAS.put("Orizaba - Córdoba",new Label[]{lbAlumnosOrizaba,lbProfesoresOrizaba});
+        MAPA_ETIQUETAS.put("Coatzacoalcos - Minatitlán",new Label[]{lbAlumnosCoatzacoalcos,lbProfesoresCoatzacoalcos});
+        MAPA_ETIQUETAS.put("economico-administrativo",new Label[]{lbAlumnosEconomico,lbProfesoresEconomico});
+        MAPA_ETIQUETAS.put("humanidades",new Label[]{lbAlumnosHumanidades,lbProfesoresHumanidades});
+        MAPA_ETIQUETAS.put("tecnica",new Label[]{lbAlumnosTecnica,lbProfesoresTecnica});
+        MAPA_ETIQUETAS.put("ciencias de la salud",new Label[]{lbAlumnosSalud,lbProfesoresSalud});
+        MAPA_ETIQUETAS.put("biologia-agropecuarias",new Label[]{lbAlumnosBiologia,lbProfesoresBiologia});
+        MAPA_ETIQUETAS.put("DGRI",new Label[]{lbAlumnosDGRI,lbProfesoresDGRI});
     }
 
     private void cargarNumeraliaPrincipal() {
@@ -138,17 +186,22 @@ public class NumeraliaControlador extends Application implements Initializable {
             case FEBRUARY, MARCH, APRIL, MAY, JUNE, JULY -> {
                 periodo.setFechaInicio(LocalDate.of(fechaActual.getYear() - 1, 8, 1));
                 periodo.setFechaFin(LocalDate.of(fechaActual.getYear(), 1, 31));
+                this.lbAnio.setText(String.valueOf(fechaActual.getYear()-1));
+                asignarAnioMaximo(fechaActual.getYear() - 1);
             }
             default -> {
                 periodo.setFechaInicio(LocalDate.of(fechaActual.getYear(), 2, 1));
                 periodo.setFechaFin(LocalDate.of(fechaActual.getYear(), 7, 31));
+                this.lbAnio.setText(String.valueOf(fechaActual.getYear()));
+                asignarAnioMaximo(fechaActual.getYear());
             }
         }
+
 
         cargarNumeralia(periodo);
     }
 
-    private void cargarNumeralia(PeriodoDTO periodo) {
+    private void cargarNumeralia (PeriodoDTO periodo) {
         ColaboracionAuxiliar colaboracionAuxiliar = new ColaboracionAuxiliar();
         Map<String,int[]> numeraliaRegion = null;
         Map<String,int[]> numeraliaAreas = null;
@@ -159,29 +212,61 @@ public class NumeraliaControlador extends Application implements Initializable {
         }
         catch (ErrorDAO error) {
             mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
+            hboxTablas.setVisible(false);
         }
 
         if (numeraliaRegion != null && numeraliaAreas != null) {
-            mostrarNumeraliaRegion(numeraliaRegion,numeraliaAreas);
+            mostrarNumeralia(numeraliaRegion,numeraliaAreas);
+            asignarEtiquetaPeriodo(periodo);
         }
     }
 
-    private void mostrarNumeraliaRegion (Map<String,int[]> numeraliaRegion, Map<String,int[]> numeraliaAreas) {
+    private void mostrarNumeralia(Map<String,int[]> numeraliaRegion, Map<String,int[]> numeraliaAreas) {
         String[] llavesRegion = new String[]{"Xalapa","Veracruz","Poza Rica - Tuxpan","Orizaba - Córdoba","Coatzacoalcos - Minatitlán"};
         String[] llavesAreas = new String[]{"economico-administrativo","humanidades","tecnica","ciencias de la salud","biologia-agropecuarias","DGRI"};
 
         asignarEtiquetas(llavesRegion,numeraliaRegion);
         asignarEtiquetas(llavesAreas,numeraliaAreas);
+
+        if (!hboxTablas.isVisible()) {
+            hboxTablas.setVisible(true);
+        }
     }
 
     private void asignarEtiquetas (String[] llaves, Map<String,int[]> numeralia) {
         for (String llave : llaves){
             int[] cantidades = numeralia.get(llave);
+            Label[] etiquetas = this.MAPA_ETIQUETAS.get(llave);
             if (cantidades != null) {
-                Label[] etiquetas = this.mapaEtiquetas.get(llave);
                 etiquetas[0].setText(String.valueOf(cantidades[0]));
                 etiquetas[1].setText(String.valueOf(cantidades[1]));
             }
+            else {
+                etiquetas[0].setText("0");
+                etiquetas[1].setText("0");
+            }
+        }
+    }
+
+    private void asignarEtiquetaPeriodo (PeriodoDTO periodo) {
+        String etiquetaPeriodo;
+        Month mesInicio = periodo.getFechaInicio()
+                .getMonth();
+        etiquetaPeriodo = mesInicio == Month.FEBRUARY ? "Periodo Febrero - Julio" : "Periodo Agosto - Enero";
+        lbPeriodo.setText(etiquetaPeriodo);
+    }
+
+    private void asignarAnioMaximo (int anio) {
+        this.anioMaximo = anio;
+        this.btnAnioAdelante.setVisible(false);
+    }
+
+    private void asignarAnioMinimo () {
+        ColaboracionDAO colaboracionDAO = new ColaboracionDAO();
+        Date fecha = null;
+
+        try {
+
         }
     }
 
