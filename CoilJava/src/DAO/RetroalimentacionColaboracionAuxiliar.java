@@ -8,8 +8,6 @@ import Utilidades.ErrorDAO.Tipo;
 import DAO.Interfaces.IRetroalimentacionColaboracionDAO;
 import org.apache.log4j.Logger;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -37,10 +35,11 @@ public class RetroalimentacionColaboracionAuxiliar {
     }
 
     int resultado = -1;
+    RetroalimentacionColaboracionDAO retroalimentacionDAO = new RetroalimentacionColaboracionDAO();
 
     try {
-      resultado = RetroalimentacionColaboracionDAO.agregarRetroalimentacion(retroalimentacion);
-    } catch (SQLException error) {
+      resultado = retroalimentacionDAO.agregar(retroalimentacion);
+    } catch (ErrorDAO error) {
       BITACORA.error(error);
     }
 
@@ -56,68 +55,49 @@ public class RetroalimentacionColaboracionAuxiliar {
       throw new ErrorDAO("la id proporcionada no es correcta", Tipo.VALIDACION);
     }
 
-    ResultSet retroalimentacion = null;
+    Optional<RetroalimentacionColaboracionDTO> retroalimentacion = Optional.empty();
+    RetroalimentacionColaboracionDAO retroalimentacionDAO = new RetroalimentacionColaboracionDAO();
 
     try {
-      retroalimentacion = RetroalimentacionColaboracionDAO.getPorId(id);
-    } catch (SQLException error) {
+      retroalimentacion = retroalimentacionDAO.getPorId(id);
+    } catch (ErrorDAO error) {
       BITACORA.error(error);
     }
 
-    RetroalimentacionColaboracionDTO retroalimentacionObj = null;
-
-    try {
-      if (retroalimentacion != null && retroalimentacion.next()) {
-        retroalimentacionObj = resultSetAObjeto(retroalimentacion);
-
-        retroalimentacion.close();
-      }
-    } catch (SQLException error) {
-      BITACORA.error(error);
-    }
-
-    return Optional.ofNullable(retroalimentacionObj);
+    return retroalimentacion;
   }
 
   public Optional<RetroalimentacionColaboracionDTO> getPorPersonaYColaboracion(int idPersona, int idColaboracion) {
     if (idPersona < 1 || idColaboracion < 1) {
       throw new ErrorDAO("alguna de las id proporcionadas no es correcta", Tipo.VALIDACION);
     }
-    ResultSet retroalimentacion = null;
+
+    Optional<RetroalimentacionColaboracionDTO> retroalimentacion = Optional.empty();
+    RetroalimentacionColaboracionDAO retroalimentacionDAO = new RetroalimentacionColaboracionDAO();
 
     try {
-      retroalimentacion = RetroalimentacionColaboracionDAO.getPorPersonaYColaboracion(idPersona, idColaboracion);
-    } catch (SQLException error) {
+      retroalimentacion = retroalimentacionDAO.getPorPersonaYColaboracion(idPersona, idColaboracion);
+    } catch (ErrorDAO error) {
       BITACORA.error(error);
     }
 
-    RetroalimentacionColaboracionDTO retroalimentacionObj = null;
-
-    try {
-      if (retroalimentacion != null && retroalimentacion.next()) {
-        retroalimentacionObj = resultSetAObjeto(retroalimentacion);
-
-        retroalimentacion.close();
-      }
-    } catch (SQLException error) {
-      BITACORA.error(error);
-    }
-
-    return Optional.ofNullable(retroalimentacionObj);
+    return retroalimentacion;
   }
 
   public List<RetroalimentacionColaboracionDTO> getTodos() throws ErrorDAO {
-    ResultSet resultados = null;
+    List<RetroalimentacionColaboracionDTO> resultados = null;
+    RetroalimentacionColaboracionDAO retroalimentacionDAO = new RetroalimentacionColaboracionDAO();
 
     try {
-      resultados = RetroalimentacionColaboracionDAO.getTodos();
-    } catch (SQLException error) {
+      resultados = retroalimentacionDAO.getTodos();
+    } catch (ErrorDAO error) {
       BITACORA.error(error);
     }
 
-    List<RetroalimentacionColaboracionDTO> retroalimentaciones = new ArrayList<>();
+    if (resultados == null) {
+      throw new ErrorDAO("No hay retroalimentaciones registradas", Tipo.CONSULTA);
+    }
 
-    return retroalimentaciones;
+    return resultados;
   }
-
 }

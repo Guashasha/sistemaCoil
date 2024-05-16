@@ -11,6 +11,7 @@ import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLWarning;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -75,13 +76,15 @@ public class RetroalimentacionColaboracionDAO implements IRetroalimentacionColab
       AdministradorBaseDatos.desconectar();
     }
 
-    if (resultado == null) {
-      return Optional.empty();
+    try {
+      if (resultado == null || !resultado.next()) {
+        return Optional.empty();
+      }
+    } catch (SQLException error) {
+      throw new ErrorDAO("La retroalimentación no se encotró", Tipo.CONSULTA);
     }
 
-    RetroalimentacionColaboracionDTO retroalimentacion = resultSetAObjeto(resultado);
-
-    return Optional.of(retroalimentacion);
+    return Optional.ofNullable(resultSetAObjeto(resultado));
   }
 
   public Optional<RetroalimentacionColaboracionDTO> getPorPersonaYColaboracion(int idPersona, int idColaboracion)
@@ -103,13 +106,15 @@ public class RetroalimentacionColaboracionDAO implements IRetroalimentacionColab
       AdministradorBaseDatos.desconectar();
     }
 
-    if (resultado == null) {
-      return Optional.empty();
+    try {
+      if (resultado == null || !resultado.next()) {
+        return Optional.empty();
+      }
+    } catch (SQLException error) {
+      throw new ErrorDAO("La retroalimentacion no se encontró", Tipo.CONSULTA);
     }
 
-    RetroalimentacionColaboracionDTO retroalimentacion = resultSetAObjeto(resultado);
-
-    return Optional.of(retroalimentacion);
+    return Optional.ofNullable(resultSetAObjeto(resultado));
   }
 
   public List<RetroalimentacionColaboracionDTO> getTodos() throws ErrorDAO {
@@ -137,7 +142,9 @@ public class RetroalimentacionColaboracionDAO implements IRetroalimentacionColab
       while (resultado.next()) {
         RetroalimentacionColaboracionDTO retroalimentacion = resultSetAObjeto(resultado);
 
-        retroalimentaciones.add(retroalimentacion);
+        if (retroalimentacion != null) {
+          retroalimentaciones.add(retroalimentacion);
+        }
       }
 
       resultado.close();
