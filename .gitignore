@@ -60,3 +60,6 @@ crashlytics.properties
 crashlytics-build.properties
 
 # Created by .ignore support plugin (hsz.mobi)
+
+CoilJava/logs/bitacoraCOIL.log
+CoilJava/CoilJava.iml

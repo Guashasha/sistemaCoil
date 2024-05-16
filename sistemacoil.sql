@@ -4,10 +4,6 @@ CREATE DATABASE IF NOT EXISTS COIL;
 
 USE COIL;
 
-CREATE USER IF NOT EXISTS "admin_COIL"@"%" IDENTIFIED BY "habitacionDeVuelo";
-
-GRANT INSERT, SELECT, UPDATE, DELETE ON COIL.* TO "admin_COIL"@"%";
-
 CREATE TABLE `persona` (
   `idPersona` int PRIMARY KEY AUTO_INCREMENT,
   `nombre` varchar(20) NOT NULL,
@@ -26,7 +22,7 @@ CREATE TABLE `estudiante` (
 CREATE TABLE `universidad` (
   `idUniversidad` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
-  `paisOrigen` varchar(40) NOT NULL
+  `paisOrigen` int NOT NULL
 );
 
 CREATE TABLE `region` (
@@ -41,21 +37,21 @@ CREATE TABLE `facultad` (
 );
 
 CREATE TABLE `academico` (
-  `cedulaProfesional` varchar(30),
-  `numeroDePersonal` varchar(40) NOT NULL,
+  `cedulaProfesional` varchar(30) NOT NULL,
+  `numeroDePersonal` varchar(40) NULL,
   `idPersona` int NOT NULL,
-  `areaEstudios` varchar(40) NOT NULL,
+  `areaEstudios` ENUM ('economico-administrativo', 'humanidades', 'tecnica', 'ciencias de la salud', 'biologia-agropecuarias', 'dgri') NULL,
   `correoElectronico` varchar(30) NOT NULL,
-  `numeroTelefonico` char(12) NOT NULL,
-  `categoriaContratacion` varchar(40),
-  `facultad` int NOT NULL,
-  PRIMARY KEY (`cedulaProfesional`, `numeroDePersonal`)
+  `numeroTelefonico` char(12) NULL,
+  `categoriaContratacion` varchar(40) NULL,
+  `facultad` int NULL,
+  PRIMARY KEY (`cedulaProfesional`)
 );
 
 CREATE TABLE `colaboracion` (
   `idColaboracion` int PRIMARY KEY AUTO_INCREMENT,
-  `estado` ENUM ('propuesta', 'aceptada', 'rechazada', 'disponible', 'vinculada', 'activa', 'en revision', 'finalizada') NOT NULL,
-  `tipo` ENUM ('claseEspejo', 'COIl') NOT NULL,
+  `estado` ENUM ('propuesta', 'aceptada', 'rechazada', 'disponible', 'vinculada', 'activa', 'enRevision', 'finalizada') NOT NULL,
+  `tipo` ENUM ('claseEspejo', 'COIL') NOT NULL,
   `temaInteres` varchar(80) NOT NULL,
   `idioma` varchar(30) NOT NULL,
   `objetivo` varchar(80),
@@ -75,16 +71,12 @@ CREATE TABLE `academicoDesarrolla` (
   estado ENUM ('anfitrion', 'pendiente', 'aceptado', 'rechazado')
 );
 
--- CREATE TABLE `solicitaParticiparColaboracion` (
---   `idAcademico` varchar(30) NOT NULL,
---   `idColaboracion` int NOT NULL
--- );
-
 CREATE TABLE `cuenta` (
   idCuenta int PRIMARY KEY AUTO_INCREMENT,
-  `idAcademico` varchar(30),
-  `nombreUsuario` varchar(50) NOT NULL,
-  `contrasena` varchar(30) NOT NULL,
+  `idPersona` int NOT NULL,
+  `nombreUsuario` varchar(50) NOT NULL UNIQUE,
+  `contrasena` varchar(300) NOT NULL,
+  `tipo` ENUM ('academico', 'estudiante', 'administrador') NOT NULL,
   `estado` ENUM ('pendiente', 'aceptada', 'rechazada') NOT NULL
 );
 
@@ -113,30 +105,26 @@ CREATE TABLE `retroalimentacionColaboracion` (
   `colaboracion` int NOT NULL
 );
 
+CREATE TABLE calendarioActividades (
+  idActividad int NOT NULL,
+  idColaboracion int NOT NULL,
+  fechaInicio date NOT NULL,
+  fechaFin date NOT NULL
+);
+
 CREATE TABLE `actividad` (
   `idActividad` int PRIMARY KEY AUTO_INCREMENT,
   `titulo` varchar(50) NOT NULL,
   `descripcion` varchar(200) NOT NULL,
-  `tipo` ENUM ('rompehielo', 'intercultural', 'disciplinar', 'cierre') NOT NULL,
-  `colaboracion` int NOT NULL
+  `tipo` ENUM ('rompeHielo', 'intercultural', 'disciplinar', 'cierre') NOT NULL
 );
 
-DELIMITER //
-
-CREATE PROCEDURE IF NOT EXISTS insertarRetroalimentacionActividad (interaccionPar int, dificultad int, interes int, actividad int, comentario varchar(200), usuario int)
-BEGIN
-  INSERT INTO retroalimentacion (interaccionPar, comentario, usuario)
-  VALUES (interaccionPar, comentario, usuario);
-
-  -- DECLARE id INT DEFAULT 0;
-
-  SELECT max(idRetroalimentacion) INTO @id FROM retroalimentacion;
-
-  INSERT INTO retroalimentacionActividad (idRetroalimentacion, dificultad, interes, actividad)
-  VALUES (id, dificultad, interes, actividad);
-END //
-
-DELIMITER ;
+CREATE TABLE pais (
+idPais int NOT NULL AUTO_INCREMENT,
+iso char(2) DEFAULT NULL,
+nombre varchar(80) NOT NULL,
+PRIMARY KEY (idPais)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 ALTER TABLE `persona` ADD FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`);
 
@@ -156,11 +144,7 @@ ALTER TABLE `academicoDesarrolla` ADD FOREIGN KEY (`idColaboracion`) REFERENCES 
 
 ALTER TABLE `academicoDesarrolla` ADD FOREIGN KEY (`idAcademico`) REFERENCES `academico` (`cedulaProfesional`);
 
--- ALTER TABLE `solicitaParticiparColaboracion` ADD FOREIGN KEY (`idAcademico`) REFERENCES `academico` (`cedulaProfesional`);
-
--- ALTER TABLE `solicitaParticiparColaboracion` ADD FOREIGN KEY (`idColaboracion`) REFERENCES `colaboracion` (`idColaboracion`);
-
-ALTER TABLE `cuenta` ADD FOREIGN KEY (`idAcademico`) REFERENCES `academico` (`cedulaProfesional`);
+ALTER TABLE `cuenta` ADD FOREIGN KEY (`idPersona`) REFERENCES `persona` (`idPersona`);
 
 ALTER TABLE `retroalimentacion` ADD FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`);
 
@@ -172,4 +156,21 @@ ALTER TABLE `retroalimentacionColaboracion` ADD FOREIGN KEY (`idRetroalimentacio
 
 ALTER TABLE `retroalimentacionColaboracion` ADD FOREIGN KEY (`colaboracion`) REFERENCES `colaboracion` (`idColaboracion`);
 
-ALTER TABLE `actividad` ADD FOREIGN KEY (`colaboracion`) REFERENCES `colaboracion` (`idColaboracion`);
+ALTER TABLE `calendarioActividades` ADD FOREIGN KEY (`idColaboracion`) REFERENCES `colaboracion` (`idColaboracion`);
+
+ALTER TABLE `calendarioActividades` ADD FOREIGN KEY (`idActividad`) REFERENCES `actividad` (`idActividad`);
+
+ALTER TABLE `universidad` ADD FOREIGN KEY (`paisOrigen`) REFERENCES `pais` (`idPais`);
+
+DROP USER IF EXISTS "admin_COIL"@"localhost";
+DROP USER IF EXISTS "admin_COIL"@"%";
+
+CREATE USER IF NOT EXISTS "admin_COIL"@"%" IDENTIFIED BY "habitacionDeVuelo";
+
+GRANT INSERT, SELECT, EXECUTE, UPDATE, DELETE ON COIL.* TO "admin_COIL"@"%";
+
+DROP USER IF EXISTS "CarrionMartinezPale"@"localhost";
+
+CREATE USER IF NOT EXISTS "CarrionMartinezPale"@"localhost" IDENTIFIED BY "cremaxx";
+
+GRANT ALL ON COIL.* TO "CarrionMartinezPale"@"localhost";

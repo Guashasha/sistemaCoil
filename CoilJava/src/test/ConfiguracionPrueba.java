@@ -1,14 +1,12 @@
 package test;
 
-import AccesoADatos.AcademicoDB;
-import AccesoADatos.UniversidadDB;
-import Logica.Dominio.Academico;
-import Logica.Dominio.Estudiante;
-import Logica.Dominio.Universidad;
+
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 
 public class ConfiguracionPrueba {
+    private static final Logger BITACORA = Logger.getLogger(ConfiguracionPrueba.class);
 
     public static void borrarDatosTablaAcademico () {
         ejecutarInstruccionSQL("DELETE FROM academico;");
@@ -39,10 +37,10 @@ public class ConfiguracionPrueba {
 
     public static void borrarDatosTablaCuenta () {
         ejecutarInstruccionSQL("DELETE FROM cuenta;");
-        ejecutarInstruccionSQL("ALTER TABLE colaboracion AUTO_INCREMENT = 0;");
+        ejecutarInstruccionSQL("ALTER TABLE cuenta AUTO_INCREMENT = 0;");
     }
     public static void borrarDatosTablaEstudiantesColaboracion () {
-        ejecutarInstruccionSQL("DELETE FROM estudiantescolaboracion;");
+        ejecutarInstruccionSQL("DELETE FROM estudiantesColaboracion;");
     }
     public static void borrarDatosTablaFacultad () {
         ejecutarInstruccionSQL("DELETE FROM facultad;");
@@ -54,23 +52,32 @@ public class ConfiguracionPrueba {
     }
     public static void borrarDatosTablaRetroalimentacion () {
         ejecutarInstruccionSQL("DELETE FROM retroalimentacion;");
-        ejecutarInstruccionSQL("ALTER TABLE retroalimentacion AUTO_INCREMENT = 0;");
+        ejecutarInstruccionSQL("ALTER TABLE retroalimentacion AUTO_INCREMENT = 1;");
     }
     public static void borrarDatosTablaRetroalimentacionActividad () {
-        ejecutarInstruccionSQL("DELETE FROM retroalimentacionactividad;");
+        ejecutarInstruccionSQL("DELETE FROM retroalimentacionActividad;");
     }
     public static void borrarDatosTablaRetroalimentacionColaboracion () {
-        ejecutarInstruccionSQL("DELETE FROM retroalimentacioncolaboracion;");
+        ejecutarInstruccionSQL("DELETE FROM retroalimentacionColaboracion;");
     }
     public static void borrarDatosTablaSolicitaParticiparColaboracion () {
         ejecutarInstruccionSQL("DELETE FROM solicitaparticiparcolaboracion;");
     }
+    public static void borrarDatosTablaPais () {
+        ejecutarInstruccionSQL("DELETE FROM pais;");
+        ejecutarInstruccionSQL("ALTER TABLE pais AUTO_INCREMENT = 0;");
+    }
 
-    private static void ejecutarInstruccionSQL (String instruccionSQL) {
+    public static void borrarDatosTablaCalendarioActividades () {
+        ejecutarInstruccionSQL("DELETE FROM calendarioactividades;");
+    }
+
+    public static void ejecutarInstruccionSQL (String instruccionSQL) {
         try {
-            String urlBaseDatos = "jdbc:mariadb://localhost:3306/coil";
-            String usuario = "root";
-            String contrasena = "neco2000";
+            String urlBaseDatos = "jdbc:mariadb://localhost:3307/COIL";
+            String usuario = "CarrionMartinezPale";
+            String contrasena = "cremaxx";
+
             Connection conexion = DriverManager.getConnection(urlBaseDatos, usuario, contrasena);
 
             PreparedStatement declaracionSQL = conexion.prepareStatement(instruccionSQL);
@@ -80,7 +87,7 @@ public class ConfiguracionPrueba {
             conexion.close();
         }
         catch (SQLException error) {
-            System.out.println("Error al ejecutar la instrucción SQL: " + error.getMessage());
+            BITACORA.fatal(error.getMessage());
         }
     }
 

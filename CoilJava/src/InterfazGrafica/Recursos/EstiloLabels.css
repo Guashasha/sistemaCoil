@@ -1,0 +1,11 @@
+.label-inicioSesion-rosado {
+    -fx-background-color: transparent;
+    -fx-border-color: CE2764;
+    -fx-border-width: 0px 0px 2px 0px;
+}
+
+.label-inicioSesion-naranja {
+    -fx-background-color: transparent;
+    -fx-border-color: DC6504;
+    -fx-border-width: 0px 0px 2px 0px;
+}

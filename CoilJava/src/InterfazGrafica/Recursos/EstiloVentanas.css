@@ -1,0 +1,57 @@
+.root {
+    -fx-background-color: #EBFCFF;
+    -fx-background-radius: 20;
+}
+
+.button-principal {
+    -fx-font: bold 14px "System";
+    -fx-background-color: #FA790F;
+}
+
+.button-secundario {
+    -fx-font: 14px "System";
+    -fx-background-color: #E7C736;
+}
+
+.barra-titulo {
+    -fx-background-color: linear-gradient(from 0% 0% to 40% 0%, #6CC3EF, #D8316E);
+    -fx-background-radius: 20 20 0 0;
+}
+
+.barra-secundaria {
+    -fx-background-color: #91D2F3;
+    -fx-background-radius: 0 0 0 20;
+    -fx-pref-width: 222px;
+}
+
+.button-menu-lateral {
+    -fx-font: bold 24px "System";
+    -fx-background-color: #6CC3EF;
+    -fx-background-radius: 7;
+    -fx-border-color: white;
+    -fx-border-radius: 7;
+    -fx-padding: 10px;
+    -fx-min-width: 220px;
+}
+
+.button-menu-lateral:hover {
+    -fx-background-color: #B7DCF5;
+}
+
+.plaheholder-tabla {
+    -fx-border-radius: 9;
+    -fx-background-radius: 9;
+    -fx-background-color: linear-gradient(from 0% 40% to 0% 100%, #D8316E, #FA790F);
+    -fx-opacity: 0.5;
+}
+
+.leftBoarder-pane-solicitud {
+    -fx-background-color: linear-gradient(to right bottom, #ce2794, #dc6504);
+}
+.button-solicitar {
+    -fx-background-color: linear-gradient(to bottom right, #dc6504 4%, #e9c835 73%);
+}
+.combo-box-universidad-solicitud {
+    -fx-font: 14px "System";
+    -fx-background-color: #ffdf53;
+}

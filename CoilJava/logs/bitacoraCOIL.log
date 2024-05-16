@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+</log>
+2024-04-12 11:39:57 ERROR RetroalimentacionActividad:154 - java.sql.SQLDataException: wrong row position
+  2024-04-12 11:39:59 ERROR RetroalimentacionActividad:45 - java.sql.SQLIntegrityConstraintViolationException: (conn=210) Cannot add or update a child row: a foreign key constraint fails (`COIL`.`retroalimentacionActividad`, CONSTRAINT `retroalimentacionActividad_ibfk_2` FOREIGN KEY (`actividadDTO`) REFERENCES `actividadDTO` (`idActividad`))
+  2024-04-12 11:40:53 ERROR RetroalimentacionActividad:154 - java.sql.SQLDataException: wrong row position
+  2024-04-12 11:40:54 ERROR RetroalimentacionActividad:45 - java.sql.SQLIntegrityConstraintViolationException: (conn=234) Cannot add or update a child row: a foreign key constraint fails (`COIL`.`retroalimentacionActividad`, CONSTRAINT `retroalimentacionActividad_ibfk_2` FOREIGN KEY (`actividadDTO`) REFERENCES `actividadDTO` (`idActividad`))
+  2024-04-12 11:41:34 ERROR RetroalimentacionActividad:154 - java.sql.SQLDataException: wrong row position
+  2024-04-12 11:41:35 ERROR RetroalimentacionActividad:45 - java.sql.SQLIntegrityConstraintViolationException: (conn=258) Cannot add or update a child row: a foreign key constraint fails (`COIL`.`retroalimentacionActividad`, CONSTRAINT `retroalimentacionActividad_ibfk_2` FOREIGN KEY (`actividadDTO`) REFERENCES `actividadDTO` (`idActividad`))
+  2024-04-12 11:44:26 ERROR RetroalimentacionActividad:154 - java.sql.SQLDataException: wrong row position
+  2024-04-12 11:44:28 ERROR RetroalimentacionActividad:45 - java.sql.SQLIntegrityConstraintViolationException: (conn=282) Cannot add or update a child row: a foreign key constraint fails (`COIL`.`retroalimentacionActividad`, CONSTRAINT `retroalimentacionActividad_ibfk_2` FOREIGN KEY (`actividadDTO`) REFERENCES `actividadDTO` (`idActividad`))
+  2024-04-12 14:34:31 ERROR DAOColaboracion:195 - (conn=32) Unknown column 'fechaFinal' in 'field list'
+  2024-04-12 14:36:55 ERROR DAOColaboracion:195 - (conn=38) Unknown column 'fechaFinal' in 'field list'
+  2024-04-12 14:39:45 ERROR DAOColaboracion:195 - (conn=44) Unknown column 'fechaFinal' in 'field list'
+  2024-04-12 14:47:28 ERROR DAOColaboracion:195 - (conn=50) Unknown column 'fechaFinal' in 'field list'
+  2024-04-12 15:12:46 ERROR DAOColaboracion:195 - (conn=64) Data truncated for column 'p_estado' at row 0
+  2024-04-12 15:13:45 ERROR DAOColaboracion:195 - (conn=70) Data truncated for column 'p_estado' at row 0
+  2024-04-12 15:34:46 ERROR RetroalimentacionActividad:45 - java.sql.SQLIntegrityConstraintViolationException: (conn=117) Cannot add or update a child row: a foreign key constraint fails (`COIL`.`retroalimentacion`, CONSTRAINT `retroalimentacion_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`))
+  2024-04-12 15:35:45 ERROR RetroalimentacionActividad:45 - java.sql.SQLIntegrityConstraintViolationException: (conn=130) Cannot add or update a child row: a foreign key constraint fails (`COIL`.`retroalimentacion`, CONSTRAINT `retroalimentacion_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`))
+  2024-04-12 15:35:47 ERROR RetroalimentacionActividad:45 - java.sql.SQLIntegrityConstraintViolationException: (conn=133) Cannot add or update a child row: a foreign key constraint fails (`COIL`.`retroalimentacion`, CONSTRAINT `retroalimentacion_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`))
+  2024-04-12 15:35:49 ERROR RetroalimentacionActividad:45 - java.sql.SQLIntegrityConstraintViolationException: (conn=138) Cannot add or update a child row: a foreign key constraint fails (`COIL`.`retroalimentacion`, CONSTRAINT `retroalimentacion_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`))
+  2024-04-12 15:52:40 ERROR RetroalimentacionActividad:45 - java.sql.SQLSyntaxErrorException: (conn=304) Unknown column 'comentario' in 'field list'
+  2024-04-12 15:52:42 ERROR RetroalimentacionActividad:45 - java.sql.SQLSyntaxErrorException: (conn=307) Unknown column 'comentario' in 'field list'
+  2024-04-12 15:52:44 ERROR RetroalimentacionActividad:45 - java.sql.SQLSyntaxErrorException: (conn=312) Unknown column 'comentario' in 'field list'
+  2024-04-12 15:54:25 ERROR RetroalimentacionActividad:45 - java.sql.SQLSyntaxErrorException: (conn=328) Unknown column 'comentario' in 'field list'
+  2024-04-12 15:54:28 ERROR RetroalimentacionActividad:45 - java.sql.SQLSyntaxErrorException: (conn=331) Unknown column 'comentario' in 'field list'
+  2024-04-12 15:54:30 ERROR RetroalimentacionActividad:45 - java.sql.SQLSyntaxErrorException: (conn=336) Unknown column 'comentario' in 'field list'
+  2024-04-14 03:42:16 ERROR RetroalimentacionActividad:45 - java.sql.SQLIntegrityConstraintViolationException: (conn=7832) Cannot add or update a child row: a foreign key constraint fails (`coil`.`retroalimentacion`, CONSTRAINT `retroalimentacion_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`))
+  2024-04-14 03:42:45 ERROR RetroalimentacionActividad:45 - java.sql.SQLIntegrityConstraintViolationException: (conn=7846) Cannot add or update a child row: a foreign key constraint fails (`coil`.`retroalimentacion`, CONSTRAINT `retroalimentacion_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`))
+  2024-04-14 03:49:27 FATAL ConfiguracionPrueba:88 - (conn=8058) Duplicate entry '1' for key 'PRIMARY'
+  2024-04-14 04:16:20 FATAL ConfiguracionPrueba:88 - (conn=8363) Duplicate entry '2' for key 'PRIMARY'
+  2024-04-14 04:16:22 FATAL ConfiguracionPrueba:88 - (conn=8367) Duplicate entry '1' for key 'PRIMARY'
+  2024-04-14 04:16:24 FATAL ConfiguracionPrueba:88 - (conn=8368) Duplicate entry 'ABC123-123456' for key 'PRIMARY'
+  2024-04-14 04:16:25 FATAL ConfiguracionPrueba:88 - (conn=8369) Duplicate entry '2' for key 'PRIMARY'
+  2024-04-14 04:16:26 FATAL ConfiguracionPrueba:88 - (conn=8370) Duplicate entry '200011-4564' for key 'PRIMARY'
+  2024-04-14 04:16:27 FATAL ConfiguracionPrueba:88 - (conn=8371) Duplicate entry '3' for key 'PRIMARY'
+  2024-04-14 04:16:29 FATAL ConfiguracionPrueba:88 - (conn=8372) Duplicate entry '102939-02' for key 'PRIMARY'
+  2024-04-14 04:16:30 FATAL ConfiguracionPrueba:88 - (conn=8373) Duplicate entry '4' for key 'PRIMARY'
+  2024-04-14 04:16:32 FATAL ConfiguracionPrueba:88 - (conn=8374) Duplicate entry '1-4' for key 'PRIMARY'
+  2024-04-14 04:16:33 FATAL ConfiguracionPrueba:88 - (conn=8375) Duplicate entry '5' for key 'PRIMARY'
+  2024-04-14 04:16:34 FATAL ConfiguracionPrueba:88 - (conn=8376) Duplicate entry '2-5' for key 'PRIMARY'
+  2024-04-14 04:16:35 FATAL ConfiguracionPrueba:88 - (conn=8377) Duplicate entry '1' for key 'PRIMARY'
+  2024-04-14 04:16:37 FATAL ConfiguracionPrueba:88 - (conn=8378) Duplicate entry '2' for key 'PRIMARY'
+  2024-04-16 02:34:37 FATAL Main:12 - XD
+  2024-04-16 02:37:10 FATAL Main:12 - Main
+  2024-04-16 02:41:33 FATAL Main:12 - XD
+  2024-04-16 02:46:01 FATAL Main:12 - XD
+  2024-04-16 02:47:04 FATAL Main:12 - XD
+  2024-04-16 02:56:40 FATAL Main:12 - XD
+  2024-04-16 02:58:25 FATAL Main:12 - XD
+  2024-04-16 03:01:31 FATAL Main:12 - XD
+  2024-04-16 03:04:24 FATAL Main:12 - XD
+  2024-04-16 03:08:53 FATAL Main:12 - XD
+  2024-04-16 03:16:24 FATAL Main:12 - XD
+  2024-04-16 03:17:55 FATAL Main:12 - XD
+  2024-04-16 03:22:59 FATAL Main:12 - XD
+  2024-04-17 03:01:33 FATAL Main:12 - XD
+  2024-04-18 18:58:40 ERROR RetroalimentacionActividad:99 - java.sql.SQLInvalidAuthorizationSpecException: (conn=9) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:02:47 ERROR RetroalimentacionActividad:99 - java.sql.SQLInvalidAuthorizationSpecException: (conn=16) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:02:47 ERROR RetroalimentacionActividad:36 - java.sql.SQLInvalidAuthorizationSpecException: (conn=17) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:02:47 ERROR RetroalimentacionActividad:99 - java.sql.SQLInvalidAuthorizationSpecException: (conn=18) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:02:47 ERROR RetroalimentacionActividad:36 - java.sql.SQLInvalidAuthorizationSpecException: (conn=19) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:02:47 ERROR RetroalimentacionActividad:130 - java.sql.SQLInvalidAuthorizationSpecException: (conn=20) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:04:00 ERROR RetroalimentacionActividad:99 - java.sql.SQLInvalidAuthorizationSpecException: (conn=31) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:04:00 ERROR RetroalimentacionActividad:36 - java.sql.SQLInvalidAuthorizationSpecException: (conn=32) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:04:00 ERROR RetroalimentacionActividad:99 - java.sql.SQLInvalidAuthorizationSpecException: (conn=33) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:04:00 ERROR RetroalimentacionActividad:36 - java.sql.SQLInvalidAuthorizationSpecException: (conn=34) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:04:00 ERROR RetroalimentacionActividad:130 - java.sql.SQLInvalidAuthorizationSpecException: (conn=35) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:21:42 ERROR RetroalimentacionActividad:100 - java.sql.SQLInvalidAuthorizationSpecException: (conn=42) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:21:42 ERROR RetroalimentacionActividad:36 - java.sql.SQLInvalidAuthorizationSpecException: (conn=43) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:21:42 ERROR RetroalimentacionActividad:100 - java.sql.SQLInvalidAuthorizationSpecException: (conn=44) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:21:42 ERROR RetroalimentacionActividad:36 - java.sql.SQLInvalidAuthorizationSpecException: (conn=45) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:21:42 ERROR RetroalimentacionActividad:135 - java.sql.SQLInvalidAuthorizationSpecException: (conn=46) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:21:42 ERROR RetroalimentacionActividad:72 - java.sql.SQLInvalidAuthorizationSpecException: (conn=47) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:25:23 ERROR RetroalimentacionActividad:100 - java.sql.SQLInvalidAuthorizationSpecException: (conn=54) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:25:23 ERROR RetroalimentacionActividad:36 - java.sql.SQLInvalidAuthorizationSpecException: (conn=55) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:25:23 ERROR RetroalimentacionActividad:100 - java.sql.SQLInvalidAuthorizationSpecException: (conn=56) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:25:23 ERROR RetroalimentacionActividad:36 - java.sql.SQLInvalidAuthorizationSpecException: (conn=57) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:25:23 ERROR RetroalimentacionActividad:135 - java.sql.SQLInvalidAuthorizationSpecException: (conn=58) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:25:23 ERROR RetroalimentacionActividad:72 - java.sql.SQLInvalidAuthorizationSpecException: (conn=59) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:25:52 ERROR RetroalimentacionActividad:100 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=%)(port=3306)(type=primary). %
+  2024-04-18 19:25:52 ERROR RetroalimentacionActividad:36 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=%)(port=3306)(type=primary). %
+  2024-04-18 19:25:52 ERROR RetroalimentacionActividad:100 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=%)(port=3306)(type=primary). %
+  2024-04-18 19:25:52 ERROR RetroalimentacionActividad:36 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=%)(port=3306)(type=primary). %
+  2024-04-18 19:25:52 ERROR RetroalimentacionActividad:135 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=%)(port=3306)(type=primary). %
+  2024-04-18 19:25:52 ERROR RetroalimentacionActividad:72 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=%)(port=3306)(type=primary). %
+  2024-04-18 19:29:18 ERROR RetroalimentacionActividad:100 - java.sql.SQLInvalidAuthorizationSpecException: (conn=72) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:29:18 ERROR RetroalimentacionActividad:36 - java.sql.SQLInvalidAuthorizationSpecException: (conn=73) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:29:18 ERROR RetroalimentacionActividad:100 - java.sql.SQLInvalidAuthorizationSpecException: (conn=74) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:29:18 ERROR RetroalimentacionActividad:36 - java.sql.SQLInvalidAuthorizationSpecException: (conn=75) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:29:18 ERROR RetroalimentacionActividad:135 - java.sql.SQLInvalidAuthorizationSpecException: (conn=76) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:29:18 ERROR RetroalimentacionActividad:72 - java.sql.SQLInvalidAuthorizationSpecException: (conn=77) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+  2024-04-18 19:32:24 ERROR RetroalimentacionActividad:45 - java.sql.SQLIntegrityConstraintViolationException: (conn=90) Cannot add or update a child row: a foreign key constraint fails (`COIL`.`retroalimentacion`, CONSTRAINT `retroalimentacion_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`))
+  2024-04-18 20:11:52 FATAL ConfiguracionPrueba:88 - (conn=280) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionActividad`, CONSTRAINT `retroalimentacionActividad_ibfk_2` FOREIGN KEY (`actividadDTO`) REFERENCES `actividadDTO` (`idActividad`))
+  2024-04-18 20:15:04 FATAL ConfiguracionPrueba:88 - (conn=290) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionActividad`, CONSTRAINT `retroalimentacionActividad_ibfk_2` FOREIGN KEY (`actividadDTO`) REFERENCES `actividadDTO` (`idActividad`))
+2024-04-30 11:33:02 ERROR RetroalimentacionActividad:103 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=3307)(type=primary). Connection refused
+  2024-05-11 02:32:52 FATAL ConexionBaseDatos:30 - Socket fail to connect to host:address=(host=localhost)(port=3307)(type=primary). Connection refused: getsockopt
+2024-05-11 02:59:35 FATAL ConexionBaseDatos:30 - Socket fail to connect to host:address=(host=localhost)(port=3307)(type=primary). Connection refused: getsockopt
+2024-05-11 02:59:49 FATAL ConexionBaseDatos:30 - Socket fail to connect to host:address=(host=localhost)(port=3307)(type=primary). Connection refused: getsockopt
