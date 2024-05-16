@@ -9,9 +9,12 @@ import test.ConfiguracionPrueba;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-class PaisDTODAOTest {
+class PaisDAOTest {
+    private final PaisDAO PAIS_DAO = new PaisDAO();
     @BeforeAll
     static void setUp() {
         ConfiguracionPrueba.borrarDatosTablaPais();
@@ -33,7 +36,7 @@ class PaisDTODAOTest {
         listaEsperada.add(new PaisDTO(1,"MX","México"));
 
         try {
-            listaObtenida = PaisDAO.paisesAlfabeticamente();
+            listaObtenida = PAIS_DAO.getPaisesAlfabeticamente();
         }
         catch (SQLException error) {
             fail("Fallida: pruebaPaisesAlfabeticamenteExitosa");
@@ -50,81 +53,62 @@ class PaisDTODAOTest {
 
     @Test
     void pruebaGetPaisPorNombreExitosa () {
-        System.out.println("pruebaGetPaisPorNombreExitosa");
+        Optional<PaisDTO> paisObtenidoOptional = Optional.empty();
         PaisDTO esperado = new PaisDTO(2,"US","Estados Unidos");
-        PaisDTO obtenido = new PaisDTO();
-
         try {
-            obtenido = PaisDAO.getPaisPorNombre(esperado.getNombre());
+            paisObtenidoOptional = PAIS_DAO.getPaisPorNombre(esperado.getNombre());
         }
         catch (SQLException error) {
             fail("Fallida: pruebaGetPaisPorNombreExitosa");
         }
-
-        assertEquals(esperado.getId(),obtenido.getId());
-        assertEquals(esperado.getIso(),obtenido.getIso());
-        assertEquals(esperado.getNombre(),obtenido.getNombre());
+        assertTrue(paisObtenidoOptional.isPresent());
+        assertEquals(esperado,paisObtenidoOptional.get(),"pruebaGetPaisPorNombreExitosa");
     }
 
     @Test
     void pruebaGetPaisPorNombreInexistente () {
-        System.out.println("pruebaGetPaisPorNombreInexistente");
-        PaisDTO obtenido = new PaisDTO();
-
         try {
-            obtenido = PaisDAO.getPaisPorNombre("Argentina");
+            Optional<PaisDTO> obtenido = PAIS_DAO.getPaisPorNombre("Argentina");
+            assertTrue(obtenido.isEmpty(),"pruebaGetPaisPorNombreInexistente");
         }
         catch (SQLException error) {
             fail("Fallida: pruebaGetPaisPorNombreExitosa");
         }
-
-        assertEquals(0,obtenido.getId());
     }
 
     @Test
     void pruebaGetPaisPorNombreNulo () {
-        System.out.println("pruebaGetPaisPorNombreNulo");
-        PaisDTO obtenido = new PaisDTO();
-
         try {
-            obtenido = PaisDAO.getPaisPorNombre(null);
+            Optional<PaisDTO> obtenido = PAIS_DAO.getPaisPorNombre(null);
+            assertTrue(obtenido.isEmpty(),"pruebaGetPaisPorNombreNulo");
         }
         catch (SQLException error) {
             fail("Fallida: pruebaGetPaisPorNombreNulo");
         }
-
-        assertEquals(0,obtenido.getId());
     }
 
     @Test
     void pruebaGetPaisPorIdExitosa () {
-        System.out.println("pruebaGetPaisPorIdExitosa");
+        Optional<PaisDTO> obtenidoOptional = Optional.empty();
         PaisDTO esperado = new PaisDTO(2,"US","Estados Unidos");
-        PaisDTO obtenido = new PaisDTO();
-
         try {
-            obtenido = PaisDAO.getPaisPorId(esperado.getId());
+            obtenidoOptional = PAIS_DAO.getPaisPorId(esperado.getId());
         }
         catch (SQLException error) {
             fail("Fallida: pruebaGetPaisPorIdExitosa");
         }
-        assertEquals(esperado.getId(),obtenido.getId());
-        assertEquals(esperado.getIso(),obtenido.getIso());
-        assertEquals(esperado.getNombre(),obtenido.getNombre());
+        assertTrue(obtenidoOptional.isPresent());
+        assertEquals(esperado,obtenidoOptional.get(),"pruebaGetPaisPorIdExitosa");
     }
 
     @Test
     void pruebaGetPaisPorIdInexistente () {
-        System.out.println("pruebaGetPaisPorIdInexistente");
-        PaisDTO obtenido = new PaisDTO();
-
         try {
-            obtenido = PaisDAO.getPaisPorId(0);
+            Optional<PaisDTO> obtenido = PAIS_DAO.getPaisPorId(0);
+            assertTrue(obtenido.isEmpty(),"pruebaGetPaisPorIdInexistente");
         }
         catch (SQLException error) {
-            fail("Fallisa: pruebaGetPaisPorIdInexistente");
+            fail("Fallida: pruebaGetPaisPorIdInexistente");
         }
-
-        assertEquals(0,obtenido.getId());
     }
 }

@@ -539,31 +539,50 @@ public class ColaboracionDAO {
         }
     }
 
-    public static Map<String,int[]> getNumeraliaRegion (PeriodoDTO periodoDTO) {
-        Map<String,int[]> numeraliaRegiones = new HashMap<>();
+    public Map<String,int[]> getNumeraliaRegion (PeriodoDTO periodo) throws ErrorDAO {
         String numeraliaRegionSQL = "{CALL numeralia_region(?,?)}";
+        return ejecutarConsultaNumeralia(numeraliaRegionSQL,periodo);
+    }
+
+    public Map<String,int[]> getNumeraliaAreaAcademica (PeriodoDTO periodo) throws ErrorDAO {
+        String numeraliaAreaAcademicaSQL = "{CALL numeralia_area_academica(?,?)}";
+        return ejecutarConsultaNumeralia(numeraliaAreaAcademicaSQL,periodo);
+    }
+
+    private Map<String,int[]> ejecutarConsultaNumeralia (String consultaSQL, PeriodoDTO periodo) throws ErrorDAO{
+        Map<String,int[]> numeralia;
         CallableStatement llamadaProcedimiento;
         ResultSet resultado;
 
         try {
             llamadaProcedimiento = AdministradorBaseDatos.getInstancia()
-                    .prepareCall(numeraliaRegionSQL);
-            llamadaProcedimiento.setDate(1,Date.valueOf(periodoDTO.getFechaInicio()));
-            llamadaProcedimiento.setDate(2,Date.valueOf(periodoDTO.getFechaFin()));
+                    .prepareCall(consultaSQL);
+            llamadaProcedimiento.setDate(1,Date.valueOf(periodo.getFechaInicio()));
+            llamadaProcedimiento.setDate(2,Date.valueOf(periodo.getFechaFin()));
+            resultado = llamadaProcedimiento.executeQuery();
 
+            numeralia = convertirResultSetNumeralia(resultado);
+
+            llamadaProcedimiento.close();
+            resultado.close();
+            AdministradorBaseDatos.desconectar();
         }
         catch (SQLException error) {
-
+            BITACORA.fatal(error.getMessage());
+            throw new ErrorDAO("Error al obtener la numeralia", ErrorDAO.Tipo.CONSULTA);
         }
-
-        return numeraliaRegiones;
+        return numeralia;
     }
 
-    public static Map<String,int[]> getNumeraliaAreaAcademica (PeriodoDTO perido) {
-        Map<String,int[]> numeraliaAreaAcademica = new HashMap<>();
-
-
-
-        return numeraliaAreaAcademica;
+    private Map<String,int[]> convertirResultSetNumeralia (ResultSet resultSet) throws SQLException {
+        Map<String,int[]> numeralia = new HashMap<>();
+        while (resultSet.next()) {
+            String categoria = resultSet.getString(1);
+            int alumnos = resultSet.getInt("alumnos");
+            int profesores = resultSet.getInt("profesores");
+            int[] cantidad = new int[]{alumnos,profesores};
+            numeralia.put(categoria,cantidad);
+        }
+        return numeralia;
     }
 }

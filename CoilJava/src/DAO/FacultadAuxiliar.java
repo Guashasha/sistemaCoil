@@ -2,7 +2,6 @@ package DAO;
 
 import DTO.FacultadDTO;
 import Utilidades.ErrorDAO;
-import DAO.Interfaces.IFacultadDAO;
 import org.apache.log4j.Logger;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -10,31 +9,32 @@ import java.util.List;
 import java.util.Optional;
 
 public class FacultadAuxiliar {
-    private static Logger bitacora = Logger.getLogger(FacultadAuxiliar.class);
+    private final Logger BITACORA = Logger.getLogger(FacultadAuxiliar.class);
+    private final FacultadDAO FACULTAD_DAO = new FacultadDAO();
 
     public Optional<FacultadDTO> getFacultadPorNombre (String nombre) throws ErrorDAO {
-        FacultadDTO facultadDTO = null;
+        Optional<FacultadDTO> facultad = Optional.empty();
 
         if (cadenaValida(nombre)) {
             try {
-                facultadDTO = FacultadDAO.getFacultadPorNombre(nombre.trim());
+                facultad = FACULTAD_DAO.getFacultadPorNombre(nombre.trim());
             }
             catch (SQLException error) {
-                bitacora.info(error.getMessage());
+                BITACORA.info(error.getMessage());
                 throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
             }
         }
 
-        return Optional.ofNullable(facultadDTO);
+        return facultad;
     }
 
     public List<FacultadDTO> getFacultadPorRegion (String region) throws ErrorDAO {
         List<FacultadDTO> listaFacultades = new ArrayList<>();
         if (cadenaValida(region)) {
             try {
-                listaFacultades = FacultadDAO.getFacultadPorRegion(region.trim());
+                listaFacultades = FACULTAD_DAO.getFacultadPorRegion(region.trim());
             } catch (SQLException error) {
-                bitacora.info(error.getMessage());
+                BITACORA.info(error.getMessage());
                 throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
             }
         }
@@ -43,9 +43,9 @@ public class FacultadAuxiliar {
 
     public List<FacultadDTO> getTodasAlfabeticamente () throws ErrorDAO {
         try {
-            return FacultadDAO.getTodasAlfabeticamente();
+            return FACULTAD_DAO.getTodasAlfabeticamente();
         } catch (SQLException error) {
-            bitacora.info(error.getMessage());
+            BITACORA.info(error.getMessage());
             throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
         }
     }

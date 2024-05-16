@@ -1,93 +1,82 @@
 package DAO;
 
+import DAO.Interfaces.IPaisDAO;
 import DTO.PaisDTO;
 import AccesoDatos.AdministradorBaseDatos;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-public class PaisDAO {
-    public static List<PaisDTO> paisesAlfabeticamente () throws SQLException {
+public class PaisDAO implements IPaisDAO {
+    @Override
+    public List<PaisDTO> getPaisesAlfabeticamente () throws SQLException {
         List<PaisDTO> listaPaises = new ArrayList<>();
         String consultaPaisesSQL = "SELECT idPais, iso, nombre FROM pais ORDER BY nombre ASC";
-        PreparedStatement consultaPaises = null;
-        ResultSet resultadoConsulta = null;
+        PreparedStatement consultaPaises;
+        ResultSet resultadoConsulta;
 
-        try {
-            consultaPaises = AdministradorBaseDatos.getInstancia().
-                    prepareStatement(consultaPaisesSQL);
-            resultadoConsulta = consultaPaises.executeQuery();
+        consultaPaises = AdministradorBaseDatos.getInstancia().
+                prepareStatement(consultaPaisesSQL);
+        resultadoConsulta = consultaPaises.executeQuery();
 
-            while (resultadoConsulta.next()) {
-                listaPaises.add(convertirResultSetAPais(resultadoConsulta));
-            }
-            consultaPaises.close();
-            resultadoConsulta.close();
-            AdministradorBaseDatos.desconectar();
+        while (resultadoConsulta.next()) {
+            listaPaises.add(convertirResultSetAPais(resultadoConsulta));
         }
-        catch (SQLException error) {
-            throw error;
-        }
+        consultaPaises.close();
+        resultadoConsulta.close();
+        AdministradorBaseDatos.desconectar();
 
         return listaPaises;
     }
 
-    public static PaisDTO getPaisPorNombre (String nombre) throws SQLException {
-        PaisDTO paisDTO = new PaisDTO(0);
+    @Override
+    public Optional<PaisDTO> getPaisPorNombre (String nombre) throws SQLException {
+        PaisDTO paisDTO = null;
         String consultaPaisesSQL = "SELECT idPais, iso, nombre FROM pais WHERE nombre = ?";
-        PreparedStatement consultaPaises = null;
-        ResultSet resultadoConsulta = null;
+        PreparedStatement consultaPaises;
+        ResultSet resultadoConsulta;
 
-        try {
-            consultaPaises = AdministradorBaseDatos.getInstancia().
-                    prepareStatement(consultaPaisesSQL);
-            consultaPaises.setString(1,nombre);
-            resultadoConsulta = consultaPaises.executeQuery();
+        consultaPaises = AdministradorBaseDatos.getInstancia().
+                prepareStatement(consultaPaisesSQL);
+        consultaPaises.setString(1,nombre);
+        resultadoConsulta = consultaPaises.executeQuery();
 
-            if (resultadoConsulta.next()) {
-                paisDTO = convertirResultSetAPais(resultadoConsulta);
-            }
-            consultaPaises.close();
-            resultadoConsulta.close();
-            AdministradorBaseDatos.desconectar();
+        if (resultadoConsulta.next()) {
+            paisDTO = convertirResultSetAPais(resultadoConsulta);
         }
-        catch (SQLException error) {
-            throw error;
-        }
+        consultaPaises.close();
+        resultadoConsulta.close();
+        AdministradorBaseDatos.desconectar();
 
-        return paisDTO;
+        return Optional.ofNullable(paisDTO);
     }
 
-    public static PaisDTO getPaisPorId (int id) throws SQLException {
-        PaisDTO paisDTO = new PaisDTO(0);
+    @Override
+    public Optional<PaisDTO> getPaisPorId (int id) throws SQLException {
+        PaisDTO paisDTO = null;
         String consultaPaisesSQL = "SELECT idPais, iso, nombre FROM pais WHERE idPais = ?";
-        PreparedStatement consultaPaises = null;
-        ResultSet resultadoConsulta = null;
+        PreparedStatement consultaPaises;
+        ResultSet resultadoConsulta;
 
-        try {
-            consultaPaises = AdministradorBaseDatos.getInstancia().
-                    prepareStatement(consultaPaisesSQL);
-            consultaPaises.setInt(1,id);
-            resultadoConsulta = consultaPaises.executeQuery();
+        consultaPaises = AdministradorBaseDatos.getInstancia().
+                prepareStatement(consultaPaisesSQL);
+        consultaPaises.setInt(1,id);
+        resultadoConsulta = consultaPaises.executeQuery();
 
-            if (resultadoConsulta.next()) {
-                paisDTO = convertirResultSetAPais(resultadoConsulta);
-            }
-            consultaPaises.close();
-            resultadoConsulta.close();
-            AdministradorBaseDatos.desconectar();
+        if (resultadoConsulta.next()) {
+            paisDTO = convertirResultSetAPais(resultadoConsulta);
         }
-        catch (SQLException error) {
-            throw error;
-        }
+        consultaPaises.close();
+        resultadoConsulta.close();
+        AdministradorBaseDatos.desconectar();
 
-        return paisDTO;
+        return Optional.ofNullable(paisDTO);
     }
 
-    private static PaisDTO convertirResultSetAPais (ResultSet resultado) throws SQLException {
+    private PaisDTO convertirResultSetAPais (ResultSet resultado) throws SQLException {
         PaisDTO paisDTO = new PaisDTO();
 
         paisDTO.setId(resultado.getInt(1));
