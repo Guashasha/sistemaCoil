@@ -12,12 +12,14 @@ import test.ConfiguracionPrueba;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
-public class RetroalimentacionDTOColaboracionAuxiliarTestDTO {
+public class RetroalimentacionColaboracionAuxiliarTest {
     @BeforeAll
     public static void setUp () {
         ConfiguracionPrueba.borrarDatosTablaRetroalimentacionColaboracion();
@@ -259,6 +261,46 @@ public class RetroalimentacionDTOColaboracionAuxiliarTestDTO {
 
     @Test
     public void pruebagetTodos () {
+        ArrayList<RetroalimentacionColaboracionDTO> retroalimentaciones = new ArrayList<>();
 
+        RetroalimentacionColaboracionDTO retroalimentacion = new RetroalimentacionColaboracionDTO();
+        retroalimentacion.setColaboracion(1);
+        retroalimentacion.setIdUsuario(1);
+        retroalimentacion.setInteraccionConPar(5);
+        retroalimentacion.setHabilidadesObtenidas(5);
+        retroalimentacion.setCalificacion(5);
+        retroalimentacion.setIntercambioCultural(4);
+        retroalimentacion.setMejoraDelLenguaje(3);
+        retroalimentacion.setTrabajoColaborativo(5);
+        retroalimentacion.setMejoraFormacionProfesional(5);
+        retroalimentaciones.add(retroalimentacion);
+
+        retroalimentacion = new RetroalimentacionColaboracionDTO();
+        retroalimentacion.setColaboracion(2);
+        retroalimentacion.setIdUsuario(1);
+        retroalimentacion.setInteraccionConPar(5);
+        retroalimentacion.setHabilidadesObtenidas(5);
+        retroalimentacion.setCalificacion(5);
+        retroalimentacion.setIntercambioCultural(4);
+        retroalimentacion.setMejoraDelLenguaje(4);
+        retroalimentacion.setTrabajoColaborativo(5);
+        retroalimentacion.setMejoraFormacionProfesional(5);
+        retroalimentaciones.add(retroalimentacion);
+
+        RetroalimentacionColaboracionAuxiliar ret = new RetroalimentacionColaboracionAuxiliar();
+        List<RetroalimentacionColaboracionDTO> resultado= null;
+
+        try {
+            resultado = ret.getTodos();
+        }
+        catch (ErrorDAO error) {
+            fail();
+        }
+
+        if (resultado == null) {
+            fail();
+        }
+
+        assertEquals(retroalimentaciones, resultado);
     }
 }

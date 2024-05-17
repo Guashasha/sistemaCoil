@@ -11,7 +11,7 @@ public interface IDAO<Tipo, TipoId> {
 
   int modificar(Tipo obj) throws ErrorDAO, ExecutionControl.NotImplementedException;
 
-  Optional<Tipo> getPorId(TipoId y) throws ErrorDAO;
+  Optional<Tipo> getPorId(TipoId y) throws ErrorDAO, ExecutionControl.NotImplementedException;
 
   List<Tipo> getTodos() throws ErrorDAO;
 }

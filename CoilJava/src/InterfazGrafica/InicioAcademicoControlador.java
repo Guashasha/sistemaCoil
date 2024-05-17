@@ -22,13 +22,13 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-public class InicioAcademicoControlador{
+public class InicioAcademicoControlador {
     private static final Logger BITACORA = Logger.getLogger(InicioAcademicoControlador.class);
 
     @FXML
     VBox pnInicio;
 
-    private AcademicoDTO usuario;
+    private final AcademicoDTO usuario;
     private Optional<ColaboracionDTO> colaboracion = Optional.empty();
 
     public InicioAcademicoControlador (AcademicoDTO usuario) {
@@ -88,7 +88,7 @@ public class InicioAcademicoControlador{
 
     private void getInformacionColaboracion () throws ErrorDAO {
         ColaboracionAuxiliar colaboracionAuxiliar = new ColaboracionAuxiliar();
-        //colaboracion = colaboracionAuxiliar.getActivaPorAcademico(this.usuario.getIdPersona());
+        colaboracion = colaboracionAuxiliar.getActivaPorAcademico(this.usuario);
     }
 
     private HBox getInfoHBox () {
