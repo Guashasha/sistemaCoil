@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 
 import java.sql.ResultSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class ColaboracionAuxiliar implements IColaboracionDAO {
@@ -218,6 +219,32 @@ public class ColaboracionAuxiliar implements IColaboracionDAO {
     @Override
     public ColaboracionDTO resultSetAObjeto (ResultSet resultados) {
         throw new NotImplementedException("No esta implementada esta función");
+    }
+
+    public Map<String,int[]> getNumeraliaRegion (PeriodoDTO periodo) throws ErrorDAO {
+        Map<String,int[]> numeralia;
+        ColaboracionDAO colaboracionDAO = new ColaboracionDAO();
+
+        if (periodo.validarNulo()) {
+            numeralia = colaboracionDAO.getNumeraliaRegion(periodo);
+        }
+        else {
+            throw new ErrorDAO("Ocurrió un error. Inténtelo de nuevo más tarde", ErrorDAO.Tipo.VALIDACION);
+        }
+        return numeralia;
+    }
+
+    public Map<String,int[]> getNumeraliaAreaAcademica (PeriodoDTO periodo) throws ErrorDAO {
+        Map<String,int[]> numeralia;
+        ColaboracionDAO colaboracionDAO = new ColaboracionDAO();
+
+        if (periodo.validarNulo()) {
+            numeralia = colaboracionDAO.getNumeraliaAreaAcademica(periodo);
+        }
+        else {
+            throw new ErrorDAO("Ocurrió un error. Inténtelo de nuevo más tarde", ErrorDAO.Tipo.VALIDACION);
+        }
+        return numeralia;
     }
 
     private boolean esCadaInvalida (String cadena) {

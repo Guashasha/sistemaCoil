@@ -1,17 +1,18 @@
 package DAO.Interfaces;
 
-import DTO.PaisDTO;
 import DTO.UniversidadDTO;
-import Utilidades.ErrorDAO;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
 public interface IUniversidadDAO {
-    public int registrarUniversidad (UniversidadDTO universidadDTO, PaisDTO paisDTO) throws ErrorDAO;
-    public int editarUniversidad (UniversidadDTO universidadDTOActual, UniversidadDTO nuevaUniversidadDTO, PaisDTO nuevoPaisDTO) throws ErrorDAO;
-    public Optional<UniversidadDTO> getUniversidadPorNombre (String nombre) throws ErrorDAO;
-    public List<UniversidadDTO> getUniversidadesPorPaisOrigen (String paisOrigen) throws ErrorDAO;
-    public List<UniversidadDTO> getUniversidadesPorNombre (UniversidadDTO universidadDTO) throws ErrorDAO;
-    public List<UniversidadDTO> getTodasAlfabeticamente () throws ErrorDAO;
-    public Optional<UniversidadDTO> getUniversidadPorId (int id) throws ErrorDAO;
+    int registrarUniversidad (UniversidadDTO universidad) throws SQLException;
+    int editarUniversidad (UniversidadDTO universidad) throws SQLException;
+    Optional<UniversidadDTO> getUniversidadPorNombre (String nombre) throws SQLException;
+    List<UniversidadDTO> getUniversidadesPorPaisOrigen (String paisOrigen) throws SQLException;
+    List<UniversidadDTO> getUniversidadesPorNombre (String nombre) throws SQLException;
+    List<UniversidadDTO> getTodasAlfabeticamente () throws SQLException;
+    Optional<UniversidadDTO> getUniversidadPorNombreYPais (String nombre, String pais) throws SQLException;
+    Optional<UniversidadDTO> getUniversidadPorId (int id) throws SQLException;
+
 }

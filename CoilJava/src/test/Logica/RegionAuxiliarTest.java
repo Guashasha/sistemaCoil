@@ -12,8 +12,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static test.ConfiguracionPrueba.ejecutarInstruccionSQL;
 
-class RegionDTOAuxiliarTest {
-    private static final RegionAuxiliar INSTANCIA = new RegionAuxiliar();
+class RegionAuxiliarTest {
+    private static final RegionAuxiliar REGION_AUXILIAR = new RegionAuxiliar();
 
     @BeforeAll
     static void setUp () {
@@ -37,18 +37,16 @@ class RegionDTOAuxiliarTest {
         listaEsperada.add(new RegionDTO(1,"Xalapa"));
 
         try {
-            listaObtenida = INSTANCIA.getTodasAlfabeticamente();
+            listaObtenida = REGION_AUXILIAR.getTodasAlfabeticamente();
         }
         catch (ErrorDAO error) {
             fail("Fallida: pruebaGetTodasAlfabeticamenteExitosa");
         }
 
         assertEquals(listaEsperada.size(),listaObtenida.size());
-        while (!listaEsperada.isEmpty()) {
-            RegionDTO esperada = listaEsperada.get(0);
-            assertTrue(esperada.equals(listaObtenida.get(0)));
+        for (RegionDTO region : listaEsperada) {
+            assertEquals(region,listaObtenida.get(0));
             listaEsperada.remove(0);
-            listaObtenida.remove(0);
         }
     }
 
