@@ -226,7 +226,7 @@ class AcademicoDTOAuxiliarTest {
         AcademicoDTO academicoDTO = null;
         Optional optional = null;
         try {
-            optional = INSTANCIA.getAcademicoPorIdPersona(idpersona);
+            optional = INSTANCIA.getPorId(idpersona);
             academicoDTO = (AcademicoDTO) optional.get();
         }
         catch (ErrorDAO errorDAO) {

@@ -29,7 +29,7 @@ import java.util.ResourceBundle;
 public class InicioSesionControlador extends Application implements Initializable {
 
     private static final Logger BITACORA = Logger.getLogger(InicioSesionControlador.class);
-    private static final CuentaAuxiliar CUENTA_AUXILIAR = new CuentaAuxiliar();
+    private final CuentaAuxiliar CUENTA_AUXILIAR = new CuentaAuxiliar();
 
     @FXML
     private TextField tfUsuario;
@@ -181,7 +181,7 @@ public class InicioSesionControlador extends Application implements Initializabl
     }
     private Optional<AcademicoDTO> recuperarAcademicoPorCuenta (CuentaDTO cuenta) {
         AcademicoAuxiliar daoAcademico = new AcademicoAuxiliar();
-        Optional<AcademicoDTO> optionalAcademico = daoAcademico.getAcademicoPorIdPersona(cuenta.getIdPersona());
+        Optional<AcademicoDTO> optionalAcademico = daoAcademico.getPorId(cuenta.getIdPersona());
         return optionalAcademico;
     }
     private Optional<EstudianteDTO> recupearEstudiantePorCuenta (CuentaDTO cuenta) {

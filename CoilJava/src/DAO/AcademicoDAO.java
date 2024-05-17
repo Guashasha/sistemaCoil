@@ -1,5 +1,6 @@
 package DAO;
 
+import DAO.Interfaces.IAcademicoDAO;
 import DTO.AcademicoDTO;
 import DTO.CuentaDTO;
 import AccesoDatos.AdministradorBaseDatos;
@@ -9,11 +10,12 @@ import org.apache.log4j.Logger;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-public class AcademicoDAO {
+public class AcademicoDAO implements IAcademicoDAO {
     private static final Logger BITACORA = Logger.getLogger(AcademicoDAO.class);
 
-    public static List<AcademicoDTO> getListaAcademicoPorCampos (String campo, String valor) throws ErrorDAO {
+    private List<AcademicoDTO> getListaAcademicoPorCampos (String campo, String valor) throws ErrorDAO {
         String procedimientoSQL = "{CALL obtener_academicos_campos(?,?)}";
         List<AcademicoDTO> listaAcademicoDTOS = new ArrayList<>();
         try {
@@ -40,7 +42,13 @@ public class AcademicoDAO {
         return listaAcademicoDTOS;
     }
 
-    public static AcademicoDTO getAcademicoPorCedula (String cedula) throws ErrorDAO {
+    @Override
+    public List<AcademicoDTO> getAcademicosPorFacultad (String nombrefacultad) throws ErrorDAO {
+        return getListaAcademicoPorCampos("facultad", nombrefacultad);
+    }
+
+    @Override
+    public Optional<AcademicoDTO> getAcademicoPorCedula (String cedula) throws ErrorDAO {
         String procedimientoSQL = "{CALL obtener_academicos_campos(?,?)}";
         AcademicoDTO academicoDTO = null;
         try {
@@ -64,14 +72,34 @@ public class AcademicoDAO {
         finally {
             AdministradorBaseDatos.desconectar();
         }
-        return academicoDTO;
+        return Optional.ofNullable(academicoDTO);
     }
 
-    public static int agregarAcademico (AcademicoDTO academicoDTO) throws ErrorDAO {
+    @Override
+    public List<AcademicoDTO> getAcademicosPorUniversidad (String nombreUniversidad) throws ErrorDAO {
+        return getListaAcademicoPorCampos("universidad", nombreUniversidad);
+    }
+
+    @Override
+    public List<AcademicoDTO> getAcademicosPorAreaEstudios (String areaEstudios) throws ErrorDAO {
+        return getListaAcademicoPorCampos("area", areaEstudios);
+    }
+
+    @Override
+    public List<AcademicoDTO> getAcademicosPorCategoriaContratacion (String categoriaContratacion) throws ErrorDAO {
+        return getListaAcademicoPorCampos("categoria", categoriaContratacion);
+    }
+
+    @Override
+    public List<AcademicoDTO> getAcademicosPorRegion (String region) throws ErrorDAO {
+        return getListaAcademicoPorCampos("region", region);
+    }
+
+    @Override
+    public int agregar (AcademicoDTO academicoDTO) throws ErrorDAO {
         String procedimientoSQL = "{CALL registrar_Academico(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
         int resultado = -1;
         try {
-
             CallableStatement registrarAcademico = AdministradorBaseDatos.getInstancia().
                                                                     prepareCall(procedimientoSQL);
             setAcademicoParametros(registrarAcademico, academicoDTO);
@@ -88,7 +116,8 @@ public class AcademicoDAO {
         return resultado;
     }
 
-    public static AcademicoDTO getAcademicoPorId (int id) throws ErrorDAO {
+    @Override
+    public  Optional<AcademicoDTO> getPorId (Integer id) throws ErrorDAO {
         String consulta = "SELECT * from vista_Academico WHERE idPersona = ?";
         AcademicoDTO academicoDTO = null;
         try {
@@ -109,10 +138,10 @@ public class AcademicoDAO {
         finally {
             AdministradorBaseDatos.desconectar();
         }
-        return academicoDTO;
+        return Optional.ofNullable(academicoDTO);
     }
 
-    public static List<AcademicoDTO> getTodos () throws ErrorDAO {
+    public List<AcademicoDTO> getTodos () throws ErrorDAO {
         List<AcademicoDTO> listaAcademicoDTOS = new ArrayList<>();
         String consulta = "SELECT * FROM vista_academico";
 
@@ -137,7 +166,12 @@ public class AcademicoDAO {
         return listaAcademicoDTOS;
     }
 
-    public static int editarAcademico (AcademicoDTO academicoDTO) throws ErrorDAO {
+    @Override
+    public AcademicoDTO resultSetAObjeto (ResultSet resultados) {
+        return null;
+    }
+
+    public int modificar (AcademicoDTO academicoDTO) throws ErrorDAO {
         int resultado = -1;
         String procedimientoSQL = "{CALL editar_academico(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
         try {
@@ -159,7 +193,7 @@ public class AcademicoDAO {
         return resultado;
     }
 
-    public static int agregarAcademicoConCuenta (AcademicoDTO academicoDTO, CuentaDTO cuentaDTO) throws ErrorDAO {
+    public int agregarAcademicoConCuenta (AcademicoDTO academicoDTO, CuentaDTO cuentaDTO) throws ErrorDAO {
         String procedimientoSQL = "{CALL registrar_Academico(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
         int resultado = -1;
         try {
@@ -194,7 +228,7 @@ public class AcademicoDAO {
         return resultado;
     }
 
-    private static void setAcademicoParametros (CallableStatement declaracion, AcademicoDTO academicoDTO) throws SQLException {
+    private void setAcademicoParametros (CallableStatement declaracion, AcademicoDTO academicoDTO) throws SQLException {
         declaracion.setString(1, academicoDTO.getNombre());
         declaracion.setString(2, academicoDTO.getApellidoPaterno());
         declaracion.setString(3, academicoDTO.getApellidoMaterno());
@@ -209,7 +243,7 @@ public class AcademicoDAO {
     }
 
 
-    private static AcademicoDTO convertirAcademico (ResultSet resultado) throws SQLException {
+    private AcademicoDTO convertirAcademico (ResultSet resultado) throws SQLException {
         AcademicoDTO academicoDTO = new AcademicoDTO();
 
         academicoDTO.setIdPersona(resultado.getInt("idPersona"));
