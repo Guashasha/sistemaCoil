@@ -12,6 +12,7 @@ import java.sql.*;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 
 public class ColaboracionDAO {
@@ -549,9 +550,9 @@ public class ColaboracionDAO {
         return ejecutarConsultaNumeralia(numeraliaAreaAcademicaSQL,periodo);
     }
 
-    public Optional<LocalDateTime> getFechaColaboracionMasAntigua () {
-        Date fechaMasAntigua = null;
-        String consultaSQL = "SELECT MIN(fechaFin) FROM numeralia;";
+    public Optional<LocalDate> getFechaColaboracionMasAntigua () {
+        LocalDate fechaMasAntigua = null;
+        String consultaSQL = "SELECT MIN(fechaFin) FROM numeralia";
         PreparedStatement consulta;
         ResultSet resultado;
 
@@ -561,7 +562,13 @@ public class ColaboracionDAO {
             resultado = consulta.executeQuery();
 
             if (resultado.next()) {
-                fechaMasAntigua = resultado.getDate(1);
+                Date fecha = resultado.getDate(1);
+                String fechaString = fecha.toString();
+                int anio = Integer.parseInt(fechaString.substring(0,4));
+                int mes = Integer.parseInt(fechaString.substring(5,7));
+                int dia = Integer.parseInt(fechaString.substring(8,10));
+
+                fechaMasAntigua = LocalDate.of(anio,mes,dia);
             }
 
             consulta.close();

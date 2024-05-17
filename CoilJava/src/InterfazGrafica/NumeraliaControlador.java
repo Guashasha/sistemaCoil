@@ -24,8 +24,8 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.ResourceBundle;
-import java.sql.Date;
 
 public class NumeraliaControlador extends Application implements Initializable {
     private static final Logger BITACORA = Logger.getLogger(NumeraliaControlador.class);
@@ -118,6 +118,7 @@ public class NumeraliaControlador extends Application implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         crearMapaEtiquetas();
         cargarNumeraliaPrincipal();
+        asignarAnioMinimo();
     }
 
     @FXML
@@ -197,7 +198,6 @@ public class NumeraliaControlador extends Application implements Initializable {
             }
         }
 
-
         cargarNumeralia(periodo);
     }
 
@@ -263,10 +263,29 @@ public class NumeraliaControlador extends Application implements Initializable {
 
     private void asignarAnioMinimo () {
         ColaboracionDAO colaboracionDAO = new ColaboracionDAO();
-        Date fecha = null;
+        Optional<LocalDate> fechaMasAntiguaOptional = Optional.empty();
 
         try {
+            fechaMasAntiguaOptional = colaboracionDAO.getFechaColaboracionMasAntigua();
+        }
+        catch (ErrorDAO error) {
+            mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
+            this.anioMinimo = this.anioMaximo;
+        }
 
+        if (fechaMasAntiguaOptional.isPresent()) {
+            LocalDate fecha = fechaMasAntiguaOptional.get();
+            switch (fecha.getMonth()) {
+                case JANUARY:
+                    this.anioMinimo = fecha.getYear() - 1;
+                    break;
+                default:
+                    this.anioMinimo = fecha.getYear();
+                    break;
+            }
+        }
+        if (this.anioMinimo == this.anioMaximo) {
+            this.btnAnioAtras.setVisible(false);
         }
     }
 
