@@ -13,7 +13,7 @@ public class ColaboracionDTO {
         vinculada,
         activa,
         enRevision,
-        finalizada,
+        finalizada
     }
 
     private int idColaboracion;
