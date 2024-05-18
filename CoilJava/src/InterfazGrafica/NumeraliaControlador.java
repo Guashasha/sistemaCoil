@@ -13,7 +13,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.apache.log4j.Logger;
@@ -29,6 +31,8 @@ import java.util.ResourceBundle;
 
 public class NumeraliaControlador extends Application implements Initializable {
     private static final Logger BITACORA = Logger.getLogger(NumeraliaControlador.class);
+    @FXML
+    private BorderPane pnPrincipal;
     @FXML
     private Label lbAlumnosXalapa;
     @FXML
@@ -87,13 +91,16 @@ public class NumeraliaControlador extends Application implements Initializable {
     private int anioMaximo;
     private int anioMinimo;
 
-
     public static void main(String[] args) {
         launch(args);
     }
 
+    public Pane getPane () {
+        return pnPrincipal;
+    }
+
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start (Stage stage) throws Exception {
         Parent root = null;
 
         try {
@@ -181,24 +188,23 @@ public class NumeraliaControlador extends Application implements Initializable {
 
     private void cargarNumeraliaPrincipal() {
         LocalDateTime fechaActual = LocalDateTime.now();
-        PeriodoDTO periodo = new PeriodoDTO();
+        PeriodoDTO periodoActual = new PeriodoDTO();
 
         switch (fechaActual.getMonth()) {
             case FEBRUARY, MARCH, APRIL, MAY, JUNE, JULY -> {
-                periodo.setFechaInicio(LocalDate.of(fechaActual.getYear() - 1, 8, 1));
-                periodo.setFechaFin(LocalDate.of(fechaActual.getYear(), 1, 31));
+                periodoActual.setFechaInicio(LocalDate.of(fechaActual.getYear() - 1, 8, 1));
+                periodoActual.setFechaFin(LocalDate.of(fechaActual.getYear(), 1, 31));
                 this.lbAnio.setText(String.valueOf(fechaActual.getYear()-1));
-                asignarAnioMaximo(fechaActual.getYear() - 1);
             }
             default -> {
-                periodo.setFechaInicio(LocalDate.of(fechaActual.getYear(), 2, 1));
-                periodo.setFechaFin(LocalDate.of(fechaActual.getYear(), 7, 31));
+                periodoActual.setFechaInicio(LocalDate.of(fechaActual.getYear(), 2, 1));
+                periodoActual.setFechaFin(LocalDate.of(fechaActual.getYear(), 7, 31));
                 this.lbAnio.setText(String.valueOf(fechaActual.getYear()));
-                asignarAnioMaximo(fechaActual.getYear());
             }
         }
 
-        cargarNumeralia(periodo);
+        asignarAnioMaximo(periodoActual);
+        cargarNumeralia(periodoActual);
     }
 
     private void cargarNumeralia (PeriodoDTO periodo) {
@@ -217,7 +223,7 @@ public class NumeraliaControlador extends Application implements Initializable {
 
         if (numeraliaRegion != null && numeraliaAreas != null) {
             mostrarNumeralia(numeraliaRegion,numeraliaAreas);
-            asignarEtiquetaPeriodo(periodo);
+            mostrarEtiquetaPeriodo(periodo);
         }
     }
 
@@ -225,15 +231,15 @@ public class NumeraliaControlador extends Application implements Initializable {
         String[] llavesRegion = new String[]{"Xalapa","Veracruz","Poza Rica - Tuxpan","Orizaba - Córdoba","Coatzacoalcos - Minatitlán"};
         String[] llavesAreas = new String[]{"economico-administrativo","humanidades","tecnica","ciencias de la salud","biologia-agropecuarias","DGRI"};
 
-        asignarEtiquetas(llavesRegion,numeraliaRegion);
-        asignarEtiquetas(llavesAreas,numeraliaAreas);
+        mostrarCantidades(llavesRegion,numeraliaRegion);
+        mostrarCantidades(llavesAreas,numeraliaAreas);
 
         if (!hboxTablas.isVisible()) {
             hboxTablas.setVisible(true);
         }
     }
 
-    private void asignarEtiquetas (String[] llaves, Map<String,int[]> numeralia) {
+    private void mostrarCantidades (String[] llaves, Map<String,int[]> numeralia) {
         for (String llave : llaves){
             int[] cantidades = numeralia.get(llave);
             Label[] etiquetas = this.MAPA_ETIQUETAS.get(llave);
@@ -248,7 +254,7 @@ public class NumeraliaControlador extends Application implements Initializable {
         }
     }
 
-    private void asignarEtiquetaPeriodo (PeriodoDTO periodo) {
+    private void mostrarEtiquetaPeriodo (PeriodoDTO periodo) {
         String etiquetaPeriodo;
         Month mesInicio = periodo.getFechaInicio()
                 .getMonth();
@@ -256,8 +262,14 @@ public class NumeraliaControlador extends Application implements Initializable {
         lbPeriodo.setText(etiquetaPeriodo);
     }
 
-    private void asignarAnioMaximo (int anio) {
-        this.anioMaximo = anio;
+    private void asignarAnioMaximo (PeriodoDTO periodoActual) {
+        LocalDate fechaInicio = periodoActual.getFechaInicio();
+        if (fechaInicio.getMonth() == Month.FEBRUARY) {
+            this.anioMaximo = fechaInicio.getYear() - 1;
+        }
+        else {
+            this.anioMaximo = fechaInicio.getYear();
+        }
         this.btnAnioAdelante.setVisible(false);
     }
 
@@ -275,13 +287,11 @@ public class NumeraliaControlador extends Application implements Initializable {
 
         if (fechaMasAntiguaOptional.isPresent()) {
             LocalDate fecha = fechaMasAntiguaOptional.get();
-            switch (fecha.getMonth()) {
-                case JANUARY:
-                    this.anioMinimo = fecha.getYear() - 1;
-                    break;
-                default:
-                    this.anioMinimo = fecha.getYear();
-                    break;
+            if (fecha.getMonth() == Month.JANUARY) {
+                this.anioMinimo = fecha.getYear() - 1;
+            }
+            else {
+                this.anioMinimo = fecha.getYear();
             }
         }
         if (this.anioMinimo == this.anioMaximo) {
