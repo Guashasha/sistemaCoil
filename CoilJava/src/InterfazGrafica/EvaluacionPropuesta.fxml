@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="557.0" prefWidth="883.0" styleClass="leftBoarder-pane-solicitud" stylesheets="@Recursos/EstiloVentanas.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.EvaluacionPropuestaControlador">
+   <top>
+      <Label text="Evaluación de propuesta" BorderPane.alignment="TOP_CENTER">
+         <BorderPane.margin>
+            <Insets bottom="10.0" top="10.0" />
+         </BorderPane.margin>
+         <font>
+            <Font name="Arial Black" size="21.0" />
+         </font>
+      </Label>
+   </top>
+   <center>
+      <VBox prefHeight="488.0" prefWidth="787.0" BorderPane.alignment="CENTER">
+         <children>
+            <ScrollPane prefHeight="526.0" prefWidth="883.0">
+               <content>
+                  <VBox fx:id="vboxContenedor" alignment="CENTER" prefHeight="34.0" prefWidth="882.0">
+                     <padding>
+                        <Insets bottom="5.0" />
+                     </padding>
+                  </VBox>
+               </content>
+            </ScrollPane>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>

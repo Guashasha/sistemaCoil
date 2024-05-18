@@ -102,7 +102,7 @@ SELECT
 	ad.estado, 
 	nombre, 
 	nombreUniversidad, 
-	areaEstudio, 
+	areaEstudios, 
 	nombreFacultad, 
 	nombreRegion, 
 	fechaFin, 
@@ -121,3 +121,13 @@ WHERE
 	AND idEstudiante IN (SELECT idEstudiante FROM vista_estudiante WHERE universidad IN (SELECT universidad.idUniversidad FROM universidad WHERE nombre = 'Universidad Veracruzana'))
 	AND ad.idColaboracion IN (SELECT colaboracion.idColaboracion FROM colaboracion WHERE estado = 'finalizada') 
 	GROUP BY idColaboracion;
+
+CREATE VIEW if not exists vista_colaboracion_con_academico AS
+SELECT 
+    c.*,
+    va.*,
+    ad.estado AS estadoAcademico
+FROM 
+    colaboracion c
+    INNER JOIN academicoDesarrolla ad ON c.idColaboracion = ad.idColaboracion
+    INNER JOIN vista_academico va ON ad.idAcademico = va.cedulaProfesional;

@@ -25,10 +25,10 @@ class ColaboracionDAOTest {
         AyudantePruebasColaboracionDB.agregarPrecondiciones();
     }
 
-    @AfterEach
-    void tearDown () {
-        AyudantePruebasColaboracionDB.borrarTodosDatosTabla();
-    }
+//    @AfterEach
+//    void tearDown () {
+//        AyudantePruebasColaboracionDB.borrarTodosDatosTabla();
+//    }
 
     private static ColaboracionDTO instanciarColaboracion () {
         ColaboracionDTO colaboracionDTO = new ColaboracionDTO();

@@ -7,7 +7,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="472.0" prefWidth="684.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.EnvioPropuestaControlador">
    <children>
       <Label layoutX="210.0" layoutY="39.0" text="Propuesta de colaboración">
@@ -21,13 +20,13 @@
          </font>
       </Label>
       <TextField fx:id="tfTemaInteres" layoutX="202.0" layoutY="106.0" prefHeight="26.0" prefWidth="433.0" promptText="Ingresa el tema de interés" />
-      <Label layoutX="56.0" layoutY="170.0" text="Descripción">
+      <Label layoutX="56.0" layoutY="170.0" text="Objetivo">
          <font>
             <Font name="Arial" size="16.0" />
          </font>
       </Label>
-      <TextArea fx:id="taDescripcion" layoutX="202.0" layoutY="170.0" prefHeight="200.0" prefWidth="434.0" promptText="Ingresa la descripción de la colaboración" />
-      <Button fx:id="btnEnviar" layoutX="552.0" layoutY="408.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="84.0" text="Enviar" />
-      <Button fx:id="btnCancelar" layoutX="415.0" layoutY="409.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="84.0" text="Cancelar" />
+      <TextArea fx:id="taObjetivo" layoutX="202.0" layoutY="170.0" prefHeight="97.0" prefWidth="434.0" promptText="Ingresa el objetivo de la colaboración" />
+      <Button fx:id="btnEnviar" layoutX="552.0" layoutY="408.0" mnemonicParsing="false" onAction="#enviarPropuestaColaboracion" prefHeight="26.0" prefWidth="84.0" text="Enviar" />
+      <Button fx:id="btnCancelar" layoutX="415.0" layoutY="409.0" mnemonicParsing="false" onAction="#cancelarEnvioPropuesta" prefHeight="26.0" prefWidth="84.0" text="Cancelar" />
    </children>
 </AnchorPane>

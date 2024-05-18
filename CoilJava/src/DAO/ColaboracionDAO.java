@@ -295,7 +295,6 @@ public class ColaboracionDAO implements IColaboracionDAO {
         int filasAfectadas;
 
         try {
-
             PreparedStatement agregarAcademicoAColaboracion = AdministradorBaseDatos.getInstancia().
                                                                                     prepareStatement(agregarAcademicoAColaboracionSQL);
             agregarAcademicoAColaboracion.setInt(1, colaboracionDTO.getIdColaboracion());
@@ -316,7 +315,108 @@ public class ColaboracionDAO implements IColaboracionDAO {
 
     @Override
     public Optional<ColaboracionDTO> getActivaPorAcademico (AcademicoDTO academicoDTO) throws ErrorDAO {
-        return Optional.empty();
+        String obtenerColaboracionActivaAcademicoSQL = "SELECT * FROM vista_colaboracion_con_academico WHERE estado = 'activa' AND cedulaProfesional = ?";
+        ColaboracionDTO colaboracionDTO = null;
+        try {
+            PreparedStatement obtenerColaboracion = AdministradorBaseDatos.getInstancia().prepareStatement(obtenerColaboracionActivaAcademicoSQL);
+            obtenerColaboracion.setString(1,academicoDTO.getCedulaProfesional());
+            ResultSet resultado = obtenerColaboracion.executeQuery();
+
+            if (resultado.next()) {
+                colaboracionDTO = convertirColaboracion(resultado);
+                obtenerAcademico(colaboracionDTO ,resultado);
+            }
+        }
+        catch (SQLException error) {
+            BITACORA.fatal(error.getMessage());
+            throw new ErrorDAO("Error al obtener la colaboracion activa por academico", ErrorDAO.Tipo.CONSULTA);
+        }
+        finally {
+            AdministradorBaseDatos.desconectar();
+        }
+        return Optional.ofNullable(colaboracionDTO);
+    }
+
+    @Override
+    public int registrarPropuestaColaboracion (ColaboracionDTO colaboracionDTO, AcademicoDTO academicoDTO) throws ErrorDAO {
+        String registrarPropuestaSQL = "INSERT INTO colaboracion (temaInteres, objetivo, estado) VALUES (?,?,?)";
+        String asociarAcademicaPropuestaSQL = "INSERT INTO academicodesarrolla (idColaboracion, idAcademico, estado) VALUES (?, ?, ?)";
+        int filasAfectadas;
+        int idGenerado = -1;
+        try {
+            AdministradorBaseDatos.getInstancia().setAutoCommit(false);
+            PreparedStatement registrarPropuesta = AdministradorBaseDatos.getInstancia().prepareStatement(registrarPropuestaSQL,Statement.RETURN_GENERATED_KEYS);
+            registrarPropuesta.setString(1,colaboracionDTO.getTemaInteres());
+            registrarPropuesta.setString(2, colaboracionDTO.getObjetivo());
+            registrarPropuesta.setString(3, ColaboracionDTO.EstadoColaboracion.propuesta.toString());
+            filasAfectadas = registrarPropuesta.executeUpdate();
+            ResultSet resultSet = registrarPropuesta.getGeneratedKeys();
+            while (resultSet.next()) {
+                idGenerado = resultSet.getInt("idColaboracion");
+            }
+
+            PreparedStatement asociarAcademico = AdministradorBaseDatos.getInstancia().prepareStatement(asociarAcademicaPropuestaSQL);
+            asociarAcademico.setInt(1,idGenerado);
+            asociarAcademico.setString(2, academicoDTO.getCedulaProfesional());
+            asociarAcademico.setString(3, "anfitrion");
+            filasAfectadas += asociarAcademico.executeUpdate();
+
+            AdministradorBaseDatos.getInstancia().commit();
+
+        }
+        catch (SQLException error) {
+            BITACORA.fatal(error.getMessage());
+            AdministradorBaseDatos.rollback();
+            throw new ErrorDAO("Error al ingresar la propuesta de colaboracion y vincularla", ErrorDAO.Tipo.INSERCION);
+        }
+        finally {
+            AdministradorBaseDatos.desconectar();
+        }
+        return filasAfectadas;
+    }
+
+    @Override
+    public List<ColaboracionDTO> obtenerPropuestasColaboracion () throws ErrorDAO {
+        String obtenerPropuestasSQL = "SELECT * FROM vista_colaboracion_con_academico WHERE estadoAcademico = 'anfitrion' AND estado = 'propuesta'";
+        List<ColaboracionDTO> listaColaboracion = new ArrayList<>();
+        try {
+            PreparedStatement obtenerPropuestas = AdministradorBaseDatos.getInstancia().prepareStatement(obtenerPropuestasSQL);
+            ResultSet resultado = obtenerPropuestas.executeQuery();
+            while (resultado.next()) {
+                listaColaboracion.add(convertirPropuesta(resultado));
+            }
+            obtenerPropuestas.close();
+        }
+        catch (SQLException error) {
+            BITACORA.fatal(error.getMessage());
+            throw new ErrorDAO("Error al obtener la propuesta de colaboracion", ErrorDAO.Tipo.CONSULTA);
+        }
+        finally {
+            AdministradorBaseDatos.desconectar();
+        }
+        return listaColaboracion;
+    }
+
+    @Override
+    public List<AcademicoDTO> obtenerSolicitudAcademicoColaboracion (int idColaboracion) throws ErrorDAO {
+        String obtenerAcademicoSQL = "SELECT * FROM vista_colaboracion_con_academico WHERE estadoAcademico = 'pendiente'";
+        List<AcademicoDTO> listaAcademico = new ArrayList<>();
+        try {
+            PreparedStatement obtenerAcademico = AdministradorBaseDatos.getInstancia().prepareStatement(obtenerAcademicoSQL);
+            ResultSet resultado = obtenerAcademico.executeQuery();
+            while (resultado.next()) {
+                listaAcademico.add(convertirAcademico(resultado));
+            }
+            obtenerAcademico.close();
+        }
+        catch (SQLException error) {
+            BITACORA.fatal(error.getMessage());
+            throw new ErrorDAO("Error al obtener las solicitudes de la colaboracion", ErrorDAO.Tipo.CONSULTA);
+        }
+        finally {
+            AdministradorBaseDatos.desconectar();
+        }
+        return listaAcademico;
     }
 
     @Override
@@ -460,6 +560,25 @@ public class ColaboracionDAO implements IColaboracionDAO {
         return null;
     }
 
+   private static ColaboracionDTO convertirPropuesta (ResultSet resultado) throws SQLException {
+        ColaboracionDTO colaboracionDTO = new ColaboracionDTO();
+        colaboracionDTO.setTemaInteres(resultado.getString("temaInteres"));
+        colaboracionDTO.setObjetivo(resultado.getString("objetivo"));
+        colaboracionDTO.setIdColaboracion(resultado.getInt("idColaboracion"));
+        colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.valueOf(resultado.getString("estado")));
+        colaboracionDTO.setAnfitrion(convertirAcademico(resultado));
+        return colaboracionDTO;
+   }
+
+   private static void obtenerAcademico (ColaboracionDTO colaboracionDTO, ResultSet resultado) throws SQLException {
+        if (resultado.getString("estadoAcademico").equals("anfitrion")) {
+            colaboracionDTO.setAnfitrion(convertirAcademico(resultado));
+        }
+        else {
+            colaboracionDTO.setAcademicoPar(convertirAcademico(resultado));
+        }
+   }
+
 
     private static ColaboracionDTO convertirColaboracion (ResultSet resultado) throws SQLException {
         ColaboracionDTO colaboracionDTO = new ColaboracionDTO();
@@ -493,6 +612,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
 
         return colaboracionDTO;
     }
+
 
     private static EstudianteDTO convertirEstudiante (ResultSet resultado) throws SQLException {
         EstudianteDTO estudianteDTO = new EstudianteDTO();
