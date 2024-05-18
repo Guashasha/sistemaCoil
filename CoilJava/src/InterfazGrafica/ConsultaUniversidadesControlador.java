@@ -12,19 +12,18 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.apache.log4j.Logger;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
 
 public class ConsultaUniversidadesControlador extends Application implements Initializable {
     private static final Logger BITACORA = Logger.getLogger(ConsultaUniversidadesControlador.class);
@@ -33,7 +32,13 @@ public class ConsultaUniversidadesControlador extends Application implements Ini
     @FXML
     private TextField tfBarraBusqueda;
     @FXML
-    private Button btnRegistrarUniversidad;
+    private BorderPane pnConsultaUniversidades;
+    private final Stack<Pane> historialPaneles = new Stack<>();
+    private BorderPane pnVentanaPrincipal;
+
+    public void setPnVentanaPrincipal(BorderPane pnVentanaPrincipal) {
+        this.pnVentanaPrincipal = pnVentanaPrincipal;
+    }
 
     public static void main (String[] args) {
         launch(args);
@@ -66,18 +71,6 @@ public class ConsultaUniversidadesControlador extends Application implements Ini
         }
     }
 
-    private void consultaTodasAlfabeticamente() {
-        UniversidadAuxiliar universidadAuxiliar = new UniversidadAuxiliar();
-        List<UniversidadDTO> listaUniversidades = new ArrayList<>();
-        try {
-            listaUniversidades = universidadAuxiliar.getTodasAlfabeticamente();
-        }
-        catch (ErrorDAO error) {
-            mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
-        }
-        mostrarConsulta(listaUniversidades);
-    }
-
     @FXML
     private void consultar () {
         String nombre = tfBarraBusqueda.getText();
@@ -97,17 +90,36 @@ public class ConsultaUniversidadesControlador extends Application implements Ini
 
     @FXML
     private void registrarUniversidad () {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("RegistroUniversidad.fxml"));
+        BorderPane pnRegistroUniversidad = null;
+
         try {
-            Stage stagePrincipal = (Stage)  btnRegistrarUniversidad.getScene().getWindow();
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("RegistroUniversidad.fxml"));
-            Parent root = fxmlLoader.load();
-            Scene nuevaEscena = new Scene(root);
-            stagePrincipal.setScene(nuevaEscena);
+            pnRegistroUniversidad = fxmlLoader.load();
         }
         catch (IOException error) {
             BITACORA.info(error.getMessage());
-            mostrarMensajeEmergente("Algo salió mal, inténtelo de nuevo más tarde", Alert.AlertType.ERROR);
+            mostrarMensajeEmergente("Algo salió mal al cargar el registro de Universidades", Alert.AlertType.ERROR);
         }
+
+        if (pnRegistroUniversidad != null) {
+            this.historialPaneles.push(this.pnConsultaUniversidades);
+            RegistroUniversidadControlador registroUniversidadControlador = fxmlLoader.getController();
+            registroUniversidadControlador.setPnVentanaPrincipal(this.pnVentanaPrincipal);
+            registroUniversidadControlador.setHistorialPaneles(this.historialPaneles);
+            this.pnVentanaPrincipal.setCenter(pnRegistroUniversidad);
+        }
+    }
+
+    private void consultaTodasAlfabeticamente() {
+        UniversidadAuxiliar universidadAuxiliar = new UniversidadAuxiliar();
+        List<UniversidadDTO> listaUniversidades = new ArrayList<>();
+        try {
+            listaUniversidades = universidadAuxiliar.getTodasAlfabeticamente();
+        }
+        catch (ErrorDAO error) {
+            mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
+        }
+        mostrarConsulta(listaUniversidades);
     }
 
     private void mostrarConsulta (List<UniversidadDTO> listaUniversidades) {

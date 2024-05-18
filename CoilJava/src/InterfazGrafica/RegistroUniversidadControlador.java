@@ -10,11 +10,15 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Stack;
 
 public class RegistroUniversidadControlador implements Initializable {
     @FXML
@@ -25,8 +29,16 @@ public class RegistroUniversidadControlador implements Initializable {
     private TextField tfNombre;
     @FXML
     private ComboBox<String> cmbPaises;
-    @FXML
-    private Button btnCancelar;
+    private Stack<Pane> historialPaneles = new Stack<>();
+    private BorderPane pnVentanaPrincipal;
+
+    public void setPnVentanaPrincipal (BorderPane pnVentanaPrincipal) {
+        this.pnVentanaPrincipal = pnVentanaPrincipal;
+    }
+
+    public void setHistorialPaneles (Stack<Pane> historialPaneles) {
+        this.historialPaneles = historialPaneles;
+    }
 
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle) {
@@ -50,7 +62,7 @@ public class RegistroUniversidadControlador implements Initializable {
             }
 
             if (filasAfectadas == 1) {
-                mostrarMensajeEmergente("Se ha registrado la universidadDTO exitosamente", Alert.AlertType.INFORMATION);
+                mostrarMensajeEmergente("Se ha registrado la universidad exitosamente", Alert.AlertType.INFORMATION);
                 limpiarCampos();
             }
             else {
@@ -66,8 +78,7 @@ public class RegistroUniversidadControlador implements Initializable {
         alerta.setHeaderText(null);
         alerta.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
-                Stage window = (Stage) btnCancelar.getScene().getWindow();
-                window.close();
+                this.pnVentanaPrincipal.setCenter(this.historialPaneles.pop());
             }
         });
     }
@@ -108,8 +119,8 @@ public class RegistroUniversidadControlador implements Initializable {
     }
 
     private boolean camposVacios() {
-        boolean nombreVacio = tfNombre.getText().
-                isBlank();
+        String nombre = tfNombre.getText();
+        boolean nombreVacio = nombre == null || nombre.isBlank();
         boolean paisVacio = cmbPaises.getValue() == null;
         etiquetarCamposVacios(nombreVacio,paisVacio);
         return nombreVacio || paisVacio;
