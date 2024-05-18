@@ -9,17 +9,17 @@ import org.junit.jupiter.api.Test;
 import test.ConfiguracionPrueba;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class EstudianteDTODAOTest {
-    //TODO
-    // getTodos
-    // editar caso fallido
+class EstudianteDAOTest {
+    private final EstudianteDAO ESTUDIANTE_DAO = new EstudianteDAO();
+
     @BeforeEach
     void setUp () {
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO pais (Iso,nombre) VALUES ('MX','México');");
-        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO universidad (nombre,paisOrigen) VALUES ('UniversidadDTO Veracruzana',1);");
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO universidad (nombre,paisOrigen) VALUES ('Universidad Veracruzana',1);");
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO region (nombre) VALUES ('XALAPA');");
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO facultad (nombre, region) VALUES ('Economia', 1);");
 
@@ -52,7 +52,7 @@ class EstudianteDTODAOTest {
         int obtenido = 0;
 
         try {
-            obtenido = EstudianteDAO.agregarEstudiante(estudianteDTO);
+            obtenido = ESTUDIANTE_DAO.agregar(estudianteDTO);
 
         }
         catch (ErrorDAO error) {
@@ -68,7 +68,7 @@ class EstudianteDTODAOTest {
 
         EstudianteDTO estudianteDTO = new EstudianteDTO();
 
-        assertThrows(ErrorDAO.class, () -> EstudianteDAO.agregarEstudiante(estudianteDTO));
+        assertThrows(ErrorDAO.class, () -> ESTUDIANTE_DAO.agregar(estudianteDTO));
     }
 
     @Test
@@ -83,7 +83,7 @@ class EstudianteDTODAOTest {
             estudianteDTO.setApellidoMaterno("Lara");
             estudianteDTO.setMatricula("12345678912345");
             estudianteDTO.setIdUniversidad(1);
-            EstudianteDAO.agregarEstudiante(estudianteDTO);
+            ESTUDIANTE_DAO.agregar(estudianteDTO);
         }
         catch (ErrorDAO errorDAO) {
             resultado = true;
@@ -103,7 +103,7 @@ class EstudianteDTODAOTest {
             estudianteDTO.setApellidoMaterno("Lara");
             estudianteDTO.setMatricula(null);
             estudianteDTO.setIdUniversidad(1);
-            EstudianteDAO.agregarEstudiante(estudianteDTO);
+            ESTUDIANTE_DAO.agregar(estudianteDTO);
         }
         catch (ErrorDAO errorDAO) {
             resultado = true;
@@ -123,7 +123,7 @@ class EstudianteDTODAOTest {
             estudianteDTO.setApellidoMaterno("Lara");
             estudianteDTO.setMatricula("zs22013690");
             estudianteDTO.setIdUniversidad(1);
-            EstudianteDAO.agregarEstudiante(estudianteDTO);
+            ESTUDIANTE_DAO.agregar(estudianteDTO);
         }
         catch (ErrorDAO errorDAO) {
             resultado = true;
@@ -143,7 +143,7 @@ class EstudianteDTODAOTest {
             estudianteDTO.setApellidoMaterno("Lara");
             estudianteDTO.setMatricula("zs22013690");
             estudianteDTO.setIdUniversidad(1);
-            EstudianteDAO.agregarEstudiante(estudianteDTO);
+            ESTUDIANTE_DAO.agregar(estudianteDTO);
         }
         catch (ErrorDAO errorDAO) {
             resultado = true;
@@ -163,7 +163,7 @@ class EstudianteDTODAOTest {
             estudianteDTO.setApellidoMaterno(null);
             estudianteDTO.setMatricula("zs22013690");
             estudianteDTO.setIdUniversidad(1);
-            EstudianteDAO.agregarEstudiante(estudianteDTO);
+            ESTUDIANTE_DAO.agregar(estudianteDTO);
         }
         catch (ErrorDAO errorDAO) {
             resultado = true;
@@ -182,7 +182,7 @@ class EstudianteDTODAOTest {
             estudianteDTO.setApellidoPaterno("Lopez");
             estudianteDTO.setApellidoMaterno("");
             estudianteDTO.setMatricula("zs22013690");
-            EstudianteDAO.agregarEstudiante(estudianteDTO);
+            ESTUDIANTE_DAO.agregar(estudianteDTO);
         }
         catch (ErrorDAO errorDAO) {
             resultado = true;
@@ -201,7 +201,7 @@ class EstudianteDTODAOTest {
         estudianteDTO.setMatricula("zs22013690");
         estudianteDTO.setIdUniversidad(10);
 
-        assertThrows(ErrorDAO.class, () -> EstudianteDAO.agregarEstudiante(estudianteDTO));
+        assertThrows(ErrorDAO.class, () -> ESTUDIANTE_DAO.agregar(estudianteDTO));
 
     }
 
@@ -221,8 +221,9 @@ class EstudianteDTODAOTest {
         EstudianteDTO estudianteDTOObtenido = null;
 
         try {
-            estudianteDTOObtenido = EstudianteDAO.getPorId(1);
-
+            Optional<EstudianteDTO> estudianteDTOOptional = ESTUDIANTE_DAO.getPorId(1);
+            assertTrue(estudianteDTOOptional.isPresent());
+            estudianteDTOObtenido = estudianteDTOOptional.get();
         }
         catch (ErrorDAO error) {
             fail("Fallida: pruebaGetEstudiantePorIDExitosa " + error.getMessage());
@@ -244,7 +245,7 @@ class EstudianteDTODAOTest {
         List<EstudianteDTO> listaEstudianteDTOS;
 
         try {
-            listaEstudianteDTOS = EstudianteDAO.getEstudiantePorUniversidad(1);
+            listaEstudianteDTOS = ESTUDIANTE_DAO.getEstudiantePorUniversidad(1);
             tamanoListaReal = listaEstudianteDTOS.size();
 
         }
@@ -273,7 +274,7 @@ class EstudianteDTODAOTest {
         int resultadoEsperado = 2;
         int resultadoReal = -1;
         try {
-            resultadoReal = EstudianteDAO.editarEstudiante(estudianteDTO);
+            resultadoReal = ESTUDIANTE_DAO.modificar(estudianteDTO);
         }
         catch (ErrorDAO error) {
             fail("Fallida: pruebaEditarEstudianteExitoso " + error.getMessage());

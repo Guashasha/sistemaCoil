@@ -8,11 +8,12 @@ import org.junit.jupiter.api.Test;
 import test.AyudantePruebasCuentaDB;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CuentaDTODAOTest {
-    // toDo getTodos
+class CuentaDAOTest {
+    private final CuentaDAO CUENTA_DAO = new CuentaDAO();
     @BeforeEach
     void setUp () {
         AyudantePruebasCuentaDB.agregarPrecondiciones();
@@ -36,7 +37,9 @@ class CuentaDTODAOTest {
         CuentaDTO cuentaDTOObtenida = null;
 
         try {
-            cuentaDTOObtenida = CuentaDAO.getCuentaPorUsuario("EduVillegas");
+            Optional<CuentaDTO> cuentaDTOOptional = CUENTA_DAO.getCuentaPorUsuario("EduVillegas");
+            assertTrue(cuentaDTOOptional.isPresent());
+            cuentaDTOObtenida = cuentaDTOOptional.get();
 
         }
         catch (ErrorDAO errorDAO) {
@@ -53,17 +56,17 @@ class CuentaDTODAOTest {
     void pruebaGetCuentaPorUsuarioFallida () {
         System.out.print("pruebaGetCuentaPorUsuarioFallida");
 
-        CuentaDTO cuentaDTOObtenida = null;
 
+        Optional<CuentaDTO> cuentaDTOObtenida;
         try {
-            cuentaDTOObtenida = CuentaDAO.getCuentaPorUsuario("Maryek");
+            cuentaDTOObtenida = CUENTA_DAO.getCuentaPorUsuario("Maryek");
+            assertFalse(cuentaDTOObtenida.isPresent());
 
         }
         catch (ErrorDAO errorDAO) {
             fail("pruebaGetCuentaPorUsuarioFallida " + errorDAO.getMessage());
         }
 
-        assertNull(cuentaDTOObtenida);
     }
     @Test
     void pruebaActualizarNombreUsuarioExitoso () {
@@ -77,7 +80,7 @@ class CuentaDTODAOTest {
         int filasAfectadasObtenido = -1;
 
         try {
-            filasAfectadasObtenido = CuentaDAO.actualizarNombreUsuario(cuentaDTOPrueba);
+            filasAfectadasObtenido = CUENTA_DAO.actualizarNombreUsuario(cuentaDTOPrueba);
 
         }
         catch (ErrorDAO errorDAO) {
@@ -96,7 +99,7 @@ class CuentaDTODAOTest {
         try {
             cuentaDTOPrueba.setIdCuenta(1);
             cuentaDTOPrueba.setNombreUsuario("SSSGGHJSKKFKFKFKFKFKFKDKSKSKSKSKSKKSK477LSXLFLHL6LWKSKVLYLTLRKKDKFKRKEKXKFKFKKDKKDKDKDDKDKDKDKDKDKDK");
-            CuentaDAO.actualizarNombreUsuario(cuentaDTOPrueba);
+            CUENTA_DAO.actualizarNombreUsuario(cuentaDTOPrueba);
         }
         catch (ErrorDAO errorDAO) {
             resultado = true;
@@ -114,7 +117,7 @@ class CuentaDTODAOTest {
         boolean validacion = false;
 
         try {
-            validacion = CuentaDAO.verificarCredenciales(nombreUsuario, contrasena);
+            validacion = CUENTA_DAO.verificarCredenciales(nombreUsuario, contrasena);
 
         }
         catch (ErrorDAO errorDAO) {
@@ -135,7 +138,7 @@ class CuentaDTODAOTest {
         boolean validacion = false;
 
         try {
-            validacion = CuentaDAO.verificarCredenciales(nombreUsuario, contrasena);
+            validacion = CUENTA_DAO.verificarCredenciales(nombreUsuario, contrasena);
 
         }
         catch (ErrorDAO errorDAO) {
@@ -155,7 +158,7 @@ class CuentaDTODAOTest {
         boolean validacion = false;
 
         try {
-            validacion = CuentaDAO.verificarCredenciales(nombreUsuario, contrasena);
+            validacion = CUENTA_DAO.verificarCredenciales(nombreUsuario, contrasena);
 
         }
         catch (ErrorDAO errorDAO) {
@@ -176,7 +179,7 @@ class CuentaDTODAOTest {
         boolean validacion = false;
 
         try {
-            validacion = CuentaDAO.verificarCredenciales(nombreUsuario, contrasena);
+            validacion = CUENTA_DAO.verificarCredenciales(nombreUsuario, contrasena);
 
         }
         catch (ErrorDAO errorDAO) {
@@ -202,7 +205,7 @@ class CuentaDTODAOTest {
         int filasAfectadasObtenido = -1;
 
         try {
-            filasAfectadasObtenido = CuentaDAO.actualizarContrasena(cuentaDTOPrueba, contrasenaAntigua, contrasenaNueva);
+            filasAfectadasObtenido = CUENTA_DAO.actualizarContrasena(cuentaDTOPrueba, contrasenaAntigua, contrasenaNueva);
 
         }
         catch (ErrorDAO errorDAO) {
@@ -224,7 +227,7 @@ class CuentaDTODAOTest {
         String contrasenaNueva = "FomePo" ;
         String contrasenaAntigua = "eduVillegas200";
 
-        assertThrows(ErrorDAO.class, () -> CuentaDAO.actualizarContrasena(cuentaDTOPrueba, contrasenaAntigua, contrasenaNueva));
+        assertThrows(ErrorDAO.class, () -> CUENTA_DAO.actualizarContrasena(cuentaDTOPrueba, contrasenaAntigua, contrasenaNueva));
     }
 
     @Test
@@ -240,7 +243,7 @@ class CuentaDTODAOTest {
         int filasAfectadasObtenido = -1;
 
         try {
-            filasAfectadasObtenido = CuentaDAO.cambiarEstadoCuenta(cuentaDTOPrueba, estado);
+            filasAfectadasObtenido = CUENTA_DAO.cambiarEstadoCuenta(cuentaDTOPrueba, estado);
 
         }
         catch (ErrorDAO errorDAO) {
@@ -259,7 +262,7 @@ class CuentaDTODAOTest {
 
         String estado = "Auxiliar";
 
-        assertThrows(ErrorDAO.class, () -> CuentaDAO.cambiarEstadoCuenta(cuentaDTO, estado));
+        assertThrows(ErrorDAO.class, () -> CUENTA_DAO.cambiarEstadoCuenta(cuentaDTO, estado));
 
     }
     @Test
@@ -274,7 +277,7 @@ class CuentaDTODAOTest {
         int filasAfectadasObtenido = -1;
 
         try {
-            filasAfectadasObtenido = CuentaDAO.cambiarEstadoCuenta(cuentaDTO, estado);
+            filasAfectadasObtenido = CUENTA_DAO.cambiarEstadoCuenta(cuentaDTO, estado);
 
         }
         catch (ErrorDAO errorDAO) {
@@ -296,7 +299,7 @@ class CuentaDTODAOTest {
         List<CuentaDTO> listaCuentaDTOS = null;
 
         try {
-            listaCuentaDTOS = CuentaDAO.getCuentaPorTipo("estudiante");
+            listaCuentaDTOS = CUENTA_DAO.getCuentasPorTipo("estudiante");
 
         }
         catch (ErrorDAO errorDAO) {
@@ -317,7 +320,7 @@ class CuentaDTODAOTest {
         int tamanoEsperado = 0;
 
         try {
-            listaCuentaDTOS = CuentaDAO.getCuentaPorTipo("administrador");
+            listaCuentaDTOS = CUENTA_DAO.getCuentasPorTipo("administrador");
 
         }
         catch (ErrorDAO errorDAO) {
@@ -337,7 +340,7 @@ class CuentaDTODAOTest {
         List<CuentaDTO> listaCuentaDTOS = null;
 
         try {
-            listaCuentaDTOS = CuentaDAO.getCuentasPorEstado("aceptada");
+            listaCuentaDTOS = CUENTA_DAO.getCuentasPorEstado("aceptada");
 
         }
         catch (ErrorDAO errorDAO) {
@@ -358,7 +361,7 @@ class CuentaDTODAOTest {
         List<CuentaDTO> listaCuentaDTOS = null;
 
         try {
-            listaCuentaDTOS = CuentaDAO.getCuentasPorEstado("rechazada");
+            listaCuentaDTOS = CUENTA_DAO.getCuentasPorEstado("rechazada");
 
         }
         catch (ErrorDAO errorDAO) {
@@ -389,7 +392,7 @@ class CuentaDTODAOTest {
         int filasAfectadasObtenido = -1;
 
         try {
-            filasAfectadasObtenido = CuentaDAO.agregarCuenta(cuentaDTOPrueba);
+            filasAfectadasObtenido = CUENTA_DAO.agregar(cuentaDTOPrueba);
 
         }
         catch (ErrorDAO errorDAO) {
@@ -412,7 +415,7 @@ class CuentaDTODAOTest {
         cuentaDTOPrueba.setTipo(CuentaDTO.TipoUsuario.academico);
         cuentaDTOPrueba.setEstado(CuentaDTO.EstadoCuenta.pendiente);
 
-        assertThrows(ErrorDAO.class, () -> CuentaDAO.agregarCuenta(cuentaDTOPrueba));
+        assertThrows(ErrorDAO.class, () -> CUENTA_DAO.agregar(cuentaDTOPrueba));
     }
     @Test
     void pruebaAgregarCuentaNombreExtensoFallida () {
@@ -425,7 +428,7 @@ class CuentaDTODAOTest {
             cuentaDTOPrueba.setContrasena("drew2000");
             cuentaDTOPrueba.setTipo(CuentaDTO.TipoUsuario.academico);
             cuentaDTOPrueba.setEstado(CuentaDTO.EstadoCuenta.pendiente);
-            CuentaDAO.agregarCuenta(cuentaDTOPrueba);
+            CUENTA_DAO.agregar(cuentaDTOPrueba);
         }
         catch (ErrorDAO errorDAO) {
             resultado = true;
@@ -439,7 +442,7 @@ class CuentaDTODAOTest {
         CuentaDTO cuentaDTOPrueba = new CuentaDTO();
 
 
-        assertThrows(NullPointerException.class, () -> CuentaDAO.agregarCuenta(cuentaDTOPrueba));
+        assertThrows(NullPointerException.class, () -> CUENTA_DAO.agregar(cuentaDTOPrueba));
     }
 
 
@@ -460,7 +463,10 @@ class CuentaDTODAOTest {
         CuentaDTO cuentaDTOPrueba = new CuentaDTO();
 
         try {
-            cuentaDTOPrueba = CuentaDAO.getPorId(1);
+            Optional<CuentaDTO> cuentaDTOOptional;
+            cuentaDTOOptional = CUENTA_DAO.getPorId(1);
+            assertTrue(cuentaDTOOptional.isPresent());
+            cuentaDTOPrueba = cuentaDTOOptional.get();
 
         }
         catch (ErrorDAO errorDAO) {
@@ -479,18 +485,15 @@ class CuentaDTODAOTest {
     void pruebaGetPorIdFallida () {
         System.out.println("pruebaGetPorIdFallida");
 
-        CuentaDTO cuentaDTOPrueba = new CuentaDTO();
-
         try {
-            cuentaDTOPrueba = CuentaDAO.getPorId(20);
+            Optional<CuentaDTO> cuentaDTOPrueba = CUENTA_DAO.getPorId(20);
+            assertFalse(cuentaDTOPrueba.isPresent());
 
         }
         catch (ErrorDAO errorDAO) {
             fail("pruebaGetPorIdExitosa " + errorDAO.getMessage());
 
         }
-
-        assertNull(cuentaDTOPrueba);
     }
 
     @Test
@@ -502,7 +505,7 @@ class CuentaDTODAOTest {
         List<CuentaDTO> listaCuentaDTOS = null;
 
         try {
-            listaCuentaDTOS = CuentaDAO.getTodos();
+            listaCuentaDTOS = CUENTA_DAO.getTodos();
 
         }
         catch (ErrorDAO errorDAO) {
@@ -523,7 +526,7 @@ class CuentaDTODAOTest {
         List<CuentaDTO> listaCuentaDTOS = null;
 
         try {
-            listaCuentaDTOS = CuentaDAO.getTodos();
+            listaCuentaDTOS = CUENTA_DAO.getTodos();
 
         }
         catch (ErrorDAO errorDAO) {

@@ -5,48 +5,40 @@ import DTO.ColaboracionDTO;
 import DTO.EstudianteDTO;
 import DTO.PeriodoDTO;
 import Utilidades.ErrorDAO;
-import DAO.Interfaces.IColaboracionDAO;
 import org.apache.commons.lang3.NotImplementedException;
-import org.apache.log4j.Logger;
 
 import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class ColaboracionAuxiliar implements IColaboracionDAO {
-    private static final Logger BITACORA = Logger.getLogger(ColaboracionAuxiliar.class);
+public class ColaboracionAuxiliar {
+    private final ColaboracionDAO ColaboracionDAO = new ColaboracionDAO();
 
-    @Override
     public Optional<ColaboracionDTO> getColaboracionPorAcademicosParticipantes (AcademicoDTO academicoDTO1, AcademicoDTO academicoDTO2) throws ErrorDAO {
-        ColaboracionDTO colaboracionDTO = null;
         if (esCadaInvalida(academicoDTO1.getCedulaProfesional()) && esCadaInvalida(academicoDTO2.getCedulaProfesional())) {
             throw new ErrorDAO("Error en los academicos de la colaboracionDTO", ErrorDAO.Tipo.VALIDACION);
         }
         try {
-            colaboracionDTO = ColaboracionDAO.getColaboracionPorAcademicosParticipantes(academicoDTO1, academicoDTO2);
-        }
-        catch (ErrorDAO error) {
-            BITACORA.error(error);
-        }
-
-        return Optional.ofNullable(colaboracionDTO);
-    }
-
-    @Override
-    public Optional<ColaboracionDTO> getColaboracionPorId (int idColaboracion) throws ErrorDAO {
-        if (esIdInvalido(idColaboracion)) {
-            throw new ErrorDAO("Error en el identificador de la colaboracion", ErrorDAO.Tipo.VALIDACION);
-        }
-        try {
-            return Optional.ofNullable(ColaboracionDAO.getColaboracionPorId(idColaboracion));
+            return ColaboracionDAO.getColaboracionPorAcademicosParticipantes(academicoDTO1, academicoDTO2);
         }
         catch (ErrorDAO error) {
             throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
     }
 
-    @Override
+    public Optional<ColaboracionDTO> getColaboracionPorId (int idColaboracion) throws ErrorDAO {
+        if (esIdInvalido(idColaboracion)) {
+            throw new ErrorDAO("Error en el identificador de la colaboracion", ErrorDAO.Tipo.VALIDACION);
+        }
+        try {
+            return ColaboracionDAO.getColaboracionPorId(idColaboracion);
+        }
+        catch (ErrorDAO error) {
+            throw new ErrorDAO(error.getMessage(), error.getTipo());
+        }
+    }
+
     public List<EstudianteDTO> getListaDeEstudiantes (ColaboracionDTO colaboracionDTO) throws ErrorDAO {
         if (esIdInvalido(colaboracionDTO.getIdColaboracion())) {
             throw new ErrorDAO("Error en el id de la colaboracionDTO", ErrorDAO.Tipo.VALIDACION);
@@ -59,7 +51,6 @@ public class ColaboracionAuxiliar implements IColaboracionDAO {
         }
     }
 
-    @Override
     public List<AcademicoDTO> getAcademicosParticipantes (ColaboracionDTO colaboracionDTO) throws ErrorDAO {
         if (esIdInvalido(colaboracionDTO.getIdColaboracion())) {
             throw new ErrorDAO("Error en el id de la colaboracionDTO", ErrorDAO.Tipo.VALIDACION);
@@ -72,7 +63,6 @@ public class ColaboracionAuxiliar implements IColaboracionDAO {
         }
     }
 
-    @Override
     public List<ColaboracionDTO> getColaboracionPorPeriodo (PeriodoDTO periodoDTO) {
         if (!periodoDTO.validarNulo()) {
             throw new ErrorDAO("PeriodoDTO con fecha de inicio o de fin vacia", ErrorDAO.Tipo.VALIDACION);
@@ -85,7 +75,6 @@ public class ColaboracionAuxiliar implements IColaboracionDAO {
         }
     }
 
-    @Override
     public List<ColaboracionDTO> getColaboracionPorIdioma (String idioma) {
         if (esCadaInvalida(idioma)) {
             throw new ErrorDAO("Idioma invalido", ErrorDAO.Tipo.VALIDACION);
@@ -98,7 +87,6 @@ public class ColaboracionAuxiliar implements IColaboracionDAO {
         }
     }
 
-    @Override
     public List<ColaboracionDTO> getColaboracionPorEstado (String estado) throws ErrorDAO {
         if (esCadaInvalida(estado)) {
             throw new ErrorDAO("PaisDTO invalido", ErrorDAO.Tipo.VALIDACION);
@@ -111,7 +99,6 @@ public class ColaboracionAuxiliar implements IColaboracionDAO {
         }
     }
 
-    @Override
     public int cambiarEstadoColaboracion (ColaboracionDTO colaboracionDTO) {
 
         if (esIdInvalido(colaboracionDTO.getIdColaboracion())) {
@@ -129,7 +116,6 @@ public class ColaboracionAuxiliar implements IColaboracionDAO {
         }
     }
 
-    @Override
     public int agregarEstudianteAColaboracion (ColaboracionDTO colaboracionDTO, EstudianteDTO estudianteDTO) throws ErrorDAO {
         if (esIdInvalido(colaboracionDTO.getIdColaboracion())) {
             throw new ErrorDAO("Error en el id de la colaboracionDTO", ErrorDAO.Tipo.VALIDACION);
@@ -145,8 +131,6 @@ public class ColaboracionAuxiliar implements IColaboracionDAO {
         }
     }
 
-
-    @Override
     public int agregarAcademicoAColaboracion (ColaboracionDTO colaboracionDTO, AcademicoDTO academicoDTO) throws ErrorDAO {
         if (esIdInvalido(colaboracionDTO.getIdColaboracion())) {
             throw new ErrorDAO("Error en el id de la colaboracionDTO", ErrorDAO.Tipo.VALIDACION);
@@ -162,51 +146,46 @@ public class ColaboracionAuxiliar implements IColaboracionDAO {
         }
     }
 
-    @Override
     public Optional<ColaboracionDTO> getActivaPorAcademico (AcademicoDTO academicoDTO) throws ErrorDAO {
         return Optional.empty();
     }
 
-    @Override
     public int agregar (ColaboracionDTO colaboracionDTO) throws ErrorDAO {
         if (!colaboracionDTO.esValido()) {
             throw new ErrorDAO("Al menos un dato de la colaboracionDTO esta vacia", ErrorDAO.Tipo.VALIDACION);
         }
         try {
-            return ColaboracionDAO.registrarColaboracion(colaboracionDTO);
+            return ColaboracionDAO.agregar(colaboracionDTO);
         }
         catch (ErrorDAO error) {
             throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
     }
 
-    @Override
     public int modificar (ColaboracionDTO colaboracionDTO) throws ErrorDAO {
         if (!colaboracionDTO.esValido()) {
             throw new ErrorDAO("Al menos un dato de la colaboracionDTO esta vacio", ErrorDAO.Tipo.VALIDACION);
         }
         try {
-            return ColaboracionDAO.actualizarColaboracion(colaboracionDTO);
+            return ColaboracionDAO.modificar(colaboracionDTO);
         }
         catch (ErrorDAO error) {
             throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
     }
 
-    @Override
     public Optional<ColaboracionDTO> getPorId (Integer id) throws ErrorDAO {
         if (esIdInvalido(id)) {
             throw new ErrorDAO("Id invalido", ErrorDAO.Tipo.VALIDACION);
         }
         try {
-            return Optional.ofNullable(ColaboracionDAO.getPorId(id));
+            return ColaboracionDAO.getPorId(id);
         }
         catch (ErrorDAO error) {
             throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
     }
 
-    @Override
     public List<ColaboracionDTO> getTodos () throws ErrorDAO {
         try {
             return ColaboracionDAO.getTodos();
@@ -216,17 +195,15 @@ public class ColaboracionAuxiliar implements IColaboracionDAO {
         }
     }
 
-    @Override
     public ColaboracionDTO resultSetAObjeto (ResultSet resultados) {
         throw new NotImplementedException("No esta implementada esta función");
     }
 
     public Map<String,int[]> getNumeraliaRegion (PeriodoDTO periodo) throws ErrorDAO {
         Map<String,int[]> numeralia;
-        ColaboracionDAO colaboracionDAO = new ColaboracionDAO();
 
         if (periodo.validarNulo()) {
-            numeralia = colaboracionDAO.getNumeraliaRegion(periodo);
+            numeralia = ColaboracionDAO.getNumeraliaRegion(periodo);
         }
         else {
             throw new ErrorDAO("Ocurrió un error. Inténtelo de nuevo más tarde", ErrorDAO.Tipo.VALIDACION);
@@ -236,10 +213,9 @@ public class ColaboracionAuxiliar implements IColaboracionDAO {
 
     public Map<String,int[]> getNumeraliaAreaAcademica (PeriodoDTO periodo) throws ErrorDAO {
         Map<String,int[]> numeralia;
-        ColaboracionDAO colaboracionDAO = new ColaboracionDAO();
 
         if (periodo.validarNulo()) {
-            numeralia = colaboracionDAO.getNumeraliaAreaAcademica(periodo);
+            numeralia = ColaboracionDAO.getNumeraliaAreaAcademica(periodo);
         }
         else {
             throw new ErrorDAO("Ocurrió un error. Inténtelo de nuevo más tarde", ErrorDAO.Tipo.VALIDACION);
