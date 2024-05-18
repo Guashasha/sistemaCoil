@@ -262,12 +262,12 @@ public class NumeraliaControlador extends Application implements Initializable {
     }
 
     private void asignarAnioMinimo () {
-        ColaboracionDAO COLABORACIONDAO = new ColaboracionDAO();
-        Date fecha = null;
-
-        try {
-
-        }
+//        ColaboracionDAO COLABORACIONDAO = new ColaboracionDAO();
+//        Date fecha = null;
+//
+//        try {
+//
+//        }
     }
 
     private void mostrarMensajeEmergente (String mensaje, Alert.AlertType tipoAlerta) {

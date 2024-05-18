@@ -92,7 +92,7 @@ class AcademicoDAOTest {
         listaEsperada.add(this.ACADEMICO_DTO_TECNICA);
         listaEsperada.add(this.ACADEMICO_DTO_ECONOMIA);
         try {
-            listaObtenida = ACADEMICO_DAO.getAcademicosPorUniversidad("UniversidadDTO Veracruzana");
+            listaObtenida = ACADEMICO_DAO.getAcademicosPorUniversidad("Universidad Veracruzana");
         }
         catch (ErrorDAO error) {
             fail("Fallida: pruebaGetListaAcademicoPorCampoUniversidadExitoso");
@@ -247,7 +247,7 @@ class AcademicoDAOTest {
         academicoDTO.setIdUniversidad(1);
         academicoDTO.setCedulaProfesional("9877985");
         academicoDTO.setNumeroPersonal("34563");
-        academicoDTO.setAreaEstudios("economico-administrativo");
+        academicoDTO.setAreaEstudios("humanidades");
         academicoDTO.setCorreoElectronico("hernan@Institucion.mx");
         academicoDTO.setNumeroTelefonico("523311756675");
         academicoDTO.setCategoriaContratacion("Por Horas");
@@ -258,6 +258,7 @@ class AcademicoDAOTest {
             obtenido = ACADEMICO_DAO.agregar(academicoDTO);
         }
         catch (ErrorDAO error) {
+            error.printStackTrace();
             fail("Fallida: pruebaAgregarAcademicoUVExitoso\n" + error.getMessage());
         }
         assertEquals(esperado,obtenido,"pruebaAgregarAcademicoUVExitoso");

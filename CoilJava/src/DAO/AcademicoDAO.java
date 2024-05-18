@@ -103,12 +103,13 @@ public class AcademicoDAO implements IAcademicoDAO {
             CallableStatement registrarAcademico = AdministradorBaseDatos.getInstancia().
                                                                     prepareCall(procedimientoSQL);
             setAcademicoParametros(registrarAcademico, academicoDTO);
+            registrarAcademico.registerOutParameter(12, Types.INTEGER);
             resultado = registrarAcademico.executeUpdate();
             registrarAcademico.close();
         }
         catch (SQLException error) {
             BITACORA.fatal(error.getMessage());
-            throw new ErrorDAO("Error al registrar al academicoDTO", ErrorDAO.Tipo.INSERCION);
+            throw new ErrorDAO("Error al registrar al academico", ErrorDAO.Tipo.INSERCION);
         }
         finally {
             AdministradorBaseDatos.desconectar();

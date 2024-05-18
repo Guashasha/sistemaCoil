@@ -54,7 +54,7 @@ class ColaboracionDAOTest {
         ColaboracionDTO obtenida = null;
         AcademicoDTO academicoDTO1 = new AcademicoDTO();
         AcademicoDTO academicoDTO2 = new AcademicoDTO();
-        academicoDTO1.setCedulaProfesional("ABC123");
+        academicoDTO1.setCedulaProfesional("123");
         academicoDTO2.setCedulaProfesional("200011");
         try {
             Optional<ColaboracionDTO> colaboracionDTOOptional =  COLABORACION_DAO.getColaboracionPorAcademicosParticipantes(academicoDTO1, academicoDTO2);
@@ -206,7 +206,7 @@ class ColaboracionDAOTest {
         AcademicoDTO academicoDTO2 = new AcademicoDTO();
 
         esperada.add(academicoDTO1);
-        obtenida.add(academicoDTO2);
+        esperada.add(academicoDTO2);
 
         try {
             obtenida = COLABORACION_DAO.getAcademicosParticipantes(colaboracionDTOPrueba);
@@ -406,6 +406,7 @@ class ColaboracionDAOTest {
 
         }
         catch (ErrorDAO errorDAO) {
+            errorDAO.printStackTrace();
             fail("pruebaGetTodosExitosa " + errorDAO.getMessage());
 
         }

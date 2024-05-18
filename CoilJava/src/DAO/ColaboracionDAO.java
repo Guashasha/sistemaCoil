@@ -53,7 +53,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
     public Optional<ColaboracionDTO> getColaboracionPorId (int idColaboracion) throws ErrorDAO {
         String colaboracionPorIdSQL = """
                 SELECT c.*, va.*
-                FROM colaboracionDTO c
+                FROM colaboracion c
                 INNER JOIN academicodesarrolla ad ON c.idColaboracion = ad.idColaboracion
                 INNER JOIN vista_academico va ON ad.idAcademico = va.cedulaProfesional
                 WHERE c.idColaboracion = ?""";
@@ -143,7 +143,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
     public List<ColaboracionDTO> getColaboracionPorPeriodo (PeriodoDTO periodoDTO) throws ErrorDAO {
         String colaboracionPorPeriodoSQL = """
                 SELECT c.*, va.*
-                FROM colaboracionDTO c
+                FROM colaboracion c
                 INNER JOIN academicodesarrolla ad ON c.idColaboracion = ad.idColaboracion
                 INNER JOIN vista_academico va ON ad.idAcademico = va.cedulaProfesional
                 WHERE c.fechaInicio =? AND fechaFin = ?""";
@@ -177,7 +177,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
     public List<ColaboracionDTO> getColaboracionPorIdioma (String idioma) throws ErrorDAO {
         String colaboracionPorIdiomaSQL = """
                 SELECT c.*, va.*
-                FROM colaboracionDTO c
+                FROM colaboracion c
                 INNER JOIN academicodesarrolla ad ON c.idColaboracion = ad.idColaboracion
                 INNER JOIN vista_academico va ON ad.idAcademico = va.cedulaProfesional
                 WHERE c.idioma = ?""";
@@ -208,7 +208,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
     public List<ColaboracionDTO> getColaboracionPorEstado (String estado) throws ErrorDAO {
         String colaboracionPorEstadoSQL = """
                 SELECT c.*, va.*
-                FROM colaboracionDTO c
+                FROM colaboracion c
                 INNER JOIN academicodesarrolla ad ON c.idColaboracion = ad.idColaboracion
                 INNER JOIN vista_academico va ON ad.idAcademico = va.cedulaProfesional
                 WHERE c.estado = ?""";
@@ -238,7 +238,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
 
     @Override
     public int cambiarEstadoColaboracion (ColaboracionDTO colaboracionDTO) throws ErrorDAO {
-        String cambiarEstadoColaboracionSQL = "UPDATE colaboracionDTO SET estado = ? WHERE idColaboracion = ?";
+        String cambiarEstadoColaboracionSQL = "UPDATE colaboracion SET estado = ? WHERE idColaboracion = ?";
         int filasAfectadas;
 
         try {
@@ -399,7 +399,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
     public Optional<ColaboracionDTO> getPorId (Integer id) throws ErrorDAO {
         String getPorIdSQL = """
                 SELECT c.*, va.*
-                FROM colaboracionDTO c
+                FROM colaboracion c
                 INNER JOIN academicodesarrolla ad ON c.idColaboracion = ad.idColaboracion
                 INNER JOIN vista_academico va ON ad.idAcademico = va.cedulaProfesional
                 WHERE c.idColaboracion = ?""";
@@ -430,7 +430,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
     public List<ColaboracionDTO> getTodos () throws ErrorDAO {
         String getTodosSQL = """
                 SELECT c.*, va.*
-                FROM colaboracionDTO c
+                FROM colaboracion c
                 LEFT JOIN academicodesarrolla ad ON c.idColaboracion = ad.idColaboracion
                 LEFT JOIN vista_academico va ON ad.idAcademico = va.cedulaProfesional""";
         List<ColaboracionDTO> listaColaboracionDTO = new ArrayList<>();
