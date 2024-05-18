@@ -1,5 +1,6 @@
 package DAO;
 
+import DAO.Interfaces.IEstudianteDAO;
 import DTO.EstudianteDTO;
 import AccesoDatos.AdministradorBaseDatos;
 import Utilidades.ErrorDAO;
@@ -12,10 +13,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-public class EstudianteDAO {
+public class EstudianteDAO implements IEstudianteDAO {
     private static final Logger BITACORA = Logger.getLogger(EstudianteDAO.class);
-    public static int agregarEstudiante (EstudianteDTO estudianteDTO) throws ErrorDAO {
+
+    @Override
+    public int agregar (EstudianteDTO estudianteDTO) throws ErrorDAO {
         String procedimientoSQL = "{CALL registrar_Estudiante(?, ?, ?, ?, ?)}";
         int resultado = 0;
         try {
@@ -41,7 +45,8 @@ public class EstudianteDAO {
         return resultado;
     }
 
-    public static int editarEstudiante (EstudianteDTO estudianteDTO) throws ErrorDAO {
+    @Override
+    public int modificar (EstudianteDTO estudianteDTO) throws ErrorDAO {
         String procedimientoSQL = "{CALL editar_Estudiante(?, ?, ?, ?, ?)}";
         int resultado = 0;
         try {
@@ -66,7 +71,8 @@ public class EstudianteDAO {
         return resultado;
     }
 
-    public static EstudianteDTO getPorId (int id) throws ErrorDAO {
+    @Override
+    public Optional<EstudianteDTO> getPorId (Integer id) throws ErrorDAO {
         String consulta = "SELECT * from vista_estudiante WHERE idEstudiante = ?";
         EstudianteDTO estudianteDTO = null;
 
@@ -88,10 +94,11 @@ public class EstudianteDAO {
         finally {
             AdministradorBaseDatos.desconectar();
         }
-        return estudianteDTO;
+        return Optional.ofNullable(estudianteDTO);
     }
 
-    public static EstudianteDTO getEstudiantePorIdPersona (int idPersona) throws ErrorDAO {
+    @Override
+    public Optional<EstudianteDTO> getEstudiantePorIdPersona (int idPersona) throws ErrorDAO {
         String consulta = "SELECT * from vista_estudiante WHERE idPersona = ?";
         EstudianteDTO estudianteDTO = null;
         try {
@@ -113,10 +120,11 @@ public class EstudianteDAO {
         finally {
             AdministradorBaseDatos.desconectar();
         }
-        return estudianteDTO;
+        return Optional.ofNullable(estudianteDTO);
     }
 
-    public static EstudianteDTO getEstudiantePorMatricula (String matricula) throws ErrorDAO {
+    @Override
+    public Optional<EstudianteDTO> getEstudiantePorMatricula (String matricula) throws ErrorDAO {
         String consulta = "SELECT * from vista_estudiante WHERE matricula = ?";
         EstudianteDTO estudianteDTO = null;
         try {
@@ -137,11 +145,12 @@ public class EstudianteDAO {
         finally {
             AdministradorBaseDatos.desconectar();
         }
-        return estudianteDTO;
+        return Optional.ofNullable(estudianteDTO);
 
     }
 
-    public static List<EstudianteDTO> getEstudiantePorUniversidad (int idUniversidad) throws ErrorDAO {
+    @Override
+    public List<EstudianteDTO> getEstudiantePorUniversidad (int idUniversidad) throws ErrorDAO {
         String consulta = "SELECT * from vista_estudiante WHERE universidad = ?";
         ArrayList<EstudianteDTO> listaEstudianteDTOS = new ArrayList<>();
         try {
@@ -167,7 +176,8 @@ public class EstudianteDAO {
         return listaEstudianteDTOS;
     }
 
-    public static List<EstudianteDTO> getTodos () throws ErrorDAO {
+    @Override
+    public List<EstudianteDTO> getTodos () throws ErrorDAO {
         String consulta = "SELECT * FROM vista_estudiante";
         List<EstudianteDTO> listaEstudianteDTOS = new ArrayList<>();
         try {
@@ -189,6 +199,11 @@ public class EstudianteDAO {
             AdministradorBaseDatos.desconectar();
         }
         return listaEstudianteDTOS;
+    }
+
+    @Override
+    public EstudianteDTO resultSetAObjeto (ResultSet resultados) {
+        return null;
     }
 
     private static EstudianteDTO convertirEstudiante (ResultSet resultado) throws SQLException {

@@ -3,47 +3,44 @@ package DAO;
 import DTO.EstudianteDTO;
 import Utilidades.ErrorDAO;
 import Utilidades.ErrorDAO.Tipo;
-import DAO.Interfaces.IEstudianteDAO;
 
 import java.sql.ResultSet;
 import java.util.List;
 import java.util.Optional;
 
-public class EstudianteAuxiliar implements IEstudianteDAO {
+public class EstudianteAuxiliar {
+    private final EstudianteDAO ESTUDIANTE_DAO = new EstudianteDAO();
 
-    @Override
     public int agregar (EstudianteDTO estudianteDTO) throws ErrorDAO {
         if (existe(estudianteDTO.getMatricula())) {
             throw new ErrorDAO("El estudianteDTO con la matricula " + estudianteDTO.getMatricula() + " ya se encuentra registrado", Tipo.VALIDACION);
         }
         try {
-            return EstudianteDAO.agregarEstudiante(estudianteDTO);
+            return ESTUDIANTE_DAO.agregar(estudianteDTO);
         }
         catch (ErrorDAO error) {
             throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
     }
 
-    @Override
     public int modificar (EstudianteDTO estudianteDTO) throws ErrorDAO {
         if (!existe(estudianteDTO.getMatricula())) {
             throw new ErrorDAO("La matricula no se encuentra registrada", ErrorDAO.Tipo.VALIDACION);
         }
         try {
-            return EstudianteDAO.editarEstudiante(estudianteDTO);
+            return ESTUDIANTE_DAO.modificar(estudianteDTO);
         }
         catch (ErrorDAO error) {
             throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
     }
 
-    @Override
     public Optional<EstudianteDTO> getPorId (Integer id) throws ErrorDAO {
         if (noEsIdValido(id)) {
             throw new ErrorDAO("El id del estudiante no es valido", ErrorDAO.Tipo.VALIDACION);
         }
         try {
-            return Optional.ofNullable(EstudianteDAO.getPorId(id));
+            return ESTUDIANTE_DAO.getPorId(id);
         }
         catch (ErrorDAO error) {
             throw new ErrorDAO(error.getMessage(), error.getTipo());
@@ -51,58 +48,51 @@ public class EstudianteAuxiliar implements IEstudianteDAO {
     }
 
 
-    @Override
     public List<EstudianteDTO> getTodos () throws ErrorDAO {
         try {
-            return EstudianteDAO.getTodos();
+            return ESTUDIANTE_DAO.getTodos();
         }
         catch (ErrorDAO error) {
             throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
     }
 
-    @Override
     public EstudianteDTO resultSetAObjeto (ResultSet resultados) {
         return null;
     }
 
-    @Override
     public Optional<EstudianteDTO> getEstudiantePorIdPersona (int idPersona) throws ErrorDAO {
         if (noEsIdValido(idPersona)) {
             throw new ErrorDAO("Id de persona invalido", ErrorDAO.Tipo.VALIDACION);
         }
         try {
-            return Optional.ofNullable(EstudianteDAO.getEstudiantePorIdPersona(idPersona));
+            return ESTUDIANTE_DAO.getEstudiantePorIdPersona(idPersona);
         }
         catch (ErrorDAO error) {
             throw new ErrorDAO(error.getMessage(),error.getTipo());
         }
     }
 
-    @Override
     public Optional<EstudianteDTO> getEstudiantePorMatricula (String matricula) throws ErrorDAO {
         try {
             probarMatricula(matricula);
-            return Optional.ofNullable(EstudianteDAO.getEstudiantePorMatricula(matricula));
+            return ESTUDIANTE_DAO.getEstudiantePorMatricula(matricula);
         }
         catch (ErrorDAO error) {
             throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
     }
 
-    @Override
     public List<EstudianteDTO> getEstudiantePorUniversidad (int idUniversidad) throws ErrorDAO {
-        List<EstudianteDTO> listaEstudianteDTOS;
         if (noEsIdValido(idUniversidad)) {
             throw new ErrorDAO("Id de una universidad invalido", ErrorDAO.Tipo.VALIDACION);
         }
         try {
-            listaEstudianteDTOS = EstudianteDAO.getEstudiantePorUniversidad(idUniversidad);
+            return  ESTUDIANTE_DAO.getEstudiantePorUniversidad(idUniversidad);
         }
         catch (ErrorDAO error) {
             throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
-        return listaEstudianteDTOS;
     }
     private boolean noEsIdValido (int id) {
         return id <= 0;

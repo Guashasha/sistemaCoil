@@ -1,19 +1,23 @@
 package DAO;
 
+import DAO.Interfaces.ICuentaDAO;
 import DTO.CuentaDTO;
 import AccesoDatos.AdministradorBaseDatos;
 import Utilidades.ErrorDAO;
 import Utilidades.ErrorDAO.Tipo;
+import jdk.jshell.spi.ExecutionControl;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-public class CuentaDAO {
+public class CuentaDAO implements ICuentaDAO {
     private static final Logger BITACORA = Logger.getLogger(CuentaDAO.class);
 
-    public static CuentaDTO getCuentaPorUsuario (String nombreUsuario) throws ErrorDAO {
+    @Override
+    public Optional<CuentaDTO> getCuentaPorUsuario (String nombreUsuario) throws ErrorDAO {
         String cuentaPorUsuarioSQL = "SELECT * from cuenta WHERE nombreUsuario = ?";
         CuentaDTO cuentaDTO = null;
         try {
@@ -35,10 +39,11 @@ public class CuentaDAO {
         finally {
             AdministradorBaseDatos.desconectar();
         }
-        return cuentaDTO;
+        return Optional.ofNullable(cuentaDTO);
     }
 
-    public static int actualizarNombreUsuario (CuentaDTO cuentaDTO) throws ErrorDAO {
+    @Override
+    public int actualizarNombreUsuario (CuentaDTO cuentaDTO) throws ErrorDAO {
         String actualizarUsuarioSQL = "UPDATE cuenta SET nombreUsuario = ? WHERE idCuenta = ?";
         int filasAfectadas;
         try {
@@ -61,7 +66,8 @@ public class CuentaDAO {
         return  filasAfectadas;
     }
 
-    public static boolean verificarCredenciales (String nombreUsuario, String contrasena) throws ErrorDAO {
+    @Override
+    public boolean verificarCredenciales (String nombreUsuario, String contrasena) throws ErrorDAO {
         String verificarCredencialesSQL = "{CALL verificar_credenciales(?, ?, ?)}";
         boolean validacion;
         try {
@@ -86,7 +92,8 @@ public class CuentaDAO {
         return validacion;
     }
 
-    public static int actualizarContrasena (CuentaDTO cuentaDTO, String contrasenaAntigua, String contrasenaNueva) throws ErrorDAO {
+    @Override
+    public int actualizarContrasena (CuentaDTO cuentaDTO, String contrasenaAntigua, String contrasenaNueva) throws ErrorDAO {
         String actualizarContrasenaSQL = "{CALL cambiar_contrasena(?,?,?,?)}";
         int filasAfectadas;
         try {
@@ -111,7 +118,8 @@ public class CuentaDAO {
         return filasAfectadas;
     }
 
-    public static int cambiarEstadoCuenta (CuentaDTO cuentaDTO, String estado) throws ErrorDAO {
+    @Override
+    public int cambiarEstadoCuenta (CuentaDTO cuentaDTO, String estado) throws ErrorDAO {
         String cambiarEstadoCuentaSQL = "UPDATE cuenta SET estado = ? WHERE idCuenta = ?";
         int filasAfectadas;
 
@@ -135,7 +143,8 @@ public class CuentaDAO {
         return filasAfectadas;
     }
 
-    public static List<CuentaDTO> getCuentaPorTipo (String tipo) throws ErrorDAO {
+    @Override
+    public List<CuentaDTO> getCuentasPorTipo (String tipo) throws ErrorDAO {
         String getCuentaPorTipoSQL = "SELECT * FROM cuenta WHERE tipo = ?";
         List<CuentaDTO> listaCuentaDTOS = new ArrayList<>();
         try {
@@ -162,11 +171,12 @@ public class CuentaDAO {
         return listaCuentaDTOS;
     }
 
-    public static List<CuentaDTO> getCuentasPorEstado (String estado) throws ErrorDAO {
+    @Override
+    public List<CuentaDTO> getCuentasPorEstado (String estado) throws ErrorDAO {
         String getCuentasPorEstadoSQL = "SELECT * FROM cuenta WHERE estado = ?";
         List<CuentaDTO> listaCuentaDTOS = new ArrayList<>();
         try {
-            
+
             PreparedStatement getCuentasPorEstado = AdministradorBaseDatos.getInstancia().
                                                                        prepareStatement(getCuentasPorEstadoSQL);
             getCuentasPorEstado.setString(1, estado);
@@ -190,7 +200,8 @@ public class CuentaDAO {
         return listaCuentaDTOS;
     }
 
-    public static int agregarCuenta (CuentaDTO cuentaDTO) throws ErrorDAO {
+    @Override
+    public int agregar (CuentaDTO cuentaDTO) throws ErrorDAO {
         String agregarCuentaSQL = "{CALL registrar_cuenta(?,?,?,?,?)}";
         int filasAfectadas = -1;
         try {
@@ -216,7 +227,13 @@ public class CuentaDAO {
         return filasAfectadas;
     }
 
-    public static CuentaDTO getPorId (int id) throws ErrorDAO {
+    @Override
+    public int modificar (CuentaDTO obj) throws ErrorDAO, ExecutionControl.NotImplementedException {
+        return 0;
+    }
+
+    @Override
+    public Optional<CuentaDTO> getPorId (Integer id) throws ErrorDAO {
         String getPorIdSQL = "SELECT * from cuenta WHERE idCuenta = ?";
         CuentaDTO cuentaDTO = null;
         try {
@@ -239,10 +256,11 @@ public class CuentaDAO {
         finally {
             AdministradorBaseDatos.desconectar();
         }
-        return cuentaDTO;
+        return Optional.ofNullable(cuentaDTO);
     }
 
-    public static List<CuentaDTO> getTodos () throws ErrorDAO {
+    @Override
+    public List<CuentaDTO> getTodos () throws ErrorDAO {
         String getTodosSQL = "SELECT * from cuenta";
         List<CuentaDTO> listaCuentaDTO = new ArrayList<>();
         try {
@@ -267,8 +285,13 @@ public class CuentaDAO {
         return listaCuentaDTO;
     }
 
+    @Override
+    public CuentaDTO resultSetAObjeto (ResultSet resultados) {
+        return null;
+    }
 
-    private static CuentaDTO convertirCuenta (ResultSet resultado) throws SQLException {
+
+    private CuentaDTO convertirCuenta (ResultSet resultado) throws SQLException {
         CuentaDTO cuentaDTO = new CuentaDTO();
         cuentaDTO.setIdCuenta(resultado.getInt("idCuenta"));
         cuentaDTO.setIdPersona(resultado.getInt("idPersona"));
