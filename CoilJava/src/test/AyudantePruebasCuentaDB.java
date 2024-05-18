@@ -20,10 +20,10 @@ public class AyudantePruebasCuentaDB {
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO facultad (nombre, region) VALUES ('Economia', 1);");
 
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO persona (idPersona, nombre, apellidoPaterno, apellidoMaterno, universidad) VALUES (1, 'Jose', 'Lopez', 'Perez', 1);");
-        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO academico (cedulaProfesional, numeroDePersonal, idPersona, areaEstudios, correoElectronico, numeroTelefonico, categoriaContratacion, facultad) VALUES ('123', '123456', 1, 'Ciencias de la Computación', 'jose@gmail.com', '522288536230', 'Investigador', 1);");
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO academico (cedulaProfesional, numeroDePersonal, idPersona, areaEstudios, correoElectronico, numeroTelefonico, categoriaContratacion, facultad) VALUES ('123', '123456', 1, 'tecnica', 'jose@gmail.com', '522288536230', 'Investigador', 1);");
 
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO persona (idPersona, nombre, apellidoPaterno, apellidoMaterno, universidad) VALUES (2, 'Esther', 'Herrara', 'Martinez', 1);");
-        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO academico (cedulaProfesional, numeroDePersonal, idPersona, areaEstudios, correoElectronico, numeroTelefonico, categoriaContratacion, facultad) VALUES ('200011', '4564', 2, 'Filosofia', 'esther@gmail.com', '522288536230', 'Dramaturgo', 1);");
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO academico (cedulaProfesional, numeroDePersonal, idPersona, areaEstudios, correoElectronico, numeroTelefonico, categoriaContratacion, facultad) VALUES ('200011', '4564', 2, 'economico-administrativo', 'esther@gmail.com', '522288536230', 'Dramaturgo', 1);");
 
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO persona (idPersona, nombre, apellidoPaterno, apellidoMaterno, universidad) VALUES (4, 'Eduardo', 'Villegas', 'Hurtado', 1);");
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO estudiante (idEstudiante, idPersona, matricula) VALUES (1, 4, 'zs22013693')");
@@ -47,6 +47,7 @@ public class AyudantePruebasCuentaDB {
 
     private static void agregarCuentaTipoEstudiantePrueba () {
         CuentaDTO cuentaDTO = new CuentaDTO();
+        CuentaDAO cuentaDAO = new CuentaDAO();
 
         int filasAfectadas = 0;
 
@@ -57,7 +58,7 @@ public class AyudantePruebasCuentaDB {
         cuentaDTO.setTipo(CuentaDTO.TipoUsuario.estudiante);
         cuentaDTO.setEstado(CuentaDTO.EstadoCuenta.aceptada);
         try {
-            filasAfectadas = CuentaDAO.agregarCuenta(cuentaDTO);
+            filasAfectadas = cuentaDAO.agregar(cuentaDTO);
         }
         catch (ErrorDAO error) {
             BITACORA.error(error.getMessage());

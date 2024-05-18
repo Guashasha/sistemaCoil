@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
-public class RetroalimentacionDTOColaboracionDAOTestDTO {
+public class RetroalimentacionDTOCOLABORACIONDAOTestDTO {
     @BeforeAll
     public static void setUp() {
         ConfiguracionPrueba.borrarDatosTablaRetroalimentacionColaboracion();

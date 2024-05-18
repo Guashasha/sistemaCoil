@@ -119,7 +119,7 @@ public class CuentaItemControlador implements Initializable {
         AcademicoDTO academicoDTO = null;
         AcademicoAuxiliar academicoAuxiliar = new AcademicoAuxiliar();
         try {
-            Optional academicoOptional = academicoAuxiliar.getAcademicoPorIdPersona(idPersona);
+            Optional academicoOptional = academicoAuxiliar.getPorId(idPersona);
             if (academicoOptional.isPresent()) {
                 academicoDTO = (AcademicoDTO) academicoOptional.get();
             }
