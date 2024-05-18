@@ -91,10 +91,6 @@ public class NumeraliaControlador extends Application implements Initializable {
     private int anioMaximo;
     private int anioMinimo;
 
-    public static void main(String[] args) {
-        launch(args);
-    }
-
     public Pane getPane () {
         return pnPrincipal;
     }
