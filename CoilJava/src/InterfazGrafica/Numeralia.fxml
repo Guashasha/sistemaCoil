@@ -29,7 +29,7 @@
                      <children>
                         <Button fx:id="btnAnioAtras" mnemonicParsing="false" onAction="#anioAtras" styleClass="button-secundario" text="&lt;&lt;">
                            <font>
-                              <Font name="System Bold" size="18.0" />
+                              <Font name="Franklin Gothic Demi Italic" size="18.0" />
                            </font></Button>
                         <Label fx:id="lbAnio" alignment="CENTER" prefHeight="65.0" prefWidth="102.0" text="Año">
                            <font>
