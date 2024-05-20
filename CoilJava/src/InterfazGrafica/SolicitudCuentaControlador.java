@@ -78,6 +78,9 @@ public class SolicitudCuentaControlador implements Initializable {
         try {
             registarCuenta(getDatosAcademico(), getDatosCuenta());
         }
+        catch (IllegalArgumentException error) {
+            mostrarAlert(error.getMessage(), Alert.AlertType.WARNING);
+        }
         catch (ErrorDAO errorDAO) {
             mostrarAlert(errorDAO.getMessage(), Alert.AlertType.WARNING);
             if (errorDAO.getTipo() == ErrorDAO.Tipo.CONEXION) {
@@ -165,7 +168,7 @@ public class SolicitudCuentaControlador implements Initializable {
             idUniversidad = universidadDTO.getId();
         }
         if (idUniversidad <= 0) {
-            throw new ErrorDAO("Error al obtener el identificador de la univervisidad", ErrorDAO.Tipo.CONEXION);
+            throw new ErrorDAO("Error al obtener el identificador de la univervisidad", ErrorDAO.Tipo.CONSULTA);
         }
         return idUniversidad;
     }
@@ -186,6 +189,9 @@ public class SolicitudCuentaControlador implements Initializable {
         academicoDTO.setApellidoMaterno(tfApellidoM.getText());
         academicoDTO.setCorreoElectronico(tfCorreo.getText());
         academicoDTO.setCedulaProfesional(tfCedula.getText());
+        if (cmbUniversidad.getValue().isEmpty()) {
+            throw new IllegalArgumentException("Selecciona una universidad");
+        }
         academicoDTO.setIdUniversidad(obtenerIdUniversidad());
         return academicoDTO;
     }

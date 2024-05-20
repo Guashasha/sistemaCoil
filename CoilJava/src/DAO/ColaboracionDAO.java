@@ -582,7 +582,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
     }
 
     public List<ColaboracionDTO> getTodos () throws ErrorDAO {
-        String getTodosSQL = "SELECT * FROM vista_colaboracion_con_academico ";
+        String getTodosSQL = "SELECT * FROM vista_colaboracion_con_academico";
         List<ColaboracionDTO> listaColaboracionDTO = new ArrayList<>();
 
         try {

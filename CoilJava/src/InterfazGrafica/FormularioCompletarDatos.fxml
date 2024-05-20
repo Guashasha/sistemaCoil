@@ -88,11 +88,14 @@
                   <Font size="15.0" />
                </font>
             </Label>
-            <TextField fx:id="tfNumeroTelefono" layoutX="66.0" layoutY="159.0" onKeyTyped="#verificarEntradaNumeros" prefHeight="26.0" prefWidth="210.0" promptText="Número de teléfono" styleClass="label-inicioSesion-rosado" stylesheets="@Recursos/EstiloLabels.css" />
-            <TextField fx:id="tfNumeroPersonal" layoutX="64.0" layoutY="241.0" onKeyTyped="#verificarEntradaNumeros" prefHeight="28.0" prefWidth="214.0" promptText="Número de personal" styleClass="label-inicioSesion-rosado" stylesheets="@Recursos/EstiloLabels.css" />
-            <ComboBox fx:id="cmbAreaEstudios" layoutX="64.0" layoutY="315.0" prefHeight="28.0" prefWidth="188.0" promptText="Área de estudios" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" />
+            <TextField fx:id="tfNumeroTelefono" layoutX="182.0" layoutY="163.0" onKeyTyped="#verificarEntradaNumeros" prefHeight="26.0" prefWidth="210.0" promptText="Número de teléfono" styleClass="label-inicioSesion-rosado" stylesheets="@Recursos/EstiloLabels.css" />
+            <TextField fx:id="tfNumeroPersonal" layoutX="180.0" layoutY="247.0" onKeyTyped="#verificarEntradaNumeros" prefHeight="28.0" prefWidth="214.0" promptText="Número de personal" styleClass="label-inicioSesion-rosado" stylesheets="@Recursos/EstiloLabels.css" />
+            <ComboBox fx:id="cmbAreaEstudios" layoutX="182.0" layoutY="326.0" prefHeight="28.0" prefWidth="210.0" promptText="Área de estudios" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" />
             <Button fx:id="btnContinuar" layoutX="287.0" layoutY="505.0" mnemonicParsing="false" onAction="#continuarAccion" prefHeight="38.0" prefWidth="113.0" styleClass="button-principal" stylesheets="@Recursos/EstiloVentanas.css" text="Continuar" />
             <Button fx:id="btnRegresar" layoutX="66.0" layoutY="504.0" mnemonicParsing="false" onAction="#regresarAccion" prefHeight="39.0" prefWidth="122.0" styleClass="button-secundario" stylesheets="@Recursos/EstiloVentanas.css" text="Regresar" />
+            <Label layoutX="38.0" layoutY="177.0" text="Número de teléfono" />
+            <Label layoutX="37.0" layoutY="266.0" text="Número de personal" />
+            <Label layoutX="38.0" layoutY="340.0" prefHeight="18.0" prefWidth="108.0" text="Aŕea de estudios" />
          </children>
       </AnchorPane>
    </right>

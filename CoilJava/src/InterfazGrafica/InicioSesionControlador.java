@@ -9,6 +9,7 @@ import DTO.EstudianteDTO;
 import Utilidades.ErrorDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.PasswordField;
 import javafx.stage.Screen;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -33,7 +34,7 @@ public class InicioSesionControlador {
     @FXML
     private TextField tfUsuario;
     @FXML
-    private TextField tfContrasena;
+    private PasswordField tfContrasena;
     @FXML
     public BorderPane bdPane;
 
@@ -226,4 +227,5 @@ public class InicioSesionControlador {
         return academico.getNumeroTelefonico() == null || academico.getAreaEstudios() == null
                 || academico.getNumeroPersonal() == null;
     }
+
 }

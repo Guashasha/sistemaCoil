@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -84,21 +86,32 @@
                   <Font name="Arial Rounded MT Bold" size="24.0" />
                </font>
             </Label>
-            <ComboBox fx:id="cmbUniversidad" layoutX="90.0" layoutY="302.0" prefHeight="26.0" prefWidth="178.0" promptText="Universidad" style="-fx-background-color: transparent;" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" />
-            <TextField fx:id="tfNombre" layoutX="90.0" layoutY="86.0" prefHeight="26.0" prefWidth="366.0" promptText="Nombre" styleClass="label-inicioSesion-rosado" stylesheets="@Recursos/EstiloLabels.css" />
-            <TextField fx:id="tfApellidoP" layoutX="89.0" layoutY="140.0" prefHeight="26.0" prefWidth="366.0" promptText="Apellido paterno" styleClass="label-inicioSesion-rosado" stylesheets="@Recursos/EstiloLabels.css" />
-            <TextField fx:id="tfApellidoM" layoutX="89.0" layoutY="194.0" prefHeight="26.0" prefWidth="366.0" promptText="Apellido materno" styleClass="label-inicioSesion-rosado" stylesheets="@Recursos/EstiloLabels.css" />
-            <TextField fx:id="tfCorreo" layoutX="85.0" layoutY="243.0" prefHeight="26.0" prefWidth="366.0" promptText="Correo electrónico" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" />
-            <TextField fx:id="tfUsuario" layoutX="93.0" layoutY="431.0" prefHeight="26.0" prefWidth="365.0" promptText="Usuario" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" />
-            <TextField fx:id="pfContrasena" layoutX="90.0" layoutY="490.0" prefHeight="26.0" prefWidth="178.0" promptText="Contraseña" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" />
-            <TextField fx:id="pfConfirmaContrasena" layoutX="295.0" layoutY="490.0" prefHeight="26.0" prefWidth="171.0" promptText="Confirmar contraseña" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" />
-            <Button fx:id="btnSolicitar" layoutX="171.0" layoutY="568.0" mnemonicParsing="false" onAction="#realizarSolicitud" prefHeight="32.0" prefWidth="209.0" styleClass="button-solicitar" stylesheets="@Recursos/EstiloVentanas.css" text="Solicitar" textAlignment="CENTER" textFill="WHITE" underline="true">
+            <ComboBox fx:id="cmbUniversidad" layoutX="138.0" layoutY="306.0" prefHeight="26.0" prefWidth="178.0" promptText="Universidad" style="-fx-background-color: transparent;" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" />
+            <TextField fx:id="tfNombre" layoutX="138.0" layoutY="86.0" prefHeight="26.0" prefWidth="366.0" promptText="Nombre" styleClass="label-inicioSesion-rosado" stylesheets="@Recursos/EstiloLabels.css">
+               <padding>
+                  <Insets top="10.0" />
+               </padding></TextField>
+            <TextField fx:id="tfApellidoP" layoutX="138.0" layoutY="140.0" prefHeight="26.0" prefWidth="366.0" promptText="Apellido paterno" styleClass="label-inicioSesion-rosado" stylesheets="@Recursos/EstiloLabels.css" />
+            <TextField fx:id="tfApellidoM" layoutX="138.0" layoutY="203.0" prefHeight="26.0" prefWidth="366.0" promptText="Apellido materno" styleClass="label-inicioSesion-rosado" stylesheets="@Recursos/EstiloLabels.css" />
+            <TextField fx:id="tfCorreo" layoutX="138.0" layoutY="253.0" prefHeight="26.0" prefWidth="366.0" promptText="Correo electrónico" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" />
+            <TextField fx:id="tfUsuario" layoutX="138.0" layoutY="432.0" prefHeight="26.0" prefWidth="365.0" promptText="Usuario" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" />
+            <Button fx:id="btnSolicitar" layoutX="193.0" layoutY="568.0" mnemonicParsing="false" onAction="#realizarSolicitud" prefHeight="32.0" prefWidth="209.0" styleClass="button-solicitar" stylesheets="@Recursos/EstiloVentanas.css" text="Solicitar" textAlignment="CENTER" textFill="WHITE" underline="true">
                <font>
                   <Font name="Arial Black" size="12.0" />
                </font>
             </Button>
-            <Hyperlink fx:id="hpkRegresar" layoutX="209.0" layoutY="630.0" onAction="#regresarAInicio" text="¿Ya tienes una cuentaDTO?" />
-            <TextField fx:id="tfCedula" layoutX="94.0" layoutY="372.0" prefHeight="26.0" prefWidth="363.0" promptText="Cédula profesional" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" />
+            <Hyperlink fx:id="hpkRegresar" layoutX="240.0" layoutY="630.0" onAction="#regresarAInicio" text="¿Ya tienes una cuentaDTO?" />
+            <TextField fx:id="tfCedula" layoutX="139.0" layoutY="372.0" prefHeight="26.0" prefWidth="363.0" promptText="Cédula profesional" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" />
+            <Label layoutX="14.0" layoutY="101.0" text="Nombre" />
+            <Label layoutX="13.0" layoutY="145.0" text="Apellido paterno" />
+            <Label layoutX="14.0" layoutY="208.0" text="Apellido materno" />
+            <Label layoutX="14.0" layoutY="258.0" text="Correo electrónico" />
+            <Label layoutX="13.0" layoutY="377.0" text="Cedula profesional" />
+            <Label layoutX="15.0" layoutY="451.0" text="Usuario" />
+            <Label layoutX="12.0" layoutY="495.0" text="Contraseña" />
+            <Label layoutX="15.0" layoutY="311.0" text="Universidad" />
+            <PasswordField fx:id="pfContrasena" layoutX="138.0" layoutY="490.0" promptText="Contraseña" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" />
+            <PasswordField fx:id="pfConfirmaContrasena" layoutX="352.0" layoutY="490.0" promptText="Confirmar Contraseña" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" />
          </children>
       </AnchorPane>
    </center>
