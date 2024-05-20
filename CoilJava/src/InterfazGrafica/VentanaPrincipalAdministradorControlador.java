@@ -142,16 +142,6 @@ public class VentanaPrincipalAdministradorControlador extends Application implem
 
 
     }
-    private void regresar () {
-        if (historialPaneles.size() > 1) {
-            Pane ventanaActual;
-
-            historialPaneles.pop();
-            ventanaActual = historialPaneles.peek();
-
-            pnPrincipal.setCenter(ventanaActual);
-        }
-    }
 
     private void mostrarMensajeEmergente (String mensaje, Alert.AlertType tipoAlerta) {
         Alert alerta = new Alert(tipoAlerta);

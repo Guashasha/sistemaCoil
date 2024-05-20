@@ -91,10 +91,6 @@ public class NumeraliaControlador extends Application implements Initializable {
     private int anioMaximo;
     private int anioMinimo;
 
-    public static void main(String[] args) {
-        launch(args);
-    }
-
     public Pane getPane () {
         return pnPrincipal;
     }
@@ -282,7 +278,6 @@ public class NumeraliaControlador extends Application implements Initializable {
         }
         catch (ErrorDAO error) {
             mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
-            this.anioMinimo = this.anioMaximo;
         }
 
         if (fechaMasAntiguaOptional.isPresent()) {
@@ -294,6 +289,10 @@ public class NumeraliaControlador extends Application implements Initializable {
                 this.anioMinimo = fecha.getYear();
             }
         }
+        else {
+            this.anioMinimo = this.anioMaximo;
+        }
+
         if (this.anioMinimo == this.anioMaximo) {
             this.btnAnioAtras.setVisible(false);
         }

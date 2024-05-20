@@ -761,10 +761,11 @@ public class ColaboracionDAO implements IColaboracionDAO {
         try {
             llamadaProcedimiento = AdministradorBaseDatos.getInstancia()
                                                          .prepareCall(consultaSQL);
-            llamadaProcedimiento.setDate(1,Date.valueOf(periodo.getFechaInicio()));
-            llamadaProcedimiento.setDate(2,Date.valueOf(periodo.getFechaFin()));
+            llamadaProcedimiento.setDate(1, Date.valueOf(periodo.getFechaInicio()));
+            llamadaProcedimiento.setDate(2, Date.valueOf(periodo.getFechaFin()));
             resultado = llamadaProcedimiento.executeQuery();
 
+            // TODO: 20/05/2024 Validar que ay algo en el resultset
             numeralia = convertirResultSetNumeralia(resultado);
 
             llamadaProcedimiento.close();
