@@ -98,3 +98,8 @@
   2024-05-11 02:32:52 FATAL ConexionBaseDatos:30 - Socket fail to connect to host:address=(host=localhost)(port=3307)(type=primary). Connection refused: getsockopt
 2024-05-11 02:59:35 FATAL ConexionBaseDatos:30 - Socket fail to connect to host:address=(host=localhost)(port=3307)(type=primary). Connection refused: getsockopt
 2024-05-11 02:59:49 FATAL ConexionBaseDatos:30 - Socket fail to connect to host:address=(host=localhost)(port=3307)(type=primary). Connection refused: getsockopt
+2024-05-20 14:11:28 FATAL AdministradorBaseDatos:30 - (conn=7) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+2024-05-20 14:19:49 FATAL ConfiguracionPrueba:90 - (conn=43) Table 'COIL.calendarioactividades' doesn't exist
+2024-05-20 14:20:11 FATAL ConfiguracionPrueba:90 - (conn=48) Table 'COIL.calendarioactividades' doesn't exist
+2024-05-20 14:22:25 FATAL ConfiguracionPrueba:90 - (conn=81) Table 'COIL.calendarioactividades' doesn't exist
+2024-05-20 14:23:23 FATAL ConfiguracionPrueba:90 - (conn=117) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`calendarioActividades`, CONSTRAINT `calendarioActividades_ibfk_2` FOREIGN KEY (`idActividad`) REFERENCES `actividad` (`idActividad`))

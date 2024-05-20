@@ -78,7 +78,7 @@ SELECT
 	fechaFin, 
 	COUNT(idEstudiante) AS alumnosUvTotales
 FROM
-	 academicodesarrolla AS ad 
+	 academicoDesarrolla AS ad 
 	LEFT JOIN vista_academico AS va
 	ON ad.idAcademico = va.cedulaProfesional
 	LEFT JOIN colaboracion AS c

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-class RetroalimentacionActividadDAO implements IRetroalimentacionActividadDAO {
+public class RetroalimentacionActividadDAO implements IRetroalimentacionActividadDAO {
 
   @Override
   public Optional<RetroalimentacionActividadDTO> getPorId(Integer id) throws ErrorDAO {
