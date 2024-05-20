@@ -14,7 +14,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AcademicoDTOAuxiliarTest {
-    private static final AcademicoAuxiliar INSTANCIA = new AcademicoAuxiliar();
+    private static final AcademicoAuxiliar ACADEMICO_AUXILIAR = new AcademicoAuxiliar();
 
     @BeforeEach
     void setUp () {
@@ -24,10 +24,10 @@ class AcademicoDTOAuxiliarTest {
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO facultad (nombre, region) VALUES ('Economia', 1);");
 
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO persona (idPersona, nombre, apellidoPaterno, apellidoMaterno, universidad) VALUES (1, 'Jose', 'Lopez', 'Perez', 1);");
-        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO academico (cedulaProfesional, numeroDePersonal, idPersona, areaEstudios, correoElectronico, numeroTelefonico) VALUES ('123', '123456', 1, 'Ciencias de la Computación', 'jose@gmail.com', '522288536230');");
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO academico (cedulaProfesional, numeroDePersonal, idPersona, areaEstudios, correoElectronico, numeroTelefonico) VALUES ('123', '123456', 1, 'tecnica', 'jose@gmail.com', '522288536230');");
 
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO persona (idPersona, nombre, apellidoPaterno, apellidoMaterno, universidad) VALUES (2, 'Esther', 'Herrara', 'Martinez', 1);");
-        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO academico (cedulaProfesional, numeroDePersonal, idPersona, areaEstudios, correoElectronico, numeroTelefonico, categoriaContratacion, facultad) VALUES ('200011', '4564', 2, 'Filosofia', 'esther@gmail.com', '522288536230', 'Dramaturgo', 1);");
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO academico (cedulaProfesional, numeroDePersonal, idPersona, areaEstudios, correoElectronico, numeroTelefonico, categoriaContratacion, facultad) VALUES ('200011', '4564', 2, 'economico-administrativo', 'esther@gmail.com', '522288536230', 'Dramaturgo', 1);");
 
 
     }
@@ -48,7 +48,7 @@ class AcademicoDTOAuxiliarTest {
         String nombreFacultad = "Economia";
         List<AcademicoDTO> listaAcademicoDTOS = null;
         try {
-            listaAcademicoDTOS = INSTANCIA.getAcademicosPorFacultad(nombreFacultad);
+            listaAcademicoDTOS = ACADEMICO_AUXILIAR.getAcademicosPorFacultad(nombreFacultad);
         }
         catch (ErrorDAO error) {
             fail("Fallida : pruebaGetAcademicosPorFacultadExitosa");
@@ -62,7 +62,7 @@ class AcademicoDTOAuxiliarTest {
         System.out.println("pruebaGetAcademicosPorFacultadCadenaInvalida");
         String nombreFacultad = null;
 
-        assertThrows(ErrorDAO.class, ()-> INSTANCIA.getAcademicosPorFacultad(nombreFacultad));
+        assertThrows(ErrorDAO.class, ()-> ACADEMICO_AUXILIAR.getAcademicosPorFacultad(nombreFacultad));
     }
 
     @Test
@@ -70,7 +70,7 @@ class AcademicoDTOAuxiliarTest {
         System.out.println("pruebaGetAcademicosPorFacultadCadenaEspacios");
         String nombreFacultad = "";
 
-        assertThrows(ErrorDAO.class, ()-> INSTANCIA.getAcademicosPorFacultad(nombreFacultad));
+        assertThrows(ErrorDAO.class, ()-> ACADEMICO_AUXILIAR.getAcademicosPorFacultad(nombreFacultad));
     }
 
     @Test
@@ -80,8 +80,9 @@ class AcademicoDTOAuxiliarTest {
         AcademicoDTO academicoDTOObtenido = null;
         String cedula = "123";
         try {
-            Optional optionalAcademico = INSTANCIA.getAcademicoPorCedula(cedula);
-            academicoDTOObtenido = (AcademicoDTO) optionalAcademico.get();
+            Optional<AcademicoDTO> optionalAcademico = ACADEMICO_AUXILIAR.getAcademicoPorCedula(cedula);
+            assertTrue(optionalAcademico.isPresent());
+            academicoDTOObtenido = optionalAcademico.get();
         }
         catch (ErrorDAO error) {
             fail("Fallida: pruebaGetAcademicoPorCedulaExitoso");
@@ -96,7 +97,7 @@ class AcademicoDTOAuxiliarTest {
 
         String cedula = null;
 
-        assertThrows(ErrorDAO.class, ()-> INSTANCIA.getAcademicoPorCedula(cedula));
+        assertThrows(ErrorDAO.class, ()-> ACADEMICO_AUXILIAR.getAcademicoPorCedula(cedula));
    }
 
    @Test
@@ -104,7 +105,7 @@ class AcademicoDTOAuxiliarTest {
         System.out.println("pruebaGetAcademicoPorCedulaCadenaPorEspacios");
         String cedula = "";
 
-        assertThrows(ErrorDAO.class, ()-> INSTANCIA.getAcademicoPorCedula(cedula));
+        assertThrows(ErrorDAO.class, ()-> ACADEMICO_AUXILIAR.getAcademicoPorCedula(cedula));
    }
 
     @Test
@@ -116,7 +117,7 @@ class AcademicoDTOAuxiliarTest {
         int tamanoEsperado = 2;
 
         try {
-            listaAcademicoDTOS = INSTANCIA.getAcademicosPorUniversidad(nombreUniversidad);
+            listaAcademicoDTOS = ACADEMICO_AUXILIAR.getAcademicosPorUniversidad(nombreUniversidad);
         }
         catch (ErrorDAO error) {
             fail("Fallida: pruenaGetAcademicosPorUniversidadExitosa");
@@ -130,16 +131,16 @@ class AcademicoDTOAuxiliarTest {
         System.out.println("pruebaGetAcademicosPorUniversidadCadenaNoValida");
         String universidad = null;
 
-        assertThrows(ErrorDAO.class, ()-> INSTANCIA.getAcademicosPorUniversidad(universidad));
+        assertThrows(ErrorDAO.class, ()-> ACADEMICO_AUXILIAR.getAcademicosPorUniversidad(universidad));
     }
 
     @Test
     void getAcademicosPorAreaEstudios () {
         System.out.println("getAcademicosPorAreaEstudios");
-        String areaEstudios = "Filosofia";
+        String areaEstudios = "economico-administrativo";
         List<AcademicoDTO> listaAcademicoDTOS = null;
         try {
-            listaAcademicoDTOS = INSTANCIA.getAcademicosPorAreaEstudios(areaEstudios);
+            listaAcademicoDTOS = ACADEMICO_AUXILIAR.getAcademicosPorAreaEstudios(areaEstudios);
         }
         catch (ErrorDAO error) {
             fail("Fallido getAcademicosPorAreaEstudios");
@@ -154,7 +155,7 @@ class AcademicoDTOAuxiliarTest {
 
         String areaAcademica = null;
 
-        assertThrows(ErrorDAO.class, ()-> INSTANCIA.getAcademicosPorAreaEstudios(areaAcademica));
+        assertThrows(ErrorDAO.class, ()-> ACADEMICO_AUXILIAR.getAcademicosPorAreaEstudios(areaAcademica));
     }
 
     @Test
@@ -163,7 +164,7 @@ class AcademicoDTOAuxiliarTest {
         String categoria = "Dramaturgo";
         List<AcademicoDTO> listaAcademicoDTOS = null;
         try {
-            listaAcademicoDTOS = INSTANCIA.getAcademicosPorCategoriaContratacion(categoria);
+            listaAcademicoDTOS = ACADEMICO_AUXILIAR.getAcademicosPorCategoriaContratacion(categoria);
         }
         catch (ErrorDAO error) {
             fail("Fallido getAcademicosPorAreaEstudios");
@@ -176,7 +177,7 @@ class AcademicoDTOAuxiliarTest {
         System.out.println("pruebaGetAcademicosPorCategoriaContratacionFallida");
         String categoria = null;
 
-        assertThrows(ErrorDAO.class, ()-> INSTANCIA.getAcademicosPorCategoriaContratacion(categoria));
+        assertThrows(ErrorDAO.class, ()-> ACADEMICO_AUXILIAR.getAcademicosPorCategoriaContratacion(categoria));
     }
 
     @Test
@@ -184,7 +185,7 @@ class AcademicoDTOAuxiliarTest {
         System.out.println("pruebaGetAcademicosPorCategoriaContratacionEspacioFallida");
         String categoria = "";
 
-        assertThrows(ErrorDAO.class, ()-> INSTANCIA.getAcademicosPorCategoriaContratacion(categoria));
+        assertThrows(ErrorDAO.class, ()-> ACADEMICO_AUXILIAR.getAcademicosPorCategoriaContratacion(categoria));
     }
 
     @Test
@@ -194,7 +195,7 @@ class AcademicoDTOAuxiliarTest {
         List<AcademicoDTO> listaAcademicoDTOS = null;
         int tamanoEsperado = 1;
         try {
-            listaAcademicoDTOS = INSTANCIA.getAcademicosPorRegion(region);
+            listaAcademicoDTOS = ACADEMICO_AUXILIAR.getAcademicosPorRegion(region);
         }
         catch (ErrorDAO error) {
             fail("Fallido pruebaGetAcademicosPorRegionExitosa");
@@ -208,7 +209,7 @@ class AcademicoDTOAuxiliarTest {
         System.out.println("pruebaGetAcademicosPorRegionCadenaNoValida");
         String region = "";
 
-        assertThrows(ErrorDAO.class, ()-> INSTANCIA.getAcademicosPorRegion(region));
+        assertThrows(ErrorDAO.class, ()-> ACADEMICO_AUXILIAR.getAcademicosPorRegion(region));
 
     }
 
@@ -217,17 +218,18 @@ class AcademicoDTOAuxiliarTest {
         System.out.println("pruebaGetAcademicosPorRegionCadenaNoValida");
         String region = null;
 
-        assertThrows(ErrorDAO.class, ()-> INSTANCIA.getAcademicosPorRegion(region));
+        assertThrows(ErrorDAO.class, ()-> ACADEMICO_AUXILIAR.getAcademicosPorRegion(region));
     }
     @Test
     void pruebaGetAcademicoPorIdPersona () {
         System.out.println("pruebaGetAcademicoPorIdPersona");
         int idpersona = 1;
         AcademicoDTO academicoDTO = null;
-        Optional optional = null;
+
         try {
-            optional = INSTANCIA.getAcademicoPorIdPersona(idpersona);
-            academicoDTO = (AcademicoDTO) optional.get();
+            Optional<AcademicoDTO> optionalAcademicoDTO = ACADEMICO_AUXILIAR.getPorId(idpersona);
+            assertTrue(optionalAcademicoDTO.isPresent());
+            academicoDTO = optionalAcademicoDTO.get();
         }
         catch (ErrorDAO errorDAO) {
             fail("Fallida: pruebaGetAcademicoPorIdPersona");
@@ -247,7 +249,7 @@ class AcademicoDTOAuxiliarTest {
         academicoDTO.setIdUniversidad(1);
         academicoDTO.setCedulaProfesional("9877985");
         academicoDTO.setNumeroPersonal("34563");
-        academicoDTO.setAreaEstudios("Economia");
+        academicoDTO.setAreaEstudios("economico-administrativo");
         academicoDTO.setCorreoElectronico("hernan@Institucion.mx");
         academicoDTO.setNumeroTelefonico("523311756675");
         academicoDTO.setCategoriaContratacion("Por Horas");
@@ -257,7 +259,7 @@ class AcademicoDTOAuxiliarTest {
         int obtenido = 0;
 
         try {
-            obtenido = INSTANCIA.agregar(academicoDTO);
+            obtenido = ACADEMICO_AUXILIAR.agregar(academicoDTO);
         }
         catch (ErrorDAO errorDAO) {
             System.out.println(errorDAO.getMessage());
@@ -278,12 +280,12 @@ class AcademicoDTOAuxiliarTest {
         academicoDTO.setIdUniversidad(1);
         academicoDTO.setCedulaProfesional("123");
         academicoDTO.setNumeroPersonal("453");
-        academicoDTO.setAreaEstudios("Economia");
+        academicoDTO.setAreaEstudios("economico-administrativo");
         academicoDTO.setCorreoElectronico("hernan@Institucion.mx");
         academicoDTO.setNumeroTelefonico("523311756675");
         academicoDTO.setCategoriaContratacion("Por Horas");
         academicoDTO.setIdFacultad(1);
-        assertThrows(ErrorDAO.class, ()-> INSTANCIA.agregar(academicoDTO));
+        assertThrows(ErrorDAO.class, ()-> ACADEMICO_AUXILIAR.agregar(academicoDTO));
 
     }
 
@@ -297,7 +299,7 @@ class AcademicoDTOAuxiliarTest {
         academicoDTO.setIdUniversidad(1);
         academicoDTO.setCedulaProfesional("200011");
         academicoDTO.setNumeroPersonal("4564");
-        academicoDTO.setAreaEstudios("Informatica");
+        academicoDTO.setAreaEstudios("tecnica");
         academicoDTO.setCorreoElectronico("fer@Institucion.mx");
         academicoDTO.setNumeroTelefonico("523311756676");
         academicoDTO.setIdFacultad(1);
@@ -305,7 +307,7 @@ class AcademicoDTOAuxiliarTest {
         int esperado = 3;
         int obtenido = 0;
         try {
-            obtenido = INSTANCIA.modificar(academicoDTO);
+            obtenido = ACADEMICO_AUXILIAR.modificar(academicoDTO);
         }
         catch (ErrorDAO errorDAO) {
             fail("Fallida modificarExitoso");
@@ -324,7 +326,7 @@ class AcademicoDTOAuxiliarTest {
         List<AcademicoDTO> academicoDTOS = null;
         int esperado = 2;
         try {
-            academicoDTOS = INSTANCIA.getTodos();
+            academicoDTOS = ACADEMICO_AUXILIAR.getTodos();
         }
         catch (ErrorDAO errorDAO) {
             fail("Faliida pruebaGetTodosExitoso" );

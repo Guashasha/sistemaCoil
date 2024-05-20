@@ -241,3 +241,5 @@ INSERT INTO pais VALUES(237, 'YE', 'Yemen');
 INSERT INTO pais VALUES(238, 'DJ', 'Yibuti');
 INSERT INTO pais VALUES(239, 'ZM', 'Zambia');
 INSERT INTO pais VALUES(240, 'ZW', 'Zimbabue');
+
+-- Cuenta administrador

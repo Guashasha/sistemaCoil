@@ -6,7 +6,6 @@ import javafx.scene.control.Button;
 
 public class VentanaPrincipalEstudianteControlador {
 
-
     @FXML
     private Button btColaboracion;
     private EstudianteDTO estudianteDTO;

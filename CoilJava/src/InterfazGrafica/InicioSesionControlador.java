@@ -1,26 +1,23 @@
 package InterfazGrafica;
 
-import DAO.CuentaAuxiliar;
+import DAO.AcademicoAuxiliar;
+import DAO.EstudianteAuxiliar;
+import DTO.AcademicoDTO;
 import DTO.CuentaDTO;
+import DAO.CuentaAuxiliar;
+import DTO.EstudianteDTO;
 import Utilidades.ErrorDAO;
-import javafx.animation.Interpolator;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
-import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
+import javafx.scene.control.PasswordField;
+import javafx.stage.Screen;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.util.Duration;
+import javafx.stage.StageStyle;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -29,48 +26,35 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 
-
-public class InicioSesionControlador extends Application implements Initializable {
+public class InicioSesionControlador {
 
     private static final Logger BITACORA = Logger.getLogger(InicioSesionControlador.class);
-    private static final CuentaAuxiliar DAO_CUENTA = new CuentaAuxiliar();
+    private final CuentaAuxiliar CUENTA_AUXILIAR = new CuentaAuxiliar();
 
     @FXML
     private TextField tfUsuario;
     @FXML
-    private TextField tfContrasena;
+    private PasswordField tfContrasena;
     @FXML
     public BorderPane bdPane;
-    @FXML
-    private AnchorPane apPane;
-    @FXML
-    private Pane pPane;
 
     @FXML
-    public void solicitarCuenta (ActionEvent evento) {
+    public void solicitarCuenta () {
         try {
-            hacerTransicion();
+            mostrarVentanaSolicitudCuenta();
         }
         catch (ErrorDAO errorDAO) {
             mostrarVentanaAlert(errorDAO.getMessage(), Alert.AlertType.ERROR);
         }
-        catch (IOException e) {
-            mostrarVentanaAlert("Error a mostrar la ventana solicitar cuenta", Alert.AlertType.ERROR);
-        }
-    }
-
-    @Override
-    public void initialize (URL url, ResourceBundle resourceBundle) {
-
     }
 
     @FXML
-    public void ingresarCuenta (ActionEvent evento) {
+    public void ingresarCuenta () {
         try {
-            CuentaDTO cuentaDTO = getCuentaRegistrada();
-            sonCredencialesValidas(cuentaDTO);
-            esCuentaAceptada(cuentaDTO);
-            abrirVentanaPorTipoCuenta(cuentaDTO);
+            CuentaDTO cuenta = getCuentaRegistrada();
+            sonCredencialesValidas(tfUsuario.getText(), tfContrasena.getText());
+            esCuentaAceptada(cuenta);
+            abrirVentanaPorTipoCuenta(cuenta);
         }
         catch (ErrorDAO errorDAO) {
             mostrarVentanaAlert(errorDAO.getMessage(), Alert.AlertType.WARNING);
@@ -83,8 +67,25 @@ public class InicioSesionControlador extends Application implements Initializabl
         try {
             Stage stagePrincipal = (Stage) tfUsuario.getScene()
                                                     .getWindow();
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MenuPrincipalAcademico.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("VentanaPrincipal.fxml"));
             Parent root = fxmlLoader.load();
+            Scene nuevaEscena = new Scene(root);
+            stagePrincipal.setScene(nuevaEscena);
+        }
+        catch (IOException error) {
+            BITACORA.fatal(error.getMessage());
+
+        }
+    }
+
+    private void mostrarVentanaFormularioCompletarDatos (AcademicoDTO academico) {
+        try {
+            Stage stagePrincipal = (Stage) tfUsuario.getScene()
+                                                    .getWindow();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FormularioCompletarDatos.fxml"));
+            Parent root = fxmlLoader.load();
+            FormularioCompletarDatosControlador formularioCompletarDatosControlador = fxmlLoader.getController();
+            formularioCompletarDatosControlador.setAcademico(academico);
             Scene nuevaEscena = new Scene(root);
             stagePrincipal.setScene(nuevaEscena);
         }
@@ -101,31 +102,7 @@ public class InicioSesionControlador extends Application implements Initializabl
         alert.showAndWait();
     }
 
-    @FXML
-    private void hacerTransicion () throws IOException, ErrorDAO {
-        Parent root = FXMLLoader.load(getClass().getResource("SolicitudCuenta.fxml"));
-        Scene scene = tfContrasena.getScene();
-        root.translateXProperty()
-            .set(scene.getWidth());
-        bdPane.getChildren()
-              .add(root);
-        Timeline timeline = new Timeline();
-        KeyValue keyValue = new KeyValue(root.translateXProperty(), 0, Interpolator.EASE_IN);
-        KeyFrame keyFrame = new KeyFrame(Duration.seconds(0.5), keyValue);
-        timeline.getKeyFrames()
-                .add(keyFrame);
-        timeline.setOnFinished(event -> {
-            bdPane.getChildren()
-                  .remove(pPane);
-            bdPane.getChildren()
-                  .remove(apPane);
-        });
-        timeline.play();
-    }
-
-
-    @FXML
-    private void mostrarVentanaWindowSolicitarCuenta () {
+    private void mostrarVentanaSolicitudCuenta () {
         try {
             Stage stagePrincipal = (Stage) tfUsuario.getScene()
                                                     .getWindow();
@@ -141,59 +118,114 @@ public class InicioSesionControlador extends Application implements Initializabl
         }
         catch (IOException error) {
             BITACORA.fatal(error.getMessage());
+            throw new ErrorDAO("Error al abrir la ventana de solicitud de cuenta", ErrorDAO.Tipo.VALIDACION);
+        }
+    }
+
+    private void mostrarVentanaPrincipalAdministrador() {
+        try {
+            Stage ventanaActual = (Stage) tfUsuario.getScene().getWindow();
+            Stage stagePrincipal = new Stage(StageStyle.TRANSPARENT);
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("VentanaPrincipalAdministrador.fxml"));
+            Parent root = fxmlLoader.load();
+            Scene nuevaEscena = new Scene(root);
+            stagePrincipal.setScene(nuevaEscena);
+            stagePrincipal.setResizable(false);
+            Screen screen = Screen.getPrimary();
+            double screenWidth = screen.getBounds().getWidth();
+            double screenHeight = screen.getBounds().getHeight();
+            double ventanaWidth = Math.min(root.prefWidth(-1), screenWidth);
+            double ventanaHeight = Math.min(root.prefHeight(ventanaWidth), screenHeight);
+            stagePrincipal.setWidth(ventanaWidth);
+            stagePrincipal.setHeight(ventanaHeight);
+            stagePrincipal.show();
+            ventanaActual.close();
+        } catch (IOException error) {
+            BITACORA.fatal(error.getMessage());
+            throw new ErrorDAO("Error al abrir la ventana de solicitud de cuenta", ErrorDAO.Tipo.VALIDACION);
         }
     }
 
 
-    private void sonCredencialesValidas (CuentaDTO cuentaDTO) {
-        if (!DAO_CUENTA.verificarCredenciales(cuentaDTO.getNombreUsuario(), cuentaDTO.getContrasena())) {
+
+
+    private void sonCredencialesValidas (String usuario, String contrasena) {
+        if (!CUENTA_AUXILIAR.verificarCredenciales(usuario, contrasena)) {
             throw new ErrorDAO("Cuentas no validas", ErrorDAO.Tipo.VALIDACION);
         }
     }
-    private void esCuentaAceptada (CuentaDTO cuentaDTO) {
-        if (cuentaDTO.getEstado() != CuentaDTO.EstadoCuenta.aceptada) {
-            throw new ErrorDAO("El estado de la cuentaDTO esta en " + cuentaDTO.getEstado().toString() +"\n" +
+
+    private void esCuentaAceptada (CuentaDTO cuenta) {
+        if (cuenta.getEstado() != CuentaDTO.EstadoCuenta.aceptada) {
+            throw new ErrorDAO("El estado de la cuenta esta en " + cuenta.getEstado()
+                                                                         .toString() + "\n" +
                                        "En caso de dudas, mande mensaje un correo a vic@uv.mx", ErrorDAO.Tipo.VALIDACION);
         }
     }
 
-    private void abrirVentanaPorTipoCuenta (CuentaDTO cuentaDTO) {
-        switch (cuentaDTO.getTipo()) {
+    private void abrirVentanaPorTipoCuenta (CuentaDTO cuenta) {
+        switch (cuenta.getTipo()) {
             case academico:
-                mostrarVentanaWindowMenuPrincipalAcademico();
+                procesarInicioSesionAcademico(cuenta);
+                break;
             case estudiante:
                 System.out.println("Implementar ventana estudiante");
+                break;
             case administrador:
-                System.out.println("Implementar ventana admin");
+                mostrarVentanaPrincipalAdministrador();
+                break;
+        }
+    }
+
+    private void procesarInicioSesionAcademico (CuentaDTO cuenta) {
+        Optional<AcademicoDTO> optionalAcademico = recuperarAcademicoPorCuenta(cuenta);
+        verificarOptional(optionalAcademico);
+        if (existenDatosNulosAcademico(optionalAcademico.get())) {
+            mostrarVentanaAlert("Para poder ingresar necesita completar sus datos.", Alert.AlertType.INFORMATION);
+            mostrarVentanaFormularioCompletarDatos(optionalAcademico.get());
+        }
+        else {
+            mostrarVentanaWindowMenuPrincipalAcademico();
         }
     }
 
     private CuentaDTO getCuentaPorTextField () {
-        CuentaDTO cuentaDTO = new CuentaDTO();
-        cuentaDTO.setNombreUsuario(tfUsuario.getText());
-        cuentaDTO.setContrasena(tfUsuario.getText());
-        return cuentaDTO;
+        CuentaDTO cuenta = new CuentaDTO();
+        cuenta.setNombreUsuario(tfUsuario.getText());
+        cuenta.setContrasena(tfContrasena.getText());
+        return cuenta;
     }
 
     private CuentaDTO getCuentaRegistrada () {
-        Optional<CuentaDTO> cuentaOptional = DAO_CUENTA.getCuentaPorUsuario(getCuentaPorTextField().getNombreUsuario());
+        Optional<CuentaDTO> cuentaOptional = CUENTA_AUXILIAR.getCuentaPorUsuario(getCuentaPorTextField().getNombreUsuario());
         if (cuentaOptional.isEmpty()) {
             throw new ErrorDAO("Error al obtener la cuenta del usuario", ErrorDAO.Tipo.INICIO_SESION);
         }
         return cuentaOptional.get();
     }
 
-    @Override
-    public void start (Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../InterfazGrafica/inicioSesion.fxml"));
-        Parent root = loader.load();
-        Scene scene = new Scene(root);
-        primaryStage.setTitle("Inicio sesión");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+    private Optional<AcademicoDTO> recuperarAcademicoPorCuenta (CuentaDTO cuenta) {
+        AcademicoAuxiliar daoAcademico = new AcademicoAuxiliar();
+        Optional<AcademicoDTO> optionalAcademico = daoAcademico.getPorId(cuenta.getIdPersona());
+        return optionalAcademico;
     }
-    public static void main (String[] args) {
-        launch(args);
+
+    private Optional<EstudianteDTO> recupearEstudiantePorCuenta (CuentaDTO cuenta) {
+        EstudianteAuxiliar daoEstudiante = new EstudianteAuxiliar();
+        Optional<EstudianteDTO> optionalEstudiante = daoEstudiante.getEstudiantePorIdPersona(cuenta.getIdPersona());
+        return optionalEstudiante;
+    }
+
+    private void verificarOptional (Optional optional) {
+        if (!optional.isPresent()) {
+            throw new ErrorDAO("No se puede obtener la información del usuario", ErrorDAO.Tipo.CONSULTA);
+        }
+
+    }
+
+    private boolean existenDatosNulosAcademico (AcademicoDTO academico) {
+        return academico.getNumeroTelefonico() == null || academico.getAreaEstudios() == null
+                || academico.getNumeroPersonal() == null;
     }
 
 }

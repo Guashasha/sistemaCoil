@@ -1,5 +1,6 @@
 DROP DATABASE IF EXISTS COIL;
 
+SELECT "creando base de datos...";
 CREATE DATABASE IF NOT EXISTS COIL;
 
 USE COIL;
@@ -51,13 +52,13 @@ CREATE TABLE `academico` (
 CREATE TABLE `colaboracion` (
   `idColaboracion` int PRIMARY KEY AUTO_INCREMENT,
   `estado` ENUM ('propuesta', 'aceptada', 'rechazada', 'disponible', 'vinculada', 'activa', 'enRevision', 'finalizada') NOT NULL,
-  `tipo` ENUM ('claseEspejo', 'COIL') NOT NULL,
-  `temaInteres` varchar(80) NOT NULL,
-  `idioma` varchar(30) NOT NULL,
-  `objetivo` varchar(80),
-  `fechaInicio` date,
-  `fechaFin` date,
-  `perfilEstudiante` varchar(50) NOT NULL
+  `tipo` ENUM ('claseEspejo', 'COIL') NULL,
+  `temaInteres` varchar(80) NULL,
+  `idioma` varchar(30) NULL,
+  `objetivo` varchar(80) NULL,
+  `fechaInicio` date NULL,
+  `fechaFin` date NULL,
+  `perfilEstudiante` varchar(50) NULL
 );
 
 CREATE TABLE `estudiantesColaboracion` (
@@ -162,6 +163,7 @@ ALTER TABLE `calendarioActividades` ADD FOREIGN KEY (`idActividad`) REFERENCES `
 
 ALTER TABLE `universidad` ADD FOREIGN KEY (`paisOrigen`) REFERENCES `pais` (`idPais`);
 
+SELECT "creando usuarios...";
 DROP USER IF EXISTS "admin_COIL"@"localhost";
 DROP USER IF EXISTS "admin_COIL"@"%";
 
@@ -174,3 +176,14 @@ DROP USER IF EXISTS "CarrionMartinezPale"@"localhost";
 CREATE USER IF NOT EXISTS "CarrionMartinezPale"@"localhost" IDENTIFIED BY "cremaxx";
 
 GRANT ALL ON COIL.* TO "CarrionMartinezPale"@"localhost";
+
+SELECT "cargando vistas...";
+SOURCE vistasCoil.sql;
+
+SELECT "cargando procedimientos...";
+SOURCE procedimientosCoil.sql;
+
+SELECT "ingresando datos...";
+SOURCE datosCoil.sql;
+
+SELECT "base de datos creada correctamente";

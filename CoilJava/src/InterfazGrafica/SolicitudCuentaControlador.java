@@ -6,6 +6,7 @@ import DTO.AcademicoDTO;
 import DTO.CuentaDTO;
 import DTO.UniversidadDTO;
 import Utilidades.ErrorDAO;
+import com.sun.mail.imap.ACL;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -14,7 +15,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.apache.log4j.Logger;
 
@@ -27,7 +27,6 @@ public class SolicitudCuentaControlador implements Initializable {
     private Map<String, UniversidadDTO> cacheUniversidades = new HashMap<>();
     private final UniversidadAuxiliar DAO_UNIVERSIDAD = new UniversidadAuxiliar();
     private final AcademicoAuxiliar DAO_ACADEMICO = new AcademicoAuxiliar();
-    private final String DIRECCION_COIL_ICON = "InterfazGrafica/Recursos/LogoCoil.png";
     @FXML
     private ComboBox<String> cmbUniversidad;
     @FXML
@@ -56,7 +55,7 @@ public class SolicitudCuentaControlador implements Initializable {
             cargarListaUniversidad();
         }
         else {
-            //throw new ErrorDAO("No se encuentran universidades registradas en la base de datos\nInténtelo mas tarde", ErrorDAO.Tipo.CONSULTA);
+            throw new ErrorDAO("No se encuentran universidades registradas en la base de datos\nInténtelo mas tarde", ErrorDAO.Tipo.CONSULTA);
         }
     }
 
@@ -78,6 +77,9 @@ public class SolicitudCuentaControlador implements Initializable {
     public void realizarSolicitud () {
         try {
             registarCuenta(getDatosAcademico(), getDatosCuenta());
+        }
+        catch (IllegalArgumentException error) {
+            mostrarAlert(error.getMessage(), Alert.AlertType.WARNING);
         }
         catch (ErrorDAO errorDAO) {
             mostrarAlert(errorDAO.getMessage(), Alert.AlertType.WARNING);
@@ -166,7 +168,7 @@ public class SolicitudCuentaControlador implements Initializable {
             idUniversidad = universidadDTO.getId();
         }
         if (idUniversidad <= 0) {
-            throw new ErrorDAO("Error al obtener el identificador de la univervisidad", ErrorDAO.Tipo.CONEXION);
+            throw new ErrorDAO("Error al obtener el identificador de la univervisidad", ErrorDAO.Tipo.CONSULTA);
         }
         return idUniversidad;
     }
@@ -186,6 +188,10 @@ public class SolicitudCuentaControlador implements Initializable {
         academicoDTO.setApellidoPaterno(tfApellidoP.getText());
         academicoDTO.setApellidoMaterno(tfApellidoM.getText());
         academicoDTO.setCorreoElectronico(tfCorreo.getText());
+        academicoDTO.setCedulaProfesional(tfCedula.getText());
+        if (cmbUniversidad.getValue().isEmpty()) {
+            throw new IllegalArgumentException("Selecciona una universidad");
+        }
         academicoDTO.setIdUniversidad(obtenerIdUniversidad());
         return academicoDTO;
     }
@@ -205,13 +211,5 @@ public class SolicitudCuentaControlador implements Initializable {
     private void eliminarUniversidadEspecifica () {
         cmbUniversidad.getItems()
                       .remove("UniversidadDTO Veracruzana");
-    }
-
-    private void setIconoYTitulo () {
-        Stage escenario = (Stage) tfCorreo.getScene()
-                                          .getWindow();
-        escenario.getIcons()
-                 .add(new Image(DIRECCION_COIL_ICON));
-        escenario.setTitle("Mi coil | Solicitud de cuenta");
     }
 }

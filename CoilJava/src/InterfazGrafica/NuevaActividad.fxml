@@ -6,10 +6,10 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="359.0" prefWidth="551.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.NuevaActividadControlador">
+<AnchorPane fx:id="pnPrincipal" prefHeight="359.0" prefWidth="551.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.NuevaActividadControlador">
    <children>
       <Button fx:id="btnAceptar" layoutX="288.0" layoutY="292.0" mnemonicParsing="false" onAction="#agregarActividad" prefHeight="46.0" prefWidth="103.0" styleClass="button-principal" stylesheets="@Recursos/EstiloVentanas.css" text="Aceptar" />
-      <Button fx:id="btnCancelar" layoutX="420.0" layoutY="292.0" mnemonicParsing="false" onAction="#cerrarVentana" prefHeight="46.0" prefWidth="103.0" styleClass="button-secundario" stylesheets="@Recursos/EstiloVentanas.css" text="Cancelar" />
+      <Button fx:id="btnCancelar" layoutX="420.0" layoutY="292.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="103.0" styleClass="button-secundario" stylesheets="@Recursos/EstiloVentanas.css" text="Cancelar" />
       <VBox layoutX="40.0" layoutY="70.0" prefHeight="274.0" prefWidth="200.0">
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Titulo" />
@@ -24,7 +24,7 @@
                   <Insets bottom="15.0" />
                </VBox.margin>
             </TextField>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo de actividadDTO">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo de actividad">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin></Text>
@@ -45,7 +45,7 @@
             </Group>
          </children>
       </VBox>
-      <Text fx:id="Titulo" strokeType="OUTSIDE" strokeWidth="0.0" text="Nueva actividadDTO" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="20.0">
+      <Text fx:id="Titulo" strokeType="OUTSIDE" strokeWidth="0.0" text="Nueva actividad" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="20.0">
          <font>
             <Font name="System Bold" size="22.0" />
          </font>

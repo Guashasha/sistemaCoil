@@ -7,12 +7,15 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import test.ConfiguracionPrueba;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
-public class ActividadDTOAuxiliarTest {
+public class ActividadAuxiliarTest {
     @BeforeAll
     public static void setUp () {
         ConfiguracionPrueba.borrarDatosTablaRetroalimentacionActividad();
@@ -56,8 +59,7 @@ public class ActividadDTOAuxiliarTest {
     public void pruebaGetPorId () {
         ActividadDTO actividadDTO = new ActividadDTO("titulo 2", "descripcion 2", ActividadDTO.TipoActividad.cierre);
 
-        Optional<ActividadDTO> resultado = null;
-
+        Optional<ActividadDTO> resultado = Optional.empty();
         ActividadAuxiliar act = new ActividadAuxiliar();
 
         try {
@@ -67,19 +69,18 @@ public class ActividadDTOAuxiliarTest {
             fail();
         }
 
-        if (resultado.isPresent()) {
-            assertEquals(actividadDTO, resultado.get());
-        }
-        else {
+        if (resultado.isEmpty()) {
             fail();
         }
+
+        assertEquals(actividadDTO, resultado.get());
     }
 
     @Test
     public void pruebaGetPorIdInexistente () {
         ActividadAuxiliar act = new ActividadAuxiliar();
 
-        Optional<ActividadDTO> resultado = null;
+        Optional<ActividadDTO> resultado = Optional.empty();
 
         try {
             resultado = act.getPorId(500);
@@ -129,12 +130,26 @@ public class ActividadDTOAuxiliarTest {
     }
 
     @Test
-    public void pruebaModificar () {
-
-    }
-
-    @Test
     public void pruebaGetTodos () {
+        ArrayList<ActividadDTO> actividades = new ArrayList<>();
+        actividades.add(new ActividadDTO("titulo 1", "descripcion 1", ActividadDTO.TipoActividad.rompeHielo));
+        actividades.add(new ActividadDTO("titulo 2", "descripcion 2", ActividadDTO.TipoActividad.cierre));
+        actividades.add(new ActividadDTO("titulo 3", "descripcion 3", ActividadDTO.TipoActividad.rompeHielo));
 
+        List<ActividadDTO> resultados = null;
+        ActividadAuxiliar act = new ActividadAuxiliar();
+
+        try {
+            resultados = act.getTodos();
+        }
+        catch (ErrorDAO error) {
+            fail();
+        }
+
+        if (resultados == null) {
+            fail();
+        }
+
+        assertEquals(actividades, resultados);
     }
 }

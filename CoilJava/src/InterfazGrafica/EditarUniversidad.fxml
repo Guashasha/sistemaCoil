@@ -10,7 +10,7 @@
 
 <AnchorPane prefHeight="389.0" prefWidth="504.0" styleClass="root" stylesheets="@Recursos/EstiloVentanas.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.EditarUniversidadControlador">
    <children>
-      <Text fx:id="Titulo" layoutX="44.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Configuración de universidadDTO">
+      <Text fx:id="Titulo" layoutX="44.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Configuración de universidad">
          <font>
             <Font name="System Bold" size="30.0" />
          </font>
