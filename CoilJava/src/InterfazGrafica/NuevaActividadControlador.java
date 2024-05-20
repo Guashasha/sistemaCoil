@@ -1,7 +1,7 @@
 package InterfazGrafica;
 
 import DAO.ActividadAuxiliar;
-import DAO.CronogramaActividadeAuxiliar;
+import DAO.CronogramaActividadAuxiliar;
 import DTO.ActividadDTO;
 import DTO.ActividadVinculadaDTO;
 import DTO.ColaboracionDTO;
@@ -13,6 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -21,9 +22,11 @@ import org.apache.log4j.Logger;
 import java.io.IOException;
 import java.time.LocalDate;
 
-public class NuevaActividadControlador extends Application {
+public class NuevaActividadControlador {
     private static final Logger BITACORA = Logger.getLogger(NuevaActividadControlador.class);
 
+    @FXML
+    private Pane pnPrincipal;
     private ColaboracionDTO colaboracionDTO;
 
     @FXML
@@ -41,42 +44,23 @@ public class NuevaActividadControlador extends Application {
     @FXML
     private TextField tfTitulo = new TextField();
 
-    public void setColaboracion (ColaboracionDTO colaboracionDTO) {
-        if (colaboracionDTO.esValido()) {
-            this.colaboracionDTO = colaboracionDTO;
+    public NuevaActividadControlador (ColaboracionDTO colaboracionDTO) {
+        if (!colaboracionDTO.esValido()) {
+            return;
         }
-        else {
-            cerrarVentana();
-        }
-    }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
-
-    @Override
-    public void start(Stage stage) {
-        Parent root = null;
+        this.colaboracionDTO = colaboracionDTO;
 
         try {
-            root = FXMLLoader.load(getClass().getResource("NuevaActividad.fxml"));
+             pnPrincipal = FXMLLoader.load(getClass().getResource("NuevaActividad.fxml"));
         }
         catch (IOException e) {
             BITACORA.error(e);
         }
+    }
 
-        if (root != null) {
-            stage.initStyle(StageStyle.TRANSPARENT);
-            stage.setTitle("Crear actividad nueva");
-
-            Scene escena = new Scene(root, Color.TRANSPARENT);
-            escena.getStylesheets().add("InterfazGrafica/Recursos/EstiloVentanas.css");
-
-            stage.setScene(escena);
-            stage.show();
-        } else {
-            BITACORA.error("Ocurrió un error al iniciar la ventana windowNuevaActividad");
-        }
+    public Pane getPane () {
+        return pnPrincipal;
     }
 
     private boolean camposInvalidos () {
@@ -136,7 +120,7 @@ public class NuevaActividadControlador extends Application {
         }
 
         ActividadVinculadaDTO actividadVinculadaDTO = new ActividadVinculadaDTO(actividadDTO, colaboracionDTO, periodoDTO);
-        CronogramaActividadeAuxiliar cronograma = new CronogramaActividadeAuxiliar();
+        CronogramaActividadAuxiliar cronograma = new CronogramaActividadAuxiliar();
 
         try {
             resultado = cronograma.agregar(actividadVinculadaDTO);
@@ -154,11 +138,6 @@ public class NuevaActividadControlador extends Application {
             errorAlert.setContentText("Ocurrió un error al vincular la actividadDTO");
             errorAlert.showAndWait();
         }
-    }
-
-    public void cerrarVentana () {
-        Stage window = (Stage) btnCancelar.getScene().getWindow();
-        window.close();
     }
 
     private static Alert crearAlerta (ErrorDAO error) {

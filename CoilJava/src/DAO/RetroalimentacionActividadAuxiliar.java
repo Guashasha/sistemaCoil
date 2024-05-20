@@ -4,168 +4,88 @@ import DTO.ActividadDTO;
 import DTO.RetroalimentacionActividadDTO;
 import Utilidades.ErrorDAO;
 import Utilidades.ErrorDAO.Tipo;
-import DAO.Interfaces.IRetroalimentacionActividadDAO;
 import org.apache.log4j.Logger;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+public class RetroalimentacionActividadAuxiliar {
+  private static final Logger BITACORA = Logger.getLogger(RetroalimentacionActividadDTO.class.getName());
 
-public class RetroalimentacionActividadAuxiliar implements IRetroalimentacionActividadDAO {
-    private static final Logger BITACORA = Logger.getLogger(RetroalimentacionActividadDTO.class.getName());
-
-    @Override
-    public int agregar (RetroalimentacionActividadDTO retroalimentacion) throws ErrorDAO {
-        if (!retroalimentacion.esCorrecto()) {
-            throw new ErrorDAO("La retroalimentacion es incorrecta", Tipo.VALIDACION);
-        }
-
-        if (getPorPersonaYActividad(retroalimentacion.getIdUsuario(), retroalimentacion.getIdActividad()).isPresent()) {
-            throw new ErrorDAO("La actividad ya fue calificada por el usuario", Tipo.DUPLICIDAD);
-        }
-
-        ActividadAuxiliar act = new ActividadAuxiliar();
-        Optional<ActividadDTO> actividad = act.getPorId(retroalimentacion.getIdActividad());
-
-        if (actividad.isEmpty()) {
-            throw new ErrorDAO("La actividad no existe", Tipo.CONSULTA);
-        }
-
-        int resultado = -1;
-
-        try {
-            resultado = RetroalimentacionActividadDAO.agregarRetroalimentacion(retroalimentacion);
-        }
-        catch (SQLException error) {
-            BITACORA.error(error);
-        }
-
-        return resultado;
+  public int agregar(RetroalimentacionActividadDTO retroalimentacion) throws ErrorDAO {
+    if (!retroalimentacion.esCorrecto()) {
+      throw new ErrorDAO("La retroalimentacion es incorrecta", Tipo.VALIDACION);
     }
 
-    @Override
-    public int modificar (RetroalimentacionActividadDTO retroalimentacion) throws ErrorDAO {
-        throw new ErrorDAO("metodo no disponible para el objeto", Tipo.VALIDACION);
+    if (getPorPersonaYActividad(retroalimentacion.getIdUsuario(), retroalimentacion.getIdActividad()).isPresent()) {
+      throw new ErrorDAO("La actividad ya fue calificada por el usuario", Tipo.DUPLICIDAD);
     }
 
-    @Override
-    public Optional<RetroalimentacionActividadDTO> getPorId (Integer id) throws ErrorDAO {
-        if (id < 1) {
-            throw new ErrorDAO("El id es invalido" + id, Tipo.VALIDACION);
-        }
+    ActividadAuxiliar act = new ActividadAuxiliar();
+    Optional<ActividadDTO> actividad = act.getPorId(retroalimentacion.getIdActividad());
 
-        ResultSet rsRetroalimentacion = null;
-
-        try {
-            rsRetroalimentacion = RetroalimentacionActividadDAO.getPorId(id);
-        }
-        catch (SQLException error) {
-            BITACORA.error(error);
-        }
-
-
-        RetroalimentacionActividadDTO objRetroalimentacion = null;
-
-        try {
-            if (rsRetroalimentacion != null && rsRetroalimentacion.next()) {
-                objRetroalimentacion = resultSetAObjeto(rsRetroalimentacion);
-
-                rsRetroalimentacion.close();
-            }
-        }
-        catch (SQLException error) {
-            BITACORA.error(error);
-        }
-
-        return Optional.ofNullable(objRetroalimentacion);
+    if (actividad.isEmpty()) {
+      throw new ErrorDAO("La actividad no existe", Tipo.CONSULTA);
     }
 
-    @Override
-    public List<RetroalimentacionActividadDTO> getTodos () throws ErrorDAO {
-        ResultSet resultsRetroalimentaciones = null;
+    int resultado = -1;
+    RetroalimentacionActividadDAO retroalimentacionDAO = new RetroalimentacionActividadDAO();
 
-        try {
-            resultsRetroalimentaciones = RetroalimentacionActividadDAO.getTodos();
-        }
-        catch (SQLException error) {
-            BITACORA.error(error);
-        }
-
-        ArrayList<RetroalimentacionActividadDTO> retroalimentaciones = new ArrayList<>();
-
-        if (resultsRetroalimentaciones == null) {
-            return retroalimentaciones;
-        }
-
-        try {
-            while (resultsRetroalimentaciones.next()) {
-                RetroalimentacionActividadDTO retroalimentacion = resultSetAObjeto(resultsRetroalimentaciones);
-
-                if (retroalimentacion.esCorrecto()) {
-                    retroalimentaciones.add(retroalimentacion);
-                }
-            }
-
-            resultsRetroalimentaciones.close();
-        }
-        catch (SQLException error) {
-            BITACORA.error(error);
-        }
-
-        return retroalimentaciones;
+    try {
+      resultado = retroalimentacionDAO.agregar(retroalimentacion);
+    } catch (ErrorDAO error) {
+      BITACORA.error(error);
     }
 
-    @Override
-    public Optional<RetroalimentacionActividadDTO> getPorPersonaYActividad (int idPersona, int idActividad) throws ErrorDAO {
-        if (idPersona < 1 || idActividad < 1) {
-            throw new ErrorDAO("Las id's ingresadas son incorrectas", Tipo.VALIDACION);
-        }
+    return resultado;
+  }
 
-        ResultSet resultados = null;
-
-        try {
-            resultados = RetroalimentacionActividadDAO.getPorPersonaYActividad(idPersona, idActividad);
-        }
-        catch (SQLException error) {
-            BITACORA.error(error);
-        }
-
-        RetroalimentacionActividadDTO retroalimentacion = null;
-
-        try {
-            if (resultados != null && resultados.next()) {
-                retroalimentacion = resultSetAObjeto(resultados);
-
-                resultados.close();
-            }
-        }
-        catch (SQLException error) {
-            BITACORA.error(error);
-        }
-
-        return Optional.ofNullable(retroalimentacion);
+  public Optional<RetroalimentacionActividadDTO> getPorId(Integer id) throws ErrorDAO {
+    if (id < 1) {
+      throw new ErrorDAO("El id es invalido" + id, Tipo.VALIDACION);
     }
 
-    @Override
-    public RetroalimentacionActividadDTO resultSetAObjeto (ResultSet resultados) {
-        RetroalimentacionActividadDTO retroalimentacion = new RetroalimentacionActividadDTO();
+    Optional<RetroalimentacionActividadDTO> rsRetroalimentacion = Optional.empty();
+    RetroalimentacionActividadDAO retroalimentacionDAO = new RetroalimentacionActividadDAO();
 
-        try {
-            retroalimentacion.setIdRetroalimentacion(resultados.getInt(1));
-            retroalimentacion.setInteraccionConPar(resultados.getInt(2));
-            retroalimentacion.setComentario(resultados.getString(3));
-            retroalimentacion.setDificultad(resultados.getInt(4));
-            retroalimentacion.setInteres(resultados.getInt(5));
-            retroalimentacion.setIdUsuario(resultados.getInt(6));
-            retroalimentacion.setIdActividad(resultados.getInt(7));
-        }
-        catch (SQLException error) {
-            BITACORA.error(error);
-        }
-
-        return retroalimentacion;
+    try {
+      rsRetroalimentacion = retroalimentacionDAO.getPorId(id);
+    } catch (ErrorDAO error) {
+      BITACORA.error(error);
     }
+
+    return rsRetroalimentacion;
+  }
+
+  public List<RetroalimentacionActividadDTO> getTodos() throws ErrorDAO {
+    List<RetroalimentacionActividadDTO> retroalimentaciones = null;
+    RetroalimentacionActividadDAO retroalimentacionDAO = new RetroalimentacionActividadDAO();
+
+    try {
+      retroalimentaciones = retroalimentacionDAO.getTodos();
+    } catch (ErrorDAO error) {
+      BITACORA.error(error);
+    }
+
+    return retroalimentaciones;
+  }
+
+  public Optional<RetroalimentacionActividadDTO> getPorPersonaYActividad(int idPersona, int idActividad)
+      throws ErrorDAO {
+    if (idPersona < 1 || idActividad < 1) {
+      throw new ErrorDAO("Las id's ingresadas son incorrectas", Tipo.VALIDACION);
+    }
+
+    Optional<RetroalimentacionActividadDTO> retroalimentacion = Optional.empty();
+    RetroalimentacionActividadDAO retroalimentacionDAO = new RetroalimentacionActividadDAO();
+
+    try {
+      retroalimentacion = retroalimentacionDAO.getPorPersonaYActividad(idPersona, idActividad);
+    } catch (ErrorDAO error) {
+      BITACORA.error(error);
+    }
+
+    return retroalimentacion;
+  }
+
 }

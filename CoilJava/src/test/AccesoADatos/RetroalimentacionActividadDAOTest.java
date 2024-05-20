@@ -14,7 +14,7 @@ import test.ConfiguracionPrueba;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class RetroalimentacionDTOActividadDAOTestDTO {
+public class RetroalimentacionActividadDAOTest {
 
     @BeforeAll
     static void setUp() {
