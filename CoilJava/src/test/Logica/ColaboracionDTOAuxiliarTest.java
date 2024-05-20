@@ -31,28 +31,6 @@ class ColaboracionDTOAuxiliarTest {
         AyudantePruebasColaboracionDB.borrarTodosDatosTabla();
     }
 
-    @Test
-    void pruebaGetColaboracionPorAcademicosParticipantesExitosa () {
-        System.out.println("getColaboracionPorAcademicosParticipantes");
-        AcademicoDTO academicoDTO1 = new AcademicoDTO();
-        academicoDTO1.setCedulaProfesional("123");
-
-        AcademicoDTO academicoDTO2 = new AcademicoDTO();
-        academicoDTO2.setCedulaProfesional("200011");
-
-        ColaboracionDTO colaboracionDTO = null;
-
-        try {
-            Optional<ColaboracionDTO> optional = INSTANCIA.getColaboracionPorAcademicosParticipantes(academicoDTO1, academicoDTO2);
-            colaboracionDTO = optional.get();
-
-        }
-        catch (ErrorDAO errorDAO) {
-            fail("Fallido: getColaboracionPorAcademicosParticipantes");
-        }
-        assertNotNull(colaboracionDTO);
-
-    }
 
     @Test
     void pruebaGetColaboracionPorIdExitosa () {

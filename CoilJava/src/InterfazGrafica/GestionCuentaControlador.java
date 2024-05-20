@@ -33,6 +33,7 @@ public class GestionCuentaControlador extends Application implements Initializab
     private static final Logger BITACORA = Logger.getLogger(GestionCuentaControlador.class);
     @FXML
     private VBox lyInformacionCuenta;
+    private BorderPane pnVentanaPrincipal;
     @FXML
     private BorderPane root;
 
@@ -142,7 +143,7 @@ public class GestionCuentaControlador extends Application implements Initializab
         return resultado;
     }
 
-    public List<CuentaDTO> getCuentaEnEstadoPendiente () {
+    private List<CuentaDTO> getCuentaEnEstadoPendiente () {
         List<CuentaDTO> listaCuenta = null;
         CuentaAuxiliar cuentaAuxiliar = new CuentaAuxiliar();
         listaCuenta = cuentaAuxiliar.getCuentasPorEstado(CuentaDTO.EstadoCuenta.pendiente.toString());
@@ -199,11 +200,15 @@ public class GestionCuentaControlador extends Application implements Initializab
         return academico.getNombre() + " " + academico.getApellidoPaterno() + " " + academico.getApellidoMaterno();
     }
 
+    public void setPnVentanaPrincipal (BorderPane pnVentanaPrincipal) {
+        this.pnVentanaPrincipal = pnVentanaPrincipal;
+    }
+
     private void mostrarAlert (String mensaje, Alert.AlertType tipoAlerta) {
-        Alert alert = new Alert(tipoAlerta);
-        alert.setContentText(mensaje);
-        alert.setHeaderText("Informacion");
-        alert.showAndWait();
+        Alert alerta = new Alert(tipoAlerta);
+        alerta.setContentText(mensaje);
+        alerta.setHeaderText(null);
+        alerta.showAndWait();
     }
 
     @Override

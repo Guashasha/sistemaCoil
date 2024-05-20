@@ -257,7 +257,7 @@ public class NumeraliaControlador extends Application implements Initializable {
     private void mostrarEtiquetaPeriodo (PeriodoDTO periodo) {
         String etiquetaPeriodo;
         Month mesInicio = periodo.getFechaInicio()
-                .getMonth();
+                                 .getMonth();
         etiquetaPeriodo = mesInicio == Month.FEBRUARY ? "Periodo Febrero - Julio" : "Periodo Agosto - Enero";
         lbPeriodo.setText(etiquetaPeriodo);
     }

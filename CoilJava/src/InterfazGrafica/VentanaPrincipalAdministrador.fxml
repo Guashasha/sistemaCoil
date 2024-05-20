@@ -75,11 +75,11 @@
             <Insets left="2.0" right="2.0" top="20.0" />
          </padding>
          <children>
-            <Button mnemonicParsing="false" prefWidth="220.0" styleClass="button-menu-lateral" text="Colaboraciones" />
+            <Button mnemonicParsing="false" onAction="#abrirSeccionColaboraciones" prefWidth="220.0" styleClass="button-menu-lateral" text="Colaboraciones" />
             <Button mnemonicParsing="false" styleClass="button-menu-lateral" text="Académicos" />
             <Button mnemonicParsing="false" onAction="#abrirSeccionUniversidades" styleClass="button-menu-lateral" text="Universidades" />
             <Button mnemonicParsing="false" onAction="#abrirSeccionNumeralia" styleClass="button-menu-lateral" text="Numeralia" />
-            <Button mnemonicParsing="false" styleClass="button-menu-lateral" text="Cuenta" />
+            <Button mnemonicParsing="false" onAction="#abrirSeccionCuentas" styleClass="button-menu-lateral" text="Cuenta" />
          </children>
       </VBox>
    </left>

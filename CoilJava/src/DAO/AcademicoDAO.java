@@ -167,11 +167,6 @@ public class AcademicoDAO implements IAcademicoDAO {
         return listaAcademicoDTOS;
     }
 
-    @Override
-    public AcademicoDTO resultSetAObjeto (ResultSet resultados) {
-        return null;
-    }
-
     public int modificar (AcademicoDTO academicoDTO) throws ErrorDAO {
         int resultado = -1;
         String procedimientoSQL = "{CALL editar_academico(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";

@@ -7,11 +7,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.apache.log4j.Logger;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -56,7 +58,20 @@ public class VentanaPrincipalAdministradorControlador extends Application implem
 
     @FXML
     private void abrirSeccionColaboraciones () {
-
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SeccionColaboracionAdministrador.fxml"));
+        AnchorPane apColaboracion = null;
+        try {
+            apColaboracion = fxmlLoader.load();
+        }
+        catch (IOException error) {
+            BITACORA.info(error.getMessage());
+            mostrarMensajeEmergente("Algo salió mal al mostrar la sección de colaboración", Alert.AlertType.ERROR);
+        }
+        if (apColaboracion != null) {
+            SeccionColaboracionAdministradorControlador seccionColaboracionAdministradorControlador = fxmlLoader.getController();
+            seccionColaboracionAdministradorControlador.setPnVentanaPrincipal(this.pnPrincipal);
+            this.pnPrincipal.setCenter(apColaboracion);
+        }
     }
 
     @FXML
@@ -106,6 +121,27 @@ public class VentanaPrincipalAdministradorControlador extends Application implem
         // TODO
     }
 
+    @FXML
+    private void abrirSeccionCuentas () {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GestionCuenta.fxml"));
+        BorderPane bpGestionCuenta = null;
+
+        try {
+            bpGestionCuenta = fxmlLoader.load();
+        }
+        catch (IOException error) {
+            BITACORA.fatal(error.getMessage());
+            mostrarMensajeEmergente("Algo salió mal al cargar las cuentas en estado pendiente", Alert.AlertType.ERROR);
+        }
+
+        if (bpGestionCuenta != null) {
+            GestionCuentaControlador gestionCuentaControlador = fxmlLoader.getController();
+            gestionCuentaControlador.setPnVentanaPrincipal(this.pnPrincipal);
+            this.pnPrincipal.setCenter(bpGestionCuenta);
+        }
+
+
+    }
     private void regresar () {
         if (historialPaneles.size() > 1) {
             Pane ventanaActual;
