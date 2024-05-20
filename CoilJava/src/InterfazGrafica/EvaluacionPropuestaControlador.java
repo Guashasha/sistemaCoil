@@ -3,16 +3,13 @@ package InterfazGrafica;
 import DAO.ColaboracionAuxiliar;
 import DTO.ColaboracionDTO;
 import Utilidades.ErrorDAO;
-import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -20,16 +17,24 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Stack;
 
-public class EvaluacionPropuestaControlador extends Application implements Initializable {
+public class EvaluacionPropuestaControlador implements Initializable {
     private static final Logger BITACORA = Logger.getLogger(EvaluacionPropuestaControlador.class);
-
-
     @FXML
     private Pane pnPropuestaPlantilla;
-
     @FXML
     private VBox vboxContenedor;
+    private Stack<Pane> historialPaneles = new Stack<>();
+    private BorderPane pnVentanaPrincipal;
+
+    public void setHistorialPaneles (Stack<Pane> historialPaneles) {
+        this.historialPaneles = historialPaneles;
+    }
+
+    public void setPnVentanaPrincipal (BorderPane pnVentanaPrincipal) {
+        this.pnVentanaPrincipal = pnVentanaPrincipal;
+    }
 
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle) {
@@ -53,6 +58,11 @@ public class EvaluacionPropuestaControlador extends Application implements Initi
             mostrarAlert(errorDAO.getMessage(), Alert.AlertType.ERROR);
         }
 
+    }
+
+    @FXML
+    public void regresar () {
+        this.pnVentanaPrincipal.setCenter(this.historialPaneles.pop());
     }
 
     private void agregarPuestaItem (ColaboracionDTO colaboracionDTO) {
@@ -86,7 +96,7 @@ public class EvaluacionPropuestaControlador extends Application implements Initi
         colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.aceptada);
         try {
             colaboracionAuxiliar.cambiarEstadoColaboracion(colaboracionDTO);
-            pnPropuestaPlantilla.getChildren()
+            vboxContenedor.getChildren()
                                 .remove(pane);
         }
         catch (ErrorDAO errorDAO) {
@@ -100,7 +110,7 @@ public class EvaluacionPropuestaControlador extends Application implements Initi
         colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.rechazada);
         try {
             colaboracionAuxiliar.cambiarEstadoColaboracion(colaboracionDTO);
-            pnPropuestaPlantilla.getChildren()
+            vboxContenedor.getChildren()
                                 .remove(pane);
         }
         catch (ErrorDAO errorDAO) {
@@ -119,19 +129,4 @@ public class EvaluacionPropuestaControlador extends Application implements Initi
         alert.setHeaderText("Informacion");
         alert.showAndWait();
     }
-
-    @Override
-    public void start (Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../InterfazGrafica/EvaluacionPropuesta.fxml"));
-        Parent root = loader.load();
-        Scene scene = new Scene(root);
-
-        primaryStage.setScene(scene);
-        primaryStage.show();
-    }
-
-    public static void main (String[] args) {
-        launch(args);
-    }
-
 }

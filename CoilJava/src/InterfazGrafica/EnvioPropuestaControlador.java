@@ -6,21 +6,20 @@ import DTO.ColaboracionDTO;
 import Utilidades.ErrorDAO;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+
+import java.util.Stack;
 
 public class EnvioPropuestaControlador {
     private final ColaboracionAuxiliar COLABORACION_AUXILIAR = new ColaboracionAuxiliar();
     private AcademicoDTO academicoAnfitrion;
     @FXML
-    private Button btnCancelar;
-
-    @FXML
-    private Button btnEnviar;
-
-    @FXML
     private TextArea taObjetivo;
-
     @FXML
     private TextField tfTemaInteres;
+    private Stack<Pane> historialPaneles = new Stack<>();
+    private BorderPane pnVentanaPrincipal;
 
     private ColaboracionDTO obtenerDatosGUI () {
         ColaboracionDTO colaboracionDTO = new ColaboracionDTO();
@@ -37,7 +36,7 @@ public class EnvioPropuestaControlador {
             COLABORACION_AUXILIAR.registrarPropuestaColaboracion(colaboracionDTO, academicoAnfitrion);
         }
         catch (ErrorDAO errorDAO) {
-            System.out.println("Error aqui");
+            mostrarMensajeEmergente(errorDAO.getMessage(), Alert.AlertType.ERROR);
         }
     }
 
@@ -45,7 +44,7 @@ public class EnvioPropuestaControlador {
     public void cancelarEnvioPropuesta () {
         boolean btnSiSeleccionado = mostrarAlertaConfirmacion();
         if (btnSiSeleccionado) {
-            //todo
+            this.pnVentanaPrincipal.setCenter(this.historialPaneles.pop());
         }
     }
 
@@ -65,7 +64,24 @@ public class EnvioPropuestaControlador {
         return alert.getResult() == btnSi;
     }
 
+    private void mostrarMensajeEmergente (String mensaje, Alert.AlertType tipoAlerta) {
+        Alert alerta = new Alert(tipoAlerta);
+        alerta.setContentText(mensaje);
+        alerta.setHeaderText(null);
+        alerta.show();
+    }
+
     public void setAcademicoAnfitrion (AcademicoDTO academicoAnfitrion) {
         this.academicoAnfitrion = academicoAnfitrion;
     }
+
+    public void setHistorialPaneles (Stack<Pane> historialPaneles) {
+        this.historialPaneles = historialPaneles;
+    }
+
+    public void setPnVentanaPrincipal (BorderPane pnVentanaPrincipal) {
+        this.pnVentanaPrincipal = pnVentanaPrincipal;
+    }
+
+
 }

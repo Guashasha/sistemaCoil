@@ -15,18 +15,6 @@ import java.util.Optional;
 public class ColaboracionAuxiliar {
     private final ColaboracionDAO COLABORACION_DAO = new ColaboracionDAO();
 
-    public Optional<ColaboracionDTO> getColaboracionPorAcademicosParticipantes (AcademicoDTO academicoDTO1, AcademicoDTO academicoDTO2) throws ErrorDAO {
-        if (esCadaInvalida(academicoDTO1.getCedulaProfesional()) && esCadaInvalida(academicoDTO2.getCedulaProfesional())) {
-            throw new ErrorDAO("Error en los academicos de la colaboracionDTO", ErrorDAO.Tipo.VALIDACION);
-        }
-        try {
-            return COLABORACION_DAO.getColaboracionPorAcademicosParticipantes(academicoDTO1, academicoDTO2);
-        }
-        catch (ErrorDAO error) {
-            throw new ErrorDAO(error.getMessage(), error.getTipo());
-        }
-    }
-
     public Optional<ColaboracionDTO> getColaboracionPorId (int idColaboracion) throws ErrorDAO {
         if (esIdInvalido(idColaboracion)) {
             throw new ErrorDAO("Error en el identificador de la colaboracion", ErrorDAO.Tipo.VALIDACION);

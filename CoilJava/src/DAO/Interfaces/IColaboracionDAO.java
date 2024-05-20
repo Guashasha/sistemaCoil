@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IColaboracionDAO extends IDAO<ColaboracionDTO, Integer> {
-    public Optional<ColaboracionDTO> getColaboracionPorAcademicosParticipantes (AcademicoDTO academicoDTO1, AcademicoDTO academicoDTO2) throws ErrorDAO;
     public Optional<ColaboracionDTO> getColaboracionPorId (int idColaboracion) throws ErrorDAO;
     public List<EstudianteDTO> getListaDeEstudiantes (ColaboracionDTO colaboracionDTO) throws ErrorDAO;
     public List<AcademicoDTO> getAcademicosParticipantes (ColaboracionDTO colaboracionDTO) throws ErrorDAO;
@@ -26,4 +25,7 @@ public interface IColaboracionDAO extends IDAO<ColaboracionDTO, Integer> {
     public List<AcademicoDTO> obtenerSolicitudAcademicoColaboracion (int idColaboracion) throws ErrorDAO;
     public List<ColaboracionDTO> obtenerColaboracionDisponible (String cedulaProfesional) throws ErrorDAO;
     public boolean existeUnaSolicitudPrevia (ColaboracionDTO colaboracionDTO, AcademicoDTO academicoDTO) throws ErrorDAO;
+    public List<ColaboracionDTO> obtenerSolicitudesDeAcademico (AcademicoDTO academicoDTO) throws ErrorDAO;
+    public int eliminarSolicitudDeParticipacion (ColaboracionDTO colaboracionDTO, AcademicoDTO academicoDTO) throws ErrorDAO;
+
 }
