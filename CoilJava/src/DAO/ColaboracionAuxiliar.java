@@ -131,7 +131,10 @@ public class ColaboracionAuxiliar {
         }
     }
 
-    public int agregarAcademicoAColaboracion (ColaboracionDTO colaboracionDTO, AcademicoDTO academicoDTO) throws ErrorDAO {
+    public int registrarSolicitudParticipacion (ColaboracionDTO colaboracionDTO, AcademicoDTO academicoDTO) throws ErrorDAO {
+        if (COLABORACION_DAO.existeUnaSolicitudPrevia(colaboracionDTO, academicoDTO)) {
+            throw new ErrorDAO("Ya has solicitado participar en esta colaboración", ErrorDAO.Tipo.VALIDACION);
+        }
         if (esIdInvalido(colaboracionDTO.getIdColaboracion())) {
             throw new ErrorDAO("Error en el id de la colaboracionDTO", ErrorDAO.Tipo.VALIDACION);
         }
@@ -139,7 +142,7 @@ public class ColaboracionAuxiliar {
             throw new ErrorDAO("Error en la cedula del academicoDTO", ErrorDAO.Tipo.VALIDACION);
         }
         try {
-            return COLABORACION_DAO.agregarAcademicoAColaboracion(colaboracionDTO, academicoDTO);
+            return COLABORACION_DAO.registrarSolicitudParticipacion(colaboracionDTO, academicoDTO);
         }
         catch (ErrorDAO error) {
             throw new ErrorDAO(error.getMessage(), error.getTipo());
@@ -169,6 +172,14 @@ public class ColaboracionAuxiliar {
         }
         catch (ErrorDAO errorDAO) {
             throw new ErrorDAO(errorDAO.getMessage(),errorDAO.getTipo());
+        }
+    }
+    public List<ColaboracionDTO> obtenerColaboracionDisponible (String cedulaProfesional) throws ErrorDAO {
+        try {
+            return COLABORACION_DAO.obtenerColaboracionDisponible(cedulaProfesional);
+        }
+        catch (ErrorDAO errorDAO) {
+            throw errorDAO;
         }
     }
 

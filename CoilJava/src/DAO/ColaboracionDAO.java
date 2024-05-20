@@ -290,8 +290,8 @@ public class ColaboracionDAO implements IColaboracionDAO {
     }
 
     @Override
-    public int agregarAcademicoAColaboracion (ColaboracionDTO colaboracionDTO, AcademicoDTO academicoDTO) throws ErrorDAO {
-        String agregarAcademicoAColaboracionSQL = "INSERT INTO academicodesarrolla (idColaboracion, idAcademico) VALUES (?, ?)";
+    public int registrarSolicitudParticipacion (ColaboracionDTO colaboracionDTO, AcademicoDTO academicoDTO) throws ErrorDAO {
+        String agregarAcademicoAColaboracionSQL = "INSERT INTO academicodesarrolla (idColaboracion, idAcademico, estado) VALUES (?, ?, 'pendiente')";
         int filasAfectadas;
 
         try {
@@ -398,11 +398,58 @@ public class ColaboracionDAO implements IColaboracionDAO {
     }
 
     @Override
+    public List<ColaboracionDTO> obtenerColaboracionDisponible (String cedulaProfesional) throws ErrorDAO {
+        String colaboracionDisponibleSQL = "SELECT * FROM vista_colaboracion_con_academico WHERE estadoAcademico = 'anfitrion' AND estado = 'disponible' AND cedulaProfesional != ? ";
+        List<ColaboracionDTO> listaColaboracion = new ArrayList<>();
+        try {
+            PreparedStatement obtenerColaboraciones = AdministradorBaseDatos.getInstancia().prepareStatement(colaboracionDisponibleSQL);
+            obtenerColaboraciones.setString(1, cedulaProfesional);
+            ResultSet resultado = obtenerColaboraciones.executeQuery();
+            while (resultado.next()) {
+                ColaboracionDTO colaboracionDTO = convertirColaboracion(resultado);
+                obtenerAcademico(colaboracionDTO, resultado);
+                listaColaboracion.add(colaboracionDTO);
+            }
+            obtenerColaboraciones.close();
+        }
+        catch (SQLException error) {
+            BITACORA.fatal(error.getMessage());
+            throw new ErrorDAO("Error al obtener las colaboraciones disponibles", ErrorDAO.Tipo.CONSULTA);
+        }
+        return listaColaboracion;
+    }
+
+    @Override
+    public boolean existeUnaSolicitudPrevia (ColaboracionDTO colaboracionDTO, AcademicoDTO academicoDTO) throws ErrorDAO {
+        String obtenerAcademicoSolicitud = "SELECT * FROM vista_colaboracion_con_academico WHERE idColaboracion = ? AND cedulaProfesional = ? AND estadoAcademico = 'pendiente'";
+        boolean existeSolicitud = true;
+        try {
+            PreparedStatement obtenerAcademico = AdministradorBaseDatos.getInstancia().prepareStatement(obtenerAcademicoSolicitud);
+            obtenerAcademico.setInt(1, colaboracionDTO.getIdColaboracion());
+            obtenerAcademico.setString(2, academicoDTO.getCedulaProfesional());
+            ResultSet resultado = obtenerAcademico.executeQuery();
+            if (resultado.next()) {
+                if (convertirAcademico(resultado) == null) {
+                    existeSolicitud = false;
+                }
+            }
+            obtenerAcademico.close();
+        }
+        catch (SQLException error) {
+            BITACORA.fatal(error.getMessage());
+            existeSolicitud = false;
+            throw new ErrorDAO("Error al comprobar si existe una solicitud previa", ErrorDAO.Tipo.CONSULTA);
+        }
+        return existeSolicitud;
+    }
+
+    @Override
     public List<AcademicoDTO> obtenerSolicitudAcademicoColaboracion (int idColaboracion) throws ErrorDAO {
-        String obtenerAcademicoSQL = "SELECT * FROM vista_colaboracion_con_academico WHERE estadoAcademico = 'pendiente'";
+        String obtenerAcademicoSQL = "SELECT * FROM vista_colaboracion_con_academico WHERE estadoAcademico = 'pendiente' AND idColaboracion = ?";
         List<AcademicoDTO> listaAcademico = new ArrayList<>();
         try {
             PreparedStatement obtenerAcademico = AdministradorBaseDatos.getInstancia().prepareStatement(obtenerAcademicoSQL);
+            obtenerAcademico.setInt(1, idColaboracion);
             ResultSet resultado = obtenerAcademico.executeQuery();
             while (resultado.next()) {
                 listaAcademico.add(convertirAcademico(resultado));
