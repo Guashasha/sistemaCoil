@@ -1,14 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="InterfazGrafica.SeccionMiColaboracionControlador"
-            prefHeight="400.0" prefWidth="600.0">
 
-</AnchorPane>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="759.0" prefWidth="973.0" stylesheets="@Recursos/EstiloLabels.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox alignment="TOP_CENTER" layoutX="116.0" layoutY="36.0" prefHeight="201.0" prefWidth="212.0" styleClass="panel">
+               <children>
+                  <ImageView fitHeight="112.0" fitWidth="155.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Recursos/solicitudes_2.png" />
+                     </image>
+                  </ImageView>
+                  <Label styleClass="label-inicioSesion-naranja" text="Ver solicitudes">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Label>
+               </children>
+            </VBox>
+            <VBox alignment="TOP_CENTER" layoutX="378.0" layoutY="36.0" prefHeight="201.0" prefWidth="221.0" styleClass="panel">
+               <children>
+                  <ImageView fitHeight="112.0" fitWidth="175.0" pickOnBounds="true" preserveRatio="true" smooth="false">
+                     <image>
+                        <Image url="@Recursos/calendar.png" />
+                     </image>
+                  </ImageView>
+                  <Label styleClass="label-inicioSesion-rosado" text="Actividades">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="Arial" size="20.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            <VBox alignment="TOP_CENTER" layoutX="647.0" layoutY="37.0" prefHeight="200.0" prefWidth="210.0" styleClass="panel">
+               <children>
+                  <ImageView fitHeight="112.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Recursos/Estudiante_1.png" />
+                     </image>
+                  </ImageView>
+                  <Label styleClass="label-inicioSesion-naranja" text="Estudiantes">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+         </children>
+      </Pane>
+   </center>
+   <top>
+      <HBox prefHeight="100.0" prefWidth="200.0" styleClass="label-titulo" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets left="40.0" right="40.0" top="40.0" />
+         </BorderPane.margin>
+         <children>
+            <Pane prefHeight="78.0" prefWidth="62.0">
+               <children>
+                  <Circle fill="WHITE" layoutX="31.0" layoutY="39.0" radius="27.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                  <ImageView fitHeight="48.0" fitWidth="42.0" layoutX="12.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Recursos/flechaRegresoNaranja.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+            <Label text="Mi colaboración" textFill="WHITE">
+               <font>
+                  <Font name="Arial Black" size="30.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="250.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
+   </top>
+</BorderPane>

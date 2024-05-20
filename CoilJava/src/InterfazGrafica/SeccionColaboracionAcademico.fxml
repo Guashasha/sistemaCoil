@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane fx:id="apSeccionColaboracion" prefHeight="759.0" prefWidth="973.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.SeccionColaboracionAcademicoControlador">
    <children>
       <Label alignment="CENTER" layoutX="42.0" layoutY="30.0" prefHeight="71.0" prefWidth="898.0" styleClass="label-titulo" stylesheets="@Recursos/EstiloLabels.css" text="Sección de colaboración" />
@@ -37,7 +36,7 @@
             </Label>
          </children>
       </VBox>
-      <VBox alignment="TOP_CENTER" layoutX="122.0" layoutY="368.0" prefHeight="200.0" prefWidth="214.0" styleClass="panel" stylesheets="@Recursos/EstiloLabels.css">
+      <VBox alignment="TOP_CENTER" layoutX="122.0" layoutY="368.0" onMouseClicked="#abrirMiColaboracion" prefHeight="200.0" prefWidth="214.0" styleClass="panel" stylesheets="@Recursos/EstiloLabels.css">
          <children>
             <ImageView fitHeight="101.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>

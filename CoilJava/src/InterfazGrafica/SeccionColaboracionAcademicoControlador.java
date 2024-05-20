@@ -51,7 +51,28 @@ public class SeccionColaboracionAcademicoControlador {
             envioPropuestaControlador.setHistorialPaneles(this.historialPaneles);
             this.pnVentanaPrincipal.setCenter(apEnvioPropuesta);
         }
+    }
 
+    @FXML
+    public void abrirMiColaboracion () {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SeccionMiColaboracion.fxml"));
+        BorderPane bpSeccionColaboracion = null;
+
+        try {
+            bpSeccionColaboracion = fxmlLoader.load();
+        }
+        catch (IOException error) {
+            BITACORA.fatal(error.getMessage());
+            mostrarMensajeEmergente("Error al cargar la ventana de crear propuesta", Alert.AlertType.ERROR);
+        }
+        if (bpSeccionColaboracion != null) {
+            this.historialPaneles.push(this.apSeccionColaboracion);
+            SeccionMiColaboracionControlador seccionMiColaboracionControlador = fxmlLoader.getController();
+            seccionMiColaboracionControlador.setAcademicoDTO(this.academicoDTO);
+            seccionMiColaboracionControlador.setPnVentanaPrincipal(this.pnVentanaPrincipal);
+            seccionMiColaboracionControlador.setHistorialPaneles(this.historialPaneles);
+            this.pnVentanaPrincipal.setCenter(bpSeccionColaboracion);
+        }
     }
 
 
