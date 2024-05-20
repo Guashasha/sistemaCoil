@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<SplitPane fx:id="pnPrincipal" dividerPositions="0.8844221105527639" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="400.0" prefWidth="473.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+  <items>
+      <VBox prefHeight="200.0" prefWidth="100.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Calificar actividad">
+               <font>
+                  <Font name="System Bold" size="28.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="20.0" />
+               </VBox.margin>
+            </Text>
+            <HBox prefHeight="100.0" prefWidth="200.0" spacing="100.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Interacción con par" />
+                  <Slider fx:id="slInteraccion" blockIncrement="1.0" max="5.0" min="1.0" value="1.0" />
+               </children>
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+            </HBox>
+            <HBox layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0" spacing="85.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Dificultad de actividad" />
+                  <Slider fx:id="slDificultad" blockIncrement="1.0" max="5.0" min="1.0" value="1.0" />
+               </children>
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+            </HBox>
+            <HBox layoutX="10.0" layoutY="110.0" prefHeight="100.0" prefWidth="200.0" spacing="55.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Interes durante la actividad" />
+                  <Slider fx:id="slInteres" blockIncrement="1.0" max="5.0" min="1.0" value="1.0" />
+               </children>
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+            </HBox>
+            <HBox layoutX="10.0" layoutY="210.0" prefHeight="100.0" prefWidth="200.0" spacing="55.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Comentario" />
+                  <TextField fx:id="tfComentario" prefHeight="65.0" prefWidth="306.0" />
+               </children>
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+            </HBox>
+         </children>
+      </VBox>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+         <children>
+            <Button layoutX="381.0" layoutY="7.0" mnemonicParsing="false" styleClass="button-principal" stylesheets="@Recursos/EstiloVentanas.css" text="Button" />
+         </children></AnchorPane>
+  </items>
+</SplitPane>

@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-class CronogramaActividadDAO implements ICronogramaActividad {
+public class CronogramaActividadDAO implements ICronogramaActividad {
     @Override
     public int agregar (ActividadVinculadaDTO actividadDTO) throws ErrorDAO {
         int resultado = -1;

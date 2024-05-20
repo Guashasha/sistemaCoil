@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-class ActividadDAO implements IActividadDAO {
+public class ActividadDAO implements IActividadDAO {
 
     @Override
     public int agregar (ActividadDTO actividadDTO) throws ErrorDAO {
