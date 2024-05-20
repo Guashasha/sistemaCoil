@@ -14,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ActividadDTODAOTest {
     private final ActividadDTO ACTIVIDADDTO1 = new ActividadDTO(1,"kahoot prueba", "descripcion de la actividad prueba", ActividadDTO.TipoActividad.cierre);
     private final ActividadDTO ACTIVIDADDTO2 = new ActividadDTO(2,"Presentacion","presentacion individual ante grupo", ActividadDTO.TipoActividad.rompeHielo);
+
     @BeforeEach
     void setUp () {
         ConfiguracionPrueba.borrarDatosTablaActividad();

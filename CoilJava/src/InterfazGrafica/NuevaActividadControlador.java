@@ -7,16 +7,10 @@ import DTO.ActividadVinculadaDTO;
 import DTO.ColaboracionDTO;
 import DTO.PeriodoDTO;
 import Utilidades.ErrorDAO;
-import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
