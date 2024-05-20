@@ -285,10 +285,6 @@ public class CuentaDAO implements ICuentaDAO {
         return listaCuentaDTO;
     }
 
-    @Override
-    public CuentaDTO resultSetAObjeto (ResultSet resultados) {
-        return null;
-    }
 
 
     private CuentaDTO convertirCuenta (ResultSet resultado) throws SQLException {

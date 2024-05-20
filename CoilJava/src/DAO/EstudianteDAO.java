@@ -201,11 +201,6 @@ public class EstudianteDAO implements IEstudianteDAO {
         return listaEstudianteDTOS;
     }
 
-    @Override
-    public EstudianteDTO resultSetAObjeto (ResultSet resultados) {
-        return null;
-    }
-
     private static EstudianteDTO convertirEstudiante (ResultSet resultado) throws SQLException {
         EstudianteDTO estudianteDTO = new EstudianteDTO();
         estudianteDTO.setIdPersona(resultado.getInt("idPersona"));

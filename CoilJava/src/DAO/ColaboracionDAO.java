@@ -9,8 +9,6 @@ import org.apache.log4j.Logger;
 import java.sql.*;
 import java.sql.Date;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.*;
 
 public class ColaboracionDAO implements IColaboracionDAO {
