@@ -134,8 +134,8 @@ public class EditarUniversidadControlador implements Initializable {
     }
 
     private boolean camposVacios() {
-        boolean nombreVacio = tfNombre.getText().
-                isBlank();
+        String nombre = tfNombre.getText();
+        boolean nombreVacio = nombre == null || nombre.isBlank();
         boolean paisVacio = cmbPaises.getValue() == null;
         etiquetarCamposVacios(nombreVacio,paisVacio);
         return nombreVacio || paisVacio;
