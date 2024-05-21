@@ -24,6 +24,7 @@ public class SeccionColaboracionAcademicoControlador {
     public void setAcademicoDTO (AcademicoDTO academicoDTO) {
         this.academicoDTO = academicoDTO;
     }
+    
 
     @FXML
     public void abrirColaboracionesDisponibbles () {
