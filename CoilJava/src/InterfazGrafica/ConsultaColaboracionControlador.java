@@ -3,6 +3,7 @@ package InterfazGrafica;
 import DAO.ColaboracionAuxiliar;
 import DTO.AcademicoDTO;
 import DTO.ColaboracionDTO;
+import InterfazGrafica.Items.ColaboracionDisponibleItemControlador;
 import Utilidades.ErrorDAO;
 import javafx.application.Application;
 import javafx.fxml.FXML;
@@ -92,7 +93,7 @@ public class ConsultaColaboracionControlador extends Application implements Init
 
     private void agregarColaboracionItem (ColaboracionDTO colaboracionDTO, int filas, int columnas) {
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("ColaboracionDisponibleItem.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("../Items/ColaboracionDisponibleItem.fxml"));
         try {
             Pane pane = fxmlLoader.load();
             ColaboracionDisponibleItemControlador controlador = fxmlLoader.getController();
