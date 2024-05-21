@@ -32,7 +32,7 @@
                   </Label>
                </children>
             </VBox>
-            <VBox alignment="TOP_CENTER" layoutX="378.0" layoutY="36.0" prefHeight="201.0" prefWidth="221.0" styleClass="panel">
+            <VBox alignment="TOP_CENTER" layoutX="378.0" layoutY="36.0" onMouseClicked="#abrirActividades" prefHeight="201.0" prefWidth="221.0" styleClass="panel">
                <children>
                   <ImageView fitHeight="112.0" fitWidth="175.0" pickOnBounds="true" preserveRatio="true" smooth="false">
                      <image>

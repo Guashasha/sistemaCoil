@@ -30,7 +30,7 @@ public class SeccionColaboracionAcademicoControlador {
         this.pnVentanaPrincipal = pnVentanaPrincipal;
     }
 
-    
+
 
     @FXML
     public void abrirColaboracionesDisponibbles () {

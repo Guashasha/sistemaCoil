@@ -29,6 +29,29 @@ public class SeccionMiColaboracionControlador {
         catch (IOException error) {
             mostrarMensajeEmergente("Error al cargar la ventana e solicitudes", Alert.AlertType.ERROR);
         }
+        if (apSolicitud != null) {
+            this.historialPaneles.push(this.bpMiColaboracion);
+            VentanaActividadesControlador ventanaActividadesControlador = fxmlLoader.getController();
+        }
+    }
+
+    @FXML
+    public void abrirActividades () {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("VentanaActividades.fxml"));
+        AnchorPane apActividades = null;
+        try {
+            apActividades = fxmlLoader.load();
+        }
+        catch (IOException error) {
+            mostrarMensajeEmergente("Error al mostrar la sección de actividades", Alert.AlertType.ERROR);
+        }
+        if (apActividades != null) {
+            this.historialPaneles.push(this.bpMiColaboracion);
+            VentanaActividadesControlador ventanaActividadesControlador = fxmlLoader.getController();
+            ventanaActividadesControlador.setPnVentanaPrincipal(this.pnVentanaPrincipal);
+            ventanaActividadesControlador.setAcademicoDTO(this.academicoDTO);
+            this.pnVentanaPrincipal.setCenter(apActividades);
+        }
     }
 
     private void mostrarMensajeEmergente (String mensaje, Alert.AlertType tipoAlerta) {
