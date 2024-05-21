@@ -754,7 +754,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
     }
 
     private Map<String,int[]> ejecutarConsultaNumeralia (String consultaSQL, PeriodoDTO periodo) throws ErrorDAO{
-        Map<String,int[]> numeralia;
+        Map<String,int[]> numeralia = new HashMap<>();
         CallableStatement llamadaProcedimiento;
         ResultSet resultado;
 
@@ -765,8 +765,9 @@ public class ColaboracionDAO implements IColaboracionDAO {
             llamadaProcedimiento.setDate(2, Date.valueOf(periodo.getFechaFin()));
             resultado = llamadaProcedimiento.executeQuery();
 
-            // TODO: 20/05/2024 Validar que ay algo en el resultset
-            numeralia = convertirResultSetNumeralia(resultado);
+            if (resultado.next()) {
+                numeralia = convertirResultSetNumeralia(resultado);
+            }
 
             llamadaProcedimiento.close();
             resultado.close();
@@ -781,13 +782,13 @@ public class ColaboracionDAO implements IColaboracionDAO {
 
     private Map<String,int[]> convertirResultSetNumeralia (ResultSet resultSet) throws SQLException {
         Map<String,int[]> numeralia = new HashMap<>();
-        while (resultSet.next()) {
+        do {
             String categoria = resultSet.getString(1);
             int alumnos = resultSet.getInt("alumnos");
             int profesores = resultSet.getInt("profesores");
             int[] cantidad = new int[]{alumnos,profesores};
             numeralia.put(categoria,cantidad);
-        }
+        } while (resultSet.next());
         return numeralia;
     }
 }
