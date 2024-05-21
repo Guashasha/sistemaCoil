@@ -10,6 +10,7 @@ import javafx.scene.layout.Pane;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
+import java.sql.SQLOutput;
 import java.util.Stack;
 
 public class SeccionColaboracionAcademicoControlador {
@@ -24,6 +25,11 @@ public class SeccionColaboracionAcademicoControlador {
     public void setAcademicoDTO (AcademicoDTO academicoDTO) {
         this.academicoDTO = academicoDTO;
     }
+
+    public void setPnVentanaPrincipal (BorderPane pnVentanaPrincipal) {
+        this.pnVentanaPrincipal = pnVentanaPrincipal;
+    }
+
     
 
     @FXML
@@ -33,6 +39,7 @@ public class SeccionColaboracionAcademicoControlador {
 
     @FXML
     public void abrirCrearPropuestaColaboracion () {
+        System.out.println(academicoDTO.getNombre());
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EnvioPropuesta.fxml"));
         AnchorPane apEnvioPropuesta = null;
 
