@@ -733,12 +733,13 @@ public class ColaboracionDAO implements IColaboracionDAO {
 
             if (resultado.next()) {
                 Date fecha = resultado.getDate(1);
-                String fechaString = fecha.toString();
-                int anio = Integer.parseInt(fechaString.substring(0,4));
-                int mes = Integer.parseInt(fechaString.substring(5,7));
-                int dia = Integer.parseInt(fechaString.substring(8,10));
-
-                fechaMasAntigua = LocalDate.of(anio,mes,dia);
+                if (fecha != null) {
+                    String fechaString = fecha.toString();
+                    int anio = Integer.parseInt(fechaString.substring(0,4));
+                    int mes = Integer.parseInt(fechaString.substring(5,7));
+                    int dia = Integer.parseInt(fechaString.substring(8,10));
+                    fechaMasAntigua = LocalDate.of(anio,mes,dia);
+                }
             }
 
             consulta.close();

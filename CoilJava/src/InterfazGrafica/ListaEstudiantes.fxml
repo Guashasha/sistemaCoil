@@ -4,48 +4,54 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="pnConsultaUniversidades" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="759.0" prefWidth="973.0" styleClass="root" stylesheets="@Recursos/EstiloVentanas.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.ConsultaUniversidadesControlador">
+<BorderPane fx:id="pnListaEstudiantes" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="759.0" prefWidth="973.0" styleClass="root" stylesheets="@Recursos/EstiloVentanas.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.ListaEstudiantesControlador">
     <padding>
         <Insets bottom="20.0" top="20.0" />
     </padding>
     <bottom>
-        <VBox prefHeight="564.0" prefWidth="913.0" BorderPane.alignment="CENTER">
+        <VBox prefHeight="614.0" prefWidth="934.0" BorderPane.alignment="CENTER">
             <BorderPane.margin>
                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
             </BorderPane.margin>
             <children>
-                <HBox alignment="CENTER_LEFT" prefHeight="51.0" prefWidth="862.0" styleClass="barra-titulo">
+                <HBox alignment="CENTER_LEFT" prefHeight="51.0" prefWidth="913.0" styleClass="barra-titulo">
                     <children>
-                        <Label alignment="CENTER" prefHeight="51.0" prefWidth="493.0" text="Institución Universitaria" textFill="WHITE">
+                        <Label alignment="CENTER" prefHeight="50.0" prefWidth="218.0" text="Matricula" textFill="WHITE">
                             <font>
                                 <Font name="Corbel Bold" size="27.0" />
                             </font>
                         </Label>
-                        <Label alignment="CENTER" prefHeight="51.0" prefWidth="290.0" text="País" textFill="WHITE">
+                        <Label alignment="CENTER" prefHeight="50.0" prefWidth="246.0" text="Nombre" textFill="WHITE">
                             <font>
                                 <Font name="Corbel Bold" size="27.0" />
                             </font>
                         </Label>
-                        <Label alignment="CENTER" prefHeight="51.0" prefWidth="158.0" text="Editar" textFill="WHITE">
+                        <Label alignment="CENTER" prefHeight="50.0" prefWidth="279.0" text="Universidad" textFill="WHITE">
                             <font>
                                 <Font name="Corbel Bold" size="27.0" />
                             </font>
                         </Label>
+                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="94.0" text="Retirar" textFill="WHITE">
+                     <font>
+                        <Font name="Corbel Bold" size="27.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="83.0" text="Editar" textFill="WHITE">
+                     <font>
+                        <Font name="Corbel Bold" size="27.0" />
+                     </font>
+                  </Label>
                     </children>
                 </HBox>
-                <ScrollPane prefHeight="516.0" prefWidth="913.0">
+                <ScrollPane prefHeight="566.0" prefWidth="934.0">
                     <content>
-                        <VBox fx:id="vboxConsultaUniversidades" prefHeight="51.0" prefWidth="913.0">
+                        <VBox fx:id="vboxListaEstudiantes" prefHeight="51.0" prefWidth="913.0">
                             <opaqueInsets>
                                 <Insets />
                             </opaqueInsets>
@@ -55,34 +61,18 @@
             </children>
         </VBox>
     </bottom>
-    <top>
-        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Lista de estudiantes" textAlignment="CENTER" wrappingWidth="326.16558837890625" BorderPane.alignment="CENTER">
+   <right>
+          <Button fx:id="btnAgregarEstudiante" contentDisplay="CENTER" mnemonicParsing="false" onAction="#agregarEstudiante" styleClass="button-principal" text="Agregar estudiante" textFill="WHITE" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets right="20.0" />
+         </BorderPane.margin>
+      </Button>
+   </right>
+   <top>
+        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Lista de estudiantes" textAlignment="CENTER" wrappingWidth="330.96566700935364" BorderPane.alignment="CENTER">
             <font>
                 <Font name="Corbel Bold" size="37.0" />
             </font>
         </Text>
-    </top>
-    <center>
-        <AnchorPane prefHeight="73.0" prefWidth="924.0" BorderPane.alignment="CENTER">
-            <children>
-                <HBox alignment="CENTER" layoutX="32.0" layoutY="17.0" prefHeight="42.0" prefWidth="456.0" style="-fx-background-radius: 100; -fx-background-color: #FFFFFF;">
-                    <children>
-                        <TextField fx:id="tfBarraBusqueda" alignment="CENTER" prefHeight="26.0" prefWidth="406.0" promptText="Buscar universidad" style="-fx-background-color: rgba(0,0,0,0);">
-                            <font>
-                                <Font size="16.0" />
-                            </font></TextField>
-                        <Button fx:id="btnBuscar" minWidth="37.0" mnemonicParsing="false" onAction="#consultar" prefHeight="30.0" prefWidth="37.0" style="-fx-background-radius: 30;" styleClass="button-principal">
-                            <graphic>
-                                <ImageView fitHeight="23.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@Recursos/lupa.png" />
-                                    </image>
-                                </ImageView>
-                            </graphic>
-                        </Button>
-                    </children>
-                </HBox>
-                <Button fx:id="btnRegistrarUniversidad" layoutX="770.0" layoutY="21.0" mnemonicParsing="false" onAction="#registrarUniversidad" styleClass="button-principal" text="Registrar estudiante universidad" textFill="WHITE" />
-            </children></AnchorPane>
-    </center>
+   </top>
 </BorderPane>
