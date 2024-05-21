@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
-<Pane fx:id="pnPropuestaItem" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="227.0" prefWidth="882.0" style="-fx-border-radius: 9; -fx-background-radius: 9;" stylesheets="@Recursos/EstiloVentanas.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.PropuestaItemControlador">
+<Pane fx:id="pnPropuestaItem" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="190.0" prefWidth="882.0" style="-fx-border-radius: 9; -fx-background-radius: 9;" stylesheets="@Recursos/EstiloVentanas.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.PropuestaItemControlador">
    <children>
       <Label layoutX="14.0" layoutY="22.0" prefHeight="17.0" prefWidth="127.0" text="Tema de interés">
          <font>
@@ -19,8 +19,8 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Button fx:id="btnAceptar" layoutX="705.0" layoutY="153.0" mnemonicParsing="false" styleClass="button-solicitar" stylesheets="@Recursos/EstiloVentanas.css" text="Aceptar" />
-      <Button fx:id="btnRechazar" layoutX="782.0" layoutY="153.0" mnemonicParsing="false" style="-fx-background-color: lightblue;" stylesheets="@Recursos/EstiloVentanas.css" text="Rechazar" />
+      <Button fx:id="btnAceptar" layoutX="711.0" layoutY="146.0" mnemonicParsing="false" styleClass="button-solicitar" stylesheets="@Recursos/EstiloVentanas.css" text="Aceptar" />
+      <Button fx:id="btnRechazar" layoutX="782.0" layoutY="146.0" mnemonicParsing="false" style="-fx-background-color: lightblue;" stylesheets="@Recursos/EstiloVentanas.css" text="Rechazar" />
       <Label fx:id="lbTemaInteres" layoutX="14.0" layoutY="46.0" prefHeight="17.0" prefWidth="403.0" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" />
       <TextArea fx:id="taObjetivo" layoutX="14.0" layoutY="101.0" prefHeight="70.0" prefWidth="403.0" styleClass="label-inicioSesion-rosado" stylesheets="@Recursos/EstiloLabels.css" />
       <Label layoutX="495.0" layoutY="25.0" text="Académico">
@@ -48,4 +48,7 @@
       </Label>
       <Label fx:id="lbPais" layoutX="577.0" layoutY="148.0" prefHeight="17.0" prefWidth="45.0" styleClass="label-inicioSesion-rosado" stylesheets="@Recursos/EstiloLabels.css" />
    </children>
+   <padding>
+      <Insets top="5.0" />
+   </padding>
 </Pane>
