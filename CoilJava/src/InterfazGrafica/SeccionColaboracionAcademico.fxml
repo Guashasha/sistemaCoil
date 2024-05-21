@@ -11,7 +11,7 @@
 <AnchorPane fx:id="apSeccionColaboracion" prefHeight="759.0" prefWidth="973.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.SeccionColaboracionAcademicoControlador">
    <children>
       <Label alignment="CENTER" layoutX="42.0" layoutY="30.0" prefHeight="71.0" prefWidth="898.0" styleClass="label-titulo" stylesheets="@Recursos/EstiloLabels.css" text="Sección de colaboración" />
-      <VBox alignment="TOP_CENTER" layoutX="119.0" layoutY="127.0" prefHeight="200.0" prefWidth="214.0" styleClass="panel" stylesheets="@Recursos/EstiloLabels.css">
+      <VBox alignment="TOP_CENTER" layoutX="119.0" layoutY="127.0" onMouseClicked="#abrirColaboracionesDisponibbles" prefHeight="200.0" prefWidth="214.0" styleClass="panel" stylesheets="@Recursos/EstiloLabels.css">
          <children>
             <ImageView fitHeight="101.0" fitWidth="174.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -86,14 +86,14 @@
             </Label>
          </children>
       </VBox>
-      <VBox alignment="TOP_CENTER" layoutX="640.0" layoutY="127.0" prefHeight="200.0" prefWidth="214.0" styleClass="panel" stylesheets="@Recursos/EstiloLabels.css">
+      <VBox alignment="TOP_CENTER" layoutX="640.0" layoutY="127.0" onMouseClicked="#abrirCompletarDatos" prefHeight="200.0" prefWidth="214.0" styleClass="panel" stylesheets="@Recursos/EstiloLabels.css">
          <children>
             <ImageView fitHeight="101.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Recursos/seguimiento.png" />
                </image>
             </ImageView>
-            <Label styleClass="label-inicioSesion-naranja" text="Completar datos">
+            <Label onMouseClicked="#abrirCompletarDatos" styleClass="label-inicioSesion-naranja" text="Completar datos">
                <font>
                   <Font name="Arial" size="20.0" />
                </font>

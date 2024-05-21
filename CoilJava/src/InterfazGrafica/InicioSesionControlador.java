@@ -63,18 +63,20 @@ public class InicioSesionControlador {
 
 
     @FXML
-    private void mostrarVentanaWindowMenuPrincipalAcademico () {
+    private void mostrarVentanaWindowMenuPrincipalAcademico (AcademicoDTO academicoDTO) {
         try {
             Stage stagePrincipal = (Stage) tfUsuario.getScene()
                                                     .getWindow();
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("VentanaPrincipal.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("VentanaPrincipalAcademico.fxml"));
             Parent root = fxmlLoader.load();
+            VentanaPrincipalAcademicoControlador ventanaPrincipalAcademicoControlador = fxmlLoader.getController();
+            ventanaPrincipalAcademicoControlador.setAcademicoDTO(academicoDTO);
             Scene nuevaEscena = new Scene(root);
             stagePrincipal.setScene(nuevaEscena);
         }
         catch (IOException error) {
             BITACORA.fatal(error.getMessage());
-
+            mostrarVentanaAlert("Error al cargar la ventana principal", Alert.AlertType.ERROR);
         }
     }
 
@@ -185,7 +187,7 @@ public class InicioSesionControlador {
             mostrarVentanaFormularioCompletarDatos(optionalAcademico.get());
         }
         else {
-            mostrarVentanaWindowMenuPrincipalAcademico();
+            mostrarVentanaWindowMenuPrincipalAcademico(optionalAcademico.get());
         }
     }
 

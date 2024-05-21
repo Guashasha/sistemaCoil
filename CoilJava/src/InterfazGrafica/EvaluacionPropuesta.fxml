@@ -14,9 +14,9 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="883.0" stylesheets="@Recursos/EstiloVentanas.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.EvaluacionPropuestaControlador">
    <center>
-      <VBox fx:id="pnPropuestaPlantilla" prefHeight="488.0" prefWidth="787.0" BorderPane.alignment="CENTER">
+      <VBox fx:id="pnPropuestaPlantilla" prefHeight="646.0" prefWidth="883.0" BorderPane.alignment="CENTER">
          <children>
-            <ScrollPane prefHeight="680.0" prefWidth="883.0">
+            <ScrollPane prefHeight="686.0" prefWidth="883.0">
                <content>
                   <VBox fx:id="vboxContenedor" alignment="CENTER" prefHeight="34.0" prefWidth="882.0">
                      <padding>

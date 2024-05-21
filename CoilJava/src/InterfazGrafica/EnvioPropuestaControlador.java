@@ -34,6 +34,7 @@ public class EnvioPropuestaControlador {
         colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.propuesta);
         try {
             COLABORACION_AUXILIAR.registrarPropuestaColaboracion(colaboracionDTO, academicoAnfitrion);
+            mostrarMensajeEmergente("Su propuesta ha sido registrada.\nPronto será evaluada,", Alert.AlertType.INFORMATION);
         }
         catch (ErrorDAO errorDAO) {
             mostrarMensajeEmergente(errorDAO.getMessage(), Alert.AlertType.ERROR);
