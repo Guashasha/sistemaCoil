@@ -76,7 +76,7 @@ public class EvaluacionPropuestaControlador implements Initializable {
             propuestaItemControlador.inicializarLabels();
 
             vboxContenedor.getChildren()
-                .add(pane);
+                          .add(pane);
             configuarBotones(propuestaItemControlador, pane);
         }
         catch (IOException ioException) {
@@ -98,7 +98,7 @@ public class EvaluacionPropuestaControlador implements Initializable {
         try {
             colaboracionAuxiliar.cambiarEstadoColaboracion(colaboracionDTO);
             vboxContenedor.getChildren()
-                                .remove(pane);
+                          .remove(pane);
         }
         catch (ErrorDAO errorDAO) {
             mostrarAlert(errorDAO.getMessage(), Alert.AlertType.ERROR);
@@ -112,7 +112,7 @@ public class EvaluacionPropuestaControlador implements Initializable {
         try {
             colaboracionAuxiliar.cambiarEstadoColaboracion(colaboracionDTO);
             vboxContenedor.getChildren()
-                                .remove(pane);
+                          .remove(pane);
         }
         catch (ErrorDAO errorDAO) {
             mostrarAlert(errorDAO.getMessage(), Alert.AlertType.ERROR);
