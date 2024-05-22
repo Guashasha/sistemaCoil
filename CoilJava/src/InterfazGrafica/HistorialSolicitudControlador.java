@@ -34,7 +34,7 @@ public class HistorialSolicitudControlador {
 
     private void agregarHistorialItem (ColaboracionDTO colaboracionDTO) {
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("../InterfazGrafica/Items/SolicitudHistorialItemControlador.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("../InterfazGrafica/Items/SolicitudHistorialItem.fxml"));
 
         try {
             VBox vBox = fxmlLoader.load();
@@ -62,7 +62,7 @@ public class HistorialSolicitudControlador {
                 }
             }
             else {
-                mostrarAlert("Error al cargar el historial de solicitudes", Alert.AlertType.ERROR);
+                throw new IllegalArgumentException("No hay solicitudes registradas");
             }
         }
         catch (ErrorDAO errorDAO) {
@@ -82,7 +82,7 @@ public class HistorialSolicitudControlador {
         ColaboracionDTO colaboracionDelItem = solicitudHistorialItemControlador.getColaboracionDTO();
         try {
             colaboracionAuxiliar.eliminarSolicitudDeParticipacion(colaboracionDelItem, this.academicoDTO);
-            mostrarAlert("Solicitud elominada", Alert.AlertType.ERROR);
+            mostrarAlert("Solicitud eliminada", Alert.AlertType.ERROR);
             this.vbContenedorSolicitud.getChildren()
                                       .remove(vBox);
 

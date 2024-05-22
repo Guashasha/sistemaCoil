@@ -85,7 +85,33 @@ public class SeccionColaboracionAcademicoControlador {
 
     @FXML
     private void abrirVerMisPostulaciones () {
-        //todo
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("HistorialSolicitud.fxml"));
+        BorderPane pnHistorialSolicitud;
+
+        try {
+            pnHistorialSolicitud = fxmlLoader.load();
+        }
+        catch (IOException error) {
+            BITACORA.fatal(error.getMessage());
+            mostrarMensajeEmergente("Error al cargar la ventana de historial de solicitudes", Alert.AlertType.ERROR);
+            return;
+        }
+
+        if (pnHistorialSolicitud != null) {
+            this.historialPaneles.push(this.apSeccionColaboracion);
+            HistorialSolicitudControlador historialSolicitudControlador = fxmlLoader.getController();
+            historialSolicitudControlador.setAcademicoDTO(this.academicoDTO);
+            try {
+                historialSolicitudControlador.cargarItemSolicitud();
+            }
+            catch (IllegalArgumentException error) {
+                mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.INFORMATION);
+                return;
+            }
+            historialSolicitudControlador.setPnVentanaPrincipal(this.pnVentanaPrincipal);
+            historialSolicitudControlador.setHistorialPaneles(this.historialPaneles);
+            this.pnVentanaPrincipal.setCenter(apSeccionColaboracion);
+        }
     }
 
     @FXML

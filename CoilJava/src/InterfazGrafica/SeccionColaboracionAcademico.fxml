@@ -111,7 +111,7 @@
             </Label>
          </children>
       </VBox>
-      <VBox alignment="TOP_CENTER" layoutX="381.0" layoutY="368.0" prefHeight="200.0" prefWidth="214.0" styleClass="panel" stylesheets="@Recursos/EstiloLabels.css">
+      <VBox alignment="TOP_CENTER" layoutX="381.0" layoutY="368.0" onMouseClicked="#abrirVerMisPostulaciones" prefHeight="200.0" prefWidth="214.0" styleClass="panel" stylesheets="@Recursos/EstiloLabels.css">
          <children>
             <ImageView fitHeight="101.0" fitWidth="174.0" pickOnBounds="true" preserveRatio="true">
                <image>
