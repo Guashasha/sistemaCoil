@@ -61,19 +61,29 @@ public class SeccionMiColaboracionAcademicoControlador {
 
     @FXML
     private void abrirSeccionEstudiantes () {
+        if (obtenerColaboracionVinculadaOActiva().isPresent()) {
+            ColaboracionDTO colaboracion = obtenerColaboracionVinculadaOActiva().get();
 
+        }
+        else {
+            mostrarMensajeEmergente("No es parte de una colaboración actualmente\n", Alert.AlertType.WARNING);
+        }
     }
 
-    private boolean tieneColaboracionVinculadaOActiva () {
+    private Optional<ColaboracionDTO> obtenerColaboracionVinculadaOActiva () {
         ColaboracionDAO colaboracionDAO = new ColaboracionDAO();
-        Optional<ColaboracionDTO> optionalColaboracionDTO = Optional.empty();
+        Optional<ColaboracionDTO> colaboracionActivaOptional = Optional.empty();
+        Optional<ColaboracionDTO> colaboracionVinculadaOptional = Optional.empty();
+
         try {
-            optionalColaboracionDTO = colaboracionDAO.getColaboracionAceptadaPorAcademico(this.academicoDTO);
+            colaboracionActivaOptional = colaboracionDAO.getActivaPorAcademico(this.academicoDTO);
+            colaboracionVinculadaOptional = colaboracionDAO.getVinculadaPorAcademico(this.academicoDTO);
         }
         catch (ErrorDAO error) {
             mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
         }
-        return optionalColaboracionDTO;
+
+        return colaboracionActivaOptional.isPresent() ? colaboracionActivaOptional : colaboracionVinculadaOptional;
     }
 
     private void mostrarMensajeEmergente (String mensaje, Alert.AlertType tipoAlerta) {
