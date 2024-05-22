@@ -11,7 +11,7 @@ import javafx.scene.layout.Pane;
 import java.io.IOException;
 import java.util.Stack;
 
-public class SeccionMiColaboracionControlador {
+public class SeccionMiColaboracionAcademicoControlador {
     private AcademicoDTO academicoDTO;
     private Stack<Pane> historialPaneles = new Stack<>();
     private BorderPane pnVentanaPrincipal;
