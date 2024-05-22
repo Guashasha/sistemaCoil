@@ -1,4 +1,4 @@
-package InterfazGrafica;
+package InterfazGrafica.Items;
 
 import DAO.ColaboracionAuxiliar;
 import DAO.UniversidadAuxiliar;

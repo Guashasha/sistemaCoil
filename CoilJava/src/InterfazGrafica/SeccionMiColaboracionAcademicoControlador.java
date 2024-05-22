@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.Optional;
 import java.util.Stack;
 
-public class SeccionMiColaboracionControlador {
+public class SeccionMiColaboracionAcademicoControlador {
     private AcademicoDTO academicoDTO;
     private Stack<Pane> historialPaneles = new Stack<>();
     private BorderPane pnVentanaPrincipal;
@@ -25,7 +25,7 @@ public class SeccionMiColaboracionControlador {
 
     @FXML
     public void abrirVentanaSolicitudColaboracion () {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SolicitudesColaboracion.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Items/SolicitudesColaboracion.fxml"));
         AnchorPane apSolicitud = null;
 
         try {

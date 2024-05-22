@@ -3,6 +3,7 @@ package InterfazGrafica;
 import DAO.CuentaAuxiliar;
 import DTO.AcademicoDTO;
 import DTO.CuentaDTO;
+import InterfazGrafica.Items.CuentaItemControlador;
 import Utilidades.ComprobadorInternet;
 import Utilidades.ErrorDAO;
 import Utilidades.ManejadorCorreo;
@@ -48,7 +49,7 @@ public class GestionCuentaControlador extends Application implements Initializab
 
     private void agregarCuentaItem (CuentaDTO cuenta) {
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("CuentaItem.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("../InterfazGrafica/Items/CuentaItem.fxml"));
         try {
             VBox vBox = fxmlLoader.load();
             CuentaItemControlador cuentaItemController = fxmlLoader.getController();

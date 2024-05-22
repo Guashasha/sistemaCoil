@@ -1,4 +1,4 @@
-package InterfazGrafica;
+package InterfazGrafica.Items;
 
 import DTO.AcademicoDTO;
 import DTO.ColaboracionDTO;

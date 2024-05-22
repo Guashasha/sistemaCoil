@@ -138,7 +138,7 @@ public class SeccionColaboracionAcademicoControlador {
 
     @FXML
     public void abrirMiColaboracion () {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SeccionMiColaboracion.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SeccionMiColaboracionAcademico.fxml"));
         BorderPane bpSeccionColaboracion = null;
 
         try {
@@ -150,10 +150,10 @@ public class SeccionColaboracionAcademicoControlador {
         }
         if (bpSeccionColaboracion != null) {
             this.historialPaneles.push(this.apSeccionColaboracion);
-            SeccionMiColaboracionControlador seccionMiColaboracionControlador = fxmlLoader.getController();
-            seccionMiColaboracionControlador.setAcademicoDTO(this.academicoDTO);
-            seccionMiColaboracionControlador.setPnVentanaPrincipal(this.pnVentanaPrincipal);
-            seccionMiColaboracionControlador.setHistorialPaneles(this.historialPaneles);
+            SeccionMiColaboracionAcademicoControlador seccionMiColaboracionAcademicoControlador = fxmlLoader.getController();
+            seccionMiColaboracionAcademicoControlador.setAcademicoDTO(this.academicoDTO);
+            seccionMiColaboracionAcademicoControlador.setPnVentanaPrincipal(this.pnVentanaPrincipal);
+            seccionMiColaboracionAcademicoControlador.setHistorialPaneles(this.historialPaneles);
             this.pnVentanaPrincipal.setCenter(bpSeccionColaboracion);
         }
     }

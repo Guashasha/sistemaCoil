@@ -2,6 +2,7 @@ package InterfazGrafica;
 
 import DAO.ColaboracionAuxiliar;
 import DTO.ColaboracionDTO;
+import InterfazGrafica.Items.PropuestaItemControlador;
 import Utilidades.ErrorDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -67,7 +68,7 @@ public class EvaluacionPropuestaControlador implements Initializable {
 
     private void agregarPuestaItem (ColaboracionDTO colaboracionDTO) {
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("PropuestaItem.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("../InterfazGrafica/Items/PropuestaItem.fxml"));
         try {
             Pane pane = fxmlLoader.load();
             PropuestaItemControlador propuestaItemControlador = fxmlLoader.getController();
