@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="759.0" prefWidth="973.0" stylesheets="@Recursos/EstiloLabels.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.AgregarActividadesControlador">
+   <top>
+      <HBox prefHeight="100.0" prefWidth="200.0" styleClass="label-titulo" BorderPane.alignment="CENTER_LEFT">
+         <BorderPane.margin>
+            <Insets left="30.0" right="30.0" top="30.0" />
+         </BorderPane.margin>
+         <children>
+            <Pane prefHeight="78.0" prefWidth="106.0">
+               <children>
+                  <Circle fill="WHITE" layoutX="53.0" layoutY="39.0" radius="36.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+               </children>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Pane>
+            <Label text="Historial de solicitudes" textFill="WHITE">
+               <font>
+                  <Font name="Arial Black" size="28.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="220.0" top="15.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
+   </top>
+   <left>
+      <Pane prefHeight="629.0" prefWidth="31.0" BorderPane.alignment="CENTER" />
+   </left>
+   <right>
+      <Pane prefHeight="629.0" prefWidth="30.0" BorderPane.alignment="CENTER" />
+   </right>
+   <center>
+      <ScrollPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <content>
+            <VBox fx:id="vbContenedorSolicitud" prefHeight="599.0" prefWidth="910.0" />
+         </content>
+      </ScrollPane>
+   </center>
+   <bottom>
+      <Pane prefHeight="31.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </bottom>
+</BorderPane>

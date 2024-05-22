@@ -3,6 +3,7 @@ package InterfazGrafica;
 import DAO.ColaboracionAuxiliar;
 import DTO.AcademicoDTO;
 import DTO.ColaboracionDTO;
+import InterfazGrafica.Items.ColaboracionDisponibleItemControlador;
 import Utilidades.ErrorDAO;
 import javafx.application.Application;
 import javafx.fxml.FXML;
@@ -13,6 +14,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -23,6 +25,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Stack;
 import java.util.stream.Collectors;
 
 public class ConsultaColaboracionControlador extends Application implements Initializable {
@@ -34,15 +37,16 @@ public class ConsultaColaboracionControlador extends Application implements Init
 
     @FXML
     private TextField tfBusqueda;
+    private BorderPane pnVentanaPrincipal;
+    private Stack<Pane> historialPaneles = new Stack<>();
+
+
 
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle) {
         if (academicoDTO != null) {
             cargarColaboracionItem();
-            tfBusqueda.textProperty()
-                      .addListener((observable, oldValue, newValue) -> {
-                          cargarColaboracionItem();
-                      });
+
         }
     }
 
@@ -89,7 +93,7 @@ public class ConsultaColaboracionControlador extends Application implements Init
 
     private void agregarColaboracionItem (ColaboracionDTO colaboracionDTO, int filas, int columnas) {
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("ColaboracionDisponibleItem.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("../InterfazGrafica/Items/ColaboracionDisponibleItem.fxml"));
         try {
             Pane pane = fxmlLoader.load();
             ColaboracionDisponibleItemControlador controlador = fxmlLoader.getController();
@@ -120,6 +124,14 @@ public class ConsultaColaboracionControlador extends Application implements Init
         this.academicoDTO = academicoDTO;
     }
 
+    public void setPnVentanaPrincipal (BorderPane pnVentanaPrincipal) {
+        this.pnVentanaPrincipal = pnVentanaPrincipal;
+    }
+
+    public void setHistorialPaneles (Stack<Pane> historialPaneles) {
+        this.historialPaneles = historialPaneles;
+    }
+
     @Override
     public void start (Stage stage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../InterfazGrafica/ConsultaColaboracion.fxml"));
@@ -129,6 +141,14 @@ public class ConsultaColaboracionControlador extends Application implements Init
         stage.setScene(scene);
         stage.show();
     }
+    public void cargarItemsColaboracionPorBusqueda () {
+        tfBusqueda.textProperty()
+                  .addListener((observable, oldValue, newValue) -> {
+                      cargarColaboracionItem();
+                  });
+    }
+
+
 
     public static void main (String[] args) {
         launch(args);

@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="63.0" prefWidth="918.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.CuentaItemControlador">
+<VBox prefHeight="63.0" prefWidth="918.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.Items.CuentaItemControlador">
    <children>
       <HBox prefHeight="49.0" prefWidth="791.0">
          <children>
@@ -26,7 +26,7 @@
             <Label fx:id="lbCedula" alignment="CENTER" contentDisplay="CENTER" prefHeight="50.0" prefWidth="184.0" text="\@Cedúla profesional" />
             <HBox alignment="CENTER" prefHeight="50.0" prefWidth="114.0">
                <children>
-                  <Button fx:id="btEvaluar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="30.0" prefWidth="69.0" stylesheets="@Recursos/EstiloVentanas.css" text="Evaluar" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+                  <Button fx:id="btEvaluar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="30.0" prefWidth="69.0" stylesheets="@../Recursos/EstiloVentanas.css" text="Evaluar" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
                      <font>
                         <Font size="8.0" />
                      </font>
