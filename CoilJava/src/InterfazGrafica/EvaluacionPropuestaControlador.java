@@ -68,7 +68,7 @@ public class EvaluacionPropuestaControlador implements Initializable {
 
     private void agregarPuestaItem (ColaboracionDTO colaboracionDTO) {
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("../Items/PropuestaItem.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("../InterfazGrafica/Items/PropuestaItem.fxml"));
         try {
             Pane pane = fxmlLoader.load();
             PropuestaItemControlador propuestaItemControlador = fxmlLoader.getController();
