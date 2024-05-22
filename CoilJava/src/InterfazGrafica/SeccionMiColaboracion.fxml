@@ -49,7 +49,7 @@
                   </Label>
                </children>
             </VBox>
-            <VBox alignment="TOP_CENTER" layoutX="647.0" layoutY="37.0" prefHeight="200.0" prefWidth="210.0" styleClass="panel">
+            <VBox alignment="TOP_CENTER" layoutX="647.0" layoutY="37.0" onMouseClicked="#abrirSeccionEstudiantes" prefHeight="200.0" prefWidth="210.0" styleClass="panel">
                <children>
                   <ImageView fitHeight="112.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                      <image>

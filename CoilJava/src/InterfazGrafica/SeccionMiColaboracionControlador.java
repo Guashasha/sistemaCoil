@@ -1,6 +1,9 @@
 package InterfazGrafica;
 
+import DAO.ColaboracionDAO;
 import DTO.AcademicoDTO;
+import DTO.ColaboracionDTO;
+import Utilidades.ErrorDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
@@ -9,6 +12,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
 import java.io.IOException;
+import java.util.Optional;
 import java.util.Stack;
 
 public class SeccionMiColaboracionControlador {
@@ -17,6 +21,7 @@ public class SeccionMiColaboracionControlador {
     private BorderPane pnVentanaPrincipal;
     @FXML
     private BorderPane bpMiColaboracion;
+
 
     @FXML
     public void abrirVentanaSolicitudColaboracion () {
@@ -52,6 +57,23 @@ public class SeccionMiColaboracionControlador {
             ventanaActividadesControlador.setAcademicoDTO(this.academicoDTO);
             this.pnVentanaPrincipal.setCenter(apActividades);
         }
+    }
+
+    @FXML
+    private void abrirSeccionEstudiantes () {
+
+    }
+
+    private boolean tieneColaboracionVinculadaOActiva () {
+        ColaboracionDAO colaboracionDAO = new ColaboracionDAO();
+        Optional<ColaboracionDTO> optionalColaboracionDTO = Optional.empty();
+        try {
+            optionalColaboracionDTO = colaboracionDAO.getColaboracionAceptadaPorAcademico(this.academicoDTO);
+        }
+        catch (ErrorDAO error) {
+            mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
+        }
+        return optionalColaboracionDTO;
     }
 
     private void mostrarMensajeEmergente (String mensaje, Alert.AlertType tipoAlerta) {
