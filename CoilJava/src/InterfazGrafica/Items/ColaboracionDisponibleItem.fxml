@@ -14,6 +14,6 @@
       <Label fx:id="lbIdioma" layoutX="113.0" layoutY="102.0" prefHeight="17.0" prefWidth="45.0" styleClass="label-inicioSesion-naranja" text="\@idioma" />
    </children>
    <padding>
-      <Insets left="20.0" right="10.0" top="20.0" />
+      <Insets right="10.0" />
    </padding>
 </Pane>

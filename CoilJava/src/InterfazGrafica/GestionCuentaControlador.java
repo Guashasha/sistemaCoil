@@ -107,7 +107,7 @@ public class GestionCuentaControlador extends Application implements Initializab
                                    .remove(vBox);
             }
             catch (ErrorDAO errorDAO) {
-                if (errorDAO.getTipo() == ErrorDAO.Tipo.ERROR_CONEXION_INTERNET) {
+                if (errorDAO.getTipo() != ErrorDAO.Tipo.ERROR_CONEXION_INTERNET) {
                     lyInformacionCuenta.getChildren()
                                        .remove(vBox);
                 }
@@ -146,7 +146,7 @@ public class GestionCuentaControlador extends Application implements Initializab
     }
 
     private List<CuentaDTO> getCuentaEnEstadoPendiente () {
-        List<CuentaDTO> listaCuenta = null;
+        List<CuentaDTO> listaCuenta ;
         CuentaAuxiliar cuentaAuxiliar = new CuentaAuxiliar();
         listaCuenta = cuentaAuxiliar.getCuentasPorEstado(CuentaDTO.EstadoCuenta.pendiente.toString());
         return listaCuenta;

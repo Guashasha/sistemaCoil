@@ -91,6 +91,7 @@ public class AcademicoAuxiliar {
 
     public int agregarAcademicoConCuenta (AcademicoDTO academicoDTO, CuentaDTO cuentaDTO) throws ErrorDAO {
         try {
+            existe(academicoDTO);
             CuentaAuxiliar cuentaAuxiliar = new CuentaAuxiliar();
             cuentaAuxiliar.usuarioExistente(cuentaDTO);
             return ACADEMICO_DAO.agregarAcademicoConCuenta(academicoDTO, cuentaDTO);

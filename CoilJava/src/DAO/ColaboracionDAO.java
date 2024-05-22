@@ -717,11 +717,12 @@ public class ColaboracionDAO implements IColaboracionDAO {
         colaboracionDTO.setObjetivo(resultado.getString("objetivo"));
 
         PeriodoDTO periodoDTO = new PeriodoDTO();
-        periodoDTO.setFechaInicio(resultado.getDate("fechaInicio").
-                                           toLocalDate());
-        periodoDTO.setFechaFin(resultado.getDate("fechaFin").
-                                        toLocalDate());
-
+        if (resultado.getDate("fechaInicio") != null || resultado.getDate("fechaFin") != null) {
+            periodoDTO.setFechaInicio(resultado.getDate("fechaInicio").
+                                               toLocalDate());
+            periodoDTO.setFechaFin(resultado.getDate("fechaFin").
+                                            toLocalDate());
+        }
         colaboracionDTO.setPeriodo(periodoDTO);
         colaboracionDTO.setPerfilEstudiante(resultado.getString("perfilEstudiante"));
 

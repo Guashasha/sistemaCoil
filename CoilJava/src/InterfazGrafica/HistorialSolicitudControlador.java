@@ -62,7 +62,7 @@ public class HistorialSolicitudControlador {
                 }
             }
             else {
-                throw new IllegalArgumentException("No hay solicitudes registradas");
+                mostrarAlert("No hay solicitudes", Alert.AlertType.INFORMATION);
             }
         }
         catch (ErrorDAO errorDAO) {
