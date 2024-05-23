@@ -822,7 +822,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
         return Optional.ofNullable(fechaMasAntigua);
     }
 
-    private Map<String,int[]> ejecutarConsultaNumeralia (String consultaSQL, PeriodoDTO periodo) throws ErrorDAO{
+    private Map<String,int[]> ejecutarConsultaNumeralia (String consultaSQL, PeriodoDTO periodo) throws ErrorDAO {
         Map<String,int[]> numeralia = new HashMap<>();
         CallableStatement llamadaProcedimiento;
         ResultSet resultado;
@@ -884,5 +884,30 @@ public class ColaboracionDAO implements IColaboracionDAO {
             AdministradorBaseDatos.desconectar();
         }
         return Optional.ofNullable(colaboracion);
+    }
+
+    public int retirarEstudianteDeColaboracion(ColaboracionDTO colaboracion, EstudianteDTO estudiante) throws ErrorDAO {
+        String retirarEstudianteDeColaboracionSQL = "DELETE FROM estudiantescolaboracion WHERE idColaboracion = ? AND idEstudiante = ?";
+        int filasAfectadas;
+
+        try {
+            PreparedStatement retirarEstudianteDeColaboracion = AdministradorBaseDatos.getInstancia().
+                    prepareStatement(retirarEstudianteDeColaboracionSQL);
+            retirarEstudianteDeColaboracion.setInt(1, colaboracion.getIdColaboracion());
+            retirarEstudianteDeColaboracion.setInt(2, estudiante.getIdEstudiante());
+
+            filasAfectadas = retirarEstudianteDeColaboracion.executeUpdate();
+
+            retirarEstudianteDeColaboracion.close();
+        }
+        catch (SQLException error) {
+            BITACORA.fatal(error.getMessage());
+            throw new ErrorDAO("El error al retirar el estudiante " + estudiante.getMatricula() + " de la colaboración", ErrorDAO.Tipo.INSERCION);
+        }
+        finally {
+            AdministradorBaseDatos.desconectar();
+        }
+        return filasAfectadas;
+
     }
 }

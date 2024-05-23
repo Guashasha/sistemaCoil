@@ -1,5 +1,6 @@
 package InterfazGrafica;
 
+import DAO.ColaboracionAuxiliar;
 import DAO.EstudianteAuxiliar;
 import DAO.UniversidadAuxiliar;
 import DTO.ColaboracionDTO;
@@ -24,7 +25,7 @@ import java.util.Stack;
 public class AgregarEstudianteControlador {
     private static final Logger BITACORA = Logger.getLogger(AgregarEstudianteControlador.class);
     @FXML
-    private BorderPane pnConsultaEstudiantes;
+    private BorderPane pnAgregarEstudiante;
     @FXML
     private TextField tfBarraBusqueda;
     @FXML
@@ -33,7 +34,8 @@ public class AgregarEstudianteControlador {
     private BorderPane pnVentanaPrincipal;
     private ColaboracionDTO colaboracion;
     private UniversidadDTO universidad;
-    private List<Integer> idEstudiantesEnColaboracion;
+    private List<Integer> idsEstudiantesEnColaboracion = new ArrayList<>();
+    private ListaEstudiantesControlador listaEstudiantesControlador;
 
     public void setPnVentanaPrincipal (BorderPane pnVentanaPrincipal) {
         this.pnVentanaPrincipal = pnVentanaPrincipal;
@@ -51,8 +53,8 @@ public class AgregarEstudianteControlador {
         this.universidad = universidad;
     }
 
-    public void setIdEstudiantesEnColaboracion (List<Integer> idEstudiantesEnColaboracion) {
-        this.idEstudiantesEnColaboracion = idEstudiantesEnColaboracion;
+    public void setListaEstudiantesControlador(ListaEstudiantesControlador listaEstudiantesControlador) {
+        this.listaEstudiantesControlador = listaEstudiantesControlador;
     }
 
     @FXML
@@ -62,7 +64,62 @@ public class AgregarEstudianteControlador {
 
     @FXML
     private void registrarEstudiante () {
+        boolean cargarVentanaExitoso = false;
+        BorderPane pnRegistroEstudiante = null;
 
+        if (objetosValidos()) {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("RegistroEstudiante.fxml"));
+
+            try {
+                pnRegistroEstudiante = fxmlLoader.load();
+            }
+            catch (IOException error) {
+                System.out.println(error.getMessage());
+                BITACORA.info(error.getMessage());
+            }
+
+            if (pnRegistroEstudiante != null) {
+                cargarVentanaExitoso = agregarDatosVentanaRegistroEstudiante(fxmlLoader.getController());
+            }
+        }
+
+        if (!cargarVentanaExitoso) {
+            mostrarMensajeEmergente("Algo salió mal al abrir el registro de estudiantes. Inténtelo de nuevo más tarde", Alert.AlertType.ERROR);
+        }
+        else {
+            this.pnVentanaPrincipal.setCenter(pnRegistroEstudiante);
+        }
+    }
+
+    @FXML
+    private void regresar () {
+        this.listaEstudiantesControlador.cargarListaEstudiantes();
+        this.pnVentanaPrincipal
+                .setCenter(this.historialPaneles
+                        .pop());
+    }
+
+    private boolean agregarDatosVentanaRegistroEstudiante (RegistroEstudianteControlador controlador) {
+        boolean cargarDatosAVentanaExitoso = false;
+        UniversidadAuxiliar universidadAuxiliar = new UniversidadAuxiliar();
+        Optional<UniversidadDTO> universidadOptional = Optional.empty();
+
+        try {
+            universidadOptional = universidadAuxiliar.getUniversidadPorId(this.universidad.getId());
+        }
+        catch (ErrorDAO error) {
+            mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
+        }
+
+        if (universidadOptional.isPresent()) {
+            this.historialPaneles.push(this.pnAgregarEstudiante);
+            controlador.setUniversidad(universidadOptional.get());
+            controlador.setPnVentanaPrincipal(this.pnVentanaPrincipal);
+            controlador.setHistorialPaneles(this.historialPaneles);
+            cargarDatosAVentanaExitoso = true;
+        }
+
+        return cargarDatosAVentanaExitoso;
     }
 
     private boolean objetosValidos () {
@@ -72,14 +129,18 @@ public class AgregarEstudianteControlador {
     public void cargarConsultaGeneral () {
         if (objetosValidos()) {
             EstudianteAuxiliar estudianteAuxiliar = new EstudianteAuxiliar();
-            List<EstudianteDTO> listaEstudiantes = new ArrayList<>();
+            List<EstudianteDTO> listaEstudiantes = null;
+
             try {
                 listaEstudiantes = estudianteAuxiliar.getEstudiantePorUniversidad(this.universidad.getId());
             }
             catch (ErrorDAO error) {
                 mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
             }
-            mostrarConsulta(listaEstudiantes);
+
+            if (listaEstudiantes != null) {
+                mostrarConsulta(listaEstudiantes);
+            }
         }
         else {
             mostrarMensajeEmergente("Algo salió mal. Inténtelo de nuevo más tarde", Alert.AlertType.ERROR);
@@ -87,13 +148,12 @@ public class AgregarEstudianteControlador {
     }
 
     private void mostrarConsulta (List<EstudianteDTO> listaEstudiantes) {
-        if (!listaEstudiantes.isEmpty()) {
-            this.historialPaneles
-                    .push(this.pnConsultaEstudiantes);
-        }
+        llenarIdsEstudiantes();
+
+        this.vboxResultadosBusqueda.getChildren().clear();
 
         for (EstudianteDTO estudiante : listaEstudiantes) {
-            if (!idEstudiantesEnColaboracion.contains(estudiante.getIdEstudiante())) {
+            if (!idsEstudiantesEnColaboracion.contains(estudiante.getIdEstudiante())) {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AgregarEstudianteItem.fxml"));
                 HBox hboxFila;
 
@@ -126,11 +186,30 @@ public class AgregarEstudianteControlador {
             controlador.setUniversidad(universidadOptional.get());
             controlador.setColaboracion(this.colaboracion);
             controlador.setEstudiante(estudiante);
-            controlador.setPnVentanaPrincipal(this.pnVentanaPrincipal);
-            controlador.setHistorialPaneles(this.historialPaneles);
+            controlador.setAgregarEstudianteControlador(this);
         }
         else {
             throw new ErrorDAO("Algo salió mal. Inténtelo de nuevo más tarde", ErrorDAO.Tipo.CONSULTA);
+        }
+    }
+
+    private void llenarIdsEstudiantes () {
+        ColaboracionAuxiliar colaboracionAuxiliar = new ColaboracionAuxiliar();
+        List<EstudianteDTO> listaEstudiantes = null;
+
+        try {
+            listaEstudiantes = colaboracionAuxiliar.getListaDeEstudiantes(this.colaboracion);
+        }
+        catch (ErrorDAO error) {
+            mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
+        }
+
+        if (listaEstudiantes != null) {
+            for (EstudianteDTO estudiante : listaEstudiantes) {
+                if (estudiante.getIdUniversidad() == this.universidad.getId()) {
+                    this.idsEstudiantesEnColaboracion.add(estudiante.getIdEstudiante());
+                }
+            }
         }
     }
 

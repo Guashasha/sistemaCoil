@@ -10,12 +10,14 @@ import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.util.Optional;
 import java.util.Stack;
 
 public class SeccionMiColaboracionAcademicoControlador {
+    private static final Logger BITACORA = Logger.getLogger(SeccionMiColaboracionAcademicoControlador.class);
     private AcademicoDTO academicoDTO;
     private Stack<Pane> historialPaneles = new Stack<>();
     private BorderPane pnVentanaPrincipal;
@@ -63,7 +65,28 @@ public class SeccionMiColaboracionAcademicoControlador {
     private void abrirSeccionEstudiantes () {
         if (obtenerColaboracionVinculadaOActiva().isPresent()) {
             ColaboracionDTO colaboracion = obtenerColaboracionVinculadaOActiva().get();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ListaEstudiantes.fxml"));
+            BorderPane pnListaEstudiantes = null;
 
+            try {
+                pnListaEstudiantes = fxmlLoader.load();
+            }
+            catch (IOException error) {
+                BITACORA.info(error.getMessage());
+                mostrarMensajeEmergente("Algo salió mal al cargar la sección de estudiantes", Alert.AlertType.ERROR);
+            }
+
+            if (pnListaEstudiantes != null) {
+                ListaEstudiantesControlador controlador = fxmlLoader.getController();
+                this.historialPaneles.push(bpMiColaboracion);
+
+                controlador.setPnVentanaPrincipal(this.pnVentanaPrincipal);
+                controlador.setHistorialPaneles(this.historialPaneles);
+                controlador.setAcademico(this.academicoDTO);
+                controlador.setColaboracion(colaboracion);
+                controlador.cargarListaEstudiantes();
+                this.pnVentanaPrincipal.setCenter(pnListaEstudiantes);
+            }
         }
         else {
             mostrarMensajeEmergente("No es parte de una colaboración actualmente\n", Alert.AlertType.WARNING);

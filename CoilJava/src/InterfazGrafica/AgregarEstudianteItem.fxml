@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox alignment="CENTER_LEFT" prefHeight="51.0" prefWidth="913.0" styleClass="barra-titulo" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.AgregarEstudianteItemControlador">
+<HBox alignment="CENTER_LEFT" prefHeight="51.0" prefWidth="913.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.AgregarEstudianteItemControlador">
    <children>
       <Label fx:id="lbMatricula" alignment="CENTER" prefHeight="50.0" prefWidth="218.0" text="Matricula">
          <font>

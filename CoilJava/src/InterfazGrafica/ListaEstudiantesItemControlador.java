@@ -1,15 +1,17 @@
 package InterfazGrafica;
 
+import DAO.ColaboracionAuxiliar;
 import DTO.ColaboracionDTO;
 import DTO.EstudianteDTO;
 import DTO.UniversidadDTO;
+import Utilidades.ErrorDAO;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import org.apache.log4j.Logger;
-import javafx.scene.image.ImageView;
 import java.util.Stack;
 
 public class ListaEstudiantesItemControlador {
@@ -20,15 +22,12 @@ public class ListaEstudiantesItemControlador {
     private Label lbNombre;
     @FXML
     private Label lbUniversidad;
-    @FXML
-    private ImageView imgRetirar;
-    @FXML
-    private Button btnEditar;
     private Stack<Pane> historialPaneles = new Stack<>();
     private BorderPane pnVentanaPrincipal;
     private ColaboracionDTO colaboracion;
     private EstudianteDTO estudiante;
     private UniversidadDTO universidad;
+    private ListaEstudiantesControlador listaEstudiantesControlador;
 
     public void setPnVentanaPrincipal (BorderPane pnVentanaPrincipal) {
         this.pnVentanaPrincipal = pnVentanaPrincipal;
@@ -57,13 +56,53 @@ public class ListaEstudiantesItemControlador {
                 .setText(universidad.getNombre());
     }
 
+    public void setListaEstudiantesControlador(ListaEstudiantesControlador listaEstudiantesControlador) {
+        this.listaEstudiantesControlador = listaEstudiantesControlador;
+    }
+
     @FXML
     private void retirarEstudiante () {
-
+        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+        alerta.setContentText("El alumno se retirará de la colaboración");
+        alerta.setHeaderText(null);
+        alerta.showAndWait()
+                .ifPresent(response -> {
+                    if (response == ButtonType.OK) {
+                        retirarEstudianteDeColaboracion();
+                    }
+                });
     }
 
     @FXML
     private void editarEstudiante () {
 
+    }
+
+    private void retirarEstudianteDeColaboracion () {
+        ColaboracionAuxiliar colaboracionAuxiliar = new ColaboracionAuxiliar();
+        int filasAfectadas = 0;
+
+        try {
+            filasAfectadas = colaboracionAuxiliar.retirarEstudianteDeColaboracion(this.colaboracion,this.estudiante);
+        }
+        catch (ErrorDAO error) {
+            mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
+        }
+
+        if (filasAfectadas == 1) {
+            mostrarMensajeEmergente("Se ha retirado el estudiante de la colaboración", Alert.AlertType.INFORMATION);
+            this.listaEstudiantesControlador
+                    .cargarListaEstudiantes();
+        }
+        else {
+            mostrarMensajeEmergente("Algo salió mal al retirar el estudiante de la colaboración. Inténtelo de nuevo más tarde", Alert.AlertType.WARNING);
+        }
+    }
+
+    private void mostrarMensajeEmergente (String mensaje, Alert.AlertType tipoAlerta) {
+        Alert alerta = new Alert(tipoAlerta);
+        alerta.setContentText(mensaje);
+        alerta.setHeaderText(null);
+        alerta.show();
     }
 }

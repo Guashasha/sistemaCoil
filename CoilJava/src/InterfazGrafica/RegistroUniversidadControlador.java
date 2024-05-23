@@ -69,6 +69,9 @@ public class RegistroUniversidadControlador implements Initializable {
                 mostrarMensajeEmergente("Algo salió mal. Intentelo de nuevo más tarde", Alert.AlertType.ERROR);
             }
         }
+        else {
+            etiquetarCamposVacios();
+        }
     }
 
     @FXML
@@ -122,12 +125,12 @@ public class RegistroUniversidadControlador implements Initializable {
         String nombre = tfNombre.getText();
         boolean nombreVacio = nombre == null || nombre.isBlank();
         boolean paisVacio = cmbPaises.getValue() == null;
-        etiquetarCamposVacios(nombreVacio,paisVacio);
         return nombreVacio || paisVacio;
     }
 
-    private void etiquetarCamposVacios (boolean nombreVacio, boolean paisVacio) {
-        txtObligatorioNombre.setVisible(nombreVacio);
-        txtObligatorioPais.setVisible(paisVacio);
+    private void etiquetarCamposVacios () {
+        String nombre = tfNombre.getText();
+        txtObligatorioNombre.setVisible(nombre == null || nombre.isBlank());
+        txtObligatorioPais.setVisible(this.cmbPaises.getValue() == null);
     }
 }

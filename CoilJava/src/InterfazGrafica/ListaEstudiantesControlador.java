@@ -10,7 +10,6 @@ import Utilidades.ErrorDAO;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -22,10 +21,9 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.apache.log4j.Logger;
 import java.io.IOException;
-import java.net.URL;
 import java.util.*;
 
-public class ListaEstudiantesControlador extends Application implements Initializable {
+public class ListaEstudiantesControlador extends Application {
     private static final Logger BITACORA = Logger.getLogger(ListaEstudiantesControlador.class);
     @FXML
     private BorderPane pnListaEstudiantes;
@@ -35,7 +33,6 @@ public class ListaEstudiantesControlador extends Application implements Initiali
     private Stack<Pane> historialPaneles = new Stack<>();
     private AcademicoDTO academico;
     private ColaboracionDTO colaboracion;
-    private List<Integer> idEstudiantesEnColaboracion = new ArrayList<>();
 
     public void setPnVentanaPrincipal (BorderPane pnVentanaPrincipal) {
         this.pnVentanaPrincipal = pnVentanaPrincipal;
@@ -51,23 +48,6 @@ public class ListaEstudiantesControlador extends Application implements Initiali
 
     public void setAcademico(AcademicoDTO academico) {
         this.academico = academico;
-    }
-
-    public static void main(String[] args) {
-        launch(args);
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        AcademicoDTO ac = new AcademicoDTO(1,"profe","d","a",1,"1",null,"economico-administrativo","correo",null,null,1);
-        this.academico = ac;
-
-        ColaboracionDTO co = new ColaboracionDTO();
-        co.setIdColaboracion(15);
-
-        this.colaboracion = co;
-
-        cargarListaEstudiantes();
     }
 
     @Override
@@ -103,7 +83,7 @@ public class ListaEstudiantesControlador extends Application implements Initiali
             }
             catch (IOException error) {
                 BITACORA.info(error.getMessage());
-                mostrarMensajeEmergente("Algo salió mal al cargar la sección a añadir estudiante", Alert.AlertType.ERROR);
+                mostrarMensajeEmergente("Algo salió mal al cargar la sección: Agregar estudiante.  Inténtelo de nuevo más tarde", Alert.AlertType.ERROR);
             }
 
             if (pnAgregarEstudiante != null) {
@@ -112,8 +92,20 @@ public class ListaEstudiantesControlador extends Application implements Initiali
             }
         }
         else {
-            mostrarMensajeEmergente("Algo salió mal. Inténtelo de nuevo más tarde", Alert.AlertType.ERROR);
+            mostrarMensajeEmergente("Algo salió mal al cargar la sección: Agregar estudiante. Inténtelo de nuevo más tarde", Alert.AlertType.ERROR);
         }
+    }
+
+    @FXML
+    private void regresar () {
+        if (this.historialPaneles
+                .peek() == this.pnListaEstudiantes) {
+            this.historialPaneles
+                    .pop();
+        }
+        this.pnVentanaPrincipal
+                .setCenter(this.historialPaneles
+                        .pop());
     }
 
     private boolean objetosValidos () {
@@ -138,10 +130,12 @@ public class ListaEstudiantesControlador extends Application implements Initiali
     }
 
     private void mostrarListaEstudiantes (List<EstudianteDTO> listaEstudiantes) {
-        if (!listaEstudiantes.isEmpty()) {
+        if (!listaEstudiantes.isEmpty() && historialPaneles.peek() != this.pnListaEstudiantes) {
             this.historialPaneles
                     .push(this.pnListaEstudiantes);
         }
+
+        this.vboxListaEstudiantes.getChildren().clear();
 
         for (EstudianteDTO estudiante : listaEstudiantes) {
             if (estudiante.getIdUniversidad() == this.academico.getIdUniversidad()) {
@@ -164,8 +158,6 @@ public class ListaEstudiantesControlador extends Application implements Initiali
 
                 this.vboxListaEstudiantes
                         .getChildren().add(hboxFila);
-                this.idEstudiantesEnColaboracion
-                        .add(estudiante.getIdEstudiante());
             }
         }
     }
@@ -181,6 +173,7 @@ public class ListaEstudiantesControlador extends Application implements Initiali
             controlador.setEstudiante(estudiante);
             controlador.setPnVentanaPrincipal(this.pnVentanaPrincipal);
             controlador.setHistorialPaneles(this.historialPaneles);
+            controlador.setListaEstudiantesControlador(this);
         }
         else {
             throw new ErrorDAO("Algo salió mal. Inténtelo más tarde", ErrorDAO.Tipo.CONSULTA);
@@ -195,7 +188,7 @@ public class ListaEstudiantesControlador extends Application implements Initiali
         controlador.setColaboracion(this.colaboracion);
         controlador.setUniversidad(new UniversidadDTO(this.academico
                 .getIdUniversidad()));
-        controlador.setIdEstudiantesEnColaboracion(this.idEstudiantesEnColaboracion);
+        controlador.setListaEstudiantesControlador(this);
         controlador.cargarConsultaGeneral();
     }
 
