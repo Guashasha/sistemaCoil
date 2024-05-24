@@ -61,7 +61,7 @@ public class ConfiguracionPrueba {
         ejecutarInstruccionSQL("DELETE FROM retroalimentacionColaboracion;");
     }
     public static void borrarDatosTablaSolicitaParticiparColaboracion () {
-        ejecutarInstruccionSQL("DELETE FROM solicitaparticiparcolaboracion;");
+        ejecutarInstruccionSQL("DELETE FROM solicitaParticiparColaboracion;");
     }
     public static void borrarDatosTablaPais () {
         ejecutarInstruccionSQL("DELETE FROM pais;");
@@ -69,12 +69,12 @@ public class ConfiguracionPrueba {
     }
 
     public static void borrarDatosTablaCalendarioActividades () {
-        ejecutarInstruccionSQL("DELETE FROM calendarioactividades;");
+        ejecutarInstruccionSQL("DELETE FROM calendarioActividades;");
     }
 
     public static void ejecutarInstruccionSQL (String instruccionSQL) {
         try {
-            String urlBaseDatos = "jdbc:mariadb://localhost:3307/COIL";
+            String urlBaseDatos = "jdbc:mariadb://localhost:3306/COIL";
             String usuario = "CarrionMartinezPale";
             String contrasena = "cremaxx";
 

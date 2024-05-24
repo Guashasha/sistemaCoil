@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="883.0" stylesheets="@Recursos/EstiloVentanas.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.EvaluacionPropuestaControlador">
+   <center>
+      <VBox fx:id="pnPropuestaPlantilla" prefHeight="646.0" prefWidth="883.0" BorderPane.alignment="CENTER">
+         <children>
+            <ScrollPane prefHeight="686.0" prefWidth="883.0">
+               <content>
+                  <VBox fx:id="vboxContenedor" alignment="CENTER" prefHeight="34.0" prefWidth="882.0">
+                     <padding>
+                        <Insets bottom="5.0" />
+                     </padding>
+                  </VBox>
+               </content>
+            </ScrollPane>
+         </children>
+      </VBox>
+   </center>
+   <top>
+      <HBox prefHeight="74.0" prefWidth="883.0" styleClass="label-titulo" stylesheets="@Recursos/EstiloLabels.css" BorderPane.alignment="CENTER">
+         <children>
+            <Pane onMouseClicked="#regresar" prefHeight="60.0" prefWidth="78.0" style="-fx-cursor: hand;">
+               <children>
+                  <Circle fill="WHITE" layoutX="38.0" layoutY="26.0" radius="29.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                  <ImageView fitHeight="38.0" fitWidth="41.0" layoutX="15.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Recursos/flechaRegresoNaranja.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="55.0" prefWidth="776.0" text="Evaluación de colaboración" textFill="WHITE">
+               <font>
+                  <Font name="Arial Black" size="30.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+   </top>
+</BorderPane>

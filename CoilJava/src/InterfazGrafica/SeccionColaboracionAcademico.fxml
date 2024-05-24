@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="apSeccionColaboracion" prefHeight="759.0" prefWidth="973.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.SeccionColaboracionAcademicoControlador">
+   <children>
+      <Label alignment="CENTER" layoutX="42.0" layoutY="30.0" prefHeight="71.0" prefWidth="898.0" styleClass="label-titulo" stylesheets="@Recursos/EstiloLabels.css" text="Sección de colaboración" />
+      <VBox alignment="TOP_CENTER" layoutX="119.0" layoutY="127.0" onMouseClicked="#abrirColaboracionesDisponibbles" prefHeight="200.0" prefWidth="214.0" styleClass="panel" stylesheets="@Recursos/EstiloLabels.css">
+         <children>
+            <ImageView fitHeight="101.0" fitWidth="174.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Recursos/mundo.png" />
+               </image>
+            </ImageView>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="212.0" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" text="Ver colaboraciones">
+               <font>
+                  <Font name="Arial" size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </Label>
+            <Label styleClass="label-inicioSesion-naranja" text="Disponibles">
+               <font>
+                  <Font name="Arial" size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="2.5" />
+               </VBox.margin>
+            </Label>
+         </children>
+      </VBox>
+      <VBox alignment="TOP_CENTER" layoutX="122.0" layoutY="368.0" onMouseClicked="#abrirMiColaboracion" prefHeight="200.0" prefWidth="214.0" styleClass="panel" stylesheets="@Recursos/EstiloLabels.css">
+         <children>
+            <ImageView fitHeight="101.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Recursos/participar.png" />
+               </image>
+            </ImageView>
+            <Label styleClass="label-inicioSesion-naranja" text="Mi">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Arial" size="20.0" />
+               </font>
+            </Label>
+            <Label styleClass="label-inicioSesion-naranja" text="Colaboración">
+               <font>
+                  <Font name="Arial" size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="2.5" />
+               </VBox.margin>
+            </Label>
+         </children>
+      </VBox>
+      <VBox alignment="TOP_CENTER" layoutX="381.0" layoutY="127.0" onMouseClicked="#abrirCrearPropuestaColaboracion" prefHeight="200.0" prefWidth="214.0" styleClass="panel" stylesheets="@Recursos/EstiloLabels.css">
+         <children>
+            <ImageView fitHeight="101.0" fitWidth="178.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Recursos/propuesta.png" />
+               </image>
+            </ImageView>
+            <Label alignment="TOP_CENTER" contentDisplay="CENTER" styleClass="label-inicioSesion-rosado" text="Crear propuesta">
+               <font>
+                  <Font name="Arial" size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </Label>
+            <Label alignment="TOP_CENTER" contentDisplay="CENTER" styleClass="label-inicioSesion-rosado" text="de colaboración">
+               <font>
+                  <Font name="Arial" size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="2.5" />
+               </VBox.margin>
+            </Label>
+         </children>
+      </VBox>
+      <VBox alignment="TOP_CENTER" layoutX="640.0" layoutY="127.0" onMouseClicked="#abrirCompletarDatos" prefHeight="200.0" prefWidth="214.0" styleClass="panel" stylesheets="@Recursos/EstiloLabels.css">
+         <children>
+            <ImageView fitHeight="101.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Recursos/seguimiento.png" />
+               </image>
+            </ImageView>
+            <Label onMouseClicked="#abrirCompletarDatos" styleClass="label-inicioSesion-naranja" text="Completar datos">
+               <font>
+                  <Font name="Arial" size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </Label>
+            <Label styleClass="label-inicioSesion-naranja" text="de colaboración">
+               <font>
+                  <Font name="Arial" size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="2.5" />
+               </VBox.margin>
+            </Label>
+         </children>
+      </VBox>
+      <VBox alignment="TOP_CENTER" layoutX="381.0" layoutY="368.0" prefHeight="200.0" prefWidth="214.0" styleClass="panel" stylesheets="@Recursos/EstiloLabels.css">
+         <children>
+            <ImageView fitHeight="101.0" fitWidth="174.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Recursos/folder.png" />
+               </image>
+            </ImageView>
+            <Label styleClass="label-inicioSesion-rosado" text="Ver mis">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </Label>
+            <Label styleClass="label-inicioSesion-rosado" text="postulaciones">
+               <font>
+                  <Font name="Arial" size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="2.5" />
+               </VBox.margin>
+            </Label>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

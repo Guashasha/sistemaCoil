@@ -1,7 +1,5 @@
 package Utilidades;
 
-import org.apache.log4j.Logger;
-
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;

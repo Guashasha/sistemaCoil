@@ -5,31 +5,49 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="389.0" prefWidth="504.0" styleClass="root" stylesheets="@Recursos/EstiloVentanas.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.EditarUniversidadControlador">
-   <children>
-      <Text fx:id="Titulo" layoutX="44.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Configuración de universidadDTO">
-         <font>
-            <Font name="System Bold" size="30.0" />
-         </font>
-      </Text>
-      <Text layoutX="25.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Text>
-      <Text layoutX="26.0" layoutY="232.0" strokeType="OUTSIDE" strokeWidth="0.0" text="País">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Text>
-      <TextField fx:id="tfNombre" layoutX="26.0" layoutY="129.0" onKeyTyped="#limitarCaracteres" prefHeight="40.0" prefWidth="462.0" promptText="Nombre de la institución universitaria" />
-      <ComboBox fx:id="cmbPaises" layoutX="26.0" layoutY="245.0" prefHeight="40.0" prefWidth="462.0" />
-      <Label fx:id="txtObligatorioNombre" layoutX="106.0" layoutY="99.0" text="*Campo obligatorio" textFill="RED" visible="false" />
-      <Label fx:id="txtObligatorioPais" layoutX="68.0" layoutY="215.0" text="*Campo obligatorio" textFill="RED" visible="false" />
-      <Button fx:id="btnGuardarCambios" layoutX="262.0" layoutY="344.0" mnemonicParsing="false" onAction="#editarUniversidad" styleClass="button-principal" text="Guardar cambios" textFill="WHITE" />
-      <Button fx:id="btnCancelar" layoutX="415.0" layoutY="344.0" mnemonicParsing="false" onAction="#cancelarEdicion" styleClass="button-secundario" text="Cancelar" />
-   </children>
-</AnchorPane>
+
+<BorderPane prefHeight="759.0" prefWidth="973.0" styleClass="root" stylesheets="@Recursos/EstiloVentanas.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.EditarUniversidadControlador">
+   <center>
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="510.0" prefWidth="546.0" styleClass="root">
+         <children>
+            <Text fx:id="Titulo" layoutX="18.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Configuración de universidad">
+               <font>
+                  <Font name="Franklin Gothic Demi" size="40.0" />
+               </font>
+            </Text>
+            <Text layoutX="18.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre">
+               <font>
+                  <Font name="Franklin Gothic Book" size="25.0" />
+               </font>
+            </Text>
+            <Text layoutX="21.0" layoutY="264.0" strokeType="OUTSIDE" strokeWidth="0.0" text="País">
+               <font>
+                  <Font name="Franklin Gothic Book" size="25.0" />
+               </font>
+            </Text>
+            <TextField fx:id="tfNombre" layoutX="19.0" layoutY="152.0" onKeyTyped="#limitarCaracteres" prefHeight="50.0" prefWidth="508.0" promptText="Nombre de la institución universitaria">
+               <font>
+                  <Font name="Franklin Gothic Book" size="18.0" />
+               </font>
+            </TextField>
+            <ComboBox fx:id="cmbPaises" layoutX="21.0" layoutY="281.0" prefHeight="40.0" prefWidth="503.0" />
+            <Label fx:id="txtObligatorioNombre" layoutX="109.0" layoutY="108.0" text="*Campo obligatorio" textFill="RED" visible="false">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="txtObligatorioPais" layoutX="73.0" layoutY="241.0" text="*Campo obligatorio" textFill="RED" visible="false">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Button fx:id="btnGuardarCambios" layoutX="211.0" layoutY="434.0" mnemonicParsing="false" onAction="#editarUniversidad" prefHeight="40.0" prefWidth="156.0" styleClass="button-principal" text="Guardar cambios" textFill="WHITE" />
+            <Button fx:id="btnCancelar" layoutX="409.0" layoutY="434.0" mnemonicParsing="false" onAction="#cancelarEdicion" prefHeight="40.0" prefWidth="100.0" styleClass="button-secundario" text="Cancelar" />
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>

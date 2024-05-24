@@ -10,15 +10,17 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Stack;
 
 public class EditarUniversidadControlador implements Initializable {
-    private UniversidadDTO universidadDTOActual;
-    private PaisDTO paisDTOActual;
+    private UniversidadDTO universidadActual;
+    private PaisDTO paisActual;
     @FXML
     private Label txtObligatorioNombre;
     @FXML
@@ -27,25 +29,23 @@ public class EditarUniversidadControlador implements Initializable {
     private TextField tfNombre;
     @FXML
     private ComboBox<String> cmbPaises;
-    @FXML
-    private Button btnCancelar;
-    @FXML
-    private Button btnGuardarCambios;
+    private Stack<Pane> historialPaneles = new Stack<>();
+    private BorderPane pnVentanaPrincipal;
 
-    public void setUniversidadActual(UniversidadDTO universidadDTOActual) {
-        this.universidadDTOActual = universidadDTOActual;
+    public void setPnVentanaPrincipal (BorderPane pnVentanaPrincipal) {
+        this.pnVentanaPrincipal = pnVentanaPrincipal;
+    }
+
+    public void setHistorialPaneles (Stack<Pane> historialPaneles) {
+        this.historialPaneles = historialPaneles;
+    }
+
+    public void setUniversidadActual (UniversidadDTO universidadDTOActual) {
+        this.universidadActual = universidadDTOActual;
     }
 
     public void setPaisActual(PaisDTO paisDTOActual) {
-        this.paisDTOActual = paisDTOActual;
-    }
-
-    public TextField getTfNombre() {
-        return tfNombre;
-    }
-
-    public ComboBox<String> getCmbPaises() {
-        return cmbPaises;
+        this.paisActual = paisDTOActual;
     }
 
     @Override
@@ -57,18 +57,15 @@ public class EditarUniversidadControlador implements Initializable {
     private void editarUniversidad () {
         if (!objetosValidos()) {
             mostrarMensajeEmergente("Algo salió mal. Vuelva a intentarlo más tarde", Alert.AlertType.ERROR);
-            Stage window = (Stage) btnGuardarCambios.getScene().getWindow();
-            window.close();
         }
-
-        if (!camposVacios() && !camposIguales()) {
+        else if (!camposVacios() && !camposIguales()) {
             UniversidadDTO universidadDTO = new UniversidadDTO(tfNombre.getText());
             PaisDTO paisDTO = new PaisDTO(cmbPaises.getValue());
             int filasAfectadas;
             UniversidadAuxiliar universidadAuxiliar = new UniversidadAuxiliar();
 
             try {
-                filasAfectadas = universidadAuxiliar.editarUniversidad(this.universidadDTOActual, universidadDTO, paisDTO);
+                filasAfectadas = universidadAuxiliar.editarUniversidad(this.universidadActual, universidadDTO, paisDTO);
             }
             catch (ErrorDAO error) {
                 mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.WARNING);
@@ -76,8 +73,8 @@ public class EditarUniversidadControlador implements Initializable {
             }
 
             if (filasAfectadas == 1) {
-                this.universidadDTOActual.setNombre(universidadDTO.getNombre());
-                this.paisDTOActual.setNombre(paisDTO.getNombre());
+                this.universidadActual.setNombre(universidadDTO.getNombre());
+                this.paisActual.setNombre(paisDTO.getNombre());
                 mostrarMensajeEmergente("Se han guardado los cambios exitosamente", Alert.AlertType.INFORMATION);
             }
             else {
@@ -96,21 +93,23 @@ public class EditarUniversidadControlador implements Initializable {
         }
     }
 
-    private boolean objetosValidos () {
-        return this.universidadDTOActual != null && this.paisDTOActual != null;
-    }
-
     @FXML
     private void cancelarEdicion () {
         Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
         alerta.setContentText("No se guardarán los cambios");
         alerta.setHeaderText(null);
-        alerta.showAndWait().ifPresent(response -> {
+        alerta.showAndWait()
+                .ifPresent(response -> {
             if (response == ButtonType.OK) {
-                Stage window = (Stage) btnCancelar.getScene().getWindow();
-                window.close();
+                this.pnVentanaPrincipal
+                        .setCenter(this.historialPaneles
+                        .get(0));
             }
         });
+    }
+
+    private boolean objetosValidos () {
+        return this.universidadActual != null && this.paisActual != null;
     }
 
     private void llenarComboBoxPaises () {
@@ -134,8 +133,8 @@ public class EditarUniversidadControlador implements Initializable {
     }
 
     private boolean camposVacios() {
-        boolean nombreVacio = tfNombre.getText().
-                isBlank();
+        String nombre = tfNombre.getText();
+        boolean nombreVacio = nombre == null || nombre.isBlank();
         boolean paisVacio = cmbPaises.getValue() == null;
         etiquetarCamposVacios(nombreVacio,paisVacio);
         return nombreVacio || paisVacio;
@@ -150,8 +149,19 @@ public class EditarUniversidadControlador implements Initializable {
         String nuevoNombre = tfNombre.getText().
                 trim();
         String nuevoPais = cmbPaises.getValue();
-        return nuevoNombre.equals(this.universidadDTOActual.
-                getNombre()) && nuevoPais.equals(this.paisDTOActual.
+        return nuevoNombre.equals(this.universidadActual.
+                getNombre()) && nuevoPais.equals(this.paisActual.
                 getNombre());
+    }
+
+    public void autocompletarCampos () {
+        if (objetosValidos()) {
+            this.tfNombre
+                    .setText(this.universidadActual
+                            .getNombre());
+            this.cmbPaises
+                    .setValue(this.paisActual
+                            .getNombre());
+        }
     }
 }

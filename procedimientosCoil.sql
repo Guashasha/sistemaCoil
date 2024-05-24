@@ -355,6 +355,28 @@ BEGIN
 	GROUP BY areaAcademica; 
 END //
 
+DROP PROCEDURE IF EXISTS registrar_cuenta_administrador//
+CREATE PROCEDURE registrar_cuenta_administrador (
+    IN p_nombre VARCHAR(20),
+    IN p_apellidoPaterno VARCHAR(20),
+    IN p_apellidoMaterno VARCHAR(20),
+    IN p_universidad INT,
+    IN p_nombreUsuario VARCHAR(50),
+    IN p_contrasena VARCHAR(300)
+)
+BEGIN
+    DECLARE v_contrasena_encriptada VARCHAR(64);
+    DECLARE v_idPersona INT;
+    SET v_contrasena_encriptada = SHA2(p_contrasena, 256);
+
+    INSERT INTO persona (nombre, apellidoPaterno, apellidoMaterno, universidad)
+    VALUES (p_nombre, p_apellidoPaterno, p_apellidoMaterno, p_universidad);
+    
+    SET v_idPersona = LAST_INSERT_ID();
+
+    INSERT INTO cuenta (idPersona, nombreUsuario, contrasena, tipo, estado)
+    VALUES (v_idPersona, p_nombreUsuario, v_contrasena_encriptada, 'administrador', 'aceptada');
+END //
 
 DELIMITER ;
 

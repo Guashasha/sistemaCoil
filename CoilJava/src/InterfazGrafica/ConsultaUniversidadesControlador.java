@@ -8,44 +8,38 @@ import Utilidades.ErrorDAO;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.apache.log4j.Logger;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
 
-public class ConsultaUniversidadesControlador extends Application implements Initializable {
+public class ConsultaUniversidadesControlador extends Application {
     private static final Logger BITACORA = Logger.getLogger(ConsultaUniversidadesControlador.class);
     @FXML
     private VBox vboxConsultaUniversidades;
     @FXML
     private TextField tfBarraBusqueda;
     @FXML
-    private Button btnRegistrarUniversidad;
+    private BorderPane pnConsultaUniversidades;
+    private final Stack<Pane> historialPaneles = new Stack<>();
+    private BorderPane pnVentanaPrincipal;
 
-    public static void main (String[] args) {
-        launch(args);
+    public void setPnVentanaPrincipal (BorderPane pnVentanaPrincipal) {
+        this.pnVentanaPrincipal = pnVentanaPrincipal;
     }
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        consultaTodasAlfabeticamente();
-    }
-
-    @Override
-    public void start(Stage stage){
+    public void start (Stage stage){
         Parent root = null;
 
         try {
@@ -64,18 +58,6 @@ public class ConsultaUniversidadesControlador extends Application implements Ini
         else {
             BITACORA.error("Ocurrió un error al iniciar la ventana windowConsultaUniversidades");
         }
-    }
-
-    private void consultaTodasAlfabeticamente() {
-        UniversidadAuxiliar universidadAuxiliar = new UniversidadAuxiliar();
-        List<UniversidadDTO> listaUniversidades = new ArrayList<>();
-        try {
-            listaUniversidades = universidadAuxiliar.getTodasAlfabeticamente();
-        }
-        catch (ErrorDAO error) {
-            mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
-        }
-        mostrarConsulta(listaUniversidades);
     }
 
     @FXML
@@ -97,50 +79,77 @@ public class ConsultaUniversidadesControlador extends Application implements Ini
 
     @FXML
     private void registrarUniversidad () {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("RegistroUniversidad.fxml"));
+        BorderPane pnRegistroUniversidad = null;
+
         try {
-            Stage stagePrincipal = (Stage)  btnRegistrarUniversidad.getScene().getWindow();
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("RegistroUniversidad.fxml"));
-            Parent root = fxmlLoader.load();
-            Scene nuevaEscena = new Scene(root);
-            stagePrincipal.setScene(nuevaEscena);
+            pnRegistroUniversidad = fxmlLoader.load();
         }
         catch (IOException error) {
             BITACORA.info(error.getMessage());
-            mostrarMensajeEmergente("Algo salió mal, inténtelo de nuevo más tarde", Alert.AlertType.ERROR);
+            mostrarMensajeEmergente("Algo salió mal al cargar el registro de Universidades", Alert.AlertType.ERROR);
         }
+
+        if (pnRegistroUniversidad != null) {
+            this.historialPaneles.push(this.pnConsultaUniversidades);
+            RegistroUniversidadControlador registroUniversidadControlador = fxmlLoader.getController();
+            registroUniversidadControlador.setPnVentanaPrincipal(this.pnVentanaPrincipal);
+            registroUniversidadControlador.setHistorialPaneles(this.historialPaneles);
+            this.pnVentanaPrincipal.setCenter(pnRegistroUniversidad);
+        }
+    }
+
+    public void cargarConsultaTodos () {
+        UniversidadAuxiliar universidadAuxiliar = new UniversidadAuxiliar();
+        List<UniversidadDTO> listaUniversidades = new ArrayList<>();
+        try {
+            listaUniversidades = universidadAuxiliar.getTodasAlfabeticamente();
+        }
+        catch (ErrorDAO error) {
+            mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
+        }
+        mostrarConsulta(listaUniversidades);
     }
 
     private void mostrarConsulta (List<UniversidadDTO> listaUniversidades) {
         vboxConsultaUniversidades.getChildren().clear();
-        for (UniversidadDTO universidadDTO : listaUniversidades) {
+
+        if (!listaUniversidades.isEmpty()) {
+            this.historialPaneles
+                    .push(this.pnConsultaUniversidades);
+        }
+
+        for (UniversidadDTO universidad : listaUniversidades) {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("UniversidadItem.fxml"));
             HBox hboxFila;
 
             try {
                 hboxFila = fxmlLoader.load();
+                agregarDatosFilaUniversidad(fxmlLoader.getController(), universidad);
             }
             catch (IOException error) {
                 BITACORA.info(error.getMessage());
                 mostrarMensajeEmergente("Algo salió mal, inténtelo de nuevo más tarde", Alert.AlertType.ERROR);
                 break;
             }
-
-            PaisAuxiliar paisAuxiliar = new PaisAuxiliar();
-            UniversidadItemControlador controladorFilaUniversidad = fxmlLoader.getController();
-            Optional<PaisDTO> paisOptional;
-
-            try {
-                paisOptional = paisAuxiliar.getPaisPorId(universidadDTO.getIdPais());
-            }
             catch (ErrorDAO error) {
                 mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
                 break;
             }
 
-            controladorFilaUniversidad.setUniversidad(universidadDTO);
-            paisOptional.ifPresent(controladorFilaUniversidad::setPais);
             this.vboxConsultaUniversidades.getChildren().add(hboxFila);
         }
+    }
+
+    private void agregarDatosFilaUniversidad (UniversidadItemControlador controlador, UniversidadDTO universidad) throws ErrorDAO {
+        PaisAuxiliar paisAuxiliar = new PaisAuxiliar();
+
+        Optional<PaisDTO> paisOptional = paisAuxiliar.getPaisPorId(universidad.getIdPais());
+
+        controlador.setUniversidad(universidad);
+        paisOptional.ifPresent(controlador::setPais);
+        controlador.setPnVentanaPrincipal(this.pnVentanaPrincipal);
+        controlador.setHistorialPaneles(this.historialPaneles);
     }
 
     private void mostrarMensajeEmergente (String mensaje, Alert.AlertType tipoAlerta) {

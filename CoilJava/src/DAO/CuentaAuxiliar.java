@@ -3,145 +3,132 @@ package DAO;
 import DTO.CuentaDTO;
 import Utilidades.ErrorDAO;
 import Utilidades.ErrorDAO.Tipo;
-import DAO.Interfaces.ICuentaDAO;
 
 import java.sql.ResultSet;
 import java.util.List;
 import java.util.Optional;
 
-public class CuentaAuxiliar implements ICuentaDAO {
+public class CuentaAuxiliar {
+    private final CuentaDAO CUENTA_DAO = new CuentaDAO();
 
-    @Override
     public Optional<CuentaDTO> getCuentaPorUsuario (String nombreUsuario) throws ErrorDAO {
         try {
             probarNombreUsuario(nombreUsuario);
-            CuentaDTO cuentaDTO = CuentaDAO.getCuentaPorUsuario(nombreUsuario);
-            return Optional.ofNullable(cuentaDTO);
+            return CUENTA_DAO.getCuentaPorUsuario(nombreUsuario);
         }
         catch (ErrorDAO error) {
             throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
     }
 
-    @Override
     public int actualizarNombreUsuario (CuentaDTO cuentaDTO) throws ErrorDAO {
         if (existeNombreUsuario(cuentaDTO)) {
             throw new ErrorDAO("El nombre " + cuentaDTO.getNombreUsuario() + " ya se encuentra ocupado", Tipo.VALIDACION);
         }
         try {
-            return CuentaDAO.actualizarNombreUsuario(cuentaDTO);
+            return CUENTA_DAO.actualizarNombreUsuario(cuentaDTO);
         }
         catch (ErrorDAO error) {
             throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
     }
 
-    @Override
     public boolean verificarCredenciales (String nombreUsuario, String contrasena) throws ErrorDAO {
         try {
             probarUsuario(nombreUsuario, contrasena);
-            return CuentaDAO.verificarCredenciales(nombreUsuario, contrasena);
+            return CUENTA_DAO.verificarCredenciales(nombreUsuario, contrasena);
         }
         catch (ErrorDAO error) {
             throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
     }
 
-    @Override
     public int actualizarContrasena (CuentaDTO cuentaDTO, String contrasenaAntigua, String nuevaContrasena) throws ErrorDAO {
         try {
             probarContrasenas(contrasenaAntigua, nuevaContrasena);
-            return CuentaDAO.actualizarContrasena(cuentaDTO, contrasenaAntigua, nuevaContrasena);
+            return CUENTA_DAO.actualizarContrasena(cuentaDTO, contrasenaAntigua, nuevaContrasena);
         }
         catch (ErrorDAO error) {
             throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
     }
 
-    @Override
     public int cambiarEstadoCuenta (CuentaDTO cuentaDTO, String estado) throws ErrorDAO {
-        if (!cadenaValida(estado)) {
+        if (esCadenaInvalida(estado)) {
             throw new ErrorDAO("Error en el estado ingresado", ErrorDAO.Tipo.VALIDACION);
         }
         try {
-            return CuentaDAO.cambiarEstadoCuenta(cuentaDTO, estado);
+            return CUENTA_DAO.cambiarEstadoCuenta(cuentaDTO, estado);
         }
         catch (ErrorDAO error) {
             throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
     }
 
-    @Override
     public List<CuentaDTO> getCuentasPorTipo (String tipo) throws ErrorDAO {
-        if (!cadenaValida(tipo)) {
+        if (esCadenaInvalida(tipo)) {
             throw new ErrorDAO("Tipo de cuenta invalido", ErrorDAO.Tipo.VALIDACION);
         }
         try {
-            return CuentaDAO.getCuentaPorTipo(tipo);
+            return CUENTA_DAO.getCuentasPorTipo(tipo);
         }
         catch (ErrorDAO error) {
             throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
     }
 
-    @Override
     public List<CuentaDTO> getCuentasPorEstado (String estado) throws ErrorDAO {
-        if (!cadenaValida(estado)) {
+        if (esCadenaInvalida(estado)) {
             throw new ErrorDAO("Estado de cuenta invalido", ErrorDAO.Tipo.VALIDACION);
         }
         try {
-            return CuentaDAO.getCuentasPorEstado(estado);
+            return CUENTA_DAO.getCuentasPorEstado(estado);
         }
         catch (ErrorDAO error) {
             throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
     }
 
-    @Override
     public int agregar (CuentaDTO cuentaDTO) throws ErrorDAO {
         try {
-            return CuentaDAO.agregarCuenta(cuentaDTO);
+            return CUENTA_DAO.agregar(cuentaDTO);
         }
         catch (ErrorDAO error) {
             throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
     }
 
-    @Override
     public int modificar (CuentaDTO cuentaDTO) throws ErrorDAO {
         throw new ErrorDAO("Metodo no utlizado", ErrorDAO.Tipo.NO_IMPLEMENTADO);
     }
 
-    @Override
     public Optional<CuentaDTO> getPorId (Integer id) throws ErrorDAO {
         if (!idValido(id)) {
             throw new ErrorDAO("Id de la cuenta no valido", ErrorDAO.Tipo.VALIDACION);
         }
         try {
-            return Optional.ofNullable(CuentaDAO.getPorId(id));
+            return CUENTA_DAO.getPorId(id);
         }
         catch (ErrorDAO error) {
             throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
     }
 
-    @Override
     public List<CuentaDTO> getTodos () throws ErrorDAO {
         try {
-            return CuentaDAO.getTodos();
+            return CUENTA_DAO.getTodos();
         }
         catch (ErrorDAO error) {
             throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
     }
 
-    @Override
     public CuentaDTO resultSetAObjeto (ResultSet resultados) {
         return null;
     }
 
-    private boolean cadenaValida (String cadena) {
-        return cadena != null && !cadena.isBlank();
+    private boolean esCadenaInvalida (String cadena) {
+        return cadena == null || cadena.isBlank();
     }
 
     private boolean idValido (int id) {

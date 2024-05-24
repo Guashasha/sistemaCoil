@@ -3,14 +3,13 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="759.0" prefWidth="973.0" styleClass="root" stylesheets="@Recursos/EstiloVentanas.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.NumeraliaControlador">
+<BorderPane fx:id="pnPrincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="759.0" prefWidth="973.0" styleClass="root" stylesheets="@Recursos/EstiloVentanas.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.NumeraliaControlador">
    <top>
       <Label alignment="CENTER" prefHeight="0.0" prefWidth="182.0" text="NUMERALIA" textFill="#080808" BorderPane.alignment="CENTER">
          <font>
@@ -26,49 +25,81 @@
          <top>
             <VBox prefHeight="103.0" prefWidth="974.0" BorderPane.alignment="CENTER">
                <children>
-                  <HBox alignment="CENTER" prefHeight="63.0" prefWidth="974.0">
+                  <HBox alignment="CENTER" prefHeight="61.0" prefWidth="974.0">
                      <children>
-                        <Button mnemonicParsing="false" text="atras" />
-                        <Label alignment="CENTER" prefHeight="65.0" prefWidth="102.0" text="Año">
+                        <Button fx:id="btnAnioAtras" mnemonicParsing="false" onAction="#anioAtras" styleClass="button-secundario" text="&lt;&lt;">
+                           <font>
+                              <Font name="Franklin Gothic Demi Italic" size="18.0" />
+                           </font></Button>
+                        <Label fx:id="lbAnio" alignment="CENTER" prefHeight="65.0" prefWidth="102.0" text="Año">
                            <font>
                               <Font name="Franklin Gothic Medium Cond" size="25.0" />
                            </font>
                         </Label>
-                        <Button mnemonicParsing="false" text="adel" />
+                        <Button fx:id="btnAnioAdelante" mnemonicParsing="false" onAction="#anioAdelante" styleClass="button-secundario" text="&gt;&gt;">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font></Button>
                      </children>
                   </HBox>
                   <BorderPane prefHeight="43.0" prefWidth="974.0">
                      <left>
-                        <Button mnemonicParsing="false" prefHeight="42.0" prefWidth="488.0" text="Periodo Febrero - Julio" BorderPane.alignment="CENTER" />
+                        <Button fx:id="btnPeriodoFebreroJulio" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#cambiarPeriodoFebreroJulio" prefHeight="42.0" prefWidth="400.0" styleClass="button-principal" text="Periodo Febrero - Julio" textFill="WHITE" BorderPane.alignment="CENTER">
+                           <BorderPane.margin>
+                              <Insets left="20.0" />
+                           </BorderPane.margin></Button>
                      </left>
                      <right>
-                        <Button mnemonicParsing="false" prefHeight="42.0" prefWidth="485.0" text="Periodo AgostoEnero" BorderPane.alignment="CENTER" />
+                        <Button fx:id="btnPeriodoAgostoEnero" alignment="CENTER" mnemonicParsing="false" onAction="#cambiarPeriodoAgostoEnero" prefHeight="42.0" prefWidth="400.0" styleClass="button-principal" text="Periodo Agosto - Enero" textFill="WHITE" BorderPane.alignment="CENTER">
+                           <BorderPane.margin>
+                              <Insets right="30.0" />
+                           </BorderPane.margin></Button>
                      </right>
                   </BorderPane>
                </children>
+               <BorderPane.margin>
+                  <Insets bottom="10.0" />
+               </BorderPane.margin>
             </VBox>
          </top>
          <center>
             <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                <children>
-                  <BorderPane prefHeight="78.0" prefWidth="901.0">
+                  <BorderPane prefHeight="88.0" prefWidth="974.0">
                      <left>
-                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="44.0" prefWidth="312.0" style="-fx-background-color: FFF123;" text="Estadísticas por Región" BorderPane.alignment="CENTER">
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="44.0" prefWidth="358.0" style="-fx-background-color: FFF123;" text="Estadísticas por Región" BorderPane.alignment="CENTER">
                            <font>
                               <Font name="Franklin Gothic Book" size="25.0" />
                            </font>
                         </Label>
                      </left>
+                     <right>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="44.0" prefWidth="358.0" style="-fx-background-color: FFF123;" text="Estadísticas por Área académica" BorderPane.alignment="CENTER">
+                           <font>
+                              <Font name="Franklin Gothic Book" size="25.0" />
+                           </font>
+                        </Label>
+                     </right>
+                     <top>
+                        <Label fx:id="lbPeriodo" text="Periodo" BorderPane.alignment="CENTER">
+                           <font>
+                              <Font name="Franklin Gothic Book" size="25.0" />
+                           </font>
+                           <BorderPane.margin>
+                              <Insets top="10.0" />
+                           </BorderPane.margin>
+                        </Label>
+                     </top>
                   </BorderPane>
-                  <HBox alignment="CENTER_LEFT" prefHeight="512.0" prefWidth="974.0">
+                  <HBox fx:id="hboxTablas" alignment="CENTER_LEFT" prefHeight="460.0" prefWidth="974.0">
                      <children>
-                        <AnchorPane prefHeight="387.0" prefWidth="570.0">
+                        <AnchorPane prefHeight="434.0" prefWidth="486.0">
                            <children>
-                              <VBox fx:id="vboxEstadisticas" layoutX="12.0" layoutY="27.0" prefHeight="106.0" prefWidth="552.0" style="-fx-background-color: FFFFFF;">
+                              <VBox fx:id="vboxEstadisticas" layoutX="12.0" layoutY="14.0" prefHeight="313.0" prefWidth="460.0" style="-fx-background-color: FFFFFF;">
                                  <children>
                                     <HBox alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="555.0" styleClass="barra-titulo">
                                        <children>
-                                          <Label fx:id="lblTipoEstadística" alignment="CENTER" prefHeight="53.0" prefWidth="332.0" text="Región" textFill="WHITE">
+                                          <Label fx:id="lblTipoEstadística" alignment="CENTER" prefHeight="52.0" prefWidth="265.0" text="Región" textFill="WHITE">
                                              <font>
                                                 <Font name="Franklin Gothic Demi Cond" size="20.0" />
                                              </font>
@@ -85,22 +116,249 @@
                                           </Label>
                                        </children>
                                     </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="555.0">
+                                       <children>
+                                          <Label fx:id="lblTipoEstadística2" alignment="CENTER" prefHeight="52.0" prefWidth="265.0" text="Xalapa">
+                                             <font>
+                                                <Font name="Franklin Gothic Book" size="20.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lbAlumnosXalapa" alignment="CENTER" prefHeight="53.0" prefWidth="98.0" text="0">
+                                             <font>
+                                                <Font name="Franklin Gothic Book" size="20.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lbProfesoresXalapa" alignment="CENTER" prefHeight="58.0" prefWidth="112.0" text="0">
+                                             <font>
+                                                <Font name="Franklin Gothic Book" size="20.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="555.0">
+                                       <children>
+                                          <Label fx:id="lblTipoEstadística21" alignment="CENTER" prefHeight="52.0" prefWidth="265.0" text="Veracruz">
+                                             <font>
+                                                <Font name="Franklin Gothic Book" size="20.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lbAlumnosVeracruz" alignment="CENTER" prefHeight="53.0" prefWidth="98.0" text="0">
+                                             <font>
+                                                <Font name="Franklin Gothic Book" size="20.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lbProfesoresVeracruz" alignment="CENTER" prefHeight="58.0" prefWidth="112.0" text="0">
+                                             <font>
+                                                <Font name="Franklin Gothic Book" size="20.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="555.0">
+                                       <children>
+                                          <Label fx:id="lblTipoEstadística22" alignment="CENTER" prefHeight="52.0" prefWidth="265.0" text="Poza Rica - Tuxpan">
+                                             <font>
+                                                <Font name="Franklin Gothic Book" size="20.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lbAlumnosPozaRica" alignment="CENTER" prefHeight="53.0" prefWidth="98.0" text="0">
+                                             <font>
+                                                <Font name="Franklin Gothic Book" size="20.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lbProfesoresPozaRica" alignment="CENTER" prefHeight="58.0" prefWidth="112.0" text="0">
+                                             <font>
+                                                <Font name="Franklin Gothic Book" size="20.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="555.0">
+                                       <children>
+                                          <Label fx:id="lblTipoEstadística23" alignment="CENTER" prefHeight="52.0" prefWidth="265.0" text="Orizaba - Córdoba">
+                                             <font>
+                                                <Font name="Franklin Gothic Book" size="20.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lbAlumnosOrizaba" alignment="CENTER" prefHeight="53.0" prefWidth="98.0" text="0">
+                                             <font>
+                                                <Font name="Franklin Gothic Book" size="20.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lbProfesoresOrizaba" alignment="CENTER" prefHeight="58.0" prefWidth="112.0" text="0">
+                                             <font>
+                                                <Font name="Franklin Gothic Book" size="20.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="555.0">
+                                       <children>
+                                          <Label fx:id="lblTipoEstadística24" alignment="CENTER" prefHeight="52.0" prefWidth="265.0" text="Coatzacoalcos - Minatitlán">
+                                             <font>
+                                                <Font name="Franklin Gothic Book" size="20.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lbAlumnosCoatzacoalcos" alignment="CENTER" prefHeight="53.0" prefWidth="98.0" text="0">
+                                             <font>
+                                                <Font name="Franklin Gothic Book" size="20.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lbProfesoresCoatzacoalcos" alignment="CENTER" prefHeight="58.0" prefWidth="112.0" text="0">
+                                             <font>
+                                                <Font name="Franklin Gothic Book" size="20.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </AnchorPane>
+                        <AnchorPane prefHeight="511.0" prefWidth="486.0">
+                           <children>
+                              <VBox fx:id="vboxEstadisticas1" layoutX="12.0" layoutY="14.0" prefHeight="365.0" prefWidth="460.0" style="-fx-background-color: FFFFFF;">
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="555.0" styleClass="barra-titulo">
+                                       <children>
+                                          <Label fx:id="lblTipoEstadística1" alignment="CENTER" prefHeight="52.0" prefWidth="265.0" text="Area académica" textFill="WHITE">
+                                             <font>
+                                                <Font name="Franklin Gothic Demi Cond" size="20.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER" prefHeight="42.0" prefWidth="109.0" text="Alumnos" textFill="WHITE">
+                                             <font>
+                                                <Font name="Franklin Gothic Demi Cond" size="20.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER" prefHeight="42.0" prefWidth="119.0" text="Profesores" textFill="WHITE">
+                                             <font>
+                                                <Font name="Franklin Gothic Demi Cond" size="20.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="555.0">
+                                       <children>
+                                          <Label fx:id="lblTipoEstadística25" alignment="CENTER" prefHeight="52.0" prefWidth="265.0" text="Economico-administrativo">
+                                             <font>
+                                                <Font name="Franklin Gothic Book" size="20.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lbAlumnosEconomico" alignment="CENTER" prefHeight="53.0" prefWidth="98.0" text="0">
+                                             <font>
+                                                <Font name="Franklin Gothic Book" size="20.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lbProfesoresEconomico" alignment="CENTER" prefHeight="58.0" prefWidth="112.0" text="0">
+                                             <font>
+                                                <Font name="Franklin Gothic Book" size="20.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="555.0">
+                                       <children>
+                                          <Label fx:id="lblTipoEstadística26" alignment="CENTER" prefHeight="52.0" prefWidth="265.0" text="Humanidades">
+                                             <font>
+                                                <Font name="Franklin Gothic Book" size="20.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lbAlumnosHumanidades" alignment="CENTER" prefHeight="53.0" prefWidth="98.0" text="0">
+                                             <font>
+                                                <Font name="Franklin Gothic Book" size="20.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lbProfesoresHumanidades" alignment="CENTER" prefHeight="58.0" prefWidth="112.0" text="0">
+                                             <font>
+                                                <Font name="Franklin Gothic Book" size="20.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="555.0">
+                                       <children>
+                                          <Label fx:id="lblTipoEstadística27" alignment="CENTER" prefHeight="52.0" prefWidth="265.0" text="Tecnica">
+                                             <font>
+                                                <Font name="Franklin Gothic Book" size="20.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lbAlumnosTecnica" alignment="CENTER" prefHeight="53.0" prefWidth="98.0" text="0">
+                                             <font>
+                                                <Font name="Franklin Gothic Book" size="20.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lbProfesoresTecnica" alignment="CENTER" prefHeight="58.0" prefWidth="112.0" text="0">
+                                             <font>
+                                                <Font name="Franklin Gothic Book" size="20.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="555.0">
+                                       <children>
+                                          <Label fx:id="lblTipoEstadística28" alignment="CENTER" prefHeight="52.0" prefWidth="265.0" text="Ciencias de la salud">
+                                             <font>
+                                                <Font name="Franklin Gothic Book" size="20.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lbAlumnosSalud" alignment="CENTER" prefHeight="53.0" prefWidth="98.0" text="0">
+                                             <font>
+                                                <Font name="Franklin Gothic Book" size="20.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lbProfesoresSalud" alignment="CENTER" prefHeight="58.0" prefWidth="112.0" text="0">
+                                             <font>
+                                                <Font name="Franklin Gothic Book" size="20.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="555.0">
+                                       <children>
+                                          <Label fx:id="lblTipoEstadística29" alignment="CENTER" prefHeight="52.0" prefWidth="265.0" text="Biologia-agropecuarias">
+                                             <font>
+                                                <Font name="Franklin Gothic Book" size="20.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lbAlumnosBiologia" alignment="CENTER" prefHeight="53.0" prefWidth="98.0" text="0">
+                                             <font>
+                                                <Font name="Franklin Gothic Book" size="20.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lbProfesoresBiologia" alignment="CENTER" prefHeight="58.0" prefWidth="112.0" text="0">
+                                             <font>
+                                                <Font name="Franklin Gothic Book" size="20.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="555.0">
+                                       <children>
+                                          <Label fx:id="lblTipoEstadística210" alignment="CENTER" prefHeight="52.0" prefWidth="265.0" text="DGRI">
+                                             <font>
+                                                <Font name="Franklin Gothic Book" size="20.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lbAlumnosDGRI" alignment="CENTER" prefHeight="53.0" prefWidth="98.0" text="0">
+                                             <font>
+                                                <Font name="Franklin Gothic Book" size="20.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lbProfesoresDGRI" alignment="CENTER" prefHeight="58.0" prefWidth="112.0" text="0">
+                                             <font>
+                                                <Font name="Franklin Gothic Book" size="20.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
                                  </children>
                               </VBox>
                            </children>
                         </AnchorPane>
-                        <ImageView fitHeight="452.0" fitWidth="334.0" pickOnBounds="true" preserveRatio="true">
-                           <HBox.margin>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                           </HBox.margin></ImageView>
-                        <BorderPane prefHeight="511.0" prefWidth="50.0">
-                           <center>
-                              <Button mnemonicParsing="false" prefHeight="510.0" prefWidth="60.0" text="&gt;" BorderPane.alignment="CENTER">
-                                 <font>
-                                    <Font name="Franklin Gothic Demi Cond" size="20.0" />
-                                 </font></Button>
-                           </center>
-                        </BorderPane>
                      </children>
                   </HBox>
                </children>
