@@ -6,6 +6,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -17,12 +18,12 @@
         <Insets bottom="20.0" top="10.0" />
     </padding>
     <bottom>
-        <VBox prefHeight="614.0" prefWidth="934.0" BorderPane.alignment="CENTER">
+        <VBox prefHeight="578.0" prefWidth="934.0" BorderPane.alignment="CENTER">
             <BorderPane.margin>
                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
             </BorderPane.margin>
             <children>
-                <HBox alignment="CENTER_LEFT" prefHeight="51.0" prefWidth="913.0" styleClass="barra-titulo">
+                <HBox alignment="CENTER_LEFT" prefHeight="90.0" prefWidth="934.0" styleClass="barra-titulo">
                     <children>
                         <Label alignment="CENTER" prefHeight="50.0" prefWidth="218.0" text="Matricula" textFill="WHITE">
                             <font>
@@ -91,4 +92,18 @@
          </left>
       </BorderPane>
    </top>
+   <center>
+      <AnchorPane prefHeight="91.0" prefWidth="491.0" style="-fx-background-color: #FFEA72; -fx-background-radius: 20; -fx-border-color: #E10808; -fx-border-width: 5; -fx-border-radius: 20;">
+         <children>
+            <Label alignment="CENTER" contentDisplay="RIGHT" layoutX="12.0" layoutY="13.0" prefHeight="43.0" prefWidth="434.0" text="RECUERDA: el usuario y contraseña de la cuenta de los estudiantes corresponde a su matricula para ambos campos" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font name="Franklin Gothic Demi" size="16.0" />
+               </font>
+            </Label>
+         </children>
+         <BorderPane.margin>
+            <Insets bottom="20.0" left="60.0" right="300.0" top="20.0" />
+         </BorderPane.margin>
+      </AnchorPane>
+   </center>
 </BorderPane>

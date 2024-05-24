@@ -42,7 +42,7 @@
     <center>
         <AnchorPane prefHeight="45.0" prefWidth="974.0" BorderPane.alignment="CENTER">
             <children>
-                <HBox alignment="CENTER" layoutX="32.0" layoutY="17.0" prefHeight="42.0" prefWidth="456.0" style="-fx-background-radius: 100; -fx-background-color: #FFFFFF;">
+                <HBox alignment="CENTER" layoutX="32.0" layoutY="17.0" prefHeight="42.0" prefWidth="436.0" style="-fx-background-radius: 100; -fx-background-color: #FFFFFF;">
                     <children>
                         <TextField fx:id="tfBarraBusqueda" alignment="CENTER" prefHeight="26.0" prefWidth="406.0" promptText="Buscar por matricula" style="-fx-background-color: rgba(0,0,0,0);">
                             <font>
@@ -63,6 +63,11 @@
                <font>
                   <Font size="15.0" />
                </font></Button>
+            <Label layoutX="532.0" layoutY="12.0" prefHeight="52.0" prefWidth="229.0" text="¿No encuentra a un estudiante? Dirijase al registro de estudiantes" wrapText="true">
+               <font>
+                  <Font name="Franklin Gothic Book" size="16.0" />
+               </font>
+            </Label>
             </children></AnchorPane>
     </center>
    <bottom>

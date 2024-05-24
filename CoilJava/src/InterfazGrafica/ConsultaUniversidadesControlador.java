@@ -5,25 +5,20 @@ import DAO.UniversidadAuxiliar;
 import DTO.PaisDTO;
 import DTO.UniversidadDTO;
 import Utilidades.ErrorDAO;
-import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import org.apache.log4j.Logger;
 import java.io.IOException;
 import java.util.*;
 import java.util.List;
 
-public class ConsultaUniversidadesControlador extends Application {
+public class ConsultaUniversidadesControlador {
     private static final Logger BITACORA = Logger.getLogger(ConsultaUniversidadesControlador.class);
     @FXML
     private VBox vboxConsultaUniversidades;
@@ -36,28 +31,6 @@ public class ConsultaUniversidadesControlador extends Application {
 
     public void setPnVentanaPrincipal (BorderPane pnVentanaPrincipal) {
         this.pnVentanaPrincipal = pnVentanaPrincipal;
-    }
-
-    @Override
-    public void start (Stage stage){
-        Parent root = null;
-
-        try {
-            root = FXMLLoader.load(getClass().getResource("ConsultaUniversidades.fxml"));
-        }
-        catch (IOException e) {
-            BITACORA.error(e);
-        }
-
-        if (root != null) {
-            stage.initStyle(StageStyle.TRANSPARENT);
-            Scene escena = new Scene(root);
-            stage.setScene(escena);
-            stage.show();
-        }
-        else {
-            BITACORA.error("Ocurrió un error al iniciar la ventana windowConsultaUniversidades");
-        }
     }
 
     @FXML
