@@ -7,23 +7,18 @@ import DTO.ColaboracionDTO;
 import DTO.EstudianteDTO;
 import DTO.UniversidadDTO;
 import Utilidades.ErrorDAO;
-import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import org.apache.log4j.Logger;
 import java.io.IOException;
 import java.util.*;
 
-public class ListaEstudiantesControlador extends Application {
+public class ListaEstudiantesControlador {
     private static final Logger BITACORA = Logger.getLogger(ListaEstudiantesControlador.class);
     @FXML
     private BorderPane pnListaEstudiantes;
@@ -48,28 +43,6 @@ public class ListaEstudiantesControlador extends Application {
 
     public void setAcademico(AcademicoDTO academico) {
         this.academico = academico;
-    }
-
-    @Override
-    public void start (Stage stage) {
-        Parent root = null;
-
-        try {
-            root = FXMLLoader.load(getClass().getResource("ListaEstudiantes.fxml"));
-        }
-        catch (IOException e) {
-            BITACORA.error(e);
-        }
-
-        if (root != null) {
-            stage.initStyle(StageStyle.TRANSPARENT);
-            Scene escena = new Scene(root);
-            stage.setScene(escena);
-            stage.show();
-        }
-        else {
-            BITACORA.error("Ocurrió un error al iniciar la ventana windowListaEstudiantes");
-        }
     }
 
     @FXML
@@ -186,8 +159,7 @@ public class ListaEstudiantesControlador extends Application {
         controlador.setPnVentanaPrincipal(this.pnVentanaPrincipal);
         controlador.setHistorialPaneles(this.historialPaneles);
         controlador.setColaboracion(this.colaboracion);
-        controlador.setUniversidad(new UniversidadDTO(this.academico
-                .getIdUniversidad()));
+        controlador.setAcademico(this.academico);
         controlador.setListaEstudiantesControlador(this);
         controlador.cargarConsultaGeneral();
     }

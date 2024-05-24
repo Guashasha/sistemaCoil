@@ -1,13 +1,18 @@
 package InterfazGrafica;
 
+import DAO.EstudianteAuxiliar;
+import DAO.UniversidadAuxiliar;
+import DTO.EstudianteDTO;
 import DTO.UniversidadDTO;
+import Utilidades.ErrorDAO;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-
+import java.util.Optional;
 import java.util.Stack;
 
 public class RegistroEstudianteControlador {
@@ -29,35 +34,87 @@ public class RegistroEstudianteControlador {
     private Label txtObligatorioApellidoMaterno;
     @FXML
     private Label txtObligatorioMatricula;
-    @FXML
-    private BorderPane pnRegistroEstudiante;
     private Stack<Pane> historialPaneles;
     private BorderPane pnVentanaPrincipal;
     private UniversidadDTO universidad;
+    private AgregarEstudianteControlador agregarEstudianteControlador;
 
-    public void setHistorialPaneles(Stack<Pane> historialPaneles) {
-        this.historialPaneles = historialPaneles;
+    public void setAgregarEstudianteControlador(AgregarEstudianteControlador agregarEstudianteControlador) {
+        this.agregarEstudianteControlador = agregarEstudianteControlador;
     }
 
-    public void setPnVentanaPrincipal(BorderPane pnVentanaPrincipal) {
-        this.pnVentanaPrincipal = pnVentanaPrincipal;
-    }
+    public boolean setRecursos (Stack<Pane> historialPaneles, BorderPane pnVentanaPrincipal, int idUniversidad) {
+        boolean cargarRecursosExitoso = false;
+        UniversidadAuxiliar universidadAuxiliar = new UniversidadAuxiliar();
+        Optional<UniversidadDTO> universidadOptional = Optional.empty();
 
-    public void setUniversidad(UniversidadDTO universidad) {
-        this.universidad = universidad;
-        this.tfUniversidad
-                .setText(this.universidad
-                        .getNombre());
+        try {
+            universidadOptional = universidadAuxiliar.getUniversidadPorId(idUniversidad);
+        }
+        catch (ErrorDAO error) {
+            mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
+        }
+
+        if (universidadOptional.isPresent()) {
+            this.historialPaneles = historialPaneles;
+            this.pnVentanaPrincipal = pnVentanaPrincipal;
+            this.universidad = universidadOptional.get();
+            this.tfUniversidad.setText(this.universidad.getNombre());
+            cargarRecursosExitoso = true;
+        }
+        else {
+            mostrarMensajeEmergente("Eror al cargar la ventana de Registro de estudiante", Alert.AlertType.ERROR);
+        }
+
+        return cargarRecursosExitoso;
     }
 
     @FXML
     private void registrarEstudiante () {
+        if (!camposVacios()) {
+            etiquetarCamposVacios();
+            EstudianteAuxiliar estudianteAuxiliar = new EstudianteAuxiliar();
+            EstudianteDTO estudiante = new EstudianteDTO();
+            int filasAfectadas = 0;
 
+            try {
+                estudiante.setNombre(this.tfNombre.getText());
+                estudiante.setApellidoPaterno(this.tfApellidoPaterno.getText());
+                estudiante.setApellidoMaterno(this.tfApellidoMaterno.getText());
+                estudiante.setIdUniversidad(this.universidad.getId());
+                estudiante.setMatricula(this.tfMatricula.getText());
+                filasAfectadas = estudianteAuxiliar.agregar(estudiante);
+            }
+            catch (ErrorDAO error) {
+                mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.WARNING);
+            }
+
+            if (filasAfectadas > 0) {
+                mostrarMensajeEmergente("Se ha registrado el estudiante exitosamente", Alert.AlertType.INFORMATION);
+                limpiarCampos();
+            }
+            else {
+                mostrarMensajeEmergente("Algo salió mal al intentar registrar el estudiante", Alert.AlertType.ERROR);
+            }
+        }
+        else {
+            etiquetarCamposVacios();
+        }
     }
 
     @FXML
     private void cancelarRegistro () {
-
+        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+        alerta.setContentText("Se cancelará el registro del estudiante");
+        alerta.setHeaderText(null);
+        alerta.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                this.pnVentanaPrincipal.setCenter(this.historialPaneles.pop());
+                if (this.agregarEstudianteControlador != null) {
+                    agregarEstudianteControlador.cargarConsultaGeneral();
+                }
+            }
+        });
     }
 
     private void limpiarCampos () {
@@ -71,8 +128,8 @@ public class RegistroEstudianteControlador {
         TextField[] camposTexto = new TextField[]{this.tfNombre,this.tfApellidoPaterno,this.tfApellidoMaterno,this.tfMatricula};
         boolean vacio = true;
 
-        for (int i = 0; i < camposTexto.length; i++) {
-            String texto = camposTexto[i].getText();
+        for (TextField textField : camposTexto) {
+            String texto = textField.getText();
             vacio = texto == null || texto.isBlank();
             if (vacio) {
                 break;
