@@ -3,6 +3,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
@@ -10,17 +12,21 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="759.0" prefWidth="973.0" stylesheets="@Recursos/EstiloLabels.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.AgregarActividadesControlador">
+<BorderPane fx:id="bpHistorialSolicitudes" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="759.0" prefWidth="973.0" stylesheets="@Recursos/EstiloLabels.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.HistorialSolicitudControlador">
    <top>
       <HBox prefHeight="100.0" prefWidth="200.0" styleClass="label-titulo" BorderPane.alignment="CENTER_LEFT">
          <BorderPane.margin>
             <Insets left="30.0" right="30.0" top="30.0" />
          </BorderPane.margin>
          <children>
-            <Pane prefHeight="78.0" prefWidth="106.0">
+            <Pane onMouseClicked="#regresar" prefHeight="71.0" prefWidth="92.0">
                <children>
-                  <Circle fill="WHITE" layoutX="53.0" layoutY="39.0" radius="36.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                  <Circle fill="WHITE" layoutX="46.0" layoutY="39.0" radius="36.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                  <ImageView fitHeight="61.0" fitWidth="70.0" layoutX="16.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Recursos/flechaRegresoNaranja.png" />
+                     </image>
+                  </ImageView>
                </children>
                <HBox.margin>
                   <Insets />

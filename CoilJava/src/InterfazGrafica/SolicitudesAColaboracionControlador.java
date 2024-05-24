@@ -1,9 +1,9 @@
-package InterfazGrafica.Items;
+package InterfazGrafica;
 
 import DTO.AcademicoDTO;
 import DTO.ColaboracionDTO;
 
-public class SolicitudesColaboracionControlador {
+public class SolicitudesAColaboracionControlador {
     private ColaboracionDTO colaboracionDTO;
     private AcademicoDTO academicoDTO;
 

@@ -51,6 +51,7 @@ public class SeccionColaboracionAdministradorControlador {
 
 
 
+
     private void mostrarMensajeEmergente (String mensaje, Alert.AlertType tipoAlerta) {
         Alert alerta = new Alert(tipoAlerta);
         alerta.setContentText(mensaje);
