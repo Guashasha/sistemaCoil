@@ -39,7 +39,7 @@ public class ConsultaUniversidadesControlador extends Application {
     }
 
     @Override
-    public void start(Stage stage){
+    public void start (Stage stage){
         Parent root = null;
 
         try {
@@ -143,9 +143,8 @@ public class ConsultaUniversidadesControlador extends Application {
 
     private void agregarDatosFilaUniversidad (UniversidadItemControlador controlador, UniversidadDTO universidad) throws ErrorDAO {
         PaisAuxiliar paisAuxiliar = new PaisAuxiliar();
-        Optional<PaisDTO> paisOptional;
 
-        paisOptional = paisAuxiliar.getPaisPorId(universidad.getIdPais());
+        Optional<PaisDTO> paisOptional = paisAuxiliar.getPaisPorId(universidad.getIdPais());
 
         controlador.setUniversidad(universidad);
         paisOptional.ifPresent(controlador::setPais);
