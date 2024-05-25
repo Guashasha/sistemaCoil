@@ -51,8 +51,8 @@ public class InicioSesionControlador {
     @FXML
     public void ingresarCuenta () {
         try {
-            CuentaDTO cuenta = getCuentaRegistrada();
             sonCredencialesValidas(tfUsuario.getText(), tfContrasena.getText());
+            CuentaDTO cuenta = getCuentaRegistrada();
             esCuentaAceptada(cuenta);
             abrirVentanaPorTipoCuenta(cuenta);
         }
@@ -153,7 +153,7 @@ public class InicioSesionControlador {
 
     private void sonCredencialesValidas (String usuario, String contrasena) {
         if (!CUENTA_AUXILIAR.verificarCredenciales(usuario, contrasena)) {
-            throw new ErrorDAO("Cuentas no validas", ErrorDAO.Tipo.VALIDACION);
+            throw new ErrorDAO("El nombre de usuario o contraseña es incorrecto", ErrorDAO.Tipo.VALIDACION);
         }
     }
 

@@ -50,6 +50,7 @@ public class GestionCuentaControlador extends Application implements Initializab
     private void agregarCuentaItem (CuentaDTO cuenta) {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("../InterfazGrafica/Items/CuentaItem.fxml"));
+
         try {
             VBox vBox = fxmlLoader.load();
             CuentaItemControlador cuentaItemController = fxmlLoader.getController();

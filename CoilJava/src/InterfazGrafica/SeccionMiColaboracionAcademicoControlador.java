@@ -27,7 +27,7 @@ public class SeccionMiColaboracionAcademicoControlador {
 
     @FXML
     public void abrirVentanaSolicitudColaboracion () {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Items/SolicitudesColaboracion.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SolicitudesAColaboracion.fxml"));
         AnchorPane apSolicitud = null;
 
         try {

@@ -176,6 +176,15 @@ public class ColaboracionAuxiliar {
         }
     }
 
+    public int eliminarSolicitudDeParticipacion (ColaboracionDTO colaboracionDTO, AcademicoDTO academicoDTO) throws ErrorDAO {
+        try {
+            return COLABORACION_DAO.eliminarSolicitudDeParticipacion(colaboracionDTO, academicoDTO);
+        }
+        catch (ErrorDAO errorDAO) {
+            throw errorDAO;
+        }
+    }
+
     public int agregar (ColaboracionDTO colaboracionDTO) throws ErrorDAO {
         if (!colaboracionDTO.esValido()) {
             throw new ErrorDAO("Al menos un dato de la colaboracionDTO esta vacia", ErrorDAO.Tipo.VALIDACION);

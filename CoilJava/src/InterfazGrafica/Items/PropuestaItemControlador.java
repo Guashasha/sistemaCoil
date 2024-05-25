@@ -69,7 +69,6 @@ public class PropuestaItemControlador implements Initializable {
     }
 
 
-
     public void inicializarLabels () {
         lbTemaInteres.setText(colaboracionDTO.getTemaInteres());
         taObjetivo.setText(colaboracionDTO.getObjetivo());
