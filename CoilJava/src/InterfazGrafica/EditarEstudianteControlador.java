@@ -1,5 +1,6 @@
 package InterfazGrafica;
 
+import DAO.EstudianteAuxiliar;
 import DAO.EstudianteDAO;
 import DAO.UniversidadAuxiliar;
 import DTO.EstudianteDTO;
@@ -39,28 +40,35 @@ public class EditarEstudianteControlador {
     private ListaEstudiantesControlador listaEstudiantesControlador;
 
     public void setRecursos (Stack<Pane> historialPaneles, BorderPane pnVentanaPrincipal, EstudianteDTO estudiante, ListaEstudiantesControlador listaEstudiantesControlador) throws ErrorDAO {
+        Optional<EstudianteDTO> estudianteOptional = Optional.empty();
+        Optional<UniversidadDTO> universidadOptional = Optional.empty();
+
         if (historialPaneles != null && pnVentanaPrincipal != null && estudiante != null) {
-            UniversidadAuxiliar universidadAuxiliar = new UniversidadAuxiliar();
-            Optional<UniversidadDTO> universidadOptional = universidadAuxiliar.getUniversidadPorId(estudiante.getIdUniversidad());
+            EstudianteAuxiliar estudianteAuxiliar = new EstudianteAuxiliar();
+            estudianteOptional = estudianteAuxiliar.getPorId(estudiante.getIdEstudiante());
 
-            if (universidadOptional.isPresent()) {
-                this.historialPaneles = historialPaneles;
-                this.pnVentanaPrincipal = pnVentanaPrincipal;
-                this.estudiante = estudiante;
-                this.listaEstudiantesControlador = listaEstudiantesControlador;
+            if (estudianteOptional.isPresent()) {
+                UniversidadAuxiliar universidadAuxiliar = new UniversidadAuxiliar();
+                universidadOptional = universidadAuxiliar.getUniversidadPorId(estudianteOptional.get()
+                        .getIdUniversidad());
 
-                this.tfNombre.setText(estudiante.getNombre());
-                this.tfApellidoPaterno.setText(estudiante.getApellidoPaterno());
-                this.tfApellidoMaterno.setText(estudiante.getApellidoMaterno());
-                this.txtMatriculaActual.setText(estudiante.getMatricula());
-                this.txtUniversidadActual.setText(universidadOptional.get()
-                        .getNombre());
-            }
-            else {
-                throw new ErrorDAO("Error al cargar recursos de la ventana: Editar estudiante", ErrorDAO.Tipo.VALIDACION);
+                if (universidadOptional.isPresent()) {
+                    this.historialPaneles = historialPaneles;
+                    this.pnVentanaPrincipal = pnVentanaPrincipal;
+                    this.estudiante = estudianteOptional.get();
+                    this.listaEstudiantesControlador = listaEstudiantesControlador;
+
+                    this.tfNombre.setText(this.estudiante.getNombre());
+                    this.tfApellidoPaterno.setText(this.estudiante.getApellidoPaterno());
+                    this.tfApellidoMaterno.setText(this.estudiante.getApellidoMaterno());
+                    this.txtMatriculaActual.setText(this.estudiante.getMatricula());
+                    this.txtUniversidadActual.setText(universidadOptional.get()
+                            .getNombre());
+                }
             }
         }
-        else {
+
+        if (estudianteOptional.isEmpty() || universidadOptional.isEmpty()) {
             throw new ErrorDAO("Error al cargar recursos de la ventana: Editar estudiante", ErrorDAO.Tipo.VALIDACION);
         }
     }
