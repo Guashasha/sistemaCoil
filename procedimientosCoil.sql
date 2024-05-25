@@ -355,7 +355,7 @@ BEGIN
 	GROUP BY areaAcademica; 
 END //
 
-DROP PROCEDURE IF EXISTS registrar_cuenta_administrador;
+DROP PROCEDURE IF EXISTS registrar_cuenta_administrador//
 CREATE PROCEDURE registrar_cuenta_administrador (
     IN p_nombre VARCHAR(20),
     IN p_apellidoPaterno VARCHAR(20),

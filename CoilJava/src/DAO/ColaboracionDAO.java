@@ -372,10 +372,8 @@ public class ColaboracionDAO implements IColaboracionDAO {
                 idGenerado = resultSet.getInt(1);
             }
 
-            PreparedStatement asociarAcademico = AdministradorBaseDatos.getInstancia()
-                                                                       .prepareStatement(asociarAcademicaPropuestaSQL);
-            System.out.println(idGenerado);
-            asociarAcademico.setInt(1, idGenerado);
+            PreparedStatement asociarAcademico = AdministradorBaseDatos.getInstancia().prepareStatement(asociarAcademicaPropuestaSQL);
+            asociarAcademico.setInt(1,idGenerado);
             asociarAcademico.setString(2, academicoDTO.getCedulaProfesional());
             asociarAcademico.setString(3, "anfitrion");
             filasAfectadas += asociarAcademico.executeUpdate();
@@ -804,12 +802,13 @@ public class ColaboracionDAO implements IColaboracionDAO {
 
             if (resultado.next()) {
                 Date fecha = resultado.getDate(1);
-                String fechaString = fecha.toString();
-                int anio = Integer.parseInt(fechaString.substring(0, 4));
-                int mes = Integer.parseInt(fechaString.substring(5, 7));
-                int dia = Integer.parseInt(fechaString.substring(8, 10));
-
-                fechaMasAntigua = LocalDate.of(anio, mes, dia);
+                if (fecha != null) {
+                    String fechaString = fecha.toString();
+                    int anio = Integer.parseInt(fechaString.substring(0,4));
+                    int mes = Integer.parseInt(fechaString.substring(5,7));
+                    int dia = Integer.parseInt(fechaString.substring(8,10));
+                    fechaMasAntigua = LocalDate.of(anio,mes,dia);
+                }
             }
 
             consulta.close();
@@ -824,8 +823,8 @@ public class ColaboracionDAO implements IColaboracionDAO {
         return Optional.ofNullable(fechaMasAntigua);
     }
 
-    private Map<String, int[]> ejecutarConsultaNumeralia (String consultaSQL, PeriodoDTO periodo) throws ErrorDAO {
-        Map<String, int[]> numeralia;
+    private Map<String,int[]> ejecutarConsultaNumeralia (String consultaSQL, PeriodoDTO periodo) throws ErrorDAO{
+        Map<String,int[]> numeralia = new HashMap<>();
         CallableStatement llamadaProcedimiento;
         ResultSet resultado;
 
@@ -836,8 +835,9 @@ public class ColaboracionDAO implements IColaboracionDAO {
             llamadaProcedimiento.setDate(2, Date.valueOf(periodo.getFechaFin()));
             resultado = llamadaProcedimiento.executeQuery();
 
-            // TODO: 20/05/2024 Validar que ay algo en el resultset
-            numeralia = convertirResultSetNumeralia(resultado);
+            if (resultado.next()) {
+                numeralia = convertirResultSetNumeralia(resultado);
+            }
 
             llamadaProcedimiento.close();
             resultado.close();
@@ -850,15 +850,40 @@ public class ColaboracionDAO implements IColaboracionDAO {
         return numeralia;
     }
 
-    private Map<String, int[]> convertirResultSetNumeralia (ResultSet resultSet) throws SQLException {
-        Map<String, int[]> numeralia = new HashMap<>();
-        while (resultSet.next()) {
+    private Map<String,int[]> convertirResultSetNumeralia (ResultSet resultSet) throws SQLException {
+        Map<String,int[]> numeralia = new HashMap<>();
+        do {
             String categoria = resultSet.getString(1);
             int alumnos = resultSet.getInt("alumnos");
             int profesores = resultSet.getInt("profesores");
-            int[] cantidad = new int[]{alumnos, profesores};
-            numeralia.put(categoria, cantidad);
-        }
+            int[] cantidad = new int[]{alumnos,profesores};
+            numeralia.put(categoria,cantidad);
+        } while (resultSet.next());
         return numeralia;
+    }
+
+    public Optional<ColaboracionDTO> getVinculadaPorAcademico (AcademicoDTO academicoDTO) throws ErrorDAO {
+        String obtenerColaboracionVinculadaAcademicoSQL = "SELECT * FROM vista_colaboracion_con_academico WHERE estado = 'vinculada' AND cedulaProfesional = ?";
+        ColaboracionDTO colaboracion = null;
+
+        try {
+            PreparedStatement obtenerColaboracion = AdministradorBaseDatos.getInstancia()
+                    .prepareStatement(obtenerColaboracionVinculadaAcademicoSQL);
+            obtenerColaboracion.setString(1, academicoDTO.getCedulaProfesional());
+            ResultSet resultado = obtenerColaboracion.executeQuery();
+
+            if (resultado.next()) {
+                colaboracion = convertirColaboracion(resultado);
+                obtenerAcademico(colaboracion, resultado);
+            }
+        }
+        catch (SQLException error) {
+            BITACORA.fatal(error.getMessage());
+            throw new ErrorDAO("Error al obtener la colaboracion en estaod \"vinculada\" por academico", ErrorDAO.Tipo.CONSULTA);
+        }
+        finally {
+            AdministradorBaseDatos.desconectar();
+        }
+        return Optional.ofNullable(colaboracion);
     }
 }
