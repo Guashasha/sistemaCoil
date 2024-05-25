@@ -48,7 +48,7 @@ public class EstudianteDAO implements IEstudianteDAO {
     @Override
     public int modificar (EstudianteDTO estudianteDTO) throws ErrorDAO {
         String procedimientoSQL = "{CALL editar_Estudiante(?, ?, ?, ?, ?)}";
-        int resultado = 0;
+        int resultado;
         try {
             CallableStatement editarEstudiante = AdministradorBaseDatos.getInstancia().
                                                                        prepareCall(procedimientoSQL);

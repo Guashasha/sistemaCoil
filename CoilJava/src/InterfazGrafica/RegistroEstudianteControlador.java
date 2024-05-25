@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import java.util.Optional;
 import java.util.Stack;
 
@@ -25,7 +26,7 @@ public class RegistroEstudianteControlador {
     @FXML
     private TextField tfMatricula;
     @FXML
-    private TextField tfUniversidad;
+    private Text txtUniversidadAcademico;
     @FXML
     private Label txtObligatorioNombre;
     @FXML
@@ -59,7 +60,7 @@ public class RegistroEstudianteControlador {
             this.historialPaneles = historialPaneles;
             this.pnVentanaPrincipal = pnVentanaPrincipal;
             this.universidad = universidadOptional.get();
-            this.tfUniversidad.setText(this.universidad.getNombre());
+            this.txtUniversidadAcademico.setText(this.universidad.getNombre());
             cargarRecursosExitoso = true;
         }
         else {
@@ -72,17 +73,21 @@ public class RegistroEstudianteControlador {
     @FXML
     private void registrarEstudiante () {
         if (!camposVacios()) {
-            etiquetarCamposVacios();
             EstudianteAuxiliar estudianteAuxiliar = new EstudianteAuxiliar();
             EstudianteDTO estudiante = new EstudianteDTO();
             int filasAfectadas = 0;
 
             try {
-                estudiante.setNombre(this.tfNombre.getText());
-                estudiante.setApellidoPaterno(this.tfApellidoPaterno.getText());
-                estudiante.setApellidoMaterno(this.tfApellidoMaterno.getText());
-                estudiante.setIdUniversidad(this.universidad.getId());
-                estudiante.setMatricula(this.tfMatricula.getText());
+                estudiante.setNombre(this.tfNombre
+                        .getText());
+                estudiante.setApellidoPaterno(this.tfApellidoPaterno
+                        .getText());
+                estudiante.setApellidoMaterno(this.tfApellidoMaterno
+                        .getText());
+                estudiante.setIdUniversidad(this.universidad
+                        .getId());
+                estudiante.setMatricula(this.tfMatricula
+                        .getText());
                 filasAfectadas = estudianteAuxiliar.agregar(estudiante);
             }
             catch (ErrorDAO error) {
@@ -91,15 +96,14 @@ public class RegistroEstudianteControlador {
 
             if (filasAfectadas > 0) {
                 mostrarMensajeEmergente("Se ha registrado el estudiante exitosamente", Alert.AlertType.INFORMATION);
+                etiquetarCamposVacios();
                 limpiarCampos();
             }
             else {
                 mostrarMensajeEmergente("Algo salió mal al intentar registrar el estudiante", Alert.AlertType.ERROR);
             }
         }
-        else {
-            etiquetarCamposVacios();
-        }
+        etiquetarCamposVacios();
     }
 
     @FXML

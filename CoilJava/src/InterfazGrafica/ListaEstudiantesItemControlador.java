@@ -1,17 +1,21 @@
 package InterfazGrafica;
 
 import DAO.ColaboracionAuxiliar;
+import DAO.UniversidadAuxiliar;
 import DTO.ColaboracionDTO;
 import DTO.EstudianteDTO;
 import DTO.UniversidadDTO;
 import Utilidades.ErrorDAO;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import org.apache.log4j.Logger;
+import java.io.IOException;
+import java.util.Optional;
 import java.util.Stack;
 
 public class ListaEstudiantesItemControlador {
@@ -22,42 +26,40 @@ public class ListaEstudiantesItemControlador {
     private Label lbNombre;
     @FXML
     private Label lbUniversidad;
-    private Stack<Pane> historialPaneles = new Stack<>();
+    private Stack<Pane> historialPaneles;
     private BorderPane pnVentanaPrincipal;
     private ColaboracionDTO colaboracion;
     private EstudianteDTO estudiante;
-    private UniversidadDTO universidad;
     private ListaEstudiantesControlador listaEstudiantesControlador;
 
-    public void setPnVentanaPrincipal (BorderPane pnVentanaPrincipal) {
-        this.pnVentanaPrincipal = pnVentanaPrincipal;
-    }
+    public void setRecursos (BorderPane pnVentanaPrincipal, Stack<Pane> historialPaneles, ColaboracionDTO colaboracion, ListaEstudiantesControlador listaEstudiantesControlador, EstudianteDTO estudiante) throws ErrorDAO {
+        if (pnVentanaPrincipal != null && historialPaneles != null && colaboracion != null && listaEstudiantesControlador != null && estudiante != null) {
+            UniversidadAuxiliar universidadAuxiliar = new UniversidadAuxiliar();
+            Optional<UniversidadDTO> universidadOptional = universidadAuxiliar.getUniversidadPorId(estudiante.getIdUniversidad());
 
-    public void setHistorialPaneles (Stack<Pane> historialPaneles) {
-        this.historialPaneles = historialPaneles;
-    }
+            if (universidadOptional.isPresent()) {
+                this.pnVentanaPrincipal = pnVentanaPrincipal;
+                this.historialPaneles = historialPaneles;
+                this.colaboracion = colaboracion;
+                this.listaEstudiantesControlador = listaEstudiantesControlador;
+                this.estudiante = estudiante;
 
-    public void setColaboracion(ColaboracionDTO colaboracion) {
-        this.colaboracion = colaboracion;
-    }
-
-    public void setEstudiante(EstudianteDTO estudiante) {
-        this.estudiante = estudiante;
-        this.lbMatricula
-                .setText(estudiante.getMatricula());
-        String nombreConpleto = estudiante.getNombre() + " " + estudiante.getApellidoPaterno() + " " + estudiante.getApellidoMaterno();
-        this.lbNombre
-                .setText(nombreConpleto);
-    }
-
-    public void setUniversidad(UniversidadDTO universidad) {
-        this.universidad = universidad;
-        this.lbUniversidad
-                .setText(universidad.getNombre());
-    }
-
-    public void setListaEstudiantesControlador(ListaEstudiantesControlador listaEstudiantesControlador) {
-        this.listaEstudiantesControlador = listaEstudiantesControlador;
+                this.lbMatricula
+                        .setText(estudiante.getMatricula());
+                String nombreConpleto = estudiante.getNombre() + " " + estudiante.getApellidoPaterno() + " " + estudiante.getApellidoMaterno();
+                this.lbNombre
+                        .setText(nombreConpleto);
+                this.lbUniversidad
+                        .setText(universidadOptional.get()
+                                .getNombre());
+            }
+            else {
+                throw new ErrorDAO("Error al cargar recursos. Reinicie la aplicación", ErrorDAO.Tipo.VALIDACION);
+            }
+        }
+        else {
+            throw new ErrorDAO("Error al cargar recursos. Reinicie la aplicación", ErrorDAO.Tipo.VALIDACION);
+        }
     }
 
     @FXML
@@ -75,7 +77,22 @@ public class ListaEstudiantesItemControlador {
 
     @FXML
     private void editarEstudiante () {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EditarEstudiante.fxml"));
+        BorderPane pnAgregarEstudiante;
 
+        try {
+            pnAgregarEstudiante = fxmlLoader.load();
+            EditarEstudianteControlador controlador = fxmlLoader.getController();
+            controlador.setRecursos(this.historialPaneles,this.pnVentanaPrincipal,this.estudiante,this.listaEstudiantesControlador);
+            this.pnVentanaPrincipal.setCenter(pnAgregarEstudiante);
+        }
+        catch (IOException error) {
+            BITACORA.info(error.getMessage());
+            mostrarMensajeEmergente("Algo salió mal al cargar la sección: Editar estudiante. Inténtelo más tarde", Alert.AlertType.ERROR);
+        }
+        catch (ErrorDAO error) {
+            mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
+        }
     }
 
     private void retirarEstudianteDeColaboracion () {

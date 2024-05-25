@@ -1,11 +1,9 @@
 package InterfazGrafica;
 
 import DAO.ColaboracionAuxiliar;
-import DAO.UniversidadAuxiliar;
 import DTO.AcademicoDTO;
 import DTO.ColaboracionDTO;
 import DTO.EstudianteDTO;
-import DTO.UniversidadDTO;
 import Utilidades.ErrorDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -117,7 +115,10 @@ public class ListaEstudiantesControlador {
 
                 try {
                     hboxFila = fxmlLoader.load();
-                    agregarDatosFilaEstudiante(fxmlLoader.getController(), estudiante);
+                    ListaEstudiantesItemControlador controlador = fxmlLoader.getController();
+                    controlador.setRecursos(this.pnVentanaPrincipal,this.historialPaneles,this.colaboracion,this,estudiante);
+                    this.vboxListaEstudiantes
+                            .getChildren().add(hboxFila);
                 }
                 catch (IOException error) {
                     BITACORA.info(error.getMessage());
@@ -128,28 +129,7 @@ public class ListaEstudiantesControlador {
                     mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
                     break;
                 }
-
-                this.vboxListaEstudiantes
-                        .getChildren().add(hboxFila);
             }
-        }
-    }
-
-    private void agregarDatosFilaEstudiante (ListaEstudiantesItemControlador controlador, EstudianteDTO estudiante) throws ErrorDAO {
-        UniversidadAuxiliar universidadAuxiliar = new UniversidadAuxiliar();
-
-        Optional<UniversidadDTO> universidadOptional = universidadAuxiliar.getUniversidadPorId(estudiante.getIdUniversidad());
-
-        if (universidadOptional.isPresent()) {
-            controlador.setUniversidad(universidadOptional.get());
-            controlador.setColaboracion(this.colaboracion);
-            controlador.setEstudiante(estudiante);
-            controlador.setPnVentanaPrincipal(this.pnVentanaPrincipal);
-            controlador.setHistorialPaneles(this.historialPaneles);
-            controlador.setListaEstudiantesControlador(this);
-        }
-        else {
-            throw new ErrorDAO("Algo salió mal. Inténtelo más tarde", ErrorDAO.Tipo.CONSULTA);
         }
     }
 

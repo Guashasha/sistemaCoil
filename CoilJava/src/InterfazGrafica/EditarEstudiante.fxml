@@ -9,11 +9,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="pnRegistroEstudiante" prefHeight="759.0" prefWidth="973.0" styleClass="root" stylesheets="@Recursos/EstiloVentanas.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.RegistroEstudianteControlador">
+<BorderPane fx:id="pnRegistroEstudiante" prefHeight="759.0" prefWidth="973.0" styleClass="root" stylesheets="@Recursos/EstiloVentanas.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.EditarEstudianteControlador">
    <center>
       <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="674.0" prefWidth="774.0" stylesheets="@Recursos/EstiloVentanas.css" BorderPane.alignment="CENTER">
          <children>
-            <Text fx:id="Titulo" layoutX="188.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Registro de estudiante">
+            <Text fx:id="Titulo" layoutX="154.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Editar datos de estudiante">
                <font>
                   <Font name="Franklin Gothic Demi" size="40.0" />
                </font>
@@ -23,7 +23,7 @@
                   <Font name="Franklin Gothic Book" size="25.0" />
                </font>
             </Text>
-            <Text layoutX="87.0" layoutY="529.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Universidad:">
+            <Text layoutX="89.0" layoutY="529.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Universidad:">
                <font>
                   <Font name="Franklin Gothic Book" size="25.0" />
                </font>
@@ -33,12 +33,12 @@
                   <Font size="18.0" />
                </font>
             </TextField>
-            <Button layoutX="447.0" layoutY="615.0" mnemonicParsing="false" onAction="#registrarEstudiante" prefHeight="40.0" prefWidth="100.0" styleClass="button-principal" stylesheets="@Recursos/EstiloVentanas.css" text="Registrar" textFill="WHITE">
+            <Button layoutX="395.0" layoutY="615.0" mnemonicParsing="false" onAction="#editarEstudiante" prefHeight="40.0" prefWidth="152.0" styleClass="button-principal" stylesheets="@Recursos/EstiloVentanas.css" text="Guardar cambios" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button layoutX="606.0" layoutY="615.0" mnemonicParsing="false" onAction="#cancelarRegistro" prefHeight="40.0" prefWidth="100.0" styleClass="button-secundario" text="Cancelar" textFill="#0b0000">
+            <Button layoutX="606.0" layoutY="615.0" mnemonicParsing="false" onAction="#cancelarEdicion" prefHeight="40.0" prefWidth="100.0" styleClass="button-secundario" text="Cancelar" textFill="#0b0000">
                <font>
                   <Font size="18.0" />
                </font>
@@ -63,11 +63,6 @@
                   <Font name="Franklin Gothic Book" size="25.0" />
                </font>
             </Text>
-            <TextField fx:id="tfMatricula" layoutX="223.0" layoutY="399.0" prefHeight="48.0" prefWidth="514.0" promptText="Matrícula">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </TextField>
             <TextField fx:id="tfApellidoMaterno" layoutX="223.0" layoutY="301.0" prefHeight="48.0" prefWidth="514.0" promptText="Apellido materno">
                <font>
                   <Font size="18.0" />
@@ -78,7 +73,7 @@
                   <Font name="Franklin Gothic Book" size="25.0" />
                </font>
             </Text>
-            <Text layoutX="115.0" layoutY="432.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Matrícula">
+            <Text layoutX="115.0" layoutY="432.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Matrícula:">
                <font>
                   <Font name="Franklin Gothic Book" size="25.0" />
                </font>
@@ -88,12 +83,12 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="txtObligatorioMatricula" layoutX="225.0" layoutY="371.0" text="*Campo obligatorio" textFill="RED" visible="false">
+            <Text fx:id="txtMatriculaActual" layoutX="226.0" layoutY="432.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Matrícula">
                <font>
-                  <Font size="18.0" />
+                  <Font name="Franklin Gothic Book" size="25.0" />
                </font>
-            </Label>
-            <Text fx:id="txtUniversidadAcademico" layoutX="225.0" layoutY="529.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Universidad">
+            </Text>
+            <Text fx:id="txtUniversidadActual" layoutX="226.0" layoutY="529.0" strokeType="OUTSIDE" strokeWidth="0.0" text="universidad">
                <font>
                   <Font name="Franklin Gothic Book" size="25.0" />
                </font>
