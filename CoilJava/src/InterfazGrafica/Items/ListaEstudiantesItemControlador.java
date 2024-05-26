@@ -1,10 +1,12 @@
-package InterfazGrafica;
+package InterfazGrafica.Items;
 
 import DAO.ColaboracionAuxiliar;
 import DAO.UniversidadAuxiliar;
 import DTO.ColaboracionDTO;
 import DTO.EstudianteDTO;
 import DTO.UniversidadDTO;
+import InterfazGrafica.EditarEstudianteControlador;
+import InterfazGrafica.ListaEstudiantesControlador;
 import Utilidades.ErrorDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -77,7 +79,7 @@ public class ListaEstudiantesItemControlador {
 
     @FXML
     private void editarEstudiante () {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EditarEstudiante.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../EditarEstudiante.fxml"));
         BorderPane pnAgregarEstudiante;
 
         try {

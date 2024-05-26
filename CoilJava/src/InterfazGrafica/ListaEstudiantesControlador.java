@@ -4,6 +4,7 @@ import DAO.ColaboracionAuxiliar;
 import DTO.AcademicoDTO;
 import DTO.ColaboracionDTO;
 import DTO.EstudianteDTO;
+import InterfazGrafica.Items.ListaEstudiantesItemControlador;
 import Utilidades.ErrorDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -110,7 +111,7 @@ public class ListaEstudiantesControlador {
 
         for (EstudianteDTO estudiante : listaEstudiantes) {
             if (estudiante.getIdUniversidad() == this.academico.getIdUniversidad()) {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ListaEstudiantesItem.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Items/ListaEstudiantesItem.fxml"));
                 HBox hboxFila;
 
                 try {

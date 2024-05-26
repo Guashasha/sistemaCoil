@@ -210,6 +210,6 @@ public class SolicitudCuentaControlador implements Initializable {
 
     private void eliminarUniversidadEspecifica () {
         cmbUniversidad.getItems()
-                      .remove("UniversidadDTO Veracruzana");
+                      .remove("Universidad Veracruzana");
     }
 }

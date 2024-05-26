@@ -1,9 +1,10 @@
-package InterfazGrafica;
+package InterfazGrafica.Items;
 
 import DAO.ColaboracionAuxiliar;
 import DTO.ColaboracionDTO;
 import DTO.EstudianteDTO;
 import DTO.UniversidadDTO;
+import InterfazGrafica.AgregarEstudianteControlador;
 import Utilidades.ErrorDAO;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;

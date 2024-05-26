@@ -29,8 +29,9 @@ public class EditarUniversidadControlador implements Initializable {
     private TextField tfNombre;
     @FXML
     private ComboBox<String> cmbPaises;
-    private Stack<Pane> historialPaneles = new Stack<>();
+    private Stack<Pane> historialPaneles;
     private BorderPane pnVentanaPrincipal;
+    private ConsultaUniversidadesControlador consultaUniversidadesControlador;
 
     public void setPnVentanaPrincipal (BorderPane pnVentanaPrincipal) {
         this.pnVentanaPrincipal = pnVentanaPrincipal;
@@ -48,6 +49,10 @@ public class EditarUniversidadControlador implements Initializable {
         this.paisActual = paisDTOActual;
     }
 
+    public void setConsultaUniversidadesControlador(ConsultaUniversidadesControlador consultaUniversidadesControlador) {
+        this.consultaUniversidadesControlador = consultaUniversidadesControlador;
+    }
+
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle) {
         llenarComboBoxPaises();
@@ -58,7 +63,7 @@ public class EditarUniversidadControlador implements Initializable {
         if (!objetosValidos()) {
             mostrarMensajeEmergente("Algo salió mal. Vuelva a intentarlo más tarde", Alert.AlertType.ERROR);
         }
-        else if (!camposVacios() && !camposIguales()) {
+        else if (!camposVacios() && !camposSinCambios()) {
             UniversidadDTO universidadDTO = new UniversidadDTO(tfNombre.getText());
             PaisDTO paisDTO = new PaisDTO(cmbPaises.getValue());
             int filasAfectadas;
@@ -103,7 +108,8 @@ public class EditarUniversidadControlador implements Initializable {
             if (response == ButtonType.OK) {
                 this.pnVentanaPrincipal
                         .setCenter(this.historialPaneles
-                        .get(0));
+                        .pop());
+                this.consultaUniversidadesControlador.cargarConsultaGeneral();
             }
         });
     }
@@ -145,7 +151,7 @@ public class EditarUniversidadControlador implements Initializable {
         txtObligatorioPais.setVisible(paisVacio);
     }
 
-    private boolean camposIguales () {
+    private boolean camposSinCambios () {
         String nuevoNombre = tfNombre.getText().
                 trim();
         String nuevoPais = cmbPaises.getValue();

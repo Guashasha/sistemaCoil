@@ -4,6 +4,7 @@ import DAO.PaisAuxiliar;
 import DAO.UniversidadAuxiliar;
 import DTO.PaisDTO;
 import DTO.UniversidadDTO;
+import InterfazGrafica.Items.UniversidadItemControlador;
 import Utilidades.ErrorDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -68,11 +69,12 @@ public class ConsultaUniversidadesControlador {
             RegistroUniversidadControlador registroUniversidadControlador = fxmlLoader.getController();
             registroUniversidadControlador.setPnVentanaPrincipal(this.pnVentanaPrincipal);
             registroUniversidadControlador.setHistorialPaneles(this.historialPaneles);
+            registroUniversidadControlador.setConsultaUniversidadesControlador(this);
             this.pnVentanaPrincipal.setCenter(pnRegistroUniversidad);
         }
     }
 
-    public void cargarConsultaTodos () {
+    public void cargarConsultaGeneral() {
         UniversidadAuxiliar universidadAuxiliar = new UniversidadAuxiliar();
         List<UniversidadDTO> listaUniversidades = new ArrayList<>();
         try {
@@ -86,6 +88,7 @@ public class ConsultaUniversidadesControlador {
 
     private void mostrarConsulta (List<UniversidadDTO> listaUniversidades) {
         vboxConsultaUniversidades.getChildren().clear();
+        listaUniversidades.removeIf(universidad -> universidad.getNombre().equals("Universidad Veracruzana"));
 
         if (!listaUniversidades.isEmpty()) {
             this.historialPaneles
@@ -93,7 +96,7 @@ public class ConsultaUniversidadesControlador {
         }
 
         for (UniversidadDTO universidad : listaUniversidades) {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("UniversidadItem.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Items/UniversidadItem.fxml"));
             HBox hboxFila;
 
             try {
@@ -123,6 +126,7 @@ public class ConsultaUniversidadesControlador {
         paisOptional.ifPresent(controlador::setPais);
         controlador.setPnVentanaPrincipal(this.pnVentanaPrincipal);
         controlador.setHistorialPaneles(this.historialPaneles);
+        controlador.setConsultaUniversidadesControlador(this);
     }
 
     private void mostrarMensajeEmergente (String mensaje, Alert.AlertType tipoAlerta) {

@@ -91,7 +91,7 @@ public class VentanaPrincipalAdministradorControlador extends Application implem
         if (pnConsultaUniversidades != null) {
             ConsultaUniversidadesControlador consultaUniversidadesControlador = fxmlLoader.getController();
             consultaUniversidadesControlador.setPnVentanaPrincipal(this.pnPrincipal);
-            consultaUniversidadesControlador.cargarConsultaTodos();
+            consultaUniversidadesControlador.cargarConsultaGeneral();
             this.pnPrincipal.setCenter(pnConsultaUniversidades);
         }
     }

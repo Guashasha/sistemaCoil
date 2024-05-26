@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="759.0" prefWidth="973.0" styleClass="root" stylesheets="@Recursos/EstiloVentanas.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.ConfiguracionCuentaControlador">
+   <top>
+      <HBox BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="51.0" fitWidth="72.0" onMouseClicked="#regresar" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Recursos/flechaRegresoNaranja.png" />
+               </image>
+               <HBox.margin>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </HBox.margin>
+            </ImageView>
+            <Label alignment="TOP_CENTER" contentDisplay="CENTER" prefHeight="96.0" prefWidth="894.0" text="Configuraciones de cuenta" textAlignment="CENTER">
+               <font>
+                  <Font name="Franklin Gothic Demi" size="35.0" />
+               </font>
+               <padding>
+                  <Insets top="15.0" />
+               </padding>
+            </Label>
+         </children>
+      </HBox>
+   </top>
+   <center>
+      <VBox fx:id="vboxConfiguraciones" prefHeight="655.0" prefWidth="707.0" stylesheets="@Recursos/EstiloLabels.css" BorderPane.alignment="CENTER">
+         <children>
+            <VBox fx:id="vboxPerfil" prefHeight="178.0" prefWidth="700.0">
+               <children>
+                  <Label alignment="CENTER" prefHeight="36.0" prefWidth="68.0" text="Perfil">
+                     <font>
+                        <Font name="System Bold" size="25.0" />
+                     </font>
+                  </Label>
+                  <AnchorPane prefHeight="151.0" prefWidth="700.0">
+                     <children>
+                        <Label layoutX="4.0" layoutY="24.0" text="Área de estudios:">
+                           <font>
+                              <Font name="Franklin Gothic Book" size="20.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lbCategoriaContratacion" layoutX="3.0" layoutY="88.0" prefHeight="24.0" prefWidth="226.0" text="Categoría de contratación:">
+                           <font>
+                              <Font name="Franklin Gothic Book" size="20.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="tfCategoriaContratacion" layoutX="255.0" layoutY="74.0" prefHeight="32.0" prefWidth="330.0" styleClass="label-inicioSesion-rosado">
+                           <font>
+                              <Font name="Franklin Gothic Book" size="16.0" />
+                           </font></TextField>
+                        <ComboBox fx:id="cmbAreaEstudios" layoutX="254.0" layoutY="17.0" prefHeight="28.0" prefWidth="329.0" styleClass="label-inicioSesion-rosado" />
+                        <Label fx:id="lbObligatorioAreaEstudios" layoutX="2.0" layoutY="7.0" text="*Campo obligatorio" textFill="#fc0000" visible="false">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lbObligatorioCategoria" layoutX="3.0" layoutY="69.0" nodeOrientation="LEFT_TO_RIGHT" text="*Campo obligatorio" textFill="#fc0000" visible="false">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </VBox>
+            <VBox fx:id="vboxInformacionContacto" prefHeight="193.0" prefWidth="700.0">
+               <children>
+                  <Label alignment="CENTER" prefHeight="36.0" prefWidth="296.0" text="Información de contacto">
+                     <font>
+                        <Font name="System Bold" size="25.0" />
+                     </font>
+                  </Label>
+                  <AnchorPane prefHeight="144.0" prefWidth="707.0">
+                     <children>
+                        <Label layoutX="4.0" layoutY="26.0" text="Correo electrónico:">
+                           <font>
+                              <Font name="Franklin Gothic Book" size="20.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="3.0" layoutY="89.0" text="Número de teléfono:">
+                           <font>
+                              <Font name="Franklin Gothic Book" size="20.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="tfCorreo" layoutX="258.0" layoutY="19.0" prefHeight="32.0" prefWidth="328.0" styleClass="label-inicioSesion-rosado">
+                           <font>
+                              <Font name="Franklin Gothic Book" size="16.0" />
+                           </font></TextField>
+                        <TextField fx:id="tfTelefono" layoutX="258.0" layoutY="82.0" prefHeight="32.0" prefWidth="328.0" styleClass="label-inicioSesion-rosado">
+                           <font>
+                              <Font name="Franklin Gothic Book" size="16.0" />
+                           </font></TextField>
+                        <Label fx:id="lbObligatorioCorreo" layoutX="1.0" layoutY="3.0" text="*Campo obligatorio" textFill="#fc0000" visible="false">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lbObligatorioTelefono" layoutX="2.0" layoutY="66.0" text="*Campo obligatorio" textFill="#fc0000" visible="false">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </VBox>
+            <AnchorPane fx:id="pnBotonGuardar" prefHeight="62.0" prefWidth="700.0">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <children>
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="221.0" layoutY="17.0" mnemonicParsing="false" onAction="#guardaCambios" prefHeight="38.0" prefWidth="150.0" styleClass="button-principal" text="Guardar cambios" textFill="WHITE">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Button>
+               </children>
+            </AnchorPane>
+         </children>
+      </VBox>
+   </center>
+   <left>
+      <VBox prefHeight="643.0" prefWidth="306.0" style="-fx-background-color: #00123A;" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets bottom="20.0" left="20.0" right="20.0" />
+         </BorderPane.margin></VBox>
+   </left>
+</BorderPane>
