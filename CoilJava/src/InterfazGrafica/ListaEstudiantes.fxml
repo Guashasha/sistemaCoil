@@ -93,16 +93,16 @@
       </BorderPane>
    </top>
    <center>
-      <AnchorPane prefHeight="91.0" prefWidth="491.0" style="-fx-background-color: #FFEA72; -fx-background-radius: 20; -fx-border-color: #E10808; -fx-border-width: 5; -fx-border-radius: 20;">
+      <AnchorPane prefHeight="45.0" prefWidth="472.0" style="-fx-background-radius: 20; -fx-border-color: #E10808; -fx-border-width: 5; -fx-border-radius: 20;">
          <children>
-            <Label alignment="CENTER" contentDisplay="RIGHT" layoutX="12.0" layoutY="13.0" prefHeight="43.0" prefWidth="434.0" text="RECUERDA: el usuario y contraseña de la cuenta de los estudiantes corresponde a su matricula para ambos campos" textAlignment="CENTER" wrapText="true">
+            <Label alignment="CENTER" contentDisplay="RIGHT" layoutX="12.0" layoutY="13.0" prefHeight="41.0" prefWidth="453.0" text="RECUERDA: el usuario y contraseña de la cuenta de los estudiantes corresponde a su primer nombre y matricula respectivamente." textAlignment="CENTER" wrapText="true">
                <font>
-                  <Font name="Franklin Gothic Demi" size="16.0" />
+                  <Font name="Franklin Gothic Demi" size="15.0" />
                </font>
             </Label>
          </children>
          <BorderPane.margin>
-            <Insets bottom="20.0" left="60.0" right="300.0" top="20.0" />
+            <Insets bottom="20.0" left="60.0" right="300.0" top="30.0" />
          </BorderPane.margin>
       </AnchorPane>
    </center>

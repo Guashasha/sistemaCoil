@@ -7,6 +7,7 @@ import DTO.AcademicoDTO;
 import DTO.ColaboracionDTO;
 import DTO.EstudianteDTO;
 import DTO.UniversidadDTO;
+import InterfazGrafica.Items.AgregarEstudianteItemControlador;
 import Utilidades.ErrorDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -118,7 +119,7 @@ public class AgregarEstudianteControlador {
             List<EstudianteDTO> listaEstudiantes = null;
 
             try {
-                listaEstudiantes = estudianteAuxiliar.getEstudiantePorUniversidad(this.academico.getIdUniversidad());
+                listaEstudiantes = estudianteAuxiliar.getEstudiantesSinColaboracionActivaOVinculadaPorUniversidad(this.academico.getIdUniversidad());
             }
             catch (ErrorDAO error) {
                 mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
@@ -141,7 +142,7 @@ public class AgregarEstudianteControlador {
         for (EstudianteDTO estudiante : listaEstudiantes) {
             if (!this.idsEstudiantesEnColaboracion
                     .contains(estudiante.getIdEstudiante())) {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AgregarEstudianteItem.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Items/AgregarEstudianteItem.fxml"));
                 HBox hboxFila;
 
                 try {

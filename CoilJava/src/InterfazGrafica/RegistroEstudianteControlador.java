@@ -103,7 +103,9 @@ public class RegistroEstudianteControlador {
                 mostrarMensajeEmergente("Algo salió mal al intentar registrar el estudiante", Alert.AlertType.ERROR);
             }
         }
-        etiquetarCamposVacios();
+        else {
+            etiquetarCamposVacios();
+        }
     }
 
     @FXML

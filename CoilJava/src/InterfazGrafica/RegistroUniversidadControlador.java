@@ -31,6 +31,7 @@ public class RegistroUniversidadControlador implements Initializable {
     private ComboBox<String> cmbPaises;
     private Stack<Pane> historialPaneles = new Stack<>();
     private BorderPane pnVentanaPrincipal;
+    private ConsultaUniversidadesControlador consultaUniversidadesControlador;
 
     public void setPnVentanaPrincipal (BorderPane pnVentanaPrincipal) {
         this.pnVentanaPrincipal = pnVentanaPrincipal;
@@ -38,6 +39,10 @@ public class RegistroUniversidadControlador implements Initializable {
 
     public void setHistorialPaneles (Stack<Pane> historialPaneles) {
         this.historialPaneles = historialPaneles;
+    }
+
+    public void setConsultaUniversidadesControlador(ConsultaUniversidadesControlador consultaUniversidadesControlador) {
+        this.consultaUniversidadesControlador = consultaUniversidadesControlador;
     }
 
     @Override
@@ -82,6 +87,7 @@ public class RegistroUniversidadControlador implements Initializable {
         alerta.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
                 this.pnVentanaPrincipal.setCenter(this.historialPaneles.pop());
+                this.consultaUniversidadesControlador.cargarConsultaGeneral();
             }
         });
     }

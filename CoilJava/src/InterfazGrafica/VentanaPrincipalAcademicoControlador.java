@@ -1,19 +1,15 @@
 package InterfazGrafica;
 
 import DTO.AcademicoDTO;
-import javafx.application.Application;
+import Utilidades.ErrorDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.control.Button;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -26,7 +22,7 @@ public class VentanaPrincipalAcademicoControlador {
     private BorderPane pnPrincipal;
     @FXML
     private VBox vBoxBotones;
-    private AcademicoDTO academicoDTO;
+    private AcademicoDTO academico;
     private Stack<Pane> historialPaneles = new Stack<>();
 
     public void cerrarVentana () {
@@ -34,9 +30,23 @@ public class VentanaPrincipalAcademicoControlador {
         window.close();
     }
 
+    @FXML
+    private void configuracionCuenta () {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ConfiguracionCuenta.fxml"));
 
-    public void abrirConfiguracionCuenta () {
-        // TODO
+        try {
+            BorderPane pnConfiguraciónCuenta = fxmlLoader.load();
+            ConfiguracionCuentaControlador controlador = fxmlLoader.getController();
+            controlador.setRecursos(this.pnPrincipal,this.academico);
+            this.pnPrincipal.setCenter(pnConfiguraciónCuenta);
+        }
+        catch (IOException error) {
+            BITACORA.fatal(error.getMessage());
+            mostrarMensajeEmergente("Error al cargar la selección", Alert.AlertType.ERROR);
+        }
+        catch (ErrorDAO error) {
+            mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
+        }
     }
 
     @FXML
@@ -54,14 +64,14 @@ public class VentanaPrincipalAcademicoControlador {
 
         if (apSeccionColaboracion != null) {
             SeccionColaboracionAcademicoControlador seccionColaboracionAcademicoControlador = fxmlLoader.getController();
-            seccionColaboracionAcademicoControlador.setAcademicoDTO(this.academicoDTO);
+            seccionColaboracionAcademicoControlador.setAcademicoDTO(this.academico);
             seccionColaboracionAcademicoControlador.setPnVentanaPrincipal(this.pnPrincipal);
             this.pnPrincipal.setCenter(apSeccionColaboracion);
         }
     }
 
-    public void setAcademicoDTO (AcademicoDTO academicoDTO) {
-        this.academicoDTO = academicoDTO;
+    public void setAcademico(AcademicoDTO academico) {
+        this.academico = academico;
     }
 
     private void mostrarMensajeEmergente (String mensaje, Alert.AlertType tipoAlerta) {
