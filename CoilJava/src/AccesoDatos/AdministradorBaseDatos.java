@@ -97,6 +97,4 @@ public class AdministradorBaseDatos {
         }
         return configuracion;
     }
-
-
 }

@@ -219,7 +219,7 @@ public class AcademicoDAO implements IAcademicoDAO {
         catch (SQLException error) {
             BITACORA.fatal(error.getMessage());
             AdministradorBaseDatos.rollback();
-            throw new ErrorDAO("Error al registrar al academicoDTO junto con su cuentaDTO", ErrorDAO.Tipo.INSERCION);
+            throw new ErrorDAO("Error al registrar al academico junto con su cuenta", ErrorDAO.Tipo.INSERCION);
         }
         return resultado;
     }

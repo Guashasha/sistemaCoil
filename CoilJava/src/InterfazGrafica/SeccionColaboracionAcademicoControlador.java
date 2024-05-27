@@ -101,16 +101,10 @@ public class SeccionColaboracionAcademicoControlador {
             this.historialPaneles.push(this.apSeccionColaboracion);
             HistorialSolicitudControlador historialSolicitudControlador = fxmlLoader.getController();
             historialSolicitudControlador.setAcademicoDTO(this.academicoDTO);
-            try {
-                historialSolicitudControlador.cargarItemSolicitud();
-            }
-            catch (IllegalArgumentException error) {
-                mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.INFORMATION);
-                return;
-            }
+            historialSolicitudControlador.cargarItemSolicitud();
             historialSolicitudControlador.setPnVentanaPrincipal(this.pnVentanaPrincipal);
             historialSolicitudControlador.setHistorialPaneles(this.historialPaneles);
-            this.pnVentanaPrincipal.setCenter(apSeccionColaboracion);
+            this.pnVentanaPrincipal.setCenter(pnHistorialSolicitud);
         }
     }
 
