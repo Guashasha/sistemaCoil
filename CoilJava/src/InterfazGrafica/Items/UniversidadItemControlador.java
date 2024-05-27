@@ -1,7 +1,9 @@
-package InterfazGrafica;
+package InterfazGrafica.Items;
 
 import DTO.PaisDTO;
 import DTO.UniversidadDTO;
+import InterfazGrafica.ConsultaUniversidadesControlador;
+import InterfazGrafica.EditarUniversidadControlador;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
@@ -20,6 +22,7 @@ public class UniversidadItemControlador {
     private Label lbUniversidad;
     private Stack<Pane> historialPaneles = new Stack<>();
     private BorderPane pnVentanaPrincipal;
+    private ConsultaUniversidadesControlador consultaUniversidadesControlador;
 
     public void setPnVentanaPrincipal (BorderPane pnVentanaPrincipal) {
         this.pnVentanaPrincipal = pnVentanaPrincipal;
@@ -37,9 +40,13 @@ public class UniversidadItemControlador {
         this.lbPais.setText(paisDTO.getNombre());
     }
 
+    public void setConsultaUniversidadesControlador(ConsultaUniversidadesControlador consultaUniversidadesControlador) {
+        this.consultaUniversidadesControlador = consultaUniversidadesControlador;
+    }
+
     @FXML
     private void editarUniversidad () {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EditarUniversidad.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../EditarUniversidad.fxml"));
         BorderPane pnEditarUniversidad = null;
 
         try {
@@ -61,6 +68,7 @@ public class UniversidadItemControlador {
         controlador.setHistorialPaneles(this.historialPaneles);
         controlador.setUniversidadActual(new UniversidadDTO(lbUniversidad.getText()));
         controlador.setPaisActual(new PaisDTO(lbPais.getText()));
+        controlador.setConsultaUniversidadesControlador(this.consultaUniversidadesControlador);
         controlador.autocompletarCampos();
     }
 

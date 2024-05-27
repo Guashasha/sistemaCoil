@@ -122,6 +122,7 @@ WHERE
 	AND ad.idColaboracion IN (SELECT colaboracion.idColaboracion FROM colaboracion WHERE estado = 'finalizada') 
 	GROUP BY idColaboracion;
 
+
 CREATE VIEW if not exists vista_colaboracion_con_academico AS
 SELECT 
     c.*,
@@ -131,3 +132,9 @@ FROM
     colaboracion c
     INNER JOIN academicoDesarrolla ad ON c.idColaboracion = ad.idColaboracion
     INNER JOIN vista_academico va ON ad.idAcademico = va.cedulaProfesional;
+    
+    
+CREATE VIEW iF not exists estudiantes_sin_colaboracion_vinculada_activa AS
+SELECT * FROM vista_estudiante 
+WHERE idEstudiante NOT IN 
+(SELECT ec.idEstudiante FROM estudiantescolaboracion AS ec LEFT JOIN colaboracion AS c ON ec.idColaboracion = c.idColaboracion WHERE c.estado = 'activa' OR c.estado = 'vinculada');

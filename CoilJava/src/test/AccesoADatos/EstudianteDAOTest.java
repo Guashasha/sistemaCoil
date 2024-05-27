@@ -245,7 +245,7 @@ class EstudianteDAOTest {
         List<EstudianteDTO> listaEstudianteDTOS;
 
         try {
-            listaEstudianteDTOS = ESTUDIANTE_DAO.getEstudiantePorUniversidad(1);
+            listaEstudianteDTOS = ESTUDIANTE_DAO.getEstudiantesSinColaboracionActivaOVinculadaPorUniversidad(1);
             tamanoListaReal = listaEstudianteDTOS.size();
 
         }
