@@ -34,7 +34,7 @@
             <Pane onMouseClicked="#regresar" prefHeight="60.0" prefWidth="78.0" style="-fx-cursor: hand;">
                <children>
                   <Circle fill="WHITE" layoutX="38.0" layoutY="26.0" radius="29.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-                  <ImageView fitHeight="38.0" fitWidth="41.0" layoutX="15.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="38.0" fitWidth="41.0" layoutX="20.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@Recursos/flechaRegresoNaranja.png" />
                      </image>

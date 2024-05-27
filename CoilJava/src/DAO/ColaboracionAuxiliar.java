@@ -164,7 +164,7 @@ public class ColaboracionAuxiliar {
     }
     public List<ColaboracionDTO> obtenerColaboracionDisponible (String cedulaProfesional) throws ErrorDAO {
         try {
-            return COLABORACION_DAO.obtenerColaboracionDisponible(cedulaProfesional);
+            return COLABORACION_DAO.obtenerColaboracionesDisponibles(cedulaProfesional);
         }
         catch (ErrorDAO errorDAO) {
             throw errorDAO;

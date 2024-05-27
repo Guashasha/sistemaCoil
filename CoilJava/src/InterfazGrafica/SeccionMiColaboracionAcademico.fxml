@@ -15,7 +15,7 @@
    <center>
       <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <VBox alignment="TOP_CENTER" layoutX="116.0" layoutY="36.0" prefHeight="201.0" prefWidth="212.0" styleClass="panel">
+            <VBox alignment="TOP_CENTER" layoutX="116.0" layoutY="36.0" onMouseClicked="#abrirVentanaSolicitudColaboracion" prefHeight="201.0" prefWidth="212.0" styleClass="panel">
                <children>
                   <ImageView fitHeight="112.0" fitWidth="155.0" pickOnBounds="true" preserveRatio="true">
                      <image>

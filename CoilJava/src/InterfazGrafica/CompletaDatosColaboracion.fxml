@@ -15,7 +15,6 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="759.0" prefWidth="973.0" stylesheets="@Recursos/EstiloLabels.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.CompletaDatosColaboracionControlador">
    <top>
       <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" styleClass="label-titulo" stylesheets="@Recursos/EstiloLabels.css" BorderPane.alignment="CENTER">
@@ -23,7 +22,7 @@
             <Pane onMouseClicked="#regresar" prefHeight="78.0" prefWidth="86.0">
                <children>
                   <Circle fill="WHITE" layoutX="43.0" layoutY="39.0" radius="34.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-                  <ImageView fitHeight="54.0" fitWidth="56.0" layoutX="14.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="54.0" fitWidth="56.0" layoutX="16.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@Recursos/flechaRegresoNaranja.png" />
                      </image>

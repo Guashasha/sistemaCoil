@@ -25,18 +25,30 @@ public class SeccionMiColaboracionAcademicoControlador {
 
     @FXML
     public void abrirVentanaSolicitudColaboracion () {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SolicitudesAColaboracion.fxml"));
-        AnchorPane apSolicitud = null;
+        ColaboracionDAO colaboracionDAO = new ColaboracionDAO();
+        Optional<ColaboracionDTO> optionalColaboracion = colaboracionDAO.obtenerColaboracionDisponiblePorAcademico(academicoDTO.getCedulaProfesional());
+        if (optionalColaboracion.isPresent()) {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SolicitudesAColaboracion.fxml"));
+            BorderPane bpSolicitud = null;
 
-        try {
-            apSolicitud = fxmlLoader.load();
+            try {
+                bpSolicitud = fxmlLoader.load();
+            }
+            catch (IOException error) {
+                mostrarMensajeEmergente("Error al cargar la ventana e solicitudes", Alert.AlertType.ERROR);
+            }
+            if (bpSolicitud != null) {
+                this.historialPaneles.push(this.bpMiColaboracion);
+                SolicitudesAColaboracionControlador solicitudesAColaboracionControlador = fxmlLoader.getController();
+                solicitudesAColaboracionControlador.setColaboracionDTO(optionalColaboracion.get());
+                solicitudesAColaboracionControlador.setAcademicoDTO(this.academicoDTO);
+                solicitudesAColaboracionControlador.cargarAcademicosItem();
+                solicitudesAColaboracionControlador.cargarAcademicosItemPorBusqueda();
+                this.pnVentanaPrincipal.setCenter(bpSolicitud);
+            }
         }
-        catch (IOException error) {
-            mostrarMensajeEmergente("Error al cargar la ventana e solicitudes", Alert.AlertType.ERROR);
-        }
-        if (apSolicitud != null) {
-            this.historialPaneles.push(this.bpMiColaboracion);
-            VentanaActividadesControlador ventanaActividadesControlador = fxmlLoader.getController();
+        else {
+            mostrarMensajeEmergente("Actualmente no eres anfitrión de la colaboración en la que participas", Alert.AlertType.INFORMATION);
         }
     }
 

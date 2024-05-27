@@ -103,3 +103,14 @@
 2024-05-20 14:20:11 FATAL ConfiguracionPrueba:90 - (conn=48) Table 'COIL.calendarioactividades' doesn't exist
 2024-05-20 14:22:25 FATAL ConfiguracionPrueba:90 - (conn=81) Table 'COIL.calendarioactividades' doesn't exist
 2024-05-20 14:23:23 FATAL ConfiguracionPrueba:90 - (conn=117) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`calendarioActividades`, CONSTRAINT `calendarioActividades_ibfk_2` FOREIGN KEY (`idActividad`) REFERENCES `actividad` (`idActividad`))
+2024-05-26 07:49:49 FATAL AdministradorBaseDatos:53 - Socket fail to connect to host:address=(host=localhost)(port=3307)(type=primary). Connection refused: getsockopt
+2024-05-26 07:49:56 FATAL AdministradorBaseDatos:30 - Error en la configuración de la base de datos
+2024-05-26 17:17:30 FATAL AdministradorBaseDatos:30 - Socket fail to connect to host:address=(host=localhost)(port=3307)(type=primary). Connection refused: getsockopt
+2024-05-26 17:17:37 FATAL AdministradorBaseDatos:30 - Socket fail to connect to host:address=(host=localhost)(port=3307)(type=primary). Connection refused: getsockopt
+2024-05-26 17:19:27 FATAL AdministradorBaseDatos:30 - Socket fail to connect to host:address=(host=localhost)(port=330)(type=primary). Connection refused: getsockopt
+2024-05-26 19:18:19 FATAL AdministradorBaseDatos:30 - Socket fail to connect to host:address=(host=localhost)(port=330)(type=primary). Connection refused: getsockopt
+2024-05-26 19:18:27 FATAL AdministradorBaseDatos:30 - Socket fail to connect to host:address=(host=localhost)(port=330)(type=primary). Connection refused: getsockopt
+2024-05-26 19:22:38 FATAL AdministradorBaseDatos:30 - Socket fail to connect to host:address=(host=localhost)(port=330)(type=primary). Connection refused: getsockopt
+2024-05-26 19:26:15 FATAL AdministradorBaseDatos:30 - Socket fail to connect to host:address=(host=localhost)(port=330)(type=primary). Connection refused: getsockopt
+2024-05-26 19:28:39 FATAL AdministradorBaseDatos:30 - Socket fail to connect to host:address=(host=localhost)(port=330)(type=primary). Connection refused: getsockopt
+2024-05-26 19:28:47 FATAL AdministradorBaseDatos:30 - Socket fail to connect to host:address=(host=localhost)(port=330)(type=primary). Connection refused: getsockopt

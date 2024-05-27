@@ -105,6 +105,8 @@ public class EvaluacionPropuestaControlador implements Initializable {
         }
     }
 
+
+
     private void cambiarEstadoPropuestaRechazado (PropuestaItemControlador propuestaItemControlador, Pane pane) {
         ColaboracionAuxiliar colaboracionAuxiliar = new ColaboracionAuxiliar();
         ColaboracionDTO colaboracionDTO = propuestaItemControlador.getColaboracionDTO();
