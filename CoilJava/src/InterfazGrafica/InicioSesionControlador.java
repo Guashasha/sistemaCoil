@@ -21,9 +21,7 @@ import javafx.stage.StageStyle;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.Optional;
-import java.util.ResourceBundle;
 
 
 public class InicioSesionControlador {
@@ -70,7 +68,7 @@ public class InicioSesionControlador {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("VentanaPrincipalAcademico.fxml"));
             Parent root = fxmlLoader.load();
             VentanaPrincipalAcademicoControlador ventanaPrincipalAcademicoControlador = fxmlLoader.getController();
-            ventanaPrincipalAcademicoControlador.setAcademicoDTO(academicoDTO);
+            ventanaPrincipalAcademicoControlador.setAcademico(academicoDTO);
             Scene nuevaEscena = new Scene(root);
             stagePrincipal.setScene(nuevaEscena);
         }

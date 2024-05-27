@@ -48,7 +48,7 @@ public class EstudianteDAO implements IEstudianteDAO {
     @Override
     public int modificar (EstudianteDTO estudianteDTO) throws ErrorDAO {
         String procedimientoSQL = "{CALL editar_Estudiante(?, ?, ?, ?, ?)}";
-        int resultado = 0;
+        int resultado;
         try {
             CallableStatement editarEstudiante = AdministradorBaseDatos.getInstancia().
                                                                        prepareCall(procedimientoSQL);
@@ -150,8 +150,8 @@ public class EstudianteDAO implements IEstudianteDAO {
     }
 
     @Override
-    public List<EstudianteDTO> getEstudiantePorUniversidad (int idUniversidad) throws ErrorDAO {
-        String consulta = "SELECT * from vista_estudiante WHERE universidad = ?";
+    public List<EstudianteDTO> getEstudiantesSinColaboracionActivaOVinculadaPorUniversidad (int idUniversidad) throws ErrorDAO {
+        String consulta = "SELECT * from estudiantes_sin_colaboracion_vinculada_activa WHERE universidad = ?";
         ArrayList<EstudianteDTO> listaEstudianteDTOS = new ArrayList<>();
         try {
             PreparedStatement cosnsultaEstudianteUniversidad = AdministradorBaseDatos.getInstancia().

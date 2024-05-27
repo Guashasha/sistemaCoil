@@ -168,16 +168,17 @@ public class AcademicoDAO implements IAcademicoDAO {
     }
 
     public int modificar (AcademicoDTO academicoDTO) throws ErrorDAO {
-        int resultado = -1;
+        int resultado;
         String procedimientoSQL = "{CALL editar_academico(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
-        try {
 
+        try {
             CallableStatement editarAcademico = AdministradorBaseDatos.getInstancia().
                                                                  prepareCall(procedimientoSQL);
             setAcademicoParametros (editarAcademico, academicoDTO);
-            resultado = editarAcademico.executeUpdate();
-            editarAcademico.close();
 
+            resultado = editarAcademico.executeUpdate();
+
+            editarAcademico.close();
         }
         catch (SQLException error) {
             BITACORA.fatal(error.getMessage());

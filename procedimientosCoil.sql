@@ -21,7 +21,7 @@ BEGIN
 END //
 
 
-DROP PROCEDURE IF EXISTS cambiar_Estado_Colaboracion;
+DROP PROCEDURE IF EXISTS cambiar_Estado_Colaboracion//
 create procedure cambiar_Estado_Colaboracion(IN p_idColaboracion int, IN nuevoEstado varchar(20))
 BEGIN
    UPDATE colaboracion
@@ -30,14 +30,14 @@ BEGIN
 END //
 
 
-DROP PROCEDURE IF EXISTS consultar_academico_cedula;
+DROP PROCEDURE IF EXISTS consultar_academico_cedula//
 create procedure consultar_academico_cedula(IN p_cedula varchar(40)) sql security invoker
 BEGIN
 	SELECT * FROM academico WHERE cedulaProfesional = p_cedula;
 END //
 
 
-DROP PROCEDURE IF EXISTS consultar_academicos_nombreFacultad;
+DROP PROCEDURE IF EXISTS consultar_academicos_nombreFacultad//
 create procedure consultar_academicos_nombreFacultad(IN p_nombreFacultad varchar(50))
 BEGIN
 	SELECT * FROM vista_academico 
@@ -137,7 +137,7 @@ END //
 
 
 -- Procedimientos estudiantes.
-DROP PROCEDURE IF EXISTS registrar_Estudiante;
+DROP PROCEDURE IF EXISTS registrar_Estudiante//
 create procedure registrar_Estudiante(
     IN p_nombre varchar(20), 
     IN p_apellidoPaterno varchar(20),
@@ -149,10 +149,11 @@ BEGIN
 	INSERT INTO persona (nombre, apellidoPaterno, apellidoMaterno, universidad) VALUES (p_nombre, p_apellidoPaterno, p_apellidoMaterno, p_universidad);
 	SET id_persona = LAST_INSERT_ID();
 	INSERT INTO estudiante (idPersona, matricula) VALUES (id_persona, p_matricula);
+	CALL registrar_cuenta (id_Persona, p_nombre, p_matricula, 'estudiante', 'aceptada');
 END //
 
 
-DROP PROCEDURE IF EXISTS editar_estudiante;
+DROP PROCEDURE IF EXISTS editar_estudiante//
 create procedure editar_estudiante (
     in p_nombre varchar(50),
     in p_apellidoPaterno varchar(50),
@@ -173,7 +174,10 @@ begin
         apellidoMaterno = p_apellidoMaterno,
         universidad = p_universidad
     WHERE idPersona = id_persona;
-
+    
+    UPDATE cuenta
+    SET nombreUsuario = p_nombre
+    WHERE cuenta.idPersona = id_persona;
 end //
 
 

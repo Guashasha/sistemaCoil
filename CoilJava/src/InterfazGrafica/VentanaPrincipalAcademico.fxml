@@ -24,7 +24,7 @@
                         <Insets right="10.0" />
                      </VBox.margin>
                   </ImageView>
-                  <ImageView fitHeight="95.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="95.0" fitWidth="100.0" onMouseClicked="#configuracionCuenta" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@Recursos/usuario.png" />
                      </image>

@@ -87,8 +87,8 @@ public class UniversidadAuxiliar {
                 universidad = UNIVERSIDAD_DAO.getUniversidadPorNombre(nombre.trim());
             }
             catch (SQLException error) {
-                BITACORA.info(error.getMessage());
-                throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
+                BITACORA.fatal(error.getMessage());
+                throw new ErrorDAO("Error al establecer conexión con la base de datos", ErrorDAO.Tipo.CONSULTA);
             }
         }
         else {
@@ -104,8 +104,8 @@ public class UniversidadAuxiliar {
                 listaUniversidades = UNIVERSIDAD_DAO.getUniversidadesPorPaisOrigen(paisOrigen.trim());
             }
             catch (SQLException error) {
-                BITACORA.info(error.getMessage());
-                throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
+                BITACORA.fatal(error.getMessage());
+                throw new ErrorDAO("Error al establecer conexión con la base de datos", ErrorDAO.Tipo.CONEXION);
             }
         }
         return listaUniversidades;
@@ -125,7 +125,7 @@ public class UniversidadAuxiliar {
             }
             catch (SQLException error) {
                 BITACORA.info(error.getMessage());
-                throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
+                throw new ErrorDAO("Error al establecer conexión con la base de datos", ErrorDAO.Tipo.CONEXION);
             }
         }
         else {
@@ -153,7 +153,7 @@ public class UniversidadAuxiliar {
             }
             catch (SQLException error) {
                 BITACORA.info(error.getMessage());
-                throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
+                throw new ErrorDAO("Error de conexión con la base de datos", ErrorDAO.Tipo.CONSULTA);
             }
         }
         else {
