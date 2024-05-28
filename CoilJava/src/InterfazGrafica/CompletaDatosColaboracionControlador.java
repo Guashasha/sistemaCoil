@@ -65,6 +65,9 @@ public class CompletaDatosColaboracionControlador implements Initializable {
         this.cmbIdioma.setItems(idiomaObservable);
     }
     private void obtenerDatosGUI () {
+        if (tfPerfil.getText() == null || tfPerfil.getText().trim() == null) {
+            throw new IllegalArgumentException("Ingresa un perfil de estudiante");
+        }
         this.colaboracionDTO.setPerfilEstudiante(tfPerfil.getText());
             this.colaboracionDTO.setIdioma(obtenerIdiomaCmb());
             this.colaboracionDTO.setTipo(obtenerDatosRadio());

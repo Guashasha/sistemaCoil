@@ -33,8 +33,8 @@
          <font>
             <Font size="18.0" />
          </font></TextArea>
-      <Button fx:id="btnEnviar" layoutX="806.0" layoutY="428.0" mnemonicParsing="false" onAction="#enviarPropuestaColaboracion" prefHeight="50.0" prefWidth="118.0" styleClass="button-principal" text="Enviar" />
-      <Button fx:id="btnCancelar" layoutX="612.0" layoutY="428.0" mnemonicParsing="false" onAction="#cancelarEnvioPropuesta" prefHeight="50.0" prefWidth="106.0" styleClass="button-secundario" text="Cancelar" />
+      <Button fx:id="btnEnviar" layoutX="664.0" layoutY="443.0" mnemonicParsing="false" onAction="#enviarPropuestaColaboracion" prefHeight="50.0" prefWidth="118.0" styleClass="button-principal" text="Enviar" />
+      <Button fx:id="btnCancelar" layoutX="825.0" layoutY="443.0" mnemonicParsing="false" onAction="#cancelarEnvioPropuesta" prefHeight="50.0" prefWidth="106.0" styleClass="button-secundario" text="Cancelar" />
    </children>
    <stylesheets>
       <URL value="@Recursos/EstiloLabels.css" />

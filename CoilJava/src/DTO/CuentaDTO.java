@@ -75,7 +75,8 @@ public class CuentaDTO {
     }
 
     private void checarUsuario (String usuario) {
-        String usuarioRegex = "^(?!\\s)(?=.{3,50}$)[A-Za-z][A-Za-z\\s]*[A-Za-z]$";
+        String usuarioRegex = "[A-z0-9]{3,50}";
+
         Pattern patron = Pattern.compile(usuarioRegex);
         if (usuario == null || usuario.isEmpty()) {
             throw new ErrorDAO("El nombre de usuario no puede estar vacío", ErrorDAO.Tipo.VALIDACION);
