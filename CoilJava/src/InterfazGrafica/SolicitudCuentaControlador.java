@@ -6,7 +6,6 @@ import DTO.AcademicoDTO;
 import DTO.CuentaDTO;
 import DTO.UniversidadDTO;
 import Utilidades.ErrorDAO;
-import com.sun.mail.imap.ACL;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -160,7 +159,7 @@ public class SolicitudCuentaControlador implements Initializable {
         pfConfirmaContrasena.clear();
     }
 
-    private int obtenerIdUniversidad () {
+    private int getIdUniversidad () {
         String nombreUniversidad = cmbUniversidad.getValue();
         int idUniversidad = -1;
         if (cacheUniversidades.containsKey(nombreUniversidad)) {
@@ -192,7 +191,7 @@ public class SolicitudCuentaControlador implements Initializable {
         if (cmbUniversidad.getValue().isEmpty()) {
             throw new IllegalArgumentException("Selecciona una universidad");
         }
-        academicoDTO.setIdUniversidad(obtenerIdUniversidad());
+        academicoDTO.setIdUniversidad(getIdUniversidad());
         return academicoDTO;
     }
 

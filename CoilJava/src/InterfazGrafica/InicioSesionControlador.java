@@ -206,8 +206,7 @@ public class InicioSesionControlador {
 
     private Optional<AcademicoDTO> recuperarAcademicoPorCuenta (CuentaDTO cuenta) {
         AcademicoAuxiliar daoAcademico = new AcademicoAuxiliar();
-        Optional<AcademicoDTO> optionalAcademico = daoAcademico.getPorId(cuenta.getIdPersona());
-        return optionalAcademico;
+        return daoAcademico.getPorId(cuenta.getIdPersona());
     }
 
     private Optional<EstudianteDTO> recupearEstudiantePorCuenta (CuentaDTO cuenta) {
@@ -217,7 +216,7 @@ public class InicioSesionControlador {
     }
 
     private void verificarOptional (Optional optional) {
-        if (!optional.isPresent()) {
+        if (optional.isEmpty()) {
             throw new ErrorDAO("No se puede obtener la información del usuario", ErrorDAO.Tipo.CONSULTA);
         }
 

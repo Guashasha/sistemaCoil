@@ -83,7 +83,7 @@ FROM
 	ON ad.idAcademico = va.cedulaProfesional
 	LEFT JOIN colaboracion AS c
 	ON ad.idColaboracion = c.idColaboracion
-	LEFT JOIN estudiantescolaboracion AS ec
+	LEFT JOIN estudiantesColaboracion AS ec
 	ON ad.idColaboracion = ec.idColaboracion
 WHERE 
 	va.nombreUniversidad = 'Universidad Veracruzana' 
@@ -108,12 +108,12 @@ SELECT
 	fechaFin, 
 	COUNT(idEstudiante) AS alumnosUvTotales
 FROM 
-	academicodesarrolla AS ad 
+	academicoDesarrolla AS ad 
 	LEFT JOIN vista_academico AS va
 	ON ad.idAcademico = va.cedulaProfesional
 	LEFT JOIN colaboracion AS c
 	ON ad.idColaboracion = c.idColaboracion
-	LEFT JOIN estudiantescolaboracion AS ec
+	LEFT JOIN estudiantesColaboracion AS ec
 	ON ad.idColaboracion = ec.idColaboracion
 WHERE 
 	va.nombreUniversidad = 'Universidad Veracruzana' 
@@ -137,4 +137,4 @@ FROM
 CREATE VIEW iF not exists estudiantes_sin_colaboracion_vinculada_activa AS
 SELECT * FROM vista_estudiante 
 WHERE idEstudiante NOT IN 
-(SELECT ec.idEstudiante FROM estudiantescolaboracion AS ec LEFT JOIN colaboracion AS c ON ec.idColaboracion = c.idColaboracion WHERE c.estado = 'activa' OR c.estado = 'vinculada');
+(SELECT ec.idEstudiante FROM estudiantesColaboracion AS ec LEFT JOIN colaboracion AS c ON ec.idColaboracion = c.idColaboracion WHERE c.estado = 'activa' OR c.estado = 'vinculada');

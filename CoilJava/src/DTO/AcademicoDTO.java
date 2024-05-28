@@ -128,16 +128,17 @@ public class AcademicoDTO extends PersonaDTO {
     }
 
     private void checharNumeroPersonal (String numeroPersonal) {
-        String NUMERO_P_REGEX = "(?!0)[1-9]{0,39}$";
+        String NUMERO_P_REGEX = "^[1-9][0-9]{0,39}$";
         Pattern patron = Pattern.compile(NUMERO_P_REGEX);
         if (numeroPersonal != null) {
             Matcher matcher = patron.matcher(numeroPersonal);
             if (!matcher.find()) {
                 throw new ErrorDAO("""
                                            El número de personal no es válido
-                                           1.No debe tener espacios en blanco
+                                           1. No debe tener espacios en blanco
                                            2. Solo debe contener números y estos deben ser positivos
-                                           3. No debe ser un número mayor a 40 digitos""", ErrorDAO.Tipo.VALIDACION);
+                                           3. No debe ser un número mayor a 40 digitos
+                                           4. No debe empzar con 0""", ErrorDAO.Tipo.VALIDACION);
             }
         }
     }

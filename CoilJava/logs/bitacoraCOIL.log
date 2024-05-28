@@ -114,3 +114,28 @@
 2024-05-26 19:26:15 FATAL AdministradorBaseDatos:30 - Socket fail to connect to host:address=(host=localhost)(port=330)(type=primary). Connection refused: getsockopt
 2024-05-26 19:28:39 FATAL AdministradorBaseDatos:30 - Socket fail to connect to host:address=(host=localhost)(port=330)(type=primary). Connection refused: getsockopt
 2024-05-26 19:28:47 FATAL AdministradorBaseDatos:30 - Socket fail to connect to host:address=(host=localhost)(port=330)(type=primary). Connection refused: getsockopt
+2024-05-27 18:14:03 FATAL AcademicoDAO:136 - (conn=9) Table 'COIL.vista_Academico' doesn't exist
+2024-05-27 18:14:17 FATAL AcademicoDAO:136 - (conn=12) Table 'COIL.vista_Academico' doesn't exist
+2024-05-27 18:14:35 FATAL AcademicoDAO:136 - (conn=15) Table 'COIL.vista_Academico' doesn't exist
+2024-05-27 18:14:53 FATAL AcademicoDAO:136 - (conn=18) Table 'COIL.vista_Academico' doesn't exist
+2024-05-27 18:16:16 FATAL AcademicoDAO:136 - (conn=24) Table 'COIL.vista_Academico' doesn't exist
+2024-05-27 18:16:37 FATAL AcademicoDAO:136 - (conn=27) Table 'COIL.vista_Academico' doesn't exist
+2024-05-27 18:18:05 FATAL AcademicoDAO:136 - (conn=32) Table 'COIL.vista_Academico' doesn't exist
+2024-05-27 21:44:29 FATAL AcademicoDAO:136 - (conn=14) Table 'COIL.vista_Academico' doesn't exist
+2024-05-27 21:44:32 FATAL VentanaPrincipalAdministradorControlador:130 - 
+/home/guashasha/Documents/escuela/semestres/cuarto_semestre/coil/CoilJava/out/production/CoilJava/InterfazGrafica/GestionCuenta.fxml
+
+2024-05-27 23:22:53 FATAL ColaboracionDAO:458 - (conn=85) You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'OR estado = 'activa' OR estado = 'enRevision') AND cedulaProfesional = '45698...' at line 1
+2024-05-28 08:45:47 FATAL VentanaPrincipalAdministradorControlador:131 - 
+/home/guashasha/Documents/escuela/semestres/cuarto_semestre/coil/CoilJava/out/production/CoilJava/InterfazGrafica/CrearCuentaAcademico.fxml:15
+
+2024-05-28 08:45:55 FATAL VentanaPrincipalAdministradorControlador:131 - 
+/home/guashasha/Documents/escuela/semestres/cuarto_semestre/coil/CoilJava/out/production/CoilJava/InterfazGrafica/CrearCuentaAcademico.fxml:15
+
+2024-05-28 08:47:02 FATAL VentanaPrincipalAdministradorControlador:131 - 
+/home/guashasha/Documents/escuela/semestres/cuarto_semestre/coil/CoilJava/out/production/CoilJava/InterfazGrafica/CrearCuentaAcademico.fxml:15
+
+2024-05-28 10:23:27 FATAL AcademicoDAO:221 - (conn=74) Cannot add or update a child row: a foreign key constraint fails (`COIL`.`persona`, CONSTRAINT `persona_ibfk_1` FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`))
+2024-05-28 10:29:28 FATAL AcademicoDAO:221 - (conn=85) Duplicate entry '7489654654654' for key 'PRIMARY'
+2024-05-28 10:40:44 FATAL AcademicoDAO:221 - (conn=98) Duplicate entry '123456456456' for key 'PRIMARY'
+2024-05-28 10:46:05 FATAL ColaboracionDAO:411 - (conn=110) Table 'COIL.academicodesarrolla' doesn't exist

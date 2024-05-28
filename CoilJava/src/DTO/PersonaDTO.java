@@ -77,7 +77,7 @@ public abstract class PersonaDTO {
                                                        El nombre no es válido
                                                        1. Solo debe tener letras.
                                                        2. No debe tener espacios.
-                                                       3. Para esta versión, solo puede tener caracteres permitodos en el español.
+                                                       3. Para esta versión, solo puede tener caracteres permitidos en el español.
                                                        4. Su longitud debe ser máximo 20 caracteres.""", ErrorDAO.Tipo.VALIDACION);
         }
     }
