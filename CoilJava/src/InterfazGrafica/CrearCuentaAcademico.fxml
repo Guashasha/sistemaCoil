@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="506.0" prefWidth="616.0" styleClass="root" stylesheets="@Recursos/EstiloVentanas.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.CrearCuentaAcademicoControlador">
+   <children>
+      <HBox layoutX="47.0" layoutY="60.0" prefHeight="347.0" prefWidth="496.0" spacing="40.0">
+         <children>
+            <VBox prefHeight="385.0" prefWidth="218.0" spacing="5.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre" />
+                  <TextField fx:id="tfNombre">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <Text layoutX="10.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Apellido Paterno" />
+                  <TextField fx:id="tfApPaterno" layoutX="10.0" layoutY="33.0">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <Text layoutX="10.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Apellido Materno" />
+                  <TextField fx:id="tfApMaterno" layoutX="10.0" layoutY="97.0">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <Text layoutX="10.0" layoutY="142.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Correo electronico" />
+                  <TextField fx:id="tfCorreo" layoutX="10.0" layoutY="151.0">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <Text layoutX="10.0" layoutY="216.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Numero de telefono" />
+                  <TextField fx:id="tfTelefono" layoutX="10.0" layoutY="225.0">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin></TextField>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Cedula profesional" />
+                  <TextField fx:id="tfCedulaProfesional">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </TextField>
+               </children>
+            </VBox>
+            <VBox prefHeight="408.0" prefWidth="214.0" spacing="5.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Numero de personal" />
+                  <TextField fx:id="tfNumeroPersonal">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <Text layoutX="10.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Region" />
+                  <ComboBox fx:id="cbRegion" layoutX="10.0" layoutY="97.0" onAction="#llenarComboBoxFacultades" prefWidth="150.0" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Facultad" />
+                  <ComboBox fx:id="cbFacultad" prefWidth="150.0">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </ComboBox>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Area de estudios" />
+                  <ComboBox fx:id="cbAreaEstudios" prefWidth="150.0">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </ComboBox>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Categoria de contratacion" />
+                  <ComboBox fx:id="cbCategoriaContratacion" prefWidth="150.0">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </ComboBox>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <Button layoutX="418.0" layoutY="411.0" mnemonicParsing="false" onAction="#registrarCuenta" prefHeight="37.0" prefWidth="124.0" styleClass="button-principal" stylesheets="@Recursos/EstiloVentanas.css" text="Crear cuenta" />
+   </children>
+</AnchorPane>
