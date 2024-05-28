@@ -21,6 +21,7 @@ public class SeccionMiColaboracionAcademicoControlador {
     private AcademicoDTO academicoDTO;
     private Stack<Pane> historialPaneles = new Stack<>();
     private BorderPane pnVentanaPrincipal;
+    private ColaboracionDTO colaboracion;
     @FXML
     private BorderPane bpMiColaboracion;
 
@@ -56,7 +57,7 @@ public class SeccionMiColaboracionAcademicoControlador {
 
     @FXML
     public void abrirActividades () {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("VentanaActividades.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ActividadesColaboracion.fxml"));
         AnchorPane apActividades = null;
         try {
             apActividades = fxmlLoader.load();
@@ -66,9 +67,8 @@ public class SeccionMiColaboracionAcademicoControlador {
         }
         if (apActividades != null) {
             this.historialPaneles.push(this.bpMiColaboracion);
-            VentanaActividadesControlador ventanaActividadesControlador = fxmlLoader.getController();
-            ventanaActividadesControlador.setPnVentanaPrincipal(this.pnVentanaPrincipal);
-            ventanaActividadesControlador.setAcademicoDTO(this.academicoDTO);
+            ActividadesColaboracionControlador ventanaActividadesControlador = fxmlLoader.getController();
+            ventanaActividadesControlador.initialize(bpMiColaboracion, pnVentanaPrincipal, historialPaneles, this.colaboracion);
             this.pnVentanaPrincipal.setCenter(apActividades);
         }
     }
@@ -144,5 +144,7 @@ public class SeccionMiColaboracionAcademicoControlador {
     public void setAcademicoDTO (AcademicoDTO academicoDTO) {
         this.academicoDTO = academicoDTO;
     }
+
+    public void setColaboracion (ColaboracionDTO colaboracion) { this.colaboracion = colaboracion; }
 }
 

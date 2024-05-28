@@ -114,3 +114,10 @@
 2024-05-26 19:26:15 FATAL AdministradorBaseDatos:30 - Socket fail to connect to host:address=(host=localhost)(port=330)(type=primary). Connection refused: getsockopt
 2024-05-26 19:28:39 FATAL AdministradorBaseDatos:30 - Socket fail to connect to host:address=(host=localhost)(port=330)(type=primary). Connection refused: getsockopt
 2024-05-26 19:28:47 FATAL AdministradorBaseDatos:30 - Socket fail to connect to host:address=(host=localhost)(port=330)(type=primary). Connection refused: getsockopt
+2024-05-27 18:14:03 FATAL AcademicoDAO:136 - (conn=9) Table 'COIL.vista_Academico' doesn't exist
+2024-05-27 18:14:17 FATAL AcademicoDAO:136 - (conn=12) Table 'COIL.vista_Academico' doesn't exist
+2024-05-27 18:14:35 FATAL AcademicoDAO:136 - (conn=15) Table 'COIL.vista_Academico' doesn't exist
+2024-05-27 18:14:53 FATAL AcademicoDAO:136 - (conn=18) Table 'COIL.vista_Academico' doesn't exist
+2024-05-27 18:16:16 FATAL AcademicoDAO:136 - (conn=24) Table 'COIL.vista_Academico' doesn't exist
+2024-05-27 18:16:37 FATAL AcademicoDAO:136 - (conn=27) Table 'COIL.vista_Academico' doesn't exist
+2024-05-27 18:18:05 FATAL AcademicoDAO:136 - (conn=32) Table 'COIL.vista_Academico' doesn't exist

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane prefHeight="593.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.ActividadesColaboracionControlador">
+   <children>
+      <VBox fx:id="vboxActividades" layoutX="11.0" layoutY="56.0" prefHeight="460.0" prefWidth="573.0" />
+      <Button fx:id="pnMain" layoutX="430.0" layoutY="538.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="130.0" stylesheets="@Recursos/EstiloVentanas.css" text="Nueva actividad" />
+      <Button layoutX="25.0" layoutY="15.0" mnemonicParsing="false" text="Volver" />
+   </children>
+</AnchorPane>

@@ -15,9 +15,13 @@ import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Stack;
 
 public class NuevaActividadControlador {
     private static final Logger BITACORA = Logger.getLogger(NuevaActividadControlador.class);
+    private Pane panelPrincipal;
+    private Pane panelAnterior;
+    private Stack<Pane> historialPaneles;
 
     @FXML
     private Pane pnPrincipal;
@@ -38,19 +42,15 @@ public class NuevaActividadControlador {
     @FXML
     private TextField tfTitulo = new TextField();
 
-    public NuevaActividadControlador (ColaboracionDTO colaboracionDTO) {
+    public void initialize (ColaboracionDTO colaboracionDTO, Pane panelPrincipal, Pane panelAnterior, Stack<Pane> historialPaneles) {
         if (!colaboracionDTO.esValido()) {
             return;
         }
 
         this.colaboracionDTO = colaboracionDTO;
-
-        try {
-             pnPrincipal = FXMLLoader.load(getClass().getResource("NuevaActividad.fxml"));
-        }
-        catch (IOException e) {
-            BITACORA.error(e);
-        }
+        this.panelAnterior = panelAnterior;
+        this.panelPrincipal = panelPrincipal;
+        this.historialPaneles = historialPaneles;
     }
 
     public Pane getPane () {
