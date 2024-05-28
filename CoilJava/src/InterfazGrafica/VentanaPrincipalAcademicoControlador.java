@@ -64,7 +64,7 @@ public class VentanaPrincipalAcademicoControlador {
 
         if (apSeccionColaboracion != null) {
             SeccionColaboracionAcademicoControlador seccionColaboracionAcademicoControlador = fxmlLoader.getController();
-            seccionColaboracionAcademicoControlador.setAcademicoDTO(this.academico);
+            seccionColaboracionAcademicoControlador.setAcademico(this.academico);
             seccionColaboracionAcademicoControlador.setPnVentanaPrincipal(this.pnPrincipal);
             this.pnPrincipal.setCenter(apSeccionColaboracion);
         }

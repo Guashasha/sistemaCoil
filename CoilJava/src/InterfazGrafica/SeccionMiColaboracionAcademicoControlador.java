@@ -3,6 +3,7 @@ package InterfazGrafica;
 import DAO.ColaboracionDAO;
 import DTO.AcademicoDTO;
 import DTO.ColaboracionDTO;
+import DTO.CuentaDTO;
 import Utilidades.ErrorDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,6 +23,7 @@ public class SeccionMiColaboracionAcademicoControlador {
     private Stack<Pane> historialPaneles = new Stack<>();
     private BorderPane pnVentanaPrincipal;
     private ColaboracionDTO colaboracion;
+    private CuentaDTO usuario;
     @FXML
     private BorderPane bpMiColaboracion;
 
@@ -63,12 +65,12 @@ public class SeccionMiColaboracionAcademicoControlador {
             apActividades = fxmlLoader.load();
         }
         catch (IOException error) {
-            mostrarMensajeEmergente("Error al mostrar la sección de actividades", Alert.AlertType.ERROR);
+            mostrarMensajeEmergente("Error al mostrar la sección de actividades: " + error.getMessage(), Alert.AlertType.ERROR);
         }
         if (apActividades != null) {
             this.historialPaneles.push(this.bpMiColaboracion);
             ActividadesColaboracionControlador ventanaActividadesControlador = fxmlLoader.getController();
-            ventanaActividadesControlador.initialize(bpMiColaboracion, pnVentanaPrincipal, this.colaboracion);
+            ventanaActividadesControlador.initialize(bpMiColaboracion, pnVentanaPrincipal, this.colaboracion, this.usuario);
             this.pnVentanaPrincipal.setCenter(apActividades);
         }
     }
@@ -146,5 +148,7 @@ public class SeccionMiColaboracionAcademicoControlador {
     }
 
     public void setColaboracion (ColaboracionDTO colaboracion) { this.colaboracion = colaboracion; }
+
+    public void setUsuario (CuentaDTO usuario) { this.usuario = usuario; }
 }
 

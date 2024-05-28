@@ -30,10 +30,11 @@ public class ActividadesColaboracionControlador {
     @FXML
     private Button btnNuevaActividad;
 
-    public void initialize (Pane ventanaAnterior, BorderPane ventanaPrincipal, ColaboracionDTO colaboracion) {
+    public void initialize (Pane ventanaAnterior, BorderPane ventanaPrincipal, ColaboracionDTO colaboracion, CuentaDTO usuario) {
         this.ventanaAnterior = ventanaAnterior;
         this.ventanaPrincipal = ventanaPrincipal;
         this.colaboracion = colaboracion;
+        this.usuario = usuario;
 
         actualizarLista();
     }
@@ -116,6 +117,7 @@ public class ActividadesColaboracionControlador {
         return boton;
     }
 
+    @FXML
     private void abrirNuevaActividad () {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("NuevaActividad.fxml"));
         Pane apActividades;

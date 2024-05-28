@@ -1,8 +1,10 @@
 package InterfazGrafica;
 
 import DAO.ColaboracionDAO;
+import DAO.CuentaDAO;
 import DTO.AcademicoDTO;
 import DTO.ColaboracionDTO;
+import DTO.CuentaDTO;
 import Utilidades.ErrorDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,15 +20,15 @@ import java.util.Stack;
 
 public class SeccionColaboracionAcademicoControlador {
     private static final Logger BITACORA = Logger.getLogger(SeccionColaboracionAcademicoControlador.class);
-    private AcademicoDTO academicoDTO;
+    private AcademicoDTO academico;
     private final Stack<Pane> historialPaneles = new Stack<>();
     private BorderPane pnVentanaPrincipal;
     @FXML
     private AnchorPane apSeccionColaboracion;
 
 
-    public void setAcademicoDTO (AcademicoDTO academicoDTO) {
-        this.academicoDTO = academicoDTO;
+    public void setAcademico(AcademicoDTO academico) {
+        this.academico = academico;
     }
 
     public void setPnVentanaPrincipal (BorderPane pnVentanaPrincipal) {
@@ -48,7 +50,7 @@ public class SeccionColaboracionAcademicoControlador {
         if (bpConsultaColaboracion != null) {
             this.historialPaneles.push(this.apSeccionColaboracion);
             ConsultaColaboracionControlador consultaColaboracionControlador = fxmlLoader.getController();
-            consultaColaboracionControlador.setAcademicoDTO(this.academicoDTO);
+            consultaColaboracionControlador.setAcademicoDTO(this.academico);
             consultaColaboracionControlador.cargarColaboracionItem();
             consultaColaboracionControlador.cargarItemsColaboracionPorBusqueda();
             consultaColaboracionControlador.setHistorialPaneles(this.historialPaneles);
@@ -100,7 +102,7 @@ public class SeccionColaboracionAcademicoControlador {
         if (pnHistorialSolicitud != null) {
             this.historialPaneles.push(this.apSeccionColaboracion);
             HistorialSolicitudControlador historialSolicitudControlador = fxmlLoader.getController();
-            historialSolicitudControlador.setAcademicoDTO(this.academicoDTO);
+            historialSolicitudControlador.setAcademicoDTO(this.academico);
             historialSolicitudControlador.cargarItemSolicitud();
             historialSolicitudControlador.setPnVentanaPrincipal(this.pnVentanaPrincipal);
             historialSolicitudControlador.setHistorialPaneles(this.historialPaneles);
@@ -149,7 +151,7 @@ public class SeccionColaboracionAcademicoControlador {
         if (apEnvioPropuesta != null) {
             this.historialPaneles.push(this.apSeccionColaboracion);
             EnvioPropuestaControlador envioPropuestaControlador = fxmlLoader.getController();
-            envioPropuestaControlador.setAcademicoAnfitrion(this.academicoDTO);
+            envioPropuestaControlador.setAcademicoAnfitrion(this.academico);
             envioPropuestaControlador.setPnVentanaPrincipal(this.pnVentanaPrincipal);
             envioPropuestaControlador.setHistorialPaneles(this.historialPaneles);
             this.pnVentanaPrincipal.setCenter(apEnvioPropuesta);
@@ -158,6 +160,12 @@ public class SeccionColaboracionAcademicoControlador {
 
     @FXML
     public void abrirMiColaboracion () {
+        CuentaDAO cuentaDao = new CuentaDAO();
+        Optional<CuentaDTO> usuario = cuentaDao.getCuentaPorPersona(this.academico.getIdPersona());
+
+        ColaboracionDAO colaboracionDao = new ColaboracionDAO();
+        Optional<ColaboracionDTO> colaboracion = colaboracionDao.getActivaPorAcademico(academico);
+
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SeccionMiColaboracionAcademico.fxml"));
         BorderPane bpSeccionColaboracion = null;
 
@@ -171,9 +179,11 @@ public class SeccionColaboracionAcademicoControlador {
         if (bpSeccionColaboracion != null) {
             this.historialPaneles.push(this.apSeccionColaboracion);
             SeccionMiColaboracionAcademicoControlador seccionMiColaboracionAcademicoControlador = fxmlLoader.getController();
-            seccionMiColaboracionAcademicoControlador.setAcademicoDTO(this.academicoDTO);
+            seccionMiColaboracionAcademicoControlador.setAcademicoDTO(this.academico);
             seccionMiColaboracionAcademicoControlador.setPnVentanaPrincipal(this.pnVentanaPrincipal);
             seccionMiColaboracionAcademicoControlador.setHistorialPaneles(this.historialPaneles);
+            seccionMiColaboracionAcademicoControlador.setUsuario();
+            seccionMiColaboracionAcademicoControlador.setColaboracion();
             this.pnVentanaPrincipal.setCenter(bpSeccionColaboracion);
         }
     }
@@ -182,7 +192,7 @@ public class SeccionColaboracionAcademicoControlador {
         ColaboracionDAO colaboracionDAO = new ColaboracionDAO();
         Optional<ColaboracionDTO> optionalColaboracionDTO = Optional.empty();
         try {
-            optionalColaboracionDTO = colaboracionDAO.getPropuestaPorAcademico(this.academicoDTO);
+            optionalColaboracionDTO = colaboracionDAO.getPropuestaPorAcademico(this.academico);
         }
         catch (ErrorDAO error) {
             mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
@@ -194,7 +204,7 @@ public class SeccionColaboracionAcademicoControlador {
         ColaboracionDAO colaboracionDAO = new ColaboracionDAO();
         Optional<ColaboracionDTO> optionalColaboracionDTO = Optional.empty();
         try {
-            optionalColaboracionDTO = colaboracionDAO.getColaboracionAceptadaPorAcademico(this.academicoDTO);
+            optionalColaboracionDTO = colaboracionDAO.getColaboracionAceptadaPorAcademico(this.academico);
         }
         catch (ErrorDAO error) {
             mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);

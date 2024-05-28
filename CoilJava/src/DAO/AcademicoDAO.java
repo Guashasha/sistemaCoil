@@ -119,7 +119,7 @@ public class AcademicoDAO implements IAcademicoDAO {
 
     @Override
     public  Optional<AcademicoDTO> getPorId (Integer id) throws ErrorDAO {
-        String consulta = "SELECT * from vista_Academico WHERE idPersona = ?";
+        String consulta = "SELECT * from vista_academico WHERE idPersona = ?";
         AcademicoDTO academicoDTO = null;
         try {
             PreparedStatement consultarAcademico = AdministradorBaseDatos.getInstancia().
