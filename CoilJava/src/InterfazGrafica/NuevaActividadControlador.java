@@ -1,6 +1,7 @@
 package InterfazGrafica;
 
 import DAO.ActividadAuxiliar;
+import DAO.ColaboracionAuxiliar;
 import DAO.CronogramaActividadAuxiliar;
 import DTO.ActividadDTO;
 import DTO.ActividadVinculadaDTO;
@@ -13,6 +14,7 @@ import javafx.scene.layout.Pane;
 import org.apache.log4j.Logger;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 public class NuevaActividadControlador {
     private static final Logger BITACORA = Logger.getLogger(NuevaActividadControlador.class);
@@ -43,7 +45,24 @@ public class NuevaActividadControlador {
             return;
         }
 
-        this.colaboracionDTO = colaboracionDTO;
+        ColaboracionAuxiliar dao = new ColaboracionAuxiliar();
+        Optional<ColaboracionDTO> colaboracion;
+        try {
+             colaboracion = dao.getColaboracionPorId(colaboracionDTO.getIdColaboracion());
+
+            if (colaboracion.isEmpty()) {
+                return;
+            }
+        } catch (ErrorDAO e) {
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setHeaderText("Error al iniciar la ventana nueva actividad");
+            errorAlert.setContentText("Ocurrió un error desconocido al intentar abrir la ventana nueva actividad");
+            errorAlert.showAndWait();
+
+            return;
+        }
+
+        this.colaboracionDTO = colaboracion.get();
         this.panelAnterior = panelAnterior;
         this.panelPrincipal = panelPrincipal;
     }
@@ -108,7 +127,7 @@ public class NuevaActividadControlador {
             return;
         }
 
-        ActividadVinculadaDTO actividadVinculadaDTO = new ActividadVinculadaDTO(actividadDTO, colaboracionDTO, periodoDTO);
+        ActividadVinculadaDTO actividadVinculadaDTO = new ActividadVinculadaDTO(actividadDTO, this.colaboracionDTO, periodoDTO);
         CronogramaActividadAuxiliar cronograma = new CronogramaActividadAuxiliar();
 
         try {

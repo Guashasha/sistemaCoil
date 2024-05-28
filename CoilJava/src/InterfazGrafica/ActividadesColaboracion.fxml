@@ -6,7 +6,7 @@
 <AnchorPane fx:id="pnMain" prefHeight="593.0" prefWidth="600.0" stylesheets="@Recursos/EstiloVentanas.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.ActividadesColaboracionControlador">
    <children>
       <VBox fx:id="vboxActividades" layoutX="11.0" layoutY="56.0" prefHeight="460.0" prefWidth="573.0" />
-      <Button fx:id="btnNuevaActividad" disable="true" layoutX="405.0" layoutY="530.0" mnemonicParsing="false" onAction="#abrirNuevaActividad" prefHeight="38.0" prefWidth="155.0" styleClass="button-principal" stylesheets="@Recursos/EstiloVentanas.css" text="Nueva actividad" visible="false" />
+      <Button fx:id="btnNuevaActividad" layoutX="405.0" layoutY="530.0" mnemonicParsing="false" onAction="#abrirNuevaActividad" prefHeight="38.0" prefWidth="155.0" styleClass="button-principal" stylesheets="@Recursos/EstiloVentanas.css" text="Nueva actividad" />
       <Button layoutX="25.0" layoutY="15.0" mnemonicParsing="false" styleClass="button-secundario" stylesheets="@Recursos/EstiloVentanas.css" text="Volver" />
    </children>
 </AnchorPane>

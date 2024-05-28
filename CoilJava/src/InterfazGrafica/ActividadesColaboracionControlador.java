@@ -71,14 +71,14 @@ public class ActividadesColaboracionControlador {
             return null;
         }
         else if (this.colaboracion.getEstado() == ColaboracionDTO.EstadoColaboracion.enRevision) {
+            btnNuevaActividad.setDisable(true);
+            btnNuevaActividad.setVisible(false);
             panelActividad.setSpacing(30.0);
             Button boton = crearBotonRetroalimentar(actividad);
 
             panelActividad.getChildren().addAll(new Label(actividad.getTitulo()), boton);
         }
         else {
-            btnNuevaActividad.setDisable(false);
-            btnNuevaActividad.setVisible(true);
             panelActividad.setSpacing(50.0);
 
             HBox pnFechas = new HBox(10);
