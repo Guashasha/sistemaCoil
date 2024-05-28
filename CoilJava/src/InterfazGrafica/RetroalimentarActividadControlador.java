@@ -19,7 +19,6 @@ public class RetroalimentarActividadControlador {
     private static final Logger BITACORA = Logger.getLogger(NuevaActividadControlador.class);
     private Pane ventanaPrincipal;
     private Pane ventanaAnterior;
-    private Stack<Pane> historialPaneles;
 
     @FXML
     private Pane pnPrincipal;
@@ -34,7 +33,7 @@ public class RetroalimentarActividadControlador {
 
     private ActividadDTO actividad;
 
-    public void initialize (Pane ventanaPrincipal, Pane ventanaAnterior, Stack<Pane> historialPaneles, ActividadDTO actividad) {
+    public void initialize (Pane ventanaPrincipal, Pane ventanaAnterior, ActividadDTO actividad) {
         if (!actividad.esCorrecta()) {
             return;
         }
@@ -42,7 +41,6 @@ public class RetroalimentarActividadControlador {
         this.actividad = actividad;
         this.ventanaPrincipal = ventanaPrincipal;
         this.ventanaAnterior = ventanaAnterior;
-        this.historialPaneles = historialPaneles;
     }
 
     public Pane getPane () {

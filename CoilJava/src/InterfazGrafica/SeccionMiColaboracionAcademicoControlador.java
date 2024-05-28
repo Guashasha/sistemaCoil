@@ -68,7 +68,7 @@ public class SeccionMiColaboracionAcademicoControlador {
         if (apActividades != null) {
             this.historialPaneles.push(this.bpMiColaboracion);
             ActividadesColaboracionControlador ventanaActividadesControlador = fxmlLoader.getController();
-            ventanaActividadesControlador.initialize(bpMiColaboracion, pnVentanaPrincipal, historialPaneles, this.colaboracion);
+            ventanaActividadesControlador.initialize(bpMiColaboracion, pnVentanaPrincipal, this.colaboracion);
             this.pnVentanaPrincipal.setCenter(apActividades);
         }
     }

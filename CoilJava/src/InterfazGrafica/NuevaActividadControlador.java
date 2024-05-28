@@ -8,20 +8,16 @@ import DTO.ColaboracionDTO;
 import DTO.PeriodoDTO;
 import Utilidades.ErrorDAO;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import org.apache.log4j.Logger;
 
-import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Stack;
 
 public class NuevaActividadControlador {
     private static final Logger BITACORA = Logger.getLogger(NuevaActividadControlador.class);
     private Pane panelPrincipal;
     private Pane panelAnterior;
-    private Stack<Pane> historialPaneles;
 
     @FXML
     private Pane pnPrincipal;
@@ -42,7 +38,7 @@ public class NuevaActividadControlador {
     @FXML
     private TextField tfTitulo = new TextField();
 
-    public void initialize (ColaboracionDTO colaboracionDTO, Pane panelPrincipal, Pane panelAnterior, Stack<Pane> historialPaneles) {
+    public void initialize (ColaboracionDTO colaboracionDTO, Pane panelPrincipal, Pane panelAnterior) {
         if (!colaboracionDTO.esValido()) {
             return;
         }
@@ -50,7 +46,6 @@ public class NuevaActividadControlador {
         this.colaboracionDTO = colaboracionDTO;
         this.panelAnterior = panelAnterior;
         this.panelPrincipal = panelPrincipal;
-        this.historialPaneles = historialPaneles;
     }
 
     public Pane getPane () {

@@ -121,3 +121,7 @@
 2024-05-27 18:16:16 FATAL AcademicoDAO:136 - (conn=24) Table 'COIL.vista_Academico' doesn't exist
 2024-05-27 18:16:37 FATAL AcademicoDAO:136 - (conn=27) Table 'COIL.vista_Academico' doesn't exist
 2024-05-27 18:18:05 FATAL AcademicoDAO:136 - (conn=32) Table 'COIL.vista_Academico' doesn't exist
+2024-05-27 21:44:29 FATAL AcademicoDAO:136 - (conn=14) Table 'COIL.vista_Academico' doesn't exist
+2024-05-27 21:44:32 FATAL VentanaPrincipalAdministradorControlador:130 - 
+/home/guashasha/Documents/escuela/semestres/cuarto_semestre/coil/CoilJava/out/production/CoilJava/InterfazGrafica/GestionCuenta.fxml
+
