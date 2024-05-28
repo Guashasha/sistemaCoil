@@ -109,7 +109,8 @@ public class SeccionMiColaboracionAcademicoControlador {
 
     @FXML
     private void abrirIniciarMiColaboracion () {
-        if (obtenerColaboracionVinculadaOActiva().isPresent()) {
+        Optional<ColaboracionDTO> colaboracionOptional = obtenerColaboracionVinculadaOActiva();
+        if (colaboracionOptional.isPresent()) {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("InicioColaboracion.fxml"));
             BorderPane bpInicioColaboracion = null;
 
@@ -123,10 +124,14 @@ public class SeccionMiColaboracionAcademicoControlador {
             if (bpInicioColaboracion != null) {
                 this.historialPaneles.push(bpMiColaboracion);
                 InicioColaboracionControlador inicioColaboracionControlador = fxmlLoader.getController();
+                inicioColaboracionControlador.setColaboracionDTO(colaboracionOptional.get());
                 inicioColaboracionControlador.setAcademicoDTO(this.academicoDTO);
                 inicioColaboracionControlador.inicializar();
                 this.pnVentanaPrincipal.setCenter(bpInicioColaboracion);
             }
+        }
+        else {
+            mostrarMensajeEmergente("No existe una colaboracion activa o vinculada con un par", Alert.AlertType.WARNING);
         }
     }
 
@@ -134,7 +139,6 @@ public class SeccionMiColaboracionAcademicoControlador {
         ColaboracionDAO colaboracionDAO = new ColaboracionDAO();
         Optional<ColaboracionDTO> colaboracionActivaOptional = Optional.empty();
         Optional<ColaboracionDTO> colaboracionVinculadaOptional = Optional.empty();
-
         try {
             colaboracionActivaOptional = colaboracionDAO.getActivaPorAcademico(this.academicoDTO);
             colaboracionVinculadaOptional = colaboracionDAO.getVinculadaPorAcademico(this.academicoDTO);

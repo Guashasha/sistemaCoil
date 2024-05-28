@@ -51,6 +51,27 @@ public class ColaboracionDAO implements IColaboracionDAO {
     }
 
     @Override
+    public int agregarPeriodoAColaboracion (ColaboracionDTO colaboracionDTO) throws ErrorDAO {
+        String agregarPeriodoSQL = "UPDATE colaboracion SET fechaInicio = ?, fechaFin = ? WHERE idColaboracion = ?";
+        int filasAfectadas;
+
+        try {
+            PreparedStatement agregarPeriodo = AdministradorBaseDatos.getInstancia().prepareStatement(agregarPeriodoSQL);
+            agregarPeriodo.setDate(1, java.sql.Date.valueOf(colaboracionDTO.getPeriodo().getFechaInicio()));
+            agregarPeriodo.setDate(2, java.sql.Date.valueOf(colaboracionDTO.getPeriodo().getFechaFin()));
+            agregarPeriodo.setInt(3, colaboracionDTO.getIdColaboracion());
+
+            filasAfectadas = agregarPeriodo.executeUpdate();
+            agregarPeriodo.close();
+        }
+        catch (SQLException error) {
+            BITACORA.fatal(error.getMessage());
+            throw new ErrorDAO("Error al agregar el periodo", ErrorDAO.Tipo.INSERCION);
+        }
+        return filasAfectadas;
+    }
+
+    @Override
     public List<EstudianteDTO> getListaDeEstudiantes (ColaboracionDTO colaboracionDTO) throws ErrorDAO {
         String listaDeEstudiantesSQL = "{CALL obtener_estudiantes_colaboracion(?)}";
         List<EstudianteDTO> listaEstudianteDTOS = new ArrayList<>();
