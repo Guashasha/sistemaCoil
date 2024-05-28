@@ -48,18 +48,24 @@ public class ColaboracionDisponibleItemControlador implements Initializable {
 
     @FXML
     public void clicEnElPanel () {
-        try {
-            boolean esSolicitud = mostrarDetallesColaboracion();
-            if (esSolicitud) {
-                registrarSolicitudParticipacion();
+        Optional<ColaboracionDTO> colaboracionDTOOptional = getColaboracion();
+            try {
+                boolean esSolicitud = mostrarDetallesColaboracion();
+                if (colaboracionDTOOptional.isEmpty()) {
+                    if (esSolicitud) {
+                        registrarSolicitudParticipacion();
+                    }
+                }
+                else {
+                    mostrarMensajeEmergente("Actualmente estas asociado a una colaboración " + colaboracionDTOOptional.get().getEstado().toString() +  ".\nNo puedes realizar una solicitud para participar", Alert.AlertType.INFORMATION);
+                }
             }
-        }
-        catch (IllegalArgumentException illegalArgumentException) {
-            mostrarMensajeEmergente(illegalArgumentException.getMessage(), Alert.AlertType.WARNING);
-        }
-        catch (ErrorDAO errorDAO) {
-            mostrarMensajeEmergente(errorDAO.getMessage(), Alert.AlertType.WARNING);
-        }
+            catch (IllegalArgumentException illegalArgumentException) {
+                mostrarMensajeEmergente(illegalArgumentException.getMessage(), Alert.AlertType.WARNING);
+            }
+            catch (ErrorDAO errorDAO) {
+                mostrarMensajeEmergente(errorDAO.getMessage(), Alert.AlertType.WARNING);
+            }
     }
 
     @Override
