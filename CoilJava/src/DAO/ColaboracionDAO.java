@@ -692,6 +692,31 @@ public class ColaboracionDAO implements IColaboracionDAO {
         return Optional.ofNullable(colaboracionDTO);
     }
 
+    public Optional<AcademicoDTO> getAcademicoPar (ColaboracionDTO colaboracionDTO) throws ErrorDAO {
+        String getAcademicoParSQL = "SELECT * FROM vista_colaboracion_con_academico WHERE estadoAcademico = 'aceptado' AND idColaboracion = ?";
+        AcademicoDTO academicoDTO = null;
+        try {
+            PreparedStatement getAcademicoPar = AdministradorBaseDatos.getInstancia().prepareStatement(getAcademicoParSQL);
+            getAcademicoPar.setInt(1, colaboracionDTO.getIdColaboracion());
+            ResultSet resultadoGetAcademicoPar = getAcademicoPar.executeQuery();
+
+            if (resultadoGetAcademicoPar.next()) {
+                academicoDTO = convertirAcademico(resultadoGetAcademicoPar);
+            }
+            getAcademicoPar.close();
+            resultadoGetAcademicoPar.close();
+
+        }
+        catch (SQLException error) {
+            BITACORA.fatal(error.getMessage());
+            throw new ErrorDAO("Error al obtener al académico par", ErrorDAO.Tipo.CONSULTA);
+        }
+        finally {
+            AdministradorBaseDatos.desconectar();
+        }
+        return Optional.ofNullable(academicoDTO);
+    }
+
     public List<ColaboracionDTO> getTodos () throws ErrorDAO {
         String getTodosSQL = "SELECT * FROM vista_colaboracion_con_academico";
         List<ColaboracionDTO> listaColaboracionDTO = new ArrayList<>();

@@ -66,6 +66,15 @@
                   </Label>
                </children>
             </VBox>
+            <VBox alignment="CENTER" layoutX="116.0" layoutY="299.0" onMouseClicked="#abrirIniciarMiColaboracion" prefHeight="200.0" prefWidth="257.0" styleClass="panel" stylesheets="@Recursos/EstiloLabels.css">
+               <children>
+                  <Label alignment="CENTER" prefHeight="30.0" prefWidth="226.0" text="Iniciar mi colaboración" textAlignment="CENTER">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
          </children>
       </Pane>
    </center>

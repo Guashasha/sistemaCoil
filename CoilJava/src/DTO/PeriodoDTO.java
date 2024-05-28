@@ -10,48 +10,67 @@ public class PeriodoDTO {
     private LocalDate fechaFin;
 
     public PeriodoDTO(LocalDate fechaInicio, LocalDate fechaFinal) throws ErrorDAO {
+        LocalDate hoy = LocalDate.now();
+
+        if (fechaInicio.isBefore(hoy)) {
+            throw new ErrorDAO("La fecha de inicio no puede ser anterior a la fecha de hoy", ErrorDAO.Tipo.VALIDACION);
+        }
+
+        if (fechaFinal.isBefore(hoy)) {
+            throw new ErrorDAO("La fecha final no puede ser anterior a la fecha de hoy", ErrorDAO.Tipo.VALIDACION);
+        }
+
         if (fechaInicio.isAfter(fechaFinal)) {
             throw new ErrorDAO("La fecha final no puede ser antes que la fecha de inicio", ErrorDAO.Tipo.VALIDACION);
         }
-        
+
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFinal;
     }
 
     public PeriodoDTO() {}
 
-    public LocalDate getFechaInicio () {
+    public LocalDate getFechaInicio() {
         return fechaInicio;
     }
 
-    public void setFechaInicio (LocalDate fechaInicio) {
+    public void setFechaInicio(LocalDate fechaInicio) {
+        LocalDate hoy = LocalDate.now();
+
+        if (fechaInicio.isBefore(hoy)) {
+            throw new ErrorDAO("La fecha de inicio no puede ser anterior a la fecha de hoy", ErrorDAO.Tipo.VALIDACION);
+        }
+
         if (this.fechaFin == null || fechaInicio.isBefore(this.fechaFin)) {
             this.fechaInicio = fechaInicio;
-        }
-        else {
+        } else {
             throw new ErrorDAO("Inserte una fecha anterior a la fecha de fin", ErrorDAO.Tipo.VALIDACION);
         }
     }
 
-    public LocalDate getFechaFin () {
+    public LocalDate getFechaFin() {
         return fechaFin;
     }
 
-    public void setFechaFin (LocalDate fechaFin) {
+    public void setFechaFin(LocalDate fechaFin) {
+        LocalDate hoy = LocalDate.now();
+
+        if (fechaFin.isBefore(hoy)) {
+            throw new ErrorDAO("La fecha final no puede ser anterior a la fecha de hoy", ErrorDAO.Tipo.VALIDACION);
+        }
+
         if (this.fechaInicio == null || fechaFin.isAfter(this.fechaInicio)) {
             this.fechaFin = fechaFin;
-        }
-        else {
+        } else {
             throw new ErrorDAO("Inserte una fecha posterior a la fecha de inicio", ErrorDAO.Tipo.VALIDACION);
         }
     }
 
-    public boolean validarNulo () {
-        return fechaInicio != null &&
-                fechaFin != null;
+    public boolean validarNulo() {
+        return fechaInicio != null && fechaFin != null;
     }
 
-    public boolean esCorrecto () {
+    public boolean esCorrecto() {
         return this.fechaInicio.isBefore(this.fechaFin);
     }
 

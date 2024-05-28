@@ -105,6 +105,29 @@ public class SeccionMiColaboracionAcademicoControlador {
         }
     }
 
+    @FXML
+    private void abrirIniciarMiColaboracion () {
+        if (obtenerColaboracionVinculadaOActiva().isPresent()) {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("InicioColaboracion.fxml"));
+            BorderPane bpInicioColaboracion = null;
+
+            try {
+                bpInicioColaboracion = fxmlLoader.load();
+            }
+            catch (IOException error) {
+                BITACORA.fatal(error.getMessage());
+                mostrarMensajeEmergente("Error al cargar la seccion de inicio de colaboracion", Alert.AlertType.ERROR);
+            }
+            if (bpInicioColaboracion != null) {
+                this.historialPaneles.push(bpMiColaboracion);
+                InicioColaboracionControlador inicioColaboracionControlador = fxmlLoader.getController();
+                inicioColaboracionControlador.setAcademicoDTO(this.academicoDTO);
+                inicioColaboracionControlador.inicializar();
+                this.pnVentanaPrincipal.setCenter(bpInicioColaboracion);
+            }
+        }
+    }
+
     private Optional<ColaboracionDTO> obtenerColaboracionVinculadaOActiva () {
         ColaboracionDAO colaboracionDAO = new ColaboracionDAO();
         Optional<ColaboracionDTO> colaboracionActivaOptional = Optional.empty();
