@@ -31,7 +31,7 @@ public class SeccionMiColaboracionAcademicoControlador {
     @FXML
     public void abrirVentanaSolicitudColaboracion () {
         ColaboracionDAO colaboracionDAO = new ColaboracionDAO();
-        Optional<ColaboracionDTO> optionalColaboracion = colaboracionDAO.obtenerColaboracionDisponiblePorAcademico(academicoDTO.getCedulaProfesional());
+        Optional<ColaboracionDTO> optionalColaboracion = colaboracionDAO.getColaboracionDisponiblePorAcademico(academicoDTO.getCedulaProfesional());
         if (optionalColaboracion.isPresent()) {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SolicitudesAColaboracion.fxml"));
             BorderPane bpSolicitud = null;

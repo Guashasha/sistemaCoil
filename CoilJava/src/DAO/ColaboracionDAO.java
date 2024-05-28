@@ -439,7 +439,31 @@ public class ColaboracionDAO implements IColaboracionDAO {
         return listaColaboracion;
     }
 
-    public Optional<ColaboracionDTO> obtenerColaboracionDisponiblePorAcademico (String cedulaProfesional) throws ErrorDAO {
+    @Override
+    public Optional<ColaboracionDTO> getColaboracionActualPorAcademico (String cedulaProfesional) {
+        String colaboracionDisponibleSQL = "SELECT * FROM vista_colaboracion_con_academico WHERE estadoAcademico = 'anfitrion' AND (estado = 'disponible' OR estado = 'aceptada' OR estado = 'vinculada' OR estado = 'activa' OR estado = 'enRevision') AND cedulaProfesional = ?";
+        ColaboracionDTO colaboracionDTO = null;
+        
+        try {
+            PreparedStatement obtenerColaboracion = AdministradorBaseDatos.getInstancia()
+                    .prepareStatement(colaboracionDisponibleSQL);
+            obtenerColaboracion.setString(1, cedulaProfesional);
+            ResultSet resultado = obtenerColaboracion.executeQuery();
+
+            if (resultado.next()) {
+                colaboracionDTO = convertirPropuesta(resultado);
+                obtenerAcademico(colaboracionDTO, resultado);
+            }
+        }
+        catch (SQLException error) {
+            BITACORA.fatal(error.getMessage());
+            throw new ErrorDAO("Error al obtener las colaboraciones disponibles", ErrorDAO.Tipo.CONSULTA);
+        }
+
+        return Optional.ofNullable(colaboracionDTO);
+    }
+
+    public Optional<ColaboracionDTO> getColaboracionDisponiblePorAcademico(String cedulaProfesional) throws ErrorDAO {
         String colaboracionDisponibleSQL = "SELECT * FROM vista_colaboracion_con_academico WHERE estadoAcademico = 'anfitrion' AND estado = 'disponible' AND cedulaProfesional = ?";
         ColaboracionDTO colaboracionDTO = null;
         try {

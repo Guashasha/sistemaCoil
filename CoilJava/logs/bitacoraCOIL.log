@@ -125,3 +125,4 @@
 2024-05-27 21:44:32 FATAL VentanaPrincipalAdministradorControlador:130 - 
 /home/guashasha/Documents/escuela/semestres/cuarto_semestre/coil/CoilJava/out/production/CoilJava/InterfazGrafica/GestionCuenta.fxml
 
+2024-05-27 23:22:53 FATAL ColaboracionDAO:458 - (conn=85) You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'OR estado = 'activa' OR estado = 'enRevision') AND cedulaProfesional = '45698...' at line 1

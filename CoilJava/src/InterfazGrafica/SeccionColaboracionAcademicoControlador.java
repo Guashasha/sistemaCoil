@@ -164,7 +164,7 @@ public class SeccionColaboracionAcademicoControlador {
         Optional<CuentaDTO> usuario = cuentaDao.getCuentaPorPersona(this.academico.getIdPersona());
 
         ColaboracionDAO colaboracionDao = new ColaboracionDAO();
-        Optional<ColaboracionDTO> colaboracion = colaboracionDao.getActivaPorAcademico(academico);
+        Optional<ColaboracionDTO> colaboracion = colaboracionDao.getColaboracionActualPorAcademico(academico.getCedulaProfesional());
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SeccionMiColaboracionAcademico.fxml"));
         BorderPane bpSeccionColaboracion = null;
@@ -176,15 +176,19 @@ public class SeccionColaboracionAcademicoControlador {
             BITACORA.fatal(error.getMessage());
             mostrarMensajeEmergente("Error al cargar la ventana de crear propuesta", Alert.AlertType.ERROR);
         }
-        if (bpSeccionColaboracion != null) {
+
+        if (bpSeccionColaboracion != null && usuario.isPresent() && colaboracion.isPresent()) {
             this.historialPaneles.push(this.apSeccionColaboracion);
             SeccionMiColaboracionAcademicoControlador seccionMiColaboracionAcademicoControlador = fxmlLoader.getController();
             seccionMiColaboracionAcademicoControlador.setAcademicoDTO(this.academico);
             seccionMiColaboracionAcademicoControlador.setPnVentanaPrincipal(this.pnVentanaPrincipal);
             seccionMiColaboracionAcademicoControlador.setHistorialPaneles(this.historialPaneles);
-            seccionMiColaboracionAcademicoControlador.setUsuario();
-            seccionMiColaboracionAcademicoControlador.setColaboracion();
+            seccionMiColaboracionAcademicoControlador.setUsuario(usuario.get());
+            seccionMiColaboracionAcademicoControlador.setColaboracion(colaboracion.get());
             this.pnVentanaPrincipal.setCenter(bpSeccionColaboracion);
+        }
+        else {
+            mostrarMensajeEmergente("Para ver la sección \"Mi Colaboración\" debe encontrarse participando en una colaboración", Alert.AlertType.WARNING);
         }
     }
 

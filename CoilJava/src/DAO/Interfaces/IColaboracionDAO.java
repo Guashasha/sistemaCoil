@@ -11,6 +11,7 @@ import java.util.Optional;
 
 public interface IColaboracionDAO extends IDAO<ColaboracionDTO, Integer> {
     public Optional<ColaboracionDTO> getColaboracionPorId (int idColaboracion) throws ErrorDAO;
+    Optional<ColaboracionDTO> getColaboracionActualPorAcademico (String idAcademico) throws ErrorDAO;
     public List<EstudianteDTO> getListaDeEstudiantes (ColaboracionDTO colaboracionDTO) throws ErrorDAO;
     public List<AcademicoDTO> getAcademicosParticipantes (ColaboracionDTO colaboracionDTO) throws ErrorDAO;
     public List<ColaboracionDTO> getColaboracionPorPeriodo (PeriodoDTO periodoDTO) throws ErrorDAO;
