@@ -1,4 +1,4 @@
-package test.AccesoADatos;
+package test.DAO;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,13 +1,13 @@
-package test.AccesoADatos;
+package test.DAO;
 
 import DAO.EstudianteDAO;
 import DTO.EstudianteDTO;
 import Utilidades.ErrorDAO;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import test.ConfiguracionPrueba;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -18,17 +18,22 @@ class EstudianteDAOTest {
 
     @BeforeEach
     void setUp () {
+        ConfiguracionPrueba.borrarDatosTablaEstudiante();
+        ConfiguracionPrueba.borrarDatosTablaPersona();
+        ConfiguracionPrueba.borrarDatosTablaUniversidad();
+        ConfiguracionPrueba.borrarDatosTablaFacultad();
+        ConfiguracionPrueba.borrarDatosTablaRegion();
+        ConfiguracionPrueba.borrarDatosTablaPais();
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO pais (Iso,nombre) VALUES ('MX','México');");
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO universidad (nombre,paisOrigen) VALUES ('Universidad Veracruzana',1);");
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO region (nombre) VALUES ('XALAPA');");
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO facultad (nombre, region) VALUES ('Economia', 1);");
-
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO persona (idPersona, nombre, apellidoPaterno, apellidoMaterno, universidad) VALUES (1, 'Jose', 'Lopez', 'Perez', 1);");
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO estudiante (idEstudiante, idPersona, matricula) VALUES (1, 1, 'zs22013690')");
     }
 
-    @AfterEach
-    void tearDown () {
+    @AfterAll
+    static void tearDown () {
         ConfiguracionPrueba.borrarDatosTablaEstudiante();
         ConfiguracionPrueba.borrarDatosTablaPersona();
         ConfiguracionPrueba.borrarDatosTablaUniversidad();

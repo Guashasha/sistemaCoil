@@ -1,20 +1,19 @@
-package test.Logica;
+package test.DAO;
 
-import DAO.RegionAuxiliar;
+import DAO.RegionDAO;
 import DTO.RegionDTO;
-import Utilidades.ErrorDAO;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import test.ConfiguracionPrueba;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static test.ConfiguracionPrueba.ejecutarInstruccionSQL;
 
-class RegionAuxiliarTest {
-    private static final RegionAuxiliar REGION_AUXILIAR = new RegionAuxiliar();
-
+class RegionDAOTest {
+    private final RegionDAO REGION_DAO = new RegionDAO();
     @BeforeAll
     static void setUp () {
         ConfiguracionPrueba.borrarDatosTablaFacultad();
@@ -37,9 +36,9 @@ class RegionAuxiliarTest {
         listaEsperada.add(new RegionDTO(1,"Xalapa"));
 
         try {
-            listaObtenida = REGION_AUXILIAR.getTodasAlfabeticamente();
+            listaObtenida = REGION_DAO.getTodasAlfabeticamente();
         }
-        catch (ErrorDAO error) {
+        catch (SQLException error) {
             fail("Fallida: pruebaGetTodasAlfabeticamenteExitosa");
         }
 
@@ -49,6 +48,4 @@ class RegionAuxiliarTest {
             listaEsperada.remove(0);
         }
     }
-
-
 }
