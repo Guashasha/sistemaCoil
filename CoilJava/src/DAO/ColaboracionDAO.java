@@ -19,7 +19,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
         String colaboracionPorIdSQL = """
                 SELECT c.*, va.*
                 FROM colaboracion c
-                INNER JOIN academicodesarrolla ad ON c.idColaboracion = ad.idColaboracion
+                INNER JOIN academicoDesarrolla ad ON c.idColaboracion = ad.idColaboracion
                 INNER JOIN vista_academico va ON ad.idAcademico = va.cedulaProfesional
                 WHERE c.idColaboracion = ?""";
         ColaboracionDTO colaboracionDTO = null;
@@ -133,7 +133,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
         String colaboracionPorPeriodoSQL = """
                 SELECT c.*, va.*
                 FROM colaboracion c
-                INNER JOIN academicodesarrolla ad ON c.idColaboracion = ad.idColaboracion
+                INNER JOIN academicoDesarrolla ad ON c.idColaboracion = ad.idColaboracion
                 INNER JOIN vista_academico va ON ad.idAcademico = va.cedulaProfesional
                 WHERE c.fechaInicio =? AND fechaFin = ?""";
 
@@ -167,7 +167,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
         String colaboracionPorIdiomaSQL = """
                 SELECT c.*, va.*
                 FROM colaboracion c
-                INNER JOIN academicodesarrolla ad ON c.idColaboracion = ad.idColaboracion
+                INNER JOIN academicoDesarrolla ad ON c.idColaboracion = ad.idColaboracion
                 INNER JOIN vista_academico va ON ad.idAcademico = va.cedulaProfesional
                 WHERE c.idioma = ?""";
         List<ColaboracionDTO> listaColaboracionDTO = new ArrayList<>();
@@ -198,7 +198,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
         String colaboracionPorEstadoSQL = """
                 SELECT c.*, va.*
                 FROM colaboracion c
-                INNER JOIN academicodesarrolla ad ON c.idColaboracion = ad.idColaboracion
+                INNER JOIN academicoDesarrolla ad ON c.idColaboracion = ad.idColaboracion
                 INNER JOIN vista_academico va ON ad.idAcademico = va.cedulaProfesional
                 WHERE c.estado = ?""";
         List<ColaboracionDTO> listaColaboraciones = new ArrayList<>();
@@ -280,7 +280,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
 
     @Override
     public int registrarSolicitudParticipacion (ColaboracionDTO colaboracionDTO, AcademicoDTO academicoDTO) throws ErrorDAO {
-        String agregarAcademicoAColaboracionSQL = "INSERT INTO academicodesarrolla (idColaboracion, idAcademico, estado) VALUES (?, ?, 'pendiente')";
+        String agregarAcademicoAColaboracionSQL = "INSERT INTO academicoDesarrolla (idColaboracion, idAcademico, estado) VALUES (?, ?, 'pendiente')";
         int filasAfectadas;
 
         try {
@@ -379,7 +379,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
     @Override
     public int registrarPropuestaColaboracion (ColaboracionDTO colaboracionDTO, AcademicoDTO academicoDTO) throws ErrorDAO {
         String registrarPropuestaSQL = "INSERT INTO colaboracion (temaInteres, objetivo, estado) VALUES (?,?,?)";
-        String asociarAcademicaPropuestaSQL = "INSERT INTO academicodesarrolla (idColaboracion, idAcademico, estado) VALUES (?, ?, ?)";
+        String asociarAcademicaPropuestaSQL = "INSERT INTO academicoDesarrolla (idColaboracion, idAcademico, estado) VALUES (?, ?, ?)";
         int filasAfectadas;
         int idGenerado = -1;
         try {
