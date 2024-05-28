@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.apache.log4j.Logger;
@@ -116,6 +117,26 @@ public class VentanaPrincipalAdministradorControlador extends Application implem
 
     private void abrirConfiguracionCuenta () {
         // TODO
+    }
+
+    @FXML
+    private void abrirCrearCuenta () {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CrearCuentaAcademico.fxml"));
+        Pane pnCrearCuenta = null;
+
+        try {
+            pnCrearCuenta = fxmlLoader.load();
+        }
+        catch (IOException error) {
+            BITACORA.fatal(error.getMessage());
+            mostrarMensajeEmergente("Algo salió mal al cargar las cuentas en estado pendiente", Alert.AlertType.ERROR);
+        }
+
+        if (pnCrearCuenta != null) {
+            CrearCuentaAcademicoControlador controlador = fxmlLoader.getController();
+            controlador.initialize(this.pnPrincipal);
+            this.pnPrincipal.setCenter(pnCrearCuenta);
+        }
     }
 
     @FXML

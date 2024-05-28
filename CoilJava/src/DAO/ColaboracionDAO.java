@@ -443,7 +443,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
     public Optional<ColaboracionDTO> getColaboracionActualPorAcademico (String cedulaProfesional) {
         String colaboracionDisponibleSQL = "SELECT * FROM vista_colaboracion_con_academico WHERE estadoAcademico = 'anfitrion' AND (estado = 'disponible' OR estado = 'aceptada' OR estado = 'vinculada' OR estado = 'activa' OR estado = 'enRevision') AND cedulaProfesional = ?";
         ColaboracionDTO colaboracionDTO = null;
-        
+
         try {
             PreparedStatement obtenerColaboracion = AdministradorBaseDatos.getInstancia()
                     .prepareStatement(colaboracionDisponibleSQL);
