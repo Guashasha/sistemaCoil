@@ -5,19 +5,15 @@ import DTO.AcademicoDTO;
 import DTO.ColaboracionDTO;
 import InterfazGrafica.Items.ColaboracionDisponibleItemControlador;
 import Utilidades.ErrorDAO;
-import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -28,7 +24,7 @@ import java.util.ResourceBundle;
 import java.util.Stack;
 import java.util.stream.Collectors;
 
-public class ConsultaColaboracionControlador extends Application implements Initializable {
+public class ConsultaColaboracionControlador implements Initializable {
     private static final Logger BITACORA = Logger.getLogger(ConsultaColaboracionControlador.class);
     private AcademicoDTO academicoDTO;
 
@@ -39,7 +35,6 @@ public class ConsultaColaboracionControlador extends Application implements Init
     private TextField tfBusqueda;
     private BorderPane pnVentanaPrincipal;
     private Stack<Pane> historialPaneles = new Stack<>();
-
 
 
     @Override
@@ -132,15 +127,7 @@ public class ConsultaColaboracionControlador extends Application implements Init
         this.historialPaneles = historialPaneles;
     }
 
-    @Override
-    public void start (Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../InterfazGrafica/ConsultaColaboracion.fxml"));
-        Parent root = loader.load();
-        Scene scene = new Scene(root);
 
-        stage.setScene(scene);
-        stage.show();
-    }
     public void cargarItemsColaboracionPorBusqueda () {
         tfBusqueda.textProperty()
                   .addListener((observable, oldValue, newValue) -> {
@@ -148,9 +135,7 @@ public class ConsultaColaboracionControlador extends Application implements Init
                   });
     }
 
-
-
-    public static void main (String[] args) {
-        launch(args);
-    }
 }
+
+
+

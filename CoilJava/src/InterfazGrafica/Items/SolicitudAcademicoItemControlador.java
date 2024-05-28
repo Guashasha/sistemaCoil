@@ -46,6 +46,7 @@ public class SolicitudAcademicoItemControlador {
     private AcademicoDTO academicoDTO;
     private ColaboracionDTO colaboracionDTO;
 
+
     public void setAcademicoDTO (AcademicoDTO academicoDTO) {
         this.academicoDTO = academicoDTO;
     }
@@ -88,15 +89,21 @@ public class SolicitudAcademicoItemControlador {
 
     @FXML
     private void aceptarSolicitud () {
-        ColaboracionDAO colaboracionDAO = new ColaboracionDAO();
+        if (this.colaboracionDTO.getEstado().toString() != ColaboracionDTO.EstadoColaboracion.vinculada.toString()) {
 
-        try {
-            colaboracionDAO.actualizarEstadoSolicitudDeParticipacion(this.colaboracionDTO.getIdColaboracion(), this.academicoDTO.getCedulaProfesional(), "aceptado");
-            this.colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.vinculada);
-            colaboracionDAO.cambiarEstadoColaboracion(this.colaboracionDTO);
-        }
-        catch (ErrorDAO error) {
-            mostrarAlert(error.getMessage(), Alert.AlertType.ERROR);
+            ColaboracionDAO colaboracionDAO = new ColaboracionDAO();
+
+            try {
+                colaboracionDAO.actualizarEstadoSolicitudDeParticipacion(this.colaboracionDTO.getIdColaboracion(), this.academicoDTO.getCedulaProfesional(), "aceptado");
+                this.colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.vinculada);
+                colaboracionDAO.cambiarEstadoColaboracion(this.colaboracionDTO);
+                mostrarAlert("Academico aceptado con exito", Alert.AlertType.INFORMATION);
+            }
+            catch (ErrorDAO error) {
+                mostrarAlert(error.getMessage(), Alert.AlertType.ERROR);
+            }
+        }else {
+            mostrarAlert("Ya cuenta con un par académico en su colaboración", Alert.AlertType.INFORMATION);
         }
     }
 
@@ -106,6 +113,8 @@ public class SolicitudAcademicoItemControlador {
         alerta.setHeaderText(null);
         alerta.showAndWait();
     }
+
+
 
     private boolean mostrarConfirmacion(String mensaje) {
         Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
