@@ -87,8 +87,7 @@ public class CuentaDTO {
                                                        El nombre de usuario no es válido.
                                                        1. La longitud debe ser de mínimo 3 caracteres y máximo 50
                                                        2. No debe tener espacios al principio ni al final.
-                                                       3. Solo se permiten letras del alfabeto ingles.
-                                                       2. No se permiten caracteres especiales.""", ErrorDAO.Tipo.VALIDACION);
+                                                       3. No se permiten caracteres especiales.""", ErrorDAO.Tipo.VALIDACION);
         }
     }
     private void checarContrasena (String contrasena) {

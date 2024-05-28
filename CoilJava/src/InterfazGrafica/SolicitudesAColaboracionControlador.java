@@ -36,7 +36,7 @@ public class SolicitudesAColaboracionControlador {
     }
 
     private List<AcademicoDTO> getAcademicosSolicitantes() throws ErrorDAO {
-        List<AcademicoDTO> academicos = colaboracionDAO.obtenerSolicitudAcademicoColaboracion(this.colaboracionDTO.getIdColaboracion());
+        List<AcademicoDTO> academicos = colaboracionDAO.getSolicitudAcademicoColaboracion(this.colaboracionDTO.getIdColaboracion());
 
         String textoBusqueda = tfBusqueda.getText().trim().toLowerCase();
 
