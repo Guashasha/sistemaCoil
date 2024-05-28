@@ -477,6 +477,9 @@ public class ColaboracionDAO implements IColaboracionDAO {
 
             if (resultado.next()) {
                 colaboracionDTO = convertirPropuesta(resultado);
+                colaboracionDTO.setIdioma(resultado.getString("idioma"));
+                colaboracionDTO.setTipo(ColaboracionDTO.TipoColaboracion.valueOf(resultado.getString("tipo")));
+                colaboracionDTO.setPerfilEstudiante(resultado.getString("perfilEstudiante"));
                 getAcademico(colaboracionDTO, resultado);
             }
         }

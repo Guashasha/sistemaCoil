@@ -136,6 +136,7 @@ public class ActividadesColaboracionControlador {
         if (apActividades != null) {
             NuevaActividadControlador ventanaActividadesControlador = fxmlLoader.getController();
             ventanaActividadesControlador.initialize(this.colaboracion, this.ventanaPrincipal, this.pnMain);
+            ventanaActividadesControlador.colaboracionDTO = colaboracion;
             this.ventanaPrincipal.setCenter(apActividades);
         }
     }

@@ -2,6 +2,7 @@ package InterfazGrafica;
 
 import DAO.ActividadAuxiliar;
 import DAO.ColaboracionAuxiliar;
+import DAO.ColaboracionDAO;
 import DAO.CronogramaActividadAuxiliar;
 import DTO.ActividadDTO;
 import DTO.ActividadVinculadaDTO;
@@ -23,7 +24,7 @@ public class NuevaActividadControlador {
 
     @FXML
     private Pane pnPrincipal;
-    private ColaboracionDTO colaboracionDTO;
+    public ColaboracionDTO colaboracionDTO;
 
     @FXML
     private Button btnAceptar = new Button();
@@ -45,24 +46,7 @@ public class NuevaActividadControlador {
             return;
         }
 
-        ColaboracionAuxiliar dao = new ColaboracionAuxiliar();
-        Optional<ColaboracionDTO> colaboracion;
-        try {
-             colaboracion = dao.getColaboracionPorId(colaboracionDTO.getIdColaboracion());
-
-            if (colaboracion.isEmpty()) {
-                return;
-            }
-        } catch (ErrorDAO e) {
-            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-            errorAlert.setHeaderText("Error al iniciar la ventana nueva actividad");
-            errorAlert.setContentText("Ocurrió un error desconocido al intentar abrir la ventana nueva actividad");
-            errorAlert.showAndWait();
-
-            return;
-        }
-
-        this.colaboracionDTO = colaboracion.get();
+        this.colaboracionDTO = colaboracionDTO;
         this.panelAnterior = panelAnterior;
         this.panelPrincipal = panelPrincipal;
     }
@@ -127,7 +111,30 @@ public class NuevaActividadControlador {
             return;
         }
 
-        ActividadVinculadaDTO actividadVinculadaDTO = new ActividadVinculadaDTO(actividadDTO, this.colaboracionDTO, periodoDTO);
+        Optional<ActividadDTO> act;
+
+        try {
+             act = dao.getPorTitulo(titulo);
+
+             if (act.isEmpty()) {
+                 Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                 errorAlert.setHeaderText("Error al agregar actividadDTO");
+                 errorAlert.setContentText("Ocurrió un error al agregar la actividadDTO");
+                 errorAlert.showAndWait();
+
+                 return;
+             }
+        }
+        catch (ErrorDAO error) {
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setHeaderText("Error al agregar actividad");
+            errorAlert.setContentText("Ocurrió un error al agregar la actividad: " + error.getMessage());
+            errorAlert.showAndWait();
+
+            return;
+        }
+
+        ActividadVinculadaDTO actividadVinculadaDTO = new ActividadVinculadaDTO(act.get(), this.colaboracionDTO, periodoDTO);
         CronogramaActividadAuxiliar cronograma = new CronogramaActividadAuxiliar();
 
         try {
@@ -154,7 +161,7 @@ public class NuevaActividadControlador {
         switch (error.getTipo()) {
             case VALIDACION:
                 errorAlert.setHeaderText("Error de datos");
-                errorAlert.setContentText("Los datos de la actividad son incorrectos, verifiquelos e intente de nuevo");
+                errorAlert.setContentText("Los datos de la actividad son incorrectos, verifiquelos e intente de nuevo: "+ error.getMessage());
                 break;
 
             case CONSULTA:
@@ -169,7 +176,7 @@ public class NuevaActividadControlador {
 
             case CONEXION:
                 errorAlert.setHeaderText("Error de base de datos");
-                errorAlert.setContentText("Ocurrió un error al conectarse a la base de datos, intente nuevamente más tarde");
+                errorAlert.setContentText("Ocurrió un error al conectarse a la base de datos, intente nuevamente más tarde: ");
                 break;
         }
 
