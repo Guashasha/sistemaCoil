@@ -65,12 +65,13 @@ public class SeccionMiColaboracionAcademicoControlador {
     @FXML
     public void abrirActividades () {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ActividadesColaboracion.fxml"));
-        AnchorPane apActividades = null;
+        Pane apActividades = null;
+
         try {
             apActividades = fxmlLoader.load();
         }
         catch (IOException error) {
-            mostrarMensajeEmergente("Error al mostrar la sección de actividades: " + error.getMessage(), Alert.AlertType.ERROR);
+            mostrarMensajeEmergente("Error al mostrar la sección de actividades: ",  Alert.AlertType.ERROR);
         }
         if (apActividades != null) {
             this.historialPaneles.push(this.bpMiColaboracion);
