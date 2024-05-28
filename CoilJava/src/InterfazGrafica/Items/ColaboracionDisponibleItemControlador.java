@@ -1,6 +1,7 @@
 package InterfazGrafica.Items;
 
 import DAO.ColaboracionAuxiliar;
+import DAO.ColaboracionDAO;
 import DAO.UniversidadAuxiliar;
 import DTO.AcademicoDTO;
 import DTO.ColaboracionDTO;
@@ -54,10 +55,10 @@ public class ColaboracionDisponibleItemControlador implements Initializable {
             }
         }
         catch (IllegalArgumentException illegalArgumentException) {
-            mostrarAlert(illegalArgumentException.getMessage(), Alert.AlertType.WARNING);
+            mostrarMensajeEmergente(illegalArgumentException.getMessage(), Alert.AlertType.WARNING);
         }
         catch (ErrorDAO errorDAO) {
-            mostrarAlert(errorDAO.getMessage(), Alert.AlertType.WARNING);
+            mostrarMensajeEmergente(errorDAO.getMessage(), Alert.AlertType.WARNING);
         }
     }
 
@@ -86,8 +87,8 @@ public class ColaboracionDisponibleItemControlador implements Initializable {
                                                        .getNombre() + " " + colaboracionDTO.getAnfitrion()
                                                                                            .getApellidoPaterno() + " " + colaboracionDTO.getAnfitrion()
                                                                                                                                         .getApellidoMaterno() + "\n\n" +
-                        "Universidad: " + obtenerUniversidad(colaboracionDTO.getAnfitrion()
-                                                                            .getIdUniversidad()).getNombre() + "\n"
+                        "Universidad: " + getUniversidad(colaboracionDTO.getAnfitrion()
+                                                                        .getIdUniversidad()).getNombre() + "\n"
         );
 
         ButtonType btnSolicitud = new ButtonType("Solicitar participación");
@@ -99,7 +100,7 @@ public class ColaboracionDisponibleItemControlador implements Initializable {
         return alert.getResult() == btnSolicitud;
     }
 
-    private UniversidadDTO obtenerUniversidad (int id) {
+    private UniversidadDTO getUniversidad (int id) {
         UniversidadAuxiliar universidadAuxiliar = new UniversidadAuxiliar();
         Optional<UniversidadDTO> universidadDTOOptional = universidadAuxiliar.getUniversidadPorId(id);
         if (universidadDTOOptional.isPresent()) {
@@ -108,11 +109,28 @@ public class ColaboracionDisponibleItemControlador implements Initializable {
         throw new IllegalArgumentException("No se encuentra la universidad perteciente al academico proponedor");
     }
 
-    private void mostrarAlert (String mensaje, Alert.AlertType tipoAlerta) {
+    private void mostrarMensajeEmergente (String mensaje, Alert.AlertType tipoAlerta) {
         Alert alert = new Alert(tipoAlerta);
         alert.setContentText(mensaje);
         alert.setHeaderText("Informacion");
         alert.showAndWait();
+    }
+
+    private Optional<ColaboracionDTO> getColaboracion() {
+        ColaboracionDAO colaboracionDAO = new ColaboracionDAO();
+        Optional<ColaboracionDTO> colaboracionOptional = Optional.empty();
+
+        try {
+            colaboracionOptional = colaboracionDAO.getActivaPorAcademico(this.academicoDTO);
+            colaboracionOptional = colaboracionOptional.isPresent() ? colaboracionOptional : colaboracionDAO.getVinculadaPorAcademico(this.academicoDTO);
+            colaboracionOptional = colaboracionOptional.isPresent() ? colaboracionOptional : colaboracionDAO.getPropuestaPorAcademico(this.academicoDTO);
+            colaboracionOptional = colaboracionOptional.isPresent() ? colaboracionOptional : colaboracionDAO.getColaboracionAceptadaPorAcademico(this.academicoDTO);
+            colaboracionOptional = colaboracionOptional.isPresent() ? colaboracionOptional : colaboracionDAO.getColaboracionDisponiblePorAcademico(this.academicoDTO.getCedulaProfesional());
+        } catch (ErrorDAO error) {
+            mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
+        }
+
+        return colaboracionOptional;
     }
 
     private void registrarSolicitudParticipacion () {

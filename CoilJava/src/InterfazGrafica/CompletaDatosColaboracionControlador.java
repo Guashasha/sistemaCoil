@@ -37,9 +37,10 @@ public class CompletaDatosColaboracionControlador implements Initializable {
         boolean continuar = mostrarAlertaConfirmacion("¿Estás seguro de que deseas completar la información de la colaboración?");
         if (continuar) {
             try {
-                obtenerDatosGUI();
+                getDatosGUI();
                 this.colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.disponible);
                 COLABORACION_AUXILIAR.modificar(this.colaboracionDTO);
+                mostrarMensajeEmergente("Datos completados correctamente\nAhora puede ingresar a la sección de MiColaboración", Alert.AlertType.INFORMATION);
                 this.pnVentanaPrincipal.setCenter(this.historialPaneles.pop());
 
             }
@@ -64,16 +65,16 @@ public class CompletaDatosColaboracionControlador implements Initializable {
         ObservableList<String> idiomaObservable = FXCollections.observableArrayList(ARRAY_LIST_IDIOMA);
         this.cmbIdioma.setItems(idiomaObservable);
     }
-    private void obtenerDatosGUI () {
+    private void getDatosGUI () {
         if (tfPerfil.getText() == null || tfPerfil.getText().trim() == null) {
             throw new IllegalArgumentException("Ingresa un perfil de estudiante");
         }
         this.colaboracionDTO.setPerfilEstudiante(tfPerfil.getText());
-            this.colaboracionDTO.setIdioma(obtenerIdiomaCmb());
-            this.colaboracionDTO.setTipo(obtenerDatosRadio());
+            this.colaboracionDTO.setIdioma(getIdiomaCmb());
+            this.colaboracionDTO.setTipo(getDatosRadio());
     }
 
-    private ColaboracionDTO.TipoColaboracion obtenerDatosRadio () {
+    private ColaboracionDTO.TipoColaboracion getDatosRadio () {
         ColaboracionDTO.TipoColaboracion tipoColaboracion;
         if (rbClaseEspejo.isSelected()) {
             tipoColaboracion = ColaboracionDTO.TipoColaboracion.claseEspejo;
@@ -87,7 +88,7 @@ public class CompletaDatosColaboracionControlador implements Initializable {
         return tipoColaboracion;
     }
 
-    private String obtenerIdiomaCmb () {
+    private String getIdiomaCmb () {
         String idioma = cmbIdioma.getValue();
         if (idioma == null) {
             throw new IllegalArgumentException("Selecciona una opción un idioma");

@@ -22,13 +22,16 @@ public interface IColaboracionDAO extends IDAO<ColaboracionDTO, Integer> {
     public int registrarSolicitudParticipacion (ColaboracionDTO colaboracionDTO, AcademicoDTO academicoDTO) throws ErrorDAO;
     public Optional<ColaboracionDTO> getActivaPorAcademico (AcademicoDTO academicoDTO) throws ErrorDAO;
     public int registrarPropuestaColaboracion (ColaboracionDTO colaboracionDTO, AcademicoDTO academicoDTO) throws ErrorDAO;
-    public List<ColaboracionDTO> obtenerPropuestasColaboracion () throws ErrorDAO;
-    public List<AcademicoDTO> obtenerSolicitudAcademicoColaboracion (int idColaboracion) throws ErrorDAO;
-    public List<ColaboracionDTO> obtenerColaboracionesDisponibles (String cedulaProfesional) throws ErrorDAO;
+    public List<ColaboracionDTO> getPropuestasColaboracion () throws ErrorDAO;
+    public List<AcademicoDTO> getSolicitudAcademicoColaboracion (int idColaboracion) throws ErrorDAO;
+    public List<ColaboracionDTO> getColaboracionesDisponibles (String cedulaProfesional) throws ErrorDAO;
     public int actualizarEstadoSolicitudDeParticipacion(int idColaboracion, String idAcademico, String nuevoEstado) throws ErrorDAO;
     public boolean existeUnaSolicitudPrevia (ColaboracionDTO colaboracionDTO, AcademicoDTO academicoDTO) throws ErrorDAO;
-    public List<ColaboracionDTO> obtenerSolicitudesDeAcademico (AcademicoDTO academicoDTO) throws ErrorDAO;
+    public List<ColaboracionDTO> getSolicitudesDeAcademico (AcademicoDTO academicoDTO) throws ErrorDAO;
     public Optional<ColaboracionDTO> getPropuestaPorAcademico (AcademicoDTO academicoDTO) throws ErrorDAO;
     public int eliminarSolicitudDeParticipacion (ColaboracionDTO colaboracionDTO, AcademicoDTO academicoDTO) throws ErrorDAO;
+    public int agregarPeriodoAColaboracion (ColaboracionDTO colaboracionDTO) throws ErrorDAO;
+    public Optional<ColaboracionDTO> getColaboracionDisponiblePorAcademico(String cedulaProfesional) throws ErrorDAO;
+    public Optional<AcademicoDTO> getAcademicoPar (ColaboracionDTO colaboracionDTO) throws ErrorDAO;
 
 }

@@ -10,16 +10,6 @@ public class PeriodoDTO {
     private LocalDate fechaFin;
 
     public PeriodoDTO(LocalDate fechaInicio, LocalDate fechaFinal) throws ErrorDAO {
-        LocalDate hoy = LocalDate.now();
-
-        if (fechaInicio.isBefore(hoy)) {
-            throw new ErrorDAO("La fecha de inicio no puede ser anterior a la fecha de hoy", ErrorDAO.Tipo.VALIDACION);
-        }
-
-        if (fechaFinal.isBefore(hoy)) {
-            throw new ErrorDAO("La fecha final no puede ser anterior a la fecha de hoy", ErrorDAO.Tipo.VALIDACION);
-        }
-
         if (fechaInicio.isAfter(fechaFinal)) {
             throw new ErrorDAO("La fecha final no puede ser antes que la fecha de inicio", ErrorDAO.Tipo.VALIDACION);
         }
@@ -35,12 +25,6 @@ public class PeriodoDTO {
     }
 
     public void setFechaInicio(LocalDate fechaInicio) {
-        LocalDate hoy = LocalDate.now();
-
-        if (fechaInicio.isBefore(hoy)) {
-            throw new ErrorDAO("La fecha de inicio no puede ser anterior a la fecha de hoy", ErrorDAO.Tipo.VALIDACION);
-        }
-
         if (this.fechaFin == null || fechaInicio.isBefore(this.fechaFin)) {
             this.fechaInicio = fechaInicio;
         } else {
@@ -53,12 +37,6 @@ public class PeriodoDTO {
     }
 
     public void setFechaFin(LocalDate fechaFin) {
-        LocalDate hoy = LocalDate.now();
-
-        if (fechaFin.isBefore(hoy)) {
-            throw new ErrorDAO("La fecha final no puede ser anterior a la fecha de hoy", ErrorDAO.Tipo.VALIDACION);
-        }
-
         if (this.fechaInicio == null || fechaFin.isAfter(this.fechaInicio)) {
             this.fechaFin = fechaFin;
         } else {

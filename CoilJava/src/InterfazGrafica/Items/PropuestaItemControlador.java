@@ -78,41 +78,31 @@ public class PropuestaItemControlador implements Initializable {
         lbApellido.setText(colaboracionDTO.getAnfitrion()
                                           .getApellidoPaterno() + " " + colaboracionDTO.getAnfitrion()
                                                                                        .getApellidoMaterno());
-        UniversidadDTO universidadDTO = obtenerUniversidad();
+        UniversidadDTO universidadDTO = getUniversidad();
         lbUniversidad.setText(universidadDTO.getNombre());
-        lbPais.setText(obtenerPais(universidadDTO.getIdPais()).getIso());
+        lbPais.setText(getPais(universidadDTO.getIdPais()).getIso());
     }
 
-    private UniversidadDTO obtenerUniversidad () {
+    private UniversidadDTO getUniversidad () {
         UniversidadAuxiliar universidadAuxiliar = new UniversidadAuxiliar();
-        try {
-            Optional<UniversidadDTO> universidadDTOOptional = universidadAuxiliar.getUniversidadPorId(colaboracionDTO.getAnfitrion()
-                                                                                                                     .getIdUniversidad());
-            if (universidadDTOOptional.isPresent()) {
-                return universidadDTOOptional.get();
-            }
-            else {
-                throw new ErrorDAO("No se encuentro la universidad", ErrorDAO.Tipo.CONSULTA);
-            }
+        Optional<UniversidadDTO> universidadDTOOptional = universidadAuxiliar.getUniversidadPorId(colaboracionDTO.getAnfitrion()
+                                                                                                                 .getIdUniversidad());
+        if (universidadDTOOptional.isPresent()) {
+            return universidadDTOOptional.get();
         }
-        catch (ErrorDAO errorDAO) {
-            throw errorDAO;
+        else {
+            throw new ErrorDAO("No se encuentro la universidad", ErrorDAO.Tipo.CONSULTA);
         }
     }
 
-    private PaisDTO obtenerPais (int id) {
+    private PaisDTO getPais (int id) {
         PaisAuxiliar paisAuxiliar = new PaisAuxiliar();
-        try {
-            Optional<PaisDTO> paisDTOOptional = paisAuxiliar.getPaisPorId(id);
-            if (paisDTOOptional.isPresent()) {
-                return paisDTOOptional.get();
-            }
-            else {
-                throw new ErrorDAO("No se encontro el pais", ErrorDAO.Tipo.CONSULTA);
-            }
+        Optional<PaisDTO> paisDTOOptional = paisAuxiliar.getPaisPorId(id);
+        if (paisDTOOptional.isPresent()) {
+            return paisDTOOptional.get();
         }
-        catch (ErrorDAO errorDAO) {
-            throw errorDAO;
+        else {
+            throw new ErrorDAO("No se encontro el pais", ErrorDAO.Tipo.CONSULTA);
         }
     }
 
