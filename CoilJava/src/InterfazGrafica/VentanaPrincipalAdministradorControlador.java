@@ -129,7 +129,7 @@ public class VentanaPrincipalAdministradorControlador extends Application implem
         }
         catch (IOException error) {
             BITACORA.fatal(error.getMessage());
-            mostrarMensajeEmergente("Algo salió mal al cargar las cuentas en estado pendiente", Alert.AlertType.ERROR);
+            mostrarMensajeEmergente("Algo salió mal al entrar a la ventana crear cuenta: "+ error.getMessage(), Alert.AlertType.ERROR);
         }
 
         if (pnCrearCuenta != null) {

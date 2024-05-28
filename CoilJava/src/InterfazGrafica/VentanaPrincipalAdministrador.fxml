@@ -75,7 +75,7 @@
             <Button mnemonicParsing="false" onAction="#abrirSeccionUniversidades" styleClass="button-menu-lateral" text="Universidades" />
             <Button mnemonicParsing="false" onAction="#abrirSeccionNumeralia" styleClass="button-menu-lateral" text="Numeralia" />
             <Button mnemonicParsing="false" onAction="#abrirSeccionCuentas" styleClass="button-menu-lateral" text="Solicitudes de cuenta" textAlignment="CENTER" wrapText="true" />
-            <Button fx:id="abrirCrearCuenta" mnemonicParsing="false" styleClass="button-menu-lateral" text="Crear cuenta" />
+            <Button mnemonicParsing="false" onAction="#abrirCrearCuenta" styleClass="button-menu-lateral" text="Crear cuenta" />
          </children>
       </VBox>
    </left>

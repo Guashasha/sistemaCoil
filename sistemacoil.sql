@@ -12,6 +12,7 @@ CREATE TABLE `persona` (
   `apellidoMaterno` varchar(20) NOT NULL,
   `universidad` int NOT NULL
 );
+ALTER TABLE persona AUTO_INCREMENT=1;
 
 CREATE TABLE `estudiante` (
   `idEstudiante` int AUTO_INCREMENT,
@@ -19,23 +20,27 @@ CREATE TABLE `estudiante` (
   `matricula` char(10) NOT NULL,
   PRIMARY KEY (`idEstudiante`, `idPersona`)
 );
+ALTER TABLE estudiante AUTO_INCREMENT=1;
 
 CREATE TABLE `universidad` (
   `idUniversidad` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
   `paisOrigen` int NOT NULL
 );
+ALTER TABLE universidad AUTO_INCREMENT=1;
 
 CREATE TABLE `region` (
   `idRegion` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `nombre` varchar(30)
 );
+ALTER TABLE region AUTO_INCREMENT=1;
 
 CREATE TABLE `facultad` (
   `idFacultad` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
   `region` int NOT NULL
 );
+ALTER TABLE facultad AUTO_INCREMENT=1;
 
 CREATE TABLE `academico` (
   `cedulaProfesional` varchar(30) NOT NULL,
@@ -48,6 +53,7 @@ CREATE TABLE `academico` (
   `facultad` int NULL,
   PRIMARY KEY (`cedulaProfesional`)
 );
+ALTER TABLE academico AUTO_INCREMENT=1;
 
 CREATE TABLE `colaboracion` (
   `idColaboracion` int PRIMARY KEY AUTO_INCREMENT,
@@ -60,17 +66,20 @@ CREATE TABLE `colaboracion` (
   `fechaFin` date NULL,
   `perfilEstudiante` varchar(50) NULL
 );
+ALTER TABLE colaboracion AUTO_INCREMENT=1;
 
 CREATE TABLE `estudiantesColaboracion` (
   `idColaboracion` int,
   `idEstudiante` int
 );
+ALTER TABLE estudiantesColaboracion AUTO_INCREMENT=1;
 
 CREATE TABLE `academicoDesarrolla` (
   `idColaboracion` int,
   `idAcademico` varchar(30),
   estado ENUM ('anfitrion', 'pendiente', 'aceptado', 'rechazado')
 );
+ALTER TABLE academicoDesarrolla AUTO_INCREMENT=1;
 
 CREATE TABLE `cuenta` (
   idCuenta int PRIMARY KEY AUTO_INCREMENT,
@@ -80,6 +89,7 @@ CREATE TABLE `cuenta` (
   `tipo` ENUM ('academico', 'estudiante', 'administrador') NOT NULL,
   `estado` ENUM ('pendiente', 'aceptada', 'rechazada') NOT NULL
 );
+ALTER TABLE cuenta AUTO_INCREMENT=1;
 
 CREATE TABLE `retroalimentacion` (
   `idRetroalimentacion` int PRIMARY KEY AUTO_INCREMENT,
@@ -87,6 +97,7 @@ CREATE TABLE `retroalimentacion` (
   `comentario` varchar(200),
   `usuario` int NOT NULL
 );
+ALTER TABLE retroalimentacion AUTO_INCREMENT=1;
 
 CREATE TABLE `retroalimentacionActividad` (
   `idRetroalimentacion` int PRIMARY KEY,
@@ -94,6 +105,7 @@ CREATE TABLE `retroalimentacionActividad` (
   `interes` int NOT NULL,
   `actividad` int NOT NULL
 );
+ALTER TABLE retroalimentacionActividad AUTO_INCREMENT=1;
 
 CREATE TABLE `retroalimentacionColaboracion` (
   `idRetroalimentacion` int PRIMARY KEY,
@@ -105,6 +117,7 @@ CREATE TABLE `retroalimentacionColaboracion` (
   `mejoraFormacionProfesional` int NOT NULL,
   `colaboracion` int NOT NULL
 );
+ALTER TABLE retroalimentacionColaboracion AUTO_INCREMENT=1;
 
 CREATE TABLE calendarioActividades (
   idActividad int NOT NULL,
@@ -112,6 +125,7 @@ CREATE TABLE calendarioActividades (
   fechaInicio date NOT NULL,
   fechaFin date NOT NULL
 );
+ALTER TABLE calendarioActividades AUTO_INCREMENT=1;
 
 CREATE TABLE `actividad` (
   `idActividad` int PRIMARY KEY AUTO_INCREMENT,
@@ -119,6 +133,7 @@ CREATE TABLE `actividad` (
   `descripcion` varchar(200) NOT NULL,
   `tipo` ENUM ('rompeHielo', 'intercultural', 'disciplinar', 'cierre') NOT NULL
 );
+ALTER TABLE actividad AUTO_INCREMENT=1;
 
 CREATE TABLE pais (
 idPais int NOT NULL AUTO_INCREMENT,
@@ -126,6 +141,7 @@ iso char(2) DEFAULT NULL,
 nombre varchar(80) NOT NULL,
 PRIMARY KEY (idPais)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+ALTER TABLE pais AUTO_INCREMENT=1;
 
 ALTER TABLE `persona` ADD FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`);
 
