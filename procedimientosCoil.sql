@@ -244,7 +244,7 @@ begin
 
     select COUNT(*) into p_validacion
     from cuenta
-    where nombreUsuario = p_nombreUsuario and contrasena = v_contrasena_encriptada;
+    where BINARY nombreUsuario = p_nombreUsuario and contrasena = v_contrasena_encriptada;
 end //
 
 

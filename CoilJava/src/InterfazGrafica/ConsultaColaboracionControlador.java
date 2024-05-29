@@ -74,12 +74,12 @@ public class ConsultaColaboracionControlador extends Application implements Init
         try {
             arrayListColaboracion = (ArrayList<ColaboracionDTO>) getColaboracionesDisponibles();
             if (!arrayListColaboracion.isEmpty()) {
-                int filas = 0;
+                int filas = 1;
                 int columnas = 0;
                 for (ColaboracionDTO colaboracionDTO : arrayListColaboracion) {
                     agregarColaboracionItem(colaboracionDTO, filas, columnas);
                     columnas++;
-                    if (columnas == 3) {
+                    if (columnas == 2) {
                         columnas = 0;
                         filas++;
                     }
@@ -99,7 +99,7 @@ public class ConsultaColaboracionControlador extends Application implements Init
             ColaboracionDisponibleItemControlador controlador = fxmlLoader.getController();
             controlador.setColaboracionDTO(colaboracionDTO);
             controlador.setAcademicoDTO(academicoDTO);
-            gpContenedorColaboraciones.add(pane, columnas, filas);
+            gpContenedorColaboraciones.add(pane, columnas++, filas);
             GridPane.setMargin(pane, new Insets(10));
             controlador.inicializarLabel();
         }

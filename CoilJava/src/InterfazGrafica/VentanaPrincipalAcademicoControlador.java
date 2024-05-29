@@ -11,7 +11,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.apache.log4j.Logger;
-
 import java.io.IOException;
 import java.util.Stack;
 
@@ -67,6 +66,24 @@ public class VentanaPrincipalAcademicoControlador {
             seccionColaboracionAcademicoControlador.setAcademicoDTO(this.academico);
             seccionColaboracionAcademicoControlador.setPnVentanaPrincipal(this.pnPrincipal);
             this.pnPrincipal.setCenter(apSeccionColaboracion);
+        }
+    }
+
+    @FXML
+    private void abrirSeccionNumeralia () {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Numeralia.fxml"));
+        BorderPane pnNumeralia = null;
+
+        try {
+            pnNumeralia = fxmlLoader.load();
+        }
+        catch (IOException error) {
+            BITACORA.info(error.getMessage());
+            mostrarMensajeEmergente("Algo salió mal al cargar la Numeralia", Alert.AlertType.ERROR);
+        }
+
+        if (pnNumeralia != null) {
+            this.pnPrincipal.setCenter(pnNumeralia);
         }
     }
 

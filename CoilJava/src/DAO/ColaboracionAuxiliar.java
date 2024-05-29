@@ -143,7 +143,7 @@ public class ColaboracionAuxiliar {
 
     public List<ColaboracionDTO> obtenerPropuestasColaboracion () throws ErrorDAO {
         try {
-            return COLABORACION_DAO.obtenerPropuestasColaboracion();
+            return COLABORACION_DAO.getPropuestasColaboracion();
         }
         catch (ErrorDAO errorDAO) {
             throw new ErrorDAO(errorDAO.getMessage(), errorDAO.getTipo());
@@ -152,7 +152,7 @@ public class ColaboracionAuxiliar {
 
     public List<AcademicoDTO> obtenerSolicitudAcademicoColaboracion (int id) throws ErrorDAO {
         try {
-            return COLABORACION_DAO.obtenerSolicitudAcademicoColaboracion(id);
+            return COLABORACION_DAO.getSolicitudAcademicoColaboracion(id);
         }
         catch (ErrorDAO errorDAO) {
             throw new ErrorDAO(errorDAO.getMessage(),errorDAO.getTipo());
@@ -160,7 +160,7 @@ public class ColaboracionAuxiliar {
     }
     public List<ColaboracionDTO> obtenerColaboracionDisponible (String cedulaProfesional) throws ErrorDAO {
         try {
-            return COLABORACION_DAO.obtenerColaboracionDisponible(cedulaProfesional);
+            return COLABORACION_DAO.getColaboracionesDisponibles(cedulaProfesional);
         }
         catch (ErrorDAO errorDAO) {
             throw errorDAO;

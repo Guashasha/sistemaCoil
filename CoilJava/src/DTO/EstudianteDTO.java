@@ -36,7 +36,7 @@ public class EstudianteDTO extends PersonaDTO {
     }
 
     private void checarMatricula (String matricula) {
-        String matriculaRegex = "^[A-Za-z0-9]{10}$";
+        String matriculaRegex = "^[A-Za-z0-9]{8,10}$";
         Pattern patron = Pattern.compile(matriculaRegex);
         if (matricula == null || matricula.isEmpty()) {
             throw new ErrorDAO("La matricula no puede estar vacía", ErrorDAO.Tipo.VALIDACION);

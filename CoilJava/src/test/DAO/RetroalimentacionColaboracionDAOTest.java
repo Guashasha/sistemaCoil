@@ -1,7 +1,6 @@
-package test.AccesoADatos;
+package test.DAO;
 
 import DAO.RetroalimentacionColaboracionAuxiliar;
-import DTO.RetroalimentacionActividadDTO;
 import DTO.RetroalimentacionColaboracionDTO;
 import Utilidades.ErrorDAO;
 import org.junit.jupiter.api.BeforeAll;
@@ -9,14 +8,13 @@ import org.junit.jupiter.api.Test;
 import test.AyudantePruebasColaboracionDB;
 import test.ConfiguracionPrueba;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
-public class RetroalimentacionDTOCOLABORACIONDAOTestDTO {
+public class RetroalimentacionColaboracionDAOTest {
     private static final RetroalimentacionColaboracionAuxiliar dao = new RetroalimentacionColaboracionAuxiliar();
 
     @BeforeAll
@@ -144,11 +142,11 @@ public class RetroalimentacionDTOCOLABORACIONDAOTestDTO {
         assertEquals(5, resultado.get(0).getInteraccionConPar());
         assertEquals(4, resultado.get(0).getIntercambioCultural());
 
-        assertEquals(1, resultado.get(0).getIdRetroalimentacion());
-        assertEquals(2, resultado.get(0).getIdUsuario());
-        assertEquals(2, resultado.get(0).getColaboracion());
-        assertEquals(5, resultado.get(0).getInteraccionConPar());
-        assertEquals(5, resultado.get(0).getIntercambioCultural());
-        assertEquals(4, resultado.get(0).getMejoraFormacionProfesional());
+        assertEquals(1, resultado.get(1).getIdRetroalimentacion());
+        assertEquals(2, resultado.get(1).getIdUsuario());
+        assertEquals(2, resultado.get(1).getColaboracion());
+        assertEquals(5, resultado.get(1).getInteraccionConPar());
+        assertEquals(5, resultado.get(1).getIntercambioCultural());
+        assertEquals(4, resultado.get(1).getMejoraFormacionProfesional());
     }
 }

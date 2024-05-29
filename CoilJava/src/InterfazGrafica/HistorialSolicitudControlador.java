@@ -29,7 +29,7 @@ public class HistorialSolicitudControlador {
 
     private List<ColaboracionDTO> getSolicitudes () {
         ColaboracionDAO colaboracionDAO = new ColaboracionDAO();
-        return colaboracionDAO.obtenerSolicitudesDeAcademico(this.academicoDTO);
+        return colaboracionDAO.getSolicitudesDeAcademico(this.academicoDTO);
     }
 
     private void agregarHistorialItem (ColaboracionDTO colaboracionDTO) {
@@ -62,7 +62,7 @@ public class HistorialSolicitudControlador {
                 }
             }
             else {
-                throw new IllegalArgumentException("No hay solicitudes registradas");
+                mostrarAlert("No hay solicitudes", Alert.AlertType.INFORMATION);
             }
         }
         catch (ErrorDAO errorDAO) {

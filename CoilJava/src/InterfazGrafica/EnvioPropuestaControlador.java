@@ -21,24 +21,45 @@ public class EnvioPropuestaControlador {
     private Stack<Pane> historialPaneles = new Stack<>();
     private BorderPane pnVentanaPrincipal;
 
-    private ColaboracionDTO obtenerDatosGUI () {
+    private ColaboracionDTO getDatosGUI () {
         ColaboracionDTO colaboracionDTO = new ColaboracionDTO();
-        colaboracionDTO.setObjetivo(taObjetivo.getText());
         colaboracionDTO.setTemaInteres(tfTemaInteres.getText());
+        colaboracionDTO.setObjetivo(taObjetivo.getText());
         return colaboracionDTO;
     }
 
     @FXML
     public void enviarPropuestaColaboracion () {
-        ColaboracionDTO colaboracionDTO = obtenerDatosGUI();
-        colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.propuesta);
-        try {
-            COLABORACION_AUXILIAR.registrarPropuestaColaboracion(colaboracionDTO, academicoAnfitrion);
-            mostrarMensajeEmergente("Su propuesta ha sido registrada.\nPronto será evaluada,", Alert.AlertType.INFORMATION);
+        if (validarCampos()) {
+            try {
+                ColaboracionDTO colaboracionDTO = getDatosGUI();
+                colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.propuesta);
+                COLABORACION_AUXILIAR.registrarPropuestaColaboracion(colaboracionDTO, academicoAnfitrion);
+                mostrarMensajeEmergente("Su propuesta ha sido registrada.\nPronto será evaluada,", Alert.AlertType.INFORMATION);
+            }
+            catch (ErrorDAO errorDAO) {
+                mostrarMensajeEmergente(errorDAO.getMessage(), Alert.AlertType.ERROR);
+            }
         }
-        catch (ErrorDAO errorDAO) {
-            mostrarMensajeEmergente(errorDAO.getMessage(), Alert.AlertType.ERROR);
+    }
+
+    private boolean validarCampos () {
+        String objetivo = taObjetivo.getText()
+                                    .trim();
+        String temaInteres = tfTemaInteres.getText()
+                                          .trim();
+
+        if (objetivo.isEmpty()) {
+            mostrarMensajeEmergente("El campo 'Objetivo' no puede estar vacío", Alert.AlertType.WARNING);
+            return false;
         }
+
+        if (temaInteres.isEmpty()) {
+            mostrarMensajeEmergente("El campo 'Tema de Interés' no puede estar vacío", Alert.AlertType.WARNING);
+            return false;
+        }
+
+        return true;
     }
 
     @FXML
@@ -52,7 +73,7 @@ public class EnvioPropuestaControlador {
     private boolean mostrarAlertaConfirmacion () {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmación");
-        alert.setHeaderText("¿Seguro que desea cancelar el envio de su propuesta?");
+        alert.setHeaderText("¿Seguro que desea cancelar el envío de su propuesta?");
         alert.setContentText("La propuesta no será guardada");
 
         ButtonType btnSi = new ButtonType("Si");
@@ -83,6 +104,4 @@ public class EnvioPropuestaControlador {
     public void setPnVentanaPrincipal (BorderPane pnVentanaPrincipal) {
         this.pnVentanaPrincipal = pnVentanaPrincipal;
     }
-
-
 }

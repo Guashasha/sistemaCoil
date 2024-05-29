@@ -1,7 +1,6 @@
 package InterfazGrafica.Items;
 
 import DAO.AcademicoAuxiliar;
-import DAO.CuentaAuxiliar;
 import DAO.PaisAuxiliar;
 import DAO.UniversidadAuxiliar;
 import DTO.AcademicoDTO;
@@ -17,7 +16,6 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.layout.VBox;
 
 import java.net.URL;
-import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -131,20 +129,6 @@ public class CuentaItemControlador implements Initializable {
         return academicoDTO;
     }
 
-    public List<CuentaDTO> getCuentaPorEstado () {
-        List<CuentaDTO> listaCuentaDTO = null;
-        CuentaAuxiliar cuentaAuxiliar = new CuentaAuxiliar();
-        try {
-            listaCuentaDTO = cuentaAuxiliar.getCuentasPorTipo(CuentaDTO.EstadoCuenta.pendiente.toString());
-
-        }
-        catch (ErrorDAO errorDAO) {
-            System.out.println("Implementar un alert");
-
-        }
-        return listaCuentaDTO;
-    }
-
     public UniversidadDTO getUniversidadPorId (int idUnivesidad) {
         UniversidadDTO universidadDTO = null;
         UniversidadAuxiliar universidadAuxiliar = new UniversidadAuxiliar();
@@ -199,7 +183,5 @@ public class CuentaItemControlador implements Initializable {
         Tooltip tooltip = new Tooltip(label.getText());
         Tooltip.install(label, tooltip);
     }
-
-
 
 }

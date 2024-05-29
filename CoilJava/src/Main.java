@@ -16,7 +16,7 @@ public class Main extends Application {
 
     @Override
     public void start (Stage primaryStage) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/InterfazGrafica/inicioSesion.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/InterfazGrafica/InicioSesion.fxml"));
         try {
             Parent root = loader.load();
             Scene scene = new Scene(root);

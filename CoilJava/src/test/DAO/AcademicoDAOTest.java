@@ -1,4 +1,4 @@
-package test.AccesoADatos;
+package test.DAO;
 
 import DAO.AcademicoDAO;
 import DTO.AcademicoDTO;

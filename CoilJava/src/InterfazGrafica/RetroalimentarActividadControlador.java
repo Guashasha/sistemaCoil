@@ -13,9 +13,12 @@ import javafx.scene.layout.Pane;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
+import java.util.Stack;
 
 public class RetroalimentarActividadControlador {
     private static final Logger BITACORA = Logger.getLogger(NuevaActividadControlador.class);
+    private Pane ventanaPrincipal;
+    private Pane ventanaAnterior;
 
     @FXML
     private Pane pnPrincipal;
@@ -30,18 +33,14 @@ public class RetroalimentarActividadControlador {
 
     private ActividadDTO actividad;
 
-    public RetroalimentarActividadControlador (ActividadDTO actividad) {
+    public void initialize (Pane ventanaPrincipal, Pane ventanaAnterior, ActividadDTO actividad) {
         if (!actividad.esCorrecta()) {
             return;
         }
 
         this.actividad = actividad;
-
-        try {
-            pnPrincipal = FXMLLoader.load(getClass().getResource("RetroalimentarActividad.fxml"));
-        } catch (IOException e) {
-            BITACORA.error(e);
-        }
+        this.ventanaPrincipal = ventanaPrincipal;
+        this.ventanaAnterior = ventanaAnterior;
     }
 
     public Pane getPane () {

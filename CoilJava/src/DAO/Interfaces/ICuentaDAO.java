@@ -8,6 +8,7 @@ import java.util.Optional;
 
 public interface ICuentaDAO extends IDAO<CuentaDTO, Integer> {
     Optional<CuentaDTO> getCuentaPorUsuario (String nombreUsuario) throws ErrorDAO;
+    Optional<CuentaDTO> getCuentaPorPersona (int idPersona) throws ErrorDAO;
     int actualizarNombreUsuario(CuentaDTO cuentaDTO) throws ErrorDAO;
     boolean verificarCredenciales(String nombreUsuario, String contrasena) throws ErrorDAO;
     int actualizarContrasena(CuentaDTO cuentaDTO, String contrasenaAntigua, String nuevaContrasena) throws ErrorDAO;

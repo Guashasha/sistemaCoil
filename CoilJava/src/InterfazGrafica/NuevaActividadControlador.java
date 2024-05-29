@@ -1,6 +1,7 @@
 package InterfazGrafica;
 
 import DAO.ActividadAuxiliar;
+import DAO.ColaboracionAuxiliar;
 import DAO.CronogramaActividadAuxiliar;
 import DTO.ActividadDTO;
 import DTO.ActividadVinculadaDTO;
@@ -8,16 +9,17 @@ import DTO.ColaboracionDTO;
 import DTO.PeriodoDTO;
 import Utilidades.ErrorDAO;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import org.apache.log4j.Logger;
 
-import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Optional;
 
 public class NuevaActividadControlador {
     private static final Logger BITACORA = Logger.getLogger(NuevaActividadControlador.class);
+    private Pane panelPrincipal;
+    private Pane panelAnterior;
 
     @FXML
     private Pane pnPrincipal;
@@ -38,19 +40,31 @@ public class NuevaActividadControlador {
     @FXML
     private TextField tfTitulo = new TextField();
 
-    public NuevaActividadControlador (ColaboracionDTO colaboracionDTO) {
+    public void initialize (ColaboracionDTO colaboracionDTO, Pane panelPrincipal, Pane panelAnterior) {
         if (!colaboracionDTO.esValido()) {
             return;
         }
 
-        this.colaboracionDTO = colaboracionDTO;
-
+        ColaboracionAuxiliar dao = new ColaboracionAuxiliar();
+        Optional<ColaboracionDTO> colaboracion;
         try {
-             pnPrincipal = FXMLLoader.load(getClass().getResource("NuevaActividad.fxml"));
+             colaboracion = dao.getColaboracionPorId(colaboracionDTO.getIdColaboracion());
+
+            if (colaboracion.isEmpty()) {
+                return;
+            }
+        } catch (ErrorDAO e) {
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setHeaderText("Error al iniciar la ventana nueva actividad");
+            errorAlert.setContentText("Ocurrió un error desconocido al intentar abrir la ventana nueva actividad");
+            errorAlert.showAndWait();
+
+            return;
         }
-        catch (IOException e) {
-            BITACORA.error(e);
-        }
+
+        this.colaboracionDTO = colaboracion.get();
+        this.panelAnterior = panelAnterior;
+        this.panelPrincipal = panelPrincipal;
     }
 
     public Pane getPane () {
@@ -113,7 +127,7 @@ public class NuevaActividadControlador {
             return;
         }
 
-        ActividadVinculadaDTO actividadVinculadaDTO = new ActividadVinculadaDTO(actividadDTO, colaboracionDTO, periodoDTO);
+        ActividadVinculadaDTO actividadVinculadaDTO = new ActividadVinculadaDTO(actividadDTO, this.colaboracionDTO, periodoDTO);
         CronogramaActividadAuxiliar cronograma = new CronogramaActividadAuxiliar();
 
         try {

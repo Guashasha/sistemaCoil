@@ -1,4 +1,4 @@
-package test.Logica;
+package test.DAO;
 
 import DAO.ActividadAuxiliar;
 import DTO.ActividadDTO;
@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import test.ConfiguracionPrueba;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
