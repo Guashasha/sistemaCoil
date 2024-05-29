@@ -1,4 +1,4 @@
-package test.AccesoADatos;
+package test.DAO;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -11,8 +11,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import test.ConfiguracionPrueba;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Optional;
 
 public class RetroalimentacionActividadDAOTest {

@@ -12,7 +12,6 @@ import Utilidades.ErrorDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -28,8 +27,6 @@ public class AgregarEstudianteControlador {
     private static final Logger BITACORA = Logger.getLogger(AgregarEstudianteControlador.class);
     @FXML
     private BorderPane pnAgregarEstudiante;
-    @FXML
-    private TextField tfBarraBusqueda;
     @FXML
     private VBox vboxResultadosBusqueda;
     private Stack<Pane> historialPaneles;
@@ -57,11 +54,6 @@ public class AgregarEstudianteControlador {
 
     public void setListaEstudiantesControlador(ListaEstudiantesControlador listaEstudiantesControlador) {
         this.listaEstudiantesControlador = listaEstudiantesControlador;
-    }
-
-    @FXML
-    private void consultar () {
-
     }
 
     @FXML

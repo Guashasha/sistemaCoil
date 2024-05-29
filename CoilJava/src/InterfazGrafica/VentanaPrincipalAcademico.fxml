@@ -76,7 +76,7 @@
          </padding>
          <children>
             <Button mnemonicParsing="false" onAction="#abrirSeccionColaboracion" styleClass="button-menu-lateral" stylesheets="@Recursos/EstiloVentanas.css" text="Colaboracion" />
-            <Button mnemonicParsing="false" styleClass="button-menu-lateral" stylesheets="@Recursos/EstiloVentanas.css" text="Numeralia" />
+            <Button mnemonicParsing="false" onAction="#abrirSeccionNumeralia" styleClass="button-menu-lateral" stylesheets="@Recursos/EstiloVentanas.css" text="Numeralia" />
          </children>
       </VBox>
    </left>

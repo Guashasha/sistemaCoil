@@ -1,4 +1,4 @@
-package test.AccesoADatos;
+package test.DAO;
 
 import DAO.ColaboracionDAO;
 import DTO.AcademicoDTO;
@@ -6,7 +6,6 @@ import DTO.ColaboracionDTO;
 import DTO.EstudianteDTO;
 import DTO.PeriodoDTO;
 import Utilidades.ErrorDAO;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import test.AyudantePruebasColaboracionDB;

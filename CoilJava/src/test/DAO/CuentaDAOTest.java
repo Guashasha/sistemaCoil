@@ -1,4 +1,4 @@
-package test.AccesoADatos;
+package test.DAO;
 import DAO.CuentaDAO;
 import DTO.CuentaDTO;
 import Utilidades.ErrorDAO;

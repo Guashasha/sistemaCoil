@@ -19,13 +19,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.apache.log4j.Logger;
-
 import java.io.IOException;
 import java.util.Optional;
 
-
 public class InicioSesionControlador {
-
     private static final Logger BITACORA = Logger.getLogger(InicioSesionControlador.class);
     private final CuentaAuxiliar CUENTA_AUXILIAR = new CuentaAuxiliar();
 
@@ -69,6 +66,21 @@ public class InicioSesionControlador {
             Parent root = fxmlLoader.load();
             VentanaPrincipalAcademicoControlador ventanaPrincipalAcademicoControlador = fxmlLoader.getController();
             ventanaPrincipalAcademicoControlador.setAcademico(academicoDTO);
+            Scene nuevaEscena = new Scene(root);
+            stagePrincipal.setScene(nuevaEscena);
+        }
+        catch (IOException error) {
+            BITACORA.fatal(error.getMessage());
+            mostrarVentanaAlert("Error al cargar la ventana principal", Alert.AlertType.ERROR);
+        }
+    }
+
+    private void mostrarVentanaPrincipalEstudiante () {
+        try {
+            Stage stagePrincipal = (Stage) tfUsuario.getScene()
+                    .getWindow();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("VentanaPrincipalEstudiante.fxml"));
+            Parent root = fxmlLoader.load();
             Scene nuevaEscena = new Scene(root);
             stagePrincipal.setScene(nuevaEscena);
         }
@@ -169,7 +181,7 @@ public class InicioSesionControlador {
                 procesarInicioSesionAcademico(cuenta);
                 break;
             case estudiante:
-                System.out.println("Implementar ventana estudiante");
+                mostrarVentanaPrincipalEstudiante();
                 break;
             case administrador:
                 mostrarVentanaPrincipalAdministrador();
