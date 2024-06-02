@@ -1,8 +1,6 @@
 package InterfazGrafica;
 
 import DAO.ActividadAuxiliar;
-import DAO.ColaboracionAuxiliar;
-import DAO.ColaboracionDAO;
 import DAO.CronogramaActividadAuxiliar;
 import DTO.ActividadDTO;
 import DTO.ActividadVinculadaDTO;
@@ -10,7 +8,9 @@ import DTO.ColaboracionDTO;
 import DTO.PeriodoDTO;
 import Utilidades.ErrorDAO;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import org.apache.log4j.Logger;
 
@@ -19,8 +19,9 @@ import java.util.Optional;
 
 public class NuevaActividadControlador {
     private static final Logger BITACORA = Logger.getLogger(NuevaActividadControlador.class);
-    private Pane panelPrincipal;
+    private BorderPane panelPrincipal;
     private Pane panelAnterior;
+    private ActividadesColaboracionControlador controlador;
 
     @FXML
     private Pane pnPrincipal;
@@ -41,7 +42,7 @@ public class NuevaActividadControlador {
     @FXML
     private TextField tfTitulo = new TextField();
 
-    public void initialize (ColaboracionDTO colaboracionDTO, Pane panelPrincipal, Pane panelAnterior) {
+    public void initialize (ColaboracionDTO colaboracionDTO, BorderPane panelPrincipal, Pane panelAnterior, ActividadesColaboracionControlador item) {
         if (!colaboracionDTO.esValido()) {
             return;
         }
@@ -49,10 +50,16 @@ public class NuevaActividadControlador {
         this.colaboracionDTO = colaboracionDTO;
         this.panelAnterior = panelAnterior;
         this.panelPrincipal = panelPrincipal;
+        this.controlador = item;
     }
 
     public Pane getPane () {
         return pnPrincipal;
+    }
+
+    public void volver () {
+        this.controlador.actualizarLista();
+        panelPrincipal.setCenter(panelAnterior);
     }
 
     private boolean camposInvalidos () {
@@ -88,6 +95,7 @@ public class NuevaActividadControlador {
         PeriodoDTO periodoDTO = new PeriodoDTO(fechaInicio, fechaFin);
 
         ActividadDTO actividadDTO = new ActividadDTO(titulo, descripcion, tipo);
+        ActividadVinculadaDTO actividadVinculadaDTO = new ActividadVinculadaDTO(actividadDTO, this.colaboracionDTO, periodoDTO);
 
         ActividadAuxiliar dao = new ActividadAuxiliar();
         int resultado = -1;
@@ -134,7 +142,7 @@ public class NuevaActividadControlador {
             return;
         }
 
-        ActividadVinculadaDTO actividadVinculadaDTO = new ActividadVinculadaDTO(act.get(), this.colaboracionDTO, periodoDTO);
+        actividadVinculadaDTO.getActividad().setIdActividad(act.get().getIdActividad());
         CronogramaActividadAuxiliar cronograma = new CronogramaActividadAuxiliar();
 
         try {
@@ -152,6 +160,12 @@ public class NuevaActividadControlador {
             errorAlert.setHeaderText("Error al agregar");
             errorAlert.setContentText("Ocurrió un error al vincular la actividadDTO");
             errorAlert.showAndWait();
+        }
+        else {
+            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+            alerta.setContentText("Se agregó la actividad correctamente");
+            alerta.setHeaderText("Actividad agregada");
+            alerta.showAndWait();
         }
     }
 

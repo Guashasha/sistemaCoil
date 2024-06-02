@@ -43,7 +43,8 @@ public class ActividadesColaboracionControlador {
         this.ventanaPrincipal.setCenter(this.ventanaAnterior);
     }
 
-    private void actualizarLista () {
+    public void actualizarLista () {
+        vboxActividades.getChildren().clear();
         ActividadDAO dao = new ActividadDAO();
         List<ActividadDTO> actividades;
 
@@ -66,6 +67,7 @@ public class ActividadesColaboracionControlador {
     private Pane crearPanelActividad (ActividadDTO actividad) {
         HBox panelActividad = new HBox();
         panelActividad.setPadding(new Insets(10, 20, 10,20));
+        panelActividad.setStyle("-fx-background-color: #B7DCF5; -fx-background-radius: 8;");
 
         if (this.colaboracion.getEstado() == ColaboracionDTO.EstadoColaboracion.finalizada) {
             return null;
@@ -135,9 +137,13 @@ public class ActividadesColaboracionControlador {
 
         if (apActividades != null) {
             NuevaActividadControlador ventanaActividadesControlador = fxmlLoader.getController();
-            ventanaActividadesControlador.initialize(this.colaboracion, this.ventanaPrincipal, this.pnMain);
+            ventanaActividadesControlador.initialize(this.colaboracion, this.ventanaPrincipal, this.pnMain, this);
             ventanaActividadesControlador.colaboracionDTO = colaboracion;
             this.ventanaPrincipal.setCenter(apActividades);
         }
+    }
+
+    public void volver () {
+        ventanaPrincipal.setCenter(ventanaAnterior);
     }
 }

@@ -77,11 +77,23 @@ public class CrearCuentaAcademicoControlador {
                 alerta.showAndWait();
                 return;
             }
-        }
 
-        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-        alerta.setContentText("Se creó la cuenta correctamente");
-        alerta.setHeaderText("Cuenta creada");
+            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+            alerta.setHeaderText("Cuenta creada");
+            alerta.setContentText("La cuenta se creó exitosamente");
+            alerta.showAndWait();
+            limpiarCampos();
+        }
+    }
+
+    void limpiarCampos () {
+        tfNombre.setText("");
+        tfApMaterno.setText("");
+        tfApPaterno.setText("");
+        tfCorreo.setText("");
+        tfTelefono.setText("");
+        tfCedulaProfesional.setText("");
+        tfNumeroPersonal.setText("");
     }
 
     private AcademicoDTO leerCamposAcademico () {
