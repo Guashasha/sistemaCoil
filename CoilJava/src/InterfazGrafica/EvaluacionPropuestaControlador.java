@@ -94,9 +94,10 @@ public class EvaluacionPropuestaControlador implements Initializable {
     private void cambiarEstadoPropuestaAceptado (PropuestaItemControlador propuestaItemControlador, Pane pane) {
         ColaboracionAuxiliar colaboracionAuxiliar = new ColaboracionAuxiliar();
         ColaboracionDTO colaboracionDTO = propuestaItemControlador.getColaboracionDTO();
-        colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.aceptada);
         try {
-            colaboracionAuxiliar.cambiarEstadoColaboracion(colaboracionDTO);
+            colaboracionAuxiliar.cambiarEstadoColaboracion("aceptada", colaboracionDTO.getIdColaboracion());
+            colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.aceptada);
+
             vboxContenedor.getChildren()
                           .remove(pane);
         }
@@ -110,9 +111,10 @@ public class EvaluacionPropuestaControlador implements Initializable {
     private void cambiarEstadoPropuestaRechazado (PropuestaItemControlador propuestaItemControlador, Pane pane) {
         ColaboracionAuxiliar colaboracionAuxiliar = new ColaboracionAuxiliar();
         ColaboracionDTO colaboracionDTO = propuestaItemControlador.getColaboracionDTO();
-        colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.rechazada);
         try {
-            colaboracionAuxiliar.cambiarEstadoColaboracion(colaboracionDTO);
+            colaboracionAuxiliar.cambiarEstadoColaboracion("rechazada", colaboracionDTO.getIdColaboracion());
+            colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.rechazada);
+
             vboxContenedor.getChildren()
                           .remove(pane);
         }

@@ -245,6 +245,9 @@ INSERT INTO pais VALUES(240, 'ZW', 'Zimbabue');
 -- universidad veracruzana
 INSERT INTO universidad (nombre, paisOrigen) VALUES ("Universidad Veracruzana", 146);
 
+-- registrar administrador
+CALL registrar_cuenta_administrador('Pale', 'Carrion', 'Martinez', 1, 'crud', 'habitacionVuelo');
+
 -- regiones
 INSERT INTO region (nombre) VALUES ('Xalapa');
 INSERT INTO region (nombre) VALUES ('Veracruz');

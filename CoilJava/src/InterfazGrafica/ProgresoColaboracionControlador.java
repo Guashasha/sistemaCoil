@@ -188,9 +188,9 @@ public class ProgresoColaboracionControlador {
             ColaboracionDAO colaboracionDAO = new ColaboracionDAO();
             try {
                 getFechas();
-                this.colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.activa);
-                colaboracionDAO.cambiarEstadoColaboracion(colaboracionDTO);
+                colaboracionDAO.cambiarEstadoColaboracion("activa", this.colaboracionDTO.getIdColaboracion());
                 colaboracionDAO.agregarPeriodoAColaboracion(colaboracionDTO);
+                this.colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.activa);
                 cargarLabels();
                 btnFinalizar.setVisible(true);
                 btnIniciar.setVisible(false);
@@ -223,8 +223,8 @@ public class ProgresoColaboracionControlador {
         if (this.colaboracionDTO.getEstado() != ColaboracionDTO.EstadoColaboracion.finalizada) {
             ColaboracionDAO colaboracionDAO = new ColaboracionDAO();
             try {
+                colaboracionDAO.cambiarEstadoColaboracion("finalizada", this.colaboracionDTO.getIdColaboracion());
                 this.colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.finalizada);
-                colaboracionDAO.cambiarEstadoColaboracion(colaboracionDTO);
                 mostrarMensajeEmergente("Colaboración finalizada", Alert.AlertType.INFORMATION);
             } catch (ErrorDAO error) {
                 mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);

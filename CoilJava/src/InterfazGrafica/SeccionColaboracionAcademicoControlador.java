@@ -168,10 +168,8 @@ public class SeccionColaboracionAcademicoControlador {
     public void abrirMiColaboracion () {
         CuentaDAO cuentaDao = new CuentaDAO();
         Optional<CuentaDTO> usuario = cuentaDao.getCuentaPorPersona(this.academicoDTO.getIdPersona());
-
         ColaboracionDAO colaboracionDao = new ColaboracionDAO();
         Optional<ColaboracionDTO> colaboracion = colaboracionDao.getColaboracionActualPorAcademico(academicoDTO.getCedulaProfesional());
-
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SeccionMiColaboracionAcademico.fxml"));
         BorderPane bpSeccionColaboracion = null;
 

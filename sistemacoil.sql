@@ -87,7 +87,7 @@ CREATE TABLE `cuenta` (
   `nombreUsuario` varchar(50) NOT NULL UNIQUE,
   `contrasena` varchar(300) NOT NULL,
   `tipo` ENUM ('academico', 'estudiante', 'administrador') NOT NULL,
-  `estado` ENUM ('pendiente', 'aceptada', 'rechazada') NOT NULL
+  `estado` ENUM ('pendiente', 'aceptada', 'rechazada', 'eliminada') NOT NULL
 );
 ALTER TABLE cuenta AUTO_INCREMENT=1;
 
