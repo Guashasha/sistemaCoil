@@ -226,17 +226,15 @@ public class ColaboracionDAO implements IColaboracionDAO {
     }
 
     @Override
-    public int cambiarEstadoColaboracion (ColaboracionDTO colaboracionDTO) throws ErrorDAO {
+    public int cambiarEstadoColaboracion (String nuevoEstado, int idColaboracion) throws ErrorDAO {
         String cambiarEstadoColaboracionSQL = "UPDATE colaboracion SET estado = ? WHERE idColaboracion = ?";
         int filasAfectadas;
 
         try {
             PreparedStatement cambiarEstadoColaboracion = AdministradorBaseDatos.getInstancia().
                                                                                 prepareStatement(cambiarEstadoColaboracionSQL);
-            cambiarEstadoColaboracion.setString(1, colaboracionDTO.getEstado().
-                                                                  name()
-                                                                  .toLowerCase());
-            cambiarEstadoColaboracion.setInt(2, colaboracionDTO.getIdColaboracion());
+            cambiarEstadoColaboracion.setString(1, nuevoEstado);
+            cambiarEstadoColaboracion.setInt(2, idColaboracion);
             filasAfectadas = cambiarEstadoColaboracion.executeUpdate();
             cambiarEstadoColaboracion.close();
         }
@@ -466,7 +464,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
 
     @Override
     public Optional<ColaboracionDTO> getColaboracionActualPorAcademico (String cedulaProfesional) {
-        String colaboracionDisponibleSQL = "SELECT * FROM vista_colaboracion_con_academico WHERE estadoAcademico = 'anfitrion' AND (estado = 'disponible' OR estado = 'aceptada' OR estado = 'vinculada' OR estado = 'activa' OR estado = 'enRevision') AND cedulaProfesional = ?";
+        String colaboracionDisponibleSQL = "SELECT * FROM vista_colaboracion_con_academico WHERE estadoAcademico = 'anfitrion' AND (estado = 'disponible' OR estado = 'vinculada' OR estado = 'activa' OR estado = 'enRevision') AND cedulaProfesional = ?";
         ColaboracionDTO colaboracionDTO = null;
 
         try {
@@ -585,7 +583,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
     }
 
     @Override
-    public int actualizarEstadoSolicitudDeParticipacion (int idColaboracion, String idAcademico, String nuevoEstado) throws ErrorDAO {
+    public int actualizarEstadoSolicitudDeParticipacion (int idColaboracion, String cedulaProfesional, String nuevoEstado) throws ErrorDAO {
         String actualizarSQL = "UPDATE academicoDesarrolla SET estado = ? WHERE idColaboracion = ? AND idAcademico = ?";
         int filasAfectadas;
 
@@ -594,7 +592,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
                                                                  .prepareStatement(actualizarSQL);
             actualizar.setString(1, nuevoEstado);
             actualizar.setInt(2, idColaboracion);
-            actualizar.setString(3, idAcademico);
+            actualizar.setString(3, cedulaProfesional);
 
             filasAfectadas = actualizar.executeUpdate();
 
@@ -611,8 +609,31 @@ public class ColaboracionDAO implements IColaboracionDAO {
     }
 
     @Override
+    public int rechazarOtrasSolicitudesDeParticipacion(int idColaboracion, String cedulaProfesional) throws ErrorDAO {
+        String actualizarSQL = "UPDATE academicoDesarrolla SET estado = 'rechazada' WHERE idAcademico = ? AND idColaboracion != ?";
+        int filasAfectadas;
+
+        try {
+            PreparedStatement actualizarStmt = AdministradorBaseDatos.getInstancia().prepareStatement(actualizarSQL);
+            actualizarStmt.setString(1, cedulaProfesional);
+            actualizarStmt.setInt(2, idColaboracion);
+
+            filasAfectadas = actualizarStmt.executeUpdate();
+
+            actualizarStmt.close();
+        } catch (SQLException error) {
+            BITACORA.fatal(error.getMessage());
+            throw new ErrorDAO("Error al actualizar las solicitudes de participación", ErrorDAO.Tipo.INSERCION);
+        } finally {
+            AdministradorBaseDatos.desconectar();
+        }
+        return filasAfectadas;
+    }
+
+
+    @Override
     public int eliminarSolicitudDeParticipacion (ColaboracionDTO colaboracionDTO, AcademicoDTO academicoDTO) throws ErrorDAO {
-        String eliminarSQL = "DELETE FROM academicoDesarrolla WHERE idColaboracion = ? AND idAcademico = ?";
+        String eliminarSQL = "Update academicoDesarrolla SET estado = 'rechazada' WHERE idColaboracion = ? AND idAcademico = ?";
         int filasAfectadas;
 
         try {
@@ -634,6 +655,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
         }
         return filasAfectadas;
     }
+
 
     @Override
     public int agregar (ColaboracionDTO colaboracionDTO) throws ErrorDAO {

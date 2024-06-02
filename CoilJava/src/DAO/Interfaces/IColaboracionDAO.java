@@ -17,7 +17,7 @@ public interface IColaboracionDAO extends IDAO<ColaboracionDTO, Integer> {
     public List<ColaboracionDTO> getColaboracionPorPeriodo (PeriodoDTO periodoDTO) throws ErrorDAO;
     public List<ColaboracionDTO> getColaboracionPorIdioma (String idioma) throws ErrorDAO;
     public List<ColaboracionDTO> getColaboracionPorEstado (String estado) throws ErrorDAO;
-    public int cambiarEstadoColaboracion (ColaboracionDTO colaboracionDTO) throws ErrorDAO;
+    public int cambiarEstadoColaboracion (String nuevoEstado, int idColaboracion) throws ErrorDAO;
     public int agregarEstudianteAColaboracion (ColaboracionDTO colaboracionDTO, EstudianteDTO estudianteDTO) throws ErrorDAO;
     public int registrarSolicitudParticipacion (ColaboracionDTO colaboracionDTO, AcademicoDTO academicoDTO) throws ErrorDAO;
     public Optional<ColaboracionDTO> getActivaPorAcademico (AcademicoDTO academicoDTO) throws ErrorDAO;
@@ -33,5 +33,6 @@ public interface IColaboracionDAO extends IDAO<ColaboracionDTO, Integer> {
     public int agregarPeriodoAColaboracion (ColaboracionDTO colaboracionDTO) throws ErrorDAO;
     public Optional<ColaboracionDTO> getColaboracionDisponiblePorAcademico(String cedulaProfesional) throws ErrorDAO;
     public Optional<AcademicoDTO> getAcademicoPar (ColaboracionDTO colaboracionDTO) throws ErrorDAO;
+    public int rechazarOtrasSolicitudesDeParticipacion(int idColaboracion, String cedulaProfesional) throws ErrorDAO;
 
 }

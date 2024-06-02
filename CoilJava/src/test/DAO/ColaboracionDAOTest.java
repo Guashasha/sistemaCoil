@@ -214,17 +214,11 @@ class ColaboracionDAOTest {
     void pruebaCambiarEstadoColaboracionExitosa() {
         System.out.println("pruebaCambiarEstadoColaboracionExitosa");
 
-
-        ColaboracionDTO colaboracionDTOPrueba = new ColaboracionDTO();
-        colaboracionDTOPrueba.setIdColaboracion(1);
-        colaboracionDTOPrueba.setEstado(ColaboracionDTO.EstadoColaboracion.vinculada);
-
-
         int esperado = 1;
         int obtenido = -1;
 
         try {
-            obtenido = COLABORACION_DAO.cambiarEstadoColaboracion(colaboracionDTOPrueba);
+            obtenido = COLABORACION_DAO.cambiarEstadoColaboracion("vinculada", 1);
 
 
         } catch (ErrorDAO error) {

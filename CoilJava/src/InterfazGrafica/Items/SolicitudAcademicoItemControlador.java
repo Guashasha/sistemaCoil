@@ -1,5 +1,6 @@
 package InterfazGrafica.Items;
 
+import DAO.ColaboracionAuxiliar;
 import DAO.ColaboracionDAO;
 import DAO.UniversidadAuxiliar;
 import DTO.AcademicoDTO;
@@ -91,12 +92,11 @@ public class SolicitudAcademicoItemControlador {
     private void aceptarSolicitud () {
         if (this.colaboracionDTO.getEstado().toString() != ColaboracionDTO.EstadoColaboracion.vinculada.toString()) {
 
-            ColaboracionDAO colaboracionDAO = new ColaboracionDAO();
+            ColaboracionAuxiliar colaboracionAuxiliar = new ColaboracionAuxiliar();
 
             try {
-                colaboracionDAO.actualizarEstadoSolicitudDeParticipacion(this.colaboracionDTO.getIdColaboracion(), this.academicoDTO.getCedulaProfesional(), "aceptado");
+                colaboracionAuxiliar.aceptarSolicitud(this.colaboracionDTO.getIdColaboracion(), this.academicoDTO.getCedulaProfesional(), "aceptado");
                 this.colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.vinculada);
-                colaboracionDAO.cambiarEstadoColaboracion(this.colaboracionDTO);
                 mostrarAlert("Academico aceptado con exito", Alert.AlertType.INFORMATION);
             }
             catch (ErrorDAO error) {
