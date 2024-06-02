@@ -82,12 +82,6 @@ public class ColaboracionDisponibleItemControlador implements Initializable {
         alert.setContentText(
                 "Tipo: " + colaboracionDTO.getTipo()
                                           .toString() + "\n\n" +
-                        "Fecha de inicio: " + colaboracionDTO.getPeriodo()
-                                                             .getFechaInicio()
-                                                             .toString() + "\n\n" +
-                        "Fecha de cierre: " + colaboracionDTO.getPeriodo()
-                                                             .getFechaFin()
-                                                             .toString() + "\n\n" +
                         "Perfil del estudiante: " + colaboracionDTO.getPerfilEstudiante() + "\n\n" +
                         "Academico: " + colaboracionDTO.getAnfitrion()
                                                        .getNombre() + " " + colaboracionDTO.getAnfitrion()
