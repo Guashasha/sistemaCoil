@@ -1,4 +1,4 @@
-package test.Logica;
+package test.DAO;
 
 import DAO.ActividadAuxiliar;
 import DAO.RetroalimentacionActividadAuxiliar;
