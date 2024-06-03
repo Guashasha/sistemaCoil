@@ -6,12 +6,15 @@ import DAO.UniversidadAuxiliar;
 import DTO.AcademicoDTO;
 import DTO.ColaboracionDTO;
 import DTO.UniversidadDTO;
+import InterfazGrafica.SolicitudesAColaboracionControlador;
 import Utilidades.ErrorDAO;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 
 import java.util.Optional;
 
@@ -40,7 +43,9 @@ public class SolicitudAcademicoItemControlador {
 
     private AcademicoDTO academicoDTO;
     private ColaboracionDTO colaboracionDTO;
-
+    private SolicitudesAColaboracionControlador solicitudesAColaboracionControlador;
+    private Pane pnMiColaboracion;
+    private BorderPane panelVentanaPrincipal;
 
     public void setAcademicoDTO (AcademicoDTO academicoDTO) {
         this.academicoDTO = academicoDTO;
@@ -88,6 +93,7 @@ public class SolicitudAcademicoItemControlador {
                 colaboracionAuxiliar.aceptarSolicitud(this.colaboracionDTO.getIdColaboracion(), this.academicoDTO.getCedulaProfesional(), "aceptado");
                 this.colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.vinculada);
                 mostrarAlert("Academico aceptado con exito", Alert.AlertType.INFORMATION);
+                this.panelVentanaPrincipal.setCenter(this.pnMiColaboracion);
             }
             catch (ErrorDAO error) {
                 mostrarAlert(error.getMessage(), Alert.AlertType.ERROR);
@@ -104,7 +110,14 @@ public class SolicitudAcademicoItemControlador {
         alerta.showAndWait();
     }
 
+    public void setSolicitudesAColaboracionControlador (SolicitudesAColaboracionControlador solicitudesAColaboracionControlador) {
+        this.solicitudesAColaboracionControlador = solicitudesAColaboracionControlador;
+    }
 
+    public void setPanales (Pane pnMiColaboracion, BorderPane panelVentanaPrincipal) {
+        this.pnMiColaboracion = pnMiColaboracion;
+        this.panelVentanaPrincipal = panelVentanaPrincipal;
+    }
 
     private boolean mostrarConfirmacion(String mensaje) {
         Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
