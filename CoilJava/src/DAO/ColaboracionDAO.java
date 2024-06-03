@@ -440,13 +440,14 @@ public class ColaboracionDAO implements IColaboracionDAO {
     }
 
     @Override
-    public List<ColaboracionDTO> getColaboracionesDisponibles (String cedulaProfesional) throws ErrorDAO {
-        String getColaboracionesDisponiblesSQL = "SELECT * FROM vista_colaboracion_con_academico WHERE estadoAcademico = 'anfitrion' AND estado = 'disponible' AND cedulaProfesional != ? ";
+    public List<ColaboracionDTO> getColaboracionesDisponibles (String cedulaProfesional, int idUniversidad) throws ErrorDAO {
+        String getColaboracionesDisponiblesSQL = "SELECT * FROM vista_colaboracion_con_academico WHERE estadoAcademico = 'anfitrion' AND estado = 'disponible' AND cedulaProfesional != ? AND idUniversidad != ?";
         List<ColaboracionDTO> listaColaboracion = new ArrayList<>();
         try {
             PreparedStatement getColaboraciones = AdministradorBaseDatos.getInstancia()
                                                                         .prepareStatement(getColaboracionesDisponiblesSQL);
             getColaboraciones.setString(1, cedulaProfesional);
+            getColaboraciones.setInt(2, idUniversidad);
             ResultSet resultado = getColaboraciones.executeQuery();
             while (resultado.next()) {
                 ColaboracionDTO colaboracionDTO = convertirResultSetAColaboracionDTO(resultado);
@@ -464,12 +465,12 @@ public class ColaboracionDAO implements IColaboracionDAO {
 
     @Override
     public Optional<ColaboracionDTO> getColaboracionActualPorAcademico (String cedulaProfesional) {
-        String colaboracionDisponibleSQL = "SELECT * FROM vista_colaboracion_con_academico WHERE estadoAcademico = 'anfitrion' AND (estado = 'disponible' OR estado = 'vinculada' OR estado = 'activa' OR estado = 'enRevision') AND cedulaProfesional = ?";
+        String colaboracionActualSQL = "SELECT * FROM vista_colaboracion_con_academico WHERE (estadoAcademico = 'anfitrion' OR estadoAcademico = 'aceptado') AND (estado = 'disponible' OR estado = 'vinculada' OR estado = 'activa' OR estado = 'enRevision') AND cedulaProfesional = ?";
         ColaboracionDTO colaboracionDTO = null;
 
         try {
             PreparedStatement obtenerColaboracion = AdministradorBaseDatos.getInstancia()
-                                                                          .prepareStatement(colaboracionDisponibleSQL);
+                                                                          .prepareStatement(colaboracionActualSQL);
             obtenerColaboracion.setString(1, cedulaProfesional);
             ResultSet resultado = obtenerColaboracion.executeQuery();
 

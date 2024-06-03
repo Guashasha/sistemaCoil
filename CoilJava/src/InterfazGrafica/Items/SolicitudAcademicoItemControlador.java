@@ -30,16 +30,10 @@ public class SolicitudAcademicoItemControlador {
     private Label lbApellidoMaterno;
 
     @FXML
-    private Label lbFacultad;
-
-    @FXML
     private Label lbNombre;
 
     @FXML
     private Label lbUniversidad;
-
-    @FXML
-    private Label lbRegion;
 
     @FXML
     private Label lbAreaEstudios;
@@ -66,10 +60,6 @@ public class SolicitudAcademicoItemControlador {
     }
 
     public void setLabel () {
-        if (this.academicoDTO.getIdFacultad() == null) {
-            lbFacultad.setVisible(false);
-            lbRegion.setVisible(false);
-        }
         lbNombre.setText(this.academicoDTO.getNombre());
         lbApellidoPaterno.setText(this.academicoDTO.getApellidoPaterno());
         lbApellidoMaterno.setText(this.academicoDTO.getApellidoMaterno());

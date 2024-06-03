@@ -24,7 +24,7 @@ public interface IColaboracionDAO extends IDAO<ColaboracionDTO, Integer> {
     public int registrarPropuestaColaboracion (ColaboracionDTO colaboracionDTO, AcademicoDTO academicoDTO) throws ErrorDAO;
     public List<ColaboracionDTO> getPropuestasColaboracion () throws ErrorDAO;
     public List<AcademicoDTO> getSolicitudAcademicoColaboracion (int idColaboracion) throws ErrorDAO;
-    public List<ColaboracionDTO> getColaboracionesDisponibles (String cedulaProfesional) throws ErrorDAO;
+    public List<ColaboracionDTO> getColaboracionesDisponibles (String cedulaProfesional,int idUniversidad) throws ErrorDAO;
     public int actualizarEstadoSolicitudDeParticipacion(int idColaboracion, String idAcademico, String nuevoEstado) throws ErrorDAO;
     public boolean existeUnaSolicitudPrevia (ColaboracionDTO colaboracionDTO, AcademicoDTO academicoDTO) throws ErrorDAO;
     public List<ColaboracionDTO> getSolicitudesDeAcademico (AcademicoDTO academicoDTO) throws ErrorDAO;

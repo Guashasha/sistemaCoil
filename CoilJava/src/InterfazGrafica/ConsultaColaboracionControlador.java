@@ -47,7 +47,7 @@ public class ConsultaColaboracionControlador implements Initializable {
 
     private List<ColaboracionDTO> getColaboracionesDisponibles () {
         ColaboracionAuxiliar colaboracionAuxiliar = new ColaboracionAuxiliar();
-        List<ColaboracionDTO> colaboraciones = colaboracionAuxiliar.obtenerColaboracionDisponible(academicoDTO.getCedulaProfesional());
+        List<ColaboracionDTO> colaboraciones = colaboracionAuxiliar.getColaboracionDisponible(academicoDTO.getCedulaProfesional(), academicoDTO.getIdUniversidad());
         String textoBusqueda = tfBusqueda.getText()
                                          .trim()
                                          .toLowerCase();
