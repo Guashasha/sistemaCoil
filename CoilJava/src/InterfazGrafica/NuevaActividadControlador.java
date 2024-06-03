@@ -69,9 +69,7 @@ public class NuevaActividadControlador {
                         .isBlank() ||
                 tgTipoActividad.getSelectedToggle() == null ||
                 dpFechaFin.getValue() == null ||
-                dpFechaInicio.getValue() == null ||
-                dpFechaInicio.getValue()
-                        .isAfter(dpFechaFin.getValue());
+                dpFechaInicio.getValue() == null;
     }
 
     public void agregarActividad () {
@@ -92,7 +90,18 @@ public class NuevaActividadControlador {
         LocalDate fechaInicio = dpFechaInicio.getValue();
         LocalDate fechaFin = dpFechaFin.getValue();
 
-        PeriodoDTO periodoDTO = new PeriodoDTO(fechaInicio, fechaFin);
+        PeriodoDTO periodoDTO;
+
+        try {
+            periodoDTO = new PeriodoDTO(fechaInicio, fechaFin);
+        }
+        catch (ErrorDAO error) {
+            Alert alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setHeaderText("Fecha incorrecta");
+            alerta.setContentText(error.getMessage());
+            alerta.showAndWait();
+            return;
+        }
 
         ActividadDTO actividadDTO = new ActividadDTO(titulo, descripcion, tipo);
         ActividadVinculadaDTO actividadVinculadaDTO = new ActividadVinculadaDTO(actividadDTO, this.colaboracionDTO, periodoDTO);

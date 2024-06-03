@@ -296,7 +296,7 @@ create procedure obtener_estudiantes_colaboracion (
 begin
     select v_e.*
     from vista_estudiante v_e
-    join estudiantescolaboracion e_col ON v_e.idEstudiante = e_col.idEstudiante
+    join estudiantesColaboracion e_col ON v_e.idEstudiante = e_col.idEstudiante
     where e_col.idColaboracion = p_idColaboracion;
 end //
 

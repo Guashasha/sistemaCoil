@@ -143,3 +143,4 @@
 2024-06-03 10:27:34 FATAL ColaboracionDAO:95 - (conn=46) Table 'COIL.estudiantescolaboracion' doesn't exist
 2024-06-03 10:57:48 FATAL ColaboracionDAO:95 - (conn=199) Table 'COIL.estudiantescolaboracion' doesn't exist
 2024-06-03 11:01:15 FATAL ColaboracionDAO:95 - (conn=208) Table 'COIL.estudiantescolaboracion' doesn't exist
+2024-06-03 11:05:22 FATAL ColaboracionDAO:95 - (conn=218) Table 'COIL.estudiantescolaboracion' doesn't exist
