@@ -165,7 +165,7 @@ public class SeccionMiColaboracionAcademicoControlador {
         alerta.show();
     }
 
-
+    @FXML
     public void regresar () {
         this.pnVentanaPrincipal.setCenter(this.historialPaneles.pop());
     }

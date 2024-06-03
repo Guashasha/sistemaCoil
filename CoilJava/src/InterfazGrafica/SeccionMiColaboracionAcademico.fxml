@@ -99,7 +99,7 @@
             <Insets left="40.0" right="40.0" top="40.0" />
          </BorderPane.margin>
          <children>
-            <Pane prefHeight="82.0" prefWidth="62.0">
+            <Pane onMouseClicked="#regresar" prefHeight="82.0" prefWidth="62.0">
                <children>
                   <Circle fill="WHITE" layoutX="31.0" layoutY="39.0" radius="27.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
                   <ImageView fitHeight="48.0" fitWidth="42.0" layoutX="10.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">

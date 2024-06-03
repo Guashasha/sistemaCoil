@@ -42,12 +42,6 @@
                         <Insets right="15.0" />
                      </HBox.margin>
                   </Label>
-                  <Label fx:id="lbFacultad" styleClass="label-inicioSesion-rosado" text="\@facultad">
-                     <HBox.margin>
-                        <Insets right="15.0" />
-                     </HBox.margin>
-                  </Label>
-                  <Label fx:id="lbRegion" text="\@region" />
                </children>
                <VBox.margin>
                   <Insets />
