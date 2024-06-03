@@ -250,7 +250,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
 
     @Override
     public int agregarEstudianteAColaboracion (ColaboracionDTO colaboracionDTO, EstudianteDTO estudianteDTO) throws ErrorDAO {
-        String agregarEstudianteAColaboracionSQL = "INSERT INTO estudiantescolaboracion (idEstudiante, idColaboracion) VALUES (?, ?)";
+        String agregarEstudianteAColaboracionSQL = "INSERT INTO estudiantesColaboracion (idEstudiante, idColaboracion) VALUES (?, ?)";
         int filasAfectadas;
 
         try {
@@ -1037,7 +1037,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
     }
 
     public int retirarEstudianteDeColaboracion (ColaboracionDTO colaboracion, EstudianteDTO estudiante) throws ErrorDAO {
-        String retirarEstudianteDeColaboracionSQL = "DELETE FROM estudiantescolaboracion WHERE idColaboracion = ? AND idEstudiante = ?";
+        String retirarEstudianteDeColaboracionSQL = "DELETE FROM estudiantesColaboracion WHERE idColaboracion = ? AND idEstudiante = ?";
         int filasAfectadas;
 
         try {
