@@ -75,7 +75,7 @@ public class RegistroEstudianteControlador {
         if (!camposVacios()) {
             EstudianteAuxiliar estudianteAuxiliar = new EstudianteAuxiliar();
             EstudianteDTO estudiante = new EstudianteDTO();
-            int filasAfectadas = 0;
+            int filasAfectadas;
 
             try {
                 estudiante.setNombre(this.tfNombre
@@ -92,6 +92,7 @@ public class RegistroEstudianteControlador {
             }
             catch (ErrorDAO error) {
                 mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.WARNING);
+                filasAfectadas = -1;
             }
 
             if (filasAfectadas > 0) {
@@ -99,7 +100,7 @@ public class RegistroEstudianteControlador {
                 etiquetarCamposVacios();
                 limpiarCampos();
             }
-            else {
+            else if (filasAfectadas == 0) {
                 mostrarMensajeEmergente("Algo salió mal al intentar registrar el estudiante", Alert.AlertType.ERROR);
             }
         }

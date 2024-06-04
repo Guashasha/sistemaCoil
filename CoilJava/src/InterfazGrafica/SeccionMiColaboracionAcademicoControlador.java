@@ -109,7 +109,7 @@ public class SeccionMiColaboracionAcademicoControlador {
             }
         }
         else {
-            mostrarMensajeEmergente("No es parte de una colaboración actualmente\n", Alert.AlertType.WARNING);
+            mostrarMensajeEmergente("Esta sección será accesible una vex\nque su solaboración sea vinculada a un par académico.", Alert.AlertType.WARNING);
         }
     }
 

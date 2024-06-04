@@ -17,7 +17,7 @@ import java.util.Optional;
 
 public class ConfiguracionCuentaControlador {
     @FXML
-    private TextField tfCategoriaContratacion;
+    private ComboBox<String> cbCategoriaContratacion;
     @FXML
     private TextField tfCorreo;
     @FXML
@@ -43,6 +43,7 @@ public class ConfiguracionCuentaControlador {
             this.pnVentanaPrincipal = pnVentanaPrincipal;
             this.academico = academico;
             llenarComboBoxAreasEstudio();
+            llenarComboBoxCategoriaContratacion();
             autocompletarCampos();
         }
         else {
@@ -55,7 +56,7 @@ public class ConfiguracionCuentaControlador {
         if (!universidadAcademico.getNombre()
                 .equals("Universidad Veracruzana")) {
             this.lbCategoriaContratacion.setVisible(false);
-            this.tfCategoriaContratacion.setVisible(false);
+            this.cbCategoriaContratacion.setVisible(false);
         }
     }
 
@@ -80,7 +81,7 @@ public class ConfiguracionCuentaControlador {
 
             try {
                 academicoEditado.setAreaEstudios(cmbAreaEstudios.getValue());
-                academicoEditado.setCategoriaContratacion(tfCategoriaContratacion.getText());
+                academicoEditado.setCategoriaContratacion(cbCategoriaContratacion.getValue());
                 academicoEditado.setCorreoElectronico(tfCorreo.getText());
                 academicoEditado.setNumeroTelefonico(tfTelefono.getText());
                 filasAfectadas = academicoDAO.modificar(academicoEditado);
@@ -128,8 +129,8 @@ public class ConfiguracionCuentaControlador {
                 this.cmbAreaEstudios
                         .setValue(this.academico
                                 .getAreaEstudios());
-                this.tfCategoriaContratacion
-                        .setText(this.academico
+                this.cbCategoriaContratacion
+                        .setValue(this.academico
                                 .getCategoriaContratacion());
                 this.tfCorreo
                         .setText(this.academico
@@ -153,8 +154,8 @@ public class ConfiguracionCuentaControlador {
         String telefono = tfTelefono.getText();
         if (this.universidadAcademico
                 .getNombre().equals("Universidad Veracruzana")) {
-            String categoriaContratacion = tfCategoriaContratacion.getText();
-            vacios = areaEstudios == null || categoriaContratacion == null || categoriaContratacion.isBlank() || correo == null || correo.isBlank() || telefono == null || telefono.isBlank();
+            String categoriaContratacion = cbCategoriaContratacion.getValue();
+            vacios = areaEstudios == null || categoriaContratacion == null || correo == null || correo.isBlank() || telefono == null || telefono.isBlank();
         }
         else {
             vacios = areaEstudios == null || correo == null || correo.isBlank() || telefono == null || telefono.isBlank();
@@ -172,8 +173,8 @@ public class ConfiguracionCuentaControlador {
                 .getText().trim();
         if (this.universidadAcademico
                 .getNombre().equals("Universidad Veracruzana")) {
-            String categoriaContratacion = this.tfCategoriaContratacion
-                    .getText().trim();
+            String categoriaContratacion = this.cbCategoriaContratacion
+                    .getValue();
             camposSinCambios = areaEstudios.equals(this.academico
                     .getAreaEstudios()) && categoriaContratacion.equals(this.academico
                     .getCategoriaContratacion()) && correo.equals(this.academico
@@ -202,8 +203,8 @@ public class ConfiguracionCuentaControlador {
 
         if (this.universidadAcademico
                 .getNombre().equals("Universidad Veracruzana")) {
-            String categoriaContratacion = this.tfCategoriaContratacion
-                    .getText();
+            String categoriaContratacion = this.cbCategoriaContratacion
+                    .getValue();
             this.lbObligatorioCategoria
                     .setVisible(categoriaContratacion == null || categoriaContratacion.isBlank());
         }
@@ -214,6 +215,30 @@ public class ConfiguracionCuentaControlador {
         alerta.setContentText(mensaje);
         alerta.setHeaderText(null);
         alerta.show();
+    }
+
+    private void llenarComboBoxCategoriaContratacion () {
+        ArrayList<String> categorias = new ArrayList<>();
+        categorias.add("planta");
+        categorias.add("interino por plaza");
+        categorias.add("interino por persona");
+        categorias.add("interino por tiempo determinado");
+        categorias.add("interino por obra determinada");
+        categorias.add("interino por falta de grado");
+        categorias.add("suplente");
+        categorias.add("trabajos especificos");
+        categorias.add("interino por plaza con plaza");
+        categorias.add("interino por persona con plaza");
+        categorias.add("suplente con plaza");
+        categorias.add("eventual");
+        categorias.add("beca trabajo");
+        categorias.add("apoyo");
+        categorias.add("beca subsidio");
+        categorias.add("beca posgrado");
+        categorias.add("beca sistema nacional de investigación");
+        categorias.add("beca profesional");
+
+        this.cbCategoriaContratacion.setItems(FXCollections.observableArrayList(categorias));
     }
 
 }

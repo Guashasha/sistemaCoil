@@ -266,4 +266,6 @@ public class CrearCuentaAcademicoControlador {
                 || areaEstudios == null || areaEstudios.isBlank() ||
                 facultad.isBlank() || categoriaContratacion.isBlank();
     }
+
+
 }

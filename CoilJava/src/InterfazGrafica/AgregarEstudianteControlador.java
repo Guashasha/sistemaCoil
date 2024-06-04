@@ -12,6 +12,7 @@ import Utilidades.ErrorDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -29,6 +30,8 @@ public class AgregarEstudianteControlador {
     private BorderPane pnAgregarEstudiante;
     @FXML
     private VBox vboxResultadosBusqueda;
+    @FXML
+    private TextField tfBarraBusqueda;
     private Stack<Pane> historialPaneles;
     private BorderPane pnVentanaPrincipal;
     private ColaboracionDTO colaboracion;
@@ -99,6 +102,27 @@ public class AgregarEstudianteControlador {
         this.pnVentanaPrincipal
                 .setCenter(this.historialPaneles
                         .pop());
+    }
+
+    @FXML
+    private void buscarEstudiante() {
+        String matricula = tfBarraBusqueda.getText();
+
+        if (matricula != null && !matricula.isBlank()) {
+            EstudianteAuxiliar estudianteAuxiliar = new EstudianteAuxiliar();
+            Optional<EstudianteDTO> estudianteOptional = Optional.empty();
+            List<EstudianteDTO> estudianteEncontrado = new ArrayList<>();
+
+            try {
+                estudianteOptional = estudianteAuxiliar.getEstudiantePorMatricula(matricula);
+            }
+            catch (ErrorDAO error) {
+                mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
+            }
+
+            estudianteOptional.ifPresent(estudianteEncontrado::add);
+            mostrarConsulta(estudianteEncontrado);
+        }
     }
 
     private boolean objetosValidos () {

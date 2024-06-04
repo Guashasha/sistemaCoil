@@ -149,7 +149,7 @@ BEGIN
 	INSERT INTO persona (nombre, apellidoPaterno, apellidoMaterno, universidad) VALUES (p_nombre, p_apellidoPaterno, p_apellidoMaterno, p_universidad);
 	SET id_persona = LAST_INSERT_ID();
 	INSERT INTO estudiante (idPersona, matricula) VALUES (id_persona, p_matricula);
-	CALL registrar_cuenta (id_Persona, p_nombre, p_matricula, 'estudiante', 'aceptada');
+	CALL registrar_cuenta (id_Persona, p_matricula, p_matricula, 'estudiante', 'aceptada');
 END //
 
 
@@ -174,10 +174,6 @@ begin
         apellidoMaterno = p_apellidoMaterno,
         universidad = p_universidad
     WHERE idPersona = id_persona;
-    
-    UPDATE cuenta
-    SET nombreUsuario = p_nombre
-    WHERE cuenta.idPersona = id_persona;
 end //
 
 

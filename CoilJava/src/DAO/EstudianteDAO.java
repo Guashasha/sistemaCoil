@@ -6,7 +6,6 @@ import AccesoDatos.AdministradorBaseDatos;
 import Utilidades.ErrorDAO;
 import Utilidades.ErrorDAO.Tipo;
 import org.apache.log4j.Logger;
-
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,7 +20,7 @@ public class EstudianteDAO implements IEstudianteDAO {
     @Override
     public int agregar (EstudianteDTO estudianteDTO) throws ErrorDAO {
         String procedimientoSQL = "{CALL registrar_Estudiante(?, ?, ?, ?, ?)}";
-        int resultado = 0;
+        int resultado;
         try {
             CallableStatement registrarEstudiante = AdministradorBaseDatos.getInstancia().
                                                                       prepareCall(procedimientoSQL);
@@ -33,7 +32,6 @@ public class EstudianteDAO implements IEstudianteDAO {
 
             resultado = registrarEstudiante.executeUpdate();
             registrarEstudiante.close();
-
         }
         catch (SQLException error) {
             BITACORA.fatal(error.getMessage());

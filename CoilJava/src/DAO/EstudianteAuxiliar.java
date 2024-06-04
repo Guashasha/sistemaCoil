@@ -13,7 +13,7 @@ public class EstudianteAuxiliar {
 
     public int agregar (EstudianteDTO estudianteDTO) throws ErrorDAO {
         if (matriculaExiste(estudianteDTO.getMatricula())) {
-            throw new ErrorDAO("El estudianteDTO con la matricula " + estudianteDTO.getMatricula() + " ya se encuentra registrado", Tipo.VALIDACION);
+            throw new ErrorDAO("El estudiante con la matricula " + estudianteDTO.getMatricula() + " ya se encuentra registrado", Tipo.VALIDACION);
         }
         try {
             return ESTUDIANTE_DAO.agregar(estudianteDTO);
