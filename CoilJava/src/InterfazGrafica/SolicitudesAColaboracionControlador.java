@@ -17,6 +17,7 @@ import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Stack;
 import java.util.stream.Collectors;
 
 public class SolicitudesAColaboracionControlador {
@@ -32,7 +33,9 @@ public class SolicitudesAColaboracionControlador {
     private VBox vbContenedor;
 
     private ColaboracionDAO colaboracionDAO;
-    private BorderPane panelVentanaPrincial;
+    public BorderPane panelVentanaPrincial;
+    private Stack<Pane> historialPaneles = new Stack<>();
+
 
     public SolicitudesAColaboracionControlador() {
         this.colaboracionDAO = new ColaboracionDAO();
@@ -61,6 +64,8 @@ public class SolicitudesAColaboracionControlador {
             controlador.setColaboracionDTO(this.colaboracionDTO);
             controlador.setLabel();
             controlador.setPanales(this.panelAnterior, this.panelVentanaPrincial);
+            controlador.panelVentanaPrincipal = this.panelVentanaPrincial;
+            controlador.setSolicitudesAColaboracionControlador(this);
             vbContenedor.getChildren().add(anchorPane);
 
         } catch (IOException error) {
@@ -101,5 +106,11 @@ public class SolicitudesAColaboracionControlador {
         this.panelVentanaPrincial = panelVentanaPrincial;
     }
 
+    public void setHistorialPaneles (Stack<Pane> historialPaneles) {
+        this.historialPaneles = historialPaneles;
+    }
 
+    public void regresar() {
+        this.panelVentanaPrincial.setCenter(this.historialPaneles.pop());
+    }
 }

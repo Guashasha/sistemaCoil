@@ -51,6 +51,8 @@ public class SeccionMiColaboracionAcademicoControlador {
                     solicitudesAColaboracionControlador.cargarAcademicosItem();
                     solicitudesAColaboracionControlador.cargarAcademicosItemPorBusqueda();
                     solicitudesAColaboracionControlador.setPaneles(this.bpMiColaboracion, this.pnVentanaPrincipal);
+                    solicitudesAColaboracionControlador.panelVentanaPrincial = this.pnVentanaPrincipal;
+                    solicitudesAColaboracionControlador.setHistorialPaneles(this.historialPaneles);
                     this.pnVentanaPrincipal.setCenter(bpSolicitud);
                 }
             }

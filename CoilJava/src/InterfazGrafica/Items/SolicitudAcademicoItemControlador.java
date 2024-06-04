@@ -45,7 +45,7 @@ public class SolicitudAcademicoItemControlador {
     private ColaboracionDTO colaboracionDTO;
     private SolicitudesAColaboracionControlador solicitudesAColaboracionControlador;
     private Pane pnMiColaboracion;
-    private BorderPane panelVentanaPrincipal;
+    public BorderPane panelVentanaPrincipal;
 
     public void setAcademicoDTO (AcademicoDTO academicoDTO) {
         this.academicoDTO = academicoDTO;
@@ -93,7 +93,7 @@ public class SolicitudAcademicoItemControlador {
                 colaboracionAuxiliar.aceptarSolicitud(this.colaboracionDTO.getIdColaboracion(), this.academicoDTO.getCedulaProfesional(), "aceptado");
                 this.colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.vinculada);
                 mostrarAlert("Academico aceptado con exito", Alert.AlertType.INFORMATION);
-                this.panelVentanaPrincipal.setCenter(this.pnMiColaboracion);
+                solicitudesAColaboracionControlador.regresar();
             }
             catch (ErrorDAO error) {
                 mostrarAlert(error.getMessage(), Alert.AlertType.ERROR);
@@ -127,4 +127,6 @@ public class SolicitudAcademicoItemControlador {
         Optional<ButtonType> resultado = confirmacion.showAndWait();
         return resultado.isPresent() && resultado.get() == ButtonType.OK;
     }
+
+
 }
