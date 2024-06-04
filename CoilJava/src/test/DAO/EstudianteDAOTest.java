@@ -4,6 +4,7 @@ import DAO.EstudianteDAO;
 import DTO.EstudianteDTO;
 import Utilidades.ErrorDAO;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import test.ConfiguracionPrueba;
@@ -14,6 +15,19 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class EstudianteDAOTest {
     private final EstudianteDAO ESTUDIANTE_DAO = new EstudianteDAO();
+    private static EstudianteDTO estudianteRegistrado1;
+
+    @BeforeAll
+    static void beforeAll () {
+        estudianteRegistrado1 = new EstudianteDTO();
+        estudianteRegistrado1.setIdPersona(1);
+        estudianteRegistrado1.setIdEstudiante(1);
+        estudianteRegistrado1.setNombre("Jose");
+        estudianteRegistrado1.setApellidoPaterno("Lopez");
+        estudianteRegistrado1.setApellidoMaterno("Perez");
+        estudianteRegistrado1.setMatricula("zs22013690");
+        estudianteRegistrado1.setIdUniversidad(1);
+    }
 
     @BeforeEach
     void setUp () {
@@ -67,10 +81,10 @@ class EstudianteDAOTest {
     @Test
     void pruebaAgregaEstudianteDuplicado () {
         EstudianteDTO estudianteDTO = new EstudianteDTO();
-        estudianteDTO.setNombre("Juan");
-        estudianteDTO.setApellidoPaterno("Negrete");
-        estudianteDTO.setApellidoMaterno("Incumplido");
-        estudianteDTO.setMatricula("zs22013688");
+        estudianteDTO.setNombre(estudianteRegistrado1.getNombre());
+        estudianteDTO.setApellidoPaterno(estudianteRegistrado1.getApellidoPaterno());
+        estudianteDTO.setApellidoMaterno(estudianteRegistrado1.getApellidoMaterno());
+        estudianteDTO.setMatricula(estudianteRegistrado1.getMatricula());
         estudianteDTO.setIdUniversidad(1);
         assertThrows(ErrorDAO.class,()->ESTUDIANTE_DAO.agregar(estudianteDTO),"pruebaAgregaEstudianteDuplicado");
     }
@@ -200,7 +214,7 @@ class EstudianteDAOTest {
             estudiante.setNombre("Jose");
             estudiante.setApellidoPaterno("Lópezz");
             estudiante.setApellidoMaterno("Lara");
-            estudiante.setMatricula("s22013690");
+            estudiante.setMatricula(estudianteRegistrado1.getMatricula());
             estudiante.setIdUniversidad(1);
             filasAfectadas = ESTUDIANTE_DAO.modificar(estudiante);
         }
@@ -340,26 +354,15 @@ class EstudianteDAOTest {
 
     @Test
     void pruebaGetEstudiantePorIDExitosa () {
-        EstudianteDTO esperado = new EstudianteDTO();
-        esperado.setIdPersona(1);
-        esperado.setIdEstudiante(1);
-        esperado.setNombre("Jose");
-        esperado.setApellidoPaterno("Lopez");
-        esperado.setApellidoMaterno("Perez");
-        esperado.setMatricula("zs22013690");
-        esperado.setIdUniversidad(1);
-        EstudianteDTO obtenido;
+        Optional<EstudianteDTO> estudianteDTOOptional = Optional.empty();
         try {
-            Optional<EstudianteDTO> estudianteDTOOptional = ESTUDIANTE_DAO.getPorId(esperado.getIdEstudiante());
-            assertTrue(estudianteDTOOptional.isPresent());
-            obtenido = estudianteDTOOptional.get();
+            estudianteDTOOptional = ESTUDIANTE_DAO.getPorId(estudianteRegistrado1.getIdEstudiante());
         }
         catch (ErrorDAO error) {
             fail("Fallida: pruebaGetEstudiantePorIDExitosa " + error.getMessage());
-
         }
-        assertEquals(esperado.getMatricula(), obtenido.getMatricula());
-        assertEquals(esperado.getIdPersona(), obtenido.getIdPersona());
+        assertTrue(estudianteDTOOptional.isPresent());
+        assertEquals(estudianteRegistrado1, estudianteDTOOptional.get(), "pruebaGetEstudiantePorIDExitosa");
     }
 
     @Test
@@ -368,7 +371,9 @@ class EstudianteDAOTest {
     }
 
     @Test
-    void prueba
+    void pruebaGetEstudiantePorIdInvalido () {
+
+    }
 
     @Test
     void pruebaGetEstudiantePorUniversidadExitosa () {
