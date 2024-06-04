@@ -90,6 +90,8 @@ public class ProgresoColaboracionControlador {
                 break;
             case activa:
                 btnFinalizar.setVisible(true);
+                dpFechaFin.setVisible(false);
+                dpFechaInicio.setVisible(false);
                 btnIniciar.setVisible(false);
                 break;
             default:
@@ -113,7 +115,6 @@ public class ProgresoColaboracionControlador {
     }
 
     private void getFechas() throws ErrorDAO {
-        LocalDate hoy = LocalDate.now();
 
         LocalDate fechaInicio = dpFechaInicio.getValue();
         LocalDate fechaFin = dpFechaFin.getValue();
