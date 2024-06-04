@@ -1,6 +1,7 @@
 package InterfazGrafica;
 
 import DAO.ActividadDAO;
+import DAO.RetroalimentacionActividadAuxiliar;
 import DTO.ActividadDTO;
 import DTO.ColaboracionDTO;
 import DTO.CuentaDTO;
@@ -11,6 +12,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.SplitPane;
 import javafx.scene.layout.*;
 
 import java.io.IOException;
@@ -37,6 +39,10 @@ public class ActividadesColaboracionControlador {
         this.usuario = usuario;
 
         actualizarLista();
+
+        if (this.colaboracion.getEstado() == ColaboracionDTO.EstadoColaboracion.enRevision) {
+            btnNuevaActividad.setDisable(true);
+        }
     }
 
     public void regresar () {
@@ -58,9 +64,21 @@ public class ActividadesColaboracionControlador {
             return;
         }
 
-        for (ActividadDTO actividad : actividades) {
-            Pane panel = crearPanelActividad(actividad);
-            vboxActividades.getChildren().add(panel);
+        if (this.colaboracion.getEstado() == ColaboracionDTO.EstadoColaboracion.enRevision) {
+            RetroalimentacionActividadAuxiliar retroalimentacionDao = new RetroalimentacionActividadAuxiliar();
+
+            for (ActividadDTO actividad : actividades) {
+                if (retroalimentacionDao.getPorPersonaYActividad(this.usuario.getIdPersona(), actividad.getIdActividad()).isEmpty()) {
+                    Pane panel = crearPanelActividad(actividad);
+                    vboxActividades.getChildren().add(panel);
+                }
+            }
+        }
+        else {
+            for (ActividadDTO actividad : actividades) {
+                Pane panel = crearPanelActividad(actividad);
+                vboxActividades.getChildren().add(panel);
+            }
         }
     }
 
@@ -96,12 +114,13 @@ public class ActividadesColaboracionControlador {
 
         boton.setOnAction( e -> {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("RetroalimentarActividad.fxml"));
-            Pane apActividades;
+            SplitPane apActividades;
 
             try {
                 apActividades = fxmlLoader.load();
             }
             catch (IOException error) {
+                System.out.println(error.getMessage());
                 Alert alerta = new Alert(Alert.AlertType.ERROR);
                 alerta.setContentText("No se pudo abrir la ventana de retroalimentacion de actividades");
                 alerta.setHeaderText("Ocurrió un error");
@@ -111,7 +130,7 @@ public class ActividadesColaboracionControlador {
 
             if (apActividades != null) {
                 RetroalimentarActividadControlador ventanaActividadesControlador = fxmlLoader.getController();
-                ventanaActividadesControlador.initialize(this.ventanaPrincipal, this.pnMain, actividad);
+                ventanaActividadesControlador.initialize(this.ventanaPrincipal, this.pnMain, actividad, this.usuario, this);
                 this.ventanaPrincipal.setCenter(apActividades);
             }
         } );

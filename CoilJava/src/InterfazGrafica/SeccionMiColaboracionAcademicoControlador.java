@@ -119,7 +119,7 @@ public class SeccionMiColaboracionAcademicoControlador {
     @FXML
     private void abrirIniciarMiColaboracion () {
         Optional<ColaboracionDTO> colaboracionOptional = getColaboracionVinculadaOActiva();
-        if (colaboracionOptional.isPresent() && colaboracionOptional.get().getAcademicoPar() != null) {
+        if (colaboracionOptional.isPresent()) {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ProgresoColaboracion.fxml"));
             BorderPane bpInicioColaboracion = null;
 
