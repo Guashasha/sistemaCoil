@@ -224,8 +224,8 @@ public class ProgresoColaboracionControlador {
         if (this.colaboracionDTO.getEstado() != ColaboracionDTO.EstadoColaboracion.finalizada) {
             ColaboracionDAO colaboracionDAO = new ColaboracionDAO();
             try {
-                colaboracionDAO.cambiarEstadoColaboracion("finalizada", this.colaboracionDTO.getIdColaboracion());
-                this.colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.finalizada);
+                colaboracionDAO.cambiarEstadoColaboracion("enRevision", this.colaboracionDTO.getIdColaboracion());
+                this.colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.enRevision);
                 mostrarMensajeEmergente("Colaboración finalizada", Alert.AlertType.INFORMATION);
             } catch (ErrorDAO error) {
                 mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
