@@ -7,10 +7,11 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import test.AyudantePruebasColaboracionDB;
 import test.ConfiguracionPrueba;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class EstudianteDAOTest {
@@ -39,8 +40,6 @@ class EstudianteDAOTest {
         ConfiguracionPrueba.borrarDatosTablaPais();
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO pais (Iso,nombre) VALUES ('MX','México');");
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO universidad (nombre,paisOrigen) VALUES ('Universidad Veracruzana',1);");
-        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO region (nombre) VALUES ('XALAPA');");
-        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO facultad (nombre, region) VALUES ('Economia', 1);");
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO persona (idPersona, nombre, apellidoPaterno, apellidoMaterno, universidad) VALUES (1, 'Jose', 'Lopez', 'Perez', 1);");
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO persona (idPersona, nombre, apellidoPaterno, apellidoMaterno, universidad) VALUES (2, 'Juan', 'Negrete', 'Incumplido', 1);");
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO estudiante (idEstudiante, idPersona, matricula) VALUES (1, 1, 'zs22013690')");
@@ -367,63 +366,107 @@ class EstudianteDAOTest {
 
     @Test
     void pruebaGetEstudiantePorIdInexistente () {
-
+        assertThrows(ErrorDAO.class,()->ESTUDIANTE_DAO.getPorId(10),"pruebaGetEstudiantePorIdInexistente");
     }
 
     @Test
     void pruebaGetEstudiantePorIdInvalido () {
-
+        assertThrows(ErrorDAO.class,()->ESTUDIANTE_DAO.getPorId(-1),"pruebaGetEstudiantePorIdInvalido");
     }
 
     @Test
-    void pruebaGetEstudiantePorUniversidadExitosa () {
-        System.out.println("pruebaGetEstudiantePorIDExitosa");
-
-        int tamanoListaEsperado = 1;
-        int tamanoListaReal = -1;
-
-        List<EstudianteDTO> listaEstudianteDTOS;
-
+    void pruebGetEstudiantePorIdPersonaExitosa () {
+        Optional<EstudianteDTO> obtenido = Optional.empty();
         try {
-            listaEstudianteDTOS = ESTUDIANTE_DAO.getEstudiantesSinColaboracionActivaOVinculadaPorUniversidad(1);
-            tamanoListaReal = listaEstudianteDTOS.size();
-
+            obtenido = ESTUDIANTE_DAO.getEstudiantePorIdPersona(estudianteRegistrado1.getIdPersona());
         }
         catch (ErrorDAO error) {
-            fail("Fallida: pruebaGetEstudiantePorIDExitosa " + error.getMessage());
-
+            fail("Fallida: getEstudiantePorIdPersonaExitosa\n" + error.getMessage());
         }
-
-        assertEquals(tamanoListaEsperado, tamanoListaReal);
-
+        assertTrue(obtenido.isPresent());
+        assertEquals(estudianteRegistrado1,obtenido.get(),"getEstudiantePorIdPersonaExitosa");
     }
 
     @Test
-    void pruebaEditarEstudianteExitoso () {
-        System.out.println("pruebaEditarEstudianteExitoso");
-
-        EstudianteDTO estudianteDTO = new EstudianteDTO();
-        estudianteDTO.setIdPersona(1);
-        estudianteDTO.setIdEstudiante(1);
-        estudianteDTO.setNombre("Jose");
-        estudianteDTO.setApellidoPaterno("Lopez");
-        estudianteDTO.setApellidoMaterno("Perez");
-        estudianteDTO.setMatricula("zs22013690");
-        estudianteDTO.setIdUniversidad(1);
-
-        int resultadoEsperado = 2;
-        int resultadoReal = -1;
-        try {
-            resultadoReal = ESTUDIANTE_DAO.modificar(estudianteDTO);
-        }
-        catch (ErrorDAO error) {
-            fail("Fallida: pruebaEditarEstudianteExitoso " + error.getMessage());
-
-        }
-        assertEquals(resultadoEsperado, resultadoReal);
+    void pruebaGetEstudiantePorIdPersonaInexistente () {
+        assertThrows(ErrorDAO.class,()->ESTUDIANTE_DAO.getEstudiantePorIdPersona(10),"getEstudiantePorIdPersonaInexistente");
     }
 
+    @Test
+    void pruebaGetEstudiantePorIdPersonaInvalido () {
+        assertThrows(ErrorDAO.class,()->ESTUDIANTE_DAO.getEstudiantePorIdPersona(-1),"pruebaGetEstudiantePorIdPersonaInvalido");
+    }
 
+    @Test
+    void pruebaGetEstudiantePorMatriculaExitosa () {
+        Optional<EstudianteDTO> obtenido = Optional.empty();
+        try {
+            obtenido = ESTUDIANTE_DAO.getEstudiantePorMatricula(estudianteRegistrado1.getMatricula());
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaGetEstudiantePorMatricula\n" + error.getMessage());
+        }
+        assertTrue(obtenido.isPresent());
+        assertEquals(estudianteRegistrado1,obtenido.get(),"pruebaGetEstudiantePorMatriculaExitosa");
+    }
+
+    @Test
+    void pruebaGetEstudiantePorMatriculaInexistente () {
+        try {
+            Optional<EstudianteDTO> resultado = ESTUDIANTE_DAO.getEstudiantePorMatricula("zs22013029");
+            assertTrue(resultado.isEmpty(),"pruebaGetEstudiantePorMatriculaInexistente");
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaGetEstudiantePorMatriculaInexistente\n" +  error.getMessage());
+        }
+    }
+
+    @Test
+    void pruebaGetEstudiantePorMatriculaNula () {
+        try {
+            Optional<EstudianteDTO> resultado = ESTUDIANTE_DAO.getEstudiantePorMatricula(null);
+            assertTrue(resultado.isEmpty(),"pruebaGetEstudiantePorMatriculaNula");
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaGetEstudiantePorMatriculaNula\n" +  error.getMessage());
+        }
+    }
+
+    @Test
+    void pruebaGetEstudiantesSinColaboracionActivaOVinculadaPorUniversidadExitosa () {
+        // TODO: 04/06/2024
+        AyudantePruebasColaboracionDB.vincularEstudiantesConColaboracionVinculada();
+        AyudantePruebasColaboracionDB.borrarTodosDatosTabla();
+    }
+
+    @Test
+    void pruebaGetEstudiantesSinColaboracionActivaOVinculadaPorUniversidadInexistente () {
+        List<EstudianteDTO> listaObtenida = new ArrayList<>();
+        try {
+            listaObtenida = ESTUDIANTE_DAO.getEstudiantesSinColaboracionActivaOVinculadaPorUniversidad(10);
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: getEstudiantesSinColaboracionActivaOVinculadaPorUniversidadInexistente\n" + error.getMessage());
+        }
+        assertTrue(listaObtenida.isEmpty(),"getEstudiantesSinColaboracionActivaOVinculadaPorUniversidadInexistente");
+    }
+
+    @Test
+    void pruebaGetEstudiantesSinColaboracionActivaOVinculadaPorUniversidadSinResultados () {
+        List<EstudianteDTO> listaObtenida = new ArrayList<>();
+        try {
+            listaObtenida = ESTUDIANTE_DAO.getEstudiantesSinColaboracionActivaOVinculadaPorUniversidad(1);
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: getEstudiantesSinColaboracionActivaOVinculadaPorUniversidadSinResultados\n" + error.getMessage());
+        }
+        assertTrue(listaObtenida.isEmpty(),"getEstudiantesSinColaboracionActivaOVinculadaPorUniversidadSinResultados");
+    }
+
+    @Test
+    void pruebaGetTodosExitosa () {
+        
+    }
 
 
 }
