@@ -41,6 +41,8 @@ public class EnvioPropuestaControlador {
                 mostrarMensajeEmergente(errorDAO.getMessage(), Alert.AlertType.ERROR);
             }
         }
+
+        this.pnVentanaPrincipal.setCenter(this.historialPaneles.pop());
     }
 
     private boolean validarCampos () {

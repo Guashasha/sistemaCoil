@@ -1,19 +1,16 @@
 package InterfazGrafica;
 
 import DAO.RetroalimentacionColaboracionAuxiliar;
-import DAO.RetroalimentacionColaboracionDAO;
 import DTO.ColaboracionDTO;
 import DTO.RetroalimentacionColaboracionDTO;
 import Utilidades.ErrorDAO;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import org.apache.log4j.Logger;
-
-import java.io.IOException;
 
 public class RetroalimentarColaboracionControlador {
     private static final Logger BITACORA = Logger.getLogger(NuevaActividadControlador.class);
@@ -38,19 +35,13 @@ public class RetroalimentarColaboracionControlador {
     private TextField tfComentario = new TextField();
 
     private ColaboracionDTO colaboracion;
+    private BorderPane ventanaPrincipal;
+    private Pane panelAnterior;
 
-    public RetroalimentarColaboracionControlador (ColaboracionDTO colaboracion) {
-        if (!colaboracion.esValido()) {
-            return;
-        }
-
+    public RetroalimentarColaboracionControlador (ColaboracionDTO colaboracion, BorderPane ventanaPrincipal, Pane panelAnterior) {
+        this.panelAnterior = panelAnterior;
+        this.ventanaPrincipal = ventanaPrincipal;
         this.colaboracion = colaboracion;
-
-        try {
-            pnPrincipal = FXMLLoader.load(getClass().getResource("RetroalimentarColaboracion.fxml"));
-        } catch (IOException e) {
-            BITACORA.error(e);
-        }
     }
 
     public Pane getPane () {
@@ -76,6 +67,7 @@ public class RetroalimentarColaboracionControlador {
         mensajeConfirmacion.setHeaderText("Colaboración calificada correctamente");
         mensajeConfirmacion.setContentText("La información de la retroalimentación se guardó correctamente. Gracias por participar en la colaboración.");
         mensajeConfirmacion.showAndWait();
+        regresar();
     }
 
     private static Alert crearAlerta(ErrorDAO error) {
@@ -124,5 +116,9 @@ public class RetroalimentarColaboracionControlador {
         retroalimentacion.setComentario(mensaje);
 
         return retroalimentacion;
+    }
+
+    public void regresar () {
+        this.ventanaPrincipal.setCenter(this.panelAnterior);
     }
 }

@@ -50,6 +50,9 @@ public class SeccionMiColaboracionAcademicoControlador {
                     solicitudesAColaboracionControlador.setAcademicoDTO(this.academicoDTO);
                     solicitudesAColaboracionControlador.cargarAcademicosItem();
                     solicitudesAColaboracionControlador.cargarAcademicosItemPorBusqueda();
+                    solicitudesAColaboracionControlador.setPaneles(this.bpMiColaboracion, this.pnVentanaPrincipal);
+                    solicitudesAColaboracionControlador.panelVentanaPrincial = this.pnVentanaPrincipal;
+                    solicitudesAColaboracionControlador.setHistorialPaneles(this.historialPaneles);
                     this.pnVentanaPrincipal.setCenter(bpSolicitud);
                 }
             }
@@ -165,7 +168,7 @@ public class SeccionMiColaboracionAcademicoControlador {
         alerta.show();
     }
 
-
+    @FXML
     public void regresar () {
         this.pnVentanaPrincipal.setCenter(this.historialPaneles.pop());
     }

@@ -10,16 +10,19 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Stack;
 import java.util.stream.Collectors;
 
 public class SolicitudesAColaboracionControlador {
     private static final Logger BITACORA = Logger.getLogger(SolicitudAcademicoItemControlador.class);
-
+    private Pane panelAnterior;
     private ColaboracionDTO colaboracionDTO;
     private AcademicoDTO academicoDTO;
 
@@ -30,6 +33,9 @@ public class SolicitudesAColaboracionControlador {
     private VBox vbContenedor;
 
     private ColaboracionDAO colaboracionDAO;
+    public BorderPane panelVentanaPrincial;
+    private Stack<Pane> historialPaneles = new Stack<>();
+
 
     public SolicitudesAColaboracionControlador() {
         this.colaboracionDAO = new ColaboracionDAO();
@@ -57,7 +63,9 @@ public class SolicitudesAColaboracionControlador {
             controlador.setAcademicoDTO(academicoDTO);
             controlador.setColaboracionDTO(this.colaboracionDTO);
             controlador.setLabel();
-
+            controlador.setPanales(this.panelAnterior, this.panelVentanaPrincial);
+            controlador.panelVentanaPrincipal = this.panelVentanaPrincial;
+            controlador.setSolicitudesAColaboracionControlador(this);
             vbContenedor.getChildren().add(anchorPane);
 
         } catch (IOException error) {
@@ -90,8 +98,19 @@ public class SolicitudesAColaboracionControlador {
     public void setColaboracionDTO(ColaboracionDTO colaboracionDTO) {
         this.colaboracionDTO = colaboracionDTO;
     }
-
     public void setAcademicoDTO(AcademicoDTO academicoDTO) {
         this.academicoDTO = academicoDTO;
+    }
+    public void setPaneles (Pane panelAnterior, BorderPane panelVentanaPrincial) {
+        this.panelAnterior = panelAnterior;
+        this.panelVentanaPrincial = panelVentanaPrincial;
+    }
+
+    public void setHistorialPaneles (Stack<Pane> historialPaneles) {
+        this.historialPaneles = historialPaneles;
+    }
+
+    public void regresar() {
+        this.panelVentanaPrincial.setCenter(this.historialPaneles.pop());
     }
 }

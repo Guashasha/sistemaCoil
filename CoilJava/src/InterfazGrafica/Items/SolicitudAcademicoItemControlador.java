@@ -6,12 +6,15 @@ import DAO.UniversidadAuxiliar;
 import DTO.AcademicoDTO;
 import DTO.ColaboracionDTO;
 import DTO.UniversidadDTO;
+import InterfazGrafica.SolicitudesAColaboracionControlador;
 import Utilidades.ErrorDAO;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 
 import java.util.Optional;
 
@@ -30,23 +33,19 @@ public class SolicitudAcademicoItemControlador {
     private Label lbApellidoMaterno;
 
     @FXML
-    private Label lbFacultad;
-
-    @FXML
     private Label lbNombre;
 
     @FXML
     private Label lbUniversidad;
 
     @FXML
-    private Label lbRegion;
-
-    @FXML
     private Label lbAreaEstudios;
 
     private AcademicoDTO academicoDTO;
     private ColaboracionDTO colaboracionDTO;
-
+    private SolicitudesAColaboracionControlador solicitudesAColaboracionControlador;
+    private Pane pnMiColaboracion;
+    public BorderPane panelVentanaPrincipal;
 
     public void setAcademicoDTO (AcademicoDTO academicoDTO) {
         this.academicoDTO = academicoDTO;
@@ -66,10 +65,6 @@ public class SolicitudAcademicoItemControlador {
     }
 
     public void setLabel () {
-        if (this.academicoDTO.getIdFacultad() == null) {
-            lbFacultad.setVisible(false);
-            lbRegion.setVisible(false);
-        }
         lbNombre.setText(this.academicoDTO.getNombre());
         lbApellidoPaterno.setText(this.academicoDTO.getApellidoPaterno());
         lbApellidoMaterno.setText(this.academicoDTO.getApellidoMaterno());
@@ -98,6 +93,7 @@ public class SolicitudAcademicoItemControlador {
                 colaboracionAuxiliar.aceptarSolicitud(this.colaboracionDTO.getIdColaboracion(), this.academicoDTO.getCedulaProfesional(), "aceptado");
                 this.colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.vinculada);
                 mostrarAlert("Academico aceptado con exito", Alert.AlertType.INFORMATION);
+                solicitudesAColaboracionControlador.regresar();
             }
             catch (ErrorDAO error) {
                 mostrarAlert(error.getMessage(), Alert.AlertType.ERROR);
@@ -114,7 +110,14 @@ public class SolicitudAcademicoItemControlador {
         alerta.showAndWait();
     }
 
+    public void setSolicitudesAColaboracionControlador (SolicitudesAColaboracionControlador solicitudesAColaboracionControlador) {
+        this.solicitudesAColaboracionControlador = solicitudesAColaboracionControlador;
+    }
 
+    public void setPanales (Pane pnMiColaboracion, BorderPane panelVentanaPrincipal) {
+        this.pnMiColaboracion = pnMiColaboracion;
+        this.panelVentanaPrincipal = panelVentanaPrincipal;
+    }
 
     private boolean mostrarConfirmacion(String mensaje) {
         Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
@@ -124,4 +127,6 @@ public class SolicitudAcademicoItemControlador {
         Optional<ButtonType> resultado = confirmacion.showAndWait();
         return resultado.isPresent() && resultado.get() == ButtonType.OK;
     }
+
+
 }

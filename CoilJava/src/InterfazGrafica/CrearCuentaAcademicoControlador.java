@@ -61,10 +61,19 @@ public class CrearCuentaAcademicoControlador {
 
         if (academico != null) {
             CuentaDTO cuenta = new CuentaDTO();
-            cuenta.setNombreUsuario(academico.getCedulaProfesional());
-            cuenta.setContrasena(academico.getNumeroPersonal());
-            cuenta.setTipo(CuentaDTO.TipoUsuario.academico);
-            cuenta.setEstado(CuentaDTO.EstadoCuenta.aceptada);
+            try {
+                cuenta.setNombreUsuario(academico.getCedulaProfesional());
+                cuenta.setContrasena(academico.getNumeroPersonal());
+                cuenta.setTipo(CuentaDTO.TipoUsuario.academico);
+                cuenta.setEstado(CuentaDTO.EstadoCuenta.aceptada);
+            }
+            catch (ErrorDAO error) {
+                Alert alerta = new Alert(Alert.AlertType.ERROR);
+                alerta.setHeaderText("Ocurrió un error");
+                alerta.setContentText(error.getMessage());
+                alerta.showAndWait();
+                return;
+            }
 
             AcademicoDAO dao = new AcademicoDAO();
 
@@ -162,7 +171,7 @@ public class CrearCuentaAcademicoControlador {
         catch (ErrorDAO error) {
             Alert alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setHeaderText("Datos incorrectos");
-            alerta.setContentText("Algunos de los datos ingresados son incorrectos, intente de nuevo");
+            alerta.setContentText(error.getMessage());
             alerta.showAndWait();
 
             return null;

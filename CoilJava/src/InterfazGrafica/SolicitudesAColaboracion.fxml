@@ -13,7 +13,6 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="759.0" prefWidth="973.0" stylesheets="@Recursos/EstiloLabels.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.SolicitudesAColaboracionControlador">
    <top>
       <HBox prefHeight="100.0" prefWidth="200.0" styleClass="label-titulo" BorderPane.alignment="CENTER">
@@ -21,7 +20,7 @@
             <Insets left="30.0" right="30.0" top="30.0" />
          </BorderPane.margin>
          <children>
-            <Pane prefHeight="78.0" prefWidth="98.0">
+            <Pane onMouseClicked="#regresar" prefHeight="78.0" prefWidth="98.0">
                <children>
                   <Circle fill="WHITE" layoutX="49.0" layoutY="39.0" radius="33.0" stroke="BLACK" strokeType="INSIDE" />
                   <ImageView fitHeight="49.0" fitWidth="54.0" layoutX="25.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">

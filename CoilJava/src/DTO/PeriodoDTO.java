@@ -49,7 +49,7 @@ public class PeriodoDTO {
     }
 
     public boolean esCorrecto() {
-        return this.fechaInicio.isBefore(this.fechaFin);
+        return this.fechaInicio.isEqual(this.fechaFin) || this.fechaInicio.isBefore(this.fechaFin);
     }
 
     @Override
