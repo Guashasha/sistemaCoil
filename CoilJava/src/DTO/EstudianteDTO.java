@@ -77,5 +77,4 @@ public class EstudianteDTO extends PersonaDTO {
         }
         return igual;
     }
-
 }

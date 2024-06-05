@@ -3,8 +3,6 @@ package DAO;
 import DTO.EstudianteDTO;
 import Utilidades.ErrorDAO;
 import Utilidades.ErrorDAO.Tipo;
-
-import java.sql.ResultSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,20 +33,6 @@ public class EstudianteAuxiliar {
         }
     }
 
-
-    public List<EstudianteDTO> getTodos () throws ErrorDAO {
-        try {
-            return ESTUDIANTE_DAO.getTodos();
-        }
-        catch (ErrorDAO error) {
-            throw new ErrorDAO(error.getMessage(), error.getTipo());
-        }
-    }
-
-    public EstudianteDTO resultSetAObjeto (ResultSet resultados) {
-        return null;
-    }
-
     public Optional<EstudianteDTO> getEstudiantePorIdPersona (int idPersona) throws ErrorDAO {
         if (noEsIdValido(idPersona)) {
             throw new ErrorDAO("Id de persona invalido", ErrorDAO.Tipo.VALIDACION);
@@ -71,7 +55,7 @@ public class EstudianteAuxiliar {
         }
     }
 
-    public List<EstudianteDTO> getEstudiantesSinColaboracionActivaOVinculadaPorUniversidad(int idUniversidad) throws ErrorDAO {
+    public List<EstudianteDTO> getEstudiantesSinColaboracionActivaOVinculadaPorUniversidad (int idUniversidad) throws ErrorDAO {
         if (noEsIdValido(idUniversidad)) {
             throw new ErrorDAO("Id de una universidad invalido", ErrorDAO.Tipo.VALIDACION);
         }
