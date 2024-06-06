@@ -32,8 +32,8 @@ public class AyudantePruebasColaboracionDB {
 
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO colaboracion (idColaboracion, estado, tipo, temaInteres, idioma, objetivo, fechaInicio, fechaFin, perfilEstudiante) VALUES (1, 'vinculada', 'claseEspejo', 'Inteligencia Artificial', 'Español', 'Mejorar habilidades en IA', '2024-05-01', '2024-06-30', 'Estudiantes de informática');");
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO colaboracion (idColaboracion, estado, tipo, temaInteres, idioma, objetivo, fechaInicio, fechaFin, perfilEstudiante) VALUES (2, 'propuesta', 'COIl', 'Desarrollo web', 'Inglés', 'Crear un proyecto conjunto', '2024-04-15', '2024-07-15', 'Estudiantes de ingeniería de software');");
-        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO academicodesarrolla (idColaboracion, idAcademico, estado) VALUES (2, '102939', 'anfitrion')");
 
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO academicodesarrolla (idColaboracion, idAcademico, estado) VALUES (2, '102939', 'anfitrion')");
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO academicoDesarrolla (idColaboracion, idAcademico, estado) VALUES (1, '123', 'anfitrion')");
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO academicoDesarrolla (idColaboracion, idAcademico, estado) VALUES (1, '200011', 'pendiente')");
 
@@ -73,5 +73,4 @@ public class AyudantePruebasColaboracionDB {
         ConfiguracionPrueba.borrarDatosTablaPais();
 
     }
-
 }

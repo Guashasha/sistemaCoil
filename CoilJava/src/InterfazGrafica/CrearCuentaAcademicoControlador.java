@@ -276,4 +276,6 @@ public class CrearCuentaAcademicoControlador {
                 facultad.isBlank() || categoriaContratacion.isBlank() || nombre.length() > 20
                 || aPaterno.length() > 20 || aMaterno.length() > 20 || correo.length() > 30;
     }
+
+
 }

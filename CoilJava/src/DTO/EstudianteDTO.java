@@ -15,7 +15,7 @@ public class EstudianteDTO extends PersonaDTO {
     public EstudianteDTO(int idPersona, String nombre, String apellidoPaterno, String apellidoMaterno, int idUniversidad, int idEstudiante, String matricula) {
         super(idPersona, nombre, apellidoPaterno, apellidoMaterno, idUniversidad);
         this.idEstudiante = idEstudiante;
-        this.matricula = matricula;
+        setMatricula(matricula);
     }
 
     public int getIdEstudiante () {
@@ -45,7 +45,7 @@ public class EstudianteDTO extends PersonaDTO {
         if (!matcher.matches()) {
             throw new ErrorDAO("""
                                                        La matrícula no es valida.
-                                                       1. Su longitud debe ser exactamente de 10 caracteres.
+                                                       1. Su longitud debe ser entre 8 y 10 caracteres.
                                                        2. No debe tener espacios.""", ErrorDAO.Tipo.VALIDACION);
         }
     }
@@ -77,5 +77,4 @@ public class EstudianteDTO extends PersonaDTO {
         }
         return igual;
     }
-
 }

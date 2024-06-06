@@ -3,8 +3,6 @@ package DAO;
 import DTO.EstudianteDTO;
 import Utilidades.ErrorDAO;
 import Utilidades.ErrorDAO.Tipo;
-
-import java.sql.ResultSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,7 +11,7 @@ public class EstudianteAuxiliar {
 
     public int agregar (EstudianteDTO estudianteDTO) throws ErrorDAO {
         if (matriculaExiste(estudianteDTO.getMatricula())) {
-            throw new ErrorDAO("El estudianteDTO con la matricula " + estudianteDTO.getMatricula() + " ya se encuentra registrado", Tipo.VALIDACION);
+            throw new ErrorDAO("El estudiante con la matricula " + estudianteDTO.getMatricula() + " ya se encuentra registrado", Tipo.VALIDACION);
         }
         try {
             return ESTUDIANTE_DAO.agregar(estudianteDTO);
@@ -33,20 +31,6 @@ public class EstudianteAuxiliar {
         catch (ErrorDAO error) {
             throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
-    }
-
-
-    public List<EstudianteDTO> getTodos () throws ErrorDAO {
-        try {
-            return ESTUDIANTE_DAO.getTodos();
-        }
-        catch (ErrorDAO error) {
-            throw new ErrorDAO(error.getMessage(), error.getTipo());
-        }
-    }
-
-    public EstudianteDTO resultSetAObjeto (ResultSet resultados) {
-        return null;
     }
 
     public Optional<EstudianteDTO> getEstudiantePorIdPersona (int idPersona) throws ErrorDAO {
@@ -71,7 +55,7 @@ public class EstudianteAuxiliar {
         }
     }
 
-    public List<EstudianteDTO> getEstudiantesSinColaboracionActivaOVinculadaPorUniversidad(int idUniversidad) throws ErrorDAO {
+    public List<EstudianteDTO> getEstudiantesSinColaboracionActivaOVinculadaPorUniversidad (int idUniversidad) throws ErrorDAO {
         if (noEsIdValido(idUniversidad)) {
             throw new ErrorDAO("Id de una universidad invalido", ErrorDAO.Tipo.VALIDACION);
         }

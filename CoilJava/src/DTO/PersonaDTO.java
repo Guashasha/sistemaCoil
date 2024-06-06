@@ -1,7 +1,6 @@
 package DTO;
 
 import Utilidades.ErrorDAO;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,9 +15,9 @@ public abstract class PersonaDTO {
 
     public PersonaDTO(int idPersona, String nombre, String apellidoPaterno, String apellidoMaterno, int idUniversidad) {
         this.idPersona = idPersona;
-        this.nombre = nombre;
-        this.apellidoPaterno = apellidoPaterno;
-        this.apellidoMaterno = apellidoMaterno;
+        setNombre(nombre);
+        setApellidoPaterno(apellidoPaterno);
+        setApellidoMaterno(apellidoMaterno);
         this.idUniversidad = idUniversidad;
     }
 
