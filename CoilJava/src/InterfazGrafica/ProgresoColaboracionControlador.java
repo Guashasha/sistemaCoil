@@ -8,8 +8,12 @@ import DTO.PeriodoDTO;
 import DTO.RetroalimentacionColaboracionDTO;
 import Utilidades.ErrorDAO;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -18,6 +22,8 @@ public class ProgresoColaboracionControlador {
     private Button btnIniciar;
     @FXML
     private Button btnFinalizar;
+    @FXML
+    private Button btnRetroalimentar;
 
     @FXML
     private DatePicker dpFechaFin;
@@ -47,11 +53,14 @@ public class ProgresoColaboracionControlador {
     private Label lbPeriodo;
     @FXML
     private Label lbPeriodoTitulo;
+    @FXML
+    private Pane pnPrincipal;
 
     private ColaboracionDTO colaboracionDTO;
 
     private AcademicoDTO academicoDTO;
     private Optional<RetroalimentacionColaboracionDTO> retroalimentacionColaboracionOpt;
+    private BorderPane ventanaPrincipal;
 
     public void inicializar() {
         dpFechaInicio.getEditor().setDisable(true);
@@ -84,18 +93,21 @@ public class ProgresoColaboracionControlador {
         }
     }
 
-    private void actualizarVisibilidadBotones() {
+    public void actualizarVisibilidadBotones() {
         ColaboracionDTO.EstadoColaboracion estado = this.colaboracionDTO.getEstado();
 
         switch (estado) {
             case finalizada:
+                btnRetroalimentar.setVisible(false);
                 btnIniciar.setVisible(false);
                 btnFinalizar.setVisible(false);
                 break;
             case vinculada:
+                btnRetroalimentar.setVisible(false);
                 btnFinalizar.setVisible(false);
                 break;
             case activa:
+                btnRetroalimentar.setVisible(false);
                 btnFinalizar.setVisible(true);
                 dpFechaFin.setVisible(false);
                 dpFechaInicio.setVisible(false);
@@ -103,7 +115,7 @@ public class ProgresoColaboracionControlador {
                 break;
             case enRevision:
                 if (retroalimentacionColaboracionOpt.isPresent()) {
-                    //todo boton retroalimentar
+                    btnRetroalimentar.setVisible(true);
                     btnFinalizar.setVisible(true);
                     btnIniciar.setVisible(false);
                     dpFechaInicio.setVisible(false);
@@ -181,7 +193,7 @@ public class ProgresoColaboracionControlador {
         }
     }
 
-    private void actualizarEtiquetaPeriodo(LocalDate fechaInicio, LocalDate fechaFin) {
+    private void actualizarEtiquetaPeriodo (LocalDate fechaInicio, LocalDate fechaFin) {
         int mesInicio = fechaInicio.getMonthValue();
         int anio = fechaInicio.getYear();
 
@@ -200,7 +212,7 @@ public class ProgresoColaboracionControlador {
     }
 
     @FXML
-    private void iniciarColaboracion() {
+    private void iniciarColaboracion () {
         if (this.colaboracionDTO.getEstado() != ColaboracionDTO.EstadoColaboracion.activa) {
             ColaboracionDAO colaboracionDAO = new ColaboracionDAO();
             try {
@@ -220,20 +232,22 @@ public class ProgresoColaboracionControlador {
         }
     }
 
-    private void mostrarMensajeEmergente(String mensaje, Alert.AlertType tipoAlerta) {
+    private void mostrarMensajeEmergente (String mensaje, Alert.AlertType tipoAlerta) {
         Alert alerta = new Alert(tipoAlerta);
         alerta.setContentText(mensaje);
         alerta.setHeaderText(null);
         alerta.show();
     }
 
-    public void setAcademicoDTO(AcademicoDTO academicoDTO) {
+    public void setAcademicoDTO (AcademicoDTO academicoDTO) {
         this.academicoDTO = academicoDTO;
     }
 
-    public void setColaboracionDTO(ColaboracionDTO colaboracionDTO) {
+    public void setColaboracionDTO (ColaboracionDTO colaboracionDTO) {
         this.colaboracionDTO = colaboracionDTO;
     }
+
+    public void setVentanaPrincipal (BorderPane ventanaPrincipal) { this.ventanaPrincipal = ventanaPrincipal; }
 
     @FXML
     private void finalizarColaboracion() {
@@ -248,6 +262,29 @@ public class ProgresoColaboracionControlador {
             }
         } else {
             mostrarMensajeEmergente("La colaboracion ya se encuentra finalizada", Alert.AlertType.INFORMATION);
+        }
+    }
+
+    @FXML
+    private void abrirRetroalimentarColaboracion () {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("RetroalimentarColaboracion.fxml"));
+        Pane pnRetroalimentacion;
+
+        try {
+            pnRetroalimentacion = fxmlLoader.load();
+        }
+        catch (IOException error) {
+            Alert alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setContentText("No se pudo abrir la ventana de retroalimentacion de colaboración");
+            alerta.setHeaderText("Ocurrió un error");
+            alerta.showAndWait();
+            return;
+        }
+
+        if (pnRetroalimentacion != null) {
+            RetroalimentarColaboracionControlador controlador = fxmlLoader.getController();
+            controlador.initialize(this.colaboracionDTO, this.ventanaPrincipal, this.pnPrincipal, this);
+            this.ventanaPrincipal.setCenter(pnRetroalimentacion);
         }
     }
 }

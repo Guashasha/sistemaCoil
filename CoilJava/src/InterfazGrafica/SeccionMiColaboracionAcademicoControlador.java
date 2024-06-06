@@ -135,6 +135,7 @@ public class SeccionMiColaboracionAcademicoControlador {
                 ProgresoColaboracionControlador progresoColaboracionControlador = fxmlLoader.getController();
                 progresoColaboracionControlador.setColaboracionDTO(colaboracionOptional.get());
                 progresoColaboracionControlador.setAcademicoDTO(this.academicoDTO);
+                progresoColaboracionControlador.setVentanaPrincipal(this.pnVentanaPrincipal);
                 progresoColaboracionControlador.inicializar();
                 this.pnVentanaPrincipal.setCenter(bpInicioColaboracion);
             }

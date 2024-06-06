@@ -1,5 +1,6 @@
 package InterfazGrafica;
 
+import DAO.ColaboracionAuxiliar;
 import DAO.RetroalimentacionColaboracionAuxiliar;
 import DTO.ColaboracionDTO;
 import DTO.RetroalimentacionColaboracionDTO;
@@ -37,11 +38,13 @@ public class RetroalimentarColaboracionControlador {
     private ColaboracionDTO colaboracion;
     private BorderPane ventanaPrincipal;
     private Pane panelAnterior;
+    private ProgresoColaboracionControlador controladorAnterior;
 
-    public RetroalimentarColaboracionControlador (ColaboracionDTO colaboracion, BorderPane ventanaPrincipal, Pane panelAnterior) {
+    public void initialize (ColaboracionDTO colaboracion, BorderPane ventanaPrincipal, Pane panelAnterior, ProgresoColaboracionControlador controladorAnterior) {
         this.panelAnterior = panelAnterior;
         this.ventanaPrincipal = ventanaPrincipal;
         this.colaboracion = colaboracion;
+        this.controladorAnterior = controladorAnterior;
     }
 
     public Pane getPane () {
@@ -62,12 +65,26 @@ public class RetroalimentarColaboracionControlador {
             alertaError.showAndWait();           
             return;
         }
+
+        finalizarColaboracion();
         
         Alert mensajeConfirmacion = new Alert(Alert.AlertType.INFORMATION);
         mensajeConfirmacion.setHeaderText("Colaboración calificada correctamente");
         mensajeConfirmacion.setContentText("La información de la retroalimentación se guardó correctamente. Gracias por participar en la colaboración.");
         mensajeConfirmacion.showAndWait();
+
         regresar();
+    }
+
+    private void finalizarColaboracion () {
+        ColaboracionAuxiliar dao = new ColaboracionAuxiliar();
+
+        try {
+            dao.cambiarEstadoColaboracion("finalizada", this.colaboracion.getIdColaboracion());
+        } catch (ErrorDAO e) {
+            BITACORA.error(e.getStackTrace());
+            crearAlerta(e).showAndWait();
+        }
     }
 
     private static Alert crearAlerta(ErrorDAO error) {
@@ -119,6 +136,7 @@ public class RetroalimentarColaboracionControlador {
     }
 
     public void regresar () {
+        controladorAnterior.actualizarVisibilidadBotones();
         this.ventanaPrincipal.setCenter(this.panelAnterior);
     }
 }

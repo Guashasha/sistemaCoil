@@ -24,7 +24,7 @@ ALTER TABLE estudiante AUTO_INCREMENT=1;
 
 CREATE TABLE `universidad` (
   `idUniversidad` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(50) NOT NULL,
+  `nombre` varchar(60) NOT NULL,
   `paisOrigen` int NOT NULL
 );
 ALTER TABLE universidad AUTO_INCREMENT=1;
@@ -47,7 +47,7 @@ CREATE TABLE `academico` (
   `numeroDePersonal` varchar(40) NULL,
   `idPersona` int NOT NULL,
   `areaEstudios` ENUM ('economico-administrativo', 'humanidades', 'tecnica', 'ciencias de la salud', 'biologia-agropecuarias', 'dgri') NULL,
-  `correoElectronico` varchar(30) NOT NULL,
+  `correoElectronico` varchar(40) NOT NULL,
   `numeroTelefonico` char(13) NULL,
   `categoriaContratacion` varchar(40) NULL,
   `facultad` int NULL,
@@ -59,12 +59,12 @@ CREATE TABLE `colaboracion` (
   `idColaboracion` int PRIMARY KEY AUTO_INCREMENT,
   `estado` ENUM ('propuesta', 'aceptada', 'rechazada', 'disponible', 'vinculada', 'activa', 'enRevision', 'finalizada') NOT NULL,
   `tipo` ENUM ('claseEspejo', 'COIL') NULL,
-  `temaInteres` varchar(80) NULL,
+  `temaInteres` varchar(100) NULL,
   `idioma` varchar(30) NULL,
-  `objetivo` varchar(80) NULL,
+  `objetivo` varchar(300) NULL,
   `fechaInicio` date NULL,
   `fechaFin` date NULL,
-  `perfilEstudiante` varchar(50) NULL
+  `perfilEstudiante` varchar(200) NULL
 );
 ALTER TABLE colaboracion AUTO_INCREMENT=1;
 
