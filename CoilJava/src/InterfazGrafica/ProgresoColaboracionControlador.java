@@ -1,9 +1,11 @@
 package InterfazGrafica;
 
 import DAO.ColaboracionDAO;
+import DAO.RetroalimentacionColaboracionAuxiliar;
 import DTO.AcademicoDTO;
 import DTO.ColaboracionDTO;
 import DTO.PeriodoDTO;
+import DTO.RetroalimentacionColaboracionDTO;
 import Utilidades.ErrorDAO;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -49,6 +51,7 @@ public class ProgresoColaboracionControlador {
     private ColaboracionDTO colaboracionDTO;
 
     private AcademicoDTO academicoDTO;
+    private Optional<RetroalimentacionColaboracionDTO> retroalimentacionColaboracionOpt;
 
     public void inicializar() {
         dpFechaInicio.getEditor().setDisable(true);
@@ -60,6 +63,10 @@ public class ProgresoColaboracionControlador {
         getAcademicoParPorColaboracion();
         cargarLabels();
         actualizarVisibilidadBotones();
+        if (colaboracionDTO.getEstado() == ColaboracionDTO.EstadoColaboracion.enRevision) {
+            RetroalimentacionColaboracionAuxiliar retroalimentacionColaboracionAuxiliar = new RetroalimentacionColaboracionAuxiliar();
+            retroalimentacionColaboracionOpt = retroalimentacionColaboracionAuxiliar.getPorPersonaYColaboracion(academicoDTO.getIdPersona(), colaboracionDTO.getIdColaboracion());
+        }
     }
 
     private void cargarLabels() {
@@ -93,6 +100,15 @@ public class ProgresoColaboracionControlador {
                 dpFechaFin.setVisible(false);
                 dpFechaInicio.setVisible(false);
                 btnIniciar.setVisible(false);
+                break;
+            case enRevision:
+                if (retroalimentacionColaboracionOpt.isPresent()) {
+                    //todo boton retroalimentar
+                    btnFinalizar.setVisible(true);
+                    btnIniciar.setVisible(false);
+                    dpFechaInicio.setVisible(false);
+                    dpFechaFin.setVisible(false);
+                }
                 break;
             default:
                 break;
@@ -224,8 +240,8 @@ public class ProgresoColaboracionControlador {
         if (this.colaboracionDTO.getEstado() != ColaboracionDTO.EstadoColaboracion.finalizada) {
             ColaboracionDAO colaboracionDAO = new ColaboracionDAO();
             try {
-                colaboracionDAO.cambiarEstadoColaboracion("finalizada", this.colaboracionDTO.getIdColaboracion());
-                this.colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.finalizada);
+                colaboracionDAO.cambiarEstadoColaboracion("enRevision", this.colaboracionDTO.getIdColaboracion());
+                this.colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.enRevision);
                 mostrarMensajeEmergente("Colaboración finalizada", Alert.AlertType.INFORMATION);
             } catch (ErrorDAO error) {
                 mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);

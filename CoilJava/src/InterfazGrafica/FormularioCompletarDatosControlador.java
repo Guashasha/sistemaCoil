@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
-public class FormularioCompletarDatosControlador extends Application implements Initializable {
+public class FormularioCompletarDatosControlador implements Initializable {
     private static final Logger BITACORA = Logger.getLogger(FormularioCompletarDatosControlador.class);
 
     private AcademicoDTO academico;
@@ -149,18 +149,6 @@ public class FormularioCompletarDatosControlador extends Application implements 
         this.academico = academico;
     }
 
-    @Override
-    public void start (Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../InterfazGrafica/FormularioCompletarDatos.fxml"));
-        Parent root = loader.load();
-        Scene scene = new Scene(root);
-        primaryStage.setTitle("Formulario");
-        primaryStage.setScene(scene);
-        primaryStage.show();
-    }
 
-    public static void main (String[] args) {
-        launch(args);
-    }
 
 }

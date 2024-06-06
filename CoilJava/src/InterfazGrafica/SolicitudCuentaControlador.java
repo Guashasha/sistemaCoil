@@ -82,6 +82,7 @@ public class SolicitudCuentaControlador implements Initializable {
         }
         catch (ErrorDAO errorDAO) {
             mostrarAlert(errorDAO.getMessage(), Alert.AlertType.WARNING);
+            //todo refactorizar
             if (errorDAO.getTipo() == ErrorDAO.Tipo.CONEXION) {
                 try {
                     cargarVentanaInicioSesion();
@@ -188,7 +189,7 @@ public class SolicitudCuentaControlador implements Initializable {
         academicoDTO.setApellidoMaterno(tfApellidoM.getText());
         academicoDTO.setCorreoElectronico(tfCorreo.getText());
         academicoDTO.setCedulaProfesional(tfCedula.getText());
-        if (cmbUniversidad.getValue().isEmpty()) {
+        if (cmbUniversidad.getValue() == null || cmbUniversidad.getValue().isEmpty()) {
             throw new IllegalArgumentException("Selecciona una universidad");
         }
         academicoDTO.setIdUniversidad(getIdUniversidad());
