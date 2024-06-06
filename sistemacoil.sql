@@ -48,7 +48,7 @@ CREATE TABLE `academico` (
   `idPersona` int NOT NULL,
   `areaEstudios` ENUM ('economico-administrativo', 'humanidades', 'tecnica', 'ciencias de la salud', 'biologia-agropecuarias', 'dgri') NULL,
   `correoElectronico` varchar(30) NOT NULL,
-  `numeroTelefonico` char(12) NULL,
+  `numeroTelefonico` char(13) NULL,
   `categoriaContratacion` varchar(40) NULL,
   `facultad` int NULL,
   PRIMARY KEY (`cedulaProfesional`)
