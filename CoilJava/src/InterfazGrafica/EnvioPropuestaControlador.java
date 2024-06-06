@@ -48,17 +48,14 @@ public class EnvioPropuestaControlador {
                                     .trim();
         String temaInteres = tfTemaInteres.getText()
                                           .trim();
-
         if (objetivo.isEmpty()) {
             mostrarMensajeEmergente("El campo 'Objetivo' no puede estar vacío", Alert.AlertType.WARNING);
             return false;
         }
-
         if (temaInteres.isEmpty()) {
             mostrarMensajeEmergente("El campo 'Tema de Interés' no puede estar vacío", Alert.AlertType.WARNING);
             return false;
         }
-
         return true;
     }
 

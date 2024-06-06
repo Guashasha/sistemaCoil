@@ -9,6 +9,8 @@ import Utilidades.ErrorDAO;
 import java.util.List;
 import java.util.Optional;
 
+
+//todo refactorizar
 public interface IColaboracionDAO extends IDAO<ColaboracionDTO, Integer> {
     public Optional<ColaboracionDTO> getColaboracionPorId (int idColaboracion) throws ErrorDAO;
     Optional<ColaboracionDTO> getColaboracionActualPorAcademico (String idAcademico) throws ErrorDAO;
