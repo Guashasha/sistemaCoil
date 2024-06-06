@@ -251,18 +251,33 @@ public class ProgresoColaboracionControlador {
 
     @FXML
     private void finalizarColaboracion() {
-        if (this.colaboracionDTO.getEstado() != ColaboracionDTO.EstadoColaboracion.finalizada) {
-            ColaboracionDAO colaboracionDAO = new ColaboracionDAO();
+        ColaboracionDAO colaboracionDAO = new ColaboracionDAO();
+        RetroalimentacionColaboracionAuxiliar retroalimentacionDAO = new RetroalimentacionColaboracionAuxiliar();
+
+        if (this.colaboracionDTO.getEstado() == ColaboracionDTO.EstadoColaboracion.activa) {
             try {
                 colaboracionDAO.cambiarEstadoColaboracion("enRevision", this.colaboracionDTO.getIdColaboracion());
                 this.colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.enRevision);
-                mostrarMensajeEmergente("Colaboración finalizada", Alert.AlertType.INFORMATION);
+                mostrarMensajeEmergente("Retroalimente la colaboracion para poder finalizarla", Alert.AlertType.INFORMATION);
             } catch (ErrorDAO error) {
                 mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
             }
-        } else {
-            mostrarMensajeEmergente("La colaboracion ya se encuentra finalizada", Alert.AlertType.INFORMATION);
         }
+
+        if (this.colaboracionDTO.getEstado() == ColaboracionDTO.EstadoColaboracion.enRevision && retroalimentacionDAO.getPorPersonaYColaboracion(this.academicoDTO.getIdPersona(), this.colaboracionDTO.getIdColaboracion()).isPresent()) {
+            try {
+                colaboracionDAO.cambiarEstadoColaboracion("finalizada", this.colaboracionDTO.getIdColaboracion());
+                this.colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.enRevision);
+                mostrarMensajeEmergente("Colaboracion finalizada, gracias por participar.", Alert.AlertType.INFORMATION);
+            } catch (ErrorDAO error) {
+                mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
+            }
+        }
+        else {
+                mostrarMensajeEmergente("Retroalimente la colaboración para poder continuar", Alert.AlertType.INFORMATION);
+        }
+
+        actualizarVisibilidadBotones();
     }
 
     @FXML
