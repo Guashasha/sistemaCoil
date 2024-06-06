@@ -109,7 +109,7 @@ public class CrearCuentaAcademicoControlador {
         if (datosInvalidos()) {
             Alert alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setHeaderText("Datos incorrectos");
-            alerta.setContentText("Algunos de los datos ingresados son incorrectos, intente de nuevo");
+            alerta.setContentText("Uno o más campos están vacios");
             alerta.showAndWait();
 
             return null;
@@ -273,6 +273,7 @@ public class CrearCuentaAcademicoControlador {
         return nombre.isBlank() || aPaterno.isBlank() || aMaterno.isBlank() || correo.isBlank()
                 || telefono.isBlank() || numeroPersonal.isBlank() || cedula.isBlank()
                 || areaEstudios == null || areaEstudios.isBlank() ||
-                facultad.isBlank() || categoriaContratacion.isBlank();
+                facultad.isBlank() || categoriaContratacion.isBlank() || nombre.length() > 20
+                || aPaterno.length() > 20 || aMaterno.length() > 20 || correo.length() > 30;
     }
 }
