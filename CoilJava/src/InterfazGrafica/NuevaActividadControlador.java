@@ -28,15 +28,7 @@ public class NuevaActividadControlador {
     public ColaboracionDTO colaboracionDTO;
 
     @FXML
-    private Button btnAceptar = new Button();
-    @FXML
-    private Button btnCancelar = new Button();
-    @FXML
     private ToggleGroup tgTipoActividad = new ToggleGroup();
-    @FXML
-    private DatePicker dpFechaInicio = new DatePicker();
-    @FXML
-    private DatePicker dpFechaFin = new DatePicker();
     @FXML
     private TextField tfDescripcion = new TextField();
     @FXML
@@ -67,9 +59,26 @@ public class NuevaActividadControlador {
                 .isBlank() ||
                 tfDescripcion.getText()
                         .isBlank() ||
-                tgTipoActividad.getSelectedToggle() == null ||
-                dpFechaFin.getValue() == null ||
-                dpFechaInicio.getValue() == null;
+                tgTipoActividad.getSelectedToggle() == null;
+    }
+
+    private boolean camposSobrepasanLimite () {
+        if (tfTitulo.getText().length() > 50) {
+            Alert alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setContentText("El titulo puede tener un maximo de 50 caracteres");
+            alerta.setHeaderText("Titulo demasiado largo");
+            alerta.showAndWait();
+            return true;
+        }
+        else if (tfDescripcion.getText().length() > 200) {
+            Alert alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setContentText("La descripción puede tener un maximo de 200 caracteres");
+            alerta.setHeaderText("Descripción demasiado larga");
+            alerta.showAndWait();
+            return true;
+        }
+
+        return false;
     }
 
     public void agregarActividad () {
@@ -81,30 +90,18 @@ public class NuevaActividadControlador {
 
             return;
         }
+        else if (camposSobrepasanLimite()) {
+            return;
+        }
 
         RadioButton rbTipoActividad = (RadioButton) tgTipoActividad.getSelectedToggle();
 
         String titulo = tfTitulo.getText();
         String descripcion = tfDescripcion.getText();
         ActividadDTO.TipoActividad tipo = ActividadDTO.TipoActividad.valueOf(rbTipoActividad.getText());
-        LocalDate fechaInicio = dpFechaInicio.getValue();
-        LocalDate fechaFin = dpFechaFin.getValue();
-
-        PeriodoDTO periodoDTO;
-
-        try {
-            periodoDTO = new PeriodoDTO(fechaInicio, fechaFin);
-        }
-        catch (ErrorDAO error) {
-            Alert alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setHeaderText("Fecha incorrecta");
-            alerta.setContentText(error.getMessage());
-            alerta.showAndWait();
-            return;
-        }
 
         ActividadDTO actividadDTO = new ActividadDTO(titulo, descripcion, tipo);
-        ActividadVinculadaDTO actividadVinculadaDTO = new ActividadVinculadaDTO(actividadDTO, this.colaboracionDTO, periodoDTO);
+        ActividadVinculadaDTO actividadVinculadaDTO = new ActividadVinculadaDTO(actividadDTO, this.colaboracionDTO);
 
         ActividadAuxiliar dao = new ActividadAuxiliar();
         int resultado = -1;

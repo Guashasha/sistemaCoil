@@ -50,9 +50,5 @@
             <Font name="System Bold" size="22.0" />
          </font>
       </Text>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Fecha de inicio" x="330.0" y="85.0" />
-      <DatePicker fx:id="dpFechaInicio" editable="false" layoutX="330.0" layoutY="90.0" />
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Fecha de final" x="330.0" y="140.0" />
-      <DatePicker fx:id="dpFechaFin" editable="false" layoutX="330.0" layoutY="147.0" />
    </children>
 </AnchorPane>

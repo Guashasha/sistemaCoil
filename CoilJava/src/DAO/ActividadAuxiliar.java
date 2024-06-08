@@ -17,10 +17,6 @@ public class ActividadAuxiliar {
             throw new ErrorDAO("La actividadDTO es incorrecta", Tipo.VALIDACION);
         }
 
-        if (getPorTitulo(actividadDTO.getTitulo()).isPresent()) {
-            throw new ErrorDAO("la actividadDTO ya existe", Tipo.DUPLICIDAD);
-        }
-
         int resultado = -1;
         ActividadDAO actividadDAO = new ActividadDAO();
 

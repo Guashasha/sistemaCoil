@@ -122,8 +122,7 @@ ALTER TABLE retroalimentacionColaboracion AUTO_INCREMENT=1;
 CREATE TABLE calendarioActividades (
   idActividad int NOT NULL,
   idColaboracion int NOT NULL,
-  fechaInicio date NOT NULL,
-  fechaFin date NOT NULL
+  fechaFinalizacion date NOT NULL
 );
 ALTER TABLE calendarioActividades AUTO_INCREMENT=1;
 

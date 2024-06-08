@@ -5,7 +5,6 @@ import DTO.ActividadDTO;
 import DTO.ActividadVinculadaDTO;
 import AccesoDatos.AdministradorBaseDatos;
 import DTO.ColaboracionDTO;
-import DTO.PeriodoDTO;
 import Utilidades.ErrorDAO;
 import jdk.jshell.spi.ExecutionControl;
 
@@ -24,12 +23,11 @@ public class CronogramaActividadDAO implements ICronogramaActividad {
         int resultado = -1;
 
         try {
-            PreparedStatement consulta = AdministradorBaseDatos.getInstancia().prepareStatement("insert into calendarioActividades (idActividad, idColaboracion, fechaInicio, fechaFin) values (?, ?, ?, ?);");
+            PreparedStatement consulta = AdministradorBaseDatos.getInstancia().prepareStatement("insert into calendarioActividades (idActividad, idColaboracion, fechaFinalizacion) values (?, ?, ?);");
 
             consulta.setInt(1, actividadDTO.getActividad().getIdActividad());
             consulta.setInt(2, actividadDTO.getColaboracion().getIdColaboracion());
-            consulta.setDate(3, Date.valueOf(actividadDTO.getPeriodo().getFechaInicio()));
-            consulta.setDate(4, Date.valueOf(actividadDTO.getPeriodo().getFechaFin()));
+            consulta.setDate(3, Date.valueOf(actividadDTO.getPeriodo()));
 
             resultado = consulta.executeUpdate();
             consulta.close();
@@ -70,12 +68,11 @@ public class CronogramaActividadDAO implements ICronogramaActividad {
         int resultado = -1;
 
         try {
-            PreparedStatement consulta = AdministradorBaseDatos.getInstancia().prepareStatement("update from calendarioActividades set fechaInicio=?, fechaFin=? where idActividad=? and idColaboracion=?;");
+            PreparedStatement consulta = AdministradorBaseDatos.getInstancia().prepareStatement("update from calendarioActividades set fechaFinalizacion=? where idActividad=? and idColaboracion=?;");
 
-            consulta.setDate(1, Date.valueOf(actividadVinculada.getPeriodo().getFechaInicio()));
-            consulta.setDate(2, Date.valueOf(actividadVinculada.getPeriodo().getFechaFin()));
-            consulta.setInt(3, actividadVinculada.getActividad().getIdActividad());
-            consulta.setInt(4, actividadVinculada.getColaboracion().getIdColaboracion());
+            consulta.setDate(1, Date.valueOf(actividadVinculada.getPeriodo()));
+            consulta.setInt(2, actividadVinculada.getActividad().getIdActividad());
+            consulta.setInt(3, actividadVinculada.getColaboracion().getIdColaboracion());
 
             resultado = consulta.executeUpdate();
             consulta.close();
@@ -171,9 +168,7 @@ public class CronogramaActividadDAO implements ICronogramaActividad {
 
             Optional<ActividadDTO> actividad = actividadAuxiliar.getPorId(resultados.getInt(2));
             Optional<ColaboracionDTO> colaboracion = colaboracionAuxiliar.getPorId(resultados.getInt(3));
-            LocalDate fechaInicio = resultados.getDate(4)
-                    .toLocalDate();
-            LocalDate fechaFin = resultados.getDate(5)
+            LocalDate fecha = resultados.getDate(4)
                     .toLocalDate();
 
             if (actividad.isEmpty()) {
@@ -184,7 +179,7 @@ public class CronogramaActividadDAO implements ICronogramaActividad {
                 throw new ErrorDAO("la actividad buscada para vinculación no existe", ErrorDAO.Tipo.CONSULTA);
             }
 
-            actividadVinculadaDTO = new ActividadVinculadaDTO(actividad.get(), colaboracion.get(), new PeriodoDTO(fechaInicio, fechaFin));
+            actividadVinculadaDTO = new ActividadVinculadaDTO(actividad.get(), colaboracion.get(), fecha);
         } catch (SQLException error) {
             throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
         }

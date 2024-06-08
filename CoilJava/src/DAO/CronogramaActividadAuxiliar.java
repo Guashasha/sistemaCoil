@@ -12,10 +12,7 @@ public class CronogramaActividadAuxiliar {
     private static final Logger BITACORA = Logger.getLogger(CronogramaActividadAuxiliar.class);
 
     public int agregar (ActividadVinculadaDTO actividadVinculadaDTO) throws ErrorDAO {
-        if (!actividadVinculadaDTO.getPeriodo()
-                .esCorrecto()) {
-            throw new ErrorDAO("El periodo especificado es incorrecto.", ErrorDAO.Tipo.VALIDACION);
-        } else if (!actividadVinculadaDTO.getActividad()
+        if (!actividadVinculadaDTO.getActividad()
                 .esCorrecta()) {
             throw new ErrorDAO("La actividad es incorrecta", ErrorDAO.Tipo.VALIDACION);
         } else if (!actividadVinculadaDTO.getColaboracion()

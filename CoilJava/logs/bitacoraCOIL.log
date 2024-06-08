@@ -145,3 +145,5 @@
 2024-06-03 11:01:15 FATAL ColaboracionDAO:95 - (conn=208) Table 'COIL.estudiantescolaboracion' doesn't exist
 2024-06-03 11:05:22 FATAL ColaboracionDAO:95 - (conn=218) Table 'COIL.estudiantescolaboracion' doesn't exist
 2024-06-05 22:57:53 FATAL AcademicoDAO:221 - (conn=24) Data too long for column 'nombre' at row 1
+2024-06-07 21:42:07 FATAL AdministradorBaseDatos:30 - Socket fail to connect to host:address=(host=localhost)(port=3307)(type=primary). Connection refused
+2024-06-07 21:42:12 FATAL AdministradorBaseDatos:30 - Socket fail to connect to host:address=(host=localhost)(port=3307)(type=primary). Connection refused

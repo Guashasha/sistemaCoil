@@ -1,8 +1,10 @@
 package InterfazGrafica;
 
 import DAO.ActividadDAO;
+import DAO.CronogramaActividadAuxiliar;
 import DAO.RetroalimentacionActividadAuxiliar;
 import DTO.ActividadDTO;
+import DTO.ActividadVinculadaDTO;
 import DTO.ColaboracionDTO;
 import DTO.CuentaDTO;
 import Utilidades.ErrorDAO;
@@ -16,6 +18,7 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.layout.*;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Stack;
 
@@ -73,6 +76,9 @@ public class ActividadesColaboracionControlador {
                     vboxActividades.getChildren().add(panel);
                 }
             }
+
+            btnNuevaActividad.setDisable(true);
+            btnNuevaActividad.setVisible(false);
         }
         else {
             for (ActividadDTO actividad : actividades) {
@@ -91,8 +97,6 @@ public class ActividadesColaboracionControlador {
             return null;
         }
         else if (this.colaboracion.getEstado() == ColaboracionDTO.EstadoColaboracion.enRevision) {
-            btnNuevaActividad.setDisable(true);
-            btnNuevaActividad.setVisible(false);
             panelActividad.setSpacing(30.0);
             Button boton = crearBotonRetroalimentar(actividad);
 
@@ -101,12 +105,71 @@ public class ActividadesColaboracionControlador {
         else {
             panelActividad.setSpacing(50.0);
 
-            HBox pnFechas = new HBox(10);
+            Label lbDescripcion = new Label(actividad.getDescripcion());
+            lbDescripcion.setWrapText(true);
+            lbDescripcion.setMaxWidth(60);
 
-            panelActividad.getChildren().addAll(new Label(actividad.getTitulo()), pnFechas);
+            panelActividad.getChildren().addAll(new Label(actividad.getTitulo()), lbDescripcion);
+
+            if (this.colaboracion.getEstado() == ColaboracionDTO.EstadoColaboracion.activa) {
+                panelActividad.getChildren().add(crearBotonMarcarConcluida(actividad));
+            }
+
+            panelActividad.getChildren().add(crearBotonBorrar(actividad));
         }
 
         return panelActividad;
+    }
+
+    private Button crearBotonBorrar (ActividadDTO actividad) {
+        Button boton = new Button("Borrar");
+
+        boton.setOnAction( e -> {
+            CronogramaActividadAuxiliar daoCronograma = new CronogramaActividadAuxiliar();
+
+            try {
+                if (daoCronograma.desvincular(new ActividadVinculadaDTO(actividad, this.colaboracion)) < 1) {
+                    Alert alerta = new Alert(Alert.AlertType.ERROR);
+                    alerta.setHeaderText("Error");
+                    alerta.setContentText("No se pudo eliminar la actividad, intente de nuevo");
+                    alerta.showAndWait();
+                }
+            }
+            catch (ErrorDAO error) {
+                Alert alerta = new Alert(Alert.AlertType.ERROR);
+                alerta.setContentText(error.getMessage());
+                alerta.setHeaderText("Error");
+                alerta.showAndWait();
+            }
+        });
+
+        return boton;
+    }
+
+    private Button crearBotonMarcarConcluida (ActividadDTO actividad) {
+        Button boton = new Button("Finalizada");
+
+        boton.setOnAction( e -> {
+            ActividadVinculadaDTO actividadVinculada = new ActividadVinculadaDTO(actividad, this.colaboracion, LocalDate.now());
+
+            CronogramaActividadAuxiliar dao = new CronogramaActividadAuxiliar();
+
+            try {
+                if (dao.modificar(actividadVinculada) < 1) {
+                    Alert alerta = new Alert(Alert.AlertType.ERROR);
+                    alerta.setHeaderText("Error");
+                    alerta.setContentText("No se pudo finalizar la actividad, intente de nuevo");
+                    alerta.showAndWait();
+                }
+            } catch (ErrorDAO error) {
+                Alert alerta = new Alert(Alert.AlertType.ERROR);
+                alerta.setContentText(error.getMessage());
+                alerta.setHeaderText("Error");
+                alerta.showAndWait();
+            }
+        });
+
+        return boton;
     }
 
     private Button crearBotonRetroalimentar (ActividadDTO actividad) {
