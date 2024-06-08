@@ -23,11 +23,10 @@ public class CronogramaActividadDAO implements ICronogramaActividad {
         int resultado = -1;
 
         try {
-            PreparedStatement consulta = AdministradorBaseDatos.getInstancia().prepareStatement("insert into calendarioActividades (idActividad, idColaboracion, fechaFinalizacion) values (?, ?, ?);");
+            PreparedStatement consulta = AdministradorBaseDatos.getInstancia().prepareStatement("insert into calendarioActividades (idActividad, idColaboracion, fechaFinalizacion) values (?, ?, null);");
 
             consulta.setInt(1, actividadDTO.getActividad().getIdActividad());
             consulta.setInt(2, actividadDTO.getColaboracion().getIdColaboracion());
-            consulta.setDate(3, Date.valueOf(actividadDTO.getPeriodo()));
 
             resultado = consulta.executeUpdate();
             consulta.close();
