@@ -61,7 +61,7 @@ public class ColaboracionDTO {
     }
 
     public void setTemaInteres(String temaInteres) {
-        checarTemaInteres(temaInteres);
+        verificarTemaInteres(temaInteres);
         this.temaInteres = temaInteres;
     }
 
@@ -78,7 +78,7 @@ public class ColaboracionDTO {
     }
 
     public void setObjetivo(String objetivo) {
-        checarObjetivo(objetivo);
+        verificarObjetivo(objetivo);
         this.objetivo = objetivo;
     }
 
@@ -87,7 +87,7 @@ public class ColaboracionDTO {
     }
 
     public void setPerfilEstudiante(String perfilEstudiante) {
-        checarPerfilEstudiante(perfilEstudiante);
+        verificarPerfilEstudiante(perfilEstudiante);
         this.perfilEstudiante = perfilEstudiante;
     }
     public EstadoColaboracion getEstado () {
@@ -114,38 +114,36 @@ public class ColaboracionDTO {
         this.anfitrion = anfitrion;
     }
 
-    private void checarTemaInteres(String temaInteres) {
-        String temaInteresRegex = "^(?!\\s).{5,80}(?<!\\s)$";
+    private void verificarTemaInteres (String temaInteres) {
+        String temaInteresRegex = "^(?!\\s).{5,100}(?<!\\s)$";
         Pattern patron = Pattern.compile(temaInteresRegex);
         if (temaInteres != null) {
             Matcher matcher = patron.matcher(temaInteres.trim());
             if (!matcher.find()) {
                 throw new ErrorDAO("""
                     El campo 'Tema de Interés' no es válido.
-                    1. La longitud debe ser entre 5 y 80 caracteres.
-                    2. No debe tener espacios en blanco al inicio o al final.                                    
-                    """, ErrorDAO.Tipo.VALIDACION);
+                    1. La longitud debe ser entre 5 y 100 caracteres.
+                    2. No debe tener espacios en blanco al inicio o al final.""", ErrorDAO.Tipo.VALIDACION);
             }
         }
     }
 
-    private void checarObjetivo(String objetivo) {
-        String objetivoRegex = "^(?!\\s).{5,80}(?<!\\s)$";
+    private void verificarObjetivo (String objetivo) {
+        String objetivoRegex = "^.{5,300}$";
         Pattern patron = Pattern.compile(objetivoRegex);
         if (objetivo != null) {
             Matcher matcher = patron.matcher(objetivo.trim());
             if (!matcher.find()) {
                 throw new ErrorDAO("""
                     El campo 'Objetivo' no es válido.
-                    1. La longitud debe ser entre 5 y 80 caracteres.
-                    2. No debe tener espacios en blanco al inicio o al final.
+                    1. La longitud debe ser entre 5 y 300 caracteres.
                     """, ErrorDAO.Tipo.VALIDACION);
             }
         }
     }
 
-    private void checarPerfilEstudiante(String perfilEstudiante) {
-        String perfilEstudianteRegex = "^^(?!\\s).{5,50}(?<!\\s)$$";
+    private void verificarPerfilEstudiante (String perfilEstudiante) {
+        String perfilEstudianteRegex = "^(?!\\s).{5,200}(?<!\\s)$";
         Pattern patron = Pattern.compile(perfilEstudianteRegex);
         if (perfilEstudiante != null) {
             Matcher matcher = patron.matcher(perfilEstudiante.trim());

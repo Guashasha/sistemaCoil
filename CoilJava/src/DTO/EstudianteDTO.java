@@ -52,8 +52,8 @@ public class EstudianteDTO extends PersonaDTO {
 
     @Override
     public boolean validarNulos() {
-        return cadenaValida(getNombre()) && cadenaValida(getApellidoPaterno()) &&
-                cadenaValida(getApellidoMaterno()) && cadenaValida(getMatricula());
+        return esCadenaValida(getNombre()) && esCadenaValida(getApellidoPaterno()) &&
+                esCadenaValida(getApellidoMaterno()) && esCadenaValida(getMatricula());
     }
 
     @Override

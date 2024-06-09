@@ -12,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 
 import java.net.URL;
 import java.util.Optional;
@@ -25,15 +26,15 @@ public class ColaboracionDisponibleItemControlador implements Initializable {
     private Label lbIdioma;
 
     @FXML
-    private Label lbObjetivo;
+    private TextArea taObjetivo;
 
     @FXML
-    private Label lbtemaInteres;
+    private TextArea taTemaInteres;
 
 
     public void inicializarLabel () {
-        lbtemaInteres.setText(colaboracionDTO.getTemaInteres());
-        lbObjetivo.setText(colaboracionDTO.getObjetivo());
+        taTemaInteres.setText(colaboracionDTO.getTemaInteres());
+        taObjetivo.setText(colaboracionDTO.getObjetivo());
         lbIdioma.setText(colaboracionDTO.getIdioma());
     }
 
