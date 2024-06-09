@@ -118,33 +118,34 @@ public class SeccionMiColaboracionAcademicoControlador {
     @FXML
     private void abrirProgresoColaboracion () {
         if (existeColaboracionEnRevision()) {
-            mostrarMensajeEmergente("Actualmente esta vinculado a una colaboración en revisión, por ende, no puede acceder a esta opcion", Alert.AlertType.INFORMATION);
-            return;
-        }
-        Optional<ColaboracionDTO> colaboracionOptional = getColaboracionVinculadaOActiva();
-        if (colaboracionOptional.isPresent()) {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ProgresoColaboracion.fxml"));
-            BorderPane bpInicioColaboracion = null;
+            Optional<ColaboracionDTO> colaboracionOptional = getColaboracionVinculadaOActiva();
+            if (colaboracionOptional.isPresent()) {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ProgresoColaboracion.fxml"));
+                BorderPane bpInicioColaboracion = null;
 
-            try {
-                bpInicioColaboracion = fxmlLoader.load();
+                try {
+                    bpInicioColaboracion = fxmlLoader.load();
+                }
+                catch (IOException error) {
+                    BITACORA.fatal(error.getMessage());
+                    mostrarMensajeEmergente("Error al cargar la seccion de inicio de colaboracion", Alert.AlertType.ERROR);
+                }
+                if (bpInicioColaboracion != null) {
+                    this.historialPaneles.push(bpMiColaboracion);
+                    ProgresoColaboracionControlador progresoColaboracionControlador = fxmlLoader.getController();
+                    progresoColaboracionControlador.setColaboracionDTO(colaboracionOptional.get());
+                    progresoColaboracionControlador.setAcademicoDTO(this.academicoDTO);
+                    progresoColaboracionControlador.setVentanaPrincipal(this.pnVentanaPrincipal);
+                    progresoColaboracionControlador.inicializar();
+                    this.pnVentanaPrincipal.setCenter(bpInicioColaboracion);
+                }
             }
-            catch (IOException error) {
-                BITACORA.fatal(error.getMessage());
-                mostrarMensajeEmergente("Error al cargar la seccion de inicio de colaboracion", Alert.AlertType.ERROR);
-            }
-            if (bpInicioColaboracion != null) {
-                this.historialPaneles.push(bpMiColaboracion);
-                ProgresoColaboracionControlador progresoColaboracionControlador = fxmlLoader.getController();
-                progresoColaboracionControlador.setColaboracionDTO(colaboracionOptional.get());
-                progresoColaboracionControlador.setAcademicoDTO(this.academicoDTO);
-                progresoColaboracionControlador.setVentanaPrincipal(this.pnVentanaPrincipal);
-                progresoColaboracionControlador.inicializar();
-                this.pnVentanaPrincipal.setCenter(bpInicioColaboracion);
+            else {
+                mostrarMensajeEmergente("No existe una colaboracion activa o vinculada con un par", Alert.AlertType.WARNING);
             }
         }
         else {
-            mostrarMensajeEmergente("No existe una colaboracion activa o vinculada con un par", Alert.AlertType.WARNING);
+            mostrarMensajeEmergente("No existe una colaboración en revisión", Alert.AlertType.WARNING);
         }
 
     }
