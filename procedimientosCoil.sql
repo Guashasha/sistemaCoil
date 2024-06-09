@@ -77,8 +77,8 @@ CREATE PROCEDURE registrar_Academico (
     IN p_cedulaProfesional VARCHAR(30),
     IN p_numeroDePersonal VARCHAR(40),
     IN p_areaEstudios VARCHAR(40),
-    IN p_correoElectronico VARCHAR(30),
-    IN p_numeroTelefono VARCHAR(12),
+    IN p_correoElectronico VARCHAR(320),
+    IN p_numeroTelefono VARCHAR(13),
     IN p_categoriaContratacion VARCHAR(40), 
     IN p_facultad INT,
     OUT p_id_persona INT
@@ -106,8 +106,8 @@ CREATE PROCEDURE editar_academico (
     IN p_cedulaProfesional varchar(30),
     IN p_numeroDePersonal varchar(40),
     IN p_areaEstudios varchar(40),
-    IN p_correoElectronico varchar(30),
-    IN p_numeroTelefono varchar(12),
+    IN p_correoElectronico varchar(320),
+    IN p_numeroTelefono varchar(230),
     IN p_categoriaContratacion varchar(40), 
     IN p_facultad int
 )
@@ -250,12 +250,12 @@ DROP PROCEDURE IF EXISTS registrar_Colaboracion;
 create procedure registrar_Colaboracion(
     IN p_estado enum ('propuesta', 'aceptada', 'rechazada', 'disponible', 'vinculada', 'activa', 'enRevision', 'finalizada'),
     IN p_tipo enum ('claseEspejo', 'COIL'),
-    IN p_temaInteres varchar(80), 
+    IN p_temaInteres varchar(100), 
     IN p_idioma varchar(30),
-    IN p_objetivo varchar(80), 
+    IN p_objetivo varchar(300), 
     IN p_fechaInicio date,
     IN p_fechaFinal date, 
-    IN p_perfilEstudiante varchar(50)
+    IN p_perfilEstudiante varchar(200)
 )
 BEGIN
 	INSERT INTO colaboracion (estado, tipo, temaInteres, idioma, objetivo, fechaInicio, fechaFin, perfilEstudiante)
@@ -314,12 +314,12 @@ CREATE PROCEDURE actualizar_Colaboracion(
     IN p_idColaboracion INT,
     IN p_estado ENUM('propuesta', 'aceptada', 'rechazada', 'disponible', 'vinculada', 'activa', 'enRevision', 'finalizada'),
     IN p_tipo ENUM('claseEspejo', 'COIL'),
-    IN p_temaInteres VARCHAR(80),
+    IN p_temaInteres VARCHAR(100),
     IN p_idioma VARCHAR(30),
-    IN p_objetivo VARCHAR(80),
+    IN p_objetivo VARCHAR(300),
     IN p_fechaInicio DATE,
     IN p_fechaFinal DATE,
-    IN p_perfilEstudiante VARCHAR(50)
+    IN p_perfilEstudiante VARCHAR(200)
 )
 BEGIN
     UPDATE colaboracion
