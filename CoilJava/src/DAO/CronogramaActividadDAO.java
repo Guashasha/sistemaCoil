@@ -67,7 +67,7 @@ public class CronogramaActividadDAO implements ICronogramaActividad {
         int resultado = -1;
 
         try {
-            PreparedStatement consulta = AdministradorBaseDatos.getInstancia().prepareStatement("update from calendarioActividades set fechaFinalizacion=? where idActividad=? and idColaboracion=?;");
+            PreparedStatement consulta = AdministradorBaseDatos.getInstancia().prepareStatement("update calendarioActividades set fechaFinalizacion=? where idActividad=? and idColaboracion=?;");
 
             consulta.setDate(1, Date.valueOf(actividadVinculada.getPeriodo()));
             consulta.setInt(2, actividadVinculada.getActividad().getIdActividad());
@@ -96,7 +96,7 @@ public class CronogramaActividadDAO implements ICronogramaActividad {
         ResultSet resultado;
 
         try {
-            PreparedStatement consulta = AdministradorBaseDatos.getInstancia().prepareStatement("select * from calendarioActividades where idActividad=? and idColaboracion=?");
+            PreparedStatement consulta = AdministradorBaseDatos.getInstancia().prepareStatement("select * from calendarioActividades where idActividad=? and idColaboracion=?;");
 
             consulta.setInt(1, idActividad);
             consulta.setInt(2, idColaboracion);
@@ -165,10 +165,9 @@ public class CronogramaActividadDAO implements ICronogramaActividad {
             ActividadAuxiliar actividadAuxiliar = new ActividadAuxiliar();
             ColaboracionAuxiliar colaboracionAuxiliar = new ColaboracionAuxiliar();
 
-            Optional<ActividadDTO> actividad = actividadAuxiliar.getPorId(resultados.getInt(2));
-            Optional<ColaboracionDTO> colaboracion = colaboracionAuxiliar.getPorId(resultados.getInt(3));
-            LocalDate fecha = resultados.getDate(4)
-                    .toLocalDate();
+            Optional<ActividadDTO> actividad = actividadAuxiliar.getPorId(resultados.getInt(1));
+            Optional<ColaboracionDTO> colaboracion = colaboracionAuxiliar.getPorId(resultados.getInt(2));
+            Date fecha = resultados.getDate(3);
 
             if (actividad.isEmpty()) {
                 throw new ErrorDAO("la actividad buscada para vinculación no existe", ErrorDAO.Tipo.CONSULTA);
@@ -178,7 +177,12 @@ public class CronogramaActividadDAO implements ICronogramaActividad {
                 throw new ErrorDAO("la actividad buscada para vinculación no existe", ErrorDAO.Tipo.CONSULTA);
             }
 
-            actividadVinculadaDTO = new ActividadVinculadaDTO(actividad.get(), colaboracion.get(), fecha);
+            if (fecha == null) {
+                actividadVinculadaDTO = new ActividadVinculadaDTO(actividad.get(), colaboracion.get());
+            }
+            else {
+                actividadVinculadaDTO = new ActividadVinculadaDTO(actividad.get(), colaboracion.get(), fecha.toLocalDate());
+            }
         } catch (SQLException error) {
             throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
         }

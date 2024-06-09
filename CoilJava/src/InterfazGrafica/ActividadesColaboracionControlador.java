@@ -20,7 +20,7 @@ import javafx.scene.layout.*;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Stack;
+import java.util.Optional;
 
 public class ActividadesColaboracionControlador {
     private CuentaDTO usuario;
@@ -107,7 +107,7 @@ public class ActividadesColaboracionControlador {
 
             Label lbDescripcion = new Label(actividad.getDescripcion());
             lbDescripcion.setWrapText(true);
-            lbDescripcion.setMaxWidth(60);
+            lbDescripcion.setMaxWidth(200);
 
             panelActividad.getChildren().addAll(new Label(actividad.getTitulo()), lbDescripcion);
 
@@ -124,50 +124,65 @@ public class ActividadesColaboracionControlador {
     private Button crearBotonBorrar (ActividadDTO actividad) {
         Button boton = new Button("Borrar");
 
-        boton.setOnAction( e -> {
-            CronogramaActividadAuxiliar daoCronograma = new CronogramaActividadAuxiliar();
+        CronogramaActividadAuxiliar dao = new CronogramaActividadAuxiliar();
+        Optional<ActividadVinculadaDTO> actividadVinculada = dao.getPorActividadYColaboracion(actividad.getIdActividad(), this.colaboracion.getIdColaboracion());
 
-            try {
-                if (daoCronograma.desvincular(new ActividadVinculadaDTO(actividad, this.colaboracion)) < 1) {
+        if (actividadVinculada.isPresent() && actividadVinculada.get().getPeriodo() == null) {
+            boton.setOnAction(e -> {
+                try {
+                    if (dao.desvincular(new ActividadVinculadaDTO(actividad, this.colaboracion)) < 1) {
+                        Alert alerta = new Alert(Alert.AlertType.ERROR);
+                        alerta.setHeaderText("Error");
+                        alerta.setContentText("No se pudo eliminar la actividad, intente de nuevo");
+                        alerta.showAndWait();
+                    }
+                } catch (ErrorDAO error) {
                     Alert alerta = new Alert(Alert.AlertType.ERROR);
+                    alerta.setContentText(error.getMessage());
                     alerta.setHeaderText("Error");
-                    alerta.setContentText("No se pudo eliminar la actividad, intente de nuevo");
                     alerta.showAndWait();
                 }
-            }
-            catch (ErrorDAO error) {
-                Alert alerta = new Alert(Alert.AlertType.ERROR);
-                alerta.setContentText(error.getMessage());
-                alerta.setHeaderText("Error");
-                alerta.showAndWait();
-            }
-        });
+
+                actualizarLista();
+            });
+        }
+        else {
+            boton.setDisable(true);
+        }
 
         return boton;
     }
 
     private Button crearBotonMarcarConcluida (ActividadDTO actividad) {
-        Button boton = new Button("Finalizada");
+        Button boton = new Button("Finalizar");
 
-        boton.setOnAction( e -> {
-            ActividadVinculadaDTO actividadVinculada = new ActividadVinculadaDTO(actividad, this.colaboracion, LocalDate.now());
+        CronogramaActividadAuxiliar dao = new CronogramaActividadAuxiliar();
+        Optional<ActividadVinculadaDTO> actividadVinculada = dao.getPorActividadYColaboracion(actividad.getIdActividad(), this.colaboracion.getIdColaboracion());
 
-            CronogramaActividadAuxiliar dao = new CronogramaActividadAuxiliar();
+        if (actividadVinculada.isPresent() && actividadVinculada.get().getPeriodo() == null) {
+            boton.setOnAction(e -> {
+                actividadVinculada.get().setPeriodo(LocalDate.now());
 
-            try {
-                if (dao.modificar(actividadVinculada) < 1) {
+                try {
+                    if (dao.modificar(actividadVinculada.orElse(null)) < 1) {
+                        Alert alerta = new Alert(Alert.AlertType.ERROR);
+                        alerta.setHeaderText("Error");
+                        alerta.setContentText("No se pudo finalizar la actividad, intente de nuevo");
+                        alerta.showAndWait();
+                    }
+                } catch (ErrorDAO error) {
                     Alert alerta = new Alert(Alert.AlertType.ERROR);
+                    alerta.setContentText(error.getMessage());
                     alerta.setHeaderText("Error");
-                    alerta.setContentText("No se pudo finalizar la actividad, intente de nuevo");
                     alerta.showAndWait();
                 }
-            } catch (ErrorDAO error) {
-                Alert alerta = new Alert(Alert.AlertType.ERROR);
-                alerta.setContentText(error.getMessage());
-                alerta.setHeaderText("Error");
-                alerta.showAndWait();
-            }
-        });
+
+                actualizarLista();
+            });
+        }
+        else {
+            boton.setDisable(true);
+        }
 
         return boton;
     }
