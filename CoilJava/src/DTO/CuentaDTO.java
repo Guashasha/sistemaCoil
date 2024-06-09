@@ -45,7 +45,7 @@ public class CuentaDTO {
     }
 
     public void setNombreUsuario (String nombreUsuario) {
-        checarUsuario(nombreUsuario);
+        verificarUsuario(nombreUsuario);
         this.nombreUsuario = nombreUsuario;
     }
 
@@ -54,7 +54,7 @@ public class CuentaDTO {
     }
 
     public void setContrasena (String contrasena) {
-        checarContrasena(contrasena);
+        verificarContrasena(contrasena);
         this.contrasena = contrasena;
     }
 
@@ -74,7 +74,7 @@ public class CuentaDTO {
         this.tipo = tipo;
     }
 
-    private void checarUsuario (String usuario) {
+    private void verificarUsuario (String usuario) {
         String usuarioRegex = "[A-z0-9]{3,50}";
 
         Pattern patron = Pattern.compile(usuarioRegex);
@@ -90,8 +90,8 @@ public class CuentaDTO {
                                                        3. No se permiten caracteres especiales.""", ErrorDAO.Tipo.VALIDACION);
         }
     }
-    private void checarContrasena (String contrasena) {
-        String contrasenaRegex = "^.{8,100}$";
+    private void verificarContrasena (String contrasena) {
+        String contrasenaRegex = "^.{8,300}$";
         Pattern patron = Pattern.compile(contrasenaRegex);
         if (contrasena == null || contrasena.isEmpty()) {
             throw new ErrorDAO("La contraseña no puede estar vacía", ErrorDAO.Tipo.VALIDACION);

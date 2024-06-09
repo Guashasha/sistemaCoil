@@ -29,10 +29,8 @@ public class PropuestaItemControlador implements Initializable {
 
     @FXML
     private Label lbNombre;
-
     @FXML
-    private Label lbTemaInteres;
-
+    private TextArea taTemaInteres;
     @FXML
     private Label lbUniversidad;
     @FXML
@@ -70,7 +68,7 @@ public class PropuestaItemControlador implements Initializable {
 
 
     public void inicializarLabels () {
-        lbTemaInteres.setText(colaboracionDTO.getTemaInteres());
+        taTemaInteres.setText(colaboracionDTO.getTemaInteres());
         taObjetivo.setText(colaboracionDTO.getObjetivo());
         taObjetivo.setEditable(false);
         lbNombre.setText(colaboracionDTO.getAnfitrion()

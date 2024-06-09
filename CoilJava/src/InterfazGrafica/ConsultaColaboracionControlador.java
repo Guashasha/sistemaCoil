@@ -82,7 +82,7 @@ public class ConsultaColaboracionControlador implements Initializable {
             }
         }
         catch (ErrorDAO error) {
-            mostrarAlert(error.getMessage(), Alert.AlertType.ERROR);
+            mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
         }
     }
 
@@ -104,7 +104,7 @@ public class ConsultaColaboracionControlador implements Initializable {
         }
     }
 
-    private void mostrarAlert (String mensaje, Alert.AlertType tipoAlerta) {
+    private void mostrarMensajeEmergente (String mensaje, Alert.AlertType tipoAlerta) {
         Alert alert = new Alert(tipoAlerta);
         alert.setContentText(mensaje);
         alert.setHeaderText("Informacion");

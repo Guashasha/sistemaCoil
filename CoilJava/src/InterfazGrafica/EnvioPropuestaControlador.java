@@ -5,32 +5,47 @@ import DTO.AcademicoDTO;
 import DTO.ColaboracionDTO;
 import Utilidades.ErrorDAO;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
+import java.net.URL;
+import java.util.ResourceBundle;
 import java.util.Stack;
 
-public class EnvioPropuestaControlador {
+public class EnvioPropuestaControlador implements Initializable {
     private final ColaboracionAuxiliar COLABORACION_AUXILIAR = new ColaboracionAuxiliar();
     private AcademicoDTO academicoAnfitrion;
     @FXML
     private TextArea taObjetivo;
     @FXML
-    private TextField tfTemaInteres;
+    private Label lbContadorObjetivo;
+    @FXML
+    private Label lbContadorTemaInteres;
+    @FXML
+    private TextArea taTemaInteres;
     private Stack<Pane> historialPaneles = new Stack<>();
     private BorderPane pnVentanaPrincipal;
 
+    @Override
+    public void initialize (URL url, ResourceBundle resourceBundle) {
+        actualizarContadorObjetivo();
+        actualizarContadorTemaInteres();
+        registrarEventFilters();
+    }
+
     private ColaboracionDTO getDatosGUI () {
         ColaboracionDTO colaboracionDTO = new ColaboracionDTO();
-        colaboracionDTO.setTemaInteres(tfTemaInteres.getText());
+        colaboracionDTO.setTemaInteres(taTemaInteres.getText());
         colaboracionDTO.setObjetivo(taObjetivo.getText());
         return colaboracionDTO;
     }
 
     @FXML
     public void enviarPropuestaColaboracion () {
-        if (validarCampos()) {
+        if (sonCamposValidos()) {
             try {
                 ColaboracionDTO colaboracionDTO = getDatosGUI();
                 colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.propuesta);
@@ -45,10 +60,10 @@ public class EnvioPropuestaControlador {
         this.pnVentanaPrincipal.setCenter(this.historialPaneles.pop());
     }
 
-    private boolean validarCampos () {
+    private boolean sonCamposValidos () {
         String objetivo = taObjetivo.getText()
                                     .trim();
-        String temaInteres = tfTemaInteres.getText()
+        String temaInteres = taTemaInteres.getText()
                                           .trim();
         if (objetivo.isEmpty()) {
             mostrarMensajeEmergente("El campo 'Objetivo' no puede estar vacío", Alert.AlertType.WARNING);
@@ -103,4 +118,39 @@ public class EnvioPropuestaControlador {
     public void setPnVentanaPrincipal (BorderPane pnVentanaPrincipal) {
         this.pnVentanaPrincipal = pnVentanaPrincipal;
     }
+
+
+    @FXML
+    private void restriccionTaTemaInteres (KeyEvent evento) {
+        actualizarContadorTemaInteres();
+        if (taTemaInteres.getText()
+                         .length() >= 100) {
+            evento.consume();
+        }
+    }
+
+    @FXML
+    private void restriccionTaObjetivo (KeyEvent evento) {
+        actualizarContadorObjetivo();
+        if (taObjetivo.getText()
+                      .length() >= 300) {
+            evento.consume();
+        }
+    }
+
+    private void registrarEventFilters () {
+        taTemaInteres.addEventFilter(KeyEvent.KEY_TYPED, this::restriccionTaTemaInteres);
+        taObjetivo.addEventFilter(KeyEvent.KEY_TYPED, this::restriccionTaObjetivo);
+    }
+
+    private void actualizarContadorTemaInteres () {
+        lbContadorTemaInteres.setText("Numero de caracteres: " + taTemaInteres.getText()
+                                                                              .length() + "/100");
+    }
+
+    private void actualizarContadorObjetivo () {
+        lbContadorObjetivo.setText("Numero de caracteres: " + taObjetivo.getText()
+                                                                        .length() + "/300");
+    }
+
 }
