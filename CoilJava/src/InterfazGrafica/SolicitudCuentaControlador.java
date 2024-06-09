@@ -261,8 +261,8 @@ public class SolicitudCuentaControlador implements Initializable {
 
     @FXML
     private void restriccionTfCedula (KeyEvent evento) {
-        String character = evento.getCharacter();
-        if (!character.matches("\\d")) {
+        String caracter = evento.getCharacter();
+        if (!caracter.matches("\\d")) {
             evento.consume();
         }
 
