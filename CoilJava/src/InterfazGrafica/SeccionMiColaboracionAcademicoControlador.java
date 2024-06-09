@@ -117,9 +117,9 @@ public class SeccionMiColaboracionAcademicoControlador {
 
     @FXML
     private void abrirProgresoColaboracion () {
-        if (existeColaboracionEnRevision()) {
-            Optional<ColaboracionDTO> colaboracionOptional = getColaboracionVinculadaOActiva();
-            if (colaboracionOptional.isPresent()) {
+        Optional<ColaboracionDTO> colaboracionOptional = getColaboracionVinculadaOActiva();
+        if (colaboracionOptional.isPresent()) {
+            if (existeColaboracionEnRevision()) {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ProgresoColaboracion.fxml"));
                 BorderPane bpInicioColaboracion = null;
 
@@ -141,13 +141,12 @@ public class SeccionMiColaboracionAcademicoControlador {
                 }
             }
             else {
-                mostrarMensajeEmergente("No existe una colaboracion activa o vinculada con un par", Alert.AlertType.WARNING);
+                mostrarMensajeEmergente("No existe una colaboración en revisión", Alert.AlertType.WARNING);
             }
         }
         else {
-            mostrarMensajeEmergente("No existe una colaboración en revisión", Alert.AlertType.WARNING);
+            mostrarMensajeEmergente("No existe una colaboracion activa o vinculada con un par", Alert.AlertType.WARNING);
         }
-
     }
 
     private Optional<ColaboracionDTO> getColaboracionVinculadaOActiva () {
