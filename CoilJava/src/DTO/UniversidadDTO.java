@@ -1,5 +1,8 @@
 package DTO;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class UniversidadDTO {
     private int id;
     private String nombre;
@@ -7,6 +10,7 @@ public class UniversidadDTO {
     public static final int LONGITUD_NOMBRE = 50;
 
     public UniversidadDTO() {
+
     }
 
     public UniversidadDTO(int id) {
@@ -53,7 +57,17 @@ public class UniversidadDTO {
     }
 
     public boolean nombreValido () {
-        return this.nombre != null && !this.nombre.isBlank();
+        boolean nombreValido;
+        if (this.nombre == null || this.nombre.isBlank()) {
+            nombreValido = false;
+        }
+        else {
+            String expresionRegular = "^[A-Za-záéíóúÁÉÍÓÚñÑ][-A-Za-záéíóúÁÉÍÓÚñÑ\\s]*[A-Za-záéíóúÁÉÍÓÚñÑ]$";
+            Pattern patron = Pattern.compile(expresionRegular);
+            Matcher matcher = patron.matcher(this.nombre.trim());
+            nombreValido = matcher.matches();
+        }
+        return nombreValido;
     }
 
     @Override
@@ -62,12 +76,11 @@ public class UniversidadDTO {
         if (this == obj) {
             igual = true;
         }
-        else if (!(obj instanceof UniversidadDTO)) {
+        else if (!(obj instanceof UniversidadDTO universidad)) {
             igual = false;
         }
         else {
-            UniversidadDTO universidadDTO = (UniversidadDTO) obj;
-            igual = this.id == universidadDTO.getId() && this.nombre.equals(universidadDTO.getNombre()) && this.idPais == universidadDTO.getIdPais();
+            igual = this.id == universidad.getId() && this.nombre.equals(universidad.getNombre()) && this.idPais == universidad.getIdPais();
         }
         return igual;
     }

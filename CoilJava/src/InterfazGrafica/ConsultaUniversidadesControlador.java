@@ -67,10 +67,15 @@ public class ConsultaUniversidadesControlador {
         if (pnRegistroUniversidad != null) {
             this.historialPaneles.push(this.pnConsultaUniversidades);
             RegistroUniversidadControlador registroUniversidadControlador = fxmlLoader.getController();
-            registroUniversidadControlador.setPnVentanaPrincipal(this.pnVentanaPrincipal);
-            registroUniversidadControlador.setHistorialPaneles(this.historialPaneles);
-            registroUniversidadControlador.setConsultaUniversidadesControlador(this);
-            this.pnVentanaPrincipal.setCenter(pnRegistroUniversidad);
+
+            try {
+                registroUniversidadControlador.setRecursos(this.pnVentanaPrincipal,this.historialPaneles,this);
+                this.pnVentanaPrincipal.setCenter(pnRegistroUniversidad);
+            }
+            catch (ErrorDAO error) {
+                mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
+                this.historialPaneles.pop();
+            }
         }
     }
 

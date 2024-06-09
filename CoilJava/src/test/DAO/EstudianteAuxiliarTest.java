@@ -1,5 +1,6 @@
-package DAO;
+package test.DAO;
 
+import DAO.EstudianteAuxiliar;
 import DTO.EstudianteDTO;
 import Utilidades.ErrorDAO;
 import org.junit.jupiter.api.*;
@@ -286,13 +287,52 @@ class EstudianteAuxiliarTest {
     }
 
     @Test
+    void pruebaGetEstudiantePorMatriculaYUniversidadExitosa () {
+        Optional<EstudianteDTO> obtenido = Optional.empty();
+        try {
+            obtenido = ESTUDIANTE_AUXILIAR.getEstudiantePorMatriculaYUniversidad(estudianteRegistrado1.getMatricula(),estudianteRegistrado1.getIdUniversidad());
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaGetEstudiantePorMatriculaYUniversidadExitosa\n" + error.getMessage());
+        }
+        assertTrue(obtenido.isPresent());
+        assertEquals(estudianteRegistrado1,obtenido.get(),"pruebaGetEstudiantePorMatriculaYUniversidadExitosa");
+    }
+
+    @Test
+    void pruebaGetEstudiantePorMatriculaYUniversidadInexistente () {
+        try {
+            Optional<EstudianteDTO> resultado = ESTUDIANTE_AUXILIAR.getEstudiantePorMatriculaYUniversidad("zs22013029",1);
+            assertTrue(resultado.isEmpty(),"pruebaGetEstudiantePorMatriculaInexistente");
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaGetEstudiantePorMatriculaInexistente\n" +  error.getMessage());
+        }
+    }
+
+    @Test
+    void pruebaGetEstudiantePorMatriculaYUniversidadIdInvalido () {
+        assertThrows(ErrorDAO.class,()->ESTUDIANTE_AUXILIAR.getEstudiantePorMatriculaYUniversidad(estudianteRegistrado1.getMatricula(),0),"pruebaGetEstudiantePorMatriculaYUniversidadIdInvalido");
+    }
+
+    @Test
+    void pruebaGetEstudiantePorMatriculaYUniversidadNula () {
+        assertThrows(ErrorDAO.class, () -> ESTUDIANTE_AUXILIAR.getEstudiantePorMatriculaYUniversidad(null,1), "pruebaGetEstudiantePorMatriculaNula");
+    }
+
+    @Test
+    void pruebaGetEstudiantePorMatriculaYUniversidadInvalida () {
+        assertThrows(ErrorDAO.class, ()->ESTUDIANTE_AUXILIAR.getEstudiantePorMatriculaYUniversidad("123@_ 10",1), "pruebaGetEstudiantePorMatriculaInvalida");
+    }
+
+    @Test
     void pruebaGetEstudiantePorMatriculaExitosa () {
         Optional<EstudianteDTO> obtenido = Optional.empty();
         try {
             obtenido = ESTUDIANTE_AUXILIAR.getEstudiantePorMatricula(estudianteRegistrado1.getMatricula());
         }
         catch (ErrorDAO error) {
-            fail("Fallida: pruebaGetEstudiantePorMatricula\n" + error.getMessage());
+            fail("Fallida: pruebaGetEstudiantePorMatriculaExitosa\n" + error.getMessage());
         }
         assertTrue(obtenido.isPresent());
         assertEquals(estudianteRegistrado1,obtenido.get(),"pruebaGetEstudiantePorMatriculaExitosa");
@@ -316,8 +356,9 @@ class EstudianteAuxiliarTest {
 
     @Test
     void pruebaGetEstudiantePorMatriculaInvalida () {
-        assertThrows(ErrorDAO.class,()->ESTUDIANTE_AUXILIAR.getEstudiantePorMatricula("123@_ 10"),"pruebaGetEstudiantePorMatriculaInvalida");
+        assertThrows(ErrorDAO.class, ()->ESTUDIANTE_AUXILIAR.getEstudiantePorMatricula("S123@_/10"), "pruebaGetEstudiantePorMatriculaInvalida");
     }
+
 
     @Test
     void pruebaGetEstudiantesSinColaboracionActivaOVinculadaPorUniversidadExitosa () {

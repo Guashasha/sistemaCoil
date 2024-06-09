@@ -5,6 +5,7 @@ import DTO.PaisDTO;
 import DTO.UniversidadDTO;
 import Utilidades.ErrorDAO;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
@@ -16,16 +17,19 @@ import static test.ConfiguracionPrueba.*;
 class UniversidadAuxiliarTest {
     private final UniversidadAuxiliar UNIVERSIDAD_AUXILIAR = new UniversidadAuxiliar();
 
-    @BeforeEach
-    void setUp() {
-        borrarDatosTablaUniversidad();
-        borrarDatosTablaPais();
+    @BeforeAll
+    static void prepararBaseDatos () {
         ejecutarInstruccionSQL("INSERT INTO pais (idPais,Iso,nombre) VALUES (1,'MX','México'),  (2,'US','Estados Unidos');");
+    }
+
+    @BeforeEach
+    void reiniciarBaseDatos () {
+        borrarDatosTablaUniversidad();
         ejecutarInstruccionSQL("INSERT INTO universidad (idUniversidad,nombre,paisOrigen) VALUES (1,'Universidad Veracruzana',1), (2,'Harvard',2), (3,'BUAP',1);");
     }
 
     @AfterAll
-    static void afterAll () {
+    static void limpiarBaseDatos () {
         borrarDatosTablaUniversidad();
         borrarDatosTablaPais();
     }
@@ -82,15 +86,7 @@ class UniversidadAuxiliarTest {
 
     @Test
     void pruebaEditarUniversidadInexistente () {
-        int esperado = 0;
-        int obtenido = 1;
-        try {
-            obtenido = UNIVERSIDAD_AUXILIAR.editarUniversidad(new UniversidadDTO("UNAM"),new UniversidadDTO("Universidad Autónoma"),new PaisDTO("México"));
-        }
-        catch (ErrorDAO error) {
-            fail("Fallida: pruebaEditarUniversidadInexistente");
-        }
-        assertEquals(esperado,obtenido,"pruebaEditarUniversidadInexistente");
+        assertThrows(ErrorDAO.class,()->UNIVERSIDAD_AUXILIAR.editarUniversidad(new UniversidadDTO("UNAM"),new UniversidadDTO("Universidad Autónoma"),new PaisDTO("México")),"pruebaEditarUniversidadInexistente");
     }
 
     @Test
@@ -114,13 +110,7 @@ class UniversidadAuxiliarTest {
 
     @Test
     void pruebaGetUniversidadPorNombreCadenaVacia () {
-        try {
-            Optional<UniversidadDTO> resultado = UNIVERSIDAD_AUXILIAR.getUniversidadPorNombre("  ");
-            assertTrue(resultado.isEmpty(),"pruebaGetUniversidadPorNombreCadenaVacia");
-        }
-        catch (ErrorDAO error) {
-            fail("Fallida: pruebaGetUniversidadPorNombreCadenaVacia");
-        }
+        assertThrows(ErrorDAO.class,()->UNIVERSIDAD_AUXILIAR.getUniversidadPorNombre("  "),"pruebaGetUniversidadPorNombreCadenaVacia");
     }
 
     @Test

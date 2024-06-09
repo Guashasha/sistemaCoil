@@ -114,7 +114,7 @@ public class AgregarEstudianteControlador {
             List<EstudianteDTO> estudianteEncontrado = new ArrayList<>();
 
             try {
-                estudianteOptional = estudianteAuxiliar.getEstudiantePorMatricula(matricula);
+                estudianteOptional = estudianteAuxiliar.getEstudiantePorMatriculaYUniversidad(matricula,this.academico.getIdUniversidad());
             }
             catch (ErrorDAO error) {
                 mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
