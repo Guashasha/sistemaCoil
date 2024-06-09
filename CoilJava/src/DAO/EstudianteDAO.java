@@ -100,14 +100,14 @@ public class EstudianteDAO implements IEstudianteDAO {
         String consulta = "SELECT * from vista_estudiante WHERE idPersona = ?";
         EstudianteDTO estudianteDTO = null;
         try {
-            PreparedStatement cosnsultaEstudianteIdPersona = AdministradorBaseDatos.getInstancia().
+            PreparedStatement consultaEstudianteIdPersona = AdministradorBaseDatos.getInstancia().
                                                                         prepareStatement(consulta);
-            cosnsultaEstudianteIdPersona.setInt(1,idPersona);
-            ResultSet resultadoConsulta = cosnsultaEstudianteIdPersona.executeQuery();
+            consultaEstudianteIdPersona.setInt(1,idPersona);
+            ResultSet resultadoConsulta = consultaEstudianteIdPersona.executeQuery();
             if (resultadoConsulta.next()) {
                 estudianteDTO = convertirEstudiante(resultadoConsulta);
             }
-            cosnsultaEstudianteIdPersona.close();
+            consultaEstudianteIdPersona.close();
             resultadoConsulta.close();
 
         }
@@ -122,18 +122,19 @@ public class EstudianteDAO implements IEstudianteDAO {
     }
 
     @Override
-    public Optional<EstudianteDTO> getEstudiantePorMatricula (String matricula) throws ErrorDAO {
-        String consulta = "SELECT * from vista_estudiante WHERE matricula = ?";
+    public Optional<EstudianteDTO> getEstudiantePorMatriculaYUniversidad (String matricula, int idUniversidad) throws ErrorDAO {
+        String consulta = "SELECT * from vista_estudiante WHERE matricula = ? AND universidad = ?";
         EstudianteDTO estudianteDTO = null;
         try {
-            PreparedStatement cosnsultaEstudianteMatricula = AdministradorBaseDatos.getInstancia().
+            PreparedStatement consultaEstudianteMatricula = AdministradorBaseDatos.getInstancia().
                                                                                 prepareStatement(consulta);
-            cosnsultaEstudianteMatricula.setString(1,matricula);
-            ResultSet resultadoConsulta = cosnsultaEstudianteMatricula.executeQuery();
+            consultaEstudianteMatricula.setString(1,matricula);
+            consultaEstudianteMatricula.setInt(2,idUniversidad);
+            ResultSet resultadoConsulta = consultaEstudianteMatricula.executeQuery();
             if (resultadoConsulta.next()) {
                 estudianteDTO = convertirEstudiante(resultadoConsulta);
             }
-            cosnsultaEstudianteMatricula.close();
+            consultaEstudianteMatricula.close();
             resultadoConsulta.close();
         }
         catch (SQLException error) {
@@ -144,7 +145,6 @@ public class EstudianteDAO implements IEstudianteDAO {
             AdministradorBaseDatos.desconectar();
         }
         return Optional.ofNullable(estudianteDTO);
-
     }
 
     @Override
@@ -152,16 +152,16 @@ public class EstudianteDAO implements IEstudianteDAO {
         String consulta = "SELECT * from estudiantes_sin_colaboracion_vinculada_activa WHERE universidad = ?";
         ArrayList<EstudianteDTO> listaEstudianteDTOS = new ArrayList<>();
         try {
-            PreparedStatement cosnsultaEstudianteUniversidad = AdministradorBaseDatos.getInstancia().
+            PreparedStatement consultaEstudianteUniversidad = AdministradorBaseDatos.getInstancia().
                                                                                 prepareStatement(consulta);
-            cosnsultaEstudianteUniversidad.setInt(1,idUniversidad);
-            ResultSet resultadoConsulta = cosnsultaEstudianteUniversidad.executeQuery();
+            consultaEstudianteUniversidad.setInt(1,idUniversidad);
+            ResultSet resultadoConsulta = consultaEstudianteUniversidad.executeQuery();
 
             while (resultadoConsulta.next()) {
                 EstudianteDTO estudianteDTO = convertirEstudiante(resultadoConsulta);
                 listaEstudianteDTOS.add(estudianteDTO);
             }
-            cosnsultaEstudianteUniversidad.close();
+            consultaEstudianteUniversidad.close();
             resultadoConsulta.close();
         }
         catch (SQLException error) {
@@ -172,6 +172,31 @@ public class EstudianteDAO implements IEstudianteDAO {
             AdministradorBaseDatos.desconectar();
         }
         return listaEstudianteDTOS;
+    }
+
+    @Override
+    public Optional<EstudianteDTO> getEstudiantePorMatricula (String matricula) throws ErrorDAO {
+        String consulta = "SELECT * from vista_estudiante WHERE matricula = ?";
+        EstudianteDTO estudianteDTO = null;
+        try {
+            PreparedStatement consultaEstudianteMatricula = AdministradorBaseDatos.getInstancia().
+                                                                                  prepareStatement(consulta);
+            consultaEstudianteMatricula.setString(1,matricula);
+            ResultSet resultadoConsulta = consultaEstudianteMatricula.executeQuery();
+            if (resultadoConsulta.next()) {
+                estudianteDTO = convertirEstudiante(resultadoConsulta);
+            }
+            consultaEstudianteMatricula.close();
+            resultadoConsulta.close();
+        }
+        catch (SQLException error) {
+            BITACORA.fatal(error.getMessage());
+            throw new ErrorDAO("Error al consultar al estudianteDTO", Tipo.CONEXION);
+        }
+        finally {
+            AdministradorBaseDatos.desconectar();
+        }
+        return Optional.ofNullable(estudianteDTO);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package DTO;
 
+import java.util.regex.Pattern;
+
 public class PaisDTO {
     private int id;
     private String iso;

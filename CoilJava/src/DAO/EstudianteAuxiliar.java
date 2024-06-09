@@ -10,7 +10,7 @@ public class EstudianteAuxiliar {
     private final EstudianteDAO ESTUDIANTE_DAO = new EstudianteDAO();
 
     public int agregar (EstudianteDTO estudianteDTO) throws ErrorDAO {
-        if (matriculaExiste(estudianteDTO.getMatricula())) {
+        if (estudianteExiste(estudianteDTO.getMatricula())) {
             throw new ErrorDAO("El estudiante con la matricula " + estudianteDTO.getMatricula() + " ya se encuentra registrado", Tipo.VALIDACION);
         }
         try {
@@ -45,10 +45,14 @@ public class EstudianteAuxiliar {
         }
     }
 
-    public Optional<EstudianteDTO> getEstudiantePorMatricula (String matricula) throws ErrorDAO {
+    public Optional<EstudianteDTO> getEstudiantePorMatriculaYUniversidad (String matricula,int idUniversidad) throws ErrorDAO {
+        if (noEsIdValido(idUniversidad)) {
+            throw new ErrorDAO("La universidad no es válida",Tipo.VALIDACION);
+        }
+
         try {
             probarMatricula(matricula);
-            return ESTUDIANTE_DAO.getEstudiantePorMatricula(matricula);
+            return ESTUDIANTE_DAO.getEstudiantePorMatriculaYUniversidad(matricula,idUniversidad);
         }
         catch (ErrorDAO error) {
             throw new ErrorDAO(error.getMessage(), error.getTipo());
@@ -66,11 +70,22 @@ public class EstudianteAuxiliar {
             throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
     }
+
+    public Optional<EstudianteDTO> getEstudiantePorMatricula (String matricula) throws ErrorDAO {
+        try {
+            probarMatricula(matricula);
+            return ESTUDIANTE_DAO.getEstudiantePorMatricula(matricula);
+        }
+        catch (ErrorDAO error) {
+            throw new ErrorDAO(error.getMessage(), error.getTipo());
+        }
+    }
+
     private boolean noEsIdValido (int id) {
         return id <= 0;
     }
 
-    private boolean matriculaExiste (String matricula) {
+    private boolean estudianteExiste (String matricula) {
         return getEstudiantePorMatricula(matricula).isPresent();
     }
 

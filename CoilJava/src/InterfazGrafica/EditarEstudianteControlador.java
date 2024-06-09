@@ -78,7 +78,7 @@ public class EditarEstudianteControlador {
         if (!camposVacios() && !camposIguales()) {
             EstudianteDAO estudianteDAO = new EstudianteDAO();
             EstudianteDTO estudianteEditado = new EstudianteDTO();
-            int filasAfectadas = 0;
+            int filasAfectadas;
 
             try {
                 estudianteEditado.setNombre(tfNombre.getText());
@@ -91,13 +91,14 @@ public class EditarEstudianteControlador {
             }
             catch (ErrorDAO error) {
                 mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.WARNING);
+                filasAfectadas = -1;
             }
 
             if (filasAfectadas > 0) {
                 this.estudiante = estudianteEditado;
                 mostrarMensajeEmergente("Se han guardado los cambios exitosamente", Alert.AlertType.INFORMATION);
             }
-            else {
+            else if (filasAfectadas == 0) {
                 mostrarMensajeEmergente("Algo salió mal al intentar editar los datos del estudiante", Alert.AlertType.ERROR);
             }
         }

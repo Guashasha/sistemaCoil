@@ -4,6 +4,7 @@ import DTO.PaisDTO;
 import DTO.UniversidadDTO;
 import InterfazGrafica.ConsultaUniversidadesControlador;
 import InterfazGrafica.EditarUniversidadControlador;
+import Utilidades.ErrorDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
@@ -58,18 +59,16 @@ public class UniversidadItemControlador {
         }
 
         if (pnEditarUniversidad != null) {
-            agregarDatosVentanaEditar(fxmlLoader.getController());
-            this.pnVentanaPrincipal.setCenter(pnEditarUniversidad);
-        }
-    }
+            EditarUniversidadControlador editarUniversidadControlador = fxmlLoader.getController();
 
-    private void agregarDatosVentanaEditar (EditarUniversidadControlador controlador) {
-        controlador.setPnVentanaPrincipal(this.pnVentanaPrincipal);
-        controlador.setHistorialPaneles(this.historialPaneles);
-        controlador.setUniversidadActual(new UniversidadDTO(lbUniversidad.getText()));
-        controlador.setPaisActual(new PaisDTO(lbPais.getText()));
-        controlador.setConsultaUniversidadesControlador(this.consultaUniversidadesControlador);
-        controlador.autocompletarCampos();
+            try {
+                editarUniversidadControlador.setRecursos(this.pnVentanaPrincipal,this.historialPaneles,new UniversidadDTO(lbUniversidad.getText()),new PaisDTO(lbPais.getText()),this.consultaUniversidadesControlador);
+                this.pnVentanaPrincipal.setCenter(pnEditarUniversidad);
+            }
+            catch (ErrorDAO error) {
+                mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
+            }
+        }
     }
 
     private void mostrarMensajeEmergente (String mensaje, Alert.AlertType tipoAlerta) {
