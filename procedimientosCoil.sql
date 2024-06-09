@@ -78,7 +78,7 @@ CREATE PROCEDURE registrar_Academico (
     IN p_numeroDePersonal VARCHAR(40),
     IN p_areaEstudios VARCHAR(40),
     IN p_correoElectronico VARCHAR(30),
-    IN p_numeroTelefono VARCHAR(12),
+    IN p_numeroTelefono VARCHAR(13),
     IN p_categoriaContratacion VARCHAR(40), 
     IN p_facultad INT,
     OUT p_id_persona INT
