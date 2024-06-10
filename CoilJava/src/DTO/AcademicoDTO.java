@@ -127,7 +127,7 @@ public class AcademicoDTO extends PersonaDTO {
         }
     }
     private void verificarNumeroPersonal (String numeroPersonal) {
-        String NUMERO_P_REGEX = "^[1-9][0-9]{1,40}$";
+        String NUMERO_P_REGEX = "^[1-9][0-9]{0,39}$";
         Pattern patron = Pattern.compile(NUMERO_P_REGEX);
         if (numeroPersonal != null) {
             Matcher matcher = patron.matcher(numeroPersonal);

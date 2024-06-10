@@ -190,6 +190,7 @@ public class AcademicoDAO implements IAcademicoDAO {
         return resultado;
     }
 
+    @Override
     public int agregarAcademicoConCuenta (AcademicoDTO academicoDTO, CuentaDTO cuentaDTO) throws ErrorDAO {
         String procedimientoSQL = "{CALL registrar_Academico(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
         int resultado = -1;

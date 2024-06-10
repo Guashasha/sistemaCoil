@@ -43,15 +43,6 @@ public class SeccionColaboracionAdministradorControlador {
         }
     }
 
-    @FXML
-    public void abrirColaboraciones () {
-        //todo
-    }
-
-
-
-
-
     private void mostrarMensajeEmergente (String mensaje, Alert.AlertType tipoAlerta) {
         Alert alerta = new Alert(tipoAlerta);
         alerta.setContentText(mensaje);

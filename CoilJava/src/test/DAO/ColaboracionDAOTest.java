@@ -6,9 +6,11 @@ import DTO.ColaboracionDTO;
 import DTO.EstudianteDTO;
 import DTO.PeriodoDTO;
 import Utilidades.ErrorDAO;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import test.AyudantePruebasColaboracionDB;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,16 +20,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ColaboracionDAOTest {
     private final ColaboracionDAO COLABORACION_DAO = new ColaboracionDAO();
+
     @BeforeEach
     void setUp () {
         AyudantePruebasColaboracionDB.borrarTodosDatosTabla();
         AyudantePruebasColaboracionDB.agregarPrecondiciones();
     }
 
-//    @AfterEach
-//    void tearDown () {
-//        AyudantePruebasColaboracionDB.borrarTodosDatosTabla();
-//    }
+    @AfterEach
+    void tearDown () {
+        AyudantePruebasColaboracionDB.borrarTodosDatosTabla();
+    }
 
     private static ColaboracionDTO instanciarColaboracion () {
         ColaboracionDTO colaboracionDTO = new ColaboracionDTO();
@@ -48,7 +51,6 @@ class ColaboracionDAOTest {
     }
 
 
-
     @Test
     void pruebaGetColaboracionPorIdExitosa () {
         ColaboracionDTO esperado = instanciarColaboracion();
@@ -61,14 +63,14 @@ class ColaboracionDAOTest {
         catch (ErrorDAO errorDAO) {
             fail("Falida: pruebaGetColaboracionPorIdExitosa" + errorDAO.getMessage());
         }
-        assertEquals(esperado,obtenido,"pruebaGetColaboracionPorIdExitosa");
+        assertEquals(esperado, obtenido, "pruebaGetColaboracionPorIdExitosa");
     }
 
     @Test
     void pruebaGetColaboracionIdInexistente () {
         try {
             Optional<ColaboracionDTO> resultado = COLABORACION_DAO.getColaboracionPorId(10);
-            assertTrue(resultado.isEmpty(),"pruebaGetColaboracionIdInexistente");
+            assertTrue(resultado.isEmpty(), "pruebaGetColaboracionIdInexistente");
         }
         catch (ErrorDAO errorDAO) {
             fail("Fallida: pruebaGetColaboracionPorIdExitosa" + errorDAO.getMessage());
@@ -112,9 +114,9 @@ class ColaboracionDAOTest {
             fail("Fallida: pruebaGetListaDeEstudiantesExitosa " + error.getMessage());
         }
 
-        assertEquals(esperada.size(),obtenida.size());
+        assertEquals(esperada.size(), obtenida.size());
         for (EstudianteDTO estudianteDTO : esperada) {
-            assertEquals(estudianteDTO,obtenida.get(0));
+            assertEquals(estudianteDTO, obtenida.get(0));
             obtenida.remove(0);
         }
     }
@@ -130,7 +132,7 @@ class ColaboracionDAOTest {
         catch (ErrorDAO error) {
             fail("Fallida: pruebaGetListadeEstudiantesColaboracionInexistente" + error.getMessage());
         }
-        assertTrue(resultado.isEmpty(),"pruebaGetListadeEstudiantesColaboracionInexistente");
+        assertTrue(resultado.isEmpty(), "pruebaGetListadeEstudiantesColaboracionInexistente");
     }
 
     @Test
@@ -168,7 +170,7 @@ class ColaboracionDAOTest {
 
         assertEquals(esperada.size(), obtenida.size());
         for (AcademicoDTO academicoDTO : esperada) {
-            assertEquals(academicoDTO,obtenida.get(0));
+            assertEquals(academicoDTO, obtenida.get(0));
             obtenida.remove(0);
         }
     }
@@ -184,7 +186,7 @@ class ColaboracionDAOTest {
     }
 
     @Test
-    void pruebaGetColaboracionPorPeriodoExitosa() {
+    void pruebaGetColaboracionPorPeriodoExitosa () {
         System.out.println("pruebaGetColaboracionPorPeriodoExitosa");
 
         int colaboracionesEsperadas = 1;
@@ -211,7 +213,7 @@ class ColaboracionDAOTest {
     }
 
     @Test
-    void pruebaCambiarEstadoColaboracionExitosa() {
+    void pruebaCambiarEstadoColaboracionExitosa () {
         System.out.println("pruebaCambiarEstadoColaboracionExitosa");
 
         int esperado = 1;
@@ -221,7 +223,8 @@ class ColaboracionDAOTest {
             obtenido = COLABORACION_DAO.cambiarEstadoColaboracion("vinculada", 1);
 
 
-        } catch (ErrorDAO error) {
+        }
+        catch (ErrorDAO error) {
 
             fail("Error en pruebaCambiarEstadoColaboracionExitosa: " + error.getMessage());
         }
@@ -270,7 +273,7 @@ class ColaboracionDAOTest {
         int obtenido = -1;
 
         try {
-            obtenido =  COLABORACION_DAO.registrarSolicitudParticipacion(colaboracionDTOPrueba, academicoDTOPrueba);
+            obtenido = COLABORACION_DAO.registrarSolicitudParticipacion(colaboracionDTOPrueba, academicoDTOPrueba);
 
         }
         catch (ErrorDAO error) {
@@ -338,7 +341,7 @@ class ColaboracionDAOTest {
 
     }
 
-   @Test
+    @Test
     void pruebaGetTodosExitosa () {
         System.out.println("pruebaGetTodosExitosa");
 
@@ -358,9 +361,7 @@ class ColaboracionDAOTest {
 
         assertEquals(tamanoEsperado, listaColaboracionDTO.size());
 
-   }
-
-
+    }
 
 
 }

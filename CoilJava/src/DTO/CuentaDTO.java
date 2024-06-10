@@ -75,7 +75,7 @@ public class CuentaDTO {
     }
 
     private void verificarUsuario (String usuario) {
-        String usuarioRegex = "[A-z0-9]{3,50}";
+        String usuarioRegex = "[A-z0-9]{2,50}";
 
         Pattern patron = Pattern.compile(usuarioRegex);
         if (usuario == null || usuario.isEmpty()) {
@@ -85,13 +85,13 @@ public class CuentaDTO {
         if (!matcher.matches()) {
             throw new ErrorDAO("""
                                                        El nombre de usuario no es válido.
-                                                       1. La longitud debe ser de mínimo 3 caracteres y máximo 50
+                                                       1. La longitud debe ser de mínimo 2 caracteres y máximo 50
                                                        2. No debe tener espacios al principio ni al final.
                                                        3. No se permiten caracteres especiales.""", ErrorDAO.Tipo.VALIDACION);
         }
     }
     private void verificarContrasena (String contrasena) {
-        String contrasenaRegex = "^.{8,300}$";
+        String contrasenaRegex = "^.{2,300}$";
         Pattern patron = Pattern.compile(contrasenaRegex);
         if (contrasena == null || contrasena.isEmpty()) {
             throw new ErrorDAO("La contraseña no puede estar vacía", ErrorDAO.Tipo.VALIDACION);
@@ -100,7 +100,7 @@ public class CuentaDTO {
         if (!matcher.matches()) {
             throw new ErrorDAO("""
                                                        La contraseña no es válida.
-                                                       1. La longitud de la contraseña debe ser mayor a 8 y menor a 300 caracteres.""", ErrorDAO.Tipo.VALIDACION);
+                                                       1. La longitud de la contraseña debe ser mayor a 2 y menor a 300 caracteres.""", ErrorDAO.Tipo.VALIDACION);
         }
     }
 
