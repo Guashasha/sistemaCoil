@@ -245,7 +245,7 @@ public class UniversidadAuxiliar {
      * @return Universidad inicializada con su nombre e id de país.
      * @throws ErrorDAO si ocurre un error en la búsqueda de la información o durante el acceso a la base de datos.
      */
-    private UniversidadDTO prepararUniversidadNueva (String nombre, String pais) throws ErrorDAO{
+    private UniversidadDTO prepararUniversidadNueva (String nombre, String pais) throws ErrorDAO {
         UniversidadDTO nuevaUniversidad;
         Optional<PaisDTO> paisOptional;
 
