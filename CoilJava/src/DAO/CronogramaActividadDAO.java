@@ -74,10 +74,10 @@ public class CronogramaActividadDAO implements ICronogramaActividad {
     }
 
     /**
-     *
-     * @param actividadVinculada
-     * @return
-     * @throws ErrorDAO
+     * modifica la fecha de finalización de una vinculación entre una actividad y una colaboración
+     * @param actividadVinculada el objeto que contiene la actividad, colaboración y la fecha
+     * @return el numero de filas alteradas
+     * @throws ErrorDAO tipo conexión si ocurre un error de sql
      */
     @Override
     public int modificar(ActividadVinculadaDTO actividadVinculada) throws ErrorDAO {
@@ -108,6 +108,13 @@ public class CronogramaActividadDAO implements ICronogramaActividad {
         throw new ExecutionControl.NotImplementedException("Una actividad vinculada no tiene id");
     }
 
+    /**
+     * Consigue una vinculación de actividad con colaboración proporcionando la actividad y la colaboración
+     * @param idActividad el id de la activida que se busca
+     * @param idColaboracion el id de la colaboración con la que debe estár vinculada
+     * @return la actividad vinculada que pretenece a la colaboración y actividad proporcionadas, empty si no se encuentra
+     * @throws ErrorDAO tipo conexión si ocurre un error de sql
+     */
     @Override
     public Optional<ActividadVinculadaDTO> getPorActividadYColaboracion(int idActividad, int idColaboracion) throws ErrorDAO {
         ResultSet resultado;
@@ -138,6 +145,11 @@ public class CronogramaActividadDAO implements ICronogramaActividad {
         return Optional.of(resultSetAObjeto(resultado));
     }
 
+    /**
+     * Consigue todas las actividades vinculadas con todas las colaboraciones
+     * @return ArrayList con todas las vinculaciones
+     * @throws ErrorDAO
+     */
     @Override
     public List<ActividadVinculadaDTO> getTodos () throws ErrorDAO {
         ResultSet actividades;
@@ -175,6 +187,11 @@ public class CronogramaActividadDAO implements ICronogramaActividad {
         return actividadesLista;
     }
 
+    /**
+     * Convierte un ResultSet que contiene una vinculación entre una actividad y una colaboración en un objeto ActividadVinculada
+     * @param resultados el ResultSet que contiene los datos de la actividad vinculada de la forma: idActividad, idColaboracion, fechaFinalización
+     * @return un objeto Actividad vinculada con los datos del resultset
+     */
     public ActividadVinculadaDTO resultSetAObjeto (ResultSet resultados) {
         ActividadVinculadaDTO actividadVinculadaDTO;
 
