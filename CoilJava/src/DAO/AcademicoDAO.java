@@ -15,12 +15,20 @@ import java.util.Optional;
 public class AcademicoDAO implements IAcademicoDAO {
     private static final Logger BITACORA = Logger.getLogger(AcademicoDAO.class);
 
+    /**
+     * Obtiene una lista de objetos AcademicoDTO basado en un campo y valor específicos.
+     *
+     * @param campo el nombre del campo por el cual se desea filtrar los académicos (por ejemplo, "facultad", "universidad").
+     * @param valor el valor correspondiente al campo que se desea buscar.
+     * @return una lista de objetos AcademicoDTO que cumplen con los criterios especificados.
+     * @throws ErrorDAO si ocurre un error durante la consulta a la base de datos.
+     */
     private List<AcademicoDTO> getListaAcademicoPorCampos (String campo, String valor) throws ErrorDAO {
         String procedimientoSQL = "{CALL obtener_academicos_campos(?,?)}";
         List<AcademicoDTO> listaAcademicoDTOS = new ArrayList<>();
         try {
             CallableStatement obtenerPorCampo = AdministradorBaseDatos.getInstancia().
-                                                                 prepareCall(procedimientoSQL);
+                                                                      prepareCall(procedimientoSQL);
             obtenerPorCampo.setString(1, campo);
             obtenerPorCampo.setString(2, valor);
             ResultSet resultadoLLamada = obtenerPorCampo.executeQuery();
@@ -42,18 +50,32 @@ public class AcademicoDAO implements IAcademicoDAO {
         return listaAcademicoDTOS;
     }
 
+    /**
+     * Obtiene una lista de académicos por nombre de facultad.
+     *
+     * @param nombrefacultad el nombre de la facultad por la cual se va a filtrar
+     * @return una lista de objetos AcademicoDTO que pertenecen a la facultad especificada
+     * @throws ErrorDAO tipo consulta si ocurre un error durante la ejecución de la consulta
+     */
     @Override
     public List<AcademicoDTO> getAcademicosPorFacultad (String nombrefacultad) throws ErrorDAO {
         return getListaAcademicoPorCampos("facultad", nombrefacultad);
     }
 
+    /**
+     * Obtiene un académico por su cédula profesional.
+     *
+     * @param cedula la cédula profesional del académico que se desea obtener
+     * @return un objeto Optional que contiene el objeto AcademicoDTO si se encuentra, de lo contrario está vacío
+     * @throws ErrorDAO tipo consulta si ocurre un error durante la ejecución de la consulta
+     */
     @Override
     public Optional<AcademicoDTO> getAcademicoPorCedula (String cedula) throws ErrorDAO {
         String procedimientoSQL = "{CALL obtener_academicos_campos(?,?)}";
         AcademicoDTO academicoDTO = null;
         try {
             CallableStatement obtenerPorCampo = AdministradorBaseDatos.getInstancia().
-                                                                 prepareCall(procedimientoSQL);
+                                                                      prepareCall(procedimientoSQL);
             obtenerPorCampo.setString(1, "cedula");
             obtenerPorCampo.setString(2, cedula);
             ResultSet resultadoLLamada = obtenerPorCampo.executeQuery();
@@ -75,33 +97,68 @@ public class AcademicoDAO implements IAcademicoDAO {
         return Optional.ofNullable(academicoDTO);
     }
 
+    /**
+     * Obtiene una lista de académicos por nombre de universidad.
+     *
+     * @param nombreUniversidad el nombre de la universidad por la cual se va a filtrar
+     * @return una lista de objetos AcademicoDTO que pertenecen a la universidad especificada
+     * @throws ErrorDAO tipo consulta si ocurre un error durante la ejecución de la consulta
+     */
     @Override
     public List<AcademicoDTO> getAcademicosPorUniversidad (String nombreUniversidad) throws ErrorDAO {
         return getListaAcademicoPorCampos("universidad", nombreUniversidad);
     }
 
+    /**
+     * Obtiene una lista de académicos por área de estudios.
+     *
+     * @param areaEstudios el área de estudios por la cual se va a filtrar
+     * @return una lista de objetos AcademicoDTO que pertenecen al área de estudios especificada
+     * @throws ErrorDAO tipo consulta si ocurre un error durante la ejecución de la consulta
+     */
     @Override
     public List<AcademicoDTO> getAcademicosPorAreaEstudios (String areaEstudios) throws ErrorDAO {
         return getListaAcademicoPorCampos("area", areaEstudios);
     }
 
+    /**
+     * Obtiene una lista de académicos por categoría de contratación.
+     *
+     * @param categoriaContratacion la categoría de contratación por la cual se va a filtrar
+     * @return una lista de objetos AcademicoDTO que pertenecen a la categoría de contratación especificada
+     * @throws ErrorDAO tipo consulta si ocurre un error durante la ejecución de la consulta
+     */
     @Override
     public List<AcademicoDTO> getAcademicosPorCategoriaContratacion (String categoriaContratacion) throws ErrorDAO {
         return getListaAcademicoPorCampos("categoria", categoriaContratacion);
     }
 
+    /**
+     * Obtiene una lista de académicos por región.
+     *
+     * @param region la región por la cual se va a filtrar
+     * @return una lista de objetos AcademicoDTO que pertenecen a la región especificada
+     * @throws ErrorDAO tipo consulta si ocurre un error durante la ejecución de la consulta
+     */
     @Override
     public List<AcademicoDTO> getAcademicosPorRegion (String region) throws ErrorDAO {
         return getListaAcademicoPorCampos("region", region);
     }
 
+    /**
+     * Agrega un nuevo académico a la base de datos.
+     *
+     * @param academicoDTO el objeto AcademicoDTO que contiene la información del académico a agregar
+     * @return un entero indicando el resultado de la operación (por ejemplo, 1 si la operación fue exitosa)
+     * @throws ErrorDAO tipo inserción si ocurre un error durante la inserción
+     */
     @Override
     public int agregar (AcademicoDTO academicoDTO) throws ErrorDAO {
         String procedimientoSQL = "{CALL registrar_Academico(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
         int resultado = -1;
         try {
             CallableStatement registrarAcademico = AdministradorBaseDatos.getInstancia().
-                                                                    prepareCall(procedimientoSQL);
+                                                                         prepareCall(procedimientoSQL);
             setAcademicoParametros(registrarAcademico, academicoDTO);
             registrarAcademico.registerOutParameter(12, Types.INTEGER);
             resultado = registrarAcademico.executeUpdate();
@@ -117,13 +174,20 @@ public class AcademicoDAO implements IAcademicoDAO {
         return resultado;
     }
 
+    /**
+     * Obtiene un académico por su ID.
+     *
+     * @param id el ID del académico que se desea obtener
+     * @return un objeto Optional que contiene el objeto AcademicoDTO si se encuentra, de lo contrario está vacío
+     * @throws ErrorDAO tipo consulta si ocurre un error durante la ejecución de la consulta
+     */
     @Override
-    public  Optional<AcademicoDTO> getPorId (Integer id) throws ErrorDAO {
+    public Optional<AcademicoDTO> getPorId (Integer id) throws ErrorDAO {
         String consulta = "SELECT * from vista_academico WHERE idPersona = ?";
         AcademicoDTO academicoDTO = null;
         try {
             PreparedStatement consultarAcademico = AdministradorBaseDatos.getInstancia().
-                                                                    prepareStatement(consulta);
+                                                                         prepareStatement(consulta);
             consultarAcademico.setInt(1, id);
             ResultSet resultadoConsulta = consultarAcademico.executeQuery();
             if (resultadoConsulta.next()) {
@@ -142,13 +206,19 @@ public class AcademicoDAO implements IAcademicoDAO {
         return Optional.ofNullable(academicoDTO);
     }
 
+    /**
+     * Obtiene una lista de todos los académicos.
+     *
+     * @return una lista de objetos AcademicoDTO que contiene todos los académicos registrados
+     * @throws ErrorDAO tipo consulta si ocurre un error durante la ejecución de la consulta
+     */
     public List<AcademicoDTO> getTodos () throws ErrorDAO {
         List<AcademicoDTO> listaAcademicoDTOS = new ArrayList<>();
         String consulta = "SELECT * FROM vista_academico";
 
         try {
             PreparedStatement consultaAcademico = AdministradorBaseDatos.getInstancia().
-                                                                   prepareStatement(consulta);
+                                                                        prepareStatement(consulta);
             ResultSet resultadoConsulta = consultaAcademico.executeQuery();
             while (resultadoConsulta.next()) {
                 AcademicoDTO academicoDTO = convertirAcademico(resultadoConsulta);
@@ -167,14 +237,21 @@ public class AcademicoDAO implements IAcademicoDAO {
         return listaAcademicoDTOS;
     }
 
+    /**
+     * Modifica la información de un académico en la base de datos.
+     *
+     * @param academicoDTO el objeto AcademicoDTO que contiene la información del académico a modificar
+     * @return un entero indicando el resultado de la operación (por ejemplo, 1 si la operación fue exitosa)
+     * @throws ErrorDAO tipo modificación si ocurre un error durante la modificación
+     */
     public int modificar (AcademicoDTO academicoDTO) throws ErrorDAO {
         int resultado;
         String procedimientoSQL = "{CALL editar_academico(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
 
         try {
             CallableStatement editarAcademico = AdministradorBaseDatos.getInstancia().
-                                                                 prepareCall(procedimientoSQL);
-            setAcademicoParametros (editarAcademico, academicoDTO);
+                                                                      prepareCall(procedimientoSQL);
+            setAcademicoParametros(editarAcademico, academicoDTO);
 
             resultado = editarAcademico.executeUpdate();
 
@@ -190,6 +267,14 @@ public class AcademicoDAO implements IAcademicoDAO {
         return resultado;
     }
 
+    /**
+     * Agrega un académico junto con su cuenta a la base de datos.
+     *
+     * @param academicoDTO el objeto AcademicoDTO que contiene la información del académico a agregar
+     * @param cuentaDTO el objeto CuentaDTO que contiene la información de la cuenta del académico
+     * @return un entero indicando el resultado de la operación (por ejemplo, 1 si la operación fue exitosa)
+     * @throws ErrorDAO tipo inserción si ocurre un error durante la inserción
+     */
     @Override
     public int agregarAcademicoConCuenta (AcademicoDTO academicoDTO, CuentaDTO cuentaDTO) throws ErrorDAO {
         String procedimientoSQL = "{CALL registrar_Academico(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
@@ -209,9 +294,9 @@ public class AcademicoDAO implements IAcademicoDAO {
             agregarCuenta.setString(2, cuentaDTO.getNombreUsuario());
             agregarCuenta.setString(3, cuentaDTO.getContrasena());
             agregarCuenta.setString(4, cuentaDTO.getTipo().
-                                             toString());
+                                                toString());
             agregarCuenta.setString(5, cuentaDTO.getEstado().
-                                             toString());
+                                                toString());
             resultado += agregarCuenta.executeUpdate();
 
             agregarCuenta.close();
