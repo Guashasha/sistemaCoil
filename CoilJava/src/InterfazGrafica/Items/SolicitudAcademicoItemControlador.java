@@ -46,7 +46,7 @@ public class SolicitudAcademicoItemControlador {
     private ColaboracionDTO colaboracionDTO;
     private SolicitudesAColaboracionControlador solicitudesAColaboracionControlador;
     private Pane pnMiColaboracion;
-    public BorderPane panelVentanaPrincipal;
+    public BorderPane pnlVentanaPrincipal;
     private VBox vbContenedor;
 
     public void setAcademicoDTO (AcademicoDTO academicoDTO) {

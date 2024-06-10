@@ -30,7 +30,7 @@
     <center>
         <ScrollPane prefHeight="419.0" prefWidth="751.0">
             <content>
-                <GridPane fx:id="gpContenedorColaboraciones" minHeight="8.0" minWidth="3.0" prefHeight="180.0" prefWidth="3.0">
+                <GridPane fx:id="pnContenedorColaboraciones" minHeight="8.0" minWidth="3.0" prefHeight="180.0" prefWidth="3.0">
                     <rowConstraints>
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
