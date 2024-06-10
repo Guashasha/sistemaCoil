@@ -35,6 +35,12 @@ public class EstudianteDTO extends PersonaDTO {
         this.matricula = matricula;
     }
 
+    /**
+     * Verifica la validez de la matrícula.
+     *
+     * @param matricula la matrícula.
+     * @throws ErrorDAO si la matrícula no es válida.
+     */
     private void checarMatricula (String matricula) {
         String matriculaRegex = "^[A-Za-z0-9]{8,10}$";
         Pattern patron = Pattern.compile(matriculaRegex);

@@ -17,7 +17,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ColaboracionDTOAuxiliarTest {
+class ColaboracionAuxiliarTest {
     private final ColaboracionAuxiliar INSTANCIA = new ColaboracionAuxiliar();
 
     @BeforeEach
@@ -52,7 +52,7 @@ class ColaboracionDTOAuxiliarTest {
         List<EstudianteDTO> listaEstudianteDTO = null;
         ColaboracionDTO colaboracionDTO = new ColaboracionDTO();
         colaboracionDTO.setIdColaboracion(1);
-        int tamanoEsperado = 1;
+        int tamanoEsperado = 2;
         try {
             listaEstudianteDTO = INSTANCIA.getListaDeEstudiantes(colaboracionDTO);
         }
@@ -67,7 +67,7 @@ class ColaboracionDTOAuxiliarTest {
         List<AcademicoDTO> listaAcademicoDTOS = null;
         ColaboracionDTO colaboracionDTO = new ColaboracionDTO();
         colaboracionDTO.setIdColaboracion(1);
-        int tamanoEsperado = 2;
+        int tamanoEsperado = 1;
         try {
             listaAcademicoDTOS = INSTANCIA.getAcademicosParticipantes(colaboracionDTO);
         }

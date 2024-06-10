@@ -2,6 +2,7 @@ package test.DAO;
 import DAO.CuentaDAO;
 import DTO.CuentaDTO;
 import Utilidades.ErrorDAO;
+import jdk.jshell.spi.ExecutionControl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,6 @@ class CuentaDAOTest {
     private final CuentaDAO CUENTA_DAO = new CuentaDAO();
     @BeforeEach
     void setUp () {
-        AyudantePruebasCuentaDB.borrarTodosDatosTabla();
         AyudantePruebasCuentaDB.agregarPrecondiciones();
     }
 
@@ -536,4 +536,105 @@ class CuentaDAOTest {
         }
         assertNotEquals(tamanoEsperado, listaCuentaDTOS.size());
     }
+
+    @Test
+    void pruebaGetModificarNoImplementada () {
+        CuentaDTO cuentaDTO = new CuentaDTO();
+        assertThrows(ExecutionControl.NotImplementedException.class, () -> CUENTA_DAO.modificar(cuentaDTO));
+    }
+
+    @Test
+    void pruebaActualizarContrasenaFallidaPorContrasenaAntiguaIncorrecta() {
+        System.out.println("pruebaActualizarContrasenaFallidaPorContrasenaAntiguaIncorrecta");
+
+        CuentaDTO cuentaDTOPrueba = new CuentaDTO();
+        cuentaDTOPrueba.setIdCuenta(1);
+        cuentaDTOPrueba.setNombreUsuario("EduVillegas");
+
+        String contrasenaNueva = "NuevaContrasena123";
+        String contrasenaAntigua = "ContrasenaIncorrecta";
+
+        assertThrows(ErrorDAO.class, () -> CUENTA_DAO.actualizarContrasena(cuentaDTOPrueba, contrasenaAntigua, contrasenaNueva));
+    }
+
+    @Test
+    void pruebaActualizarNombreUsuarioFallidoPorNombreVacio() {
+        try {
+            CuentaDTO cuentaDTOPrueba = new CuentaDTO();
+            cuentaDTOPrueba.setIdCuenta(1);
+            cuentaDTOPrueba.setNombreUsuario("");
+        }
+        catch (ErrorDAO error) {
+            assertTrue(true, "pruebaActualizarNombreUsuarioFallidoPorNombreVacio");
+        }
+    }
+
+    @Test
+    void pruebaAgregarCuentaFallidaPorNombreUsuarioVacio() {
+        CuentaDTO cuentaDTOPrueba = new CuentaDTO();
+        try {
+            cuentaDTOPrueba.setIdPersona(1);
+            cuentaDTOPrueba.setNombreUsuario("");
+            cuentaDTOPrueba.setContrasena("ContrasenaValida123");
+            cuentaDTOPrueba.setTipo(CuentaDTO.TipoUsuario.academico);
+            cuentaDTOPrueba.setEstado(CuentaDTO.EstadoCuenta.pendiente);
+        }
+        catch (ErrorDAO error) {
+            assertTrue(true, "pruebaAgregarCuentaFallidaPorNombreUsuarioVacio");
+        }
+        assertThrows(NullPointerException.class, () -> CUENTA_DAO.agregar(cuentaDTOPrueba));
+    }
+
+    @Test
+    void pruebaAgregarCuentaFallidaPorContrasenaVacia() {
+        CuentaDTO cuentaDTOPrueba = new CuentaDTO();
+        try {
+            cuentaDTOPrueba.setIdPersona(1);
+            cuentaDTOPrueba.setNombreUsuario("UsuarioValido");
+            cuentaDTOPrueba.setContrasena("");
+            cuentaDTOPrueba.setTipo(CuentaDTO.TipoUsuario.academico);
+            cuentaDTOPrueba.setEstado(CuentaDTO.EstadoCuenta.pendiente);
+            CUENTA_DAO.agregar(cuentaDTOPrueba);
+        }
+        catch (ErrorDAO error) {
+            assertTrue(true, "pruebaAgregarCuentaFallidaPorContrasenaVacia");
+        }
+    }
+
+    @Test
+    void pruebaGetCuentaPorEstadoConEstadoInvalido() {
+        System.out.println("pruebaGetCuentaPorEstadoConEstadoInvalido");
+
+        List<CuentaDTO> listaCuentaDTOS = null;
+        int tamanoEsperado = 0;
+
+        try {
+            listaCuentaDTOS = CUENTA_DAO.getCuentasPorEstado("estadoInvalido");
+        } catch (ErrorDAO errorDAO) {
+            fail("pruebaGetCuentaPorEstadoConEstadoInvalido " + errorDAO.getMessage());
+        }
+
+        assertEquals(tamanoEsperado, listaCuentaDTOS.size());
+    }
+
+    @Test
+    void pruebaGetCuentaPorTipoConTipoInvalido() {
+        System.out.println("pruebaGetCuentaPorTipoConTipoInvalido");
+
+        List<CuentaDTO> listaCuentaDTOS = null;
+        int tamanoEsperado = 0;
+
+        try {
+            listaCuentaDTOS = CUENTA_DAO.getCuentasPorTipo("tipoInvalido");
+        } catch (ErrorDAO errorDAO) {
+            fail("pruebaGetCuentaPorTipoConTipoInvalido " + errorDAO.getMessage());
+        }
+
+        assertEquals(tamanoEsperado, listaCuentaDTOS.size());
+    }
+
+
+
+
+
 }

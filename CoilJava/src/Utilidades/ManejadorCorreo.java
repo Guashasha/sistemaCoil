@@ -49,9 +49,9 @@ public class ManejadorCorreo {
         if (executorService != null) {
             executorService.shutdown();
             try {
-                if (!executorService.awaitTermination(5, TimeUnit.SECONDS)) {
+                if (!executorService.awaitTermination(1, TimeUnit.SECONDS)) {
                     executorService.shutdownNow();
-                    if (!executorService.awaitTermination(5, TimeUnit.SECONDS)) {
+                    if (!executorService.awaitTermination(1, TimeUnit.SECONDS)) {
                         BITACORA.fatal("El hilo executor no se cerró");
                     }
                 }
