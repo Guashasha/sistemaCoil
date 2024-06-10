@@ -106,12 +106,7 @@ public class CrearCuentaAcademicoControlador {
     }
 
     private AcademicoDTO leerCamposAcademico() {
-        if (datosInvalidos()) {
-            Alert alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setHeaderText("Datos incorrectos");
-            alerta.setContentText("Uno o más campos están vacios");
-            alerta.showAndWait();
-
+        if (!datosInvalidos()) {
             return null;
         }
 
@@ -128,10 +123,19 @@ public class CrearCuentaAcademicoControlador {
 
         AcademicoDAO dao = new AcademicoDAO();
 
-        if (dao.getAcademicoPorCedula(cedula).isPresent()) {
+        try {
+            if (dao.getAcademicoPorCedula(cedula).isPresent()) {
+                Alert alerta = new Alert(Alert.AlertType.ERROR);
+                alerta.setHeaderText("Cuenta ya existente");
+                alerta.setContentText("Los datos ingresados ya pertenecen a una cuenta");
+                alerta.showAndWait();
+                return null;
+            }
+        }
+        catch (ErrorDAO error) {
             Alert alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setHeaderText("Cuenta ya existente");
-            alerta.setContentText("Los datos ingresados ya pertenecen a una cuenta");
+            alerta.setHeaderText("Error");
+            alerta.setContentText(error.getMessage());
             alerta.showAndWait();
             return null;
         }

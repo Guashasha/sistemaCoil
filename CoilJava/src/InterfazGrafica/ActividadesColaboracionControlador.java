@@ -12,10 +12,7 @@ import Utilidades.VerificadorBitacora;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.SplitPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import org.apache.log4j.Logger;
 
@@ -138,22 +135,33 @@ public class ActividadesColaboracionControlador {
 
         if (actividadVinculada.isPresent() && actividadVinculada.get().getPeriodo() == null) {
             boton.setOnAction(e -> {
-                try {
-                    if (dao.desvincular(new ActividadVinculadaDTO(actividad, this.colaboracion)) < 1) {
+                Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
+                confirmacion.setHeaderText("Borrar actividad");
+                confirmacion.setContentText("¿Está seguro que deséa borrar la actividad?");
+                ButtonType btnAceptar = new ButtonType("Aceptar");
+                ButtonType btnCancelar = new ButtonType("Cancelar");
+                confirmacion.getButtonTypes()
+                        .setAll(btnAceptar, btnCancelar);
+                confirmacion.showAndWait();
+
+                if (confirmacion.getResult() == btnAceptar) {
+                    try {
+                        if (dao.desvincular(new ActividadVinculadaDTO(actividad, this.colaboracion)) < 1) {
+                            Alert alerta = new Alert(Alert.AlertType.ERROR);
+                            alerta.setHeaderText("Error");
+                            alerta.setContentText("No se pudo eliminar la actividad, intente de nuevo");
+                            alerta.showAndWait();
+                        }
+                    } catch (ErrorDAO error) {
+                        BITACORA.error(error);
                         Alert alerta = new Alert(Alert.AlertType.ERROR);
+                        alerta.setContentText(error.getMessage());
                         alerta.setHeaderText("Error");
-                        alerta.setContentText("No se pudo eliminar la actividad, intente de nuevo");
                         alerta.showAndWait();
                     }
-                } catch (ErrorDAO error) {
-                    BITACORA.error(error);
-                    Alert alerta = new Alert(Alert.AlertType.ERROR);
-                    alerta.setContentText(error.getMessage());
-                    alerta.setHeaderText("Error");
-                    alerta.showAndWait();
-                }
 
-                actualizarLista();
+                    actualizarLista();
+                }
             });
         }
         else {
