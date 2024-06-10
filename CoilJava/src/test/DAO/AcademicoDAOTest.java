@@ -21,6 +21,7 @@ class AcademicoDAOTest {
 
     @BeforeEach
     void setUp () {
+        ConfiguracionPrueba.borrarTodosLosDatosTabla();
         ConfiguracionPrueba.borrarDatosTablaCuenta();
         ConfiguracionPrueba.borrarDatosTablaAcademico();
         ConfiguracionPrueba.borrarDatosTablaPersona();
@@ -43,6 +44,7 @@ class AcademicoDAOTest {
 
     @AfterAll
     static void tearDown() {
+        ConfiguracionPrueba.borrarTodosLosDatosTabla();
         ConfiguracionPrueba.borrarDatosTablaCuenta();
         ConfiguracionPrueba.borrarDatosTablaAcademico();
         ConfiguracionPrueba.borrarDatosTablaPersona();

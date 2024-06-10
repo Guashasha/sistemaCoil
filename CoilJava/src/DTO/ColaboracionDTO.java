@@ -5,6 +5,9 @@ import Utilidades.ErrorDAO;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Clase que representa una colaboración, incluyendo tipo, estado, detalles, y participantes.
+ */
 public class ColaboracionDTO {
     public enum TipoColaboracion {
         claseEspejo,
@@ -114,6 +117,12 @@ public class ColaboracionDTO {
         this.anfitrion = anfitrion;
     }
 
+    /**
+     * Verifica la validez del tema de interés.
+     *
+     * @param temaInteres el tema de interés.
+     * @throws ErrorDAO si el tema de interés no es válido.
+     */
     private void verificarTemaInteres (String temaInteres) {
         String temaInteresRegex = "^(?!\\s).{5,100}(?<!\\s)$";
         Pattern patron = Pattern.compile(temaInteresRegex);
@@ -128,6 +137,12 @@ public class ColaboracionDTO {
         }
     }
 
+    /**
+     * Verifica la validez del objetivo.
+     *
+     * @param objetivo el objetivo.
+     * @throws ErrorDAO si el objetivo no es válido.
+     */
     private void verificarObjetivo (String objetivo) {
         String objetivoRegex = "^.{5,300}$";
         Pattern patron = Pattern.compile(objetivoRegex);
@@ -142,6 +157,12 @@ public class ColaboracionDTO {
         }
     }
 
+    /**
+     * Verifica la validez del perfil del estudiante.
+     *
+     * @param perfilEstudiante el perfil del estudiante.
+     * @throws ErrorDAO si el perfil del estudiante no es válido.
+     */
     private void verificarPerfilEstudiante (String perfilEstudiante) {
         String perfilEstudianteRegex = "^(?!\\s).{5,200}(?<!\\s)$";
         Pattern patron = Pattern.compile(perfilEstudianteRegex);
@@ -187,6 +208,11 @@ public class ColaboracionDTO {
                 '}';
     }
 
+    /**
+     * Devuelve una representación en cadena de la colaboración.
+     *
+     * @return una cadena que representa la colaboración.
+     */
     @Override
     public boolean equals (Object obj) {
         boolean igual;

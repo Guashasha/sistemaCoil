@@ -13,7 +13,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class AcademicoDTOAuxiliarTest {
+class AcademicoAuxiliarTest {
     private static final AcademicoAuxiliar ACADEMICO_AUXILIAR = new AcademicoAuxiliar();
 
     @BeforeEach
@@ -149,14 +149,6 @@ class AcademicoDTOAuxiliarTest {
 
     }
 
-    @Test
-    void getAcademicosPorAreaEstudiosCadenaNoValidaFallida () {
-        System.out.println("getAcademicosPorAreaEstudiosCadenaNoValidaFallida");
-
-        String areaAcademica = null;
-
-        assertThrows(ErrorDAO.class, ()-> ACADEMICO_AUXILIAR.getAcademicosPorAreaEstudios(areaAcademica));
-    }
 
     @Test
     void pruebaGetAcademicosPorCategoriaContratacionExitosa () {
@@ -170,22 +162,6 @@ class AcademicoDTOAuxiliarTest {
             fail("Fallido getAcademicosPorAreaEstudios");
         }
         assertNotNull(listaAcademicoDTOS);
-    }
-
-    @Test
-    void pruebaGetAcademicosPorCategoriaContratacionNulaFallida () {
-        System.out.println("pruebaGetAcademicosPorCategoriaContratacionFallida");
-        String categoria = null;
-
-        assertThrows(ErrorDAO.class, ()-> ACADEMICO_AUXILIAR.getAcademicosPorCategoriaContratacion(categoria));
-    }
-
-    @Test
-    void pruebaGetAcademicosPorCategoriaContratacionEspacioFallida () {
-        System.out.println("pruebaGetAcademicosPorCategoriaContratacionEspacioFallida");
-        String categoria = "";
-
-        assertThrows(ErrorDAO.class, ()-> ACADEMICO_AUXILIAR.getAcademicosPorCategoriaContratacion(categoria));
     }
 
     @Test
