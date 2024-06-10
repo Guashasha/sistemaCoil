@@ -29,7 +29,7 @@ public class ConsultaColaboracionControlador implements Initializable {
     private AcademicoDTO academicoDTO;
 
     @FXML
-    private GridPane gpContenedorColaboraciones;
+    private GridPane pnContenedorColaboraciones;
 
     @FXML
     private TextField tfBusqueda;
@@ -62,7 +62,7 @@ public class ConsultaColaboracionControlador implements Initializable {
     }
 
     public void cargarColaboracionItem () {
-        gpContenedorColaboraciones.getChildren()
+        pnContenedorColaboraciones.getChildren()
                                   .clear();
 
         ArrayList<ColaboracionDTO> arrayListColaboracion;
@@ -94,7 +94,7 @@ public class ConsultaColaboracionControlador implements Initializable {
             ColaboracionDisponibleItemControlador controlador = fxmlLoader.getController();
             controlador.setColaboracionDTO(colaboracionDTO);
             controlador.setAcademicoDTO(academicoDTO);
-            gpContenedorColaboraciones.add(pane, columnas++, filas);
+            pnContenedorColaboraciones.add(pane, columnas++, filas);
             GridPane.setMargin(pane, new Insets(10));
             controlador.inicializarLabel();
         }

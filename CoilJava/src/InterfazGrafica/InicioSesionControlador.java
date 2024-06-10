@@ -25,13 +25,12 @@ import java.util.Optional;
 public class InicioSesionControlador {
     private static final Logger BITACORA = Logger.getLogger(InicioSesionControlador.class);
     private final CuentaAuxiliar CUENTA_AUXILIAR = new CuentaAuxiliar();
-
     @FXML
     private TextField tfUsuario;
     @FXML
-    private PasswordField tfContrasena;
+    private PasswordField pfContrasena;
     @FXML
-    public BorderPane bdPane;
+    public BorderPane pnVentanaActual;
 
     @FXML
     public void solicitarCuenta () {
@@ -39,23 +38,22 @@ public class InicioSesionControlador {
             mostrarVentanaSolicitudCuenta();
         }
         catch (ErrorDAO errorDAO) {
-            mostrarVentanaAlert(errorDAO.getMessage(), Alert.AlertType.ERROR);
+            mostrarVentanaEmergente(errorDAO.getMessage(), Alert.AlertType.ERROR);
         }
     }
 
     @FXML
     public void ingresarCuenta () {
         try {
-            sonCredencialesValidas(tfUsuario.getText(), tfContrasena.getText());
+            sonCredencialesValidas(tfUsuario.getText(), pfContrasena.getText());
             CuentaDTO cuenta = getCuentaRegistrada();
             esCuentaAceptada(cuenta);
             abrirVentanaPorTipoCuenta(cuenta);
         }
         catch (ErrorDAO errorDAO) {
-            mostrarVentanaAlert(errorDAO.getMessage(), Alert.AlertType.WARNING);
+            mostrarVentanaEmergente(errorDAO.getMessage(), Alert.AlertType.WARNING);
         }
     }
-
 
     @FXML
     private void mostrarVentanaWindowMenuPrincipalAcademico (AcademicoDTO academicoDTO) {
@@ -71,7 +69,7 @@ public class InicioSesionControlador {
         }
         catch (IOException error) {
             BITACORA.fatal(error.getMessage());
-            mostrarVentanaAlert("Error al cargar la ventana principal", Alert.AlertType.ERROR);
+            mostrarVentanaEmergente("Error al cargar la ventana principal", Alert.AlertType.ERROR);
         }
     }
 
@@ -86,7 +84,7 @@ public class InicioSesionControlador {
         }
         catch (IOException error) {
             BITACORA.fatal(error.getMessage());
-            mostrarVentanaAlert("Error al cargar la ventana principal", Alert.AlertType.ERROR);
+            mostrarVentanaEmergente("Error al cargar la ventana principal", Alert.AlertType.ERROR);
         }
     }
 
@@ -107,7 +105,7 @@ public class InicioSesionControlador {
         }
     }
 
-    private void mostrarVentanaAlert (String mensaje, Alert.AlertType tipoAlert) {
+    private void mostrarVentanaEmergente (String mensaje, Alert.AlertType tipoAlert) {
         Alert alert = new Alert(tipoAlert);
         alert.setTitle("Error");
         alert.setContentText(mensaje);
@@ -125,7 +123,7 @@ public class InicioSesionControlador {
                 stagePrincipal.setScene(nuevaEscena);
             }
             catch (ErrorDAO errorDAO) {
-                mostrarVentanaAlert(errorDAO.getMessage(), Alert.AlertType.ERROR);
+                mostrarVentanaEmergente(errorDAO.getMessage(), Alert.AlertType.ERROR);
             }
         }
         catch (IOException error) {
@@ -157,9 +155,6 @@ public class InicioSesionControlador {
             throw new ErrorDAO("Error al abrir la ventana de solicitud de cuenta", ErrorDAO.Tipo.VALIDACION);
         }
     }
-
-
-
 
     private void sonCredencialesValidas (String usuario, String contrasena) {
         if (!CUENTA_AUXILIAR.verificarCredenciales(usuario, contrasena)) {
@@ -193,7 +188,7 @@ public class InicioSesionControlador {
         Optional<AcademicoDTO> optionalAcademico = recuperarAcademicoPorCuenta(cuenta);
         verificarOptional(optionalAcademico);
         if (existenDatosNulosAcademico(optionalAcademico.get())) {
-            mostrarVentanaAlert("Para poder ingresar necesita completar sus datos.", Alert.AlertType.INFORMATION);
+            mostrarVentanaEmergente("Para poder ingresar necesita completar sus datos.", Alert.AlertType.INFORMATION);
             mostrarVentanaFormularioCompletarDatos(optionalAcademico.get());
         }
         else {
@@ -204,7 +199,7 @@ public class InicioSesionControlador {
     private CuentaDTO getCuentaPorTextField () {
         CuentaDTO cuenta = new CuentaDTO();
         cuenta.setNombreUsuario(tfUsuario.getText());
-        cuenta.setContrasena(tfContrasena.getText());
+        cuenta.setContrasena(pfContrasena.getText());
         return cuenta;
     }
 

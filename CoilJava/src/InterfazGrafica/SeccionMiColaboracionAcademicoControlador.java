@@ -24,7 +24,7 @@ public class SeccionMiColaboracionAcademicoControlador {
     private ColaboracionDTO colaboracion;
     private CuentaDTO usuario;
     @FXML
-    private BorderPane bpMiColaboracion;
+    private BorderPane pnActual;
 
 
     @FXML
@@ -43,27 +43,27 @@ public class SeccionMiColaboracionAcademicoControlador {
         if (getColaboracionVinculadaOActiva().isEmpty()) {
             if (optionalColaboracion.isPresent()) {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SolicitudesAColaboracion.fxml"));
-                BorderPane bpSolicitud = null;
+                BorderPane pnSolicitudColaboracion = null;
 
                 try {
-                    bpSolicitud = fxmlLoader.load();
+                    pnSolicitudColaboracion = fxmlLoader.load();
                 }
                 catch (IOException error) {
                     mostrarMensajeEmergente("Error al cargar la ventana de solicitudes", Alert.AlertType.ERROR);
                     return;
                 }
 
-                if (bpSolicitud != null) {
-                    this.historialPaneles.push(this.bpMiColaboracion);
+                if (pnSolicitudColaboracion != null) {
+                    this.historialPaneles.push(this.pnActual);
                     SolicitudesAColaboracionControlador solicitudesAColaboracionControlador = fxmlLoader.getController();
                     solicitudesAColaboracionControlador.setColaboracionDTO(optionalColaboracion.get());
                     solicitudesAColaboracionControlador.setAcademicoDTO(this.academicoDTO);
                     solicitudesAColaboracionControlador.cargarAcademicosItem();
                     solicitudesAColaboracionControlador.cargarAcademicosItemPorBusqueda();
-                    solicitudesAColaboracionControlador.setPaneles(this.bpMiColaboracion, this.pnVentanaPrincipal);
+                    solicitudesAColaboracionControlador.setPaneles(this.pnActual, this.pnVentanaPrincipal);
                     solicitudesAColaboracionControlador.panelVentanaPrincial = this.pnVentanaPrincipal;
                     solicitudesAColaboracionControlador.setHistorialPaneles(this.historialPaneles);
-                    this.pnVentanaPrincipal.setCenter(bpSolicitud);
+                    this.pnVentanaPrincipal.setCenter(pnSolicitudColaboracion);
                 }
             }
             else {
@@ -79,19 +79,19 @@ public class SeccionMiColaboracionAcademicoControlador {
     @FXML
     public void abrirActividades () {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ActividadesColaboracion.fxml"));
-        Pane apActividades = null;
+        Pane pnActividades = null;
 
         try {
-            apActividades = fxmlLoader.load();
+            pnActividades = fxmlLoader.load();
         }
         catch (IOException error) {
             mostrarMensajeEmergente("Error al mostrar la sección de actividades: ", Alert.AlertType.ERROR);
         }
-        if (apActividades != null) {
-            this.historialPaneles.push(this.bpMiColaboracion);
+        if (pnActividades != null) {
+            this.historialPaneles.push(this.pnActual);
             ActividadesColaboracionControlador ventanaActividadesControlador = fxmlLoader.getController();
-            ventanaActividadesControlador.initialize(bpMiColaboracion, pnVentanaPrincipal, this.colaboracion, this.usuario);
-            this.pnVentanaPrincipal.setCenter(apActividades);
+            ventanaActividadesControlador.initialize(pnActual, pnVentanaPrincipal, this.colaboracion, this.usuario);
+            this.pnVentanaPrincipal.setCenter(pnActividades);
         }
     }
 
@@ -112,7 +112,7 @@ public class SeccionMiColaboracionAcademicoControlador {
 
             if (pnListaEstudiantes != null) {
                 ListaEstudiantesControlador controlador = fxmlLoader.getController();
-                this.historialPaneles.push(bpMiColaboracion);
+                this.historialPaneles.push(pnActual);
 
                 controlador.setPnVentanaPrincipal(this.pnVentanaPrincipal);
                 controlador.setHistorialPaneles(this.historialPaneles);
@@ -128,31 +128,37 @@ public class SeccionMiColaboracionAcademicoControlador {
     }
 
     @FXML
-    private void abrirProgresoColaboracion () {
-        Optional<ColaboracionDTO> colaboracionOptional = getColaboracionVinculadaOActiva();
-        if (colaboracionOptional.isPresent() || existeColaboracionEnRevision()) {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ProgresoColaboracion.fxml"));
-                BorderPane bpInicioColaboracion = null;
+    private void abrirProgresoColaboracion() {
+        Optional<ColaboracionDTO> colaboracionVinculadaOActiva = getColaboracionVinculadaOActiva();
+        Optional<ColaboracionDTO> colaboracionActual = getColaboracionActual();
 
-                try {
-                    bpInicioColaboracion = fxmlLoader.load();
-                }
-                catch (IOException error) {
-                    BITACORA.fatal(error.getMessage());
-                    mostrarMensajeEmergente("Error al cargar la seccion de inicio de colaboracion", Alert.AlertType.ERROR);
-                }
-                if (bpInicioColaboracion != null) {
-                    this.historialPaneles.push(bpMiColaboracion);
-                    ProgresoColaboracionControlador progresoColaboracionControlador = fxmlLoader.getController();
-                    progresoColaboracionControlador.setColaboracionDTO(colaboracionOptional.get());
-                    progresoColaboracionControlador.setAcademicoDTO(this.academicoDTO);
-                    progresoColaboracionControlador.setVentanaPrincipal(this.pnVentanaPrincipal);
-                    progresoColaboracionControlador.inicializar();
-                    this.pnVentanaPrincipal.setCenter(bpInicioColaboracion);
-                }
-        }
-        else {
-            mostrarMensajeEmergente("No existe una colaboracion activa o vinculada con un par", Alert.AlertType.WARNING);
+        Optional<ColaboracionDTO> colaboracionOptional = colaboracionVinculadaOActiva.isPresent()
+                ? colaboracionVinculadaOActiva
+                : colaboracionActual;
+
+        if (colaboracionOptional.isPresent()) {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ProgresoColaboracion.fxml"));
+            BorderPane pnProgresoColaboracion = null;
+
+            try {
+                pnProgresoColaboracion = fxmlLoader.load();
+            } catch (IOException error) {
+                BITACORA.fatal(error.getMessage(), error);
+                mostrarMensajeEmergente("Error al cargar la sección de inicio de colaboración", Alert.AlertType.ERROR);
+                return;
+            }
+
+            if (pnProgresoColaboracion != null) {
+                this.historialPaneles.push(pnActual);
+                ProgresoColaboracionControlador progresoColaboracionControlador = fxmlLoader.getController();
+                progresoColaboracionControlador.setColaboracionDTO(colaboracionOptional.get());
+                progresoColaboracionControlador.setAcademicoDTO(this.academicoDTO);
+                progresoColaboracionControlador.setPnVentanaPrincipal(this.pnVentanaPrincipal);
+                progresoColaboracionControlador.inicializar();
+                this.pnVentanaPrincipal.setCenter(pnProgresoColaboracion);
+            }
+        } else {
+            mostrarMensajeEmergente("No existe una colaboración activa o vinculada con un par", Alert.AlertType.WARNING);
         }
     }
 
@@ -171,7 +177,7 @@ public class SeccionMiColaboracionAcademicoControlador {
         return colaboracionActivaOptional.isPresent() ? colaboracionActivaOptional : colaboracionVinculadaOptional;
     }
 
-    private boolean existeColaboracionEnRevision () {
+    private Optional<ColaboracionDTO> getColaboracionActual () {
         ColaboracionDAO colaboracionDAO = new ColaboracionDAO();
         Optional<ColaboracionDTO> colaboracionActualOptional = Optional.empty();
         try {
@@ -180,13 +186,7 @@ public class SeccionMiColaboracionAcademicoControlador {
         catch (ErrorDAO error) {
             mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
         }
-        if (colaboracionActualOptional.isPresent()) {
-            return colaboracionActualOptional.get()
-                                             .getEstado() == ColaboracionDTO.EstadoColaboracion.enRevision;
-        }
-        else {
-            return false;
-        }
+        return colaboracionActualOptional;
     }
 
 

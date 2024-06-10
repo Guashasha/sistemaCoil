@@ -482,12 +482,17 @@ public class ColaboracionDAO implements IColaboracionDAO {
                 colaboracionDTO.setIdioma(resultado.getString("idioma"));
                 colaboracionDTO.setTipo(ColaboracionDTO.TipoColaboracion.valueOf(resultado.getString("tipo")));
                 colaboracionDTO.setPerfilEstudiante(resultado.getString("perfilEstudiante"));
-                getAcademico(colaboracionDTO, resultado);
+                Date fechaInicio = resultado.getDate("fechaInicio");
+                Date fechaFin = resultado.getDate("fechaFin");
+
+                if (fechaInicio != null && fechaFin != null) {
+                    colaboracionDTO.setPeriodo(new PeriodoDTO(fechaInicio.toLocalDate(), fechaFin.toLocalDate()));
+                }
             }
         }
         catch (SQLException error) {
             BITACORA.info(error);
-            throw new ErrorDAO("Error al obtener las colaboraciones disponibles", ErrorDAO.Tipo.CONSULTA);
+            throw new ErrorDAO("Error al obtener las colaboracion actual del académico", ErrorDAO.Tipo.CONSULTA);
         }
 
         return Optional.ofNullable(colaboracionDTO);
