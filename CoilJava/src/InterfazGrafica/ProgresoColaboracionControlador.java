@@ -112,39 +112,38 @@ public class ProgresoColaboracionControlador {
         }
     }
 
+
     public void actualizarVisibilidadBotones () {
         ColaboracionDTO.EstadoColaboracion estado = this.colaboracionDTO.getEstado();
-        System.out.println(estado.toString());
+
+        btnRetroalimentar.setVisible(false);
+        btnIniciar.setVisible(false);
+        btnFinalizar.setVisible(false);
+        dpFechaInicio.setVisible(false);
+        dpFechaFin.setVisible(false);
+
         switch (estado) {
             case finalizada:
-                btnRetroalimentar.setVisible(false);
-                btnIniciar.setVisible(false);
-                btnFinalizar.setVisible(false);
                 break;
             case vinculada:
-                btnRetroalimentar.setVisible(false);
-                btnFinalizar.setVisible(false);
+                btnIniciar.setVisible(true);
+                dpFechaInicio.setVisible(true);
+                dpFechaFin.setVisible(true);
                 break;
             case activa:
-                btnRetroalimentar.setVisible(false);
                 btnFinalizar.setVisible(true);
-                dpFechaFin.setVisible(false);
-                dpFechaInicio.setVisible(false);
-                btnIniciar.setVisible(false);
                 break;
             case enRevision:
                 if (retroalimentacionColaboracionOpt.isPresent()) {
                     btnRetroalimentar.setVisible(true);
                     btnFinalizar.setVisible(true);
-                    btnIniciar.setVisible(false);
                 }
-                dpFechaInicio.setVisible(false);
-                dpFechaFin.setVisible(false);
                 break;
             default:
                 break;
         }
     }
+
 
     private void getAcademicoParPorColaboracion () {
         ColaboracionDAO colaboracionDAO = new ColaboracionDAO();
