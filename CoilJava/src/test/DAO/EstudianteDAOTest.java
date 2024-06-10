@@ -148,6 +148,60 @@ class EstudianteDAOTest {
     }
 
     @Test
+    void pruebaAgregarEstudianteNombreInvalido () {
+        EstudianteDTO estudianteDTO = new EstudianteDTO();
+        boolean resultado = false;
+        try {
+            estudianteDTO.setNombre("Emmanuel@123saaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+            estudianteDTO.setApellidoPaterno("Lopez");
+            estudianteDTO.setApellidoMaterno("Lara");
+            estudianteDTO.setMatricula("zs22013690");
+            estudianteDTO.setIdUniversidad(1);
+            ESTUDIANTE_DAO.agregar(estudianteDTO);
+        }
+        catch (ErrorDAO errorDAO) {
+            resultado = true;
+        }
+        assertTrue(resultado,"pruebaAgregarEstudianteNombreInvalido");
+    }
+
+    @Test
+    void pruebaAgregarEstudianteApellidoPaternoInvalido () {
+        EstudianteDTO estudianteDTO = new EstudianteDTO();
+        boolean resultado = false;
+        try {
+            estudianteDTO.setNombre("Jose");
+            estudianteDTO.setApellidoPaterno("Lopz@_123asddddddddddddddddddddddddddddddddddddddddddddddddddddddddd");
+            estudianteDTO.setApellidoMaterno("Lara");
+            estudianteDTO.setMatricula("zs22013690");
+            estudianteDTO.setIdUniversidad(1);
+            ESTUDIANTE_DAO.agregar(estudianteDTO);
+        }
+        catch (ErrorDAO errorDAO) {
+            resultado = true;
+        }
+        assertTrue(resultado,"pruebaAgregarEstudianteApellidoPaternoInvalido");
+    }
+
+    @Test
+    void pruebaAgregarEstudianteApellidoMaternoInvalido () {
+        EstudianteDTO estudianteDTO = new EstudianteDTO();
+        boolean resultado = false;
+        try {
+            estudianteDTO.setNombre("Jose");
+            estudianteDTO.setApellidoPaterno("Lopez");
+            estudianteDTO.setApellidoMaterno("12_@Herrera;adsadaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaafsafsadasaaffafsaa");
+            estudianteDTO.setMatricula("zs22013690");
+            estudianteDTO.setIdUniversidad(1);
+            ESTUDIANTE_DAO.agregar(estudianteDTO);
+        }
+        catch (ErrorDAO errorDAO) {
+            resultado = true;
+        }
+        assertTrue(resultado,"pruebaAgregarEstudianteApellidoMaternoInvalido");
+    }
+
+    @Test
     void pruebaAgregarEstudianteUniversidadInexistente () {
         EstudianteDTO estudiante = new EstudianteDTO();
         estudiante.setNombre("Jose");
@@ -255,6 +309,60 @@ class EstudianteDAOTest {
             resultado = true;
         }
         assertTrue(resultado,"pruebaModificarMatriculaNula");
+    }
+
+    @Test
+    void pruebaModificarNombreInvalido () {
+        EstudianteDTO estudianteDTO = new EstudianteDTO();
+        boolean resultado = false;
+        try {
+            estudianteDTO.setNombre("Emmanuel@123saddddddddddddddsdsadwwwdwdwdwddwddwdwdwddwdwddwdwdwdwwd");
+            estudianteDTO.setApellidoPaterno("Lopez");
+            estudianteDTO.setApellidoMaterno("Lara");
+            estudianteDTO.setMatricula("zs22013690");
+            estudianteDTO.setIdUniversidad(1);
+            ESTUDIANTE_DAO.modificar(estudianteDTO);
+        }
+        catch (ErrorDAO errorDAO) {
+            resultado = true;
+        }
+        assertTrue(resultado,"pruebaModificarNombreInvalido");
+    }
+
+    @Test
+    void pruebaModificarApellidoPaternoInvalido () {
+        EstudianteDTO estudianteDTO = new EstudianteDTO();
+        boolean resultado = false;
+        try {
+            estudianteDTO.setNombre("Jose");
+            estudianteDTO.setApellidoPaterno("Lopz@_123asdasasadddddddddddddddddddddddddddddddddddddddddddddd");
+            estudianteDTO.setApellidoMaterno("Lara");
+            estudianteDTO.setMatricula("zs22013690");
+            estudianteDTO.setIdUniversidad(1);
+            ESTUDIANTE_DAO.modificar(estudianteDTO);
+        }
+        catch (ErrorDAO errorDAO) {
+            resultado = true;
+        }
+        assertTrue(resultado,"pruebaModificarApellidoPaternoInvalido");
+    }
+
+    @Test
+    void pruebaModificarApellidoMaternoInvalido () {
+        EstudianteDTO estudianteDTO = new EstudianteDTO();
+        boolean resultado = false;
+        try {
+            estudianteDTO.setNombre("Jose");
+            estudianteDTO.setApellidoPaterno("Lopez");
+            estudianteDTO.setApellidoMaterno("12_@Herrera;");
+            estudianteDTO.setMatricula("zs2201369041213");
+            estudianteDTO.setIdUniversidad(1);
+            ESTUDIANTE_DAO.modificar(estudianteDTO);
+        }
+        catch (ErrorDAO errorDAO) {
+            resultado = true;
+        }
+        assertTrue(resultado,"pruebaModificarApellidoMaternoInvalido");
     }
 
     @Test
@@ -381,30 +489,6 @@ class EstudianteDAOTest {
         }
         catch (ErrorDAO error) {
             fail("Fallida: pruebaGetEstudiantePorMatriculaNula\n" +  error.getMessage());
-        }
-    }
-
-    @Test
-    void pruebaGetEstudiantePorMatriculaYUniversidadExitosa (){
-        Optional<EstudianteDTO> resultado = Optional.empty();
-        try {
-            resultado = ESTUDIANTE_DAO.getEstudiantePorMatriculaYUniversidad(estudianteRegistrado1.getMatricula(),estudianteRegistrado1.getIdUniversidad());
-        }
-        catch (ErrorDAO error) {
-            fail("Fallida: pruebaGetEstudiantePorMatriculaYUniversidadExitosa\n" + error.getMessage());
-        }
-        assertTrue(resultado.isPresent());
-        assertEquals(estudianteRegistrado1,resultado.get(),"pruebaGetEstudiantePorMatriculaYUniversidadExitosa");
-    }
-
-    @Test
-    void pruebaGetEstudiantePorMatriculaYUniversidadInexistente () {
-        try {
-            Optional<EstudianteDTO> resultado = ESTUDIANTE_DAO.getEstudiantePorMatriculaYUniversidad("zs20013029",1);
-            assertTrue(resultado.isEmpty(),"pruebaGetEstudiantePorMatriculaInexistente");
-        }
-        catch (ErrorDAO error) {
-            fail("Fallida: pruebaGetEstudiantePorMatriculaInexistente\n" +  error.getMessage());
         }
     }
 

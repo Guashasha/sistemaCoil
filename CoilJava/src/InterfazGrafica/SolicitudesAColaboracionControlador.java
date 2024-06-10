@@ -63,9 +63,9 @@ public class SolicitudesAColaboracionControlador {
             controlador.setAcademicoDTO(academicoDTO);
             controlador.setColaboracionDTO(this.colaboracionDTO);
             controlador.setLabel();
-            controlador.setPanales(this.panelAnterior, this.panelVentanaPrincial);
             controlador.panelVentanaPrincipal = this.panelVentanaPrincial;
             controlador.setSolicitudesAColaboracionControlador(this);
+            controlador.setVbContenedor(this.vbContenedor);
             vbContenedor.getChildren().add(anchorPane);
 
         } catch (IOException error) {

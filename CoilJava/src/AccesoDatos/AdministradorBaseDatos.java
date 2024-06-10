@@ -27,7 +27,7 @@ public class AdministradorBaseDatos {
             }
         }
         catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
+            BITACORA.fatal(error);
            throw new ErrorDAO("No fue posible realizar la conexion con la base de datos.\nConctacte a un técnico"
                     , ErrorDAO.Tipo.CONEXION);
         }
@@ -58,7 +58,7 @@ public class AdministradorBaseDatos {
            }
            estaCerrado = true;
        } catch (SQLException error) {
-           BITACORA.fatal(error.getMessage());
+           BITACORA.fatal(error);
            throw new ErrorDAO("Algo sucedio mal con el sistema. \nContacte con un técnico", ErrorDAO.Tipo.CONEXION);
        }
        return estaCerrado;
@@ -73,7 +73,7 @@ public class AdministradorBaseDatos {
             seRevirtio = true;
         }
         catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
+            BITACORA.fatal(error);
             throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
         }
         return seRevirtio;
@@ -90,10 +90,10 @@ public class AdministradorBaseDatos {
             archivoConfiguracion.close();
         }
         catch (FileNotFoundException error) {
-            BITACORA.fatal(error.getMessage());
+            BITACORA.fatal(error);
         }
         catch (IOException error){
-            BITACORA.fatal(error.getMessage());
+            BITACORA.fatal(error);
         }
         return configuracion;
     }
