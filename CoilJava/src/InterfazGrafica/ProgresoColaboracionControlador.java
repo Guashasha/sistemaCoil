@@ -162,16 +162,8 @@ public class ProgresoColaboracionControlador {
     }
 
     private void getFechas () throws ErrorDAO {
-
         LocalDate fechaInicio = dpFechaInicio.getValue();
         LocalDate fechaFin = dpFechaFin.getValue();
-
-        if (fechaInicio == null || fechaFin == null) {
-            mostrarMensajeEmergente("Por favor seleccione ambas fechas", Alert.AlertType.WARNING);
-            return;
-        }
-
-        validarFechas(fechaInicio, fechaFin);
 
         PeriodoDTO periodo = new PeriodoDTO(fechaInicio, fechaFin);
         this.colaboracionDTO.setPeriodo(periodo);
@@ -179,22 +171,33 @@ public class ProgresoColaboracionControlador {
         actualizarEtiquetaPeriodo(fechaInicio, fechaFin);
     }
 
-    private void validarFechas (LocalDate fechaInicio, LocalDate fechaFin) throws ErrorDAO {
+    private boolean sonFechasValidas () throws ErrorDAO {
+        LocalDate fechaInicio = dpFechaInicio.getValue();
+        LocalDate fechaFin = dpFechaFin.getValue();
+
+        if (fechaInicio == null || fechaFin == null) {
+            mostrarMensajeEmergente("Por favor seleccione ambas fechas", Alert.AlertType.WARNING);
+            return false;
+        }
+
         int anioInicio = fechaInicio.getYear();
         int anioFin = fechaFin.getYear();
 
-        LocalDate hoy = LocalDate.now();
+        LocalDate fechaActual = LocalDate.now();
 
-        if (!fechaInicio.isAfter(hoy) || !fechaFin.isAfter(hoy)) {
-            throw new ErrorDAO("Las fechas deben ser posteriores a la fecha actual.", ErrorDAO.Tipo.VALIDACION);
+        if (!fechaInicio.isAfter(fechaActual) || !fechaFin.isAfter(fechaActual)) {
+            mostrarMensajeEmergente("Las fechas deben ser posteriores a la fecha actual.", Alert.AlertType.WARNING);
+            return false;
         }
 
         if (anioInicio != anioFin) {
-            throw new ErrorDAO("Las fechas deben estar en el mismo año.", ErrorDAO.Tipo.VALIDACION);
+            mostrarMensajeEmergente("Las fechas deben estar en el mismo año.", Alert.AlertType.WARNING);
+            return false;
         }
 
-        if (!fechaFin.isAfter(fechaInicio)) {
-            throw new ErrorDAO("La fecha de fin debe ser posterior a la fecha de inicio.", ErrorDAO.Tipo.VALIDACION);
+        if (fechaInicio.equals(fechaFin)) {
+            mostrarMensajeEmergente("La fecha de inicio no debe ser igual a la del fin.", Alert.AlertType.WARNING);
+            return false;
         }
 
         int mesInicio = fechaInicio.getMonthValue();
@@ -204,12 +207,15 @@ public class ProgresoColaboracionControlador {
         boolean esSegundoSemestre = (mesInicio >= 8 && mesInicio <= 12) && (mesFin >= 8 && mesFin <= 12);
 
         if (!esPrimerSemestre && !esSegundoSemestre) {
-            throw new ErrorDAO("""
+            mostrarMensajeEmergente("""
                                        Las fechas deben estar dentro del mismo semestre:
                                        1. Enero a Julio.
                                        2. Agosto a Diciembre.
-                                       """, ErrorDAO.Tipo.VALIDACION);
+                                       """, Alert.AlertType.WARNING);
+            return false;
         }
+
+        return true;
     }
 
     private void actualizarEtiquetaPeriodo (LocalDate fechaInicio, LocalDate fechaFin) {
@@ -231,18 +237,22 @@ public class ProgresoColaboracionControlador {
     private void iniciarColaboracion () {
         if (this.colaboracionDTO.getEstado() != ColaboracionDTO.EstadoColaboracion.activa) {
             ColaboracionDAO colaboracionDAO = new ColaboracionDAO();
-            try {
-                getFechas();
-                colaboracionDAO.cambiarEstadoColaboracion("activa", this.colaboracionDTO.getIdColaboracion());
-                colaboracionDAO.agregarPeriodoAColaboracion(colaboracionDTO);
-                this.colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.activa);
-                cargarLabels();
-                btnFinalizar.setVisible(true);
-                btnIniciar.setVisible(false);
-                mostrarMensajeEmergente("Colaboración iniciada", Alert.AlertType.INFORMATION);
-            }
-            catch (ErrorDAO error) {
-                mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
+            if (sonFechasValidas()) {
+                try {
+                    getFechas();
+                    colaboracionDAO.cambiarEstadoColaboracion("activa", this.colaboracionDTO.getIdColaboracion());
+                    colaboracionDAO.agregarPeriodoAColaboracion(colaboracionDTO);
+                    this.colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.activa);
+                    cargarLabels();
+                    btnFinalizar.setVisible(true);
+                    btnIniciar.setVisible(false);
+                    mostrarMensajeEmergente("Colaboración iniciada", Alert.AlertType.INFORMATION);
+                    dpFechaFin.setVisible(false);
+                    dpFechaInicio.setVisible(false);
+                }
+                catch (ErrorDAO error) {
+                    mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
+                }
             }
         }
         else {

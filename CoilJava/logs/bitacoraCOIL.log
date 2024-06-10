@@ -195,3 +195,6 @@
 2024-06-09 21:55:44 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=33)(type=primary). Connection refused: getsockopt
 2024-06-09 21:56:58 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=6)(type=primary). Connection refused: getsockopt
 2024-06-09 21:57:20 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=6)(type=primary). Connection refused: getsockopt
+2024-06-09 23:05:45 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=3)(type=primary). Connection refused: getsockopt
+2024-06-09 23:05:48 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=3)(type=primary). Connection refused: getsockopt
+2024-06-09 23:06:37 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=36)(type=primary). Connection refused: getsockopt
