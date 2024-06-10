@@ -8,5 +8,4 @@ import java.util.Optional;
 public interface IFacultadDAO {
     Optional<FacultadDTO> getFacultadPorNombre (String nombre) throws SQLException;
     List<FacultadDTO> getFacultadPorRegion (String region) throws SQLException;
-    List<FacultadDTO> getTodasAlfabeticamente () throws SQLException;
 }

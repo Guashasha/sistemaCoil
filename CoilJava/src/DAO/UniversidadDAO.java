@@ -17,14 +17,22 @@ public class UniversidadDAO implements IUniversidadDAO {
         String insertarUniversidadSQL = "INSERT INTO universidad (nombre, paisOrigen) VALUES (?,?)";
         PreparedStatement insertarUniversidad;
 
-        insertarUniversidad = AdministradorBaseDatos.getInstancia().
-                prepareStatement(insertarUniversidadSQL);
-        insertarUniversidad.setString(1, universidad.getNombre());
-        insertarUniversidad.setInt(2, universidad.getIdPais());
-        filasAfectadas = insertarUniversidad.executeUpdate();
+        try {
+            insertarUniversidad = AdministradorBaseDatos.getInstancia().
+                                                        prepareStatement(insertarUniversidadSQL);
+            insertarUniversidad.setString(1, universidad.getNombre());
+            insertarUniversidad.setInt(2, universidad.getIdPais());
+            filasAfectadas = insertarUniversidad.executeUpdate();
 
-        insertarUniversidad.close();
-        AdministradorBaseDatos.desconectar();
+            insertarUniversidad.close();
+
+        }
+        catch (SQLException excepcionSQL) {
+            throw excepcionSQL;
+        }
+        finally {
+            AdministradorBaseDatos.desconectar();
+        }
 
         return filasAfectadas;
     }
@@ -35,15 +43,22 @@ public class UniversidadDAO implements IUniversidadDAO {
         String actualizarUniversidadSQL = "UPDATE universidad SET nombre = ?, paisOrigen = ? WHERE idUniversidad = ?";
         PreparedStatement actualizarUniversidad;
 
-        actualizarUniversidad = AdministradorBaseDatos.getInstancia().
-                prepareStatement(actualizarUniversidadSQL);
-        actualizarUniversidad.setString(1, universidad.getNombre());
-        actualizarUniversidad.setInt(2, universidad.getIdPais());
-        actualizarUniversidad.setInt(3, universidad.getId());
-        filasAfectadas = actualizarUniversidad.executeUpdate();
+        try {
+            actualizarUniversidad = AdministradorBaseDatos.getInstancia().
+                                                          prepareStatement(actualizarUniversidadSQL);
+            actualizarUniversidad.setString(1, universidad.getNombre());
+            actualizarUniversidad.setInt(2, universidad.getIdPais());
+            actualizarUniversidad.setInt(3, universidad.getId());
+            filasAfectadas = actualizarUniversidad.executeUpdate();
 
-        actualizarUniversidad.close();
-        AdministradorBaseDatos.desconectar();
+            actualizarUniversidad.close();
+        }
+        catch (SQLException excepcionSQL) {
+            throw excepcionSQL;
+        }
+        finally {
+            AdministradorBaseDatos.desconectar();
+        }
 
         return filasAfectadas;
     }
@@ -55,17 +70,24 @@ public class UniversidadDAO implements IUniversidadDAO {
         PreparedStatement consultaUniversidad;
         ResultSet resultadoConsulta;
 
-        consultaUniversidad = AdministradorBaseDatos.getInstancia().
-                prepareStatement(consultaUniversidadSQL);
-        consultaUniversidad.setString(1, nombre);
-        resultadoConsulta = consultaUniversidad.executeQuery();
+        try {
+            consultaUniversidad = AdministradorBaseDatos.getInstancia().
+                                                        prepareStatement(consultaUniversidadSQL);
+            consultaUniversidad.setString(1, nombre);
+            resultadoConsulta = consultaUniversidad.executeQuery();
 
-        if (resultadoConsulta.next()) {
-            universidadDTO = convertirResultSetAUniversidad(resultadoConsulta);
+            if (resultadoConsulta.next()) {
+                universidadDTO = convertirResultSetAUniversidad(resultadoConsulta);
+            }
+            consultaUniversidad.close();
+            resultadoConsulta.close();
         }
-        consultaUniversidad.close();
-        resultadoConsulta.close();
-        AdministradorBaseDatos.desconectar();
+        catch (SQLException excepcionSQL) {
+            throw excepcionSQL;
+        }
+        finally {
+            AdministradorBaseDatos.desconectar();
+        }
 
         return Optional.ofNullable(universidadDTO);
     }
@@ -77,17 +99,24 @@ public class UniversidadDAO implements IUniversidadDAO {
         PreparedStatement consultaUniversidades;
         ResultSet resultadoConsulta;
 
-        consultaUniversidades = AdministradorBaseDatos.getInstancia().
-                prepareStatement(consultarUniversidadesSQL);
-        consultaUniversidades.setString(1, paisOrigen);
-        resultadoConsulta = consultaUniversidades.executeQuery();
+        try {
+            consultaUniversidades = AdministradorBaseDatos.getInstancia().
+                                                          prepareStatement(consultarUniversidadesSQL);
+            consultaUniversidades.setString(1, paisOrigen);
+            resultadoConsulta = consultaUniversidades.executeQuery();
 
-        while (resultadoConsulta.next()) {
-            listaUniversidades.add(convertirResultSetAUniversidad(resultadoConsulta));
+            while (resultadoConsulta.next()) {
+                listaUniversidades.add(convertirResultSetAUniversidad(resultadoConsulta));
+            }
+            consultaUniversidades.close();
+            resultadoConsulta.close();
         }
-        consultaUniversidades.close();
-        resultadoConsulta.close();
-        AdministradorBaseDatos.desconectar();
+        catch (SQLException excepcionSQL) {
+            throw excepcionSQL;
+        }
+        finally {
+            AdministradorBaseDatos.desconectar();
+        }
 
         return listaUniversidades;
     }
@@ -99,17 +128,24 @@ public class UniversidadDAO implements IUniversidadDAO {
         PreparedStatement consultaUniversidades;
         ResultSet resultadoConsulta;
 
-        consultaUniversidades = AdministradorBaseDatos.getInstancia().
-                prepareStatement(consultarUniversidadesSQL);
-        consultaUniversidades.setString(1, "%" + nombre + "%");
-        resultadoConsulta = consultaUniversidades.executeQuery();
+        try {
+            consultaUniversidades = AdministradorBaseDatos.getInstancia().
+                                                          prepareStatement(consultarUniversidadesSQL);
+            consultaUniversidades.setString(1, "%" + nombre + "%");
+            resultadoConsulta = consultaUniversidades.executeQuery();
 
-        while (resultadoConsulta.next()) {
-            listaUniversidades.add(convertirResultSetAUniversidad(resultadoConsulta));
+            while (resultadoConsulta.next()) {
+                listaUniversidades.add(convertirResultSetAUniversidad(resultadoConsulta));
+            }
+            consultaUniversidades.close();
+            resultadoConsulta.close();
         }
-        consultaUniversidades.close();
-        resultadoConsulta.close();
-        AdministradorBaseDatos.desconectar();
+        catch (SQLException excepcionSQL) {
+            throw excepcionSQL;
+        }
+        finally {
+            AdministradorBaseDatos.desconectar();
+        }
 
         return listaUniversidades;
     }
@@ -121,16 +157,23 @@ public class UniversidadDAO implements IUniversidadDAO {
         PreparedStatement consultaUniversidades;
         ResultSet resultadoConsulta;
 
-        consultaUniversidades = AdministradorBaseDatos.getInstancia().
-                prepareStatement(consultarUniversidadesSQL);
-        resultadoConsulta = consultaUniversidades.executeQuery();
+        try {
+            consultaUniversidades = AdministradorBaseDatos.getInstancia().
+                                                          prepareStatement(consultarUniversidadesSQL);
+            resultadoConsulta = consultaUniversidades.executeQuery();
 
-        while (resultadoConsulta.next()) {
-            listaUniversidades.add(convertirResultSetAUniversidad(resultadoConsulta));
+            while (resultadoConsulta.next()) {
+                listaUniversidades.add(convertirResultSetAUniversidad(resultadoConsulta));
+            }
+            consultaUniversidades.close();
+            resultadoConsulta.close();
         }
-        consultaUniversidades.close();
-        resultadoConsulta.close();
-        AdministradorBaseDatos.desconectar();
+        catch (SQLException excepcionSQL) {
+            throw excepcionSQL;
+        }
+        finally {
+            AdministradorBaseDatos.desconectar();
+        }
 
         return listaUniversidades;
     }
@@ -142,18 +185,25 @@ public class UniversidadDAO implements IUniversidadDAO {
         PreparedStatement consultaUniversidad;
         ResultSet resultadoConsulta;
 
-        consultaUniversidad = AdministradorBaseDatos.getInstancia().
-                prepareStatement(consultaUniversidadSQL);
-        consultaUniversidad.setString(1, nombre);
-        consultaUniversidad.setString(2, pais);
-        resultadoConsulta = consultaUniversidad.executeQuery();
+        try {
+            consultaUniversidad = AdministradorBaseDatos.getInstancia().
+                                                        prepareStatement(consultaUniversidadSQL);
+            consultaUniversidad.setString(1, nombre);
+            consultaUniversidad.setString(2, pais);
+            resultadoConsulta = consultaUniversidad.executeQuery();
 
-        if (resultadoConsulta.next()) {
-            universidadDTO = convertirResultSetAUniversidad(resultadoConsulta);
+            if (resultadoConsulta.next()) {
+                universidadDTO = convertirResultSetAUniversidad(resultadoConsulta);
+            }
+            consultaUniversidad.close();
+            resultadoConsulta.close();
         }
-        consultaUniversidad.close();
-        resultadoConsulta.close();
-        AdministradorBaseDatos.desconectar();
+        catch (SQLException excepcionSQL) {
+            throw excepcionSQL;
+        }
+        finally {
+            AdministradorBaseDatos.desconectar();
+        }
 
         return Optional.ofNullable(universidadDTO);
     }
@@ -165,17 +215,24 @@ public class UniversidadDAO implements IUniversidadDAO {
         PreparedStatement consultaUniversidad;
         ResultSet resultadoConsulta;
 
-        consultaUniversidad = AdministradorBaseDatos.getInstancia().
-                prepareStatement(consultaUniversidadSQL);
-        consultaUniversidad.setInt(1, id);
-        resultadoConsulta = consultaUniversidad.executeQuery();
+        try {
+            consultaUniversidad = AdministradorBaseDatos.getInstancia().
+                                                        prepareStatement(consultaUniversidadSQL);
+            consultaUniversidad.setInt(1, id);
+            resultadoConsulta = consultaUniversidad.executeQuery();
 
-        if (resultadoConsulta.next()) {
-            universidadDTO = convertirResultSetAUniversidad(resultadoConsulta);
+            if (resultadoConsulta.next()) {
+                universidadDTO = convertirResultSetAUniversidad(resultadoConsulta);
+            }
+            consultaUniversidad.close();
+            resultadoConsulta.close();
         }
-        consultaUniversidad.close();
-        resultadoConsulta.close();
-        AdministradorBaseDatos.desconectar();
+        catch (SQLException excepcionSQL) {
+            throw excepcionSQL;
+        }
+        finally {
+            AdministradorBaseDatos.desconectar();
+        }
 
         return Optional.ofNullable(universidadDTO);
     }

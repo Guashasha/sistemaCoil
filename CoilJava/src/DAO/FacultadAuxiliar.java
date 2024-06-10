@@ -41,15 +41,6 @@ public class FacultadAuxiliar {
         return listaFacultades;
     }
 
-    public List<FacultadDTO> getTodasAlfabeticamente () throws ErrorDAO {
-        try {
-            return FACULTAD_DAO.getTodasAlfabeticamente();
-        } catch (SQLException error) {
-            BITACORA.info(error.getMessage());
-            throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
-        }
-    }
-
     private boolean cadenaValida (String cadena) {
         return cadena != null && !cadena.isBlank();
     }

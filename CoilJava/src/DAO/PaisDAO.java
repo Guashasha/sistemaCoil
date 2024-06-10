@@ -18,16 +18,23 @@ public class PaisDAO implements IPaisDAO {
         PreparedStatement consultaPaises;
         ResultSet resultadoConsulta;
 
-        consultaPaises = AdministradorBaseDatos.getInstancia().
-                prepareStatement(consultaPaisesSQL);
-        resultadoConsulta = consultaPaises.executeQuery();
+        try {
+            consultaPaises = AdministradorBaseDatos.getInstancia().
+                                                   prepareStatement(consultaPaisesSQL);
+            resultadoConsulta = consultaPaises.executeQuery();
 
-        while (resultadoConsulta.next()) {
-            listaPaises.add(convertirResultSetAPais(resultadoConsulta));
+            while (resultadoConsulta.next()) {
+                listaPaises.add(convertirResultSetAPais(resultadoConsulta));
+            }
+            consultaPaises.close();
+            resultadoConsulta.close();
         }
-        consultaPaises.close();
-        resultadoConsulta.close();
-        AdministradorBaseDatos.desconectar();
+        catch (SQLException excepcionSQL) {
+            throw excepcionSQL;
+        }
+        finally {
+            AdministradorBaseDatos.desconectar();
+        }
 
         return listaPaises;
     }
@@ -39,17 +46,24 @@ public class PaisDAO implements IPaisDAO {
         PreparedStatement consultaPaises;
         ResultSet resultadoConsulta;
 
-        consultaPaises = AdministradorBaseDatos.getInstancia().
-                prepareStatement(consultaPaisesSQL);
-        consultaPaises.setString(1,nombre);
-        resultadoConsulta = consultaPaises.executeQuery();
+        try {
+            consultaPaises = AdministradorBaseDatos.getInstancia().
+                                                   prepareStatement(consultaPaisesSQL);
+            consultaPaises.setString(1, nombre);
+            resultadoConsulta = consultaPaises.executeQuery();
 
-        if (resultadoConsulta.next()) {
-            paisDTO = convertirResultSetAPais(resultadoConsulta);
+            if (resultadoConsulta.next()) {
+                paisDTO = convertirResultSetAPais(resultadoConsulta);
+            }
+            consultaPaises.close();
+            resultadoConsulta.close();
         }
-        consultaPaises.close();
-        resultadoConsulta.close();
-        AdministradorBaseDatos.desconectar();
+        catch (SQLException excepcionSQL) {
+            throw excepcionSQL;
+        }
+        finally {
+            AdministradorBaseDatos.desconectar();
+        }
 
         return Optional.ofNullable(paisDTO);
     }
@@ -61,17 +75,24 @@ public class PaisDAO implements IPaisDAO {
         PreparedStatement consultaPaises;
         ResultSet resultadoConsulta;
 
-        consultaPaises = AdministradorBaseDatos.getInstancia().
-                prepareStatement(consultaPaisesSQL);
-        consultaPaises.setInt(1,id);
-        resultadoConsulta = consultaPaises.executeQuery();
+        try {
+            consultaPaises = AdministradorBaseDatos.getInstancia().
+                                                   prepareStatement(consultaPaisesSQL);
+            consultaPaises.setInt(1, id);
+            resultadoConsulta = consultaPaises.executeQuery();
 
-        if (resultadoConsulta.next()) {
-            paisDTO = convertirResultSetAPais(resultadoConsulta);
+            if (resultadoConsulta.next()) {
+                paisDTO = convertirResultSetAPais(resultadoConsulta);
+            }
+            consultaPaises.close();
+            resultadoConsulta.close();
         }
-        consultaPaises.close();
-        resultadoConsulta.close();
-        AdministradorBaseDatos.desconectar();
+        catch (SQLException excepcionSQL) {
+            throw excepcionSQL;
+        }
+        finally {
+            AdministradorBaseDatos.desconectar();
+        }
 
         return Optional.ofNullable(paisDTO);
     }

@@ -3,6 +3,8 @@ package DAO;
 import DAO.Interfaces.IRegionDAO;
 import DTO.RegionDTO;
 import AccesoDatos.AdministradorBaseDatos;
+import Utilidades.ErrorDAO;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,16 +19,23 @@ public class RegionDAO implements IRegionDAO {
         PreparedStatement consultaRegiones;
         ResultSet resultadoConsulta;
 
-        consultaRegiones = AdministradorBaseDatos.getInstancia()
-                .prepareStatement(consultaRegionesSQL);
-        resultadoConsulta = consultaRegiones.executeQuery();
+        try {
+            consultaRegiones = AdministradorBaseDatos.getInstancia()
+                                                     .prepareStatement(consultaRegionesSQL);
+            resultadoConsulta = consultaRegiones.executeQuery();
 
-        while (resultadoConsulta.next()) {
-            listaRegiones.add(convertirResultSetARegion(resultadoConsulta));
+            while (resultadoConsulta.next()) {
+                listaRegiones.add(convertirResultSetARegion(resultadoConsulta));
+            }
+            consultaRegiones.close();
+            resultadoConsulta.close();
         }
-        consultaRegiones.close();
-        resultadoConsulta.close();
-        AdministradorBaseDatos.desconectar();
+        catch (SQLException excepcionSQL) {
+            throw excepcionSQL;
+        }
+        finally {
+            AdministradorBaseDatos.desconectar();
+        }
 
         return listaRegiones;
     }

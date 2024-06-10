@@ -18,17 +18,24 @@ public class FacultadDAO implements IFacultadDAO {
         PreparedStatement consultaUniversidad;
         ResultSet resultadoConsulta;
 
-        consultaUniversidad = AdministradorBaseDatos.getInstancia().
-                prepareStatement(consultaUniversidadSQL);
-        consultaUniversidad.setString(1,nombre);
-        resultadoConsulta = consultaUniversidad.executeQuery();
+        try {
+            consultaUniversidad = AdministradorBaseDatos.getInstancia().
+                                                        prepareStatement(consultaUniversidadSQL);
+            consultaUniversidad.setString(1, nombre);
+            resultadoConsulta = consultaUniversidad.executeQuery();
 
-        if (resultadoConsulta.next()) {
-            facultadDTO = convertirResultSetAFacultad(resultadoConsulta);
+            if (resultadoConsulta.next()) {
+                facultadDTO = convertirResultSetAFacultad(resultadoConsulta);
+            }
+            consultaUniversidad.close();
+            resultadoConsulta.close();
         }
-        consultaUniversidad.close();
-        resultadoConsulta.close();
-        AdministradorBaseDatos.desconectar();
+        catch (SQLException excepcionSQL) {
+            throw excepcionSQL;
+        }
+        finally {
+            AdministradorBaseDatos.desconectar();
+        }
 
         return Optional.ofNullable(facultadDTO);
     }
@@ -40,38 +47,24 @@ public class FacultadDAO implements IFacultadDAO {
         PreparedStatement consultaFacultades;
         ResultSet resultadoConsulta;
 
-        consultaFacultades = AdministradorBaseDatos.getInstancia().
-                prepareStatement(consultaFacultadesSQL);
-        consultaFacultades.setString(1, region);
-        resultadoConsulta = consultaFacultades.executeQuery();
+        try {
+            consultaFacultades = AdministradorBaseDatos.getInstancia().
+                                                       prepareStatement(consultaFacultadesSQL);
+            consultaFacultades.setString(1, region);
+            resultadoConsulta = consultaFacultades.executeQuery();
 
-        while (resultadoConsulta.next()) {
-            listaFacultades.add(convertirResultSetAFacultad(resultadoConsulta));
+            while (resultadoConsulta.next()) {
+                listaFacultades.add(convertirResultSetAFacultad(resultadoConsulta));
+            }
+            consultaFacultades.close();
+            resultadoConsulta.close();
         }
-        consultaFacultades.close();
-        resultadoConsulta.close();
-        AdministradorBaseDatos.desconectar();
-
-        return listaFacultades;
-    }
-
-    @Override
-    public List<FacultadDTO> getTodasAlfabeticamente () throws SQLException {
-        List<FacultadDTO> listaFacultades = new ArrayList<>();
-        String consultaFacultadesSQL = "SELECT * FROM facultad_con_region ORDER BY facultad ASC";
-        PreparedStatement consultaFacultades;
-        ResultSet resultadoConsulta;
-
-        consultaFacultades = AdministradorBaseDatos.getInstancia().
-                prepareStatement(consultaFacultadesSQL);
-        resultadoConsulta = consultaFacultades.executeQuery();
-
-        while (resultadoConsulta.next()) {
-            listaFacultades.add(convertirResultSetAFacultad(resultadoConsulta));
+        catch (SQLException excepcionSQL) {
+            throw excepcionSQL;
         }
-        consultaFacultades.close();
-        resultadoConsulta.close();
-        AdministradorBaseDatos.desconectar();
+        finally {
+            AdministradorBaseDatos.desconectar();
+        }
 
         return listaFacultades;
     }
