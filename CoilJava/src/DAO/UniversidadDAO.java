@@ -82,8 +82,7 @@ public class UniversidadDAO implements IUniversidadDAO {
     /**
      * Obtiene la información de una universidad de acuerdo a su nombre.
      * @param nombre nombre de la universidad que se quiere buscar.
-     * @return Objeto Optional con una universidad inicializada con su id, nombre e id de país; o un objeto Optional
-     * vacío si no se encuentran resultados.
+     * @return Objeto Optional con una universidad inicializada con su id, nombre e id de país; o un objeto Optional vacío si no se encuentran resultados.
      * @throws SQLException si ocurre un error de acceso a la base de datos.
      */
     @Override
