@@ -173,6 +173,8 @@ public class NuevaActividadControlador {
             alerta.setHeaderText("Actividad agregada");
             alerta.showAndWait();
         }
+
+        volver();
     }
 
     private static Alert crearAlerta (ErrorDAO error) {

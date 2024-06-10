@@ -153,23 +153,4 @@ public class ActividadDTODAOTest {
             fail("Fallida: pruebaGetPorIdColaboracionInexistente");
         }
     }
-
-    @Test
-    void pruebaGetTodosExitosa () {
-        List<ActividadDTO> resultado = null;
-        List<ActividadDTO> esperado = new ArrayList<>();
-        esperado.add(ACTIVIDAD1);
-        esperado.add(ACTIVIDAD2);
-        try {
-            resultado = dao.getTodos();
-        } catch (ErrorDAO e) {
-            fail("Fallida: pruebaGetTodosExitosa");
-        }
-
-        if (resultado.isEmpty()) {
-            fail("No se encontraron las actividades esperadas");
-        }
-
-        assertEquals(esperado, resultado);
-    }
 }

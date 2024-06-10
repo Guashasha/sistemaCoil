@@ -20,6 +20,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 public class CrearCuentaAcademicoControlador {
     private BorderPane ventanaPrincipal;
@@ -47,7 +48,7 @@ public class CrearCuentaAcademicoControlador {
     @FXML
     private ComboBox<String> cbRegion;
 
-    public void initialize (BorderPane ventanaPrincipal) {
+    public void initialize(BorderPane ventanaPrincipal) {
         this.ventanaPrincipal = ventanaPrincipal;
 
         llenarComboBoxAreasEstudio();
@@ -56,7 +57,7 @@ public class CrearCuentaAcademicoControlador {
     }
 
     @FXML
-    private void registrarCuenta () {
+    private void registrarCuenta() {
         AcademicoDTO academico = leerCamposAcademico();
 
         if (academico != null) {
@@ -66,8 +67,7 @@ public class CrearCuentaAcademicoControlador {
                 cuenta.setContrasena(academico.getNumeroPersonal());
                 cuenta.setTipo(CuentaDTO.TipoUsuario.academico);
                 cuenta.setEstado(CuentaDTO.EstadoCuenta.aceptada);
-            }
-            catch (ErrorDAO error) {
+            } catch (ErrorDAO error) {
                 Alert alerta = new Alert(Alert.AlertType.ERROR);
                 alerta.setHeaderText("Ocurrió un error");
                 alerta.setContentText(error.getMessage());
@@ -95,7 +95,7 @@ public class CrearCuentaAcademicoControlador {
         }
     }
 
-    void limpiarCampos () {
+    void limpiarCampos() {
         tfNombre.setText("");
         tfApMaterno.setText("");
         tfApPaterno.setText("");
@@ -105,7 +105,7 @@ public class CrearCuentaAcademicoControlador {
         tfNumeroPersonal.setText("");
     }
 
-    private AcademicoDTO leerCamposAcademico () {
+    private AcademicoDTO leerCamposAcademico() {
         if (datosInvalidos()) {
             Alert alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setHeaderText("Datos incorrectos");
@@ -167,8 +167,7 @@ public class CrearCuentaAcademicoControlador {
             persona.setIdFacultad(facultad.get().getId());
             persona.setCategoriaContratacion(categoriaContratacion);
             persona.setIdUniversidad(1);
-        }
-        catch (ErrorDAO error) {
+        } catch (ErrorDAO error) {
             Alert alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setHeaderText("Datos incorrectos");
             alerta.setContentText(error.getMessage());
@@ -180,7 +179,7 @@ public class CrearCuentaAcademicoControlador {
         return persona;
     }
 
-    private void llenarComboBoxAreasEstudio () {
+    private void llenarComboBoxAreasEstudio() {
         List<String> listaAreasEstudio = new ArrayList<>();
         listaAreasEstudio.add("Económico-Administrativo");
         listaAreasEstudio.add("Humanidades");
@@ -193,7 +192,7 @@ public class CrearCuentaAcademicoControlador {
     }
 
     @FXML
-    private void llenarComboBoxFacultades () {
+    private void llenarComboBoxFacultades() {
         FacultadDAO dao = new FacultadDAO();
         this.cbFacultad.setItems(null);
         ArrayList<String> nombresFacultades = new ArrayList<>();
@@ -214,7 +213,7 @@ public class CrearCuentaAcademicoControlador {
         this.cbFacultad.setItems(FXCollections.observableArrayList(nombresFacultades));
     }
 
-    private void llenarComboBoxRegion () {
+    private void llenarComboBoxRegion() {
         RegionAuxiliar dao = new RegionAuxiliar();
         ArrayList<String> regiones = new ArrayList<>();
 
@@ -234,7 +233,7 @@ public class CrearCuentaAcademicoControlador {
         this.cbRegion.setItems(FXCollections.observableArrayList(regiones));
     }
 
-    private void llenarComboBoxCategoriaContratacion () {
+    private void llenarComboBoxCategoriaContratacion() {
         ArrayList<String> categorias = new ArrayList<>();
         categorias.add("planta");
         categorias.add("interino por plaza");
@@ -270,12 +269,54 @@ public class CrearCuentaAcademicoControlador {
         String facultad = cbFacultad.getValue();
         String categoriaContratacion = cbCategoriaContratacion.getValue();
 
-        return nombre.isBlank() || aPaterno.isBlank() || aMaterno.isBlank() || correo.isBlank()
-                || telefono.isBlank() || numeroPersonal.isBlank() || cedula.isBlank()
-                || areaEstudios == null || areaEstudios.isBlank() ||
-                facultad.isBlank() || categoriaContratacion.isBlank() || nombre.length() > 20
-                || aPaterno.length() > 20 || aMaterno.length() > 20 || correo.length() > 30;
+        if (nombre.isBlank()) {
+            crearAlertaValidacion("El tamaño del nombre debe ser entre 1 y 20 caracteres");
+            return false;
+        }
+        if (aPaterno.isBlank()) {
+            crearAlertaValidacion("El tamaño del apellido paterno debe ser entre 1 y 20 caracteres");
+            return false;
+        }
+        if (aMaterno.isBlank()) {
+            crearAlertaValidacion("El tamaño del apellido materno debe ser entre 1 y 20 caracteres");
+            return false;
+        }
+        if (correo.isBlank() || !Pattern.matches("[A-z0-9./+-]+@[A-z]+\\.[A-z]{1,3}", correo)) {
+            crearAlertaValidacion("El correo proporcionado no es valido");
+            return false;
+        }
+        if (telefono.isBlank() || !Pattern.matches("^(?!0)[1-9]\\d{11,13}$", telefono)) {
+            crearAlertaValidacion("El numero de telefono es invalido, asegurese de poner su lada, seguido de su numero de telefono (min. 11 digitos, max .13 digitos)");
+            return false;
+        }
+        if (numeroPersonal.isBlank() || !Pattern.matches("^[1-9][0-9]{1,40}$", numeroPersonal)) {
+            crearAlertaValidacion("El numero de personal ingresado debe ser numerico y de 1 a 40 digitos");
+            return false;
+        }
+        if (cedula.isBlank() || !Pattern.matches("^[0-9]{1,30}$", cedula)) {
+            crearAlertaValidacion("La cedula profesional debe ser numerica y de 1 a 30 digitos");
+            return false;
+        }
+        if (areaEstudios == null || areaEstudios.isBlank()) {
+            crearAlertaValidacion("Profavor seleccione un area de estudios");
+            return false;
+        }
+        if (facultad == null || facultad.isBlank()) {
+            crearAlertaValidacion("Por favor seleccione una facultad");
+            return false;
+        }
+        if (categoriaContratacion == null || categoriaContratacion.isBlank()) {
+            crearAlertaValidacion("Por favor seleccione una categoria de contratación");
+            return false;
+        }
+
+        return true;
     }
 
-
+    private void crearAlertaValidacion(String mensaje) {
+        Alert alerta = new Alert(Alert.AlertType.ERROR);
+        alerta.setHeaderText("Campos incorrectos");
+        alerta.setContentText(mensaje);
+        alerta.showAndWait();
+    }
 }
