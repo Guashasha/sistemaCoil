@@ -46,16 +46,16 @@ public class CuentaItemControlador implements Initializable {
 
     private CuentaDTO cuentaDTOObtenida;
 
-    private VBox lyInformacionCuenta;
+    private VBox vboxCuenta;
     private AcademicoDTO academicoDTO;
 
 
-    public VBox getLyInformacionCuenta () {
-        return lyInformacionCuenta;
+    public VBox getVboxCuenta () {
+        return vboxCuenta;
     }
 
-    public void setLyInformacionCuenta (VBox lyInformacionCuenta) {
-        this.lyInformacionCuenta = lyInformacionCuenta;
+    public void setVboxCuenta (VBox vboxCuenta) {
+        this.vboxCuenta = vboxCuenta;
     }
 
     public void setCuentaObtenida (CuentaDTO cuentaDTOObtenida) {

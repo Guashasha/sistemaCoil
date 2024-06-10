@@ -56,13 +56,13 @@ public class ProgresoColaboracionControlador {
     @FXML
     private Label lbPeriodoTitulo;
     @FXML
-    private Pane pnPrincipal;
+    private Pane pnActual;
 
     private ColaboracionDTO colaboracionDTO;
 
     private AcademicoDTO academicoDTO;
     private Optional<RetroalimentacionColaboracionDTO> retroalimentacionColaboracionOpt = Optional.empty();
-    private BorderPane ventanaPrincipal;
+    private BorderPane pnVentanaPrincipal;
 
     public void inicializar () {
         dpFechaInicio.getEditor()
@@ -275,8 +275,8 @@ public class ProgresoColaboracionControlador {
         this.colaboracionDTO = colaboracionDTO;
     }
 
-    public void setVentanaPrincipal (BorderPane ventanaPrincipal) {
-        this.ventanaPrincipal = ventanaPrincipal;
+    public void setPnVentanaPrincipal (BorderPane pnVentanaPrincipal) {
+        this.pnVentanaPrincipal = pnVentanaPrincipal;
     }
 
     @FXML
@@ -330,8 +330,8 @@ public class ProgresoColaboracionControlador {
 
         if (pnRetroalimentacion != null) {
             RetroalimentarColaboracionControlador controlador = fxmlLoader.getController();
-            controlador.initialize(this.colaboracionDTO, this.ventanaPrincipal, this.pnPrincipal, this);
-            this.ventanaPrincipal.setCenter(pnRetroalimentacion);
+            controlador.initialize(this.colaboracionDTO, this.pnVentanaPrincipal, this.pnActual, this);
+            this.pnVentanaPrincipal.setCenter(pnRetroalimentacion);
         }
     }
 }

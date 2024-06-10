@@ -51,21 +51,21 @@ public class VentanaPrincipalAcademicoControlador {
     @FXML
     public void abrirSeccionColaboracion () {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SeccionColaboracionAcademico.fxml"));
-        AnchorPane apSeccionColaboracion = null;
+        AnchorPane pnSeccionColaboracion = null;
 
         try {
-            apSeccionColaboracion = fxmlLoader.load();
+            pnSeccionColaboracion = fxmlLoader.load();
         }
         catch (IOException error) {
             BITACORA.fatal(error.getMessage());
             mostrarMensajeEmergente("Error al cargar la selección", Alert.AlertType.ERROR);
         }
 
-        if (apSeccionColaboracion != null) {
-            SeccionColaboracionAcademicoControlador seccionColaboracionAcademicoControlador = fxmlLoader.getController();
-            seccionColaboracionAcademicoControlador.setAcademicoDTO(this.academico);
-            seccionColaboracionAcademicoControlador.setPnVentanaPrincipal(this.pnPrincipal);
-            this.pnPrincipal.setCenter(apSeccionColaboracion);
+        if (pnSeccionColaboracion != null) {
+            SeccionColaboracionAcademicoControlador controlador = fxmlLoader.getController();
+            controlador.setAcademicoDTO(this.academico);
+            controlador.setPnVentanaPrincipal(this.pnPrincipal);
+            this.pnPrincipal.setCenter(pnSeccionColaboracion);
         }
     }
 
