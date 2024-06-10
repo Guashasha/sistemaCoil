@@ -55,6 +55,7 @@ public class ColaboracionDisponibleItemControlador implements Initializable {
                 if (colaboracionDTOOptional.isEmpty()) {
                     if (esSolicitud) {
                         registrarSolicitudParticipacion();
+                        mostrarMensajeEmergente("Solicitud realizada con éxito", Alert.AlertType.INFORMATION);
                     }
                 }
                 else {
@@ -76,26 +77,29 @@ public class ColaboracionDisponibleItemControlador implements Initializable {
         }
     }
 
-    private boolean mostrarDetallesColaboracion () {
+    private boolean mostrarDetallesColaboracion() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Tema de la colaboración: " + colaboracionDTO.getTemaInteres());
         alert.setHeaderText(null);
-        alert.setContentText(
-                "Tipo: " + colaboracionDTO.getTipo()
-                                          .toString() + "\n\n" +
-                        "Perfil del estudiante: " + colaboracionDTO.getPerfilEstudiante() + "\n\n" +
-                        "Academico: " + colaboracionDTO.getAnfitrion()
-                                                       .getNombre() + " " + colaboracionDTO.getAnfitrion()
-                                                                                           .getApellidoPaterno() + " " + colaboracionDTO.getAnfitrion()
-                                                                                                                                        .getApellidoMaterno() + "\n\n" +
-                        "Universidad: " + getUniversidad(colaboracionDTO.getAnfitrion()
-                                                                        .getIdUniversidad()).getNombre() + "\n"
-        );
+
+        StringBuilder contenido = new StringBuilder();
+        contenido.append("Tipo: ").append(colaboracionDTO.getTipo().toString()).append("\n\n")
+               .append("Perfil del estudiante: ").append(colaboracionDTO.getPerfilEstudiante()).append("\n\n")
+               .append("Academico: ").append(colaboracionDTO.getAnfitrion().getNombre()).append(" ")
+               .append(colaboracionDTO.getAnfitrion().getApellidoPaterno()).append(" ")
+               .append(colaboracionDTO.getAnfitrion().getApellidoMaterno()).append("\n\n")
+               .append("Universidad: ").append(getUniversidad(colaboracionDTO.getAnfitrion().getIdUniversidad()).getNombre()).append("\n");
+
+        TextArea taAreaDatos = new TextArea(contenido.toString());
+        taAreaDatos.setWrapText(true);
+        taAreaDatos.setEditable(false);
+        taAreaDatos.setMaxHeight(200);
+
+        alert.getDialogPane().setContent(taAreaDatos);
 
         ButtonType btnSolicitud = new ButtonType("Solicitar participación");
         ButtonType btnSalir = new ButtonType("Salir");
-        alert.getButtonTypes()
-             .setAll(btnSolicitud, btnSalir);
+        alert.getButtonTypes().setAll(btnSolicitud, btnSalir);
 
         alert.showAndWait();
         return alert.getResult() == btnSolicitud;

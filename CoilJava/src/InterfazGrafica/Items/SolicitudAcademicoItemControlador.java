@@ -13,8 +13,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 
 import java.util.Optional;
 
@@ -40,12 +39,15 @@ public class SolicitudAcademicoItemControlador {
 
     @FXML
     private Label lbAreaEstudios;
+    @FXML
+    private AnchorPane paneItem;
 
     private AcademicoDTO academicoDTO;
     private ColaboracionDTO colaboracionDTO;
     private SolicitudesAColaboracionControlador solicitudesAColaboracionControlador;
     private Pane pnMiColaboracion;
     public BorderPane panelVentanaPrincipal;
+    private VBox vbContenedor;
 
     public void setAcademicoDTO (AcademicoDTO academicoDTO) {
         this.academicoDTO = academicoDTO;
@@ -59,7 +61,8 @@ public class SolicitudAcademicoItemControlador {
         UniversidadAuxiliar universidadAuxiliar = new UniversidadAuxiliar();
         Optional<UniversidadDTO> universidadDTOOptional = universidadAuxiliar.getUniversidadPorId(this.academicoDTO.getIdUniversidad());
         if (universidadDTOOptional.isPresent()) {
-            return universidadDTOOptional.get().getNombre();
+            return universidadDTOOptional.get()
+                                         .getNombre();
         }
         throw new IllegalArgumentException("Error al momento de obtener la universidad de LOS académicoS");
     }
@@ -75,17 +78,22 @@ public class SolicitudAcademicoItemControlador {
     @FXML
     private void rechazarSolicitud () {
         ColaboracionDAO colaboracionDAO = new ColaboracionDAO();
-        try {
-            colaboracionDAO.actualizarEstadoSolicitudDeParticipacion(this.colaboracionDTO.getIdColaboracion(), this.academicoDTO.getCedulaProfesional(), "rechazado");
-        }
-        catch (ErrorDAO error) {
-            mostrarAlert(error.getMessage(), Alert.AlertType.ERROR);
+        boolean deseaEliminar = mostrarConfirmacion("¿Seguro que desea rechazar esta solicitud?");
+        if (deseaEliminar) {
+            try {
+                colaboracionDAO.actualizarEstadoSolicitudDeParticipacion(this.colaboracionDTO.getIdColaboracion(), this.academicoDTO.getCedulaProfesional(), "rechazado");
+                this.vbContenedor.getChildren().remove(this.paneItem);
+            }
+            catch (ErrorDAO error) {
+                mostrarAlert(error.getMessage(), Alert.AlertType.ERROR);
+            }
         }
     }
 
     @FXML
     private void aceptarSolicitud () {
-        if (this.colaboracionDTO.getEstado().toString() != ColaboracionDTO.EstadoColaboracion.vinculada.toString()) {
+        if (this.colaboracionDTO.getEstado()
+                                .toString() != ColaboracionDTO.EstadoColaboracion.vinculada.toString()) {
 
             ColaboracionAuxiliar colaboracionAuxiliar = new ColaboracionAuxiliar();
 
@@ -98,7 +106,8 @@ public class SolicitudAcademicoItemControlador {
             catch (ErrorDAO error) {
                 mostrarAlert(error.getMessage(), Alert.AlertType.ERROR);
             }
-        }else {
+        }
+        else {
             mostrarAlert("Ya cuenta con un par académico en su colaboración", Alert.AlertType.INFORMATION);
         }
     }
@@ -114,12 +123,8 @@ public class SolicitudAcademicoItemControlador {
         this.solicitudesAColaboracionControlador = solicitudesAColaboracionControlador;
     }
 
-    public void setPanales (Pane pnMiColaboracion, BorderPane panelVentanaPrincipal) {
-        this.pnMiColaboracion = pnMiColaboracion;
-        this.panelVentanaPrincipal = panelVentanaPrincipal;
-    }
 
-    private boolean mostrarConfirmacion(String mensaje) {
+    private boolean mostrarConfirmacion (String mensaje) {
         Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
         confirmacion.setContentText(mensaje);
         confirmacion.setHeaderText(null);
@@ -128,5 +133,7 @@ public class SolicitudAcademicoItemControlador {
         return resultado.isPresent() && resultado.get() == ButtonType.OK;
     }
 
-
+    public void setVbContenedor (VBox vbContenedor) {
+        this.vbContenedor = vbContenedor;
+    }
 }
