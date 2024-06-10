@@ -229,7 +229,7 @@ public class CuentaDAO implements ICuentaDAO {
 
     @Override
     public int modificar (CuentaDTO obj) throws ErrorDAO, ExecutionControl.NotImplementedException {
-        return 0;
+        throw new ExecutionControl.NotImplementedException("Metodo no implementado");
     }
 
     @Override

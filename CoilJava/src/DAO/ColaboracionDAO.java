@@ -106,20 +106,20 @@ public class ColaboracionDAO implements IColaboracionDAO {
 
     @Override
     public List<AcademicoDTO> getAcademicosParticipantes (ColaboracionDTO colaboracionDTO) throws ErrorDAO {
-        String academicosParticipantes = "SELECT * FROM vista_colaboracion_con_academico WHERE idColaboracion = ? AND (estadoAcademico = 'anfitrion' OR estadoAcademico = 'aceptado')";
+        String academicosParticipantesSQL = "SELECT * FROM vista_colaboracion_con_academico WHERE idColaboracion = ? AND (estadoAcademico = 'anfitrion' OR estadoAcademico = 'aceptado')";
         List<AcademicoDTO> listaAcademicoDTOS = new ArrayList<>();
         try {
-            CallableStatement procedimientoAcademicosParticipantes = AdministradorBaseDatos.getInstancia().
-                                                                                           prepareCall(academicosParticipantes);
-            procedimientoAcademicosParticipantes.setInt(1, colaboracionDTO.getIdColaboracion());
+            PreparedStatement academicosParticipantes = AdministradorBaseDatos.getInstancia().
+                                                                                           prepareStatement(academicosParticipantesSQL);
+            academicosParticipantes.setInt(1, colaboracionDTO.getIdColaboracion());
 
-            ResultSet resultadoAcademicosParticipantes = procedimientoAcademicosParticipantes.executeQuery();
+            ResultSet resultadoAcademicosParticipantes = academicosParticipantes.executeQuery();
             while (resultadoAcademicosParticipantes.next()) {
                 AcademicoDTO academicoDTO = convertirAcademico(resultadoAcademicosParticipantes);
                 listaAcademicoDTOS.add(academicoDTO);
             }
             resultadoAcademicosParticipantes.close();
-            procedimientoAcademicosParticipantes.close();
+            academicosParticipantes.close();
         }
         catch (SQLException error) {
             BITACORA.info(error);
@@ -133,12 +133,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
 
     @Override
     public List<ColaboracionDTO> getColaboracionPorPeriodo (PeriodoDTO periodoDTO) throws ErrorDAO {
-        String colaboracionPorPeriodoSQL = """
-                SELECT c.*, va.*
-                FROM colaboracion c
-                INNER JOIN academicoDesarrolla ad ON c.idColaboracion = ad.idColaboracion
-                INNER JOIN vista_academico va ON ad.idAcademico = va.cedulaProfesional
-                WHERE c.fechaInicio =? AND fechaFin = ?""";
+        String colaboracionPorPeriodoSQL = "SELECT * FROM vista_colaboracion_con_academico WHERE fechaInicio = ? AND fechaFin = ?";
 
         List<ColaboracionDTO> listaColaboracionDTO = new ArrayList<>();
         try {
@@ -167,12 +162,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
 
     @Override
     public List<ColaboracionDTO> getColaboracionPorIdioma (String idioma) throws ErrorDAO {
-        String colaboracionPorIdiomaSQL = """
-                SELECT c.*, va.*
-                FROM colaboracion c
-                INNER JOIN academicoDesarrolla ad ON c.idColaboracion = ad.idColaboracion
-                INNER JOIN vista_academico va ON ad.idAcademico = va.cedulaProfesional
-                WHERE c.idioma = ?""";
+        String colaboracionPorIdiomaSQL = "SELECT * from vista_colaboracion_con_academico WHERE idioma = ?";
         List<ColaboracionDTO> listaColaboracionDTO = new ArrayList<>();
 
         try {
@@ -198,12 +188,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
 
     @Override
     public List<ColaboracionDTO> getColaboracionPorEstado (String estado) throws ErrorDAO {
-        String colaboracionPorEstadoSQL = """
-                SELECT c.*, va.*
-                FROM colaboracion c
-                INNER JOIN academicoDesarrolla ad ON c.idColaboracion = ad.idColaboracion
-                INNER JOIN vista_academico va ON ad.idAcademico = va.cedulaProfesional
-                WHERE c.estado = ?""";
+        String colaboracionPorEstadoSQL = "SELECT * FROM vista_colaboracion_con_academico WHERE estado = ?";
         List<ColaboracionDTO> listaColaboraciones = new ArrayList<>();
 
         try {
@@ -1075,6 +1060,5 @@ public class ColaboracionDAO implements IColaboracionDAO {
             AdministradorBaseDatos.desconectar();
         }
         return filasAfectadas;
-
     }
 }

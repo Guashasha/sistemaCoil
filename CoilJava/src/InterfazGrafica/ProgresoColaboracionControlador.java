@@ -114,7 +114,7 @@ public class ProgresoColaboracionControlador {
 
     public void actualizarVisibilidadBotones () {
         ColaboracionDTO.EstadoColaboracion estado = this.colaboracionDTO.getEstado();
-
+        System.out.println(estado.toString());
         switch (estado) {
             case finalizada:
                 btnRetroalimentar.setVisible(false);
@@ -216,7 +216,6 @@ public class ProgresoColaboracionControlador {
                                             """, Alert.AlertType.WARNING);
             return false;
         }
-
         return true;
     }
 
