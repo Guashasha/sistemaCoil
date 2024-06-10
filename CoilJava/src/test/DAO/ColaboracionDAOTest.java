@@ -1215,10 +1215,7 @@ class ColaboracionDAOTest {
         catch (ErrorDAO errorDAO) {
             fail("pruebaGetTodosExitosa " + errorDAO.getMessage());
         }
-
         assertEquals(tamanoEsperado, listaColaboracionDTO.size(), "pruebaGetTodosExitosa");
-
     }
-
 
 }

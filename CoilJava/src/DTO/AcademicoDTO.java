@@ -114,7 +114,7 @@ public class AcademicoDTO extends PersonaDTO {
         }
     }
 
-    private void verificarCorreo (String correoElectronico)  {
+    private void verificarCorreo (String correoElectronico) {
         String CORREO_REGEX = "[A-z0-9./+-]+@[A-z]+\\.[A-z]{1,3}";
         Pattern patron = Pattern.compile(CORREO_REGEX);
         if (correoElectronico == null || correoElectronico.isEmpty()) {
@@ -123,9 +123,11 @@ public class AcademicoDTO extends PersonaDTO {
         Matcher matcher = patron.matcher(correoElectronico);
         if (!matcher.matches()) {
             throw new ErrorDAO("El correo electrónico no es válido\n" +
-                                       "1.No debe tener espacios en blanco", ErrorDAO.Tipo.VALIDACION);
+                                       "1.No debe tener espacios en blanco\n"
+                                       + "Ejemplo:\n correoEjemplo@dominio.com", ErrorDAO.Tipo.VALIDACION);
         }
     }
+
     private void verificarNumeroPersonal (String numeroPersonal) {
         String NUMERO_P_REGEX = "^[1-9][0-9]{0,39}$";
         Pattern patron = Pattern.compile(NUMERO_P_REGEX);
@@ -155,7 +157,6 @@ public class AcademicoDTO extends PersonaDTO {
             }
         }
     }
-
 
 
     private void verificarNumeroTelefonico (String numeroTelefonico) {
