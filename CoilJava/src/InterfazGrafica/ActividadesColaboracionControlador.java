@@ -100,6 +100,12 @@ public class ActividadesColaboracionControlador {
             panelActividad.setSpacing(30.0);
             Button boton = crearBotonRetroalimentar(actividad);
 
+            RetroalimentacionActividadAuxiliar dao = new RetroalimentacionActividadAuxiliar();
+
+            if (dao.getPorPersonaYActividad(usuario.getIdPersona(), actividad.getIdActividad()).isPresent()) {
+                boton.setDisable(true);
+            }
+
             panelActividad.getChildren().addAll(new Label(actividad.getTitulo()), boton);
         }
         else {

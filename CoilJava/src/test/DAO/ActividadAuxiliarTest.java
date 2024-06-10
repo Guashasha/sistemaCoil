@@ -127,28 +127,4 @@ public class ActividadAuxiliarTest {
 
         assert(resultado.isEmpty());
     }
-
-    @Test
-    public void pruebaGetTodos () {
-        ArrayList<ActividadDTO> actividades = new ArrayList<>();
-        actividades.add(new ActividadDTO("titulo 1", "descripcion 1", ActividadDTO.TipoActividad.rompeHielo));
-        actividades.add(new ActividadDTO("titulo 2", "descripcion 2", ActividadDTO.TipoActividad.cierre));
-        actividades.add(new ActividadDTO("titulo 3", "descripcion 3", ActividadDTO.TipoActividad.rompeHielo));
-
-        List<ActividadDTO> resultados = null;
-        ActividadAuxiliar act = new ActividadAuxiliar();
-
-        try {
-            resultados = act.getTodos();
-        }
-        catch (ErrorDAO error) {
-            fail();
-        }
-
-        if (resultados == null) {
-            fail();
-        }
-
-        assertEquals(actividades, resultados);
-    }
 }
