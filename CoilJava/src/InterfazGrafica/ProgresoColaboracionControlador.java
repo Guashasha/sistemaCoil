@@ -134,15 +134,21 @@ public class ProgresoColaboracionControlador {
                 break;
             case enRevision:
                 if (retroalimentacionColaboracionOpt.isPresent()) {
-                    btnRetroalimentar.setVisible(true);
+                    btnRetroalimentar.setVisible(false);
                     btnFinalizar.setVisible(true);
-                    btnIniciar.setVisible(false);
                 }
+                else {
+                    btnRetroalimentar.setVisible(true);
+                    btnFinalizar.setVisible(false);
+                }
+
                 btnIniciar.setVisible(false);
                 dpFechaInicio.setVisible(false);
                 dpFechaFin.setVisible(false);
                 break;
             default:
+                btnRetroalimentar.setVisible(false);
+                btnFinalizar.setVisible(true);
                 break;
         }
     }
