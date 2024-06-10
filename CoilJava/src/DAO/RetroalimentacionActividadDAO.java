@@ -16,6 +16,12 @@ import java.util.Optional;
 
 public class RetroalimentacionActividadDAO implements IRetroalimentacionActividadDAO {
 
+  /**
+   * Consigue una retroalimentación de actividad que tenga el id proporcionado
+   * @param id el id de la retroalimentación que se quiere buscar
+   * @return La retroalimentación de actividad con el id proporcionado, empty si no se encuentra ninguna retroalimentación con la id proporcionada
+   * @throws ErrorDAO tipo conexión si ocurre un error de sql, tipo consulta si no se encuentra ninguna retroalimentación con ese id
+   */
   @Override
   public Optional<RetroalimentacionActividadDTO> getPorId(Integer id) throws ErrorDAO {
     ResultSet retroalimentacion = null;
@@ -45,6 +51,13 @@ public class RetroalimentacionActividadDAO implements IRetroalimentacionActivida
     return Optional.of(resultSetAObjeto(retroalimentacion));
   }
 
+  /**
+   * Consigué la retroalimentación de la actividad especificada y la persona que la realizó
+   * @param idPersona la id de la persona que realizó la retroalimentación
+   * @param idActividad la id de la actividad que se busca la retroalimentación
+   * @return la retroalimentación de la actividad especificada, realizada por la persona especificada
+   * @throws ErrorDAO tipo conexión si ocurre un error de sql
+   */
   public Optional<RetroalimentacionActividadDTO> getPorPersonaYActividad(int idPersona, int idActividad)
       throws ErrorDAO {
     ResultSet resultado = null;
@@ -75,6 +88,12 @@ public class RetroalimentacionActividadDAO implements IRetroalimentacionActivida
     return Optional.of(resultSetAObjeto(resultado));
   }
 
+  /**
+   * Valida y registra una retroalimentación de actividad a la base de datos
+   * @param retroalimentacion la retroalimentación que se guardará en la base de datos
+   * @return el numero de filas alteradas
+   * @throws ErrorDAO tipo conexión si ocurre un error de sql
+   */
   @Override
   public int agregar(RetroalimentacionActividadDTO retroalimentacion) throws ErrorDAO {
     int resultado = -1;
@@ -111,6 +130,11 @@ public class RetroalimentacionActividadDAO implements IRetroalimentacionActivida
     throw new ExecutionControl.NotImplementedException("metodo no implementado");
   }
 
+  /**
+   * consigué todas las retroalimentaciones de actividad registradas en la base de datos
+   * @return ArrayList de retroalimentaciones de actividad
+   * @throws ErrorDAO tipo conexion si ocurre un error de sql
+   */
   public List<RetroalimentacionActividadDTO> getTodos() throws ErrorDAO {
     ResultSet resultado = null;
 
@@ -149,6 +173,11 @@ public class RetroalimentacionActividadDAO implements IRetroalimentacionActivida
     return retroalimentaciones;
   }
 
+  /**
+   * convierte un ResultSet que contenga los datos de una retroalimentación de actividad a un objeto RetroalimentacionActividadDTO
+   * @param resultados El ResultSet a convertir, debe ser de la forma: id, interaccionConPar, comentario, dificultad, interes, idUsuario, idActividad
+   * @return Un objeto RetroalimentaciónActividiadDTO
+   */
   public static RetroalimentacionActividadDTO resultSetAObjeto(ResultSet resultados) {
     RetroalimentacionActividadDTO retroalimentacion = new RetroalimentacionActividadDTO();
 

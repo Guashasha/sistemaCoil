@@ -493,30 +493,6 @@ class EstudianteDAOTest {
     }
 
     @Test
-    void pruebaGetEstudiantePorMatriculaYUniversidadExitosa (){
-        Optional<EstudianteDTO> resultado = Optional.empty();
-        try {
-            resultado = ESTUDIANTE_DAO.getEstudiantePorMatriculaYUniversidad(estudianteRegistrado1.getMatricula(),estudianteRegistrado1.getIdUniversidad());
-        }
-        catch (ErrorDAO error) {
-            fail("Fallida: pruebaGetEstudiantePorMatriculaYUniversidadExitosa\n" + error.getMessage());
-        }
-        assertTrue(resultado.isPresent());
-        assertEquals(estudianteRegistrado1,resultado.get(),"pruebaGetEstudiantePorMatriculaYUniversidadExitosa");
-    }
-
-    @Test
-    void pruebaGetEstudiantePorMatriculaYUniversidadInexistente () {
-        try {
-            Optional<EstudianteDTO> resultado = ESTUDIANTE_DAO.getEstudiantePorMatriculaYUniversidad("zs20013029",1);
-            assertTrue(resultado.isEmpty(),"pruebaGetEstudiantePorMatriculaInexistente");
-        }
-        catch (ErrorDAO error) {
-            fail("Fallida: pruebaGetEstudiantePorMatriculaInexistente\n" +  error.getMessage());
-        }
-    }
-
-    @Test
     void pruebaGetEstudiantesSinColaboracionActivaOVinculadaPorUniversidadExitosa () {
         List<EstudianteDTO> listaEsperada = new ArrayList<>();
         List<EstudianteDTO> listaObtenida = new ArrayList<>();

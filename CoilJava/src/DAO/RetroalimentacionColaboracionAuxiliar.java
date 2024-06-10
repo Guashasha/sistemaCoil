@@ -13,6 +13,12 @@ import java.util.Optional;
 public class RetroalimentacionColaboracionAuxiliar {
   private static final Logger BITACORA = Logger.getLogger(RetroalimentacionActividadDTO.class.getName());
 
+  /**
+   * Agrega a la base de datos una retroalimentación de colaboración
+   * @param retroalimentacion la retroalimentación que se registrará en la base de datos
+   * @return el numero de filas afectadas en la base de datos
+   * @throws ErrorDAO tipo conexión si ocurre un error de sql, tipo validacion si la retroalimentación es incorrecta o está en un estado diferente a enRevision, tipo duplicidad si la persona ya retroalimentó la colaboración, consulta si no se puede encontrar la colaboración
+   */
   public int agregar(RetroalimentacionColaboracionDTO retroalimentacion) throws ErrorDAO {
     if (!retroalimentacion.esCorrecta()) {
       throw new ErrorDAO("los datos de la colaboracion son invalidos", Tipo.VALIDACION);
@@ -45,10 +51,12 @@ public class RetroalimentacionColaboracionAuxiliar {
     return resultado;
   }
 
-  public int modificar(RetroalimentacionColaboracionDTO obj) throws ErrorDAO {
-    throw new ErrorDAO("metodo no disponible para el objeto", Tipo.VALIDACION);
-  }
-
+  /**
+   * Consigué una retroalimentación de colaboración por su id
+   * @param id el id de la retroalimentación que se busca
+   * @return la retroalimentación colaboración con el id especificado
+   * @throws ErrorDAO tipo conexión si ocurre un error de sql, tipo consulta si no se encuentra la retroalimentación con la id especificada, tipo validación si la id es incorrecta
+   */
   public Optional<RetroalimentacionColaboracionDTO> getPorId(Integer id) throws ErrorDAO {
     if (id < 1) {
       throw new ErrorDAO("la id proporcionada no es correcta", Tipo.VALIDACION);
@@ -66,6 +74,13 @@ public class RetroalimentacionColaboracionAuxiliar {
     return retroalimentacion;
   }
 
+  /**
+   * Consigue la retroalimentación de colaboración a partir de la persona que realizó la retroalimentación y la colaboración retroalimentada
+   * @param idPersona la id de la persona que realiza la retroalimentación
+   * @param idColaboracion la id de la colaboración retroalimentada
+   * @return la retroalimentación de colaboración especificada que realizó la persona especificada
+   * @throws ErrorDAO tipo conexión si ocurre un error de sql, tipo consulta si no se encuentra la retroalimentación, tipo validación si alguna de las id's es incorrecta
+   */
   public Optional<RetroalimentacionColaboracionDTO> getPorPersonaYColaboracion(int idPersona, int idColaboracion) {
     if (idPersona < 1 || idColaboracion < 1) {
       throw new ErrorDAO("alguna de las id proporcionadas no es correcta", Tipo.VALIDACION);
@@ -83,6 +98,11 @@ public class RetroalimentacionColaboracionAuxiliar {
     return retroalimentacion;
   }
 
+  /**
+   * Consigue todas las retroalimentaciones que se encuentren guardadas en la base de datos
+   * @return ArrayList de todas las retroalimentaciones de colaboración que se encuentren en la base de datos
+   * @throws ErrorDAO tipo conexión si ocurre un error de sql, tipo consulta si no existen retroalimentaciones
+   */
   public List<RetroalimentacionColaboracionDTO> getTodos() throws ErrorDAO {
     List<RetroalimentacionColaboracionDTO> resultados = null;
     RetroalimentacionColaboracionDAO retroalimentacionDAO = new RetroalimentacionColaboracionDAO();

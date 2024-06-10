@@ -8,6 +8,7 @@ import DTO.ActividadVinculadaDTO;
 import DTO.ColaboracionDTO;
 import DTO.CuentaDTO;
 import Utilidades.ErrorDAO;
+import Utilidades.VerificadorBitacora;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -16,6 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.*;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -23,6 +25,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class ActividadesColaboracionControlador {
+    private static final Logger BITACORA = Logger.getLogger(NuevaActividadControlador.class);
     private CuentaDTO usuario;
     private ColaboracionDTO colaboracion;
     private BorderPane ventanaPrincipal;
@@ -143,6 +146,7 @@ public class ActividadesColaboracionControlador {
                         alerta.showAndWait();
                     }
                 } catch (ErrorDAO error) {
+                    BITACORA.error(error);
                     Alert alerta = new Alert(Alert.AlertType.ERROR);
                     alerta.setContentText(error.getMessage());
                     alerta.setHeaderText("Error");
@@ -177,6 +181,7 @@ public class ActividadesColaboracionControlador {
                         alerta.showAndWait();
                     }
                 } catch (ErrorDAO error) {
+                    BITACORA.error(error);
                     Alert alerta = new Alert(Alert.AlertType.ERROR);
                     alerta.setContentText(error.getMessage());
                     alerta.setHeaderText("Error");
