@@ -12,12 +12,17 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class CronogramaActividadDAO implements ICronogramaActividad {
+    /**
+     * Vincula una actvidad con una colaboración en la base de datos
+     * @param actividadDTO los datos de la acitividad y la colaboración que se vincularán
+     * @return el numero de filas insertadas en la base de datos
+     * @throws ErrorDAO tipo conexion si ocurre un error de sql
+     */
     @Override
     public int agregar (ActividadVinculadaDTO actividadDTO) throws ErrorDAO {
         int resultado = -1;
@@ -39,6 +44,12 @@ public class CronogramaActividadDAO implements ICronogramaActividad {
         return resultado;
     }
 
+    /**
+     * desvincula la actividad de la colaboración
+     * @param actividadVinculada Los datos de la actividad y la colaboración que desean ser desvinculadas
+     * @return el numero de filas modificadas
+     * @throws ErrorDAO tipo conexión si ocurre un error de sql
+     */
     @Override
     public int desvincular (ActividadVinculadaDTO actividadVinculada) throws ErrorDAO {
         int resultado = -1;
@@ -62,6 +73,12 @@ public class CronogramaActividadDAO implements ICronogramaActividad {
         return resultado;
     }
 
+    /**
+     *
+     * @param actividadVinculada
+     * @return
+     * @throws ErrorDAO
+     */
     @Override
     public int modificar(ActividadVinculadaDTO actividadVinculada) throws ErrorDAO {
         int resultado = -1;

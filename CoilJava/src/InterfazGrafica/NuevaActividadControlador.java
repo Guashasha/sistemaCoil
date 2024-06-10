@@ -155,6 +155,7 @@ public class NuevaActividadControlador {
             resultado = cronograma.agregar(actividadVinculadaDTO);
         }
         catch (ErrorDAO error) {
+            BITACORA.error(error);
             Alert errorAlert = crearAlerta(error);
             errorAlert.showAndWait();
 

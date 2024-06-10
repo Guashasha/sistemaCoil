@@ -11,6 +11,12 @@ import java.util.Optional;
 public class CronogramaActividadAuxiliar {
     private static final Logger BITACORA = Logger.getLogger(CronogramaActividadAuxiliar.class);
 
+    /**
+     * Valida y vincula una actividad con una colaboración, la actividad vinculada debe contener ambas, actividad y colaboración
+     * @param actividadVinculadaDTO los datos de la actividad y la colaboración que serán vinculados
+     * @return el numero de filas afectadas
+     * @throws ErrorDAO tipo validación si la actividad o la colaboración son incorrectas, tipo inserción si no se pudieron vincular y tipo conexión si ocurre un error de sql
+     */
     public int agregar (ActividadVinculadaDTO actividadVinculadaDTO) throws ErrorDAO {
         if (!actividadVinculadaDTO.getActividad()
                 .esCorrecta()) {
@@ -29,6 +35,12 @@ public class CronogramaActividadAuxiliar {
         return 1;
     }
 
+    /**
+     * Desvincula una actividad de una colaboración
+     * @param actividadVinculadaDTO los datos de la actividad que se desvinculará de la colaboración
+     * @return el numero de filas afectadas
+     * @throws ErrorDAO tipo validación si la actividad o la colaboración es incorrecta, tipo conexión si ocurre un error de sql
+     */
     public int desvincular (ActividadVinculadaDTO actividadVinculadaDTO) throws ErrorDAO {
         if (!actividadVinculadaDTO.esCorrecto()) {
             throw new ErrorDAO("La actividad vinculada es incorrecta.", ErrorDAO.Tipo.VALIDACION);
@@ -57,13 +69,14 @@ public class CronogramaActividadAuxiliar {
     }
 
     public Optional<ActividadVinculadaDTO> getPorActividadYColaboracion (int idActividad, int idColaboracion) {
-        Optional<ActividadVinculadaDTO> rsActividad = Optional.empty();
+        Optional<ActividadVinculadaDTO> rsActividad;
         CronogramaActividadDAO cronogramaDAO = new CronogramaActividadDAO();
 
         try {
             rsActividad = cronogramaDAO.getPorActividadYColaboracion(idActividad, idColaboracion);
         }
         catch (ErrorDAO error) {
+            BITACORA.error(error);
             throw new ErrorDAO("Error de conexion a la base de datos: " + error.getMessage(), ErrorDAO.Tipo.CONEXION);
         }
 
