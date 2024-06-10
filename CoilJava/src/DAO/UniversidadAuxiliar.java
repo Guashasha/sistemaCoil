@@ -157,7 +157,7 @@ public class UniversidadAuxiliar {
      * Valida la información para obtener la lista de universidades que tienen el nombre coincidente con una cadena determinada.
      * @param universidad universidad inicializada con el nombre que se desea usar como coincidencia.
      * @return lista con las universidades coincidentes con la cadena especificada o una lista vacía si no se encuentran resultados.
-     * @throws ErrorDAO
+     * @throws ErrorDAO si ocurre un error en la validación de la información o durante el acceso a la base de datos.
      */
     public List<UniversidadDTO> getUniversidadesPorNombre (UniversidadDTO universidad) throws ErrorDAO {
         if (esNulo(universidad)) {
@@ -184,9 +184,9 @@ public class UniversidadAuxiliar {
     }
 
     /**
-     * 
-     * @return
-     * @throws ErrorDAO
+     * Obtiene una lista de todas las universidades que se encuentran en la base de datos, ordenadas de manera alfabética de acuerdo a su nombre.
+     * @return Lista de universidades ordenada de manera alfabética o una lista vacía si no se encuentran resultados.
+     * @throws ErrorDAO si ocurre un error en la validación de la información o durante el acceso a la base de datos.
      */
     public List<UniversidadDTO> getTodasAlfabeticamente () throws ErrorDAO {
         try {
@@ -198,6 +198,7 @@ public class UniversidadAuxiliar {
         }
     }
 
+    
     public Optional<UniversidadDTO> getUniversidadPorId (int id) throws ErrorDAO {
         Optional<UniversidadDTO> universidad;
         if (id > 0) {
