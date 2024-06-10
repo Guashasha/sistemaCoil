@@ -51,13 +51,12 @@ public class EnvioPropuestaControlador implements Initializable {
                 colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.propuesta);
                 COLABORACION_AUXILIAR.registrarPropuestaColaboracion(colaboracionDTO, academicoAnfitrion);
                 mostrarMensajeEmergente("Su propuesta ha sido registrada.\nPronto será evaluada,", Alert.AlertType.INFORMATION);
+                this.pnVentanaPrincipal.setCenter(this.historialPaneles.pop());
             }
             catch (ErrorDAO errorDAO) {
                 mostrarMensajeEmergente(errorDAO.getMessage(), Alert.AlertType.ERROR);
             }
         }
-
-        this.pnVentanaPrincipal.setCenter(this.historialPaneles.pop());
     }
 
     private boolean sonCamposValidos () {
