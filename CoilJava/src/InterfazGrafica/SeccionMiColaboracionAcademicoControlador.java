@@ -128,31 +128,37 @@ public class SeccionMiColaboracionAcademicoControlador {
     }
 
     @FXML
-    private void abrirProgresoColaboracion () {
-        Optional<ColaboracionDTO> colaboracionOptional = getColaboracionVinculadaOActiva();
-        if (colaboracionOptional.isPresent() || existeColaboracionEnRevision()) {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ProgresoColaboracion.fxml"));
-                BorderPane pnProgresoColaboracion = null;
+    private void abrirProgresoColaboracion() {
+        Optional<ColaboracionDTO> colaboracionVinculadaOActiva = getColaboracionVinculadaOActiva();
+        Optional<ColaboracionDTO> colaboracionActual = getColaboracionActual();
 
-                try {
-                    pnProgresoColaboracion = fxmlLoader.load();
-                }
-                catch (IOException error) {
-                    BITACORA.fatal(error.getMessage());
-                    mostrarMensajeEmergente("Error al cargar la seccion de inicio de colaboracion", Alert.AlertType.ERROR);
-                }
-                if (pnProgresoColaboracion != null) {
-                    this.historialPaneles.push(pnActual);
-                    ProgresoColaboracionControlador progresoColaboracionControlador = fxmlLoader.getController();
-                    progresoColaboracionControlador.setColaboracionDTO(colaboracionOptional.get());
-                    progresoColaboracionControlador.setAcademicoDTO(this.academicoDTO);
-                    progresoColaboracionControlador.setPnVentanaPrincipal(this.pnVentanaPrincipal);
-                    progresoColaboracionControlador.inicializar();
-                    this.pnVentanaPrincipal.setCenter(pnProgresoColaboracion);
-                }
-        }
-        else {
-            mostrarMensajeEmergente("No existe una colaboracion activa o vinculada con un par", Alert.AlertType.WARNING);
+        Optional<ColaboracionDTO> colaboracionOptional = colaboracionVinculadaOActiva.isPresent()
+                ? colaboracionVinculadaOActiva
+                : colaboracionActual;
+
+        if (colaboracionOptional.isPresent()) {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ProgresoColaboracion.fxml"));
+            BorderPane pnProgresoColaboracion = null;
+
+            try {
+                pnProgresoColaboracion = fxmlLoader.load();
+            } catch (IOException error) {
+                BITACORA.fatal(error.getMessage(), error);
+                mostrarMensajeEmergente("Error al cargar la sección de inicio de colaboración", Alert.AlertType.ERROR);
+                return;
+            }
+
+            if (pnProgresoColaboracion != null) {
+                this.historialPaneles.push(pnActual);
+                ProgresoColaboracionControlador progresoColaboracionControlador = fxmlLoader.getController();
+                progresoColaboracionControlador.setColaboracionDTO(colaboracionOptional.get());
+                progresoColaboracionControlador.setAcademicoDTO(this.academicoDTO);
+                progresoColaboracionControlador.setPnVentanaPrincipal(this.pnVentanaPrincipal);
+                progresoColaboracionControlador.inicializar();
+                this.pnVentanaPrincipal.setCenter(pnProgresoColaboracion);
+            }
+        } else {
+            mostrarMensajeEmergente("No existe una colaboración activa o vinculada con un par", Alert.AlertType.WARNING);
         }
     }
 
@@ -171,7 +177,7 @@ public class SeccionMiColaboracionAcademicoControlador {
         return colaboracionActivaOptional.isPresent() ? colaboracionActivaOptional : colaboracionVinculadaOptional;
     }
 
-    private boolean existeColaboracionEnRevision () {
+    private Optional<ColaboracionDTO> getColaboracionActual () {
         ColaboracionDAO colaboracionDAO = new ColaboracionDAO();
         Optional<ColaboracionDTO> colaboracionActualOptional = Optional.empty();
         try {
@@ -180,13 +186,7 @@ public class SeccionMiColaboracionAcademicoControlador {
         catch (ErrorDAO error) {
             mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
         }
-        if (colaboracionActualOptional.isPresent()) {
-            return colaboracionActualOptional.get()
-                                             .getEstado() == ColaboracionDTO.EstadoColaboracion.enRevision;
-        }
-        else {
-            return false;
-        }
+        return colaboracionActualOptional;
     }
 
 

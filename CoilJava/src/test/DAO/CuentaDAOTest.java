@@ -16,6 +16,7 @@ class CuentaDAOTest {
     private final CuentaDAO CUENTA_DAO = new CuentaDAO();
     @BeforeEach
     void setUp () {
+        AyudantePruebasCuentaDB.borrarTodosDatosTabla();
         AyudantePruebasCuentaDB.agregarPrecondiciones();
     }
 

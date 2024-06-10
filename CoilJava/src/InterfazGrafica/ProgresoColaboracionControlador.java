@@ -95,18 +95,20 @@ public class ProgresoColaboracionControlador {
         this.lbTemaInteres.setText(colaboracionDTO.getTemaInteres());
         this.lbTipo.setText(colaboracionDTO.getTipo()
                                            .toString());
-        if (colaboracionDTO.getPeriodo()
-                           .getFechaInicio() != null || colaboracionDTO.getPeriodo()
-                                                                       .getFechaFin() != null) {
-            lbPeriodoTitulo.setVisible(true);
-            lbPeriodo.setVisible(true);
-            lbPeriodo.setText(colaboracionDTO.getPeriodo()
-                                             .getFechaInicio()
-                                             .toString() + " - " + colaboracionDTO.getPeriodo()
-                                                                                  .getFechaFin());
-            actualizarEtiquetaPeriodo(colaboracionDTO.getPeriodo()
-                                                     .getFechaInicio(), colaboracionDTO.getPeriodo()
-                                                                                       .getFechaFin());
+        if (colaboracionDTO.getPeriodo() != null) {
+            if (colaboracionDTO.getPeriodo()
+                               .getFechaInicio() != null || colaboracionDTO.getPeriodo()
+                                                                           .getFechaFin() != null) {
+                lbPeriodoTitulo.setVisible(true);
+                lbPeriodo.setVisible(true);
+                lbPeriodo.setText(colaboracionDTO.getPeriodo()
+                                                 .getFechaInicio()
+                                                 .toString() + " - " + colaboracionDTO.getPeriodo()
+                                                                                      .getFechaFin());
+                actualizarEtiquetaPeriodo(colaboracionDTO.getPeriodo()
+                                                         .getFechaInicio(), colaboracionDTO.getPeriodo()
+                                                                                           .getFechaFin());
+            }
         }
     }
 
@@ -208,10 +210,10 @@ public class ProgresoColaboracionControlador {
 
         if (!esPrimerSemestre && !esSegundoSemestre) {
             mostrarMensajeEmergente("""
-                                       Las fechas deben estar dentro del mismo semestre:
-                                       1. Enero a Julio.
-                                       2. Agosto a Diciembre.
-                                       """, Alert.AlertType.WARNING);
+                                            Las fechas deben estar dentro del mismo semestre:
+                                            1. Enero a Julio.
+                                            2. Agosto a Diciembre.
+                                            """, Alert.AlertType.WARNING);
             return false;
         }
 
