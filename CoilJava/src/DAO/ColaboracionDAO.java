@@ -14,6 +14,13 @@ import java.util.*;
 public class ColaboracionDAO implements IColaboracionDAO {
     private static final Logger BITACORA = Logger.getLogger(ColaboracionDAO.class);
 
+    /**
+     * Obtiene una colaboración por su ID.
+     *
+     * @param idColaboracion el ID de la colaboración.
+     * @return un Optional que contiene la colaboración si se encuentra, de lo contrario está vacío.
+     * @throws ErrorDAO si ocurre un error de acceso a datos.
+     */
     @Override
     public Optional<ColaboracionDTO> getColaboracionPorId (int idColaboracion) throws ErrorDAO {
         String colaboracionPorIdSQL = """
@@ -50,6 +57,13 @@ public class ColaboracionDAO implements IColaboracionDAO {
         return Optional.ofNullable(colaboracionDTO);
     }
 
+    /**
+     * Agrega un periodo a una colaboración.
+     *
+     * @param colaboracionDTO la colaboración.
+     * @return el número de filas afectadas.
+     * @throws ErrorDAO si ocurre un error de acceso a datos.
+     */
     @Override
     public int agregarPeriodoAColaboracion (ColaboracionDTO colaboracionDTO) throws ErrorDAO {
         String agregarPeriodoSQL = "UPDATE colaboracion SET fechaInicio = ?, fechaFin = ? WHERE idColaboracion = ?";
@@ -77,6 +91,13 @@ public class ColaboracionDAO implements IColaboracionDAO {
         return filasAfectadas;
     }
 
+    /**
+     * Obtiene la lista de estudiantes de una colaboración.
+     *
+     * @param colaboracionDTO la colaboración.
+     * @return la lista de estudiantes.
+     * @throws ErrorDAO si ocurre un error de acceso a datos.
+     */
     @Override
     public List<EstudianteDTO> getListaDeEstudiantes (ColaboracionDTO colaboracionDTO) throws ErrorDAO {
         String listaDeEstudiantesSQL = "{CALL obtener_estudiantes_colaboracion(?)}";
@@ -104,6 +125,13 @@ public class ColaboracionDAO implements IColaboracionDAO {
         return listaEstudianteDTOS;
     }
 
+    /**
+     * Obtiene la lista de académicos participantes en una colaboración.
+     *
+     * @param colaboracionDTO la colaboración.
+     * @return la lista de académicos.
+     * @throws ErrorDAO si ocurre un error de acceso a datos.
+     */
     @Override
     public List<AcademicoDTO> getAcademicosParticipantes (ColaboracionDTO colaboracionDTO) throws ErrorDAO {
         String academicosParticipantesSQL = "SELECT * FROM vista_colaboracion_con_academico WHERE idColaboracion = ? AND (estadoAcademico = 'anfitrion' OR estadoAcademico = 'aceptado')";
@@ -131,6 +159,13 @@ public class ColaboracionDAO implements IColaboracionDAO {
         return listaAcademicoDTOS;
     }
 
+    /**
+     * Obtiene la lista de colaboraciones dentro de un periodo.
+     *
+     * @param periodoDTO el periodo.
+     * @return la lista de colaboraciones.
+     * @throws ErrorDAO si ocurre un error de acceso a datos.
+     */
     @Override
     public List<ColaboracionDTO> getColaboracionPorPeriodo (PeriodoDTO periodoDTO) throws ErrorDAO {
         String colaboracionPorPeriodoSQL = "SELECT * FROM vista_colaboracion_con_academico WHERE fechaInicio = ? AND fechaFin = ?";
@@ -160,6 +195,13 @@ public class ColaboracionDAO implements IColaboracionDAO {
         return listaColaboracionDTO;
     }
 
+    /**
+     * Obtiene la lista de colaboraciones por idioma.
+     *
+     * @param idioma el idioma.
+     * @return la lista de colaboraciones.
+     * @throws ErrorDAO si ocurre un error de acceso a datos.
+     */
     @Override
     public List<ColaboracionDTO> getColaboracionPorIdioma (String idioma) throws ErrorDAO {
         String colaboracionPorIdiomaSQL = "SELECT * from vista_colaboracion_con_academico WHERE idioma = ?";
@@ -186,6 +228,13 @@ public class ColaboracionDAO implements IColaboracionDAO {
         return listaColaboracionDTO;
     }
 
+    /**
+     * Obtiene la lista de colaboraciones por estado.
+     *
+     * @param estado el estado.
+     * @return la lista de colaboraciones.
+     * @throws ErrorDAO si ocurre un error de acceso a datos.
+     */
     @Override
     public List<ColaboracionDTO> getColaboracionPorEstado (String estado) throws ErrorDAO {
         String colaboracionPorEstadoSQL = "SELECT * FROM vista_colaboracion_con_academico WHERE estado = ?";
@@ -213,6 +262,14 @@ public class ColaboracionDAO implements IColaboracionDAO {
         return listaColaboraciones;
     }
 
+    /**
+     * Cambia el estado de una colaboración.
+     *
+     * @param nuevoEstado el nuevo estado.
+     * @param idColaboracion el ID de la colaboración.
+     * @return el número de filas afectadas.
+     * @throws ErrorDAO si ocurre un error de acceso a datos.
+     */
     @Override
     public int cambiarEstadoColaboracion (String nuevoEstado, int idColaboracion) throws ErrorDAO {
         String cambiarEstadoColaboracionSQL = "UPDATE colaboracion SET estado = ? WHERE idColaboracion = ?";
@@ -236,6 +293,14 @@ public class ColaboracionDAO implements IColaboracionDAO {
         return filasAfectadas;
     }
 
+    /**
+     * Agrega un estudiante a una colaboración.
+     *
+     * @param colaboracionDTO la colaboración.
+     * @param estudianteDTO el estudiante.
+     * @return el número de filas afectadas.
+     * @throws ErrorDAO si ocurre un error de acceso a datos.
+     */
     @Override
     public int agregarEstudianteAColaboracion (ColaboracionDTO colaboracionDTO, EstudianteDTO estudianteDTO) throws ErrorDAO {
         String agregarEstudianteAColaboracionSQL = "INSERT INTO estudiantesColaboracion (idEstudiante, idColaboracion) VALUES (?, ?)";
@@ -264,6 +329,14 @@ public class ColaboracionDAO implements IColaboracionDAO {
 
     }
 
+    /**
+     * Registra una solicitud de participación de un académico en una colaboración.
+     *
+     * @param colaboracionDTO la colaboración.
+     * @param academicoDTO el académico.
+     * @return el número de filas afectadas.
+     * @throws ErrorDAO si ocurre un error de acceso a datos.
+     */
     @Override
     public int registrarSolicitudParticipacion (ColaboracionDTO colaboracionDTO, AcademicoDTO academicoDTO) throws ErrorDAO {
         String agregarAcademicoAColaboracionSQL = "INSERT INTO academicoDesarrolla (idColaboracion, idAcademico, estado) VALUES (?, ?, 'pendiente')";
@@ -288,6 +361,13 @@ public class ColaboracionDAO implements IColaboracionDAO {
         return filasAfectadas;
     }
 
+    /**
+     * Obtiene la colaboración activa de un académico.
+     *
+     * @param academicoDTO el académico.
+     * @return un Optional que contiene la colaboración si se encuentra, de lo contrario está vacío.
+     * @throws ErrorDAO si ocurre un error de acceso a datos.
+     */
     @Override
     public Optional<ColaboracionDTO> getActivaPorAcademico (AcademicoDTO academicoDTO) throws ErrorDAO {
         String obtenerColaboracionActivaAcademicoSQL = "SELECT * FROM vista_colaboracion_con_academico WHERE estado = 'activa' AND cedulaProfesional = ?";
@@ -313,6 +393,13 @@ public class ColaboracionDAO implements IColaboracionDAO {
         return Optional.ofNullable(colaboracionDTO);
     }
 
+    /**
+     * Obtiene la colaboración aceptada de un académico.
+     *
+     * @param academicoDTO el académico.
+     * @return un Optional que contiene la colaboración aceptada si se encuentra, de lo contrario está vacío.
+     * @throws ErrorDAO si ocurre un error de acceso a datos.
+     */
     public Optional<ColaboracionDTO> getColaboracionAceptadaPorAcademico (AcademicoDTO academicoDTO) throws ErrorDAO {
         String getColaboracionAceptadaSQL = "SELECT * FROM vista_colaboracion_con_academico WHERE estado = 'aceptada' AND cedulaProfesional = ?";
         ColaboracionDTO colaboracionDTO = null;
@@ -337,6 +424,13 @@ public class ColaboracionDAO implements IColaboracionDAO {
         return Optional.ofNullable(colaboracionDTO);
     }
 
+    /**
+     * Obtiene la propuesta de colaboración de un académico.
+     *
+     * @param academicoDTO el académico.
+     * @return un Optional que contiene la colaboración si se encuentra, de lo contrario está vacío.
+     * @throws ErrorDAO si ocurre un error de acceso a datos.
+     */
     @Override
     public Optional<ColaboracionDTO> getPropuestaPorAcademico (AcademicoDTO academicoDTO) throws ErrorDAO {
         String getPropuestaPorAcademico = "SELECT * FROM vista_colaboracion_con_academico WHERE estado = 'propuesta' AND cedulaProfesional = ?";
@@ -362,6 +456,14 @@ public class ColaboracionDAO implements IColaboracionDAO {
         return Optional.ofNullable(colaboracionDTO);
     }
 
+    /**
+     * Registra una propuesta de colaboración.
+     *
+     * @param colaboracionDTO la colaboración.
+     * @param academicoDTO el académico.
+     * @return el número de filas afectadas.
+     * @throws ErrorDAO si ocurre un error de acceso a datos.
+     */
     @Override
     public int registrarPropuestaColaboracion (ColaboracionDTO colaboracionDTO, AcademicoDTO academicoDTO) throws ErrorDAO {
         String registrarPropuestaSQL = "INSERT INTO colaboracion (temaInteres, objetivo, estado) VALUES (?,?,?)";
@@ -404,6 +506,12 @@ public class ColaboracionDAO implements IColaboracionDAO {
         return filasAfectadas;
     }
 
+    /**
+     * Obtiene la lista de propuestas de colaboración.
+     *
+     * @return la lista de colaboraciones.
+     * @throws ErrorDAO si ocurre un error de acceso a datos.
+     */
     @Override
     public List<ColaboracionDTO> getPropuestasColaboracion () throws ErrorDAO {
         String getPropuestasSQL = "SELECT * FROM vista_colaboracion_con_academico WHERE estadoAcademico = 'anfitrion' AND estado = 'propuesta'";
@@ -427,6 +535,14 @@ public class ColaboracionDAO implements IColaboracionDAO {
         return listaColaboracion;
     }
 
+    /**
+     * Obtiene la lista de colaboraciones disponibles para un académico en una universidad.
+     *
+     * @param cedulaProfesional la cédula profesional del académico.
+     * @param idUniversidad el ID de la universidad.
+     * @return la lista de colaboraciones.
+     * @throws ErrorDAO si ocurre un error de acceso a datos.
+     */
     @Override
     public List<ColaboracionDTO> getColaboracionesDisponibles (String cedulaProfesional, int idUniversidad) throws ErrorDAO {
         String getColaboracionesDisponiblesSQL = "SELECT * FROM vista_colaboracion_con_academico WHERE estadoAcademico = 'anfitrion' AND estado = 'disponible' AND cedulaProfesional != ? AND idUniversidad != ?";
@@ -451,6 +567,13 @@ public class ColaboracionDAO implements IColaboracionDAO {
         return listaColaboracion;
     }
 
+    /**
+     * Obtiene la colaboración actual de un académico por su cédula profesional.
+     *
+     * @param cedulaProfesional la cédula profesional del académico.
+     * @return un Optional que contiene la colaboración actual si se encuentra, de lo contrario está vacío.
+     * @throws ErrorDAO si ocurre un error de acceso a datos.
+     */
     @Override
     public Optional<ColaboracionDTO> getColaboracionActualPorAcademico (String cedulaProfesional) {
         String colaboracionActualSQL = "SELECT * FROM vista_colaboracion_con_academico WHERE (estadoAcademico = 'anfitrion' OR estadoAcademico = 'aceptado') AND (estado = 'disponible' OR estado = 'vinculada' OR estado = 'activa' OR estado = 'enRevision') AND cedulaProfesional = ?";
@@ -483,6 +606,13 @@ public class ColaboracionDAO implements IColaboracionDAO {
         return Optional.ofNullable(colaboracionDTO);
     }
 
+    /**
+     * Obtiene la colaboración disponible para un académico por su cédula profesional.
+     *
+     * @param cedulaProfesional la cédula profesional del académico.
+     * @return un Optional que contiene la colaboración si se encuentra, de lo contrario está vacío.
+     * @throws ErrorDAO si ocurre un error de acceso a datos.
+     */
     @Override
     public Optional<ColaboracionDTO> getColaboracionDisponiblePorAcademico (String cedulaProfesional) throws ErrorDAO {
         String colaboracionDisponibleSQL = "SELECT * FROM vista_colaboracion_con_academico WHERE estadoAcademico = 'anfitrion' AND estado = 'disponible' AND cedulaProfesional = ?";
@@ -505,6 +635,14 @@ public class ColaboracionDAO implements IColaboracionDAO {
         return Optional.ofNullable(colaboracionDTO);
     }
 
+    /**
+     * Verifica si existe una solicitud previa de un académico en una colaboración.
+     *
+     * @param colaboracionDTO la colaboración.
+     * @param academicoDTO el académico.
+     * @return true si existe una solicitud previa, false de lo contrario.
+     * @throws ErrorDAO si ocurre un error de acceso a datos.
+     */
     @Override
     public boolean existeUnaSolicitudPrevia (ColaboracionDTO colaboracionDTO, AcademicoDTO academicoDTO) throws ErrorDAO {
         String obtenerAcademicoSolicitud = "SELECT * FROM vista_colaboracion_con_academico WHERE idColaboracion = ? AND cedulaProfesional = ? AND estadoAcademico = 'pendiente'";
@@ -527,6 +665,14 @@ public class ColaboracionDAO implements IColaboracionDAO {
         return colaboracionDTOOptional.isPresent();
     }
 
+
+    /**
+     * Obtiene la lista de solicitudes de académicos para una colaboración.
+     *
+     * @param idColaboracion el ID de la colaboración.
+     * @return la lista de académicos.
+     * @throws ErrorDAO si ocurre un error de acceso a datos.
+     */
     @Override
     public List<AcademicoDTO> getSolicitudAcademicoColaboracion (int idColaboracion) throws ErrorDAO {
         String obtenerAcademicoSQL = "SELECT * FROM vista_colaboracion_con_academico WHERE estadoAcademico = 'pendiente' AND idColaboracion = ?";
@@ -551,6 +697,13 @@ public class ColaboracionDAO implements IColaboracionDAO {
         return listaAcademico;
     }
 
+    /**
+     * Obtiene la lista de solicitudes de un académico.
+     *
+     * @param academicoDTO el académico.
+     * @return la lista de colaboraciones.
+     * @throws ErrorDAO si ocurre un error de acceso a datos.
+     */
     @Override
     public List<ColaboracionDTO> getSolicitudesDeAcademico (AcademicoDTO academicoDTO) throws ErrorDAO {
         String obtenerColaboracionSQL = "SELECT * FROM vista_colaboracion_con_academico WHERE estadoAcademico = 'pendiente' AND cedulaProfesional = ?";
@@ -576,6 +729,15 @@ public class ColaboracionDAO implements IColaboracionDAO {
 
     }
 
+    /**
+     * Actualiza el estado de una solicitud de participación.
+     *
+     * @param idColaboracion el ID de la colaboración.
+     * @param cedulaProfesional el ID del académico.
+     * @param nuevoEstado el nuevo estado.
+     * @return el número de filas afectadas.
+     * @throws ErrorDAO si ocurre un error de acceso a datos.
+     */
     @Override
     public int actualizarEstadoSolicitudDeParticipacion (int idColaboracion, String cedulaProfesional, String nuevoEstado) throws ErrorDAO {
         String actualizarSQL = "UPDATE academicoDesarrolla SET estado = ? WHERE idColaboracion = ? AND idAcademico = ?";
@@ -602,6 +764,14 @@ public class ColaboracionDAO implements IColaboracionDAO {
         return filasAfectadas;
     }
 
+    /**
+     * Rechaza otras solicitudes de participación de un académico en colaboraciones distintas a la especificada.
+     *
+     * @param idColaboracion el ID de la colaboración actual.
+     * @param cedulaProfesional la cédula profesional del académico.
+     * @return el número de filas afectadas por la actualización.
+     * @throws ErrorDAO si ocurre un error de acceso a datos.
+     */
     @Override
     public int rechazarOtrasSolicitudesDeParticipacion (int idColaboracion, String cedulaProfesional) throws ErrorDAO {
         String actualizarSQL = "UPDATE academicoDesarrolla SET estado = 'rechazada' WHERE idAcademico = ? AND idColaboracion != ?";
@@ -627,7 +797,14 @@ public class ColaboracionDAO implements IColaboracionDAO {
         return filasAfectadas;
     }
 
-
+    /**
+     * Elimina una solicitud de participación de un académico en una colaboración.
+     *
+     * @param colaboracionDTO la colaboración.
+     * @param academicoDTO el académico.
+     * @return el número de filas afectadas.
+     * @throws ErrorDAO si ocurre un error de acceso a datos.
+     */
     @Override
     public int eliminarSolicitudDeParticipacion (ColaboracionDTO colaboracionDTO, AcademicoDTO academicoDTO) throws ErrorDAO {
         String eliminarSQL = "Update academicoDesarrolla SET estado = 'rechazado' WHERE idColaboracion = ? AND idAcademico = ?";
@@ -767,6 +944,13 @@ public class ColaboracionDAO implements IColaboracionDAO {
         return Optional.ofNullable(colaboracionDTO);
     }
 
+    /**
+     * Obtiene el académico par de una colaboración.
+     *
+     * @param colaboracionDTO la colaboración.
+     * @return un Optional que contiene el académico si se encuentra, de lo contrario está vacío.
+     * @throws ErrorDAO si ocurre un error de acceso a datos.
+     */
     @Override
     public Optional<AcademicoDTO> getAcademicoPar (ColaboracionDTO colaboracionDTO) throws ErrorDAO {
         String getAcademicoParSQL = "SELECT * FROM vista_colaboracion_con_academico WHERE estadoAcademico = 'aceptado' AND idColaboracion = ?";
@@ -794,6 +978,12 @@ public class ColaboracionDAO implements IColaboracionDAO {
         return Optional.ofNullable(academicoDTO);
     }
 
+    /**
+     * Obtiene todas las colaboraciones.
+     *
+     * @return la lista de todas las colaboraciones.
+     * @throws ErrorDAO si ocurre un error de acceso a datos.
+     */
     public List<ColaboracionDTO> getTodos () throws ErrorDAO {
         String getTodosSQL = "SELECT * FROM vista_colaboracion_con_academico";
         List<ColaboracionDTO> listaColaboracionDTO = new ArrayList<>();
@@ -925,18 +1115,39 @@ public class ColaboracionDAO implements IColaboracionDAO {
         }
     }
 
+    /**
+     * Obtiene la numeralia de colaboraciones por región en un periodo dado.
+     *
+     * @param periodo el periodo.
+     * @return un mapa con la numeralia por región.
+     * @throws ErrorDAO si ocurre un error de acceso a datos.
+     */
     @Override
     public Map<String, int[]> getNumeraliaRegion (PeriodoDTO periodo) throws ErrorDAO {
         String numeraliaRegionSQL = "{CALL numeralia_region(?,?)}";
         return ejecutarConsultaNumeralia(numeraliaRegionSQL, periodo);
     }
 
+    /**
+     * Obtiene la numeralia de colaboraciones por área académica en un periodo dado.
+     *
+     * @param periodo el periodo.
+     * @return un mapa con la numeralia por área académica.
+     * @throws ErrorDAO si ocurre un error de acceso a datos.
+     */
     @Override
     public Map<String, int[]> getNumeraliaAreaAcademica (PeriodoDTO periodo) throws ErrorDAO {
         String numeraliaAreaAcademicaSQL = "{CALL numeralia_area_academica(?,?)}";
         return ejecutarConsultaNumeralia(numeraliaAreaAcademicaSQL, periodo);
     }
 
+
+    /**
+     * Obtiene la fecha de la colaboración más antigua.
+     *
+     * @return un Optional que contiene la fecha de la colaboración más antigua si se encuentra, de lo contrario está vacío.
+     * @throws ErrorDAO si ocurre un error de acceso a datos.
+     */
     @Override
     public Optional<LocalDate> getFechaColaboracionMasAntigua () throws ErrorDAO {
         LocalDate fechaMasAntigua = null;
@@ -1011,6 +1222,13 @@ public class ColaboracionDAO implements IColaboracionDAO {
         return numeralia;
     }
 
+    /**
+     * Obtiene la colaboración vinculada para un académico.
+     *
+     * @param academicoDTO el académico.
+     * @return un Optional que contiene la colaboración si se encuentra, de lo contrario está vacío.
+     * @throws ErrorDAO si ocurre un error de acceso a datos.
+     */
     @Override
     public Optional<ColaboracionDTO> getVinculadaPorAcademico (AcademicoDTO academicoDTO) throws ErrorDAO {
         String obtenerColaboracionVinculadaAcademicoSQL = "SELECT * FROM vista_colaboracion_con_academico WHERE estado = 'vinculada' AND cedulaProfesional = ?";
@@ -1037,6 +1255,14 @@ public class ColaboracionDAO implements IColaboracionDAO {
         return Optional.ofNullable(colaboracion);
     }
 
+    /**
+     * Retira un estudiante de una colaboración.
+     *
+     * @param colaboracion la colaboración.
+     * @param estudiante el estudiante.
+     * @return el número de filas afectadas.
+     * @throws ErrorDAO si ocurre un error de acceso a datos.
+     */
     @Override
     public int retirarEstudianteDeColaboracion (ColaboracionDTO colaboracion, EstudianteDTO estudiante) throws ErrorDAO {
         String retirarEstudianteDeColaboracionSQL = "DELETE FROM estudiantesColaboracion WHERE idColaboracion = ? AND idEstudiante = ?";

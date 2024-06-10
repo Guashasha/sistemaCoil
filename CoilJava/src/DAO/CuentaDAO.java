@@ -25,19 +25,19 @@ public class CuentaDAO implements ICuentaDAO {
      */
     @Override
     public Optional<CuentaDTO> getCuentaPorUsuario (String nombreUsuario) throws ErrorDAO {
-        String cuentaPorUsuarioSQL = "SELECT * from cuenta WHERE nombreUsuario = ?";
+        String consulta = "SELECT * from cuenta WHERE nombreUsuario = ?";
         CuentaDTO cuentaDTO = null;
         try {
             PreparedStatement cuentaPorUsuario = AdministradorBaseDatos.getInstancia().
-                                                                    prepareStatement(cuentaPorUsuarioSQL);
+                                                                    prepareStatement(consulta);
             cuentaPorUsuario.setString(1, nombreUsuario);
-            ResultSet resultadoCuentaUsuario = cuentaPorUsuario.executeQuery();
+            ResultSet resultado = cuentaPorUsuario.executeQuery();
 
-            if (resultadoCuentaUsuario.next()) {
-                cuentaDTO = convertirCuenta(resultadoCuentaUsuario);
+            if (resultado.next()) {
+                cuentaDTO = convertirCuenta(resultado);
             }
             cuentaPorUsuario.close();
-            resultadoCuentaUsuario.close();
+            resultado.close();
         }
         catch (SQLException error) {
             BITACORA.fatal(error.getMessage());
@@ -58,11 +58,11 @@ public class CuentaDAO implements ICuentaDAO {
      */
     @Override
     public int actualizarNombreUsuario (CuentaDTO cuentaDTO) throws ErrorDAO {
-        String actualizarUsuarioSQL = "UPDATE cuenta SET nombreUsuario = ? WHERE idCuenta = ?";
+        String consulta = "UPDATE cuenta SET nombreUsuario = ? WHERE idCuenta = ?";
         int filasAfectadas;
         try {
             PreparedStatement actualizarUsuario = AdministradorBaseDatos.getInstancia().
-                                                                     prepareStatement(actualizarUsuarioSQL);
+                                                                     prepareStatement(consulta);
             actualizarUsuario.setString(1, cuentaDTO.getNombreUsuario());
             actualizarUsuario.setInt(2, cuentaDTO.getIdCuenta());
 
@@ -90,11 +90,11 @@ public class CuentaDAO implements ICuentaDAO {
      */
     @Override
     public boolean verificarCredenciales (String nombreUsuario, String contrasena) throws ErrorDAO {
-        String verificarCredencialesSQL = "{CALL verificar_credenciales(?, ?, ?)}";
+        String consulta = "{CALL verificar_credenciales(?, ?, ?)}";
         boolean validacion;
         try {
             CallableStatement verificarCredenciales = AdministradorBaseDatos.getInstancia().
-                                                                         prepareCall(verificarCredencialesSQL);
+                                                                         prepareCall(consulta);
             verificarCredenciales.setString(1, nombreUsuario);
             verificarCredenciales.setString(2, contrasena);
             verificarCredenciales.registerOutParameter(3, Types.BOOLEAN);
@@ -125,11 +125,11 @@ public class CuentaDAO implements ICuentaDAO {
      */
     @Override
     public int actualizarContrasena (CuentaDTO cuentaDTO, String contrasenaAntigua, String contrasenaNueva) throws ErrorDAO {
-        String actualizarContrasenaSQL = "{CALL cambiar_contrasena(?,?,?,?)}";
+        String consulta = "{CALL cambiar_contrasena(?,?,?,?)}";
         int filasAfectadas;
         try {
             CallableStatement actualizarContrasena = AdministradorBaseDatos.getInstancia().
-                                                                        prepareCall(actualizarContrasenaSQL);
+                                                                        prepareCall(consulta);
             actualizarContrasena.setInt(1, cuentaDTO.getIdCuenta());
             actualizarContrasena.setString(2, cuentaDTO.getNombreUsuario());
             actualizarContrasena.setString(3, contrasenaAntigua);
@@ -159,12 +159,12 @@ public class CuentaDAO implements ICuentaDAO {
      */
     @Override
     public int cambiarEstadoCuenta (CuentaDTO cuentaDTO, String estado) throws ErrorDAO {
-        String cambiarEstadoCuentaSQL = "UPDATE cuenta SET estado = ? WHERE idCuenta = ?";
+        String consulta = "UPDATE cuenta SET estado = ? WHERE idCuenta = ?";
         int filasAfectadas;
 
         try {
             PreparedStatement cambiarEstadoCuenta = AdministradorBaseDatos.getInstancia().
-                                                                       prepareStatement(cambiarEstadoCuentaSQL);
+                                                                       prepareStatement(consulta);
             cambiarEstadoCuenta.setString(1, estado);
             cambiarEstadoCuenta.setInt(2, cuentaDTO.getIdCuenta());
 
@@ -191,21 +191,21 @@ public class CuentaDAO implements ICuentaDAO {
      */
     @Override
     public List<CuentaDTO> getCuentasPorTipo (String tipo) throws ErrorDAO {
-        String getCuentaPorTipoSQL = "SELECT * FROM cuenta WHERE tipo = ?";
+        String consulta = "SELECT * FROM cuenta WHERE tipo = ?";
         List<CuentaDTO> listaCuentaDTOS = new ArrayList<>();
         try {
             PreparedStatement getCuentaPorTipo = AdministradorBaseDatos.getInstancia().
-                                                                    prepareStatement(getCuentaPorTipoSQL);
+                                                                    prepareStatement(consulta);
             getCuentaPorTipo.setString(1, tipo);
 
-            ResultSet resultadoGetCuentaPorTipo = getCuentaPorTipo.executeQuery();
+            ResultSet resultado = getCuentaPorTipo.executeQuery();
 
-            while (resultadoGetCuentaPorTipo.next()) {
-                CuentaDTO cuentaDTO = convertirCuenta(resultadoGetCuentaPorTipo);
+            while (resultado.next()) {
+                CuentaDTO cuentaDTO = convertirCuenta(resultado);
                 listaCuentaDTOS.add(cuentaDTO);
             }
             getCuentaPorTipo.close();
-            resultadoGetCuentaPorTipo.close();
+            resultado.close();
         }
         catch (SQLException error) {
             BITACORA.fatal(error.getMessage());
@@ -226,22 +226,22 @@ public class CuentaDAO implements ICuentaDAO {
      */
     @Override
     public List<CuentaDTO> getCuentasPorEstado (String estado) throws ErrorDAO {
-        String getCuentasPorEstadoSQL = "SELECT * FROM cuenta WHERE estado = ?";
+        String consulta = "SELECT * FROM cuenta WHERE estado = ?";
         List<CuentaDTO> listaCuentaDTOS = new ArrayList<>();
         try {
 
             PreparedStatement getCuentasPorEstado = AdministradorBaseDatos.getInstancia().
-                                                                       prepareStatement(getCuentasPorEstadoSQL);
+                                                                       prepareStatement(consulta);
             getCuentasPorEstado.setString(1, estado);
 
-            ResultSet resultadoGetCuentasPorEstado = getCuentasPorEstado.executeQuery();
+            ResultSet resultado = getCuentasPorEstado.executeQuery();
 
-            while (resultadoGetCuentasPorEstado.next()) {
-                CuentaDTO cuentaDTO = convertirCuenta(resultadoGetCuentasPorEstado);
+            while (resultado.next()) {
+                CuentaDTO cuentaDTO = convertirCuenta(resultado);
                 listaCuentaDTOS.add(cuentaDTO);
             }
             getCuentasPorEstado.close();
-            resultadoGetCuentasPorEstado.close();
+            resultado.close();
         }
         catch (SQLException error) {
             BITACORA.fatal(error.getMessage());
@@ -262,11 +262,11 @@ public class CuentaDAO implements ICuentaDAO {
      */
     @Override
     public int agregar (CuentaDTO cuentaDTO) throws ErrorDAO {
-        String agregarCuentaSQL = "{CALL registrar_cuenta(?,?,?,?,?)}";
+        String procedimientoSQL = "{CALL registrar_cuenta(?,?,?,?,?)}";
         int filasAfectadas = -1;
         try {
             CallableStatement agregarCuenta = AdministradorBaseDatos.getInstancia().
-                                                                 prepareCall(agregarCuentaSQL);
+                                                                 prepareCall(procedimientoSQL);
             agregarCuenta.setInt(1, cuentaDTO.getIdPersona());
             agregarCuenta.setString(2, cuentaDTO.getNombreUsuario());
             agregarCuenta.setString(3, cuentaDTO.getContrasena());
@@ -309,20 +309,20 @@ public class CuentaDAO implements ICuentaDAO {
      */
     @Override
     public Optional<CuentaDTO> getPorId (Integer id) throws ErrorDAO {
-        String getPorIdSQL = "SELECT * from cuenta WHERE idCuenta = ?";
+        String consulta = "SELECT * from cuenta WHERE idCuenta = ?";
         CuentaDTO cuentaDTO = null;
         try {
             PreparedStatement getPorId = AdministradorBaseDatos.getInstancia().
-                                                            prepareStatement(getPorIdSQL);
+                                                            prepareStatement(consulta);
             getPorId.setInt(1, id);
 
-            ResultSet resultadoGetPorId = getPorId.executeQuery();
+            ResultSet resultado = getPorId.executeQuery();
 
-            while (resultadoGetPorId.next()) {
-                cuentaDTO = convertirCuenta(resultadoGetPorId);
+            while (resultado.next()) {
+                cuentaDTO = convertirCuenta(resultado);
             }
             getPorId.close();
-            resultadoGetPorId.close();
+            resultado.close();
         }
         catch (SQLException error) {
             BITACORA.fatal(error.getMessage());
@@ -372,19 +372,19 @@ public class CuentaDAO implements ICuentaDAO {
      */
     @Override
     public List<CuentaDTO> getTodos () throws ErrorDAO {
-        String getTodosSQL = "SELECT * from cuenta";
+        String consulta = "SELECT * from cuenta";
         List<CuentaDTO> listaCuentaDTO = new ArrayList<>();
         try {
             PreparedStatement getTodos = AdministradorBaseDatos.getInstancia().
-                                                            prepareStatement(getTodosSQL);
+                                                            prepareStatement(consulta);
 
-            ResultSet resultadoGetTodos = getTodos.executeQuery();
-            while (resultadoGetTodos.next()) {
-                CuentaDTO cuentaDTO = convertirCuenta(resultadoGetTodos);
+            ResultSet resultado = getTodos.executeQuery();
+            while (resultado.next()) {
+                CuentaDTO cuentaDTO = convertirCuenta(resultado);
                 listaCuentaDTO.add(cuentaDTO);
             }
             getTodos.close();
-            resultadoGetTodos.close();
+            resultado.close();
         }
         catch (SQLException error) {
             BITACORA.fatal(error.getMessage());
