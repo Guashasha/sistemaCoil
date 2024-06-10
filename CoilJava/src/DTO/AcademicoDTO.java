@@ -5,6 +5,9 @@ import Utilidades.ErrorDAO;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Clase que representa a un académico, extendiendo de PersonaDTO.
+ */
 public class AcademicoDTO extends PersonaDTO {
     private String cedulaProfesional;
     private String numeroPersonal;
@@ -18,6 +21,22 @@ public class AcademicoDTO extends PersonaDTO {
         super();
     }
 
+    /**
+     * Constructor que inicializa todos los campos del académico.
+     *
+     * @param idPersona              el ID de la persona.
+     * @param nombre                 el nombre del académico.
+     * @param apellidoPaterno        el apellido paterno del académico.
+     * @param apellidoMaterno        el apellido materno del académico.
+     * @param idUniversidad          el ID de la universidad.
+     * @param cedulaProfesional      la cédula profesional del académico.
+     * @param numeroPersonal         el número de personal del académico.
+     * @param areaEstudios           el área de estudios del académico.
+     * @param correoElectronico      el correo electrónico del académico.
+     * @param numeroTelefonico       el número telefónico del académico.
+     * @param categoriaContratacion  la categoría de contratación del académico.
+     * @param idFacultad             el ID de la facultad.
+     */
     public AcademicoDTO (int idPersona, String nombre, String apellidoPaterno, String apellidoMaterno, int idUniversidad, String cedulaProfesional, String numeroPersonal, String areaEstudios, String correoElectronico, String numeroTelefonico, String categoriaContratacion, Integer idFacultad) {
         super(idPersona, nombre, apellidoPaterno, apellidoMaterno, idUniversidad);
         this.cedulaProfesional = cedulaProfesional;
@@ -29,19 +48,39 @@ public class AcademicoDTO extends PersonaDTO {
         this.idFacultad = idFacultad;
     }
 
+    /**
+     * Obtiene la cédula profesional del académico.
+     *
+     * @return la cédula profesional.
+     */
     public String getCedulaProfesional () {
         return cedulaProfesional;
     }
 
+    /**
+     * Establece la cédula profesional del académico.
+     *
+     * @param cedulaProfesional la cédula profesional.
+     */
     public void setCedulaProfesional (String cedulaProfesional) {
         verificarCedula(cedulaProfesional);
         this.cedulaProfesional = cedulaProfesional;
     }
 
+    /**
+     * Obtiene el número de personal del académico.
+     *
+     * @return el número de personal.
+     */
     public String getNumeroPersonal () {
         return numeroPersonal;
     }
 
+    /**
+     * Obtiene el área de estudios del académico.
+     *
+     * @return el área de estudios.
+     */
     public void setNumeroPersonal (String numeroPersonal) {
         verificarNumeroPersonal(numeroPersonal);
         this.numeroPersonal = numeroPersonal;
@@ -67,6 +106,7 @@ public class AcademicoDTO extends PersonaDTO {
     public String getNumeroTelefonico () {
         return numeroTelefonico;
     }
+
 
     public void setNumeroTelefonico (String numeroTelefonico) {
         verificarNumeroTelefonico(numeroTelefonico);
@@ -102,6 +142,12 @@ public class AcademicoDTO extends PersonaDTO {
                 esCadenaValida(numeroTelefonico);
     }
 
+    /**
+     * Verifica la validez de la cédula profesional.
+     *
+     * @param cedulaProfesional la cédula profesional.
+     * @throws ErrorDAO si la cédula no es válida.
+     */
     private void verificarCedula (String cedulaProfesional) {
         String CEDULA_REGEX = "^[0-9]{1,30}$";
         Pattern patron = Pattern.compile(CEDULA_REGEX);
@@ -114,6 +160,12 @@ public class AcademicoDTO extends PersonaDTO {
         }
     }
 
+    /**
+     * Verifica la validez del correo electrónico.
+     *
+     * @param correoElectronico el correo electrónico.
+     * @throws ErrorDAO si el correo no es válido.
+     */
     private void verificarCorreo (String correoElectronico) {
         String CORREO_REGEX = "[A-z0-9./+-]+@[A-z]+\\.[A-z]{1,3}";
         Pattern patron = Pattern.compile(CORREO_REGEX);
@@ -128,6 +180,12 @@ public class AcademicoDTO extends PersonaDTO {
         }
     }
 
+    /**
+     * Verifica la validez del número de personal.
+     *
+     * @param numeroPersonal el número de personal.
+     * @throws ErrorDAO si el número no es válido.
+     */
     private void verificarNumeroPersonal (String numeroPersonal) {
         String NUMERO_P_REGEX = "^[1-9][0-9]{0,39}$";
         Pattern patron = Pattern.compile(NUMERO_P_REGEX);
@@ -144,6 +202,12 @@ public class AcademicoDTO extends PersonaDTO {
         }
     }
 
+    /**
+     * Verifica la validez de la categoría de contratación.
+     *
+     * @param categoriaContratacion la categoría de contratación.
+     * @throws ErrorDAO si la categoría no es válida.
+     */
     private void verificarCategoriaContratacion (String categoriaContratacion) {
         String categoriaRex = "^.{1,40}";
         Pattern patron = Pattern.compile(categoriaRex);
@@ -158,7 +222,12 @@ public class AcademicoDTO extends PersonaDTO {
         }
     }
 
-
+    /**
+     * Verifica la validez del número telefónico.
+     *
+     * @param numeroTelefonico el número telefónico.
+     * @throws ErrorDAO si el número no es válido.
+     */
     private void verificarNumeroTelefonico (String numeroTelefonico) {
         String NUMERO_TELEFONO_REGEX = "^(?!0)[1-9]\\d{11,13}$";
         Pattern patron = Pattern.compile(NUMERO_TELEFONO_REGEX);
@@ -172,6 +241,12 @@ public class AcademicoDTO extends PersonaDTO {
         }
     }
 
+    /**
+     * Verifica si dos objetos AcademicoDTO son iguales.
+     *
+     * @param obj el objeto a comparar.
+     * @return true si los objetos son iguales, false en caso contrario.
+     */
     @Override
     public boolean equals (Object obj) {
         boolean igual;

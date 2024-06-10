@@ -58,14 +58,17 @@ public class InicioSesionControlador {
     @FXML
     private void mostrarVentanaWindowMenuPrincipalAcademico (AcademicoDTO academicoDTO) {
         try {
-            Stage stagePrincipal = (Stage) tfUsuario.getScene()
-                                                    .getWindow();
+            Stage stagePrincipal = new Stage(StageStyle.TRANSPARENT);
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("VentanaPrincipalAcademico.fxml"));
             Parent root = fxmlLoader.load();
             VentanaPrincipalAcademicoControlador ventanaPrincipalAcademicoControlador = fxmlLoader.getController();
             ventanaPrincipalAcademicoControlador.setAcademico(academicoDTO);
             Scene nuevaEscena = new Scene(root);
             stagePrincipal.setScene(nuevaEscena);
+            stagePrincipal.centerOnScreen();
+            stagePrincipal.show();
+            Stage ventanaActual = (Stage) tfUsuario.getScene().getWindow();
+            ventanaActual.close();
         }
         catch (IOException error) {
             BITACORA.fatal(error.getMessage());
@@ -92,6 +95,7 @@ public class InicioSesionControlador {
         try {
             Stage stagePrincipal = (Stage) tfUsuario.getScene()
                                                     .getWindow();
+
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FormularioCompletarDatos.fxml"));
             Parent root = fxmlLoader.load();
             FormularioCompletarDatosControlador formularioCompletarDatosControlador = fxmlLoader.getController();
@@ -135,21 +139,30 @@ public class InicioSesionControlador {
     private void mostrarVentanaPrincipalAdministrador() {
         try {
             Stage ventanaActual = (Stage) tfUsuario.getScene().getWindow();
+
             Stage stagePrincipal = new Stage(StageStyle.TRANSPARENT);
+
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("VentanaPrincipalAdministrador.fxml"));
             Parent root = fxmlLoader.load();
+
             Scene nuevaEscena = new Scene(root);
+
             stagePrincipal.setScene(nuevaEscena);
+
             stagePrincipal.setResizable(false);
-            Screen screen = Screen.getPrimary();
-            double screenWidth = screen.getBounds().getWidth();
-            double screenHeight = screen.getBounds().getHeight();
+
+            Screen pantalla = Screen.getPrimary();
+
+            double screenWidth = pantalla.getBounds().getWidth();
+            double screenHeight = pantalla.getBounds().getHeight();
             double ventanaWidth = Math.min(root.prefWidth(-1), screenWidth);
             double ventanaHeight = Math.min(root.prefHeight(ventanaWidth), screenHeight);
+
             stagePrincipal.setWidth(ventanaWidth);
             stagePrincipal.setHeight(ventanaHeight);
             stagePrincipal.show();
             ventanaActual.close();
+
         } catch (IOException error) {
             BITACORA.fatal(error.getMessage());
             throw new ErrorDAO("Error al abrir la ventana de solicitud de cuenta", ErrorDAO.Tipo.VALIDACION);

@@ -5,6 +5,10 @@ import Utilidades.ErrorDAO;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
+/**
+ * Clase que representa una cuenta de usuario.
+ */
 public class CuentaDTO {
 
     public enum TipoUsuario {
@@ -74,6 +78,12 @@ public class CuentaDTO {
         this.tipo = tipo;
     }
 
+    /**
+     * Verifica la validez del nombre de usuario.
+     *
+     * @param usuario el nombre de usuario.
+     * @throws ErrorDAO si el nombre de usuario no es válido.
+     */
     private void verificarUsuario (String usuario) {
         String usuarioRegex = "[A-z0-9]{1,50}";
 
@@ -90,6 +100,13 @@ public class CuentaDTO {
                                                        3. No se permiten caracteres especiales.""", ErrorDAO.Tipo.VALIDACION);
         }
     }
+
+    /**
+     * Verifica la validez de la contraseña.
+     *
+     * @param contrasena la contraseña.
+     * @throws ErrorDAO si la contraseña no es válida.
+     */
     private void verificarContrasena (String contrasena) {
         String contrasenaRegex = "^.{1,300}$";
         Pattern patron = Pattern.compile(contrasenaRegex);
@@ -120,6 +137,13 @@ public class CuentaDTO {
         return nombreUsuario.length() <= 50 &&
                 contrasena.length() <= 300;
     }
+
+    /**
+     * Compara esta cuenta con otro objeto para verificar la igualdad.
+     *
+     * @param obj el objeto a comparar.
+     * @return true si los objetos son iguales, false en caso contrario.
+     */
     @Override
     public boolean equals (Object obj) {
         boolean igual;
