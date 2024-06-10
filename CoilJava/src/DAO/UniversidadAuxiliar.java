@@ -9,11 +9,32 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * La clase UniversidadAuxiliar funciona como intermediario entre el cliente y las clases DAO. Procesa y valida la información
+ * antes de mandarla o después de recibirla de las clases DAO.
+ * @author pale
+ */
 public class UniversidadAuxiliar {
+    /**
+     * Instancia del logger para registrar las excepciones que se pueden atrapar en las funciones de la clase.
+     */
     private final static Logger BITACORA = Logger.getLogger(UniversidadAuxiliar.class);
+    /**
+     *Instancia de la clase UniversidadDAO que se utiliza en los métodos de la clase.
+     */
     private final UniversidadDAO UNIVERSIDAD_DAO = new UniversidadDAO();
+    /**
+     *Instancia de la clase PaisDAO que se utiliza en los métodos de la clase.
+     */
     private final PaisDAO PAIS_DAO = new PaisDAO();
 
+    /**
+     * Valida la información para registrar una universidad con la clase UniversidadDAO.
+     * @param universidad universidad a registrar, inicializada con su nombre.
+     * @param pais pais de la universidad a registrar, inicializado con su nombre.
+     * @return número de filas afectadas por la sentencia SQL.
+     * @throws ErrorDAO si ocurre un error en la validación de la información o durante el acceso a la base de datos.
+     */
     public int registrarUniversidad (UniversidadDTO universidad, PaisDTO pais) throws ErrorDAO {
         if (esNulo(universidad) || esNulo(pais)) {
             throw new ErrorDAO("Algo salió mal, inténtelo de nuevo más tarde", ErrorDAO.Tipo.VALIDACION);
@@ -82,7 +103,8 @@ public class UniversidadAuxiliar {
 
     public Optional<UniversidadDTO> getUniversidadPorNombre (String nombre) throws ErrorDAO {
         Optional<UniversidadDTO> universidad;
-        if (cadenaValida(nombre)) {
+        UniversidadDTO universidadABuscar = new UniversidadDTO(nombre);
+        if (universidadABuscar.nombreValido()) {
             try {
                 universidad = UNIVERSIDAD_DAO.getUniversidadPorNombre(nombre.trim());
             }
@@ -216,6 +238,13 @@ public class UniversidadAuxiliar {
         return universidadEditada;
     }
 
+    /**
+     * Crea una universidad con su nombre e id de país.
+     * @param nombre Nombre de la universidad.
+     * @param pais Nombre del país al que se quiere asociar la universidad.
+     * @return Universidad inicializada con su nombre e id de país.
+     * @throws ErrorDAO si ocurre un error en la búsqueda de la información o durante el acceso a la base de datos.
+     */
     private UniversidadDTO prepararUniversidadNueva (String nombre, String pais) throws ErrorDAO{
         UniversidadDTO nuevaUniversidad;
         Optional<PaisDTO> paisOptional;
