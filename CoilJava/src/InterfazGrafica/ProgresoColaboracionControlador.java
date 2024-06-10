@@ -138,6 +138,7 @@ public class ProgresoColaboracionControlador {
                     btnFinalizar.setVisible(true);
                     btnIniciar.setVisible(false);
                 }
+                btnIniciar.setVisible(false);
                 dpFechaInicio.setVisible(false);
                 dpFechaFin.setVisible(false);
                 break;
@@ -312,12 +313,13 @@ public class ProgresoColaboracionControlador {
         }
 
         actualizarVisibilidadBotones();
+        this.pnVentanaPrincipal.setCenter(null);
     }
 
     @FXML
     private void abrirRetroalimentarColaboracion () {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("RetroalimentarColaboracion.fxml"));
-        Pane pnRetroalimentacion;
+        SplitPane pnRetroalimentacion;
 
         try {
             pnRetroalimentacion = fxmlLoader.load();
@@ -325,14 +327,14 @@ public class ProgresoColaboracionControlador {
         catch (IOException error) {
             Alert alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setContentText("No se pudo abrir la ventana de retroalimentacion de colaboración");
-            alerta.setHeaderText("Ocurrió un error");
+            alerta.setHeaderText("Ocurrió un error: " + error.getMessage());
             alerta.showAndWait();
             return;
         }
 
         if (pnRetroalimentacion != null) {
             RetroalimentarColaboracionControlador controlador = fxmlLoader.getController();
-            controlador.initialize(this.colaboracionDTO, this.pnVentanaPrincipal, this.pnActual, this);
+            controlador.initialize(this.colaboracionDTO, this.pnVentanaPrincipal, this.pnActual, this, this.academicoDTO);
             this.pnVentanaPrincipal.setCenter(pnRetroalimentacion);
         }
     }

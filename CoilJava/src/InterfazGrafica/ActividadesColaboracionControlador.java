@@ -68,24 +68,15 @@ public class ActividadesColaboracionControlador {
         }
 
         if (this.colaboracion.getEstado() == ColaboracionDTO.EstadoColaboracion.enRevision) {
-            RetroalimentacionActividadAuxiliar retroalimentacionDao = new RetroalimentacionActividadAuxiliar();
-
-            for (ActividadDTO actividad : actividades) {
-                if (retroalimentacionDao.getPorPersonaYActividad(this.usuario.getIdPersona(), actividad.getIdActividad()).isEmpty()) {
-                    Pane panel = crearPanelActividad(actividad);
-                    vboxActividades.getChildren().add(panel);
-                }
-            }
-
             btnNuevaActividad.setDisable(true);
             btnNuevaActividad.setVisible(false);
         }
-        else {
-            for (ActividadDTO actividad : actividades) {
-                Pane panel = crearPanelActividad(actividad);
-                vboxActividades.getChildren().add(panel);
-            }
+
+        for (ActividadDTO actividad : actividades) {
+            Pane panel = crearPanelActividad(actividad);
+            vboxActividades.getChildren().add(panel);
         }
+
     }
 
     private Pane crearPanelActividad (ActividadDTO actividad) {

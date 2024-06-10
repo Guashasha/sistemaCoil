@@ -209,3 +209,15 @@ Conctacte a un técnico
 2024-06-10 00:13:11 FATAL AcademicoDAO:69 - (conn=28) Socket error
 2024-06-10 00:16:24 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=3306)(type=primary). Connection refused
 2024-06-10 00:21:10 FATAL AcademicoDAO:184 - (conn=8) Data too long for column 'p_numeroTelefono' at row 2
+2024-06-10 01:30:58 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=3306)(type=primary). Connection refused
+2024-06-10 01:39:06 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=3306)(type=primary). Connection refused
+2024-06-10 01:49:06 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=3306)(type=primary). Connection refused
+2024-06-10 01:49:09 ERROR RetroalimentacionActividadDTO:95 - Utilidades.ErrorDAO: No fue posible realizar la conexion con la base de datos.
+Conctacte a un técnico
+2024-06-10 01:49:09 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=3306)(type=primary). Connection refused
+2024-06-10 01:54:47 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=3306)(type=primary). Connection refused
+2024-06-10 01:54:50 ERROR RetroalimentacionActividadDTO:109 - Utilidades.ErrorDAO: No fue posible realizar la conexion con la base de datos.
+Conctacte a un técnico
+2024-06-10 01:54:50 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=3306)(type=primary). Connection refused
+2024-06-10 01:54:51 ERROR RetroalimentacionActividadDTO:58 - Utilidades.ErrorDAO: No fue posible realizar la conexion con la base de datos.
+Conctacte a un técnico
