@@ -137,9 +137,9 @@ public class ProgresoColaboracionControlador {
                     btnRetroalimentar.setVisible(true);
                     btnFinalizar.setVisible(true);
                     btnIniciar.setVisible(false);
-                    dpFechaInicio.setVisible(false);
-                    dpFechaFin.setVisible(false);
                 }
+                dpFechaInicio.setVisible(false);
+                dpFechaFin.setVisible(false);
                 break;
             default:
                 break;
