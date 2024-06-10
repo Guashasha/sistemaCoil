@@ -640,7 +640,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
 
     @Override
     public int eliminarSolicitudDeParticipacion (ColaboracionDTO colaboracionDTO, AcademicoDTO academicoDTO) throws ErrorDAO {
-        String eliminarSQL = "Update academicoDesarrolla SET estado = 'rechazada' WHERE idColaboracion = ? AND idAcademico = ?";
+        String eliminarSQL = "Update academicoDesarrolla SET estado = 'rechazado' WHERE idColaboracion = ? AND idAcademico = ?";
         int filasAfectadas;
 
         try {

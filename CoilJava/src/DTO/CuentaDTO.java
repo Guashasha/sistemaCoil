@@ -75,7 +75,7 @@ public class CuentaDTO {
     }
 
     private void verificarUsuario (String usuario) {
-        String usuarioRegex = "[A-z0-9]{2,50}";
+        String usuarioRegex = "[A-z0-9]{1,50}";
 
         Pattern patron = Pattern.compile(usuarioRegex);
         if (usuario == null || usuario.isEmpty()) {
@@ -91,7 +91,7 @@ public class CuentaDTO {
         }
     }
     private void verificarContrasena (String contrasena) {
-        String contrasenaRegex = "^.{2,300}$";
+        String contrasenaRegex = "^.{1,300}$";
         Pattern patron = Pattern.compile(contrasenaRegex);
         if (contrasena == null || contrasena.isEmpty()) {
             throw new ErrorDAO("La contraseña no puede estar vacía", ErrorDAO.Tipo.VALIDACION);
