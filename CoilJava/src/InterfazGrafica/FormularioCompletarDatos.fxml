@@ -83,19 +83,21 @@
                   </LinearGradient>
                </textFill>
             </Label>
-            <Label layoutX="66.0" layoutY="94.0" text="Estas solo a un paso de poder ser parte de MiCoil" textFill="#00000074">
+            <Label layoutX="86.0" layoutY="84.0" text="Estas solo a un paso de ser parte de MiCoil" textFill="#00000074">
                <font>
                   <Font size="15.0" />
                </font>
             </Label>
-            <TextField fx:id="tfNumeroTelefono" layoutX="182.0" layoutY="163.0" onKeyTyped="#verificarEntradaNumeros" prefHeight="26.0" prefWidth="210.0" promptText="Número de teléfono" styleClass="label-inicioSesion-rosado" stylesheets="@Recursos/EstiloLabels.css" />
-            <TextField fx:id="tfNumeroPersonal" layoutX="180.0" layoutY="247.0" onKeyTyped="#verificarEntradaNumeros" prefHeight="28.0" prefWidth="214.0" promptText="Número de personal" styleClass="label-inicioSesion-rosado" stylesheets="@Recursos/EstiloLabels.css" />
-            <ComboBox fx:id="cmbAreaEstudios" layoutX="182.0" layoutY="326.0" prefHeight="28.0" prefWidth="210.0" promptText="Área de estudios" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" />
-            <Button fx:id="btnContinuar" layoutX="287.0" layoutY="505.0" mnemonicParsing="false" onAction="#continuarAccion" prefHeight="38.0" prefWidth="113.0" styleClass="button-principal" stylesheets="@Recursos/EstiloVentanas.css" text="Continuar" />
-            <Button fx:id="btnRegresar" layoutX="66.0" layoutY="504.0" mnemonicParsing="false" onAction="#regresarAccion" prefHeight="39.0" prefWidth="122.0" styleClass="button-secundario" stylesheets="@Recursos/EstiloVentanas.css" text="Regresar" />
-            <Label layoutX="38.0" layoutY="177.0" text="Número de teléfono" />
-            <Label layoutX="37.0" layoutY="266.0" text="Número de personal" />
-            <Label layoutX="38.0" layoutY="340.0" prefHeight="18.0" prefWidth="108.0" text="Aŕea de estudios" />
+            <TextField fx:id="tfNumeroTelefono" layoutX="182.0" layoutY="163.0" onKeyTyped="#restriccionTfNumeroTelefono" prefHeight="26.0" prefWidth="210.0" promptText="Número de teléfono" styleClass="label-inicioSesion-rosado" stylesheets="@Recursos/EstiloLabels.css" />
+            <TextField fx:id="tfNumeroPersonal" layoutX="46.0" layoutY="257.0" onKeyTyped="#restriccionTfNumeroPersonal" prefHeight="28.0" prefWidth="214.0" promptText="Número de personal" styleClass="label-inicioSesion-rosado" stylesheets="@Recursos/EstiloLabels.css" />
+            <ComboBox fx:id="cmbAreaEstudios" layoutX="46.0" layoutY="369.0" prefHeight="28.0" prefWidth="210.0" promptText="Área de estudios" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" />
+            <Button fx:id="btnContinuar" layoutX="287.0" layoutY="465.0" mnemonicParsing="false" onAction="#continuarAccion" prefHeight="38.0" prefWidth="113.0" styleClass="button-principal" stylesheets="@Recursos/EstiloVentanas.css" text="Continuar" />
+            <Button fx:id="btnRegresar" layoutX="52.0" layoutY="464.0" mnemonicParsing="false" onAction="#regresarAccion" prefHeight="39.0" prefWidth="122.0" styleClass="button-secundario" stylesheets="@Recursos/EstiloVentanas.css" text="Regresar" />
+            <Label layoutX="182.0" layoutY="129.0" text="Número de teléfono:" />
+            <Label layoutX="46.0" layoutY="229.0" text="Número de personal" />
+            <Label layoutX="46.0" layoutY="340.0" prefHeight="18.0" prefWidth="108.0" text="Área de estudios" />
+            <Label layoutX="46.0" layoutY="129.0" text="Lada:" />
+            <TextField fx:id="tfLada" layoutX="46.0" layoutY="164.0" onKeyTyped="#restriccionTfLada" prefHeight="26.0" prefWidth="67.0" promptText="Lada" styleClass="label-inicioSesion-rosado" stylesheets="@Recursos/EstiloLabels.css" />
          </children>
       </AnchorPane>
    </right>

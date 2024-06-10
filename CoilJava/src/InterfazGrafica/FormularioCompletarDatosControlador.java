@@ -3,7 +3,6 @@ package InterfazGrafica;
 import DAO.AcademicoAuxiliar;
 import DTO.AcademicoDTO;
 import Utilidades.ErrorDAO;
-import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -23,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
-public class FormularioCompletarDatosControlador extends Application implements Initializable {
+public class FormularioCompletarDatosControlador implements Initializable {
     private static final Logger BITACORA = Logger.getLogger(FormularioCompletarDatosControlador.class);
 
     private AcademicoDTO academico;
@@ -36,10 +35,14 @@ public class FormularioCompletarDatosControlador extends Application implements 
 
     @FXML
     private TextField tfNumeroTelefono;
+
+    @FXML
+    private TextField tfLada;
     private final ArrayList<String> ARRAY_LIST_AREA_ESTUDIOS = new ArrayList<>(Arrays.asList("Económico-Administrativo", "Humanidades", "Técnica", "Ciencias de la Salud", "Biología-Agropecuarias", "DGRI"));
 
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle) {
+        registrarEventFilters();
         llenarComboBox();
     }
 
@@ -49,20 +52,39 @@ public class FormularioCompletarDatosControlador extends Application implements 
     }
 
     private void getDatosAcademico () {
-        if (!seSeleccionoUnOpcionComboBox() || !seLlenaronLosCampos()) {
-            throw new ErrorDAO("Al menos no se lleno o selecciono un campo", ErrorDAO.Tipo.VALIDACION);
-        }
-        academico.setNumeroTelefonico(tfNumeroTelefono.getText());
+        String numeroTelefono = tfLada.getText() + tfNumeroTelefono.getText();
+        academico.setNumeroTelefonico(numeroTelefono);
         academico.setNumeroPersonal(tfNumeroPersonal.getText());
         academico.setAreaEstudios(sinAcentosYEnMinusculas(cmbAreaEstudios.getValue()));
+
     }
 
-    private boolean seSeleccionoUnOpcionComboBox () {
-        return this.cmbAreaEstudios.getValue() != null;
-    }
-
-    private boolean seLlenaronLosCampos () {
-        return this.tfNumeroPersonal.getText() != null && tfNumeroTelefono.getText() != null;
+    private boolean sonCamposValidos () {
+        if (tfNumeroPersonal.getText() == null || tfNumeroPersonal.getText()
+                                                                  .trim()
+                                                                  .isEmpty()) {
+            mostrarMensajeEmergente("Ingrese un número de personal", Alert.AlertType.WARNING);
+            return false;
+        }
+        if (tfNumeroTelefono.getText() == null || tfNumeroTelefono.getText()
+                                                                  .trim()
+                                                                  .isEmpty()) {
+            mostrarMensajeEmergente("Ingrese un número de teléfono", Alert.AlertType.WARNING);
+            return false;
+        }
+        if (tfLada.getText() == null || tfLada.getText()
+                                              .trim()
+                                              .isEmpty()) {
+            mostrarMensajeEmergente("Ingrese una lada", Alert.AlertType.WARNING);
+            return false;
+        }
+        if (cmbAreaEstudios.getValue() == null || cmbAreaEstudios.getValue()
+                                                                 .trim()
+                                                                 .isEmpty()) {
+            mostrarMensajeEmergente("Seleccione un área de estudios", Alert.AlertType.WARNING);
+            return false;
+        }
+        return true;
     }
 
     private String sinAcentosYEnMinusculas (String texto) {
@@ -72,9 +94,38 @@ public class FormularioCompletarDatosControlador extends Application implements 
     }
 
     @FXML
-    private void verificarEntradaNumeros (KeyEvent evento) {
-        if (evento.getCharacter()
-                  .matches("\\d")) {
+    private void restriccionTfNumeroTelefono (KeyEvent evento) {
+        if (!evento.getCharacter()
+                   .matches("\\d")) {
+            evento.consume();
+        }
+        if (tfNumeroTelefono.getText()
+                            .length() >= 10) {
+            evento.consume();
+        }
+
+    }
+
+    @FXML
+    private void restriccionTfLada (KeyEvent evento) {
+        if (!evento.getCharacter()
+                   .matches("\\d")) {
+            evento.consume();
+        }
+        if (tfLada.getText()
+                  .length() >= 3) {
+            evento.consume();
+        }
+    }
+
+    @FXML
+    private void restriccionTfNumeroPersonal (KeyEvent evento) {
+        if (!evento.getCharacter()
+                   .matches("\\d")) {
+            evento.consume();
+        }
+        if (tfNumeroPersonal.getText()
+                            .length() >= 40) {
             evento.consume();
         }
     }
@@ -87,17 +138,19 @@ public class FormularioCompletarDatosControlador extends Application implements 
 
     @FXML
     private void continuarAccion () {
-        try {
-            getDatosAcademico();
-            agregarDatosFaltantes();
-            mostrarAlert("""
-                                 ¡Excelente!, Bienvenido a MiCoil.
-                                 El ultimo paso es volver a iniciar sesión.
-                                 Será redireccionado al menu de inicio de sesión""", Alert.AlertType.INFORMATION);
-            abrirVentanaInicioSesion();
-        }
-        catch (ErrorDAO errorDAO) {
-            mostrarAlert(errorDAO.getMessage(), Alert.AlertType.WARNING);
+        if (sonCamposValidos()) {
+            try {
+                getDatosAcademico();
+                agregarDatosFaltantes();
+                mostrarMensajeEmergente("""
+                                                ¡Excelente!, Bienvenido a MiCoil.
+                                                El ultimo paso es volver a iniciar sesión.
+                                                Será redireccionado al menu de inicio de sesión""", Alert.AlertType.INFORMATION);
+                abrirVentanaInicioSesion();
+            }
+            catch (ErrorDAO errorDAO) {
+                mostrarMensajeEmergente(errorDAO.getMessage(), Alert.AlertType.WARNING);
+            }
         }
     }
 
@@ -108,7 +161,7 @@ public class FormularioCompletarDatosControlador extends Application implements 
         }
     }
 
-    private void mostrarAlert (String mensaje, Alert.AlertType tipoAlerta) {
+    private void mostrarMensajeEmergente (String mensaje, Alert.AlertType tipoAlerta) {
         Alert alert = new Alert(tipoAlerta);
         alert.setContentText(mensaje);
         alert.setHeaderText("Informacion");
@@ -133,11 +186,11 @@ public class FormularioCompletarDatosControlador extends Application implements 
     private void abrirVentanaInicioSesion () {
         try {
             Stage stagePrincipal = (Stage) tfNumeroTelefono.getScene()
-                                                    .getWindow();
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("InicioSesion.fxml"));
-                Parent root = fxmlLoader.load();
-                Scene nuevaEscena = new Scene(root);
-                stagePrincipal.setScene(nuevaEscena);
+                                                           .getWindow();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("InicioSesion.fxml"));
+            Parent root = fxmlLoader.load();
+            Scene nuevaEscena = new Scene(root);
+            stagePrincipal.setScene(nuevaEscena);
         }
         catch (IOException error) {
             BITACORA.fatal(error.getMessage());
@@ -149,18 +202,9 @@ public class FormularioCompletarDatosControlador extends Application implements 
         this.academico = academico;
     }
 
-    @Override
-    public void start (Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../InterfazGrafica/FormularioCompletarDatos.fxml"));
-        Parent root = loader.load();
-        Scene scene = new Scene(root);
-        primaryStage.setTitle("Formulario");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+    private void registrarEventFilters () {
+        tfNumeroTelefono.addEventFilter(KeyEvent.KEY_TYPED, this::restriccionTfNumeroTelefono);
+        tfLada.addEventFilter(KeyEvent.KEY_TYPED, this::restriccionTfLada);
+        tfNumeroPersonal.addEventFilter(KeyEvent.KEY_TYPED, this::restriccionTfNumeroPersonal);
     }
-
-    public static void main (String[] args) {
-        launch(args);
-    }
-
 }

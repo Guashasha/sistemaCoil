@@ -19,5 +19,4 @@ public class RegionAuxiliar {
             throw new ErrorDAO("Error en la conexión a la base de datos", ErrorDAO.Tipo.CONSULTA);
         }
     }
-
 }

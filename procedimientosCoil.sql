@@ -21,7 +21,7 @@ BEGIN
 END //
 
 
-DROP PROCEDURE IF EXISTS cambiar_Estado_Colaboracion;
+DROP PROCEDURE IF EXISTS cambiar_Estado_Colaboracion//
 create procedure cambiar_Estado_Colaboracion(IN p_idColaboracion int, IN nuevoEstado varchar(20))
 BEGIN
    UPDATE colaboracion
@@ -30,14 +30,14 @@ BEGIN
 END //
 
 
-DROP PROCEDURE IF EXISTS consultar_academico_cedula;
+DROP PROCEDURE IF EXISTS consultar_academico_cedula//
 create procedure consultar_academico_cedula(IN p_cedula varchar(40)) sql security invoker
 BEGIN
 	SELECT * FROM academico WHERE cedulaProfesional = p_cedula;
 END //
 
 
-DROP PROCEDURE IF EXISTS consultar_academicos_nombreFacultad;
+DROP PROCEDURE IF EXISTS consultar_academicos_nombreFacultad//
 create procedure consultar_academicos_nombreFacultad(IN p_nombreFacultad varchar(50))
 BEGIN
 	SELECT * FROM vista_academico 
@@ -77,8 +77,8 @@ CREATE PROCEDURE registrar_Academico (
     IN p_cedulaProfesional VARCHAR(30),
     IN p_numeroDePersonal VARCHAR(40),
     IN p_areaEstudios VARCHAR(40),
-    IN p_correoElectronico VARCHAR(30),
-    IN p_numeroTelefono VARCHAR(12),
+    IN p_correoElectronico VARCHAR(320),
+    IN p_numeroTelefono VARCHAR(13),
     IN p_categoriaContratacion VARCHAR(40), 
     IN p_facultad INT,
     OUT p_id_persona INT
@@ -106,8 +106,8 @@ CREATE PROCEDURE editar_academico (
     IN p_cedulaProfesional varchar(30),
     IN p_numeroDePersonal varchar(40),
     IN p_areaEstudios varchar(40),
-    IN p_correoElectronico varchar(30),
-    IN p_numeroTelefono varchar(12),
+    IN p_correoElectronico varchar(320),
+    IN p_numeroTelefono varchar(230),
     IN p_categoriaContratacion varchar(40), 
     IN p_facultad int
 )
@@ -137,7 +137,7 @@ END //
 
 
 -- Procedimientos estudiantes.
-DROP PROCEDURE IF EXISTS registrar_Estudiante;
+DROP PROCEDURE IF EXISTS registrar_Estudiante//
 create procedure registrar_Estudiante(
     IN p_nombre varchar(20), 
     IN p_apellidoPaterno varchar(20),
@@ -149,10 +149,11 @@ BEGIN
 	INSERT INTO persona (nombre, apellidoPaterno, apellidoMaterno, universidad) VALUES (p_nombre, p_apellidoPaterno, p_apellidoMaterno, p_universidad);
 	SET id_persona = LAST_INSERT_ID();
 	INSERT INTO estudiante (idPersona, matricula) VALUES (id_persona, p_matricula);
+	CALL registrar_cuenta (id_Persona, p_matricula, p_matricula, 'estudiante', 'aceptada');
 END //
 
 
-DROP PROCEDURE IF EXISTS editar_estudiante;
+DROP PROCEDURE IF EXISTS editar_estudiante//
 create procedure editar_estudiante (
     in p_nombre varchar(50),
     in p_apellidoPaterno varchar(50),
@@ -173,7 +174,6 @@ begin
         apellidoMaterno = p_apellidoMaterno,
         universidad = p_universidad
     WHERE idPersona = id_persona;
-
 end //
 
 
@@ -240,7 +240,7 @@ begin
 
     select COUNT(*) into p_validacion
     from cuenta
-    where nombreUsuario = p_nombreUsuario and contrasena = v_contrasena_encriptada;
+    where BINARY nombreUsuario = p_nombreUsuario and contrasena = v_contrasena_encriptada;
 end //
 
 
@@ -250,12 +250,12 @@ DROP PROCEDURE IF EXISTS registrar_Colaboracion;
 create procedure registrar_Colaboracion(
     IN p_estado enum ('propuesta', 'aceptada', 'rechazada', 'disponible', 'vinculada', 'activa', 'enRevision', 'finalizada'),
     IN p_tipo enum ('claseEspejo', 'COIL'),
-    IN p_temaInteres varchar(80), 
+    IN p_temaInteres varchar(100),
     IN p_idioma varchar(30),
-    IN p_objetivo varchar(80), 
+    IN p_objetivo varchar(300),
     IN p_fechaInicio date,
     IN p_fechaFinal date, 
-    IN p_perfilEstudiante varchar(50)
+    IN p_perfilEstudiante varchar(200)
 )
 BEGIN
 	INSERT INTO colaboracion (estado, tipo, temaInteres, idioma, objetivo, fechaInicio, fechaFin, perfilEstudiante)
@@ -292,7 +292,7 @@ create procedure obtener_estudiantes_colaboracion (
 begin
     select v_e.*
     from vista_estudiante v_e
-    join estudiantescolaboracion e_col ON v_e.idEstudiante = e_col.idEstudiante
+    join estudiantesColaboracion e_col ON v_e.idEstudiante = e_col.idEstudiante
     where e_col.idColaboracion = p_idColaboracion;
 end //
 
@@ -314,12 +314,12 @@ CREATE PROCEDURE actualizar_Colaboracion(
     IN p_idColaboracion INT,
     IN p_estado ENUM('propuesta', 'aceptada', 'rechazada', 'disponible', 'vinculada', 'activa', 'enRevision', 'finalizada'),
     IN p_tipo ENUM('claseEspejo', 'COIL'),
-    IN p_temaInteres VARCHAR(80),
+    IN p_temaInteres VARCHAR(100),
     IN p_idioma VARCHAR(30),
-    IN p_objetivo VARCHAR(80),
+    IN p_objetivo VARCHAR(300),
     IN p_fechaInicio DATE,
     IN p_fechaFinal DATE,
-    IN p_perfilEstudiante VARCHAR(50)
+    IN p_perfilEstudiante VARCHAR(200)
 )
 BEGIN
     UPDATE colaboracion
@@ -355,7 +355,7 @@ BEGIN
 	GROUP BY areaAcademica; 
 END //
 
-DROP PROCEDURE IF EXISTS registrar_cuenta_administrador;
+DROP PROCEDURE IF EXISTS registrar_cuenta_administrador//
 CREATE PROCEDURE registrar_cuenta_administrador (
     IN p_nombre VARCHAR(20),
     IN p_apellidoPaterno VARCHAR(20),

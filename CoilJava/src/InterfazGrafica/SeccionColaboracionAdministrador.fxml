@@ -8,26 +8,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane fx:id="apSeccionColaboracion" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="759.0" prefWidth="973.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.SeccionColaboracionAdministradorControlador">
+<AnchorPane fx:id="pnActual" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="759.0" prefWidth="973.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.SeccionColaboracionAdministradorControlador">
    <children>
-      <VBox alignment="TOP_CENTER" layoutX="46.0" layoutY="126.0" prefHeight="211.0" prefWidth="211.0" styleClass="panel" stylesheets="@Recursos/EstiloLabels.css">
-         <children>
-            <ImageView fitHeight="148.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true">
-               <VBox.margin>
-                  <Insets bottom="10.0" top="10.0" />
-               </VBox.margin>
-               <image>
-                  <Image url="@Recursos/mundo.png" />
-               </image>
-            </ImageView>
-            <Label styleClass="label-inicioSesion-rosado" stylesheets="@Recursos/EstiloLabels.css" text="Colaboraciones">
-               <font>
-                  <Font name="Arial" size="20.0" />
-               </font>
-            </Label>
-         </children>
-      </VBox>
       <VBox alignment="TOP_CENTER" layoutX="333.0" layoutY="126.0" onMouseClicked="#abrirEvaluacionPropuesta" prefHeight="211.0" prefWidth="232.0" styleClass="panel" stylesheets="@Recursos/EstiloLabels.css">
          <children>
             <ImageView fitHeight="142.0" fitWidth="124.0" pickOnBounds="true" preserveRatio="true">

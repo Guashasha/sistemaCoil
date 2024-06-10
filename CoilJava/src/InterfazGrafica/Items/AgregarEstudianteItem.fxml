@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<HBox alignment="CENTER_LEFT" prefHeight="51.0" prefWidth="913.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.Items.AgregarEstudianteItemControlador">
+   <children>
+      <Label fx:id="lbMatricula" alignment="CENTER" prefHeight="50.0" prefWidth="218.0" text="Matricula">
+         <font>
+            <Font name="Corbel" size="20.0" />
+         </font>
+         <HBox.margin>
+            <Insets top="10.0" />
+         </HBox.margin>
+      </Label>
+      <Label fx:id="lbNombre" alignment="CENTER" prefHeight="49.0" prefWidth="275.0" text="Nombre">
+         <font>
+            <Font name="Corbel" size="20.0" />
+         </font>
+         <HBox.margin>
+            <Insets top="10.0" />
+         </HBox.margin>
+      </Label>
+      <Label fx:id="lbUniversidad" alignment="CENTER" prefHeight="49.0" prefWidth="288.0" text="Universidad">
+         <font>
+            <Font name="Corbel" size="20.0" />
+         </font>
+         <HBox.margin>
+            <Insets top="10.0" />
+         </HBox.margin>
+      </Label>
+      <BorderPane prefHeight="49.0" prefWidth="158.0">
+         <center>
+            <ImageView fx:id="imgAgregar" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#agregarEstudiante" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+               <image>
+                  <Image url="@../Recursos/agregar.png" />
+               </image>
+            </ImageView>
+         </center>
+         <HBox.margin>
+            <Insets top="10.0" />
+         </HBox.margin>
+      </BorderPane>
+   </children>
+</HBox>

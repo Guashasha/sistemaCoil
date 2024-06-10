@@ -4,26 +4,22 @@ import DAO.PaisAuxiliar;
 import DAO.UniversidadAuxiliar;
 import DTO.PaisDTO;
 import DTO.UniversidadDTO;
+import InterfazGrafica.Items.UniversidadItemControlador;
 import Utilidades.ErrorDAO;
-import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import org.apache.log4j.Logger;
 import java.io.IOException;
 import java.util.*;
 import java.util.List;
 
-public class ConsultaUniversidadesControlador extends Application {
+public class ConsultaUniversidadesControlador {
     private static final Logger BITACORA = Logger.getLogger(ConsultaUniversidadesControlador.class);
     @FXML
     private VBox vboxConsultaUniversidades;
@@ -36,28 +32,6 @@ public class ConsultaUniversidadesControlador extends Application {
 
     public void setPnVentanaPrincipal (BorderPane pnVentanaPrincipal) {
         this.pnVentanaPrincipal = pnVentanaPrincipal;
-    }
-
-    @Override
-    public void start(Stage stage){
-        Parent root = null;
-
-        try {
-            root = FXMLLoader.load(getClass().getResource("ConsultaUniversidades.fxml"));
-        }
-        catch (IOException e) {
-            BITACORA.error(e);
-        }
-
-        if (root != null) {
-            stage.initStyle(StageStyle.TRANSPARENT);
-            Scene escena = new Scene(root);
-            stage.setScene(escena);
-            stage.show();
-        }
-        else {
-            BITACORA.error("Ocurrió un error al iniciar la ventana windowConsultaUniversidades");
-        }
     }
 
     @FXML
@@ -93,13 +67,19 @@ public class ConsultaUniversidadesControlador extends Application {
         if (pnRegistroUniversidad != null) {
             this.historialPaneles.push(this.pnConsultaUniversidades);
             RegistroUniversidadControlador registroUniversidadControlador = fxmlLoader.getController();
-            registroUniversidadControlador.setPnVentanaPrincipal(this.pnVentanaPrincipal);
-            registroUniversidadControlador.setHistorialPaneles(this.historialPaneles);
-            this.pnVentanaPrincipal.setCenter(pnRegistroUniversidad);
+
+            try {
+                registroUniversidadControlador.setRecursos(this.pnVentanaPrincipal,this.historialPaneles,this);
+                this.pnVentanaPrincipal.setCenter(pnRegistroUniversidad);
+            }
+            catch (ErrorDAO error) {
+                mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
+                this.historialPaneles.pop();
+            }
         }
     }
 
-    public void cargarConsultaTodos () {
+    public void cargarConsultaGeneral() {
         UniversidadAuxiliar universidadAuxiliar = new UniversidadAuxiliar();
         List<UniversidadDTO> listaUniversidades = new ArrayList<>();
         try {
@@ -113,6 +93,7 @@ public class ConsultaUniversidadesControlador extends Application {
 
     private void mostrarConsulta (List<UniversidadDTO> listaUniversidades) {
         vboxConsultaUniversidades.getChildren().clear();
+        listaUniversidades.removeIf(universidad -> universidad.getNombre().equals("Universidad Veracruzana"));
 
         if (!listaUniversidades.isEmpty()) {
             this.historialPaneles
@@ -120,7 +101,7 @@ public class ConsultaUniversidadesControlador extends Application {
         }
 
         for (UniversidadDTO universidad : listaUniversidades) {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("UniversidadItem.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Items/UniversidadItem.fxml"));
             HBox hboxFila;
 
             try {
@@ -143,14 +124,14 @@ public class ConsultaUniversidadesControlador extends Application {
 
     private void agregarDatosFilaUniversidad (UniversidadItemControlador controlador, UniversidadDTO universidad) throws ErrorDAO {
         PaisAuxiliar paisAuxiliar = new PaisAuxiliar();
-        Optional<PaisDTO> paisOptional;
 
-        paisOptional = paisAuxiliar.getPaisPorId(universidad.getIdPais());
+        Optional<PaisDTO> paisOptional = paisAuxiliar.getPaisPorId(universidad.getIdPais());
 
         controlador.setUniversidad(universidad);
         paisOptional.ifPresent(controlador::setPais);
         controlador.setPnVentanaPrincipal(this.pnVentanaPrincipal);
         controlador.setHistorialPaneles(this.historialPaneles);
+        controlador.setConsultaUniversidadesControlador(this);
     }
 
     private void mostrarMensajeEmergente (String mensaje, Alert.AlertType tipoAlerta) {

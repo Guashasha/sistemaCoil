@@ -242,4 +242,52 @@ INSERT INTO pais VALUES(238, 'DJ', 'Yibuti');
 INSERT INTO pais VALUES(239, 'ZM', 'Zambia');
 INSERT INTO pais VALUES(240, 'ZW', 'Zimbabue');
 
--- Cuenta administrador
+-- universidad veracruzana
+INSERT INTO universidad (nombre, paisOrigen) VALUES ("Universidad Veracruzana", 146);
+
+-- registrar administrador
+CALL registrar_cuenta_administrador('Pale', 'Carrion', 'Martinez', 1, 'crud', 'habitacionVuelo');
+
+-- regiones
+INSERT INTO region (nombre) VALUES ('Xalapa');
+INSERT INTO region (nombre) VALUES ('Veracruz');
+INSERT INTO region (nombre) VALUES ('Poza Rica-Tuxpan');
+INSERT INTO region (nombre) VALUES ('Orizaba-Córdoba');
+INSERT INTO region (nombre) VALUES ('Coatzacoalcos-Minatitlán');
+
+-- facultades
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Contaduría y Administración', 1); -- Xalapa
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Derecho', 1); -- Xalapa
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Psicología', 1); -- Xalapa
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Ciencias Agrícolas', 1); -- Xalapa
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Artes', 1); -- Xalapa
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Economía', 1); -- Xalapa
+
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Ingeniería', 2); -- Veracruz
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Medicina', 2); -- Veracruz
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Biología', 2); -- Veracruz
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Enfermería', 2); -- Veracruz
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Nutrición', 2); -- Veracruz
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Odontología', 2); -- Veracruz
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Contaduría y Administración', 2); -- Veracruz
+
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Ciencias Químicas', 3); -- Poza Rica-Tuxpan
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Pedagogía', 3); -- Poza Rica-Tuxpan
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Ciencias de la Comunicación', 3); -- Poza Rica-Tuxpan
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Contaduría y Administración', 3); -- Poza Rica-Tuxpan
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Trabajo Social', 3); -- Poza Rica-Tuxpan
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Derecho', 3); -- Poza Rica-Tuxpan
+
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Arquitectura', 4); -- Orizaba-Córdoba
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Ciencias Biológicas y Agropecuarias', 4); -- Orizaba-Córdoba
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Contaduría y Administración', 4); -- Orizaba-Córdoba
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Medicina', 4); -- Orizaba-Córdoba
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Enfermería', 4); -- Orizaba-Córdoba
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Derecho', 4); -- Orizaba-Córdoba
+
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Enfermería', 5); -- Coatzacoalcos-Minatitlán
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Odontología', 5); -- Coatzacoalcos-Minatitlán
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Ingeniería', 5); -- Coatzacoalcos-Minatitlán
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Contaduría y Administración', 5); -- Coatzacoalcos-Minatitlán
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Ciencias de la Salud', 5); -- Coatzacoalcos-Minatitlán
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Ciencias Administrativas y Sociales', 5); -- Coatzacoalcos-Minatitlán

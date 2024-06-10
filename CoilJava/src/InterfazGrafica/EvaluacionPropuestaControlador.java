@@ -2,6 +2,7 @@ package InterfazGrafica;
 
 import DAO.ColaboracionAuxiliar;
 import DTO.ColaboracionDTO;
+import InterfazGrafica.Items.PropuestaItemControlador;
 import Utilidades.ErrorDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,8 +22,7 @@ import java.util.Stack;
 
 public class EvaluacionPropuestaControlador implements Initializable {
     private static final Logger BITACORA = Logger.getLogger(EvaluacionPropuestaControlador.class);
-    @FXML
-    private Pane pnPropuestaPlantilla;
+
     @FXML
     private VBox vboxContenedor;
     private Stack<Pane> historialPaneles = new Stack<>();
@@ -57,7 +57,6 @@ public class EvaluacionPropuestaControlador implements Initializable {
         catch (ErrorDAO errorDAO) {
             mostrarAlert(errorDAO.getMessage(), Alert.AlertType.ERROR);
         }
-
     }
 
     @FXML
@@ -67,7 +66,7 @@ public class EvaluacionPropuestaControlador implements Initializable {
 
     private void agregarPuestaItem (ColaboracionDTO colaboracionDTO) {
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("PropuestaItem.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("../InterfazGrafica/Items/PropuestaItem.fxml"));
         try {
             Pane pane = fxmlLoader.load();
             PropuestaItemControlador propuestaItemControlador = fxmlLoader.getController();
@@ -75,7 +74,7 @@ public class EvaluacionPropuestaControlador implements Initializable {
             propuestaItemControlador.inicializarLabels();
 
             vboxContenedor.getChildren()
-                .add(pane);
+                          .add(pane);
             configuarBotones(propuestaItemControlador, pane);
         }
         catch (IOException ioException) {
@@ -93,11 +92,12 @@ public class EvaluacionPropuestaControlador implements Initializable {
     private void cambiarEstadoPropuestaAceptado (PropuestaItemControlador propuestaItemControlador, Pane pane) {
         ColaboracionAuxiliar colaboracionAuxiliar = new ColaboracionAuxiliar();
         ColaboracionDTO colaboracionDTO = propuestaItemControlador.getColaboracionDTO();
-        colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.aceptada);
         try {
-            colaboracionAuxiliar.cambiarEstadoColaboracion(colaboracionDTO);
+            colaboracionAuxiliar.cambiarEstadoColaboracion("aceptada", colaboracionDTO.getIdColaboracion());
+            colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.aceptada);
+
             vboxContenedor.getChildren()
-                                .remove(pane);
+                          .remove(pane);
         }
         catch (ErrorDAO errorDAO) {
             mostrarAlert(errorDAO.getMessage(), Alert.AlertType.ERROR);
@@ -107,11 +107,12 @@ public class EvaluacionPropuestaControlador implements Initializable {
     private void cambiarEstadoPropuestaRechazado (PropuestaItemControlador propuestaItemControlador, Pane pane) {
         ColaboracionAuxiliar colaboracionAuxiliar = new ColaboracionAuxiliar();
         ColaboracionDTO colaboracionDTO = propuestaItemControlador.getColaboracionDTO();
-        colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.rechazada);
         try {
-            colaboracionAuxiliar.cambiarEstadoColaboracion(colaboracionDTO);
+            colaboracionAuxiliar.cambiarEstadoColaboracion("rechazada", colaboracionDTO.getIdColaboracion());
+            colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.rechazada);
+
             vboxContenedor.getChildren()
-                                .remove(pane);
+                          .remove(pane);
         }
         catch (ErrorDAO errorDAO) {
             mostrarAlert(errorDAO.getMessage(), Alert.AlertType.ERROR);

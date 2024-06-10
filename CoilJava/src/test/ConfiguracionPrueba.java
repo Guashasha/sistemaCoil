@@ -13,7 +13,7 @@ public class ConfiguracionPrueba {
     }
     public static void borrarDatosTablaPersona () {
         ejecutarInstruccionSQL("DELETE FROM persona;");
-        ejecutarInstruccionSQL("ALTER TABLE persona AUTO_INCREMENT = 0;");
+        ejecutarInstruccionSQL("ALTER TABLE persona AUTO_INCREMENT = 0");
     }
     public static void borrarDatosTablaEstudiante () {
         ejecutarInstruccionSQL("DELETE FROM estudiante;");

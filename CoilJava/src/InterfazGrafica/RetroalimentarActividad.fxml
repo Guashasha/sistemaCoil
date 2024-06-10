@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<SplitPane fx:id="pnPrincipal" dividerPositions="0.8844221105527639" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="400.0" prefWidth="473.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+<SplitPane fx:id="pnMain" dividerPositions="0.8844221105527639" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="400.0" prefWidth="473.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.RetroalimentarActividadControlador">
   <items>
       <VBox prefHeight="200.0" prefWidth="100.0">
          <children>
@@ -17,28 +17,37 @@
                   <Insets bottom="20.0" />
                </VBox.margin>
             </Text>
-            <HBox prefHeight="100.0" prefWidth="200.0" spacing="100.0">
+            <HBox prefHeight="100.0" prefWidth="200.0" spacing="30.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Interacción con par" />
-                  <Slider fx:id="slInteraccion" blockIncrement="1.0" max="5.0" min="1.0" value="1.0" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Interacción con par">
+                     <HBox.margin>
+                        <Insets right="60.0" />
+                     </HBox.margin></Text>
+                  <Slider fx:id="slInteraccion" blockIncrement="1.0" majorTickUnit="1.0" max="5.0" min="1.0" minorTickCount="0" onDragOver="#actualizarEtiquetas" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0" />
                </children>
                <padding>
                   <Insets left="20.0" />
                </padding>
             </HBox>
-            <HBox layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0" spacing="85.0">
+            <HBox layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Dificultad de actividad" />
-                  <Slider fx:id="slDificultad" blockIncrement="1.0" max="5.0" min="1.0" value="1.0" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Dificultad de actividad">
+                     <HBox.margin>
+                        <Insets right="45.0" />
+                     </HBox.margin></Text>
+                  <Slider fx:id="slDificultad" blockIncrement="1.0" majorTickUnit="1.0" max="5.0" min="1.0" minorTickCount="0" onDragOver="#actualizarEtiquetas" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0" />
                </children>
                <padding>
                   <Insets left="20.0" />
                </padding>
             </HBox>
-            <HBox layoutX="10.0" layoutY="110.0" prefHeight="100.0" prefWidth="200.0" spacing="55.0">
+            <HBox layoutX="10.0" layoutY="110.0" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Interes durante la actividad" />
-                  <Slider fx:id="slInteres" blockIncrement="1.0" max="5.0" min="1.0" value="1.0" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Interes durante la actividad">
+                     <HBox.margin>
+                        <Insets right="14.0" />
+                     </HBox.margin></Text>
+                  <Slider fx:id="slInteres" blockIncrement="1.0" majorTickUnit="1.0" max="5.0" min="1.0" minorTickCount="0" onDragOver="#actualizarEtiquetas" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0" />
                </children>
                <padding>
                   <Insets left="20.0" />
@@ -57,7 +66,7 @@
       </VBox>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
          <children>
-            <Button layoutX="381.0" layoutY="7.0" mnemonicParsing="false" styleClass="button-principal" stylesheets="@Recursos/EstiloVentanas.css" text="Button" />
+            <Button layoutX="381.0" layoutY="7.0" mnemonicParsing="false" onAction="#guardarRetroalimentacion" styleClass="button-principal" stylesheets="@Recursos/EstiloVentanas.css" text="Guardar" />
          </children></AnchorPane>
   </items>
 </SplitPane>

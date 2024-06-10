@@ -17,6 +17,12 @@ import java.util.Optional;
 
 public class RetroalimentacionColaboracionDAO implements IRetroalimentacionColaboracionDAO {
 
+  /**
+   * Agrega a la base de datos una retroalimentación de colaboración
+   * @param retroalimentacion la retroalimentación que se registrará en la base de datos
+   * @return el numero de filas afectadas en la base de datos
+   * @throws ErrorDAO tipo conexión si ocurre un error de sql
+   */
   @Override
   public int agregar(RetroalimentacionColaboracionDTO retroalimentacion) throws ErrorDAO {
     int resultado = -1;
@@ -57,6 +63,12 @@ public class RetroalimentacionColaboracionDAO implements IRetroalimentacionColab
     throw new NotImplementedException("el objeto no implementará el metodo");
   }
 
+  /**
+   * Consigué una retroalimentación de colaboración por su id
+   * @param id el id de la retroalimentación que se busca
+   * @return la retroalimentación colaboración con el id especificado
+   * @throws ErrorDAO tipo conexión si ocurre un error de sql, tipo consulta si no se encuentra la retroalimentación con la id especificada
+   */
   @Override
   public Optional<RetroalimentacionColaboracionDTO> getPorId(Integer id) throws ErrorDAO {
     ResultSet resultado = null;
@@ -86,6 +98,13 @@ public class RetroalimentacionColaboracionDAO implements IRetroalimentacionColab
     return Optional.ofNullable(resultSetAObjeto(resultado));
   }
 
+  /**
+   * Consigue la retroalimentación de colaboración a partir de la persona que realizó la retroalimentación y la colaboración retroalimentada
+   * @param idPersona la id de la persona que realiza la retroalimentación
+   * @param idColaboracion la id de la colaboración retroalimentada
+   * @return la retroalimentación de colaboración especificada que realizó la persona especificada
+   * @throws ErrorDAO tipo conexión si ocurre un error de sql, tipo consulta si no se encuentra la retroalimentación
+   */
   public Optional<RetroalimentacionColaboracionDTO> getPorPersonaYColaboracion(int idPersona, int idColaboracion)
       throws ErrorDAO {
     ResultSet resultado = null;
@@ -116,6 +135,11 @@ public class RetroalimentacionColaboracionDAO implements IRetroalimentacionColab
     return Optional.ofNullable(resultSetAObjeto(resultado));
   }
 
+  /**
+   * Consigue todas las retroalimentaciones que se encuentren guardadas en la base de datos
+   * @return ArrayList de todas las retroalimentaciones de colaboración que se encuentren en la base de datos
+   * @throws ErrorDAO tipo conexión si ocurre un error de sql
+   */
   public List<RetroalimentacionColaboracionDTO> getTodos() throws ErrorDAO {
     ResultSet resultado = null;
 
@@ -154,6 +178,12 @@ public class RetroalimentacionColaboracionDAO implements IRetroalimentacionColab
     return retroalimentaciones;
   }
 
+  /**
+   * Convierte un ResultSet con los datos de una retroalimentación de colaboración en un objeto RetroalimentacionColaboracionDTO, el ResultSet debe encontrarse en una posición con información
+   * @param resultados el ResultSet con la forma: id, interaccionPar, comentario, idUsuario, habilidadesObtenidas, calificacion, intercambioCultural, mejoraLenguaje, trabajoColaborativo, mejoraFormacionProfesional, idColaboracion
+   * @return Una retroalimentación de colaboración
+   * @throws ErrorDAO tipo consulta si no es posible conseguir los datos del ResultSet
+   */
   private static RetroalimentacionColaboracionDTO resultSetAObjeto(ResultSet resultados) throws ErrorDAO {
     RetroalimentacionColaboracionDTO retroalimentacion = new RetroalimentacionColaboracionDTO();
 

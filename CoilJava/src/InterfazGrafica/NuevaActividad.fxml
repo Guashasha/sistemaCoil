@@ -9,7 +9,7 @@
 <AnchorPane fx:id="pnPrincipal" prefHeight="359.0" prefWidth="551.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.NuevaActividadControlador">
    <children>
       <Button fx:id="btnAceptar" layoutX="288.0" layoutY="292.0" mnemonicParsing="false" onAction="#agregarActividad" prefHeight="46.0" prefWidth="103.0" styleClass="button-principal" stylesheets="@Recursos/EstiloVentanas.css" text="Aceptar" />
-      <Button fx:id="btnCancelar" layoutX="420.0" layoutY="292.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="103.0" styleClass="button-secundario" stylesheets="@Recursos/EstiloVentanas.css" text="Cancelar" />
+      <Button fx:id="btnCancelar" layoutX="420.0" layoutY="292.0" mnemonicParsing="false" onAction="#volver" prefHeight="46.0" prefWidth="103.0" styleClass="button-secundario" stylesheets="@Recursos/EstiloVentanas.css" text="Cancelar" />
       <VBox layoutX="40.0" layoutY="70.0" prefHeight="274.0" prefWidth="200.0">
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Titulo" />
@@ -50,9 +50,5 @@
             <Font name="System Bold" size="22.0" />
          </font>
       </Text>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Fecha de inicio" x="330.0" y="85.0" />
-      <DatePicker fx:id="dpFechaInicio" layoutX="330.0" layoutY="90.0" />
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Fecha de final" x="330.0" y="140.0" />
-      <DatePicker fx:id="dpFechaFin" layoutX="330.0" layoutY="147.0" />
    </children>
 </AnchorPane>

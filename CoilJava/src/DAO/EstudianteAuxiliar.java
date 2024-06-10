@@ -3,8 +3,6 @@ package DAO;
 import DTO.EstudianteDTO;
 import Utilidades.ErrorDAO;
 import Utilidades.ErrorDAO.Tipo;
-
-import java.sql.ResultSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,23 +10,11 @@ public class EstudianteAuxiliar {
     private final EstudianteDAO ESTUDIANTE_DAO = new EstudianteDAO();
 
     public int agregar (EstudianteDTO estudianteDTO) throws ErrorDAO {
-        if (existe(estudianteDTO.getMatricula())) {
-            throw new ErrorDAO("El estudianteDTO con la matricula " + estudianteDTO.getMatricula() + " ya se encuentra registrado", Tipo.VALIDACION);
+        if (estudianteExiste(estudianteDTO.getMatricula())) {
+            throw new ErrorDAO("El estudiante con la matricula " + estudianteDTO.getMatricula() + " ya se encuentra registrado", Tipo.VALIDACION);
         }
         try {
             return ESTUDIANTE_DAO.agregar(estudianteDTO);
-        }
-        catch (ErrorDAO error) {
-            throw new ErrorDAO(error.getMessage(), error.getTipo());
-        }
-    }
-
-    public int modificar (EstudianteDTO estudianteDTO) throws ErrorDAO {
-        if (!existe(estudianteDTO.getMatricula())) {
-            throw new ErrorDAO("La matricula no se encuentra registrada", ErrorDAO.Tipo.VALIDACION);
-        }
-        try {
-            return ESTUDIANTE_DAO.modificar(estudianteDTO);
         }
         catch (ErrorDAO error) {
             throw new ErrorDAO(error.getMessage(), error.getTipo());
@@ -47,20 +33,6 @@ public class EstudianteAuxiliar {
         }
     }
 
-
-    public List<EstudianteDTO> getTodos () throws ErrorDAO {
-        try {
-            return ESTUDIANTE_DAO.getTodos();
-        }
-        catch (ErrorDAO error) {
-            throw new ErrorDAO(error.getMessage(), error.getTipo());
-        }
-    }
-
-    public EstudianteDTO resultSetAObjeto (ResultSet resultados) {
-        return null;
-    }
-
     public Optional<EstudianteDTO> getEstudiantePorIdPersona (int idPersona) throws ErrorDAO {
         if (noEsIdValido(idPersona)) {
             throw new ErrorDAO("Id de persona invalido", ErrorDAO.Tipo.VALIDACION);
@@ -70,6 +42,32 @@ public class EstudianteAuxiliar {
         }
         catch (ErrorDAO error) {
             throw new ErrorDAO(error.getMessage(),error.getTipo());
+        }
+    }
+
+    public Optional<EstudianteDTO> getEstudiantePorMatriculaYUniversidad (String matricula,int idUniversidad) throws ErrorDAO {
+        if (noEsIdValido(idUniversidad)) {
+            throw new ErrorDAO("La universidad no es válida",Tipo.VALIDACION);
+        }
+
+        try {
+            probarMatricula(matricula);
+            return ESTUDIANTE_DAO.getEstudiantePorMatriculaYUniversidad(matricula,idUniversidad);
+        }
+        catch (ErrorDAO error) {
+            throw new ErrorDAO(error.getMessage(), error.getTipo());
+        }
+    }
+
+    public List<EstudianteDTO> getEstudiantesSinColaboracionActivaOVinculadaPorUniversidad (int idUniversidad) throws ErrorDAO {
+        if (noEsIdValido(idUniversidad)) {
+            throw new ErrorDAO("Id de una universidad invalido", ErrorDAO.Tipo.VALIDACION);
+        }
+        try {
+            return  ESTUDIANTE_DAO.getEstudiantesSinColaboracionActivaOVinculadaPorUniversidad(idUniversidad);
+        }
+        catch (ErrorDAO error) {
+            throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
     }
 
@@ -83,24 +81,14 @@ public class EstudianteAuxiliar {
         }
     }
 
-    public List<EstudianteDTO> getEstudiantePorUniversidad (int idUniversidad) throws ErrorDAO {
-        if (noEsIdValido(idUniversidad)) {
-            throw new ErrorDAO("Id de una universidad invalido", ErrorDAO.Tipo.VALIDACION);
-        }
-        try {
-            return  ESTUDIANTE_DAO.getEstudiantePorUniversidad(idUniversidad);
-        }
-        catch (ErrorDAO error) {
-            throw new ErrorDAO(error.getMessage(), error.getTipo());
-        }
-    }
     private boolean noEsIdValido (int id) {
         return id <= 0;
     }
 
-    private boolean existe (String matricula) {
+    private boolean estudianteExiste (String matricula) {
         return getEstudiantePorMatricula(matricula).isPresent();
     }
+
     private void probarMatricula (String matricula) {
         EstudianteDTO estudianteDTO = new EstudianteDTO();
         estudianteDTO.setMatricula(matricula);

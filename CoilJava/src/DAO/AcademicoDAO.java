@@ -119,7 +119,7 @@ public class AcademicoDAO implements IAcademicoDAO {
 
     @Override
     public  Optional<AcademicoDTO> getPorId (Integer id) throws ErrorDAO {
-        String consulta = "SELECT * from vista_Academico WHERE idPersona = ?";
+        String consulta = "SELECT * from vista_academico WHERE idPersona = ?";
         AcademicoDTO academicoDTO = null;
         try {
             PreparedStatement consultarAcademico = AdministradorBaseDatos.getInstancia().
@@ -168,16 +168,17 @@ public class AcademicoDAO implements IAcademicoDAO {
     }
 
     public int modificar (AcademicoDTO academicoDTO) throws ErrorDAO {
-        int resultado = -1;
+        int resultado;
         String procedimientoSQL = "{CALL editar_academico(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
-        try {
 
+        try {
             CallableStatement editarAcademico = AdministradorBaseDatos.getInstancia().
                                                                  prepareCall(procedimientoSQL);
             setAcademicoParametros (editarAcademico, academicoDTO);
-            resultado = editarAcademico.executeUpdate();
-            editarAcademico.close();
 
+            resultado = editarAcademico.executeUpdate();
+
+            editarAcademico.close();
         }
         catch (SQLException error) {
             BITACORA.fatal(error.getMessage());
@@ -189,6 +190,7 @@ public class AcademicoDAO implements IAcademicoDAO {
         return resultado;
     }
 
+    @Override
     public int agregarAcademicoConCuenta (AcademicoDTO academicoDTO, CuentaDTO cuentaDTO) throws ErrorDAO {
         String procedimientoSQL = "{CALL registrar_Academico(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
         int resultado = -1;
@@ -219,7 +221,7 @@ public class AcademicoDAO implements IAcademicoDAO {
         catch (SQLException error) {
             BITACORA.fatal(error.getMessage());
             AdministradorBaseDatos.rollback();
-            throw new ErrorDAO("Error al registrar al academicoDTO junto con su cuentaDTO", ErrorDAO.Tipo.INSERCION);
+            throw new ErrorDAO("Error al registrar al academico junto con su cuenta", ErrorDAO.Tipo.INSERCION);
         }
         return resultado;
     }

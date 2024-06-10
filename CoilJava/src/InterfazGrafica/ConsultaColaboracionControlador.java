@@ -3,19 +3,17 @@ package InterfazGrafica;
 import DAO.ColaboracionAuxiliar;
 import DTO.AcademicoDTO;
 import DTO.ColaboracionDTO;
+import InterfazGrafica.Items.ColaboracionDisponibleItemControlador;
 import Utilidades.ErrorDAO;
-import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -23,32 +21,33 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Stack;
 import java.util.stream.Collectors;
 
-public class ConsultaColaboracionControlador extends Application implements Initializable {
+public class ConsultaColaboracionControlador implements Initializable {
     private static final Logger BITACORA = Logger.getLogger(ConsultaColaboracionControlador.class);
     private AcademicoDTO academicoDTO;
 
     @FXML
-    private GridPane gpContenedorColaboraciones;
+    private GridPane pnContenedorColaboraciones;
 
     @FXML
     private TextField tfBusqueda;
+    private BorderPane pnVentanaPrincipal;
+    private Stack<Pane> historialPaneles = new Stack<>();
+
 
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle) {
         if (academicoDTO != null) {
             cargarColaboracionItem();
-            tfBusqueda.textProperty()
-                      .addListener((observable, oldValue, newValue) -> {
-                          cargarColaboracionItem();
-                      });
+
         }
     }
 
     private List<ColaboracionDTO> getColaboracionesDisponibles () {
         ColaboracionAuxiliar colaboracionAuxiliar = new ColaboracionAuxiliar();
-        List<ColaboracionDTO> colaboraciones = colaboracionAuxiliar.obtenerColaboracionDisponible(academicoDTO.getCedulaProfesional());
+        List<ColaboracionDTO> colaboraciones = colaboracionAuxiliar.getColaboracionDisponible(academicoDTO.getCedulaProfesional(), academicoDTO.getIdUniversidad());
         String textoBusqueda = tfBusqueda.getText()
                                          .trim()
                                          .toLowerCase();
@@ -63,19 +62,19 @@ public class ConsultaColaboracionControlador extends Application implements Init
     }
 
     public void cargarColaboracionItem () {
-        gpContenedorColaboraciones.getChildren()
+        pnContenedorColaboraciones.getChildren()
                                   .clear();
 
         ArrayList<ColaboracionDTO> arrayListColaboracion;
         try {
             arrayListColaboracion = (ArrayList<ColaboracionDTO>) getColaboracionesDisponibles();
             if (!arrayListColaboracion.isEmpty()) {
-                int filas = 0;
+                int filas = 1;
                 int columnas = 0;
                 for (ColaboracionDTO colaboracionDTO : arrayListColaboracion) {
                     agregarColaboracionItem(colaboracionDTO, filas, columnas);
                     columnas++;
-                    if (columnas == 3) {
+                    if (columnas == 2) {
                         columnas = 0;
                         filas++;
                     }
@@ -83,19 +82,19 @@ public class ConsultaColaboracionControlador extends Application implements Init
             }
         }
         catch (ErrorDAO error) {
-            mostrarAlert(error.getMessage(), Alert.AlertType.ERROR);
+            mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
         }
     }
 
     private void agregarColaboracionItem (ColaboracionDTO colaboracionDTO, int filas, int columnas) {
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("ColaboracionDisponibleItem.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("../InterfazGrafica/Items/ColaboracionDisponibleItem.fxml"));
         try {
             Pane pane = fxmlLoader.load();
             ColaboracionDisponibleItemControlador controlador = fxmlLoader.getController();
             controlador.setColaboracionDTO(colaboracionDTO);
             controlador.setAcademicoDTO(academicoDTO);
-            gpContenedorColaboraciones.add(pane, columnas, filas);
+            pnContenedorColaboraciones.add(pane, columnas++, filas);
             GridPane.setMargin(pane, new Insets(10));
             controlador.inicializarLabel();
         }
@@ -105,7 +104,7 @@ public class ConsultaColaboracionControlador extends Application implements Init
         }
     }
 
-    private void mostrarAlert (String mensaje, Alert.AlertType tipoAlerta) {
+    private void mostrarMensajeEmergente (String mensaje, Alert.AlertType tipoAlerta) {
         Alert alert = new Alert(tipoAlerta);
         alert.setContentText(mensaje);
         alert.setHeaderText("Informacion");
@@ -120,17 +119,23 @@ public class ConsultaColaboracionControlador extends Application implements Init
         this.academicoDTO = academicoDTO;
     }
 
-    @Override
-    public void start (Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../InterfazGrafica/ConsultaColaboracion.fxml"));
-        Parent root = loader.load();
-        Scene scene = new Scene(root);
-
-        stage.setScene(scene);
-        stage.show();
+    public void setPnVentanaPrincipal (BorderPane pnVentanaPrincipal) {
+        this.pnVentanaPrincipal = pnVentanaPrincipal;
     }
 
-    public static void main (String[] args) {
-        launch(args);
+    public void setHistorialPaneles (Stack<Pane> historialPaneles) {
+        this.historialPaneles = historialPaneles;
     }
+
+
+    public void cargarItemsColaboracionPorBusqueda () {
+        tfBusqueda.textProperty()
+                  .addListener((observable, oldValue, newValue) -> {
+                      cargarColaboracionItem();
+                  });
+    }
+
 }
+
+
+

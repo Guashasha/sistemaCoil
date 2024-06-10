@@ -9,11 +9,32 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * La clase UniversidadAuxiliar funciona como intermediario entre el cliente y las clases DAO. Procesa y valida la información
+ * antes de mandarla o después de recibirla de las clases DAO.
+ * @author pale
+ */
 public class UniversidadAuxiliar {
+    /**
+     * Instancia del logger para registrar las excepciones que se pueden atrapar en las funciones de la clase.
+     */
     private final static Logger BITACORA = Logger.getLogger(UniversidadAuxiliar.class);
+    /**
+     *Instancia de la clase UniversidadDAO que se utiliza en los métodos de la clase.
+     */
     private final UniversidadDAO UNIVERSIDAD_DAO = new UniversidadDAO();
+    /**
+     *Instancia de la clase PaisDAO que se utiliza en los métodos de la clase.
+     */
     private final PaisDAO PAIS_DAO = new PaisDAO();
 
+    /**
+     * Valida la información para registrar una universidad con la clase UniversidadDAO.
+     * @param universidad universidad a registrar, inicializada con su nombre.
+     * @param pais pais de la universidad a registrar, inicializado con su nombre.
+     * @return número de filas afectadas por la sentencia SQL.
+     * @throws ErrorDAO si ocurre un error en la validación de la información o durante el acceso a la base de datos.
+     */
     public int registrarUniversidad (UniversidadDTO universidad, PaisDTO pais) throws ErrorDAO {
         if (esNulo(universidad) || esNulo(pais)) {
             throw new ErrorDAO("Algo salió mal, inténtelo de nuevo más tarde", ErrorDAO.Tipo.VALIDACION);
@@ -40,12 +61,20 @@ public class UniversidadAuxiliar {
             }
         }
         else {
-            throw new ErrorDAO("Campos vacíos", ErrorDAO.Tipo.VALIDACION);
+            throw new ErrorDAO("Los nombres no pueden contener caracteres especiales.\nSolo son válidas letras del alfabeto en español y guiones en el medio", ErrorDAO.Tipo.VALIDACION);
         }
 
         return filasAfectadas;
     }
 
+    /**
+     *Valida la información para editar una universidad existente con la clase UniversidadDAO
+     * @param universidadActual Contiene  de la universidad que se quiere editar.
+     * @param nuevaUniversidad contiene los datos editados de la universidad.
+     * @param nuevoPais Contiene el nombre del país de la universidad editada.
+     * @return numero de las filas afectadas por la sentencia SQL.
+     * @throws ErrorDAO si ocurre un error en la validación de la información o durante el acceso a la base de datos.
+     */
     public int editarUniversidad (UniversidadDTO universidadActual, UniversidadDTO nuevaUniversidad, PaisDTO nuevoPais) throws ErrorDAO {
         if (esNulo(universidadActual) || esNulo(nuevaUniversidad) || esNulo(nuevoPais)) {
             throw new ErrorDAO("Algo salió mal, inténtelo de nuevo más tarde", ErrorDAO.Tipo.VALIDACION);
@@ -74,21 +103,28 @@ public class UniversidadAuxiliar {
             }
         }
         else {
-            throw new ErrorDAO("Campos vacíos", ErrorDAO.Tipo.VALIDACION);
+            throw new ErrorDAO("Los nombres no pueden contener caracteres especiales.\nSolo son válidas letras del alfabeto en español y guiones en el medio", ErrorDAO.Tipo.VALIDACION);
         }
 
         return filasAfectadas;
     }
 
+    /**
+     *Valida la información para obtener una universidad de acuerdo a su nombre, con la clase UniversidadDAO.
+     * @param nombre nombre de la universidad a consulta
+     * @return Objeto Optional con una universidad inicializada con su id, nombre e id de país; o un objeto Optional vacío si no se encuentran resultados.
+     * @throws ErrorDAO si ocurre un error en la validación de la información o durante el acceso a la base de datos.
+     */
     public Optional<UniversidadDTO> getUniversidadPorNombre (String nombre) throws ErrorDAO {
         Optional<UniversidadDTO> universidad;
-        if (cadenaValida(nombre)) {
+        UniversidadDTO universidadABuscar = new UniversidadDTO(nombre);
+        if (universidadABuscar.nombreValido()) {
             try {
                 universidad = UNIVERSIDAD_DAO.getUniversidadPorNombre(nombre.trim());
             }
             catch (SQLException error) {
-                BITACORA.info(error.getMessage());
-                throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
+                BITACORA.fatal(error.getMessage());
+                throw new ErrorDAO("Error al establecer conexión con la base de datos", ErrorDAO.Tipo.CONSULTA);
             }
         }
         else {
@@ -97,6 +133,12 @@ public class UniversidadAuxiliar {
         return universidad;
     }
 
+    /**
+     * Valida la información para obtener una universidad de acuerdo a su país asociado, con la clase UniversidadDAO.
+     * @param paisOrigen nombre del país al que pertenece la universidad.
+     * @return Objeto Optional con una universidad inicializada con su id, nombre e id de país; o un objeto Optional vacío si no se encuentran resultados.
+     * @throws ErrorDAO si ocurre un error en la validación de la información o durante el acceso a la base de datos.
+     */
     public List<UniversidadDTO> getUniversidadesPorPaisOrigen (String paisOrigen) throws ErrorDAO {
         List<UniversidadDTO> listaUniversidades = new ArrayList<>();
         if (cadenaValida(paisOrigen)) {
@@ -104,13 +146,19 @@ public class UniversidadAuxiliar {
                 listaUniversidades = UNIVERSIDAD_DAO.getUniversidadesPorPaisOrigen(paisOrigen.trim());
             }
             catch (SQLException error) {
-                BITACORA.info(error.getMessage());
-                throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
+                BITACORA.fatal(error.getMessage());
+                throw new ErrorDAO("Error al establecer conexión con la base de datos", ErrorDAO.Tipo.CONEXION);
             }
         }
         return listaUniversidades;
     }
 
+    /**
+     * Valida la información para obtener la lista de universidades que tienen el nombre coincidente con una cadena determinada.
+     * @param universidad universidad inicializada con el nombre que se desea usar como coincidencia.
+     * @return lista con las universidades coincidentes con la cadena especificada o una lista vacía si no se encuentran resultados.
+     * @throws ErrorDAO
+     */
     public List<UniversidadDTO> getUniversidadesPorNombre (UniversidadDTO universidad) throws ErrorDAO {
         if (esNulo(universidad)) {
             throw new ErrorDAO("Algo salió mal, inténtelo de nuevo más tarde", ErrorDAO.Tipo.VALIDACION);
@@ -125,7 +173,7 @@ public class UniversidadAuxiliar {
             }
             catch (SQLException error) {
                 BITACORA.info(error.getMessage());
-                throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
+                throw new ErrorDAO("Error al establecer conexión con la base de datos", ErrorDAO.Tipo.CONEXION);
             }
         }
         else {
@@ -135,6 +183,11 @@ public class UniversidadAuxiliar {
         return listaUniversidades;
     }
 
+    /**
+     * 
+     * @return
+     * @throws ErrorDAO
+     */
     public List<UniversidadDTO> getTodasAlfabeticamente () throws ErrorDAO {
         try {
             return UNIVERSIDAD_DAO.getTodasAlfabeticamente();
@@ -153,7 +206,7 @@ public class UniversidadAuxiliar {
             }
             catch (SQLException error) {
                 BITACORA.info(error.getMessage());
-                throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
+                throw new ErrorDAO("Error de conexión con la base de datos", ErrorDAO.Tipo.CONSULTA);
             }
         }
         else {
@@ -216,7 +269,14 @@ public class UniversidadAuxiliar {
         return universidadEditada;
     }
 
-    private UniversidadDTO prepararUniversidadNueva (String nombre, String pais) throws ErrorDAO{
+    /**
+     * Crea una universidad con su nombre e id de país.
+     * @param nombre Nombre de la universidad.
+     * @param pais Nombre del país al que se quiere asociar la universidad.
+     * @return Universidad inicializada con su nombre e id de país.
+     * @throws ErrorDAO si ocurre un error en la búsqueda de la información o durante el acceso a la base de datos.
+     */
+    private UniversidadDTO prepararUniversidadNueva (String nombre, String pais) throws ErrorDAO {
         UniversidadDTO nuevaUniversidad;
         Optional<PaisDTO> paisOptional;
 

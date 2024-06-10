@@ -1,25 +1,25 @@
 package InterfazGrafica;
 
+import DAO.ColaboracionAuxiliar;
 import DAO.RetroalimentacionColaboracionAuxiliar;
-import DAO.RetroalimentacionColaboracionDAO;
 import DTO.ColaboracionDTO;
+import DTO.PersonaDTO;
 import DTO.RetroalimentacionColaboracionDTO;
 import Utilidades.ErrorDAO;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Slider;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import org.apache.log4j.Logger;
-
-import java.io.IOException;
 
 public class RetroalimentarColaboracionControlador {
     private static final Logger BITACORA = Logger.getLogger(NuevaActividadControlador.class);
 
     @FXML
-    private Pane pnPrincipal;
+    private SplitPane pnPrincipal;
     @FXML
     private Slider slCalificacion = new Slider();
     @FXML
@@ -38,22 +38,20 @@ public class RetroalimentarColaboracionControlador {
     private TextField tfComentario = new TextField();
 
     private ColaboracionDTO colaboracion;
+    private BorderPane ventanaPrincipal;
+    private Pane panelAnterior;
+    private ProgresoColaboracionControlador controladorAnterior;
+    private PersonaDTO usuario;
 
-    public RetroalimentarColaboracionControlador (ColaboracionDTO colaboracion) {
-        if (!colaboracion.esValido()) {
-            return;
-        }
-
+    public void initialize (ColaboracionDTO colaboracion, BorderPane ventanaPrincipal, Pane panelAnterior, ProgresoColaboracionControlador controladorAnterior, PersonaDTO usuario) {
+        this.panelAnterior = panelAnterior;
+        this.ventanaPrincipal = ventanaPrincipal;
         this.colaboracion = colaboracion;
-
-        try {
-            pnPrincipal = FXMLLoader.load(getClass().getResource("RetroalimentarColaboracion.fxml"));
-        } catch (IOException e) {
-            BITACORA.error(e);
-        }
+        this.controladorAnterior = controladorAnterior;
+        this.usuario = usuario;
     }
 
-    public Pane getPane () {
+    public SplitPane getPane () {
         return pnPrincipal;
     }
 
@@ -67,15 +65,19 @@ public class RetroalimentarColaboracionControlador {
         }
         catch (ErrorDAO error) {
             Alert alertaError = crearAlerta(error);
+            alertaError.setContentText(error.getMessage());
 
             alertaError.showAndWait();           
             return;
         }
-        
+
         Alert mensajeConfirmacion = new Alert(Alert.AlertType.INFORMATION);
         mensajeConfirmacion.setHeaderText("Colaboración calificada correctamente");
         mensajeConfirmacion.setContentText("La información de la retroalimentación se guardó correctamente. Gracias por participar en la colaboración.");
         mensajeConfirmacion.showAndWait();
+
+        regresar();
+        controladorAnterior.actualizarVisibilidadBotones();
     }
 
     private static Alert crearAlerta(ErrorDAO error) {
@@ -114,6 +116,7 @@ public class RetroalimentarColaboracionControlador {
 
         RetroalimentacionColaboracionDTO retroalimentacion = new RetroalimentacionColaboracionDTO();
         retroalimentacion.setColaboracion(colaboracion.getIdColaboracion());
+        retroalimentacion.setIdUsuario(this.usuario.getIdPersona());
         retroalimentacion.setCalificacion(calificacion);
         retroalimentacion.setHabilidadesObtenidas(habilidades);
         retroalimentacion.setIntercambioCultural(intercambio);
@@ -124,5 +127,10 @@ public class RetroalimentarColaboracionControlador {
         retroalimentacion.setComentario(mensaje);
 
         return retroalimentacion;
+    }
+
+    public void regresar () {
+        controladorAnterior.actualizarVisibilidadBotones();
+        this.ventanaPrincipal.setCenter(this.panelAnterior);
     }
 }

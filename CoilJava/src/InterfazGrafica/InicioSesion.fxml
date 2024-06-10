@@ -17,7 +17,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="bdPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="708.0" prefWidth="859.0" style="-fx-background-color: EBFCFB;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.InicioSesionControlador">
+<BorderPane fx:id="pnVentanaActual" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="708.0" prefWidth="859.0" style="-fx-background-color: EBFCFB;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.InicioSesionControlador">
    <left>
       <AnchorPane fx:id="apPane" prefHeight="708.0" prefWidth="459.0" BorderPane.alignment="CENTER">
          <children>
@@ -25,7 +25,7 @@
                <font>
                   <Font size="14.0" />
                </font></TextField>
-            <PasswordField fx:id="tfContrasena" layoutX="96.0" layoutY="300.0" prefHeight="28.0" prefWidth="262.0" promptText="contrraseña" style="-fx-background-color: transparent; -fx-border-color: DC6504; -fx-border-width: 0px 0px 2px 0px;">
+            <PasswordField fx:id="pfContrasena" layoutX="96.0" layoutY="300.0" prefHeight="28.0" prefWidth="262.0" promptText="contrraseña" style="-fx-background-color: transparent; -fx-border-color: DC6504; -fx-border-width: 0px 0px 2px 0px;">
                <font>
                   <Font size="14.0" />
                </font></PasswordField>

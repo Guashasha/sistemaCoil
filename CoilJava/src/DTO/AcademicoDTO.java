@@ -34,7 +34,7 @@ public class AcademicoDTO extends PersonaDTO {
     }
 
     public void setCedulaProfesional (String cedulaProfesional) {
-        checharCedula(cedulaProfesional);
+        verificarCedula(cedulaProfesional);
         this.cedulaProfesional = cedulaProfesional;
     }
 
@@ -43,7 +43,7 @@ public class AcademicoDTO extends PersonaDTO {
     }
 
     public void setNumeroPersonal (String numeroPersonal) {
-        checharNumeroPersonal(numeroPersonal);
+        verificarNumeroPersonal(numeroPersonal);
         this.numeroPersonal = numeroPersonal;
     }
 
@@ -60,7 +60,7 @@ public class AcademicoDTO extends PersonaDTO {
     }
 
     public void setCorreoElectronico (String correoElectronico) {
-        checharCorreo(correoElectronico);
+        verificarCorreo(correoElectronico);
         this.correoElectronico = correoElectronico;
     }
 
@@ -69,7 +69,7 @@ public class AcademicoDTO extends PersonaDTO {
     }
 
     public void setNumeroTelefonico (String numeroTelefonico) {
-        checarNumeroTelefono(numeroTelefonico);
+        verificarNumeroTelefonico(numeroTelefonico);
         this.numeroTelefonico = numeroTelefonico;
     }
 
@@ -78,7 +78,7 @@ public class AcademicoDTO extends PersonaDTO {
     }
 
     public void setCategoriaContratacion (String categoriaContratacion) {
-        checharCategoria(categoriaContratacion);
+        verificarCategoriaContratacion(categoriaContratacion);
         this.categoriaContratacion = categoriaContratacion;
     }
 
@@ -92,17 +92,17 @@ public class AcademicoDTO extends PersonaDTO {
 
     @Override
     public boolean validarNulos () {
-        return cadenaValida(getNombre()) &&
-                cadenaValida(getApellidoPaterno()) &&
-                cadenaValida(getApellidoMaterno()) &&
-                cadenaValida(cedulaProfesional) &&
-                cadenaValida(numeroPersonal) &&
-                cadenaValida(areaEstudios) &&
-                cadenaValida(correoElectronico) &&
-                cadenaValida(numeroTelefonico);
+        return esCadenaValida(getNombre()) &&
+                esCadenaValida(getApellidoPaterno()) &&
+                esCadenaValida(getApellidoMaterno()) &&
+                esCadenaValida(cedulaProfesional) &&
+                esCadenaValida(numeroPersonal) &&
+                esCadenaValida(areaEstudios) &&
+                esCadenaValida(correoElectronico) &&
+                esCadenaValida(numeroTelefonico);
     }
 
-    private void checharCedula (String cedulaProfesional) {
+    private void verificarCedula (String cedulaProfesional) {
         String CEDULA_REGEX = "^[0-9]{1,30}$";
         Pattern patron = Pattern.compile(CEDULA_REGEX);
         if (cedulaProfesional == null || cedulaProfesional.isEmpty()) {
@@ -114,7 +114,7 @@ public class AcademicoDTO extends PersonaDTO {
         }
     }
 
-    private void checharCorreo (String correoElectronico) {
+    private void verificarCorreo (String correoElectronico)  {
         String CORREO_REGEX = "[A-z0-9./+-]+@[A-z]+\\.[A-z]{1,3}";
         Pattern patron = Pattern.compile(CORREO_REGEX);
         if (correoElectronico == null || correoElectronico.isEmpty()) {
@@ -126,24 +126,24 @@ public class AcademicoDTO extends PersonaDTO {
                                        "1.No debe tener espacios en blanco", ErrorDAO.Tipo.VALIDACION);
         }
     }
-
-    private void checharNumeroPersonal (String numeroPersonal) {
-        String NUMERO_P_REGEX = "(?!0)[1-9]{0,39}$";
+    private void verificarNumeroPersonal (String numeroPersonal) {
+        String NUMERO_P_REGEX = "^[1-9][0-9]{0,39}$";
         Pattern patron = Pattern.compile(NUMERO_P_REGEX);
         if (numeroPersonal != null) {
             Matcher matcher = patron.matcher(numeroPersonal);
             if (!matcher.find()) {
                 throw new ErrorDAO("""
                                            El número de personal no es válido
-                                           1.No debe tener espacios en blanco
+                                           1. No debe tener espacios en blanco
                                            2. Solo debe contener números y estos deben ser positivos
-                                           3. No debe ser un número mayor a 40 digitos""", ErrorDAO.Tipo.VALIDACION);
+                                           3. No debe ser un número mayor a 40 digitos
+                                           4. No debe empzar con 0""", ErrorDAO.Tipo.VALIDACION);
             }
         }
     }
 
-    private void checharCategoria (String categoriaContratacion) {
-        String categoriaRex = "[a-zA-ZáéíóúÁÉÍÓÚüÜ][a-zA-ZáéíóúÁÉÍÓÚüÜ\\s]*";
+    private void verificarCategoriaContratacion (String categoriaContratacion) {
+        String categoriaRex = "^.{1,40}";
         Pattern patron = Pattern.compile(categoriaRex);
         if (categoriaContratacion != null && !categoriaContratacion.isEmpty()) {
             Matcher matcher = patron.matcher(categoriaContratacion);
@@ -158,17 +158,15 @@ public class AcademicoDTO extends PersonaDTO {
 
 
 
-    private void checarNumeroTelefono (String numeroTelefonico) {
-        String NUMERO_TELEFONO_REGEX = "^(?!0)[1-9]\\d{11}$";
+    private void verificarNumeroTelefonico (String numeroTelefonico) {
+        String NUMERO_TELEFONO_REGEX = "^(?!0)[1-9]\\d{11,13}$";
         Pattern patron = Pattern.compile(NUMERO_TELEFONO_REGEX);
         if (numeroTelefonico != null) {
             Matcher matcher = patron.matcher(numeroTelefonico);
             if (!matcher.matches()) {
                 throw new ErrorDAO("""
                                            El numero telefónico no es válido
-                                           1. Debe ser de 12 dígitos
-                                           2. Debe contener la lada al inicio:
-                                           +xxzzccvvbbnn""", ErrorDAO.Tipo.VALIDACION);
+                                           1. Su longitud debe ser de 11 a 13""", ErrorDAO.Tipo.VALIDACION);
             }
         }
     }

@@ -15,7 +15,7 @@ public class EstudianteDTO extends PersonaDTO {
     public EstudianteDTO(int idPersona, String nombre, String apellidoPaterno, String apellidoMaterno, int idUniversidad, int idEstudiante, String matricula) {
         super(idPersona, nombre, apellidoPaterno, apellidoMaterno, idUniversidad);
         this.idEstudiante = idEstudiante;
-        this.matricula = matricula;
+        setMatricula(matricula);
     }
 
     public int getIdEstudiante () {
@@ -36,7 +36,7 @@ public class EstudianteDTO extends PersonaDTO {
     }
 
     private void checarMatricula (String matricula) {
-        String matriculaRegex = "^[A-Za-z0-9]{10}$";
+        String matriculaRegex = "^[A-Za-z0-9]{8,10}$";
         Pattern patron = Pattern.compile(matriculaRegex);
         if (matricula == null || matricula.isEmpty()) {
             throw new ErrorDAO("La matricula no puede estar vacía", ErrorDAO.Tipo.VALIDACION);
@@ -45,15 +45,15 @@ public class EstudianteDTO extends PersonaDTO {
         if (!matcher.matches()) {
             throw new ErrorDAO("""
                                                        La matrícula no es valida.
-                                                       1. Su longitud debe ser exactamente de 10 caracteres.
+                                                       1. Su longitud debe ser entre 8 y 10 caracteres.
                                                        2. No debe tener espacios.""", ErrorDAO.Tipo.VALIDACION);
         }
     }
 
     @Override
     public boolean validarNulos() {
-        return cadenaValida(getNombre()) && cadenaValida(getApellidoPaterno()) &&
-                cadenaValida(getApellidoMaterno()) && cadenaValida(getMatricula());
+        return esCadenaValida(getNombre()) && esCadenaValida(getApellidoPaterno()) &&
+                esCadenaValida(getApellidoMaterno()) && esCadenaValida(getMatricula());
     }
 
     @Override
@@ -77,5 +77,4 @@ public class EstudianteDTO extends PersonaDTO {
         }
         return igual;
     }
-
 }

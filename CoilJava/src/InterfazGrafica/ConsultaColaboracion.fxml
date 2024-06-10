@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
@@ -9,15 +10,18 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="528.0" prefWidth="778.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.ConsultaColaboracionControlador">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="759.0" prefWidth="973.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.ConsultaColaboracionControlador">
     <top>
-        <Pane prefHeight="97.0" prefWidth="778.0" BorderPane.alignment="CENTER">
+        <Pane prefHeight="114.0" prefWidth="974.0" BorderPane.alignment="CENTER">
             <children>
-                <Label layoutX="24.0" layoutY="61.0" text="Ingresa el tema de interés" />
-                <TextField fx:id="tfBusqueda" layoutX="195.0" layoutY="57.0" prefHeight="25.0" prefWidth="477.0" promptText="Tema de interés" />
-                <Label layoutX="244.0" layoutY="14.0" text="Colaboraciones disponibles">
+                <Label layoutX="34.0" layoutY="82.0" text="Ingresa el tema de interés">
+               <font>
+                  <Font size="18.0" />
+               </font></Label>
+                <TextField fx:id="tfBusqueda" layoutX="278.0" layoutY="83.0" prefHeight="25.0" prefWidth="477.0" promptText="Tema de interés" />
+                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="28.0" layoutY="14.0" prefHeight="55.0" prefWidth="919.0" styleClass="label-titulo" stylesheets="@Recursos/EstiloLabels.css" text="Colaboraciones disponibles">
                     <font>
-                        <Font size="24.0" />
+                        <Font name="Arial Black" size="28.0" />
                     </font>
                 </Label>
             </children>
@@ -26,10 +30,13 @@
     <center>
         <ScrollPane prefHeight="419.0" prefWidth="751.0">
             <content>
-                <GridPane fx:id="gpContenedorColaboraciones" minHeight="8.0" minWidth="3.0" prefHeight="174.0" prefWidth="744.0">
+                <GridPane fx:id="pnContenedorColaboraciones" minHeight="8.0" minWidth="3.0" prefHeight="180.0" prefWidth="3.0">
                     <rowConstraints>
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
                 </GridPane>
             </content>
         </ScrollPane>

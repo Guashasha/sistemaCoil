@@ -1,59 +1,26 @@
 package InterfazGrafica;
 
-import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import org.apache.log4j.Logger;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.Stack;
 
-public class VentanaPrincipalAdministradorControlador extends Application implements Initializable {
+public class VentanaPrincipalAdministradorControlador implements Initializable {
     private final Logger BITACORA = Logger.getLogger(VentanaPrincipalAdministradorControlador.class);
     @FXML
     private BorderPane pnPrincipal;
-    private Stack<Pane> historialPaneles = new Stack<>();
-
-    public static void main (String[] args) {
-        launch(args);
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         abrirSeccionNumeralia();
-    }
-
-    @Override
-    public void start (Stage stage) {
-        Parent root = null;
-
-        try {
-            root = FXMLLoader.load(getClass().getResource("VentanaPrincipalAdministrador.fxml"));
-        }
-        catch (IOException e) {
-            BITACORA.error(e);
-        }
-
-        if (root != null) {
-            stage.initStyle(StageStyle.TRANSPARENT);
-            Scene escena = new Scene(root);
-            stage.setScene(escena);
-            stage.show();
-        }
-        else {
-            BITACORA.error("Ocurrió un error al iniciar la ventana windowNumeralia");
-        }
     }
 
     @FXML
@@ -68,15 +35,10 @@ public class VentanaPrincipalAdministradorControlador extends Application implem
             mostrarMensajeEmergente("Algo salió mal al mostrar la sección de colaboración", Alert.AlertType.ERROR);
         }
         if (apColaboracion != null) {
-            SeccionColaboracionAdministradorControlador seccionColaboracionAdministradorControlador = fxmlLoader.getController();
-            seccionColaboracionAdministradorControlador.setPnVentanaPrincipal(this.pnPrincipal);
+            SeccionColaboracionAdministradorControlador controlador = fxmlLoader.getController();
+            controlador.setPnVentanaPrincipal(this.pnPrincipal);
             this.pnPrincipal.setCenter(apColaboracion);
         }
-    }
-
-    @FXML
-    private void abrirSeccionAcademicos () {
-
     }
 
     @FXML
@@ -95,6 +57,7 @@ public class VentanaPrincipalAdministradorControlador extends Application implem
         if (pnConsultaUniversidades != null) {
             ConsultaUniversidadesControlador consultaUniversidadesControlador = fxmlLoader.getController();
             consultaUniversidadesControlador.setPnVentanaPrincipal(this.pnPrincipal);
+            consultaUniversidadesControlador.cargarConsultaGeneral();
             this.pnPrincipal.setCenter(pnConsultaUniversidades);
         }
     }
@@ -117,8 +80,24 @@ public class VentanaPrincipalAdministradorControlador extends Application implem
         }
     }
 
-    private void abrirConfiguracionCuenta () {
-        // TODO
+    @FXML
+    private void abrirCrearCuenta () {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CrearCuentaAcademico.fxml"));
+        Pane pnCrearCuenta = null;
+
+        try {
+            pnCrearCuenta = fxmlLoader.load();
+        }
+        catch (IOException error) {
+            BITACORA.fatal(error.getMessage());
+            mostrarMensajeEmergente("Algo salió mal al entrar a la ventana crear cuenta: "+ error.getMessage(), Alert.AlertType.ERROR);
+        }
+
+        if (pnCrearCuenta != null) {
+            CrearCuentaAcademicoControlador controlador = fxmlLoader.getController();
+            controlador.initialize(this.pnPrincipal);
+            this.pnPrincipal.setCenter(pnCrearCuenta);
+        }
     }
 
     @FXML
@@ -135,12 +114,10 @@ public class VentanaPrincipalAdministradorControlador extends Application implem
         }
 
         if (bpGestionCuenta != null) {
-            GestionCuentaControlador gestionCuentaControlador = fxmlLoader.getController();
-            gestionCuentaControlador.setPnVentanaPrincipal(this.pnPrincipal);
+            GestionCuentaControlador controlador = fxmlLoader.getController();
+            controlador.setPnVentanaPrincipal(this.pnPrincipal);
             this.pnPrincipal.setCenter(bpGestionCuenta);
         }
-
-
     }
 
     private void mostrarMensajeEmergente (String mensaje, Alert.AlertType tipoAlerta) {

@@ -260,6 +260,29 @@ public class CuentaDAO implements ICuentaDAO {
     }
 
     @Override
+    public Optional<CuentaDTO> getCuentaPorPersona (int idPersona) throws ErrorDAO {
+        CuentaDTO cuenta = null;
+
+        try {
+            PreparedStatement query = AdministradorBaseDatos.getInstancia().prepareStatement("SELECT * FROM cuenta WHERE idPersona=?;");
+            query.setInt(1, idPersona);
+            ResultSet resultado = query.executeQuery();
+
+            if (resultado.next()) {
+                cuenta = convertirCuenta(resultado);
+            }
+        } catch (SQLException error) {
+            BITACORA.fatal(error.getMessage());
+            throw new ErrorDAO("Error al obtener la cuenta por el id de la persona", Tipo.CONSULTA);
+        }
+        finally {
+            AdministradorBaseDatos.desconectar();
+        }
+
+        return Optional.ofNullable(cuenta);
+    }
+
+    @Override
     public List<CuentaDTO> getTodos () throws ErrorDAO {
         String getTodosSQL = "SELECT * from cuenta";
         List<CuentaDTO> listaCuentaDTO = new ArrayList<>();

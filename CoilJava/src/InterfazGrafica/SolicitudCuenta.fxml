@@ -65,7 +65,7 @@
    <center>
       <AnchorPane prefHeight="588.0" prefWidth="402.0" styleClass="root" stylesheets="@Recursos/EstiloVentanas.css" BorderPane.alignment="CENTER">
          <children>
-            <Label layoutX="160.0" layoutY="24.0" text="Solicitud de cuentaDTO">
+            <Label layoutX="176.0" layoutY="14.0" text="Solicitud de cuenta">
                <textFill>
                   <LinearGradient endX="1.0" endY="1.0">
                      <stops>
@@ -86,32 +86,36 @@
                   <Font name="Arial Rounded MT Bold" size="24.0" />
                </font>
             </Label>
-            <ComboBox fx:id="cmbUniversidad" layoutX="138.0" layoutY="306.0" prefHeight="26.0" prefWidth="178.0" promptText="Universidad" style="-fx-background-color: transparent;" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" />
-            <TextField fx:id="tfNombre" layoutX="138.0" layoutY="86.0" prefHeight="26.0" prefWidth="366.0" promptText="Nombre" styleClass="label-inicioSesion-rosado" stylesheets="@Recursos/EstiloLabels.css">
+            <ComboBox fx:id="cmbUniversidad" layoutX="206.0" layoutY="293.0" prefHeight="28.0" prefWidth="305.0" promptText="Universidad" style="-fx-background-color: transparent;" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" />
+            <TextField fx:id="tfNombre" layoutX="23.0" layoutY="51.0" onKeyTyped="#restriccionTfNombre" prefHeight="30.0" prefWidth="490.0" promptText="Nombre" styleClass="label-inicioSesion-rosado" stylesheets="@Recursos/EstiloLabels.css">
                <padding>
                   <Insets top="10.0" />
                </padding></TextField>
-            <TextField fx:id="tfApellidoP" layoutX="138.0" layoutY="140.0" prefHeight="26.0" prefWidth="366.0" promptText="Apellido paterno" styleClass="label-inicioSesion-rosado" stylesheets="@Recursos/EstiloLabels.css" />
-            <TextField fx:id="tfApellidoM" layoutX="138.0" layoutY="203.0" prefHeight="26.0" prefWidth="366.0" promptText="Apellido materno" styleClass="label-inicioSesion-rosado" stylesheets="@Recursos/EstiloLabels.css" />
-            <TextField fx:id="tfCorreo" layoutX="138.0" layoutY="253.0" prefHeight="26.0" prefWidth="366.0" promptText="Correo electrónico" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" />
-            <TextField fx:id="tfUsuario" layoutX="138.0" layoutY="432.0" prefHeight="26.0" prefWidth="365.0" promptText="Usuario" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" />
-            <Button fx:id="btnSolicitar" layoutX="193.0" layoutY="568.0" mnemonicParsing="false" onAction="#realizarSolicitud" prefHeight="32.0" prefWidth="209.0" styleClass="button-solicitar" stylesheets="@Recursos/EstiloVentanas.css" text="Solicitar" textAlignment="CENTER" textFill="WHITE" underline="true">
+            <TextField fx:id="tfApellidoP" layoutX="21.0" layoutY="113.0" onKeyTyped="#restriccionTfApellidoPaterno" prefHeight="28.0" prefWidth="493.0" promptText="Apellido paterno" styleClass="label-inicioSesion-rosado" stylesheets="@Recursos/EstiloLabels.css" />
+            <TextField fx:id="tfApellidoM" layoutX="23.0" layoutY="170.0" onKeyTyped="#restriccionTfApellidoMaterno" prefHeight="28.0" prefWidth="486.0" promptText="Apellido materno" styleClass="label-inicioSesion-rosado" stylesheets="@Recursos/EstiloLabels.css" />
+            <TextField fx:id="tfCorreo" layoutX="23.0" layoutY="232.0" onKeyTyped="#restriccionTfCorreo" prefHeight="28.0" prefWidth="485.0" promptText="Correo electrónico" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" />
+            <TextField fx:id="tfUsuario" layoutX="23.0" layoutY="416.0" onKeyTyped="#restriccionTfUsuario" prefHeight="28.0" prefWidth="491.0" promptText="Usuario" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" />
+            <Button fx:id="btnSolicitar" layoutX="183.0" layoutY="606.0" mnemonicParsing="false" onAction="#realizarSolicitud" prefHeight="32.0" prefWidth="209.0" styleClass="button-solicitar" stylesheets="@Recursos/EstiloVentanas.css" text="Solicitar" textAlignment="CENTER" textFill="WHITE" underline="true">
                <font>
                   <Font name="Arial Black" size="12.0" />
                </font>
             </Button>
-            <Hyperlink fx:id="hpkRegresar" layoutX="240.0" layoutY="630.0" onAction="#regresarAInicio" text="¿Ya tienes una cuentaDTO?" />
-            <TextField fx:id="tfCedula" layoutX="139.0" layoutY="372.0" prefHeight="26.0" prefWidth="363.0" promptText="Cédula profesional" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" />
-            <Label layoutX="14.0" layoutY="101.0" text="Nombre" />
-            <Label layoutX="13.0" layoutY="145.0" text="Apellido paterno" />
-            <Label layoutX="14.0" layoutY="208.0" text="Apellido materno" />
-            <Label layoutX="14.0" layoutY="258.0" text="Correo electrónico" />
-            <Label layoutX="13.0" layoutY="377.0" text="Cedula profesional" />
-            <Label layoutX="15.0" layoutY="451.0" text="Usuario" />
-            <Label layoutX="12.0" layoutY="495.0" text="Contraseña" />
-            <Label layoutX="15.0" layoutY="311.0" text="Universidad" />
-            <PasswordField fx:id="pfContrasena" layoutX="138.0" layoutY="490.0" promptText="Contraseña" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" />
-            <PasswordField fx:id="pfConfirmaContrasena" layoutX="352.0" layoutY="490.0" promptText="Confirmar Contraseña" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" />
+            <Hyperlink fx:id="hpkRegresar" layoutX="224.0" layoutY="657.0" onAction="#regresarAInicio" text="¿Ya tienes una cuenta?" />
+            <TextField fx:id="tfCedula" layoutX="24.0" layoutY="356.0" prefHeight="28.0" prefWidth="490.0" promptText="Cédula profesional" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" />
+            <Label layoutX="23.0" layoutY="42.0" text="Nombre" />
+            <Label layoutX="21.0" layoutY="95.0" text="Apellido paterno" />
+            <Label layoutX="21.0" layoutY="152.0" text="Apellido materno" />
+            <Label layoutX="25.0" layoutY="214.0" text="Correo electrónico" />
+            <Label layoutX="24.0" layoutY="338.0" text="Cedula profesional" />
+            <Label layoutX="27.0" layoutY="398.0" text="Usuario" />
+            <Label layoutX="24.0" layoutY="464.0" text="Contraseña" />
+            <Label layoutX="211.0" layoutY="275.0" text="Universidad" />
+            <PasswordField fx:id="pfContrasena" layoutX="27.0" layoutY="482.0" onKeyTyped="#restriccionPfContrasena" prefHeight="28.0" prefWidth="492.0" promptText="Contraseña" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" />
+            <PasswordField fx:id="pfConfirmaContrasena" layoutX="27.0" layoutY="547.0" onKeyTyped="#restriccionPfConfirmaContrasena" prefHeight="28.0" prefWidth="490.0" promptText="Confirmar Contraseña" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" />
+            <Label layoutX="27.0" layoutY="275.0" text="País de origen" />
+            <ComboBox fx:id="cmbPais" layoutX="27.0" layoutY="293.0" prefWidth="150.0" promptText="País" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" />
+            <Label layoutX="24.0" layoutY="523.0" text="Confirmar contraseña" />
+            <Hyperlink layoutX="293.0" layoutY="272.0" onAction="#desplegarMensajeUniversidadNoEncontrada" text="¿La universidad que busca no aparece?" />
          </children>
       </AnchorPane>
    </center>

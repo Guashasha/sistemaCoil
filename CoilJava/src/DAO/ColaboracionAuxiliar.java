@@ -47,7 +47,7 @@ public class ColaboracionAuxiliar {
             return COLABORACION_DAO.getAcademicosParticipantes(colaboracionDTO);
         }
         catch (ErrorDAO error) {
-            throw new ErrorDAO(error.getMessage(),error.getTipo());
+            throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
     }
 
@@ -87,22 +87,36 @@ public class ColaboracionAuxiliar {
         }
     }
 
-    public int cambiarEstadoColaboracion (ColaboracionDTO colaboracionDTO) {
+    public int cambiarEstadoColaboracion (String nuevoEstado, int idColaboracion) throws ErrorDAO {
 
-        if (esIdInvalido(colaboracionDTO.getIdColaboracion())) {
+        if (esIdInvalido(idColaboracion)) {
             throw new ErrorDAO("id de la colaboracionDTO invalido", ErrorDAO.Tipo.VALIDACION);
         }
-        if (esCadaInvalida(colaboracionDTO.getEstado()
-                                       .toString())) {
+        if (esCadaInvalida(nuevoEstado)) {
             throw new ErrorDAO("Error en el estado de la colaboracionDTO", ErrorDAO.Tipo.VALIDACION);
         }
         try {
-            return COLABORACION_DAO.cambiarEstadoColaboracion(colaboracionDTO);
+            return COLABORACION_DAO.cambiarEstadoColaboracion(nuevoEstado, idColaboracion);
         }
         catch (ErrorDAO error) {
             throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
     }
+
+    public int aceptarSolicitud (int idColaboracion, String cedulaProfesional, String nuevoEstado) throws ErrorDAO {
+        int filasAfectadas = 0;
+
+        try {
+            filasAfectadas = COLABORACION_DAO.actualizarEstadoSolicitudDeParticipacion(idColaboracion, cedulaProfesional, nuevoEstado);
+            filasAfectadas += COLABORACION_DAO.rechazarOtrasSolicitudesDeParticipacion(idColaboracion, cedulaProfesional);
+            filasAfectadas += COLABORACION_DAO.cambiarEstadoColaboracion("vinculada", idColaboracion);
+        }
+        catch (ErrorDAO errorDAO) {
+            throw errorDAO;
+        }
+        return filasAfectadas;
+    }
+
 
     public int agregarEstudianteAColaboracion (ColaboracionDTO colaboracionDTO, EstudianteDTO estudianteDTO) throws ErrorDAO {
         if (esIdInvalido(colaboracionDTO.getIdColaboracion())) {
@@ -111,12 +125,8 @@ public class ColaboracionAuxiliar {
         if (esIdInvalido(estudianteDTO.getIdEstudiante())) {
             throw new ErrorDAO("Error en el id del estudiante", ErrorDAO.Tipo.VALIDACION);
         }
-        try {
-            return COLABORACION_DAO.agregarEstudianteAColaboracion(colaboracionDTO, estudianteDTO);
-        }
-        catch (ErrorDAO error) {
-            throw new ErrorDAO(error.getMessage(), error.getTipo());
-        }
+
+        return COLABORACION_DAO.agregarEstudianteAColaboracion(colaboracionDTO, estudianteDTO);
     }
 
     public int registrarSolicitudParticipacion (ColaboracionDTO colaboracionDTO, AcademicoDTO academicoDTO) throws ErrorDAO {
@@ -136,6 +146,7 @@ public class ColaboracionAuxiliar {
             throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
     }
+
     public int registrarPropuestaColaboracion (ColaboracionDTO colaboracionDTO, AcademicoDTO academicoDTO) throws ErrorDAO {
         try {
             return COLABORACION_DAO.registrarPropuestaColaboracion(colaboracionDTO, academicoDTO);
@@ -147,7 +158,7 @@ public class ColaboracionAuxiliar {
 
     public List<ColaboracionDTO> obtenerPropuestasColaboracion () throws ErrorDAO {
         try {
-            return COLABORACION_DAO.obtenerPropuestasColaboracion();
+            return COLABORACION_DAO.getPropuestasColaboracion();
         }
         catch (ErrorDAO errorDAO) {
             throw new ErrorDAO(errorDAO.getMessage(), errorDAO.getTipo());
@@ -156,15 +167,16 @@ public class ColaboracionAuxiliar {
 
     public List<AcademicoDTO> obtenerSolicitudAcademicoColaboracion (int id) throws ErrorDAO {
         try {
-            return COLABORACION_DAO.obtenerSolicitudAcademicoColaboracion(id);
+            return COLABORACION_DAO.getSolicitudAcademicoColaboracion(id);
         }
         catch (ErrorDAO errorDAO) {
-            throw new ErrorDAO(errorDAO.getMessage(),errorDAO.getTipo());
+            throw new ErrorDAO(errorDAO.getMessage(), errorDAO.getTipo());
         }
     }
-    public List<ColaboracionDTO> obtenerColaboracionDisponible (String cedulaProfesional) throws ErrorDAO {
+
+    public List<ColaboracionDTO> getColaboracionDisponible (String cedulaProfesional, int idUniversidad) throws ErrorDAO {
         try {
-            return COLABORACION_DAO.obtenerColaboracionDisponible(cedulaProfesional);
+            return COLABORACION_DAO.getColaboracionesDisponibles(cedulaProfesional, idUniversidad);
         }
         catch (ErrorDAO errorDAO) {
             throw errorDAO;
@@ -174,6 +186,15 @@ public class ColaboracionAuxiliar {
     public Optional<ColaboracionDTO> getActivaPorAcademico (AcademicoDTO academicoDTO) throws ErrorDAO {
         try {
             return COLABORACION_DAO.getActivaPorAcademico(academicoDTO);
+        }
+        catch (ErrorDAO errorDAO) {
+            throw errorDAO;
+        }
+    }
+
+    public int eliminarSolicitudDeParticipacion (ColaboracionDTO colaboracionDTO, AcademicoDTO academicoDTO) throws ErrorDAO {
+        try {
+            return COLABORACION_DAO.eliminarSolicitudDeParticipacion(colaboracionDTO, academicoDTO);
         }
         catch (ErrorDAO errorDAO) {
             throw errorDAO;
@@ -229,8 +250,8 @@ public class ColaboracionAuxiliar {
         throw new NotImplementedException("No esta implementada esta función");
     }
 
-    public Map<String,int[]> getNumeraliaRegion (PeriodoDTO periodo) throws ErrorDAO {
-        Map<String,int[]> numeralia;
+    public Map<String, int[]> getNumeraliaRegion (PeriodoDTO periodo) throws ErrorDAO {
+        Map<String, int[]> numeralia;
 
         if (periodo.validarNulo()) {
             numeralia = COLABORACION_DAO.getNumeraliaRegion(periodo);
@@ -241,8 +262,19 @@ public class ColaboracionAuxiliar {
         return numeralia;
     }
 
-    public Map<String,int[]> getNumeraliaAreaAcademica (PeriodoDTO periodo) throws ErrorDAO {
-        Map<String,int[]> numeralia;
+    public int retirarEstudianteDeColaboracion (ColaboracionDTO colaboracion, EstudianteDTO estudiante) throws ErrorDAO {
+        if (esIdInvalido(colaboracion.getIdColaboracion())) {
+            throw new ErrorDAO("Error en el id de la colaboracion", ErrorDAO.Tipo.VALIDACION);
+        }
+        if (esIdInvalido(estudiante.getIdEstudiante())) {
+            throw new ErrorDAO("Error en el id del estudiante", ErrorDAO.Tipo.VALIDACION);
+        }
+
+        return COLABORACION_DAO.retirarEstudianteDeColaboracion(colaboracion, estudiante);
+    }
+
+    public Map<String, int[]> getNumeraliaAreaAcademica (PeriodoDTO periodo) throws ErrorDAO {
+        Map<String, int[]> numeralia;
 
         if (periodo.validarNulo()) {
             numeralia = COLABORACION_DAO.getNumeraliaAreaAcademica(periodo);
