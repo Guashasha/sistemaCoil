@@ -16,10 +16,10 @@ public class AcademicoDAO implements IAcademicoDAO {
     private static final Logger BITACORA = Logger.getLogger(AcademicoDAO.class);
 
     /**
-     * Obtiene una lista de objetos AcademicoDTO basado en un campo y valor específicos.
+     * Obtiene una lista de objetos AcademicoDTO basado en nombre de la fila de la base de datos y el patrón a buscar .
      *
-     * @param campo el nombre del campo por el cual se desea filtrar los académicos (por ejemplo, "facultad", "universidad").
-     * @param valor el valor correspondiente al campo que se desea buscar.
+     * @param campo el nombre de la fila por el cual se desea filtrar los académicos (por ejemplo, "facultad", "universidad").
+     * @param valor el patrón correspondiente al campo que se desea buscar.
      * @return una lista de objetos AcademicoDTO que cumplen con los criterios especificados.
      * @throws ErrorDAO si ocurre un error durante la consulta a la base de datos.
      */

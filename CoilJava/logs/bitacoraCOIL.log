@@ -251,4 +251,9 @@
 2024-06-10 01:26:56 FATAL CuentaDAO:112 - (conn=10665) Las contrasenas son distintas
 2024-06-10 01:27:11 FATAL CuentaDAO:221 - (conn=10809) Duplicate entry 'EduVillegas' for key 'nombreUsuario'
 2024-06-10 01:27:23 FATAL CuentaDAO:112 - (conn=10925) Las contrasenas son distintas
-2024-06-10 01:28:24 FATAL CuentaDAO:137 - (conn=11559) Data truncated for column 'estado' at row 1
+2024-06-10 01:28:24 FATAL CuentaDAO:137 - (conn=11559) Data truncated for column 'estado' at row 12024-06-10 11:03:14 FATAL AdministradorBaseDatos:46 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.125.91)(port=3307)(type=primary). Connection timed out: getsockopt
+2024-06-10 11:06:38 FATAL AdministradorBaseDatos:46 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.125.91)(port=3307)(type=primary). Connection timed out: getsockopt
+2024-06-10 11:07:24 FATAL AdministradorBaseDatos:46 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.125.91)(port=3306)(type=primary). Connection timed out: getsockopt
+2024-06-10 11:12:00 FATAL AdministradorBaseDatos:46 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.125.31)(port=3306)(type=primary). Connection timed out: getsockopt
+2024-06-10 11:24:15 FATAL AdministradorBaseDatos:46 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.125.31)(port=3306)(type=primary). Connection timed out: getsockopt
+2024-06-10 11:24:55 FATAL AdministradorBaseDatos:46 - java.sql.SQLException: Host '192.168.125.76' is not allowed to connect to this MariaDB server
