@@ -250,9 +250,9 @@ DROP PROCEDURE IF EXISTS registrar_Colaboracion;
 create procedure registrar_Colaboracion(
     IN p_estado enum ('propuesta', 'aceptada', 'rechazada', 'disponible', 'vinculada', 'activa', 'enRevision', 'finalizada'),
     IN p_tipo enum ('claseEspejo', 'COIL'),
-    IN p_temaInteres varchar(100), 
+    IN p_temaInteres varchar(100),
     IN p_idioma varchar(30),
-    IN p_objetivo varchar(300), 
+    IN p_objetivo varchar(300),
     IN p_fechaInicio date,
     IN p_fechaFinal date, 
     IN p_perfilEstudiante varchar(200)

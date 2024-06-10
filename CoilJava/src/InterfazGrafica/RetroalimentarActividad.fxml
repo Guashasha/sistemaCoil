@@ -23,8 +23,7 @@
                      <HBox.margin>
                         <Insets right="60.0" />
                      </HBox.margin></Text>
-                  <Slider fx:id="slInteraccion" blockIncrement="1.0" max="5.0" min="1.0" onDragOver="#actualizarEtiquetas" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0" />
-                  <Text fx:id="txtInteraccionPar" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                  <Slider fx:id="slInteraccion" blockIncrement="1.0" majorTickUnit="1.0" max="5.0" min="1.0" minorTickCount="0" onDragOver="#actualizarEtiquetas" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0" />
                </children>
                <padding>
                   <Insets left="20.0" />
@@ -36,8 +35,7 @@
                      <HBox.margin>
                         <Insets right="45.0" />
                      </HBox.margin></Text>
-                  <Slider fx:id="slDificultad" blockIncrement="1.0" max="5.0" min="1.0" onDragOver="#actualizarEtiquetas" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0" />
-                  <Text fx:id="txtDificultad" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                  <Slider fx:id="slDificultad" blockIncrement="1.0" majorTickUnit="1.0" max="5.0" min="1.0" minorTickCount="0" onDragOver="#actualizarEtiquetas" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0" />
                </children>
                <padding>
                   <Insets left="20.0" />
@@ -49,8 +47,7 @@
                      <HBox.margin>
                         <Insets right="14.0" />
                      </HBox.margin></Text>
-                  <Slider fx:id="slInteres" blockIncrement="1.0" max="5.0" min="1.0" onDragOver="#actualizarEtiquetas" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0" />
-                  <Text fx:id="txtInteres" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                  <Slider fx:id="slInteres" blockIncrement="1.0" majorTickUnit="1.0" max="5.0" min="1.0" minorTickCount="0" onDragOver="#actualizarEtiquetas" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0" />
                </children>
                <padding>
                   <Insets left="20.0" />

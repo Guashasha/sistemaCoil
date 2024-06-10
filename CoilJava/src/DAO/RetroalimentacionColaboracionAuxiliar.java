@@ -21,7 +21,7 @@ public class RetroalimentacionColaboracionAuxiliar {
    */
   public int agregar(RetroalimentacionColaboracionDTO retroalimentacion) throws ErrorDAO {
     if (!retroalimentacion.esCorrecta()) {
-      throw new ErrorDAO("los datos de la colaboracion son invalidos", Tipo.VALIDACION);
+      throw new ErrorDAO("los datos de la retroalimentacion son invalidos", Tipo.VALIDACION);
     }
 
     if (getPorPersonaYColaboracion(retroalimentacion.getIdUsuario(), retroalimentacion.getColaboracion()).isPresent()) {
