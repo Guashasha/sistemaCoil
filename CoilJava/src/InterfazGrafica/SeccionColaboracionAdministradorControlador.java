@@ -16,7 +16,7 @@ public class SeccionColaboracionAdministradorControlador {
     private final Stack<Pane> historialPaneles = new Stack<>();
     private BorderPane pnVentanaPrincipal;
     @FXML
-    private AnchorPane apSeccionColaboracion;
+    private AnchorPane pnActual;
 
     public void setPnVentanaPrincipal (BorderPane pnVentanaPrincipal) {
         this.pnVentanaPrincipal = pnVentanaPrincipal;
@@ -35,7 +35,7 @@ public class SeccionColaboracionAdministradorControlador {
             mostrarMensajeEmergente("Error al mostrar las propuestas de colaboración", Alert.AlertType.ERROR);
         }
         if (bpEvaluacionColaboracion != null) {
-            this.historialPaneles.push(this.apSeccionColaboracion);
+            this.historialPaneles.push(this.pnActual);
             EvaluacionPropuestaControlador evaluacionPropuestaControlador = fxmlLoader.getController();
             evaluacionPropuestaControlador.setPnVentanaPrincipal(this.pnVentanaPrincipal);
             evaluacionPropuestaControlador.setHistorialPaneles(this.historialPaneles);

@@ -35,8 +35,8 @@ public class VentanaPrincipalAdministradorControlador implements Initializable {
             mostrarMensajeEmergente("Algo salió mal al mostrar la sección de colaboración", Alert.AlertType.ERROR);
         }
         if (apColaboracion != null) {
-            SeccionColaboracionAdministradorControlador seccionColaboracionAdministradorControlador = fxmlLoader.getController();
-            seccionColaboracionAdministradorControlador.setPnVentanaPrincipal(this.pnPrincipal);
+            SeccionColaboracionAdministradorControlador controlador = fxmlLoader.getController();
+            controlador.setPnVentanaPrincipal(this.pnPrincipal);
             this.pnPrincipal.setCenter(apColaboracion);
         }
     }
@@ -114,12 +114,10 @@ public class VentanaPrincipalAdministradorControlador implements Initializable {
         }
 
         if (bpGestionCuenta != null) {
-            GestionCuentaControlador gestionCuentaControlador = fxmlLoader.getController();
-            gestionCuentaControlador.setPnVentanaPrincipal(this.pnPrincipal);
+            GestionCuentaControlador controlador = fxmlLoader.getController();
+            controlador.setPnVentanaPrincipal(this.pnPrincipal);
             this.pnPrincipal.setCenter(bpGestionCuenta);
         }
-
-
     }
 
     private void mostrarMensajeEmergente (String mensaje, Alert.AlertType tipoAlerta) {

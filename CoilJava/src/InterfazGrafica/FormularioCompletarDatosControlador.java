@@ -207,6 +207,4 @@ public class FormularioCompletarDatosControlador implements Initializable {
         tfLada.addEventFilter(KeyEvent.KEY_TYPED, this::restriccionTfLada);
         tfNumeroPersonal.addEventFilter(KeyEvent.KEY_TYPED, this::restriccionTfNumeroPersonal);
     }
-
-
 }

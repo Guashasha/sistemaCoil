@@ -14,7 +14,7 @@
          <children>
             <ScrollPane prefHeight="759.0" prefWidth="974.0">
                <content>
-                  <VBox fx:id="lyInformacionCuenta" prefHeight="126.0" prefWidth="974.0">
+                  <VBox fx:id="vbContenedorCuenta" prefHeight="126.0" prefWidth="974.0">
                      <children>
                         <Label alignment="TOP_CENTER" prefHeight="50.0" prefWidth="974.0" styleClass="label-titulo" stylesheets="@Recursos/EstiloLabels.css" text="Evaluacion de cuentas pendientes" />
                         <HBox alignment="CENTER_LEFT" prefHeight="55.0" prefWidth="918.0" style="-fx-background-color: e7c736;">

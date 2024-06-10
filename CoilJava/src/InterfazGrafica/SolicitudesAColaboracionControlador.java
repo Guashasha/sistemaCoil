@@ -58,15 +58,15 @@ public class SolicitudesAColaboracionControlador {
     private void agregarAcademicosItem(AcademicoDTO academicoDTO) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../InterfazGrafica/Items/SolicitudAcademicoItem.fxml"));
         try {
-            AnchorPane anchorPane = fxmlLoader.load();
+            AnchorPane pnSolicitudAcademico = fxmlLoader.load();
             SolicitudAcademicoItemControlador controlador = fxmlLoader.getController();
             controlador.setAcademicoDTO(academicoDTO);
             controlador.setColaboracionDTO(this.colaboracionDTO);
             controlador.setLabel();
-            controlador.panelVentanaPrincipal = this.panelVentanaPrincial;
+            controlador.pnlVentanaPrincipal = this.panelVentanaPrincial;
             controlador.setSolicitudesAColaboracionControlador(this);
             controlador.setVbContenedor(this.vbContenedor);
-            vbContenedor.getChildren().add(anchorPane);
+            vbContenedor.getChildren().add(pnSolicitudAcademico);
 
         } catch (IOException error) {
             BITACORA.fatal(error.getMessage());

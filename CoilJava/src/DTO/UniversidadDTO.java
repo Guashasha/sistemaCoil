@@ -72,20 +72,20 @@ public class UniversidadDTO {
         return this.id;
     }
 
-    public void setId (int id) {
-        this.id = id;
+    public int getIdPais () {
+        return this.idPais;
     }
 
     public String getNombre() {
         return nombre;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setId (int id) {
+        this.id = id;
     }
 
-    public int getIdPais () {
-        return this.idPais;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public void setIdPais (int idPais) {

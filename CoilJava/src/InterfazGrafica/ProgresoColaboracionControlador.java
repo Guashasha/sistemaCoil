@@ -56,13 +56,13 @@ public class ProgresoColaboracionControlador {
     @FXML
     private Label lbPeriodoTitulo;
     @FXML
-    private Pane pnPrincipal;
+    private Pane pnActual;
 
     private ColaboracionDTO colaboracionDTO;
 
     private AcademicoDTO academicoDTO;
     private Optional<RetroalimentacionColaboracionDTO> retroalimentacionColaboracionOpt = Optional.empty();
-    private BorderPane ventanaPrincipal;
+    private BorderPane pnVentanaPrincipal;
 
     public void inicializar () {
         dpFechaInicio.getEditor()
@@ -95,18 +95,20 @@ public class ProgresoColaboracionControlador {
         this.lbTemaInteres.setText(colaboracionDTO.getTemaInteres());
         this.lbTipo.setText(colaboracionDTO.getTipo()
                                            .toString());
-        if (colaboracionDTO.getPeriodo()
-                           .getFechaInicio() != null || colaboracionDTO.getPeriodo()
-                                                                       .getFechaFin() != null) {
-            lbPeriodoTitulo.setVisible(true);
-            lbPeriodo.setVisible(true);
-            lbPeriodo.setText(colaboracionDTO.getPeriodo()
-                                             .getFechaInicio()
-                                             .toString() + " - " + colaboracionDTO.getPeriodo()
-                                                                                  .getFechaFin());
-            actualizarEtiquetaPeriodo(colaboracionDTO.getPeriodo()
-                                                     .getFechaInicio(), colaboracionDTO.getPeriodo()
-                                                                                       .getFechaFin());
+        if (colaboracionDTO.getPeriodo() != null) {
+            if (colaboracionDTO.getPeriodo()
+                               .getFechaInicio() != null || colaboracionDTO.getPeriodo()
+                                                                           .getFechaFin() != null) {
+                lbPeriodoTitulo.setVisible(true);
+                lbPeriodo.setVisible(true);
+                lbPeriodo.setText(colaboracionDTO.getPeriodo()
+                                                 .getFechaInicio()
+                                                 .toString() + " - " + colaboracionDTO.getPeriodo()
+                                                                                      .getFechaFin());
+                actualizarEtiquetaPeriodo(colaboracionDTO.getPeriodo()
+                                                         .getFechaInicio(), colaboracionDTO.getPeriodo()
+                                                                                           .getFechaFin());
+            }
         }
     }
 
@@ -208,10 +210,10 @@ public class ProgresoColaboracionControlador {
 
         if (!esPrimerSemestre && !esSegundoSemestre) {
             mostrarMensajeEmergente("""
-                                       Las fechas deben estar dentro del mismo semestre:
-                                       1. Enero a Julio.
-                                       2. Agosto a Diciembre.
-                                       """, Alert.AlertType.WARNING);
+                                            Las fechas deben estar dentro del mismo semestre:
+                                            1. Enero a Julio.
+                                            2. Agosto a Diciembre.
+                                            """, Alert.AlertType.WARNING);
             return false;
         }
 
@@ -275,8 +277,8 @@ public class ProgresoColaboracionControlador {
         this.colaboracionDTO = colaboracionDTO;
     }
 
-    public void setVentanaPrincipal (BorderPane ventanaPrincipal) {
-        this.ventanaPrincipal = ventanaPrincipal;
+    public void setPnVentanaPrincipal (BorderPane pnVentanaPrincipal) {
+        this.pnVentanaPrincipal = pnVentanaPrincipal;
     }
 
     @FXML
@@ -330,8 +332,8 @@ public class ProgresoColaboracionControlador {
 
         if (pnRetroalimentacion != null) {
             RetroalimentarColaboracionControlador controlador = fxmlLoader.getController();
-            controlador.initialize(this.colaboracionDTO, this.ventanaPrincipal, this.pnPrincipal, this);
-            this.ventanaPrincipal.setCenter(pnRetroalimentacion);
+            controlador.initialize(this.colaboracionDTO, this.pnVentanaPrincipal, this.pnActual, this);
+            this.pnVentanaPrincipal.setCenter(pnRetroalimentacion);
         }
     }
 }

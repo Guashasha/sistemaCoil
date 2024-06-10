@@ -124,10 +124,10 @@ public class CompletaDatosColaboracionControlador implements Initializable {
     }
 
     private void mostrarMensajeEmergente (String mensaje, Alert.AlertType tipoAlerta) {
-        Alert alert = new Alert(tipoAlerta);
-        alert.setContentText(mensaje);
-        alert.setHeaderText(null);
-        alert.showAndWait();
+        Alert alerta = new Alert(tipoAlerta);
+        alerta.setContentText(mensaje);
+        alerta.setHeaderText(null);
+        alerta.showAndWait();
     }
 
     private boolean mostrarAlertaConfirmacion (String contenido) {

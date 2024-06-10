@@ -24,7 +24,7 @@ public class SeccionColaboracionAcademicoControlador {
     private final Stack<Pane> historialPaneles = new Stack<>();
     private BorderPane pnVentanaPrincipal;
     @FXML
-    private AnchorPane apSeccionColaboracion;
+    private AnchorPane pnVentanaActual;
 
 
     public void setAcademicoDTO (AcademicoDTO academicoDTO) {
@@ -48,7 +48,7 @@ public class SeccionColaboracionAcademicoControlador {
             mostrarMensajeEmergente("Error al cargar la ventana de colaboraciones disponibles", Alert.AlertType.ERROR);
         }
         if (bpConsultaColaboracion != null) {
-            this.historialPaneles.push(this.apSeccionColaboracion);
+            this.historialPaneles.push(this.pnVentanaActual);
             ConsultaColaboracionControlador consultaColaboracionControlador = fxmlLoader.getController();
             consultaColaboracionControlador.setAcademicoDTO(this.academicoDTO);
             consultaColaboracionControlador.cargarColaboracionItem();
@@ -73,7 +73,7 @@ public class SeccionColaboracionAcademicoControlador {
                 mostrarMensajeEmergente("Error al cargar la ventana para completar los datos", Alert.AlertType.ERROR);
             }
             if (bpCompleDatos != null) {
-                this.historialPaneles.push(this.apSeccionColaboracion);
+                this.historialPaneles.push(this.pnVentanaActual);
                 CompletaDatosColaboracionControlador completaDatosColaboracionControlador = fxmlLoader.getController();
                 completaDatosColaboracionControlador.setColaboracionDTO(optionalColaboracionDTO.get());
                 completaDatosColaboracionControlador.setHistorialPaneles(this.historialPaneles);
@@ -101,7 +101,7 @@ public class SeccionColaboracionAcademicoControlador {
         }
 
         if (pnHistorialSolicitud != null) {
-            this.historialPaneles.push(this.apSeccionColaboracion);
+            this.historialPaneles.push(this.pnVentanaActual);
             HistorialSolicitudControlador historialSolicitudControlador = fxmlLoader.getController();
             historialSolicitudControlador.setAcademicoDTO(this.academicoDTO);
             historialSolicitudControlador.cargarItemSolicitud();
@@ -158,7 +158,7 @@ public class SeccionColaboracionAcademicoControlador {
             }
 
             if (apEnvioPropuesta != null) {
-                this.historialPaneles.push(this.apSeccionColaboracion);
+                this.historialPaneles.push(this.pnVentanaActual);
                 EnvioPropuestaControlador envioPropuestaControlador = fxmlLoader.getController();
                 envioPropuestaControlador.setAcademicoAnfitrion(this.academicoDTO);
                 envioPropuestaControlador.setPnVentanaPrincipal(this.pnVentanaPrincipal);
@@ -191,7 +191,7 @@ public class SeccionColaboracionAcademicoControlador {
         }
 
         if (bpSeccionColaboracion != null && usuario.isPresent() && colaboracion.isPresent()) {
-            this.historialPaneles.push(this.apSeccionColaboracion);
+            this.historialPaneles.push(this.pnVentanaActual);
             SeccionMiColaboracionAcademicoControlador seccionMiColaboracionAcademicoControlador = fxmlLoader.getController();
             seccionMiColaboracionAcademicoControlador.setAcademicoDTO(this.academicoDTO);
             seccionMiColaboracionAcademicoControlador.setPnVentanaPrincipal(this.pnVentanaPrincipal);

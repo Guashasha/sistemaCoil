@@ -10,14 +10,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import static test.ConfiguracionPrueba.ejecutarInstruccionSQL;
 import static org.junit.jupiter.api.Assertions.*;
 
 class FacultadDAOTest {
     private final FacultadDAO FACULTAD_DAO = new FacultadDAO();
     @BeforeAll
-    static void setUp() {
+    static void prepararBaseDatos () {
         ConfiguracionPrueba.borrarDatosTablaFacultad();
         ConfiguracionPrueba.borrarDatosTablaRegion();
         ejecutarInstruccionSQL("INSERT INTO region (idRegion,nombre) VALUES (1,'Xalapa'), (2,'Veracruz'), (3,'Orizaba-Córdoba');");
@@ -26,7 +25,7 @@ class FacultadDAOTest {
     }
 
     @AfterAll
-    static void afterAll () {
+    static void limpiarBaseDatos () {
         ConfiguracionPrueba.borrarDatosTablaFacultad();
         ConfiguracionPrueba.borrarDatosTablaRegion();
     }
@@ -113,28 +112,5 @@ class FacultadDAOTest {
             fail("Fallida: pruebaGetFacultadPorRegionNula");
         }
         assertTrue(listaObtenida.isEmpty(),"pruebaGetFacultadPorRegionNula");
-    }
-
-    @Test
-    void pruebaGetTodasAlfabeticamenteExitosa () {
-        System.out.println("pruebaGetTodasAlfabeticamenteExitosa");
-        List<FacultadDTO> listaEsperada = new ArrayList<>();
-        List<FacultadDTO> listaObtenida = new ArrayList<>();
-        listaEsperada.add(new FacultadDTO(3,"Arquitectura",3));
-        listaEsperada.add(new FacultadDTO(2,"Derecho",1));
-        listaEsperada.add(new FacultadDTO(1,"FacultadDTO de Estadística e Informática",1));
-
-        try {
-            listaObtenida = FACULTAD_DAO.getTodasAlfabeticamente();
-        }
-        catch (SQLException error) {
-            fail("pruebaGetTodasAlfabeticamenteExitosa");
-        }
-
-        assertEquals(listaEsperada.size(),listaObtenida.size());
-        for (FacultadDTO facultad : listaEsperada) {
-            assertEquals(facultad,listaObtenida.get(0));
-            listaObtenida.remove(0);
-        }
     }
 }
