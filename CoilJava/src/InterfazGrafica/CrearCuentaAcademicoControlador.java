@@ -1,9 +1,6 @@
 package InterfazGrafica;
 
-import DAO.AcademicoDAO;
-import DAO.CuentaDAO;
-import DAO.FacultadDAO;
-import DAO.RegionAuxiliar;
+import DAO.*;
 import DTO.*;
 import Utilidades.ErrorDAO;
 import javafx.collections.FXCollections;
@@ -149,7 +146,7 @@ public class CrearCuentaAcademicoControlador {
             if (facultad.isEmpty()) {
                 return null;
             }
-        } catch (SQLException e) {
+        } catch (ErrorDAO e) {
             Alert alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setHeaderText("Error al cargar los datos");
             alerta.setContentText("No se pudo recuperar la lista de facultades.");
@@ -207,7 +204,7 @@ public class CrearCuentaAcademicoControlador {
             for (FacultadDTO facultad : facultades) {
                 nombresFacultades.add(facultad.getNombre());
             }
-        } catch (SQLException e) {
+        } catch (ErrorDAO e) {
             Alert alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setHeaderText("Error al cargar los datos");
             alerta.setContentText("No se pudo recuperar la lista de facultades.");
@@ -218,7 +215,7 @@ public class CrearCuentaAcademicoControlador {
     }
 
     private void llenarComboBoxRegion() {
-        RegionAuxiliar dao = new RegionAuxiliar();
+        RegionDAO dao = new RegionDAO();
         ArrayList<String> regiones = new ArrayList<>();
 
         try {

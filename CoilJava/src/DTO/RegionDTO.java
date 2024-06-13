@@ -15,7 +15,15 @@ public class RegionDTO {
      */
     private String nombre;
 
-    public RegionDTO() {}
+    public RegionDTO () {}
+
+    /**
+     * Inicializa la Región con su nombre.
+     * @param nombre Nombre de la región.
+     */
+    public RegionDTO (String nombre) {
+        this.nombre = nombre;
+    }
 
     /**
      * Inicializa la región con su id y nombre
@@ -41,6 +49,14 @@ public class RegionDTO {
 
     public void setNombre (String nombre) {
         this.nombre = nombre;
+    }
+
+    /**
+     * Verifica que el nombre de la región esté inicializado.
+     * @return true si el nombre está inicializado y no es una cadena vacía, de otra manera false.
+     */
+    public boolean nombreValido () {
+        return this.nombre != null && !this.nombre.isBlank();
     }
 
     @Override

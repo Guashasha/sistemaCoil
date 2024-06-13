@@ -2,6 +2,7 @@ package test.DAO;
 
 import DAO.FacultadDAO;
 import DTO.FacultadDTO;
+import Utilidades.ErrorDAO;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -37,7 +38,7 @@ class FacultadDAOTest {
         try {
             obtenido = FACULTAD_DAO.getFacultadPorNombre(esperada.getNombre());
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetFacultadPorNombreExitosa");
         }
         assertTrue(obtenido.isPresent());
@@ -50,7 +51,7 @@ class FacultadDAOTest {
         try {
             resultado = FACULTAD_DAO.getFacultadPorNombre("FEI");
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetFacultadPorNombreInexistente");
         }
         assertTrue(resultado.isEmpty(),"pruebaGetFacultadPorNombreInexistente");
@@ -62,7 +63,7 @@ class FacultadDAOTest {
         try {
             resultado = FACULTAD_DAO.getFacultadPorNombre(null);
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetFacultadPorNombreInexistente");
         }
         assertTrue(resultado.isEmpty(),"pruebaGetFacultadPorNombreInexistente");
@@ -79,9 +80,10 @@ class FacultadDAOTest {
         try {
             listaObtenida = FACULTAD_DAO.getFacultadPorRegion("Xalapa");
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetFacultadPorRegionExitosa");
         }
+
 
         assertEquals(listaEsperada.size(),listaObtenida.size());
         for (FacultadDTO facultad : listaEsperada) {
@@ -96,7 +98,7 @@ class FacultadDAOTest {
         try {
             listaObtenida = FACULTAD_DAO.getFacultadPorRegion("Coatepec");
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetFacultadPorRegionInexistente");
         }
         assertTrue(listaObtenida.isEmpty(),"pruebaGetFacultadPorRegionInexistente");
@@ -108,7 +110,7 @@ class FacultadDAOTest {
         try {
             listaObtenida = FACULTAD_DAO.getFacultadPorRegion(null);
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetFacultadPorRegionNula");
         }
         assertTrue(listaObtenida.isEmpty(),"pruebaGetFacultadPorRegionNula");

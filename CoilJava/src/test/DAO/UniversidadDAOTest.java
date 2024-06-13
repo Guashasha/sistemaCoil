@@ -2,6 +2,7 @@ package test.DAO;
 
 import DAO.UniversidadDAO;
 import DTO.UniversidadDTO;
+import Utilidades.ErrorDAO;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,7 +44,7 @@ class UniversidadDAOTest {
         try {
             obtenido = UNIVERSIDAD_DAO.registrarUniversidad(universidadDTO);
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: registrarUniversidadExitoso");
         }
         assertEquals(esperado,obtenido,"pruebaRegistrarUniversidadExitoso");
@@ -69,7 +70,7 @@ class UniversidadDAOTest {
         try {
             obtenido = UNIVERSIDAD_DAO.editarUniversidad(universidadDTO);
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaEditarUniversidadExitosa");
         }
         assertEquals(esperado,obtenido,"pruebaEditarUniversidadExitosa");
@@ -84,7 +85,7 @@ class UniversidadDAOTest {
         try {
             obtenido = UNIVERSIDAD_DAO.editarUniversidad(universidadDTO);
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaEditarUniversidadInexistente");
         }
 
@@ -99,7 +100,7 @@ class UniversidadDAOTest {
         try {
             filasAfectadas = UNIVERSIDAD_DAO.editarUniversidad(universidadDTO);
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaEditarUniversidadInexistente. Filas afectadas = " + filasAfectadas);
         }
 
@@ -113,7 +114,7 @@ class UniversidadDAOTest {
         try {
             obtenida = UNIVERSIDAD_DAO.getUniversidadPorNombre("Universidad Veracruzana");
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetUniversidadPorNombreExitosa");
         }
         assertTrue(obtenida.isPresent());
@@ -126,7 +127,7 @@ class UniversidadDAOTest {
             Optional<UniversidadDTO> obtenida = UNIVERSIDAD_DAO.getUniversidadPorNombre("VU");
             assertTrue(obtenida.isEmpty(),"pruebaGetUniversidadPorNombreInexistente");
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetUniversidadPorNombreExitosa");
         }
     }
@@ -137,7 +138,7 @@ class UniversidadDAOTest {
             Optional<UniversidadDTO> obtenida = UNIVERSIDAD_DAO.getUniversidadPorNombre(null);
             assertTrue(obtenida.isEmpty(),"pruebaGetUniversidadPorNombreNulo");
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetUniversidadPorNombreExitosa");
         }
     }
@@ -153,7 +154,7 @@ class UniversidadDAOTest {
         try {
            listaObtenida = UNIVERSIDAD_DAO.getUniversidadesPorPaisOrigen("México");
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetUniversidadesPorPaisOrigenExitosa");
         }
 
@@ -170,7 +171,7 @@ class UniversidadDAOTest {
         try {
             listaObtenida = UNIVERSIDAD_DAO.getUniversidadesPorPaisOrigen("");
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetUniversidadPorPaisOrigenInexistente");
         }
         assertTrue(listaObtenida.isEmpty(),"pruebaGetUniversidadPorPaisOrigenInexistente");
@@ -182,7 +183,7 @@ class UniversidadDAOTest {
         try {
             listaObtenida = UNIVERSIDAD_DAO.getUniversidadesPorPaisOrigen(null);
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetUniversidadPorPaisOrigenNulo");
         }
         assertTrue(listaObtenida.isEmpty(),"pruebaGetUniversidadPorPaisOrigenNulo");
@@ -197,7 +198,7 @@ class UniversidadDAOTest {
         try {
             listaObtenida = UNIVERSIDAD_DAO.getUniversidadesPorNombre("U");
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: getUniversidadesPorNombreExitosa");
         }
 
@@ -210,7 +211,7 @@ class UniversidadDAOTest {
         try {
             listaObtenida = UNIVERSIDAD_DAO.getUniversidadesPorNombre("X");
         }
-        catch (SQLException error) {
+        catch (ErrorDAO ErrorDAO) {
             fail("Fallida: getUniversidadesPorNombreInexistente");
         }
         assertTrue(listaObtenida.isEmpty(),"getUniversidadesPorNombreInexistente");
@@ -222,7 +223,7 @@ class UniversidadDAOTest {
         try {
             listaObtenida = UNIVERSIDAD_DAO.getUniversidadesPorNombre(null);
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetUniversidadesPorNombreNulo");
         }
         assertTrue(listaObtenida.isEmpty(),"pruebaGetUniversidadesPorNombreNulo");
@@ -240,7 +241,7 @@ class UniversidadDAOTest {
         try {
             listaObtenida = UNIVERSIDAD_DAO.getTodasAlfabeticamente();
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: getTodasAlfabeticamente");
         }
 

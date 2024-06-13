@@ -3,6 +3,8 @@ package DAO;
 import DAO.Interfaces.IFacultadDAO;
 import DTO.FacultadDTO;
 import AccesoDatos.AdministradorBaseDatos;
+import Utilidades.ErrorDAO;
+import org.apache.log4j.Logger;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,32 +18,38 @@ import java.util.Optional;
  */
 public class FacultadDAO implements IFacultadDAO {
     /**
+     * Instancia del logger para registrar las excepciones que se pueden atrapar en las funciones de la clase.
+     */
+    private final Logger BITACORA = Logger.getLogger(FacultadDAO.class);
+
+    /**
      * Obtiene una facultad que esté registrada con un nombre específico.
      * @param nombre Nombre de la facultad a buscar.
      * @return Objeto Optional con una facultad inicializada con su id, nombre e idRegion; o un objeto Optional vacío si no se encontraron resultados.
-     * @throws SQLException si ocurre un error de acceso a la base de datos.
+     * @throws ErrorDAO si ocurre un error de acceso a la base de datos.
      */
     @Override
-    public Optional<FacultadDTO> getFacultadPorNombre (String nombre) throws SQLException {
+    public Optional<FacultadDTO> getFacultadPorNombre (String nombre) throws ErrorDAO {
         FacultadDTO facultadDTO = null;
-        String consultaUniversidadSQL = "SELECT * FROM facultad_con_region WHERE facultad = ?";
-        PreparedStatement consultaUniversidad;
+        String consultaSQL = "SELECT * FROM facultad_con_region WHERE facultad = ?";
+        PreparedStatement ConsultaFacultad;
         ResultSet resultadoConsulta;
 
         try {
-            consultaUniversidad = AdministradorBaseDatos.getInstancia().
-                                                        prepareStatement(consultaUniversidadSQL);
-            consultaUniversidad.setString(1, nombre);
-            resultadoConsulta = consultaUniversidad.executeQuery();
+            ConsultaFacultad = AdministradorBaseDatos.getInstancia().
+                                                        prepareStatement(consultaSQL);
+            ConsultaFacultad.setString(1, nombre);
+            resultadoConsulta = ConsultaFacultad.executeQuery();
 
             if (resultadoConsulta.next()) {
                 facultadDTO = convertirResultSetAFacultad(resultadoConsulta);
             }
-            consultaUniversidad.close();
+            ConsultaFacultad.close();
             resultadoConsulta.close();
         }
         catch (SQLException excepcionSQL) {
-            throw excepcionSQL;
+            BITACORA.info(excepcionSQL.getMessage());
+            throw new ErrorDAO("Error al establecer conexión con la base de datos", ErrorDAO.Tipo.CONSULTA);
         }
         finally {
             AdministradorBaseDatos.desconectar();
@@ -54,18 +62,18 @@ public class FacultadDAO implements IFacultadDAO {
      * Obtiene las facultades que están asociadas a una región específica.
      * @param region Nombre de la región con la cual se quieren buscar facultades.
      * @return Lista con las facultades pertenecientes a la región especificada.
-     * @throws SQLException si ocurre un error de acceso a la base de datos.
+     * @throws ErrorDAO si ocurre un error de acceso a la base de datos.
      */
     @Override
-    public List<FacultadDTO> getFacultadPorRegion (String region) throws SQLException {
+    public List<FacultadDTO> getFacultadPorRegion (String region) throws ErrorDAO {
         List<FacultadDTO> listaFacultades = new ArrayList<>();
-        String consultaFacultadesSQL = "SELECT * FROM facultad_con_region WHERE region = ?";
+        String consultaSQL = "SELECT * FROM facultad_con_region WHERE region = ?";
         PreparedStatement consultaFacultades;
         ResultSet resultadoConsulta;
 
         try {
             consultaFacultades = AdministradorBaseDatos.getInstancia().
-                                                       prepareStatement(consultaFacultadesSQL);
+                                                       prepareStatement(consultaSQL);
             consultaFacultades.setString(1, region);
             resultadoConsulta = consultaFacultades.executeQuery();
 
@@ -76,7 +84,8 @@ public class FacultadDAO implements IFacultadDAO {
             resultadoConsulta.close();
         }
         catch (SQLException excepcionSQL) {
-            throw excepcionSQL;
+            BITACORA.info(excepcionSQL.getMessage());
+            throw new ErrorDAO("Error al establecer conexión con la base de datos", ErrorDAO.Tipo.CONSULTA);
         }
         finally {
             AdministradorBaseDatos.desconectar();

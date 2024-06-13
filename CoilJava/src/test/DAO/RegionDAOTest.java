@@ -38,7 +38,7 @@ class RegionDAOTest {
         try {
             listaObtenida = REGION_DAO.getTodasAlfabeticamente();
         }
-        catch (SQLException error) {
+        catch (Error error) {
             fail("Fallida: pruebaGetTodasAlfabeticamenteExitosa");
         }
 

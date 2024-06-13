@@ -26,9 +26,7 @@ public class UniversidadDTO {
      */
     public static final int LONGITUD_NOMBRE = 50;
 
-    public UniversidadDTO() {
-
-    }
+    public UniversidadDTO() {}
 
     /**
      * inicializa la universidad solamente con su id

@@ -2,6 +2,7 @@ package InterfazGrafica;
 
 import DAO.PaisAuxiliar;
 import DAO.UniversidadAuxiliar;
+import DAO.UniversidadDAO;
 import DTO.PaisDTO;
 import DTO.UniversidadDTO;
 import InterfazGrafica.Items.UniversidadItemControlador;
@@ -80,10 +81,10 @@ public class ConsultaUniversidadesControlador {
     }
 
     public void cargarConsultaGeneral() {
-        UniversidadAuxiliar universidadAuxiliar = new UniversidadAuxiliar();
+        UniversidadDAO universidadDAO = new UniversidadDAO();
         List<UniversidadDTO> listaUniversidades = new ArrayList<>();
         try {
-            listaUniversidades = universidadAuxiliar.getTodasAlfabeticamente();
+            listaUniversidades = universidadDAO.getTodasAlfabeticamente();
         }
         catch (ErrorDAO error) {
             mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);

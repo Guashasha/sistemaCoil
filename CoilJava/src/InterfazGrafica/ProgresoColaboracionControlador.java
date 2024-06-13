@@ -330,7 +330,7 @@ public class ProgresoColaboracionControlador {
 
         if (pnRetroalimentacion != null) {
             RetroalimentarColaboracionControlador controlador = fxmlLoader.getController();
-            controlador.initialize(this.colaboracionDTO, this.pnVentanaPrincipal, this.pnActual, this);
+            controlador.initialize(this.colaboracionDTO, this.pnVentanaPrincipal, this.pnActual, this,this.academicoDTO);
             this.pnVentanaPrincipal.setCenter(pnRetroalimentacion);
         }
     }
