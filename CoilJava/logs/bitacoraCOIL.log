@@ -257,3 +257,30 @@
 2024-06-10 11:12:00 FATAL AdministradorBaseDatos:46 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.125.31)(port=3306)(type=primary). Connection timed out: getsockopt
 2024-06-10 11:24:15 FATAL AdministradorBaseDatos:46 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.125.31)(port=3306)(type=primary). Connection timed out: getsockopt
 2024-06-10 11:24:55 FATAL AdministradorBaseDatos:46 - java.sql.SQLException: Host '192.168.125.76' is not allowed to connect to this MariaDB server
+2024-06-11 08:18:42 FATAL AdministradorBaseDatos:47 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.125.31)(port=3306)(type=primary). Connection timed out: getsockopt
+2024-06-11 08:21:05 FATAL AdministradorBaseDatos:47 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.125.31)(port=3306)(type=primary). Connection timed out: getsockopt
+2024-06-11 08:25:35 FATAL AdministradorBaseDatos:48 - java.sql.SQLInvalidAuthorizationSpecException: (conn=47282) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+2024-06-11 08:26:03 FATAL AdministradorBaseDatos:48 - java.sql.SQLInvalidAuthorizationSpecException: (conn=47283) Access denied for user 'admin_CO'@'localhost' (using password: YES)
+2024-06-11 08:26:23 FATAL AdministradorBaseDatos:44 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=330)(type=primary). Connection refused: getsockopt
+2024-06-11 08:29:00 FATAL AdministradorBaseDatos:46 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=330)(type=primary). Connection refused: getsockopt
+2024-06-11 08:29:43 FATAL AdministradorBaseDatos:46 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=330)(type=primary). Connection refused: getsockopt
+2024-06-11 08:36:22 FATAL AdministradorBaseDatos:44 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=330)(type=primary). Connection refused: getsockopt
+2024-06-11 08:53:03 FATAL AdministradorBaseDatos:45 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=330)(type=primary). Connection refused: getsockopt
+2024-06-11 08:53:23 FATAL AdministradorBaseDatos:45 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=330)(type=primary). Connection refused: getsockopt
+2024-06-11 08:53:40 FATAL AdministradorBaseDatos:45 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=330)(type=primary). Connection refused: getsockopt
+2024-06-11 08:53:52 FATAL AdministradorBaseDatos:44 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=330)(type=primary). Connection refused: getsockopt
+2024-06-11 08:53:57 FATAL AdministradorBaseDatos:44 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=330)(type=primary). Connection refused: getsockopt
+2024-06-11 08:54:51 FATAL AdministradorBaseDatos:45 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=330)(type=primary). Connection refused: getsockopt
+2024-06-11 08:55:23 FATAL AdministradorBaseDatos:45 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=330)(type=primary). Connection refused: getsockopt
+2024-06-11 08:55:44 FATAL AdministradorBaseDatos:45 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=330)(type=primary). Connection refused: getsockopt
+2024-06-11 08:57:48 FATAL AdministradorBaseDatos:53 - java.sql.SQLException: error parsing url : url parsing error : '//' is not present in the url jdbc:mariadb:localhost:3306COIL
+2024-06-11 08:58:29 FATAL AdministradorBaseDatos:48 - java.sql.SQLInvalidAuthorizationSpecException: (conn=47285) Access denied for user 'admin_COL'@'localhost' (using password: YES)
+2024-06-11 08:58:52 FATAL AdministradorBaseDatos:48 - java.sql.SQLInvalidAuthorizationSpecException: (conn=47286) Access denied for user 'admin_COL'@'localhost' (using password: YES)
+2024-06-11 08:59:29 FATAL AdministradorBaseDatos:53 - java.sql.SQLException: No suitable driver found for jdbc:maria://localhost:3306/COIL
+2024-06-11 09:02:01 FATAL AdministradorBaseDatos:57 - java.sql.SQLException: Incorrect port value : 3306COIL
+2024-06-11 09:06:37 FATAL AdministradorBaseDatos:56 - java.sql.SQLException: No suitable driver found for :mariadb://localhost:3306/COIL
+2024-06-11 09:07:59 FATAL AdministradorBaseDatos:56 - java.sql.SQLException: No suitable driver found for :mariadb://localhost:3306/COIL
+2024-06-11 09:08:40 FATAL AdministradorBaseDatos:52 - java.sql.SQLException: The url cannot be null
+2024-06-11 09:18:13 FATAL AdministradorBaseDatos:72 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=33)(type=primary). Connection refused: getsockopt
+2024-06-11 09:18:42 FATAL AdministradorBaseDatos:72 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localt)(port=3306)(type=primary). localt
+2024-06-11 09:19:10 FATAL AdministradorBaseDatos:72 - java.sql.SQLInvalidAuthorizationSpecException: (conn=47288) Access denied for user 'admin_COL'@'localhost' (using password: YES)
