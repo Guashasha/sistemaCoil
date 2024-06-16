@@ -112,38 +112,46 @@ public class ProgresoColaboracionControlador {
         }
     }
 
-
     public void actualizarVisibilidadBotones () {
         ColaboracionDTO.EstadoColaboracion estado = this.colaboracionDTO.getEstado();
 
-        btnRetroalimentar.setVisible(false);
-        btnIniciar.setVisible(false);
-        btnFinalizar.setVisible(false);
-        dpFechaInicio.setVisible(false);
-        dpFechaFin.setVisible(false);
-
         switch (estado) {
             case finalizada:
+                btnRetroalimentar.setVisible(false);
+                btnIniciar.setVisible(false);
+                btnFinalizar.setVisible(false);
                 break;
             case vinculada:
-                btnIniciar.setVisible(true);
-                dpFechaInicio.setVisible(true);
-                dpFechaFin.setVisible(true);
+                btnRetroalimentar.setVisible(false);
+                btnFinalizar.setVisible(false);
                 break;
             case activa:
+                btnRetroalimentar.setVisible(false);
                 btnFinalizar.setVisible(true);
+                dpFechaFin.setVisible(false);
+                dpFechaInicio.setVisible(false);
+                btnIniciar.setVisible(false);
                 break;
             case enRevision:
                 if (retroalimentacionColaboracionOpt.isPresent()) {
-                    btnRetroalimentar.setVisible(true);
+                    btnRetroalimentar.setVisible(false);
                     btnFinalizar.setVisible(true);
                 }
+                else {
+                    btnRetroalimentar.setVisible(true);
+                    btnFinalizar.setVisible(false);
+                }
+
+                btnIniciar.setVisible(false);
+                dpFechaInicio.setVisible(false);
+                dpFechaFin.setVisible(false);
                 break;
             default:
+                btnRetroalimentar.setVisible(false);
+                btnFinalizar.setVisible(true);
                 break;
         }
     }
-
 
     private void getAcademicoParPorColaboracion () {
         ColaboracionDAO colaboracionDAO = new ColaboracionDAO();
@@ -215,6 +223,7 @@ public class ProgresoColaboracionControlador {
                                             """, Alert.AlertType.WARNING);
             return false;
         }
+
         return true;
     }
 
@@ -310,12 +319,13 @@ public class ProgresoColaboracionControlador {
         }
 
         actualizarVisibilidadBotones();
+        this.pnVentanaPrincipal.setCenter(null);
     }
 
     @FXML
     private void abrirRetroalimentarColaboracion () {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("RetroalimentarColaboracion.fxml"));
-        Pane pnRetroalimentacion;
+        SplitPane pnRetroalimentacion;
 
         try {
             pnRetroalimentacion = fxmlLoader.load();
@@ -323,14 +333,14 @@ public class ProgresoColaboracionControlador {
         catch (IOException error) {
             Alert alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setContentText("No se pudo abrir la ventana de retroalimentacion de colaboración");
-            alerta.setHeaderText("Ocurrió un error");
+            alerta.setHeaderText("Ocurrió un error: " + error.getMessage());
             alerta.showAndWait();
             return;
         }
 
         if (pnRetroalimentacion != null) {
             RetroalimentarColaboracionControlador controlador = fxmlLoader.getController();
-            controlador.initialize(this.colaboracionDTO, this.pnVentanaPrincipal, this.pnActual, this,this.academicoDTO);
+            controlador.initialize(this.colaboracionDTO, this.pnVentanaPrincipal, this.pnActual, this, this.academicoDTO);
             this.pnVentanaPrincipal.setCenter(pnRetroalimentacion);
         }
     }
