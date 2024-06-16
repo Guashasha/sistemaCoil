@@ -7,7 +7,6 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -17,20 +16,18 @@ import static test.ConfiguracionPrueba.*;
 class UniversidadDAOTest {
     private final UniversidadDAO UNIVERSIDAD_DAO = new UniversidadDAO();
     @BeforeAll
-    static void beforeAll () {
-        borrarDatosTablaUniversidad();
-        borrarDatosTablaPais();
-        ejecutarInstruccionSQL("INSERT INTO pais (idPais,Iso,nombre) VALUES (1,'MX','México'),  (2,'US','Estados Unidos');");
+    static void prepararBaseDatos () {
+        ejecutarInstruccionSQL("INSERT INTO pais (idPais,Iso,nombre) VALUES (1,'MX','México'), (2,'US','Estados Unidos');");
     }
 
     @BeforeEach
-    void setUp () {
+    void reiniciarBaseDatos () {
         borrarDatosTablaUniversidad();
         ejecutarInstruccionSQL("INSERT INTO universidad (idUniversidad,nombre,paisOrigen) VALUES (1,'Universidad Veracruzana',1), (2,'Harvard',2), (3,'BUAP',1);");
     }
 
     @AfterAll
-    static void afterAll () {
+    static void limpiarBaseDatos () {
         borrarDatosTablaUniversidad();
         borrarDatosTablaPais();
     }
@@ -53,13 +50,13 @@ class UniversidadDAOTest {
     @Test
     void pruebaRegistrarUniversidadVaciaFallida () {
         UniversidadDTO universidadDTO = new UniversidadDTO();
-        assertThrows(SQLException.class,() -> UNIVERSIDAD_DAO.registrarUniversidad(universidadDTO),"pruebaRegistrarUniversidadVaciaFallida");
+        assertThrows(ErrorDAO.class,() -> UNIVERSIDAD_DAO.registrarUniversidad(universidadDTO),"pruebaRegistrarUniversidadVaciaFallida");
     }
 
     @Test
     void pruebaRegistrarUniversidadIncorrecta () {
         UniversidadDTO universidadDTO = new UniversidadDTO("Universidad Veracruzana",10);
-        assertThrows(SQLException.class,()-> UNIVERSIDAD_DAO.registrarUniversidad(universidadDTO),"pruebaRegistrarUniversidadIncorrecta");
+        assertThrows(ErrorDAO.class,()-> UNIVERSIDAD_DAO.registrarUniversidad(universidadDTO),"pruebaRegistrarUniversidadIncorrecta");
     }
 
     @Test
@@ -236,7 +233,7 @@ class UniversidadDAOTest {
         List<UniversidadDTO> listaObtenida = new ArrayList<>();
         listaEsperada.add(new UniversidadDTO(3,"BUAP",1));
         listaEsperada.add(new UniversidadDTO(2,"Harvard",2));
-        listaEsperada.add(new UniversidadDTO(1,"UniversidadD Veracruzana",1));
+        listaEsperada.add(new UniversidadDTO(1,"Universidad Veracruzana",1));
 
         try {
             listaObtenida = UNIVERSIDAD_DAO.getTodasAlfabeticamente();

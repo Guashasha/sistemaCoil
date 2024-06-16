@@ -184,7 +184,7 @@ public class UniversidadAuxiliar {
             }
         }
         else {
-            throw new ErrorDAO("Los nombres no pueden contener caracteres especiales.\nSolo son válidas letras del alfabeto en español y guiones en el medio", ErrorDAO.Tipo.VALIDACION);
+            throw new ErrorDAO("Los nombres no pueden estar vacíos ni contener caracteres especiales.\nSolo son válidas letras del alfabeto en español y guiones en el medio", ErrorDAO.Tipo.VALIDACION);
         }
 
         return existe;

@@ -7,7 +7,6 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import test.ConfiguracionPrueba;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FacultadDAOTest {
     private final FacultadDAO FACULTAD_DAO = new FacultadDAO();
+
     @BeforeAll
     static void prepararBaseDatos () {
         ConfiguracionPrueba.borrarDatosTablaFacultad();
@@ -71,25 +71,17 @@ class FacultadDAOTest {
 
     @Test
     void pruebaGetFacultadPorRegionExitosa () {
-        System.out.println("pruebaGetFacultadPorRegionExitosa");
         List<FacultadDTO> listaEsperada = new ArrayList<>();
         List<FacultadDTO> listaObtenida = new ArrayList<>();
         listaEsperada.add(new FacultadDTO(1,"Facultad de Estadística e Informática",1));
         listaEsperada.add(new FacultadDTO(2,"Derecho",1));
-
         try {
             listaObtenida = FACULTAD_DAO.getFacultadPorRegion("Xalapa");
         }
         catch (ErrorDAO error) {
             fail("Fallida: pruebaGetFacultadPorRegionExitosa");
         }
-
-
-        assertEquals(listaEsperada.size(),listaObtenida.size());
-        for (FacultadDTO facultad : listaEsperada) {
-            assertEquals(facultad,listaObtenida.get(0));
-            listaObtenida.remove(0);
-        }
+        assertEquals(listaEsperada,listaObtenida,"pruebaGetFacultadPorRegionExitosa");
     }
 
     @Test

@@ -15,37 +15,29 @@ class PaisAuxiliarTest {
     private static final PaisAuxiliar PAIS_AUXILIAR = new PaisAuxiliar();
 
     @BeforeAll
-    static void setUp () {
-        borrarDatosTablaPais();
+    static void prepararBaseDatos () {
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO pais (idPais,Iso,nombre) VALUES (1,'MX','México'),  (2,'US','Estados Unidos'), (3,'BR','Brasil');");
     }
 
     @AfterAll
-    static void afterAll () {
+    static void limpiarBaseDatos () {
         borrarDatosTablaPais();
     }
 
     @Test
     void pruebaGetNombresPaisesAlfabeticamenteExitosa () {
-        System.out.println("pruebaGetNombresPaisesAlfabeticamenteExitosa");
         List<String> listaEsperada = new ArrayList<>();
         List<String> listaObtenida = new ArrayList<>();
         listaEsperada.add("Brasil");
         listaEsperada.add("Estados Unidos");
         listaEsperada.add("México");
-
         try {
             listaObtenida = PAIS_AUXILIAR.getNombresPaisesAlfabeticamente();
         }
         catch (Utilidades.ErrorDAO error) {
             fail("Fallida: pruebaGetNombresPaisesAlfabeticamenteExitosa");
         }
-
-        assertEquals(listaEsperada.size(),listaObtenida.size());
-        for (String nombre : listaEsperada) {
-            assertEquals(nombre,listaObtenida.get(0));
-            listaObtenida.remove(0);
-        }
+        assertEquals(listaEsperada,listaObtenida,"pruebaGetNombresPaisesAlfabeticamenteExitosa");
     }
 
     @Test
@@ -75,24 +67,12 @@ class PaisAuxiliarTest {
 
     @Test
     void pruebaGetPaisPorNombreNulo () {
-        try {
-            Optional<PaisDTO> resultado = PAIS_AUXILIAR.getPaisPorNombre(null);
-            assertTrue(resultado.isEmpty(),"pruebaGetPaisPorNombreNulo");
-        }
-        catch (Exception error) {
-            fail("Fallida: pruebaGetPaisPorNombreNulo");
-        }
+        assertThrows(ErrorDAO.class,()->PAIS_AUXILIAR.getPaisPorNombre(null),"pruebaGetPaisPorNombreNulo");
     }
 
     @Test
     void pruebaGetPaisPorNombreVacio () {
-        try {
-            Optional<PaisDTO> resultado = PAIS_AUXILIAR.getPaisPorNombre("  ");
-            assertTrue(resultado.isEmpty(),"pruebaGetPaisPorNombreVacio");
-        }
-        catch (Exception error) {
-            fail("Fallida: pruebaGetPaisPorNombreVacio");
-        }
+        assertThrows(ErrorDAO.class,()->PAIS_AUXILIAR.getPaisPorNombre("  "),"pruebaGetPaisPorNombreVacio");
     }
 
     @Test
@@ -111,13 +91,7 @@ class PaisAuxiliarTest {
 
     @Test
     void pruebaGetPaisPorIdNegativo () {
-        try {
-            Optional<PaisDTO> resultado = PAIS_AUXILIAR.getPaisPorId(-3);
-            assertTrue(resultado.isEmpty(),"pruebaGetPaisPorIdNegativo");
-        }
-        catch (ErrorDAO error) {
-            fail("Fallida: pruebaGetPaisPorIdNegativo");
-        }
+        assertThrows(ErrorDAO.class,()->PAIS_AUXILIAR.getPaisPorId(-3),"pruebaGetPaisPorIdNegativo");
     }
 
     @Test

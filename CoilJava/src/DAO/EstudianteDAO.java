@@ -6,7 +6,6 @@ import AccesoDatos.AdministradorBaseDatos;
 import Utilidades.ErrorDAO;
 import Utilidades.ErrorDAO.Tipo;
 import org.apache.log4j.Logger;
-
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

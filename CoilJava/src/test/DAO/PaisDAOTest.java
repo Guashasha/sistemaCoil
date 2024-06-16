@@ -7,7 +7,6 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import test.ConfiguracionPrueba;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -29,7 +28,6 @@ class PaisDAOTest {
 
     @Test
     void pruebaPaisesAlfabeticamenteExitosa () {
-        System.out.println("pruebaPaisesAlfabeticamenteExitosa");
         List<PaisDTO> listaEsperada = new ArrayList<>();
         List<PaisDTO> listaObtenida = new ArrayList<>();
         listaEsperada.add(new PaisDTO(3,"BR","Brasil"));
@@ -43,13 +41,7 @@ class PaisDAOTest {
             fail("Fallida: pruebaPaisesAlfabeticamenteExitosa");
         }
 
-        assertEquals(listaEsperada.size(),listaObtenida.size());
-        while (!listaEsperada.isEmpty()){
-            PaisDTO esperado = listaEsperada.get(0);
-            assert(esperado.equals(listaObtenida.get(0)));
-            listaEsperada.remove(0);
-            listaObtenida.remove(0);
-        }
+        assertEquals(listaEsperada,listaObtenida,"pruebaPaisesAlfabeticamenteExitosa");
     }
 
     @Test
