@@ -1,7 +1,6 @@
 package InterfazGrafica;
 
 import DAO.AcademicoDAO;
-import DAO.CuentaDAO;
 import DAO.FacultadDAO;
 import DAO.RegionAuxiliar;
 import DTO.*;
@@ -11,10 +10,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -111,8 +108,7 @@ public class CrearCuentaAcademicoControlador {
         }
 
         String nombre = tfNombre.getText();
-        String aPaterno = tfApPaterno.getText();
-        String aMaterno = tfApMaterno.getText();
+        String apellidos = tfApPaterno.getText();
         String correo = tfCorreo.getText();
         String telefono = tfTelefono.getText();
         String numeroPersonal = tfNumeroPersonal.getText();
@@ -161,8 +157,7 @@ public class CrearCuentaAcademicoControlador {
 
         try {
             persona.setNombre(nombre);
-            persona.setApellidoPaterno(aPaterno);
-            persona.setApellidoMaterno(aMaterno);
+            persona.setApellidos(apellidos);
             persona.setCorreoElectronico(correo);
             persona.setNumeroTelefonico(telefono);
             persona.setNumeroPersonal(numeroPersonal);
@@ -263,8 +258,7 @@ public class CrearCuentaAcademicoControlador {
 
     private boolean datosInvalidos() {
         String nombre = tfNombre.getText();
-        String aPaterno = tfApPaterno.getText();
-        String aMaterno = tfApMaterno.getText();
+        String apellidos = tfApPaterno.getText();
         String correo = tfCorreo.getText();
         String telefono = tfTelefono.getText();
         String numeroPersonal = tfNumeroPersonal.getText();
@@ -277,12 +271,8 @@ public class CrearCuentaAcademicoControlador {
             crearAlertaValidacion("El tamaño del nombre debe ser entre 1 y 20 caracteres");
             return false;
         }
-        if (aPaterno.isBlank()) {
+        if (apellidos.isBlank()) {
             crearAlertaValidacion("El tamaño del apellido paterno debe ser entre 1 y 20 caracteres");
-            return false;
-        }
-        if (aMaterno.isBlank()) {
-            crearAlertaValidacion("El tamaño del apellido materno debe ser entre 1 y 20 caracteres");
             return false;
         }
         if (correo.isBlank() || !Pattern.matches("[A-z0-9./+-]+@[A-z]+\\.[A-z]{1,3}", correo)) {

@@ -12,8 +12,8 @@ public class EstudianteDTO extends PersonaDTO {
     public EstudianteDTO() {
         super();
     }
-    public EstudianteDTO(int idPersona, String nombre, String apellidoPaterno, String apellidoMaterno, int idUniversidad, int idEstudiante, String matricula) {
-        super(idPersona, nombre, apellidoPaterno, apellidoMaterno, idUniversidad);
+    public EstudianteDTO(int idPersona, String nombre, String apellidos, int idUniversidad, int idEstudiante, String matricula) {
+        super(idPersona, nombre, apellidos, idUniversidad);
         this.idEstudiante = idEstudiante;
         setMatricula(matricula);
     }
@@ -35,6 +35,12 @@ public class EstudianteDTO extends PersonaDTO {
         this.matricula = matricula;
     }
 
+    /**
+     * Verifica la validez de la matrícula.
+     *
+     * @param matricula la matrícula.
+     * @throws ErrorDAO si la matrícula no es válida.
+     */
     private void checarMatricula (String matricula) {
         String matriculaRegex = "^[A-Za-z0-9]{8,10}$";
         Pattern patron = Pattern.compile(matriculaRegex);
@@ -52,8 +58,7 @@ public class EstudianteDTO extends PersonaDTO {
 
     @Override
     public boolean validarNulos() {
-        return esCadenaValida(getNombre()) && esCadenaValida(getApellidoPaterno()) &&
-                esCadenaValida(getApellidoMaterno()) && esCadenaValida(getMatricula());
+        return esCadenaValida(getNombre()) && esCadenaValida(getApellidos()) && esCadenaValida(getMatricula());
     }
 
     @Override
@@ -69,8 +74,7 @@ public class EstudianteDTO extends PersonaDTO {
             EstudianteDTO estudianteDTO = (EstudianteDTO) obj;
             igual = this.getIdPersona() == estudianteDTO.getIdPersona()
                     && this.getNombre().equals(estudianteDTO.getNombre())
-                    && this.getApellidoPaterno().equals(estudianteDTO.getApellidoPaterno())
-                    && this.getApellidoMaterno().equals(estudianteDTO.getApellidoMaterno())
+                    && this.getApellidos().equals(estudianteDTO.getApellidos())
                     && this.getIdUniversidad() == estudianteDTO.getIdUniversidad()
                     && this.idEstudiante == estudianteDTO.getIdEstudiante()
                     && this.matricula.equals(estudianteDTO.getMatricula());

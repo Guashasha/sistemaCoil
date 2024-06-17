@@ -7,8 +7,18 @@ import org.apache.log4j.spi.TriggeringEventEvaluator;
 
 import java.io.IOException;
 
+/**
+ * Verificador de bitácora que evalúa si un evento de logging debería desencadenar una acción.
+ */
 public class VerificadorBitacora implements TriggeringEventEvaluator {
     private static final Logger BITACORA = Logger.getLogger(VerificadorBitacora.class);
+
+    /**
+     * Evalúa si un evento de logging debería desencadenar una acción.
+     *
+     * @param evento el evento de logging a evaluar.
+     * @return true si el evento es de nivel FATAL y hay conexión a Internet, false en caso contrario.
+     */
     @Override
     public boolean isTriggeringEvent (LoggingEvent evento) {
         boolean hayConexionInternet = false;

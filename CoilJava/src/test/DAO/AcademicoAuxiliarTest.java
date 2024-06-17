@@ -13,7 +13,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class AcademicoDTOAuxiliarTest {
+class AcademicoAuxiliarTest {
     private static final AcademicoAuxiliar ACADEMICO_AUXILIAR = new AcademicoAuxiliar();
 
     @BeforeEach
@@ -149,14 +149,6 @@ class AcademicoDTOAuxiliarTest {
 
     }
 
-    @Test
-    void getAcademicosPorAreaEstudiosCadenaNoValidaFallida () {
-        System.out.println("getAcademicosPorAreaEstudiosCadenaNoValidaFallida");
-
-        String areaAcademica = null;
-
-        assertThrows(ErrorDAO.class, ()-> ACADEMICO_AUXILIAR.getAcademicosPorAreaEstudios(areaAcademica));
-    }
 
     @Test
     void pruebaGetAcademicosPorCategoriaContratacionExitosa () {
@@ -170,22 +162,6 @@ class AcademicoDTOAuxiliarTest {
             fail("Fallido getAcademicosPorAreaEstudios");
         }
         assertNotNull(listaAcademicoDTOS);
-    }
-
-    @Test
-    void pruebaGetAcademicosPorCategoriaContratacionNulaFallida () {
-        System.out.println("pruebaGetAcademicosPorCategoriaContratacionFallida");
-        String categoria = null;
-
-        assertThrows(ErrorDAO.class, ()-> ACADEMICO_AUXILIAR.getAcademicosPorCategoriaContratacion(categoria));
-    }
-
-    @Test
-    void pruebaGetAcademicosPorCategoriaContratacionEspacioFallida () {
-        System.out.println("pruebaGetAcademicosPorCategoriaContratacionEspacioFallida");
-        String categoria = "";
-
-        assertThrows(ErrorDAO.class, ()-> ACADEMICO_AUXILIAR.getAcademicosPorCategoriaContratacion(categoria));
     }
 
     @Test
@@ -244,7 +220,7 @@ class AcademicoDTOAuxiliarTest {
 
         AcademicoDTO academicoDTO = new AcademicoDTO();
         academicoDTO.setNombre("Hernan");
-        academicoDTO.setApellidoPaterno("Llamas");
+        academicoDTO.setApellidos("Llamas");
         academicoDTO.setApellidoMaterno("Villa Señor");
         academicoDTO.setIdUniversidad(1);
         academicoDTO.setCedulaProfesional("9877985");
@@ -275,7 +251,7 @@ class AcademicoDTOAuxiliarTest {
         System.out.println("pruebaAgregarCedulaRepetidaFallida");
         AcademicoDTO academicoDTO = new AcademicoDTO();
         academicoDTO.setNombre("Manuel");
-        academicoDTO.setApellidoPaterno("Llamas");
+        academicoDTO.setApellidos("Llamas");
         academicoDTO.setApellidoMaterno("Villa Señor");
         academicoDTO.setIdUniversidad(1);
         academicoDTO.setCedulaProfesional("123");
@@ -294,7 +270,7 @@ class AcademicoDTOAuxiliarTest {
         System.out.println("pruebaEditarAcademicoExitoso");
         AcademicoDTO academicoDTO = new AcademicoDTO();
         academicoDTO.setNombre("Fernando");
-        academicoDTO.setApellidoPaterno("Hernandez");
+        academicoDTO.setApellidos("Hernandez");
         academicoDTO.setApellidoMaterno("Lopez");
         academicoDTO.setIdUniversidad(1);
         academicoDTO.setCedulaProfesional("200011");

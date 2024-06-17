@@ -72,6 +72,19 @@ public class ConfiguracionPrueba {
         ejecutarInstruccionSQL("DELETE FROM calendarioActividades;");
     }
 
+    public static void borrarTodosLosDatosTabla () {
+        borrarDatosTablaAcademicoDesarrolla();
+        borrarDatosTablaEstudiantesColaboracion();
+        borrarDatosTablaColaboracion();
+        borrarDatosTablaEstudiante();
+        borrarDatosTablaAcademico();
+        borrarDatosTablaPersona();
+        borrarDatosTablaUniversidad();
+        borrarDatosTablaPais();
+        borrarDatosTablaFacultad();
+        borrarDatosTablaRegion();
+    }
+
     public static void ejecutarInstruccionSQL (String instruccionSQL) {
         try {
             String urlBaseDatos = "jdbc:mariadb://localhost:3306/COIL";

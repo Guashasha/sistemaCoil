@@ -9,8 +9,7 @@ CREATE VIEW if not exists vista_academico AS
 SELECT 
     p.idPersona AS idPersona,
     p.nombre AS nombre,
-    p.apellidoPaterno AS apellidoPaterno,
-    p.apellidoMaterno AS apellidoMaterno,
+    p.apellidos AS apellidos,
     p.universidad AS idUniversidad,
     u.nombre AS nombreUniversidad,
     u.paisOrigen AS paisOrigen,
@@ -37,8 +36,7 @@ CREATE VIEW if not exists vista_estudiante AS
 SELECT 
     p.idPersona AS idPersona,
     p.nombre AS nombre,
-    p.apellidoPaterno AS apellidoPaterno,
-    p.apellidoMaterno AS apellidoMaterno,
+    p.apellidos AS apellidos,
     p.universidad AS universidad,
     e.idEstudiante AS idEstudiante,
     e.matricula AS matricula
@@ -56,8 +54,7 @@ SELECT
     c.contrasena AS contrasena,
     c.estado AS estado,
     p.nombre AS nombre,
-    p.apellidoPaterno AS apellidoPaterno,
-    p.apellidoMaterno AS apellidoMaterno,
+    p.apellidos AS apellidos,
     p.universidad AS idUniversidad,
     u.nombre AS nombreUniversidad,
     u.paisOrigen AS idPais,

@@ -87,8 +87,7 @@ public class ProgresoColaboracionControlador {
     private void cargarLabels () {
         this.lbAcademicoPar.setText(colaboracionDTO.getAcademicoPar()
                                                    .getNombre() + " " + colaboracionDTO.getAcademicoPar()
-                                                                                       .getApellidoPaterno() + " " + colaboracionDTO.getAcademicoPar()
-                                                                                                                                    .getApellidoMaterno());
+                                                                                       .getApellidos());
         this.lbIdioma.setText(colaboracionDTO.getIdioma());
         this.lbObjetivo.setText(colaboracionDTO.getObjetivo());
         this.lbPerfil.setText(colaboracionDTO.getPerfilEstudiante());
@@ -111,6 +110,7 @@ public class ProgresoColaboracionControlador {
             }
         }
     }
+
 
     public void actualizarVisibilidadBotones () {
         ColaboracionDTO.EstadoColaboracion estado = this.colaboracionDTO.getEstado();
@@ -152,6 +152,8 @@ public class ProgresoColaboracionControlador {
                 break;
         }
     }
+
+
 
     private void getAcademicoParPorColaboracion () {
         ColaboracionDAO colaboracionDAO = new ColaboracionDAO();
@@ -223,7 +225,6 @@ public class ProgresoColaboracionControlador {
                                             """, Alert.AlertType.WARNING);
             return false;
         }
-
         return true;
     }
 
