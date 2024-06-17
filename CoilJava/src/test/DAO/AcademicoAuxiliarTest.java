@@ -23,10 +23,10 @@ class AcademicoAuxiliarTest {
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO region (nombre) VALUES ('XALAPA');");
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO facultad (nombre, region) VALUES ('Economia', 1);");
 
-        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO persona (idPersona, nombre, apellidoPaterno, apellidoMaterno, universidad) VALUES (1, 'Jose', 'Lopez', 'Perez', 1);");
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO persona (idPersona, nombre, apellidos, universidad) VALUES (1, 'Jose Lopez', 'Perez', 1);");
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO academico (cedulaProfesional, numeroDePersonal, idPersona, areaEstudios, correoElectronico, numeroTelefonico) VALUES ('123', '123456', 1, 'tecnica', 'jose@gmail.com', '522288536230');");
 
-        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO persona (idPersona, nombre, apellidoPaterno, apellidoMaterno, universidad) VALUES (2, 'Esther', 'Herrara', 'Martinez', 1);");
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO persona (idPersona, nombre, apellidos, universidad) VALUES (2, 'Esther', 'Herrara Martinez', 1);");
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO academico (cedulaProfesional, numeroDePersonal, idPersona, areaEstudios, correoElectronico, numeroTelefonico, categoriaContratacion, facultad) VALUES ('200011', '4564', 2, 'economico-administrativo', 'esther@gmail.com', '522288536230', 'Dramaturgo', 1);");
 
 
@@ -221,7 +221,6 @@ class AcademicoAuxiliarTest {
         AcademicoDTO academicoDTO = new AcademicoDTO();
         academicoDTO.setNombre("Hernan");
         academicoDTO.setApellidos("Llamas");
-        academicoDTO.setApellidoMaterno("Villa Señor");
         academicoDTO.setIdUniversidad(1);
         academicoDTO.setCedulaProfesional("9877985");
         academicoDTO.setNumeroPersonal("34563");
@@ -252,7 +251,6 @@ class AcademicoAuxiliarTest {
         AcademicoDTO academicoDTO = new AcademicoDTO();
         academicoDTO.setNombre("Manuel");
         academicoDTO.setApellidos("Llamas");
-        academicoDTO.setApellidoMaterno("Villa Señor");
         academicoDTO.setIdUniversidad(1);
         academicoDTO.setCedulaProfesional("123");
         academicoDTO.setNumeroPersonal("453");
@@ -271,7 +269,6 @@ class AcademicoAuxiliarTest {
         AcademicoDTO academicoDTO = new AcademicoDTO();
         academicoDTO.setNombre("Fernando");
         academicoDTO.setApellidos("Hernandez");
-        academicoDTO.setApellidoMaterno("Lopez");
         academicoDTO.setIdUniversidad(1);
         academicoDTO.setCedulaProfesional("200011");
         academicoDTO.setNumeroPersonal("4564");

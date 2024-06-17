@@ -14,9 +14,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AcademicoDAOTest {
     private final AcademicoDAO ACADEMICO_DAO = new AcademicoDAO();
-    private final AcademicoDTO ACADEMICO_DTO_ECONOMIA = new AcademicoDTO(2, "Esther", "Herrara", "Martinez", 1, "200011",
+    private final AcademicoDTO ACADEMICO_DTO_ECONOMIA = new AcademicoDTO(2, "Esther", "Herrara Martinez", 1, "200011",
                                                                          "4564", "economico-administrativo", "esther@gmail.com", "522288536230", "Dramaturgo", 1);
-    private final AcademicoDTO ACADEMICO_DTO_TECNICA = new AcademicoDTO(1, "Jose", "Lopez", "Perez", 1, "123",
+    private final AcademicoDTO ACADEMICO_DTO_TECNICA = new AcademicoDTO(1, "Jose", "Lopez Perez", 1, "123",
                                                                         "123456", "tecnica", "jose@gmail.com", "522288536230", "Investigador", 1);
 
     @BeforeEach
@@ -35,10 +35,10 @@ class AcademicoDAOTest {
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO region (nombre) VALUES ('XALAPA');");
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO facultad (nombre, region) VALUES ('Economia', 1);");
 
-        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO persona (idPersona, nombre, apellidoPaterno, apellidoMaterno, universidad) VALUES (1, 'Jose', 'Lopez', 'Perez', 1);");
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO persona (idPersona, nombre, apellidos, universidad) VALUES (1, 'Jose', 'Lopez Perez', 1);");
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO academico (cedulaProfesional, numeroDePersonal, idPersona, areaEstudios, correoElectronico, numeroTelefonico, categoriaContratacion, facultad) VALUES ('123', '123456', 1, 'tecnica', 'jose@gmail.com', '522288536230', 'Investigador', 1);");
 
-        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO persona (idPersona, nombre, apellidoPaterno, apellidoMaterno, universidad) VALUES (2, 'Esther', 'Herrara', 'Martinez', 1);");
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO persona (idPersona, nombre, apellidos, universidad) VALUES (2, 'Esther', 'Herrara Martinez', 1);");
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO academico (cedulaProfesional, numeroDePersonal, idPersona, areaEstudios, correoElectronico, numeroTelefonico, categoriaContratacion, facultad) VALUES ('200011', '4564', 2, 'economico-administrativo', 'esther@gmail.com', '522288536230', 'Dramaturgo', 1);");
     }
 
@@ -245,7 +245,6 @@ class AcademicoDAOTest {
         AcademicoDTO academicoDTO = new AcademicoDTO();
         academicoDTO.setNombre("Hernan");
         academicoDTO.setApellidos("Llamas");
-        academicoDTO.setApellidoMaterno("Villa Señor");
         academicoDTO.setIdUniversidad(1);
         academicoDTO.setCedulaProfesional("9877985");
         academicoDTO.setNumeroPersonal("34563");
@@ -260,7 +259,6 @@ class AcademicoDAOTest {
             obtenido = ACADEMICO_DAO.agregar(academicoDTO);
         }
         catch (ErrorDAO error) {
-            error.printStackTrace();
             fail("Fallida: pruebaAgregarAcademicoUVExitoso\n" + error.getMessage());
         }
         assertEquals(esperado,obtenido,"pruebaAgregarAcademicoUVExitoso");
@@ -276,7 +274,6 @@ class AcademicoDAOTest {
         AcademicoDTO academicoDTO = new AcademicoDTO();
         academicoDTO.setNombre("Jose");
         academicoDTO.setApellidos("Andrei");
-        academicoDTO.setApellidoMaterno("De la paz");
         academicoDTO.setIdUniversidad(5);
         academicoDTO.setCedulaProfesional("453432523");
         academicoDTO.setNumeroPersonal("2341");
@@ -292,7 +289,6 @@ class AcademicoDAOTest {
         AcademicoDTO academicoDTO = new AcademicoDTO();
         academicoDTO.setNombre("Jose");
         academicoDTO.setApellidos("Andrei");
-        academicoDTO.setApellidoMaterno("De la paz");
         academicoDTO.setIdUniversidad(5);
         academicoDTO.setCedulaProfesional("98765");
         academicoDTO.setNumeroPersonal("4564");
@@ -309,7 +305,6 @@ class AcademicoDAOTest {
             AcademicoDTO academicoDTO = new AcademicoDTO();
             academicoDTO.setNombre("Ivan");
             academicoDTO.setApellidos("Ingram");
-            academicoDTO.setApellidoMaterno("Lopez");
             academicoDTO.setIdUniversidad(1);
             academicoDTO.setCedulaProfesional("564635356");
             academicoDTO.setNumeroPersonal("2341");
@@ -329,7 +324,6 @@ class AcademicoDAOTest {
         AcademicoDTO academicoDTO = new AcademicoDTO();
         academicoDTO.setNombre("Hernan");
         academicoDTO.setApellidos("Llamas");
-        academicoDTO.setApellidoMaterno("Villa Señor");
         academicoDTO.setIdUniversidad(2);
         academicoDTO.setCedulaProfesional("20001232");
         academicoDTO.setNumeroPersonal("34563");
@@ -357,7 +351,6 @@ class AcademicoDAOTest {
         AcademicoDTO academicoDTO = new AcademicoDTO();
         academicoDTO.setNombre("Hernan");
         academicoDTO.setApellidos("Llamas");
-        academicoDTO.setApellidoMaterno("Villa Señor");
         academicoDTO.setIdUniversidad(20);
         academicoDTO.setCedulaProfesional("9877985");
         academicoDTO.setNumeroPersonal("34563");
@@ -372,7 +365,6 @@ class AcademicoDAOTest {
         AcademicoDTO academicoDTO = new AcademicoDTO();
         academicoDTO.setNombre("Hernan");
         academicoDTO.setApellidos("Llamas");
-        academicoDTO.setApellidoMaterno("Villa Señor");
         academicoDTO.setIdUniversidad(2);
         academicoDTO.setCedulaProfesional(ACADEMICO_DTO_ECONOMIA.getCedulaProfesional());
         academicoDTO.setNumeroPersonal("34563");
@@ -388,7 +380,6 @@ class AcademicoDAOTest {
         try {
             academicoDTO.setNombre("Hernan");
             academicoDTO.setApellidos("Llamas");
-            academicoDTO.setApellidoMaterno("Villa Señor");
             academicoDTO.setIdUniversidad(2);
             academicoDTO.setCedulaProfesional("9877985");
             academicoDTO.setNumeroPersonal("34563");
@@ -451,7 +442,6 @@ class AcademicoDAOTest {
         AcademicoDTO academicoDTO = new AcademicoDTO();
         academicoDTO.setNombre("Fernando");
         academicoDTO.setApellidos("Hernandez");
-        academicoDTO.setApellidoMaterno("Lopez");
         academicoDTO.setIdUniversidad(1);
         academicoDTO.setCedulaProfesional(ACADEMICO_DTO_ECONOMIA.getCedulaProfesional());
         academicoDTO.setNumeroPersonal(ACADEMICO_DTO_ECONOMIA.getNumeroPersonal());
@@ -478,7 +468,6 @@ class AcademicoDAOTest {
         AcademicoDTO academicoDTO = new AcademicoDTO();
         academicoDTO.setNombre("Fernando");
         academicoDTO.setApellidos("Martinez");
-        academicoDTO.setApellidoMaterno("Ramirez");
         academicoDTO.setIdUniversidad(1);
         academicoDTO.setCedulaProfesional("1");
         academicoDTO.setNumeroPersonal("1");
@@ -500,7 +489,6 @@ class AcademicoDAOTest {
         AcademicoDTO academicoDTO = new AcademicoDTO();
         academicoDTO.setNombre("Esther");
         academicoDTO.setApellidos("Ramirez");
-        academicoDTO.setApellidoMaterno("Escobar");
         academicoDTO.setIdUniversidad(10);
         academicoDTO.setCedulaProfesional(ACADEMICO_DTO_ECONOMIA.getCedulaProfesional());
         academicoDTO.setNumeroPersonal(ACADEMICO_DTO_ECONOMIA.getNumeroPersonal());
@@ -516,7 +504,6 @@ class AcademicoDAOTest {
         AcademicoDTO academicoDTO = new AcademicoDTO();
         academicoDTO.setNombre("Esther");
         academicoDTO.setApellidos("Ramirez");
-        academicoDTO.setApellidoMaterno("Escobar");
         academicoDTO.setIdUniversidad(1);
         academicoDTO.setCedulaProfesional(ACADEMICO_DTO_ECONOMIA.getCedulaProfesional());
         academicoDTO.setNumeroPersonal(ACADEMICO_DTO_ECONOMIA.getNumeroPersonal());
@@ -532,7 +519,6 @@ class AcademicoDAOTest {
         AcademicoDTO academicoDTO = new AcademicoDTO();
         academicoDTO.setNombre("Esther");
         academicoDTO.setApellidos("Ramirez");
-        academicoDTO.setApellidoMaterno("Escobar");
         academicoDTO.setIdUniversidad(1);
         academicoDTO.setCedulaProfesional(ACADEMICO_DTO_ECONOMIA.getCedulaProfesional());
         academicoDTO.setNumeroPersonal(ACADEMICO_DTO_ECONOMIA.getNumeroPersonal());
@@ -556,7 +542,6 @@ class AcademicoDAOTest {
         AcademicoDTO academicoDTO = new AcademicoDTO();
         academicoDTO.setNombre("Hernan");
         academicoDTO.setApellidos("Llamas");
-        academicoDTO.setApellidoMaterno("Villa Señor");
         academicoDTO.setIdUniversidad(1);
         academicoDTO.setCedulaProfesional("9877985");
         academicoDTO.setNumeroPersonal("34563");
@@ -587,7 +572,6 @@ class AcademicoDAOTest {
         try {
             academicoDTO.setNombre("Hernan");
             academicoDTO.setApellidos("Llamas");
-            academicoDTO.setApellidoMaterno("Villa Señor");
             academicoDTO.setIdUniversidad(1);
             academicoDTO.setCedulaProfesional("9877985");
             academicoDTO.setNumeroPersonal("34563");
@@ -615,7 +599,6 @@ class AcademicoDAOTest {
         try {
             academicoDTO.setNombre("Hernan");
             academicoDTO.setApellidos("Llamas");
-            academicoDTO.setApellidoMaterno("Villa Señor");
             academicoDTO.setIdUniversidad(1);
             academicoDTO.setCedulaProfesional("9877985");
             academicoDTO.setNumeroPersonal("34563");
@@ -643,7 +626,6 @@ class AcademicoDAOTest {
         try {
             academicoDTO.setNombre("Hernan");
             academicoDTO.setApellidos("Llamas");
-            academicoDTO.setApellidoMaterno("Villa Señor");
             academicoDTO.setIdUniversidad(1);
             academicoDTO.setCedulaProfesional("9877985");
             academicoDTO.setNumeroPersonal("34563");

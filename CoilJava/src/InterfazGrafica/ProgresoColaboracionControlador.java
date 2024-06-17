@@ -145,8 +145,6 @@ public class ProgresoColaboracionControlador {
                 dpFechaFin.setVisible(false);
                 break;
             default:
-                btnRetroalimentar.setVisible(false);
-                btnFinalizar.setVisible(true);
                 break;
         }
     }

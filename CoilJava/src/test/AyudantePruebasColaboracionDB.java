@@ -1,6 +1,6 @@
 package test;
 
-import static test.ConfiguracionPrueba.ejecutarInstruccionSQL;
+import static test.ConfiguracionPrueba.*;
 
 public class AyudantePruebasColaboracionDB {
 
@@ -15,19 +15,19 @@ public class AyudantePruebasColaboracionDB {
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO region (nombre) VALUES ('XALAPA');");
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO facultad (nombre, region) VALUES ('Economia', 1);");
 
-        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO persona (idPersona, nombre, apellidoPaterno, apellidoMaterno, universidad) VALUES (1, 'Jose', 'Lopez', 'Perez', 1);");
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO persona (idPersona, nombre, apellidos, universidad) VALUES (1, 'Jose', 'Lopez Perez', 1);");
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO academico (cedulaProfesional, numeroDePersonal, idPersona, areaEstudios, correoElectronico, numeroTelefonico, categoriaContratacion, facultad) VALUES ('123', '123456', 1, 'tecnica', 'jose@gmail.com', '522288536230', 'Investigador', 1);");
 
-        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO persona (idPersona, nombre, apellidoPaterno, apellidoMaterno, universidad) VALUES (2, 'Esther', 'Herrara', 'Martinez', 1);");
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO persona (idPersona, nombre, apellidos, universidad) VALUES (2, 'Esther', 'Herrara Martinez', 1);");
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO academico (cedulaProfesional, numeroDePersonal, idPersona, areaEstudios, correoElectronico, numeroTelefonico, categoriaContratacion, facultad) VALUES ('200011', '264', 2, 'economico-administrativo', 'esther@gmail.com', '522288536230', 'Dramaturgo', 1);");
 
-        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO persona (idPersona, nombre, apellidoPaterno, apellidoMaterno, universidad) VALUES (3, 'Johan', 'Wallstrom', 'Figurason', 2);");
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO persona (idPersona, nombre, apellidos , universidad) VALUES (3, 'Johan', 'Wallstrom Figurason', 2);");
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO academico (cedulaProfesional, numeroDePersonal, idPersona, areaEstudios, correoElectronico, numeroTelefonico, categoriaContratacion, facultad) VALUES ('102939', '322', 3, 'economico-administrativo', 'johan@ptron.com', '522238536430', 'Sociologia', 1);");
 
-        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO persona (idPersona, nombre, apellidoPaterno, apellidoMaterno, universidad) VALUES (4, 'Eduardo', 'Villegas', 'Hurtado', 1);");
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO persona (idPersona, nombre, apellidos, universidad) VALUES (4, 'Eduardo', 'Villegas Hurtado', 1);");
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO estudiante (idEstudiante, idPersona, matricula) VALUES (1, 4, 'zs22013693')");
 
-        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO persona (idPersona, nombre, apellidoPaterno, apellidoMaterno, universidad) VALUES (5, 'John', 'Smith', 'Onell', 2);");
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO persona (idPersona, nombre, apellidos, universidad) VALUES (5, 'John', 'Smith Onell', 2);");
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO estudiante (idEstudiante, idPersona, matricula) VALUES (2, 5, 'zs2201356')");
 
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO colaboracion (idColaboracion, estado, tipo, temaInteres, idioma, objetivo, fechaInicio, fechaFin, perfilEstudiante) VALUES (1, 'vinculada', 'claseEspejo', 'Inteligencia Artificial', 'Español', 'Mejorar habilidades en IA', '2024-05-01', '2024-06-30', 'Estudiantes de informática');");
@@ -47,12 +47,14 @@ public class AyudantePruebasColaboracionDB {
         borrarTablasActividadTest();
         agregarActividades();
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO colaboracion (idColaboracion, estado, tipo, temaInteres, idioma, objetivo, fechaInicio, fechaFin, perfilEstudiante) VALUES (1, 'propuesta', 'claseEspejo', 'Inteligencia Artificial', 'Español', 'Mejorar habilidades en IA', '2024-05-01', '2024-06-30', 'Estudiantes de informática');");
-        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO calendarioActividades (idActividad, idColaboracion, fechaInicio, fechaFin) values (1,1,'2024-05-07','2024-07-05');");
-        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO calendarioActividades (idActividad, idColaboracion, fechaInicio, fechaFin) values (2,1,'2024-05-07','2024-07-05');");
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO calendarioActividades (idActividad, idColaboracion, fechaFinalizacion) values (1,1,'2024-07-05');");
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO calendarioActividades (idActividad, idColaboracion, fechaFinalizacion) values (2,1,'2024-07-05');");
     }
 
     public static void borrarTablasActividadTest () {
         ConfiguracionPrueba.borrarDatosTablaCalendarioActividades();
+        borrarDatosTablaAcademicoDesarrolla();
+        borrarDatosTablaEstudiantesColaboracion();
         ConfiguracionPrueba.borrarDatosTablaColaboracion();
         ConfiguracionPrueba.borrarDatosTablaActividad();
     }
