@@ -3,6 +3,8 @@ package DAO;
 import DAO.Interfaces.IPaisDAO;
 import DTO.PaisDTO;
 import AccesoDatos.AdministradorBaseDatos;
+import Utilidades.ErrorDAO;
+import org.apache.log4j.Logger;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,24 +14,31 @@ import java.util.Optional;
 
 /**
  * La clase PaisDAO se encarga de obtener información de los países en la base de datos y mandarlos a capas superiores mediante Transfer Objects
+ *
  * @author pale
  */
 public class PaisDAO implements IPaisDAO {
     /**
+     * Instancia del logger para registrar las excepciones que se pueden atrapar en las funciones de la clase.
+     */
+    private final static Logger BITACORA = Logger.getLogger(PaisDAO.class);
+
+    /**
      * Obtiene una lista de todos los países que se encuentran en la base de datos, ordenadas de manera alfabética de acuerdo a su nombre.
+     *
      * @return Lista de universidades ordenada de manera alfabética o una lista vacía si no se encuentran resultados.
-     * @throws SQLException si ocurre un error de acceso a la base de datos.
+     * @throws ErrorDAO si ocurre un error de acceso a la base de datos.
      */
     @Override
-    public List<PaisDTO> getPaisesAlfabeticamente () throws SQLException {
+    public List<PaisDTO> getPaisesAlfabeticamente () throws ErrorDAO {
         List<PaisDTO> listaPaises = new ArrayList<>();
-        String consultaPaisesSQL = "SELECT idPais, iso, nombre FROM pais ORDER BY nombre ASC";
+        String consultaSQL = "SELECT idPais, iso, nombre FROM pais ORDER BY nombre ASC";
         PreparedStatement consultaPaises;
         ResultSet resultadoConsulta;
 
         try {
             consultaPaises = AdministradorBaseDatos.getInstancia().
-                                                   prepareStatement(consultaPaisesSQL);
+                                                   prepareStatement(consultaSQL);
             resultadoConsulta = consultaPaises.executeQuery();
 
             while (resultadoConsulta.next()) {
@@ -39,7 +48,8 @@ public class PaisDAO implements IPaisDAO {
             resultadoConsulta.close();
         }
         catch (SQLException excepcionSQL) {
-            throw excepcionSQL;
+            BITACORA.info(excepcionSQL.getMessage());
+            throw new ErrorDAO("Ocurrió un error al intentar obtener los paises. Si el problema persiste contacte a soporte", ErrorDAO.Tipo.CONEXION);
         }
         finally {
             AdministradorBaseDatos.desconectar();
@@ -50,20 +60,21 @@ public class PaisDAO implements IPaisDAO {
 
     /**
      * Obtiene un país que esté registrado con un nombre específico
+     *
      * @param nombre Nombre del país que se quiere buscar.
      * @return Objeto Optional con un pais inicializado con su id, iso y nombre; o un objeto Optional vacío si no se encuentran resultados.
-     * @throws SQLException si ocurre un error de acceso a la base de datos.
+     * @throws ErrorDAO si ocurre un error de acceso a la base de datos.
      */
     @Override
-    public Optional<PaisDTO> getPaisPorNombre (String nombre) throws SQLException {
+    public Optional<PaisDTO> getPaisPorNombre (String nombre) throws ErrorDAO {
         PaisDTO paisDTO = null;
-        String consultaPaisesSQL = "SELECT idPais, iso, nombre FROM pais WHERE nombre = ?";
+        String consultaSQL = "SELECT idPais, iso, nombre FROM pais WHERE nombre = ?";
         PreparedStatement consultaPaises;
         ResultSet resultadoConsulta;
 
         try {
             consultaPaises = AdministradorBaseDatos.getInstancia().
-                                                   prepareStatement(consultaPaisesSQL);
+                                                   prepareStatement(consultaSQL);
             consultaPaises.setString(1, nombre);
             resultadoConsulta = consultaPaises.executeQuery();
 
@@ -74,7 +85,8 @@ public class PaisDAO implements IPaisDAO {
             resultadoConsulta.close();
         }
         catch (SQLException excepcionSQL) {
-            throw excepcionSQL;
+            BITACORA.info(excepcionSQL.getMessage());
+            throw new ErrorDAO("Ocurrió un error al intentar obtener el pais. Si el problema persiste contacte a soporte", ErrorDAO.Tipo.CONSULTA);
         }
         finally {
             AdministradorBaseDatos.desconectar();
@@ -85,20 +97,21 @@ public class PaisDAO implements IPaisDAO {
 
     /**
      * Obtiene un país que esté asociado a un id específico.
+     *
      * @param id id del país que se quiere buscar.
      * @return Objeto Optional con un pais inicializado con su id, iso y nombre; o un objeto Optional vacío si no se encuentran resultados.
-     * @throws SQLException si ocurre un error de acceso a la base de datos.
+     * @throws ErrorDAO si ocurre un error de acceso a la base de datos.
      */
     @Override
-    public Optional<PaisDTO> getPaisPorId (int id) throws SQLException {
+    public Optional<PaisDTO> getPaisPorId (int id) throws ErrorDAO {
         PaisDTO paisDTO = null;
-        String consultaPaisesSQL = "SELECT idPais, iso, nombre FROM pais WHERE idPais = ?";
+        String consultaSQL = "SELECT idPais, iso, nombre FROM pais WHERE idPais = ?";
         PreparedStatement consultaPaises;
         ResultSet resultadoConsulta;
 
         try {
             consultaPaises = AdministradorBaseDatos.getInstancia().
-                                                   prepareStatement(consultaPaisesSQL);
+                                                   prepareStatement(consultaSQL);
             consultaPaises.setInt(1, id);
             resultadoConsulta = consultaPaises.executeQuery();
 
@@ -109,7 +122,8 @@ public class PaisDAO implements IPaisDAO {
             resultadoConsulta.close();
         }
         catch (SQLException excepcionSQL) {
-            throw excepcionSQL;
+            BITACORA.info(excepcionSQL.getMessage());
+            throw new ErrorDAO("Ocurrió un error al intentar obtener el pais. Si el problema persiste contacte a soporte", ErrorDAO.Tipo.CONSULTA);
         }
         finally {
             AdministradorBaseDatos.desconectar();
@@ -120,6 +134,7 @@ public class PaisDAO implements IPaisDAO {
 
     /**
      * Convierte un objeto ResultSet a un objeto PaisDTO, para poder transferir los datos obtenidos de una consulta SQL.
+     *
      * @param resultado ResultSet que se obtuvo de una consulta SQL.
      * @return Pais inicializada con su id, iso y nombre.
      * @throws SQLException si ocurre un error de acceso a la base de datos.

@@ -46,20 +46,21 @@ public class AgregarEstudianteItemControlador {
     @FXML
     private void agregarEstudiante () {
         ColaboracionAuxiliar colaboracionAuxiliar = new ColaboracionAuxiliar();
-        int filasAfectadas = 0;
+        int filasAfectadas;
 
         try {
             filasAfectadas = colaboracionAuxiliar.agregarEstudianteAColaboracion(this.colaboracion,this.estudiante);
         }
         catch (ErrorDAO error) {
             mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
+            filasAfectadas = -1;
         }
 
-        if (filasAfectadas == 1) {
+        if (filasAfectadas > 0) {
             mostrarMensajeEmergente("Se ha agregado el estudiante a la colaboración", Alert.AlertType.INFORMATION);
             this.agregarEstudianteControlador.cargarConsultaGeneral();
         }
-        else {
+        else if (filasAfectadas == 0){
             mostrarMensajeEmergente("Algo salió mal. Inténtelo de nuevo más tarde", Alert.AlertType.WARNING);
         }
     }

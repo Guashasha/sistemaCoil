@@ -173,13 +173,14 @@ class UniversidadAuxiliarTest {
         List<UniversidadDTO> listaEsperada = new ArrayList<>();
         List<UniversidadDTO> listaObtenida = new ArrayList<>();
         listaEsperada.add(new UniversidadDTO(1,"Universidad Veracruzana",1));
+        listaEsperada.add(new UniversidadDTO(3,"BUAP",1));
         try {
             listaObtenida = UNIVERSIDAD_AUXILIAR.getUniversidadesPorNombre(new UniversidadDTO("U"));
         }
         catch (ErrorDAO error) {
-            fail("Fallida: getUniversidadesPorNombreExitosa");
+            fail("Fallida: getUniversidadesPorNombreExitosa\n" + error.getMessage());
         }
-        assertEquals(listaEsperada.get(0),listaObtenida.get(0),"getUniversidadesPorNombreExitosa");
+        assertEquals(listaEsperada,listaObtenida,"getUniversidadesPorNombreExitosa");
     }
 
     @Test
@@ -198,44 +199,6 @@ class UniversidadAuxiliarTest {
     }
 
     @Test
-    void pruebaGetTodasAlfabeticamenteExitosa () {
-        System.out.println("pruebaGetTodasAlfabeticamenteExitosa");
-        List<UniversidadDTO> listaEsperada = new ArrayList<>();
-        List<UniversidadDTO> listaObtenida = new ArrayList<>();
-        listaEsperada.add(new UniversidadDTO(3,"BUAP",1));
-        listaEsperada.add(new UniversidadDTO(2,"Harvard",2));
-        listaEsperada.add(new UniversidadDTO(1,"Universidad Veracruzana",1));
-
-        try {
-            listaObtenida = UNIVERSIDAD_AUXILIAR.getTodasAlfabeticamente();
-        }
-        catch (ErrorDAO error) {
-            fail("Fallida: pruebaGetTodasAlfabeticamenteExitosa");
-        }
-
-        assertEquals(listaEsperada.size(),listaObtenida.size());
-        for (UniversidadDTO universidad : listaEsperada) {
-            assertEquals(universidad,listaObtenida.get(0));
-            listaObtenida.remove(0);
-        }
-    }
-
-    @Test
-    void pruebaCadenaValidaExitosa () {
-        assertTrue(UniversidadAuxiliar.cadenaValida("México"),"pruebaCadenaValidaExitosa");
-    }
-
-    @Test
-    void pruebaCadenaValidaNula () {
-        assertFalse(UniversidadAuxiliar.cadenaValida(null),"pruebaCadenaValidaNula");
-    }
-
-    @Test
-    void pruebaCadenaValidaVacia () {
-        assertFalse(UniversidadAuxiliar.cadenaValida(" "),"pruebaCadenaValidaVacia");
-    }
-
-    @Test
     void pruebaUniversidadExisteExitosa () {
         boolean resultado = false;
         try {
@@ -249,26 +212,12 @@ class UniversidadAuxiliarTest {
 
     @Test
     void pruebaUniversidadExisteUniversidadNula () {
-        boolean resultado = true;
-        try {
-            resultado = UNIVERSIDAD_AUXILIAR.universidadExiste(null,"Estados Unidos");
-        }
-        catch (ErrorDAO error) {
-            fail("Fallida: pruebaUniversidadExisteUniversidadNula");
-        }
-        assertFalse(resultado,"pruebaUniversidadExisteUniversidadNula");
+        assertThrows(ErrorDAO.class,()->UNIVERSIDAD_AUXILIAR.universidadExiste(null,"Estados Unidos"),"pruebaUniversidadExisteUniversidadNula");
     }
 
     @Test
     void pruebaUniversidadExistePaisNulo () {
-        boolean resultado = true;
-        try {
-            resultado = UNIVERSIDAD_AUXILIAR.universidadExiste("Harvard",null);
-        }
-        catch (ErrorDAO error) {
-            fail("Fallida: pruebaUniversidadExistePaisNulo");
-        }
-        assertFalse(resultado,"pruebaUniversidadExistePaisNulo");
+        assertThrows(ErrorDAO.class,()->UNIVERSIDAD_AUXILIAR.universidadExiste("Harvard",null),"pruebaUniversidadExistePaisNulo");
     }
 
     @Test

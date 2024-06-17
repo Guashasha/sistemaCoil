@@ -3,38 +3,14 @@ package DAO;
 import DTO.PaisDTO;
 import DTO.UniversidadDTO;
 import Utilidades.ErrorDAO;
-import org.apache.log4j.Logger;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * La clase UniversidadAuxiliar funciona como intermediario entre el cliente y las clases DAO. Procesa y valida la información
- * antes de mandarla o después de recibirla de las clases DAO.
- * @author pale
- */
 public class UniversidadAuxiliar {
-    /**
-     * Instancia del logger para registrar las excepciones que se pueden atrapar en las funciones de la clase.
-     */
-    private final static Logger BITACORA = Logger.getLogger(UniversidadAuxiliar.class);
-    /**
-     *Instancia de la clase UniversidadDAO que se utiliza en los métodos de la clase.
-     */
     private final UniversidadDAO UNIVERSIDAD_DAO = new UniversidadDAO();
-    /**
-     *Instancia de la clase PaisDAO que se utiliza en los métodos de la clase.
-     */
     private final PaisDAO PAIS_DAO = new PaisDAO();
 
-    /**
-     * Valida la información para registrar una universidad con la clase UniversidadDAO.
-     * @param universidad universidad a registrar, inicializada con su nombre.
-     * @param pais pais de la universidad a registrar, inicializado con su nombre.
-     * @return número de filas afectadas por la sentencia SQL.
-     * @throws ErrorDAO si ocurre un error en la validación de la información o durante el acceso a la base de datos.
-     */
     public int registrarUniversidad (UniversidadDTO universidad, PaisDTO pais) throws ErrorDAO {
         if (esNulo(universidad) || esNulo(pais)) {
             throw new ErrorDAO("Algo salió mal, inténtelo de nuevo más tarde", ErrorDAO.Tipo.VALIDACION);
@@ -43,21 +19,15 @@ public class UniversidadAuxiliar {
 
         if (universidad.nombreValido() && pais.nombreValido()) {
             String nombreUniversidad = universidad.getNombre()
-                    .trim();
+                                                  .trim();
             String nombrePais = pais.getNombre()
-                    .trim();
+                                    .trim();
 
-            if (universidadExiste(nombreUniversidad,nombrePais)) {
+            if (universidadExiste(nombreUniversidad, nombrePais)) {
                 throw new ErrorDAO("La universidad que intentas registrar ya ha sido registrada anteriormente", ErrorDAO.Tipo.DUPLICIDAD);
             }
             else {
-                try {
-                    filasAfectadas = UNIVERSIDAD_DAO.registrarUniversidad(prepararUniversidadNueva(nombreUniversidad,nombrePais));
-                }
-                catch (SQLException error) {
-                    BITACORA.info(error.getMessage());
-                    throw new ErrorDAO("Error al establecer conexión con la base de datos", ErrorDAO.Tipo.CONEXION);
-                }
+                filasAfectadas = UNIVERSIDAD_DAO.registrarUniversidad(prepararUniversidadNueva(nombreUniversidad, nombrePais));
             }
         }
         else {
@@ -67,14 +37,6 @@ public class UniversidadAuxiliar {
         return filasAfectadas;
     }
 
-    /**
-     *Valida la información para editar una universidad existente con la clase UniversidadDAO
-     * @param universidadActual Contiene  de la universidad que se quiere editar.
-     * @param nuevaUniversidad contiene los datos editados de la universidad.
-     * @param nuevoPais Contiene el nombre del país de la universidad editada.
-     * @return numero de las filas afectadas por la sentencia SQL.
-     * @throws ErrorDAO si ocurre un error en la validación de la información o durante el acceso a la base de datos.
-     */
     public int editarUniversidad (UniversidadDTO universidadActual, UniversidadDTO nuevaUniversidad, PaisDTO nuevoPais) throws ErrorDAO {
         if (esNulo(universidadActual) || esNulo(nuevaUniversidad) || esNulo(nuevoPais)) {
             throw new ErrorDAO("Algo salió mal, inténtelo de nuevo más tarde", ErrorDAO.Tipo.VALIDACION);
@@ -83,23 +45,17 @@ public class UniversidadAuxiliar {
 
         if (universidadActual.nombreValido() && nuevaUniversidad.nombreValido() && nuevoPais.nombreValido()) {
             String nombreActual = universidadActual.getNombre()
-                    .trim();
+                                                   .trim();
             String nuevoNombre = nuevaUniversidad.getNombre()
-                    .trim();
+                                                 .trim();
             String nombreNuevoPais = nuevoPais.getNombre()
-                    .trim();
+                                              .trim();
 
-            if (universidadExiste(nuevoNombre,nombreNuevoPais)) {
+            if (universidadExiste(nuevoNombre, nombreNuevoPais)) {
                 throw new ErrorDAO("La institución " + nuevoNombre + " ya existe", ErrorDAO.Tipo.DUPLICIDAD);
             }
             else {
-                try {
-                    filasAfectadas = UNIVERSIDAD_DAO.editarUniversidad(prepararUniversidadEditada(nombreActual,nuevoNombre,nombreNuevoPais));
-                }
-                catch (SQLException error) {
-                    BITACORA.info(error.getMessage());
-                    throw new ErrorDAO("Error al establecer conexión con la base de datos", ErrorDAO.Tipo.CONEXION);
-                }
+                filasAfectadas = UNIVERSIDAD_DAO.editarUniversidad(prepararUniversidadEditada(nombreActual, nuevoNombre, nombreNuevoPais));
             }
         }
         else {
@@ -109,56 +65,27 @@ public class UniversidadAuxiliar {
         return filasAfectadas;
     }
 
-    /**
-     *Valida la información para obtener una universidad de acuerdo a su nombre, con la clase UniversidadDAO.
-     * @param nombre nombre de la universidad a consulta
-     * @return Objeto Optional con una universidad inicializada con su id, nombre e id de país; o un objeto Optional vacío si no se encuentran resultados.
-     * @throws ErrorDAO si ocurre un error en la validación de la información o durante el acceso a la base de datos.
-     */
     public Optional<UniversidadDTO> getUniversidadPorNombre (String nombre) throws ErrorDAO {
         Optional<UniversidadDTO> universidad;
         UniversidadDTO universidadABuscar = new UniversidadDTO(nombre);
         if (universidadABuscar.nombreValido()) {
-            try {
-                universidad = UNIVERSIDAD_DAO.getUniversidadPorNombre(nombre.trim());
-            }
-            catch (SQLException error) {
-                BITACORA.fatal(error.getMessage());
-                throw new ErrorDAO("Error al establecer conexión con la base de datos", ErrorDAO.Tipo.CONSULTA);
-            }
+            universidad = UNIVERSIDAD_DAO.getUniversidadPorNombre(nombre.trim());
         }
         else {
-            throw new ErrorDAO("Nombre vacío", ErrorDAO.Tipo.VALIDACION);
+            throw new ErrorDAO("Los nombres no pueden contener caracteres especiales.\nSolo son válidas letras del alfabeto en español y guiones en el medio", ErrorDAO.Tipo.VALIDACION);
         }
         return universidad;
     }
 
-    /**
-     * Valida la información para obtener una universidad de acuerdo a su país asociado, con la clase UniversidadDAO.
-     * @param paisOrigen nombre del país al que pertenece la universidad.
-     * @return Objeto Optional con una universidad inicializada con su id, nombre e id de país; o un objeto Optional vacío si no se encuentran resultados.
-     * @throws ErrorDAO si ocurre un error en la validación de la información o durante el acceso a la base de datos.
-     */
-    public List<UniversidadDTO> getUniversidadesPorPaisOrigen (String paisOrigen) throws ErrorDAO {
+    public List<UniversidadDTO> getUniversidadesPorPaisOrigen (String pais) throws ErrorDAO {
         List<UniversidadDTO> listaUniversidades = new ArrayList<>();
-        if (cadenaValida(paisOrigen)) {
-            try {
-                listaUniversidades = UNIVERSIDAD_DAO.getUniversidadesPorPaisOrigen(paisOrigen.trim());
-            }
-            catch (SQLException error) {
-                BITACORA.fatal(error.getMessage());
-                throw new ErrorDAO("Error al establecer conexión con la base de datos", ErrorDAO.Tipo.CONEXION);
-            }
+        PaisDTO paisOrigen = new PaisDTO(pais);
+        if (paisOrigen.nombreValido()) {
+            listaUniversidades = UNIVERSIDAD_DAO.getUniversidadesPorPaisOrigen(pais.trim());
         }
         return listaUniversidades;
     }
 
-    /**
-     * Valida la información para obtener la lista de universidades que tienen el nombre coincidente con una cadena determinada.
-     * @param universidad universidad inicializada con el nombre que se desea usar como coincidencia.
-     * @return lista con las universidades coincidentes con la cadena especificada o una lista vacía si no se encuentran resultados.
-     * @throws ErrorDAO
-     */
     public List<UniversidadDTO> getUniversidadesPorNombre (UniversidadDTO universidad) throws ErrorDAO {
         if (esNulo(universidad)) {
             throw new ErrorDAO("Algo salió mal, inténtelo de nuevo más tarde", ErrorDAO.Tipo.VALIDACION);
@@ -166,48 +93,20 @@ public class UniversidadAuxiliar {
         List<UniversidadDTO> listaUniversidades;
 
         if (universidad.nombreValido()) {
-            String nombre = universidad.getNombre().
-                    trim();
-            try{
-                listaUniversidades = UNIVERSIDAD_DAO.getUniversidadesPorNombre(nombre);
-            }
-            catch (SQLException error) {
-                BITACORA.info(error.getMessage());
-                throw new ErrorDAO("Error al establecer conexión con la base de datos", ErrorDAO.Tipo.CONEXION);
-            }
+            listaUniversidades = UNIVERSIDAD_DAO.getUniversidadesPorNombre(universidad.getNombre()
+                                                                                      .trim());
         }
         else {
-            throw new ErrorDAO("Campos vacíos", ErrorDAO.Tipo.VALIDACION);
+            throw new ErrorDAO("Los nombres no pueden contener caracteres especiales.\nSolo son válidas letras del alfabeto en español y guiones en el medio", ErrorDAO.Tipo.VALIDACION);
         }
 
         return listaUniversidades;
     }
 
-    /**
-     * 
-     * @return
-     * @throws ErrorDAO
-     */
-    public List<UniversidadDTO> getTodasAlfabeticamente () throws ErrorDAO {
-        try {
-            return UNIVERSIDAD_DAO.getTodasAlfabeticamente();
-        }
-        catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
-            throw new ErrorDAO("Error al establecer conexión con la base de datos", ErrorDAO.Tipo.CONEXION);
-        }
-    }
-
     public Optional<UniversidadDTO> getUniversidadPorId (int id) throws ErrorDAO {
         Optional<UniversidadDTO> universidad;
         if (id > 0) {
-            try {
-                universidad = UNIVERSIDAD_DAO.getUniversidadPorId(id);
-            }
-            catch (SQLException error) {
-                BITACORA.info(error.getMessage());
-                throw new ErrorDAO("Error de conexión con la base de datos", ErrorDAO.Tipo.CONSULTA);
-            }
+            universidad = UNIVERSIDAD_DAO.getUniversidadPorId(id);
         }
         else {
             throw new ErrorDAO("ID inválido", ErrorDAO.Tipo.VALIDACION);
@@ -217,46 +116,33 @@ public class UniversidadAuxiliar {
 
     public boolean universidadExiste (String universidad, String pais) throws ErrorDAO {
         boolean existe = false;
-        Optional<UniversidadDTO> universidadDTO;
+        UniversidadDTO universidadABuscar = new UniversidadDTO(universidad);
+        PaisDTO paisOrigen = new PaisDTO(pais);
 
-        try {
-            universidadDTO = UNIVERSIDAD_DAO.getUniversidadPorNombreYPais(universidad,pais);
-        }
-        catch (SQLException error) {
-            BITACORA.info(error.getMessage());
-            throw new ErrorDAO("Error al establecer conexión con la base de datos", ErrorDAO.Tipo.CONEXION);
-        }
+        if (universidadABuscar.nombreValido() && paisOrigen.nombreValido()) {
+            Optional<UniversidadDTO> universidadDTO = UNIVERSIDAD_DAO.getUniversidadPorNombreYPais(universidad, pais);
 
-        if (universidadDTO.isPresent()) {
-            existe = true;
+            if (universidadDTO.isPresent()) {
+                existe = true;
+            }
+        }
+        else {
+            throw new ErrorDAO("Los nombres no pueden estar vacíos ni contener caracteres especiales.\nSolo son válidas letras del alfabeto en español y guiones en el medio", ErrorDAO.Tipo.VALIDACION);
         }
 
         return existe;
     }
 
-    public static boolean esNulo (Object objeto) {
+    private static boolean esNulo (Object objeto) {
         return objeto == null;
-    }
-
-    public static boolean cadenaValida (String cadena) {
-        return !esNulo(cadena) && !cadena.isBlank();
     }
 
     private UniversidadDTO prepararUniversidadEditada (String nombreActual, String nuevoNombre, String nombreNuevoPais) throws ErrorDAO {
         UniversidadDTO universidadEditada;
-        Optional<UniversidadDTO> universidadActualOptional;
-        Optional<PaisDTO> paisNuevoOptional;
+        Optional<UniversidadDTO> universidadActualOptional = UNIVERSIDAD_DAO.getUniversidadPorNombre(nombreActual);
+        Optional<PaisDTO> paisNuevoOptional = PAIS_DAO.getPaisPorNombre(nombreNuevoPais);
 
-        try {
-            universidadActualOptional = UNIVERSIDAD_DAO.getUniversidadPorNombre(nombreActual);
-            paisNuevoOptional = PAIS_DAO.getPaisPorNombre(nombreNuevoPais);
-        }
-        catch (SQLException error) {
-            BITACORA.info(error.getMessage());
-            throw new ErrorDAO("Error al establecer conexión con la base de datos", ErrorDAO.Tipo.CONEXION);
-        }
-
-        if (universidadActualOptional.isPresent() && paisNuevoOptional.isPresent()){
+        if (universidadActualOptional.isPresent() && paisNuevoOptional.isPresent()) {
             PaisDTO paisOrigen = paisNuevoOptional.get();
             universidadEditada = universidadActualOptional.get();
             universidadEditada.setNombre(nuevoNombre);
@@ -269,24 +155,9 @@ public class UniversidadAuxiliar {
         return universidadEditada;
     }
 
-    /**
-     * Crea una universidad con su nombre e id de país.
-     * @param nombre Nombre de la universidad.
-     * @param pais Nombre del país al que se quiere asociar la universidad.
-     * @return Universidad inicializada con su nombre e id de país.
-     * @throws ErrorDAO si ocurre un error en la búsqueda de la información o durante el acceso a la base de datos.
-     */
     private UniversidadDTO prepararUniversidadNueva (String nombre, String pais) throws ErrorDAO {
         UniversidadDTO nuevaUniversidad;
-        Optional<PaisDTO> paisOptional;
-
-        try {
-            paisOptional = PAIS_DAO.getPaisPorNombre(pais);
-        }
-        catch (SQLException error) {
-            BITACORA.info(error.getMessage());
-            throw new ErrorDAO("Error al establecer conexión con la base de datos", ErrorDAO.Tipo.CONEXION);
-        }
+        Optional<PaisDTO> paisOptional = PAIS_DAO.getPaisPorNombre(pais);
 
         if (paisOptional.isPresent()) {
             PaisDTO paisOrigen = paisOptional.get();

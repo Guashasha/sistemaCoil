@@ -243,17 +243,17 @@ INSERT INTO pais VALUES(239, 'ZM', 'Zambia');
 INSERT INTO pais VALUES(240, 'ZW', 'Zimbabue');
 
 -- universidad veracruzana
-INSERT INTO universidad (nombre, paisOrigen) VALUES ("Universidad Veracruzana", 146);
+INSERT INTO universidad (iduniversidad,nombre, paisOrigen) VALUES (1,"Universidad Veracruzana", 146);
 
 -- registrar administrador
 CALL registrar_cuenta_administrador('Pale', 'Carrion Martinez', 1, 'crud', 'habitacionVuelo');
 
 -- regiones
-INSERT INTO region (nombre) VALUES ('Xalapa');
-INSERT INTO region (nombre) VALUES ('Veracruz');
-INSERT INTO region (nombre) VALUES ('Poza Rica-Tuxpan');
-INSERT INTO region (nombre) VALUES ('Orizaba-Córdoba');
-INSERT INTO region (nombre) VALUES ('Coatzacoalcos-Minatitlán');
+INSERT INTO region (idRegion,nombre) VALUES (1,'Xalapa');
+INSERT INTO region (idRegion,nombre) VALUES (2,'Veracruz');
+INSERT INTO region (idRegion,nombre) VALUES (3,'Poza Rica-Tuxpan');
+INSERT INTO region (idRegion,nombre) VALUES (4,'Orizaba-Córdoba');
+INSERT INTO region (idRegion,nombre) VALUES (5,'Coatzacoalcos-Minatitlán');
 
 -- facultades
 INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Contaduría y Administración', 1); -- Xalapa
@@ -262,6 +262,7 @@ INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Psicología', 1
 INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Ciencias Agrícolas', 1); -- Xalapa
 INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Artes', 1); -- Xalapa
 INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Economía', 1); -- Xalapa
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Estadística e informática', 1);
 
 INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Ingeniería', 2); -- Veracruz
 INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Medicina', 2); -- Veracruz
