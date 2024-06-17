@@ -134,11 +134,7 @@ public class EditarEstudianteControlador {
                                                        .trim();
         String nuevoApellidoMaterno = tfApellidoMaterno.getText()
                                                        .trim();
-        return nuevoNombre.equals(this.estudiante.getNombre()) && nuevoApeliidoPaterno.equals(this.estudiante.getApellidoPaterno()) && nuevoApellidoMaterno.equals(this.estudiante.getApellidoMaterno());
-                                                       .trim();
-        return nuevoNombre.equals(this.estudiante
-                                          .getNombre()) && nuevoApeliidoPaterno.equals(this.estudiante
-                                                                                               .getApellidos());
+        return nuevoNombre.equals(this.estudiante.getNombre()) && nuevoApeliidoPaterno.equals(this.estudiante.getApellidos());
     }
 
     private void etiquetarCamposVacios () {
