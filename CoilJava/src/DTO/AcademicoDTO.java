@@ -233,8 +233,10 @@ public class AcademicoDTO extends PersonaDTO {
             Matcher matcher = patron.matcher(numeroTelefonico);
             if (!matcher.matches()) {
                 throw new ErrorDAO("""
-                                           El numero telefónico no es válido
-                                           1. Su longitud debe ser de 11 a 13""", ErrorDAO.Tipo.VALIDACION);
+                                           El numero telefónico no es válido:
+                                           1. Su longitud debe ser de 11 a 13 números, sin espacios ni guiones.
+                                           2. Debe contener la lada de su país al inicio.
+                                           Ejemplo de número telefónico de México: 522283412789.""", ErrorDAO.Tipo.VALIDACION);
             }
         }
     }

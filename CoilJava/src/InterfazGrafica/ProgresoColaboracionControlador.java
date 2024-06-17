@@ -111,7 +111,6 @@ public class ProgresoColaboracionControlador {
         }
     }
 
-
     public void actualizarVisibilidadBotones () {
         ColaboracionDTO.EstadoColaboracion estado = this.colaboracionDTO.getEstado();
 
@@ -147,13 +146,9 @@ public class ProgresoColaboracionControlador {
                 dpFechaFin.setVisible(false);
                 break;
             default:
-                btnRetroalimentar.setVisible(false);
-                btnFinalizar.setVisible(true);
                 break;
         }
     }
-
-
 
     private void getAcademicoParPorColaboracion () {
         ColaboracionDAO colaboracionDAO = new ColaboracionDAO();
@@ -225,6 +220,7 @@ public class ProgresoColaboracionControlador {
                                             """, Alert.AlertType.WARNING);
             return false;
         }
+
         return true;
     }
 

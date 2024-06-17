@@ -19,8 +19,14 @@ public class FacultadDTO {
      */
     private int idRegion;
 
-    public FacultadDTO() {
+    public FacultadDTO() {}
 
+    /**
+     * Inicializa la facultad con su nombre.
+     * @param nombre Nombre de la facultda.
+     */
+    public FacultadDTO (String nombre) {
+        this.nombre = nombre;
     }
 
     /**
@@ -57,6 +63,14 @@ public class FacultadDTO {
 
     public void setIdRegion (int idRegion) {
         this.idRegion = idRegion;
+    }
+
+    /**
+     * Verifica que el nombre de la facultad esté inicializado.
+     * @return true si el nombre está inicializado y no es una cadena vacía, de otra manera false.
+     */
+    public boolean nombreValido () {
+        return this.nombre != null && !this.nombre.isBlank();
     }
 
     @Override

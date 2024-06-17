@@ -1,6 +1,7 @@
 package InterfazGrafica;
 
 import DAO.AcademicoDAO;
+import DAO.CuentaDAO;
 import DAO.FacultadDAO;
 import DAO.RegionAuxiliar;
 import DTO.*;
@@ -10,8 +11,10 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -108,7 +111,8 @@ public class CrearCuentaAcademicoControlador {
         }
 
         String nombre = tfNombre.getText();
-        String apellidos = tfApPaterno.getText();
+        String aPaterno = tfApPaterno.getText();
+        String aMaterno = tfApMaterno.getText();
         String correo = tfCorreo.getText();
         String telefono = tfTelefono.getText();
         String numeroPersonal = tfNumeroPersonal.getText();
@@ -145,7 +149,7 @@ public class CrearCuentaAcademicoControlador {
             if (facultad.isEmpty()) {
                 return null;
             }
-        } catch (SQLException e) {
+        } catch (ErrorDAO e) {
             Alert alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setHeaderText("Error al cargar los datos");
             alerta.setContentText("No se pudo recuperar la lista de facultades.");
@@ -202,7 +206,7 @@ public class CrearCuentaAcademicoControlador {
             for (FacultadDTO facultad : facultades) {
                 nombresFacultades.add(facultad.getNombre());
             }
-        } catch (SQLException e) {
+        } catch (ErrorDAO e) {
             Alert alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setHeaderText("Error al cargar los datos");
             alerta.setContentText("No se pudo recuperar la lista de facultades.");
@@ -213,7 +217,7 @@ public class CrearCuentaAcademicoControlador {
     }
 
     private void llenarComboBoxRegion() {
-        RegionAuxiliar dao = new RegionAuxiliar();
+        RegionDAO dao = new RegionDAO();
         ArrayList<String> regiones = new ArrayList<>();
 
         try {

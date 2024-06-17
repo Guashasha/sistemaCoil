@@ -26,9 +26,7 @@ public class UniversidadDTO {
      */
     public static final int LONGITUD_NOMBRE = 50;
 
-    public UniversidadDTO() {
-
-    }
+    public UniversidadDTO() {}
 
     /**
      * inicializa la universidad solamente con su id
@@ -102,7 +100,7 @@ public class UniversidadDTO {
             nombreValido = false;
         }
         else {
-            String expresionRegular = "^[A-Za-záéíóúÁÉÍÓÚñÑ][-A-Za-záéíóúÁÉÍÓÚñÑ\\s]*[A-Za-záéíóúÁÉÍÓÚñÑ]$";
+            String expresionRegular = "^[A-Za-záéíóúÁÉÍÓÚñÑ]([-A-Za-záéíóúÁÉÍÓÚñÑ\\s]*[A-Za-záéíóúÁÉÍÓÚñÑ])?$";
             Pattern patron = Pattern.compile(expresionRegular);
             Matcher matcher = patron.matcher(this.nombre.trim());
             nombreValido = matcher.matches();

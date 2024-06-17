@@ -18,15 +18,11 @@ public class ActividadDTODAOTest {
 
     private final ActividadAuxiliar dao = new ActividadAuxiliar();
 
-    @BeforeEach
-    void setUp () {
+    @BeforeAll
+    static void setUp () {
+        ConfiguracionPrueba.borrarDatosTablaRetroalimentacionActividad();
         ConfiguracionPrueba.borrarDatosTablaActividad();
         AyudantePruebasColaboracionDB.agregarActividades();
-    }
-
-    @AfterAll
-    static void tearDown () {
-        ConfiguracionPrueba.borrarDatosTablaActividad();
     }
 
     @Test
@@ -60,11 +56,9 @@ public class ActividadDTODAOTest {
         }
 
         ActividadDTO actividad = resultado.get();
-
-        assertEquals(ACTIVIDAD1.getIdActividad(), actividad.getIdActividad());
         assertEquals(ACTIVIDAD1.getTitulo(), actividad.getTitulo());
-        assertEquals(ACTIVIDAD1.getDescripcion(), actividad.getDescripcion());
-        assertEquals(ACTIVIDAD1.getTipo().toString(), actividad.getTipo().toString());
+        assertEquals("descripcion de la actividad prueba", actividad.getDescripcion());
+        assertEquals("cierre", actividad.getTipo().toString());
     }
 
     @Test

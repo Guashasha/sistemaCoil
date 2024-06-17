@@ -2,7 +2,6 @@ package AccesoDatos;
 
 import Utilidades.ErrorDAO;
 import org.apache.log4j.Logger;
-
 import java.io.*;
 import java.sql.*;
 import java.util.Properties;

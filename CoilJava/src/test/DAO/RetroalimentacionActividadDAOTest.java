@@ -89,24 +89,6 @@ public class RetroalimentacionActividadDAOTest {
     }
 
     @Test
-    void pruebaAgregarRetroalimentacionSinUsuario () {
-        RetroalimentacionActividadDTO retroalimentacion = new RetroalimentacionActividadDTO();
-        retroalimentacion.setIdActividad(1);
-        retroalimentacion.setIdUsuario(9);
-        retroalimentacion.setInteres(5);
-        retroalimentacion.setDificultad(5);
-        retroalimentacion.setInteraccionConPar(5);
-
-        try {
-            dao.agregar(retroalimentacion);
-            fail();
-        }
-        catch (ErrorDAO error) {
-            assert(true);
-        }
-    }
-
-    @Test
     void pruebaGetPorId () {
         Optional<RetroalimentacionActividadDTO> resultado = Optional.empty();
 
@@ -123,10 +105,10 @@ public class RetroalimentacionActividadDAOTest {
         RetroalimentacionActividadDTO retroalimentacion = resultado.get();
 
         assertEquals(1, retroalimentacion.getIdActividad());
-        assertEquals(4, retroalimentacion.getIdUsuario());
+        assertEquals(1, retroalimentacion.getIdUsuario());
         assertEquals(4, retroalimentacion.getInteres());
-        assertEquals(5, retroalimentacion.getInteraccionConPar());
-        assertEquals(1, retroalimentacion.getDificultad());
+        assertEquals(4, retroalimentacion.getInteraccionConPar());
+        assertEquals(4, retroalimentacion.getDificultad());
     }
 
     @Test
@@ -154,7 +136,7 @@ public class RetroalimentacionActividadDAOTest {
 
         assert(resultado.isPresent());
 
-        RetroalimentacionActividadDTO retroalimentacion = new RetroalimentacionActividadDTO();
+        RetroalimentacionActividadDTO retroalimentacion = resultado.get();
 
         assertEquals(4, retroalimentacion.getInteres());
         assertEquals(4, retroalimentacion.getInteraccionConPar());

@@ -2,11 +2,11 @@ package test.DAO;
 
 import DAO.PaisDAO;
 import DTO.PaisDTO;
+import Utilidades.ErrorDAO;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import test.ConfiguracionPrueba;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,7 +28,6 @@ class PaisDAOTest {
 
     @Test
     void pruebaPaisesAlfabeticamenteExitosa () {
-        System.out.println("pruebaPaisesAlfabeticamenteExitosa");
         List<PaisDTO> listaEsperada = new ArrayList<>();
         List<PaisDTO> listaObtenida = new ArrayList<>();
         listaEsperada.add(new PaisDTO(3,"BR","Brasil"));
@@ -38,17 +37,11 @@ class PaisDAOTest {
         try {
             listaObtenida = PAIS_DAO.getPaisesAlfabeticamente();
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaPaisesAlfabeticamenteExitosa");
         }
 
-        assertEquals(listaEsperada.size(),listaObtenida.size());
-        while (!listaEsperada.isEmpty()){
-            PaisDTO esperado = listaEsperada.get(0);
-            assert(esperado.equals(listaObtenida.get(0)));
-            listaEsperada.remove(0);
-            listaObtenida.remove(0);
-        }
+        assertEquals(listaEsperada,listaObtenida,"pruebaPaisesAlfabeticamenteExitosa");
     }
 
     @Test
@@ -58,7 +51,7 @@ class PaisDAOTest {
         try {
             paisObtenidoOptional = PAIS_DAO.getPaisPorNombre(esperado.getNombre());
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetPaisPorNombreExitosa");
         }
         assertTrue(paisObtenidoOptional.isPresent());
@@ -71,7 +64,7 @@ class PaisDAOTest {
             Optional<PaisDTO> obtenido = PAIS_DAO.getPaisPorNombre("Argentina");
             assertTrue(obtenido.isEmpty(),"pruebaGetPaisPorNombreInexistente");
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetPaisPorNombreExitosa");
         }
     }
@@ -82,7 +75,7 @@ class PaisDAOTest {
             Optional<PaisDTO> obtenido = PAIS_DAO.getPaisPorNombre(null);
             assertTrue(obtenido.isEmpty(),"pruebaGetPaisPorNombreNulo");
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetPaisPorNombreNulo");
         }
     }
@@ -94,7 +87,7 @@ class PaisDAOTest {
         try {
             obtenidoOptional = PAIS_DAO.getPaisPorId(esperado.getId());
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetPaisPorIdExitosa");
         }
         assertTrue(obtenidoOptional.isPresent());
@@ -107,7 +100,7 @@ class PaisDAOTest {
             Optional<PaisDTO> obtenido = PAIS_DAO.getPaisPorId(0);
             assertTrue(obtenido.isEmpty(),"pruebaGetPaisPorIdInexistente");
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetPaisPorIdInexistente");
         }
     }

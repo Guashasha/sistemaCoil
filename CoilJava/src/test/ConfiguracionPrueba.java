@@ -24,7 +24,7 @@ public class ConfiguracionPrueba {
         ejecutarInstruccionSQL("ALTER TABLE universidad AUTO_INCREMENT = 0;");
     }
     public static void borrarDatosTablaAcademicoDesarrolla () {
-        ejecutarInstruccionSQL("DELETE FROM academicodesarrolla;");
+        ejecutarInstruccionSQL("DELETE FROM academicoDesarrolla;");
     }
     public static void borrarDatosTablaActividad () {
         ejecutarInstruccionSQL("DELETE FROM actividad;");
@@ -87,7 +87,7 @@ public class ConfiguracionPrueba {
 
     public static void ejecutarInstruccionSQL (String instruccionSQL) {
         try {
-            String urlBaseDatos = "jdbc:mariadb://localhost:3306/COIL";
+            String urlBaseDatos = "jdbc:mariadb://localhost:3307/COIL";
             String usuario = "CarrionMartinezPale";
             String contrasena = "cremaxx";
 

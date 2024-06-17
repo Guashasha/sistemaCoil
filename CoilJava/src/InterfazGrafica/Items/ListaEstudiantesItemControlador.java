@@ -99,21 +99,22 @@ public class ListaEstudiantesItemControlador {
 
     private void retirarEstudianteDeColaboracion () {
         ColaboracionAuxiliar colaboracionAuxiliar = new ColaboracionAuxiliar();
-        int filasAfectadas = 0;
+        int filasAfectadas;
 
         try {
             filasAfectadas = colaboracionAuxiliar.retirarEstudianteDeColaboracion(this.colaboracion,this.estudiante);
         }
         catch (ErrorDAO error) {
             mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
+            filasAfectadas = -1;
         }
 
-        if (filasAfectadas == 1) {
+        if (filasAfectadas > 0) {
             mostrarMensajeEmergente("Se ha retirado el estudiante de la colaboración", Alert.AlertType.INFORMATION);
             this.listaEstudiantesControlador
                     .cargarListaEstudiantes();
         }
-        else {
+        else if (filasAfectadas == 0) {
             mostrarMensajeEmergente("Algo salió mal al retirar el estudiante de la colaboración. Inténtelo de nuevo más tarde", Alert.AlertType.WARNING);
         }
     }
