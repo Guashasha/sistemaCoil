@@ -55,7 +55,7 @@ public class AgregarEstudianteControlador {
         this.academico = academico;
     }
 
-    public void setListaEstudiantesControlador(ListaEstudiantesControlador listaEstudiantesControlador) {
+    public void setListaEstudiantesControlador (ListaEstudiantesControlador listaEstudiantesControlador) {
         this.listaEstudiantesControlador = listaEstudiantesControlador;
     }
 
@@ -74,18 +74,15 @@ public class AgregarEstudianteControlador {
 
         if (pnRegistroEstudiante != null) {
             RegistroEstudianteControlador controlador = fxmlLoader.getController();
-            this.historialPaneles
-                    .push(this.pnAgregarEstudiante);
+            this.historialPaneles.push(this.pnAgregarEstudiante);
 
             try {
-                controlador.setRecursos(this.historialPaneles,this.pnVentanaPrincipal,this.academico
-                        .getIdUniversidad());
+                controlador.setRecursos(this.historialPaneles, this.pnVentanaPrincipal, this.academico.getIdUniversidad());
                 controlador.setAgregarEstudianteControlador(this);
-                this.pnVentanaPrincipal
-                        .setCenter(pnRegistroEstudiante);
+                this.pnVentanaPrincipal.setCenter(pnRegistroEstudiante);
             }
             catch (ErrorDAO error) {
-                mostrarMensajeEmergente(error.getMessage(),Alert.AlertType.ERROR);
+                mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
                 historialPaneles.pop();
             }
         }
@@ -97,13 +94,11 @@ public class AgregarEstudianteControlador {
     @FXML
     private void regresar () {
         this.listaEstudiantesControlador.cargarListaEstudiantes();
-        this.pnVentanaPrincipal
-                .setCenter(this.historialPaneles
-                        .pop());
+        this.pnVentanaPrincipal.setCenter(this.historialPaneles.pop());
     }
 
     @FXML
-    private void buscarEstudiante() {
+    private void buscarEstudiante () {
         String matricula = tfBarraBusqueda.getText();
 
         if (matricula != null && !matricula.isBlank()) {
@@ -111,7 +106,7 @@ public class AgregarEstudianteControlador {
             Optional<EstudianteDTO> estudianteOptional = Optional.empty();
 
             try {
-                estudianteOptional = estudianteAuxiliar.getEstudiantePorMatriculaYUniversidad(matricula,this.academico.getIdUniversidad());
+                estudianteOptional = estudianteAuxiliar.getEstudiantePorMatriculaYUniversidad(matricula, this.academico.getIdUniversidad());
             }
             catch (ErrorDAO error) {
                 mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
@@ -144,11 +139,11 @@ public class AgregarEstudianteControlador {
     private void mostrarConsulta (List<EstudianteDTO> listaEstudiantes) {
         llenarIdsEstudiantes();
 
-        this.vboxResultadosBusqueda.getChildren().clear();
+        this.vboxResultadosBusqueda.getChildren()
+                                   .clear();
 
         for (EstudianteDTO estudiante : listaEstudiantes) {
-            if (!this.idsEstudiantesEnColaboracion
-                    .contains(estudiante.getIdEstudiante())) {
+            if (!this.idsEstudiantesEnColaboracion.contains(estudiante.getIdEstudiante())) {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Items/AgregarEstudianteItem.fxml"));
                 HBox hboxFila;
 
@@ -167,14 +162,14 @@ public class AgregarEstudianteControlador {
                 }
 
                 this.vboxResultadosBusqueda
-                        .getChildren().add(hboxFila);
+                        .getChildren()
+                        .add(hboxFila);
             }
         }
     }
 
     private void agregarDatosFilaEstudiante (AgregarEstudianteItemControlador controlador, EstudianteDTO estudiante) throws ErrorDAO {
         UniversidadAuxiliar universidadAuxiliar = new UniversidadAuxiliar();
-
         Optional<UniversidadDTO> universidadOptional = universidadAuxiliar.getUniversidadPorId(estudiante.getIdUniversidad());
 
         if (universidadOptional.isPresent()) {
@@ -201,10 +196,8 @@ public class AgregarEstudianteControlador {
 
         if (listaEstudiantes != null) {
             for (EstudianteDTO estudiante : listaEstudiantes) {
-                if (estudiante.getIdUniversidad() == this.academico
-                        .getIdUniversidad()) {
-                    this.idsEstudiantesEnColaboracion
-                            .add(estudiante.getIdEstudiante());
+                if (estudiante.getIdUniversidad() == this.academico.getIdUniversidad()) {
+                    this.idsEstudiantesEnColaboracion.add(estudiante.getIdEstudiante());
                 }
             }
         }

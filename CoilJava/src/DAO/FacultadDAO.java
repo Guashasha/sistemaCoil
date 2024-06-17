@@ -14,6 +14,7 @@ import java.util.Optional;
 
 /**
  * La clase FacultadDAO se encarga de obtener información de las facultades en la base de datos y mandarlos a capas superiores mediante Transfer Objects.
+ *
  * @author pale
  */
 public class FacultadDAO implements IFacultadDAO {
@@ -24,6 +25,7 @@ public class FacultadDAO implements IFacultadDAO {
 
     /**
      * Obtiene una facultad que esté registrada con un nombre específico.
+     *
      * @param nombre Nombre de la facultad a buscar.
      * @return Objeto Optional con una facultad inicializada con su id, nombre e idRegion; o un objeto Optional vacío si no se encontraron resultados.
      * @throws ErrorDAO si ocurre un error de acceso a la base de datos.
@@ -37,7 +39,7 @@ public class FacultadDAO implements IFacultadDAO {
 
         try {
             ConsultaFacultad = AdministradorBaseDatos.getInstancia().
-                                                        prepareStatement(consultaSQL);
+                                                     prepareStatement(consultaSQL);
             ConsultaFacultad.setString(1, nombre);
             resultadoConsulta = ConsultaFacultad.executeQuery();
 
@@ -60,6 +62,7 @@ public class FacultadDAO implements IFacultadDAO {
 
     /**
      * Obtiene las facultades que están asociadas a una región específica.
+     *
      * @param region Nombre de la región con la cual se quieren buscar facultades.
      * @return Lista con las facultades pertenecientes a la región especificada.
      * @throws ErrorDAO si ocurre un error de acceso a la base de datos.
@@ -96,6 +99,7 @@ public class FacultadDAO implements IFacultadDAO {
 
     /**
      * Convierte un objeto ResultSet a un objeto FacultadDTO, para poder transferir los datos obtenidos de una consulta SQL.
+     *
      * @param resultado ResultSet que se obtuvo de una consulta SQL.
      * @return Facultad inicializada con su id, nombre y el id de la región a la que se asocia.
      * @throws SQLException si ocurre un error de acceso a la base de datos.

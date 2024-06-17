@@ -14,6 +14,7 @@ import java.util.Optional;
 
 /**
  * La clase UniversidadDAO se encarga de obtener o manipular información de las universidades en la base de datos y mandarlos a capas superiores mediante Transfer Objects.
+ *
  * @author pale
  */
 public class UniversidadDAO implements IUniversidadDAO {
@@ -24,6 +25,7 @@ public class UniversidadDAO implements IUniversidadDAO {
 
     /**
      * Registra una universidad en la base de datos.
+     *
      * @param universidad universidad a registrar, inicializada con nombre e id de pais
      * @return número de filas afectadas por la sentencia SQL.
      * @throws ErrorDAO si ocurre un error de acceso a la base de datos.
@@ -56,6 +58,7 @@ public class UniversidadDAO implements IUniversidadDAO {
 
     /**
      * Actualiza la información de una universidad contenida en la base de datos
+     *
      * @param universidad universidad inicializada con su id, nombre e id de pais
      * @return número de filas afectadas por la sentencia SQL
      * @throws ErrorDAO si ocurre un error de acceso a la base de datos.
@@ -89,6 +92,7 @@ public class UniversidadDAO implements IUniversidadDAO {
 
     /**
      * Obtiene la información de una universidad de acuerdo a su nombre.
+     *
      * @param nombre nombre de la universidad que se quiere buscar.
      * @return Objeto Optional con una universidad inicializada con su id, nombre e id de país; o un objeto Optional vacío si no se encuentran resultados.
      * @throws ErrorDAO si ocurre un error de acceso a la base de datos.
@@ -125,6 +129,7 @@ public class UniversidadDAO implements IUniversidadDAO {
 
     /**
      * Obtiene una lista de las universidades que pertenecen a un pais determinado.
+     *
      * @param paisOrigen nombre del país.
      * @return Lista con las universidades pertenecientes al pais especificado o una lista vacía si no se encuentran resultados.
      * @throws ErrorDAO si ocurre un error de acceso a la base de datos.
@@ -161,6 +166,7 @@ public class UniversidadDAO implements IUniversidadDAO {
 
     /**
      * Obtiene la lista de universidades que tienen el nombre coincidente con una cadena determinada.
+     *
      * @param nombre cadena coincidente en el nombre.
      * @return lista con las universidades coincidentes con la cadena especificada o una lista vacía si no se encuentran resultados.
      * @throws ErrorDAO si ocurre un error de acceso a la base de datos.
@@ -197,6 +203,7 @@ public class UniversidadDAO implements IUniversidadDAO {
 
     /**
      * Obtiene una lista de todas las universidades que se encuentran en la base de datos, ordenadas de manera alfabética de acuerdo a su nombre.
+     *
      * @return Lista de universidades ordenada de manera alfabética o una lista vacía si no se encuentran resultados.
      * @throws ErrorDAO si ocurre un error de acceso a la base de datos.
      */
@@ -231,8 +238,9 @@ public class UniversidadDAO implements IUniversidadDAO {
 
     /**
      * Obtiene una universidad que contenga un nombre y un país específico.
+     *
      * @param nombre Nombre de la universidad.
-     * @param pais Nombre del país al que pertenece la universidad.
+     * @param pais   Nombre del país al que pertenece la universidad.
      * @return Objeto Optional con una universidad inicializada con su id, nombre e id de país; o un objeto Optional vacío si no se encuentran resultados.
      * @throws ErrorDAO si ocurre un error de acceso a la base de datos.
      */
@@ -245,7 +253,7 @@ public class UniversidadDAO implements IUniversidadDAO {
 
         try {
             consultaUniversidades = AdministradorBaseDatos.getInstancia().
-                                                        prepareStatement(consultaSQL);
+                                                          prepareStatement(consultaSQL);
             consultaUniversidades.setString(1, nombre);
             consultaUniversidades.setString(2, pais);
             resultadoConsulta = consultaUniversidades.executeQuery();
@@ -269,6 +277,7 @@ public class UniversidadDAO implements IUniversidadDAO {
 
     /**
      * Obtiene una universidad que esté registrada con un id específico.
+     *
      * @param id id de la universidad que se quiere obtener.
      * @return Objeto Optional con una universidad inicializada con su id, nombre e id de país; o un objeto Optional vacío si no se encuentran resultados.
      * @throws ErrorDAO si ocurre un error de acceso a la base de datos.
@@ -305,6 +314,7 @@ public class UniversidadDAO implements IUniversidadDAO {
 
     /**
      * Convierte un objeto ResultSet a un objeto UniversidadDTO, para poder transferir los datos obtenidos de una consulta SQL.
+     *
      * @param resultado ResultSet que se obtuvo de una consulta SQL.
      * @return Universidad inicializada con su id, nombre e id de país.
      * @throws SQLException si ocurre un error de acceso a la base de datos.
