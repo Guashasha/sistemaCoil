@@ -261,7 +261,7 @@ public class RetroalimentacionActividadTest {
             fail(error.getMessage());
         }
 
-        assertEquals(1, retroalimentaciones.size());
+        assertEquals(2, retroalimentaciones.size());
 
         RetroalimentacionActividadDTO retroalimentacion = new RetroalimentacionActividadDTO();
         retroalimentacion.setDificultad(5);

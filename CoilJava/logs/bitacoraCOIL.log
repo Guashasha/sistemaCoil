@@ -226,3 +226,96 @@ Conctacte a un técnico
 2024-06-10 09:37:48 FATAL AcademicoDAO:184 - (conn=10) Data too long for column 'p_numeroTelefono' at row 2
 2024-06-10 09:37:48 ERROR VerificadorBitacora:184 - Error al verificar la conexión a internet PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
 2024-06-10 09:39:08 ERROR GestionCuentaControlador:182 - PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
+2024-06-10 11:19:10 FATAL AdministradorBaseDatos:30 - java.sql.SQLException: Host '192.168.125.31' is not allowed to connect to this MariaDB server
+2024-06-16 14:25:33 FATAL ConfiguracionPrueba:90 - (conn=12) Duplicate entry '2' for key 'PRIMARY'
+2024-06-16 14:25:39 FATAL ConfiguracionPrueba:90 - (conn=16) Duplicate entry '1' for key 'PRIMARY'
+2024-06-16 14:25:41 FATAL ConfiguracionPrueba:90 - (conn=18) Duplicate entry '2' for key 'PRIMARY'
+2024-06-16 14:25:43 FATAL ConfiguracionPrueba:90 - (conn=28) Table 'COIL.academicodesarrolla' doesn't exist
+2024-06-16 14:26:15 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.125.31)(port=3306)(type=primary). Connect timed out
+2024-06-16 14:26:17 ERROR RetroalimentacionActividadDTO:33 - Utilidades.ErrorDAO: No fue posible realizar la conexion con la base de datos.
+Conctacte a un técnico
+2024-06-16 14:28:56 FATAL ConfiguracionPrueba:90 - (conn=42) Duplicate entry '2' for key 'PRIMARY'
+2024-06-16 14:29:00 FATAL ConfiguracionPrueba:90 - (conn=46) Duplicate entry '1' for key 'PRIMARY'
+2024-06-16 14:29:03 FATAL ConfiguracionPrueba:90 - (conn=47) Duplicate entry '123' for key 'PRIMARY'
+2024-06-16 14:29:04 FATAL ConfiguracionPrueba:90 - (conn=48) Duplicate entry '2' for key 'PRIMARY'
+2024-06-16 14:29:06 FATAL ConfiguracionPrueba:90 - (conn=49) Duplicate entry '200011' for key 'PRIMARY'
+2024-06-16 14:29:08 FATAL ConfiguracionPrueba:90 - (conn=50) Duplicate entry '3' for key 'PRIMARY'
+2024-06-16 14:29:09 FATAL ConfiguracionPrueba:90 - (conn=51) Duplicate entry '102939' for key 'PRIMARY'
+2024-06-16 14:29:11 FATAL ConfiguracionPrueba:90 - (conn=52) Duplicate entry '4' for key 'PRIMARY'
+2024-06-16 14:29:12 FATAL ConfiguracionPrueba:90 - (conn=53) Duplicate entry '1-4' for key 'PRIMARY'
+2024-06-16 14:29:14 FATAL ConfiguracionPrueba:90 - (conn=54) Duplicate entry '5' for key 'PRIMARY'
+2024-06-16 14:29:15 FATAL ConfiguracionPrueba:90 - (conn=55) Duplicate entry '2-5' for key 'PRIMARY'
+2024-06-16 14:29:17 FATAL ConfiguracionPrueba:90 - (conn=56) Duplicate entry '1' for key 'PRIMARY'
+2024-06-16 14:29:18 FATAL ConfiguracionPrueba:90 - (conn=57) Duplicate entry '2' for key 'PRIMARY'
+2024-06-16 14:29:20 FATAL ConfiguracionPrueba:90 - (conn=58) Table 'COIL.academicodesarrolla' doesn't exist
+2024-06-16 14:29:51 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.125.31)(port=3306)(type=primary). Connect timed out
+2024-06-16 14:29:54 ERROR RetroalimentacionActividadDTO:33 - Utilidades.ErrorDAO: No fue posible realizar la conexion con la base de datos.
+Conctacte a un técnico
+2024-06-16 14:33:57 FATAL ConfiguracionPrueba:90 - (conn=73) Duplicate entry '2' for key 'PRIMARY'
+2024-06-16 14:34:01 FATAL ConfiguracionPrueba:90 - (conn=77) Duplicate entry '1' for key 'PRIMARY'
+2024-06-16 14:34:03 FATAL ConfiguracionPrueba:90 - (conn=78) Duplicate entry '123' for key 'PRIMARY'
+2024-06-16 14:34:04 FATAL ConfiguracionPrueba:90 - (conn=79) Duplicate entry '2' for key 'PRIMARY'
+2024-06-16 14:34:07 FATAL ConfiguracionPrueba:90 - (conn=80) Duplicate entry '200011' for key 'PRIMARY'
+2024-06-16 14:34:10 FATAL ConfiguracionPrueba:90 - (conn=81) Duplicate entry '3' for key 'PRIMARY'
+2024-06-16 14:34:13 FATAL ConfiguracionPrueba:90 - (conn=82) Duplicate entry '102939' for key 'PRIMARY'
+2024-06-16 14:34:15 FATAL ConfiguracionPrueba:90 - (conn=83) Duplicate entry '4' for key 'PRIMARY'
+2024-06-16 14:34:17 FATAL ConfiguracionPrueba:90 - (conn=84) Duplicate entry '1-4' for key 'PRIMARY'
+2024-06-16 14:34:19 FATAL ConfiguracionPrueba:90 - (conn=85) Duplicate entry '5' for key 'PRIMARY'
+2024-06-16 14:34:20 FATAL ConfiguracionPrueba:90 - (conn=86) Duplicate entry '2-5' for key 'PRIMARY'
+2024-06-16 14:34:22 FATAL ConfiguracionPrueba:90 - (conn=87) Duplicate entry '1' for key 'PRIMARY'
+2024-06-16 14:34:23 FATAL ConfiguracionPrueba:90 - (conn=88) Duplicate entry '2' for key 'PRIMARY'
+2024-06-16 14:34:26 FATAL ConfiguracionPrueba:90 - (conn=89) Table 'COIL.academicodesarrolla' doesn't exist
+2024-06-16 14:38:58 FATAL ConfiguracionPrueba:90 - (conn=119) Duplicate entry '2' for key 'PRIMARY'
+2024-06-16 14:39:02 FATAL ConfiguracionPrueba:90 - (conn=123) Duplicate entry '1' for key 'PRIMARY'
+2024-06-16 14:39:05 FATAL ConfiguracionPrueba:90 - (conn=124) Duplicate entry '123' for key 'PRIMARY'
+2024-06-16 14:39:07 FATAL ConfiguracionPrueba:90 - (conn=125) Duplicate entry '2' for key 'PRIMARY'
+2024-06-16 14:39:09 FATAL ConfiguracionPrueba:90 - (conn=126) Duplicate entry '200011' for key 'PRIMARY'
+2024-06-16 14:39:10 FATAL ConfiguracionPrueba:90 - (conn=127) Duplicate entry '3' for key 'PRIMARY'
+2024-06-16 14:39:13 FATAL ConfiguracionPrueba:90 - (conn=128) Duplicate entry '102939' for key 'PRIMARY'
+2024-06-16 14:39:14 FATAL ConfiguracionPrueba:90 - (conn=129) Duplicate entry '4' for key 'PRIMARY'
+2024-06-16 14:39:16 FATAL ConfiguracionPrueba:90 - (conn=130) Duplicate entry '1-4' for key 'PRIMARY'
+2024-06-16 14:39:17 FATAL ConfiguracionPrueba:90 - (conn=131) Duplicate entry '5' for key 'PRIMARY'
+2024-06-16 14:39:19 FATAL ConfiguracionPrueba:90 - (conn=132) Duplicate entry '2-5' for key 'PRIMARY'
+2024-06-16 14:39:22 FATAL ConfiguracionPrueba:90 - (conn=133) Duplicate entry '1' for key 'PRIMARY'
+2024-06-16 14:39:24 FATAL ConfiguracionPrueba:90 - (conn=134) Duplicate entry '2' for key 'PRIMARY'
+2024-06-16 14:39:27 FATAL ConfiguracionPrueba:90 - (conn=135) Table 'COIL.academicodesarrolla' doesn't exist
+2024-06-16 14:42:37 ERROR RetroalimentacionActividadDTO:43 - Utilidades.ErrorDAO: (conn=173) Cannot add or update a child row: a foreign key constraint fails (`COIL`.`retroalimentacion`, CONSTRAINT `retroalimentacion_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`))
+2024-06-16 14:47:42 ERROR RetroalimentacionActividadDTO:44 - Utilidades.ErrorDAO: (conn=197) Cannot add or update a child row: a foreign key constraint fails (`COIL`.`retroalimentacion`, CONSTRAINT `retroalimentacion_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`))
+2024-06-16 14:52:43 ERROR RetroalimentacionActividadDTO:44 - Utilidades.ErrorDAO: (conn=221) Cannot add or update a child row: a foreign key constraint fails (`COIL`.`retroalimentacion`, CONSTRAINT `retroalimentacion_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`))
+2024-06-16 15:03:03 FATAL ConfiguracionPrueba:90 - (conn=271) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionActividad`, CONSTRAINT `retroalimentacionActividad_ibfk_2` FOREIGN KEY (`actividad`) REFERENCES `actividad` (`idActividad`))
+2024-06-16 15:03:08 FATAL ConfiguracionPrueba:90 - (conn=276) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionActividad`, CONSTRAINT `retroalimentacionActividad_ibfk_2` FOREIGN KEY (`actividad`) REFERENCES `actividad` (`idActividad`))
+2024-06-16 15:03:10 FATAL ConfiguracionPrueba:90 - (conn=281) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionActividad`, CONSTRAINT `retroalimentacionActividad_ibfk_2` FOREIGN KEY (`actividad`) REFERENCES `actividad` (`idActividad`))
+2024-06-16 15:03:13 FATAL ConfiguracionPrueba:90 - (conn=286) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionActividad`, CONSTRAINT `retroalimentacionActividad_ibfk_2` FOREIGN KEY (`actividad`) REFERENCES `actividad` (`idActividad`))
+2024-06-16 15:03:16 FATAL ConfiguracionPrueba:90 - (conn=291) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionActividad`, CONSTRAINT `retroalimentacionActividad_ibfk_2` FOREIGN KEY (`actividad`) REFERENCES `actividad` (`idActividad`))
+2024-06-16 15:03:19 FATAL ConfiguracionPrueba:90 - (conn=296) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`academicoDesarrolla`, CONSTRAINT `academicoDesarrolla_ibfk_1` FOREIGN KEY (`idColaboracion`) REFERENCES `colaboracion` (`idColaboracion`))
+2024-06-16 15:03:22 FATAL ConfiguracionPrueba:90 - (conn=298) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionActividad`, CONSTRAINT `retroalimentacionActividad_ibfk_2` FOREIGN KEY (`actividad`) REFERENCES `actividad` (`idActividad`))
+2024-06-16 15:03:25 FATAL ConfiguracionPrueba:90 - (conn=302) Duplicate entry '1' for key 'PRIMARY'
+2024-06-16 15:03:28 FATAL ConfiguracionPrueba:90 - (conn=303) Unknown column 'fechaInicio' in 'field list'
+2024-06-16 15:03:31 FATAL ConfiguracionPrueba:90 - (conn=304) Unknown column 'fechaInicio' in 'field list'
+2024-06-16 15:03:33 FATAL ConfiguracionPrueba:90 - (conn=306) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionActividad`, CONSTRAINT `retroalimentacionActividad_ibfk_2` FOREIGN KEY (`actividad`) REFERENCES `actividad` (`idActividad`))
+2024-06-16 15:03:35 FATAL ConfiguracionPrueba:90 - (conn=311) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionActividad`, CONSTRAINT `retroalimentacionActividad_ibfk_2` FOREIGN KEY (`actividad`) REFERENCES `actividad` (`idActividad`))
+2024-06-16 15:03:36 FATAL ConfiguracionPrueba:90 - (conn=316) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionActividad`, CONSTRAINT `retroalimentacionActividad_ibfk_2` FOREIGN KEY (`actividad`) REFERENCES `actividad` (`idActividad`))
+2024-06-16 15:03:38 FATAL ConfiguracionPrueba:90 - (conn=321) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionActividad`, CONSTRAINT `retroalimentacionActividad_ibfk_2` FOREIGN KEY (`actividad`) REFERENCES `actividad` (`idActividad`))
+2024-06-16 15:03:40 FATAL ConfiguracionPrueba:90 - (conn=325) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionActividad`, CONSTRAINT `retroalimentacionActividad_ibfk_2` FOREIGN KEY (`actividad`) REFERENCES `actividad` (`idActividad`))
+2024-06-16 15:05:31 FATAL ConfiguracionPrueba:90 - (conn=327) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionActividad`, CONSTRAINT `retroalimentacionActividad_ibfk_2` FOREIGN KEY (`actividad`) REFERENCES `actividad` (`idActividad`))
+2024-06-16 15:05:36 FATAL ConfiguracionPrueba:90 - (conn=336) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`academicoDesarrolla`, CONSTRAINT `academicoDesarrolla_ibfk_1` FOREIGN KEY (`idColaboracion`) REFERENCES `colaboracion` (`idColaboracion`))
+2024-06-16 15:05:38 FATAL ConfiguracionPrueba:90 - (conn=338) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionActividad`, CONSTRAINT `retroalimentacionActividad_ibfk_2` FOREIGN KEY (`actividad`) REFERENCES `actividad` (`idActividad`))
+2024-06-16 15:05:42 FATAL ConfiguracionPrueba:90 - (conn=342) Duplicate entry '1' for key 'PRIMARY'
+2024-06-16 15:05:44 FATAL ConfiguracionPrueba:90 - (conn=343) Unknown column 'fechaInicio' in 'field list'
+2024-06-16 15:05:45 FATAL ConfiguracionPrueba:90 - (conn=344) Unknown column 'fechaInicio' in 'field list'
+2024-06-17 16:20:09 FATAL ConfiguracionPrueba:90 - (conn=40) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`academicoDesarrolla`, CONSTRAINT `academicoDesarrolla_ibfk_1` FOREIGN KEY (`idColaboracion`) REFERENCES `colaboracion` (`idColaboracion`))
+2024-06-17 16:20:13 FATAL ConfiguracionPrueba:90 - (conn=46) Duplicate entry '1' for key 'PRIMARY'
+2024-06-17 16:20:15 FATAL ConfiguracionPrueba:90 - (conn=47) Unknown column 'fechaInicio' in 'field list'
+2024-06-17 16:20:19 FATAL ConfiguracionPrueba:90 - (conn=48) Unknown column 'fechaInicio' in 'field list'
+2024-06-17 16:24:56 FATAL ConfiguracionPrueba:90 - (conn=63) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`academicoDesarrolla`, CONSTRAINT `academicoDesarrolla_ibfk_1` FOREIGN KEY (`idColaboracion`) REFERENCES `colaboracion` (`idColaboracion`))
+2024-06-17 16:25:00 FATAL ConfiguracionPrueba:90 - (conn=69) Duplicate entry '1' for key 'PRIMARY'
+2024-06-17 16:25:01 FATAL ConfiguracionPrueba:90 - (conn=70) You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''2024-07-05')' at line 1
+2024-06-17 16:25:03 FATAL ConfiguracionPrueba:90 - (conn=71) Unknown column 'fechaFin' in 'field list'
+2024-06-17 16:25:51 FATAL ConfiguracionPrueba:90 - (conn=87) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`estudiantesColaboracion`, CONSTRAINT `estudiantesColaboracion_ibfk_1` FOREIGN KEY (`idColaboracion`) REFERENCES `colaboracion` (`idColaboracion`))
+2024-06-17 16:25:55 FATAL ConfiguracionPrueba:90 - (conn=93) Duplicate entry '1' for key 'PRIMARY'
+2024-06-17 16:25:57 FATAL ConfiguracionPrueba:90 - (conn=94) You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''2024-07-05')' at line 1
+2024-06-17 16:26:00 FATAL ConfiguracionPrueba:90 - (conn=95) Unknown column 'fechaFin' in 'field list'
+2024-06-17 16:26:19 FATAL ConfiguracionPrueba:90 - (conn=119) You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''2024-07-05')' at line 1
+2024-06-17 16:26:23 FATAL ConfiguracionPrueba:90 - (conn=120) Unknown column 'fechaFin' in 'field list'
+2024-06-17 16:26:45 FATAL ConfiguracionPrueba:90 - (conn=144) Unknown column 'fechaFin' in 'field list'
+2024-06-17 16:26:48 FATAL ConfiguracionPrueba:90 - (conn=145) Unknown column 'fechaFin' in 'field list'

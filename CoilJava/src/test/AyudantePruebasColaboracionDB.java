@@ -1,6 +1,6 @@
 package test;
 
-import static test.ConfiguracionPrueba.ejecutarInstruccionSQL;
+import static test.ConfiguracionPrueba.*;
 
 public class AyudantePruebasColaboracionDB {
 
@@ -45,12 +45,14 @@ public class AyudantePruebasColaboracionDB {
         borrarTablasActividadTest();
         agregarActividades();
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO colaboracion (idColaboracion, estado, tipo, temaInteres, idioma, objetivo, fechaInicio, fechaFin, perfilEstudiante) VALUES (1, 'propuesta', 'claseEspejo', 'Inteligencia Artificial', 'Español', 'Mejorar habilidades en IA', '2024-05-01', '2024-06-30', 'Estudiantes de informática');");
-        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO calendarioActividades (idActividad, idColaboracion, fechaInicio, fechaFin) values (1,1,'2024-05-07','2024-07-05');");
-        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO calendarioActividades (idActividad, idColaboracion, fechaInicio, fechaFin) values (2,1,'2024-05-07','2024-07-05');");
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO calendarioActividades (idActividad, idColaboracion, fechaFinalizacion) values (1,1,'2024-07-05');");
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO calendarioActividades (idActividad, idColaboracion, fechaFinalizacion) values (2,1,'2024-07-05');");
     }
 
     public static void borrarTablasActividadTest () {
         ConfiguracionPrueba.borrarDatosTablaCalendarioActividades();
+        borrarDatosTablaAcademicoDesarrolla();
+        borrarDatosTablaEstudiantesColaboracion();
         ConfiguracionPrueba.borrarDatosTablaColaboracion();
         ConfiguracionPrueba.borrarDatosTablaActividad();
     }

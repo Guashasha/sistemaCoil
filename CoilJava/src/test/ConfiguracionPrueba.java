@@ -24,7 +24,7 @@ public class ConfiguracionPrueba {
         ejecutarInstruccionSQL("ALTER TABLE universidad AUTO_INCREMENT = 0;");
     }
     public static void borrarDatosTablaAcademicoDesarrolla () {
-        ejecutarInstruccionSQL("DELETE FROM academicodesarrolla;");
+        ejecutarInstruccionSQL("DELETE FROM academicoDesarrolla;");
     }
     public static void borrarDatosTablaActividad () {
         ejecutarInstruccionSQL("DELETE FROM actividad;");
