@@ -1,9 +1,8 @@
 package InterfazGrafica;
 
 import DAO.AcademicoDAO;
-import DAO.CuentaDAO;
 import DAO.FacultadDAO;
-import DAO.RegionAuxiliar;
+import DAO.RegionDAO;
 import DTO.*;
 import Utilidades.ErrorDAO;
 import javafx.collections.FXCollections;
@@ -11,12 +10,9 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,9 +24,7 @@ public class CrearCuentaAcademicoControlador {
     @FXML
     private TextField tfNombre;
     @FXML
-    private TextField tfApPaterno;
-    @FXML
-    private TextField tfApMaterno;
+    private TextField tfApellidos;
     @FXML
     private TextField tfCorreo;
     @FXML
@@ -97,8 +91,7 @@ public class CrearCuentaAcademicoControlador {
 
     void limpiarCampos() {
         tfNombre.setText("");
-        tfApMaterno.setText("");
-        tfApPaterno.setText("");
+        tfApellidos.setText("");
         tfCorreo.setText("");
         tfTelefono.setText("");
         tfCedulaProfesional.setText("");
@@ -111,8 +104,7 @@ public class CrearCuentaAcademicoControlador {
         }
 
         String nombre = tfNombre.getText();
-        String aPaterno = tfApPaterno.getText();
-        String aMaterno = tfApMaterno.getText();
+        String apellidos = tfApellidos.getText();
         String correo = tfCorreo.getText();
         String telefono = tfTelefono.getText();
         String numeroPersonal = tfNumeroPersonal.getText();
@@ -262,7 +254,7 @@ public class CrearCuentaAcademicoControlador {
 
     private boolean datosInvalidos() {
         String nombre = tfNombre.getText();
-        String apellidos = tfApPaterno.getText();
+        String apellidos = tfApellidos.getText();
         String correo = tfCorreo.getText();
         String telefono = tfTelefono.getText();
         String numeroPersonal = tfNumeroPersonal.getText();

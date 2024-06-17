@@ -18,13 +18,7 @@
                      </VBox.margin>
                   </TextField>
                   <Text layoutX="10.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Apellido Paterno" />
-                  <TextField fx:id="tfApPaterno" layoutX="10.0" layoutY="33.0">
-                     <VBox.margin>
-                        <Insets bottom="10.0" />
-                     </VBox.margin>
-                  </TextField>
-                  <Text layoutX="10.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Apellido Materno" />
-                  <TextField fx:id="tfApMaterno" layoutX="10.0" layoutY="97.0">
+                  <TextField fx:id="tfApellidos" layoutX="10.0" layoutY="33.0">
                      <VBox.margin>
                         <Insets bottom="10.0" />
                      </VBox.margin>
