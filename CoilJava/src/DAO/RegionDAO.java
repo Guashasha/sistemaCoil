@@ -46,7 +46,7 @@ public class RegionDAO implements IRegionDAO {
         }
         catch (SQLException excepcionSQL) {
             BITACORA.info(excepcionSQL.getMessage());
-            throw new ErrorDAO("Error al establecer conexión con la base de datos", ErrorDAO.Tipo.CONSULTA);
+            throw new ErrorDAO("Ocurrió un error al intentar obtener las regiones. Si el problema persiste contacte a soporte", ErrorDAO.Tipo.CONSULTA);
         }
         finally {
             AdministradorBaseDatos.desconectar();

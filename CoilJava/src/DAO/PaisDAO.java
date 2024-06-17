@@ -21,6 +21,7 @@ public class PaisDAO implements IPaisDAO {
      * Instancia del logger para registrar las excepciones que se pueden atrapar en las funciones de la clase.
      */
     private final static Logger BITACORA = Logger.getLogger(PaisDAO.class);
+
     /**
      * Obtiene una lista de todos los países que se encuentran en la base de datos, ordenadas de manera alfabética de acuerdo a su nombre.
      * @return Lista de universidades ordenada de manera alfabética o una lista vacía si no se encuentran resultados.
@@ -46,7 +47,7 @@ public class PaisDAO implements IPaisDAO {
         }
         catch (SQLException excepcionSQL) {
             BITACORA.info(excepcionSQL.getMessage());
-            throw new ErrorDAO("Error al establecer conexión con la base de datos", ErrorDAO.Tipo.CONEXION);
+            throw new ErrorDAO("Ocurrió un error al intentar obtener los paises. Si el problema persiste contacte a soporte", ErrorDAO.Tipo.CONEXION);
         }
         finally {
             AdministradorBaseDatos.desconectar();
@@ -82,7 +83,7 @@ public class PaisDAO implements IPaisDAO {
         }
         catch (SQLException excepcionSQL) {
             BITACORA.info(excepcionSQL.getMessage());
-            throw new ErrorDAO("Error al establecer conexión con la base de datos", ErrorDAO.Tipo.CONSULTA);
+            throw new ErrorDAO("Ocurrió un error al intentar obtener el pais. Si el problema persiste contacte a soporte", ErrorDAO.Tipo.CONSULTA);
         }
         finally {
             AdministradorBaseDatos.desconectar();
@@ -118,7 +119,7 @@ public class PaisDAO implements IPaisDAO {
         }
         catch (SQLException excepcionSQL) {
             BITACORA.info(excepcionSQL.getMessage());
-            throw new ErrorDAO("Error al establecer conexión con la base de datos", ErrorDAO.Tipo.CONSULTA);
+            throw new ErrorDAO("Ocurrió un error al intentar obtener el pais. Si el problema persiste contacte a soporte", ErrorDAO.Tipo.CONSULTA);
         }
         finally {
             AdministradorBaseDatos.desconectar();

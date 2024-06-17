@@ -44,30 +44,19 @@ public class RegistroEstudianteControlador {
         this.agregarEstudianteControlador = agregarEstudianteControlador;
     }
 
-    public boolean setRecursos (Stack<Pane> historialPaneles, BorderPane pnVentanaPrincipal, int idUniversidad) {
-        boolean cargarRecursosExitoso = false;
+    public void setRecursos (Stack<Pane> historialPaneles, BorderPane pnVentanaPrincipal, int idUniversidad) throws ErrorDAO {
         UniversidadAuxiliar universidadAuxiliar = new UniversidadAuxiliar();
-        Optional<UniversidadDTO> universidadOptional = Optional.empty();
-
-        try {
-            universidadOptional = universidadAuxiliar.getUniversidadPorId(idUniversidad);
-        }
-        catch (ErrorDAO error) {
-            mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
-        }
+        Optional<UniversidadDTO> universidadOptional = universidadAuxiliar.getUniversidadPorId(idUniversidad);
 
         if (universidadOptional.isPresent()) {
             this.historialPaneles = historialPaneles;
             this.pnVentanaPrincipal = pnVentanaPrincipal;
             this.universidad = universidadOptional.get();
             this.txtUniversidadAcademico.setText(this.universidad.getNombre());
-            cargarRecursosExitoso = true;
         }
         else {
-            mostrarMensajeEmergente("Eror al cargar la ventana de Registro de estudiante", Alert.AlertType.ERROR);
+            throw new ErrorDAO("Algo salió mal al cargar la ventana de Registro de estudiante. Reinicie la aplicación", ErrorDAO.Tipo.VALIDACION);
         }
-
-        return cargarRecursosExitoso;
     }
 
     @FXML

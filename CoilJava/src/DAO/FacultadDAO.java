@@ -49,7 +49,7 @@ public class FacultadDAO implements IFacultadDAO {
         }
         catch (SQLException excepcionSQL) {
             BITACORA.info(excepcionSQL.getMessage());
-            throw new ErrorDAO("Error al establecer conexión con la base de datos", ErrorDAO.Tipo.CONSULTA);
+            throw new ErrorDAO("Ocurrió un error al intentar obtener la facultad. Si el problema persiste contacte a soporte", ErrorDAO.Tipo.CONSULTA);
         }
         finally {
             AdministradorBaseDatos.desconectar();
@@ -85,7 +85,7 @@ public class FacultadDAO implements IFacultadDAO {
         }
         catch (SQLException excepcionSQL) {
             BITACORA.info(excepcionSQL.getMessage());
-            throw new ErrorDAO("Error al establecer conexión con la base de datos", ErrorDAO.Tipo.CONSULTA);
+            throw new ErrorDAO("Ocurrió un error al intentar obtener las Facultades. Si el problema persiste contacte a soporte", ErrorDAO.Tipo.CONSULTA);
         }
         finally {
             AdministradorBaseDatos.desconectar();
