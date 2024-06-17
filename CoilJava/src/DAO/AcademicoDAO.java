@@ -154,13 +154,13 @@ public class AcademicoDAO implements IAcademicoDAO {
      */
     @Override
     public int agregar (AcademicoDTO academicoDTO) throws ErrorDAO {
-        String procedimientoSQL = "{CALL registrar_Academico(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
+        String procedimientoSQL = "{CALL registrar_Academico(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
         int resultado = -1;
         try {
             CallableStatement registrarAcademico = AdministradorBaseDatos.getInstancia().
                                                                          prepareCall(procedimientoSQL);
             setAcademicoParametros(registrarAcademico, academicoDTO);
-            registrarAcademico.registerOutParameter(12, Types.INTEGER);
+            registrarAcademico.registerOutParameter(11, Types.INTEGER);
             resultado = registrarAcademico.executeUpdate();
             registrarAcademico.close();
         }
@@ -246,7 +246,7 @@ public class AcademicoDAO implements IAcademicoDAO {
      */
     public int modificar (AcademicoDTO academicoDTO) throws ErrorDAO {
         int resultado;
-        String procedimientoSQL = "{CALL editar_academico(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
+        String procedimientoSQL = "{CALL editar_academico(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
 
         try {
             CallableStatement editarAcademico = AdministradorBaseDatos.getInstancia().
