@@ -3,9 +3,7 @@ package AccesoDatos;
 import Utilidades.ErrorDAO;
 import org.apache.log4j.Logger;
 import java.io.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Properties;
 
 /**
@@ -24,7 +22,7 @@ public class AdministradorBaseDatos {
      * Constructor privado para evitar la creación de instancias de la clase.
      * La clase utiliza el patrón Singleton para asegurar una única conexión.
      */
-    private AdministradorBaseDatos() {
+    private AdministradorBaseDatos () {
 
     }
 
@@ -41,10 +39,17 @@ public class AdministradorBaseDatos {
                 conexion = getConexion();
             }
         }
+        catch (SQLNonTransientConnectionException error) {
+            BITACORA.fatal(error);
+            throw new ErrorDAO("Tiempo de espera de conexión agotado. Por favor, inténtelo nuevamente.", ErrorDAO.Tipo.CONEXION);
+        }
+        catch (SQLInvalidAuthorizationSpecException error) {
+            BITACORA.fatal(error);
+            throw new ErrorDAO("Credenciales de base de datos incorrectas.", ErrorDAO.Tipo.CONEXION);
+        }
         catch (SQLException error) {
             BITACORA.fatal(error);
-           throw new ErrorDAO("No fue posible realizar la conexion con la base de datos.\nConctacte a un técnico"
-                    , ErrorDAO.Tipo.CONEXION);
+            throw new ErrorDAO("No fue posible realizar la conexion con la base de datos.\nConctacte a un técnico", ErrorDAO.Tipo.CONEXION);
         }
         return conexion;
     }
@@ -64,6 +69,7 @@ public class AdministradorBaseDatos {
                     propiedades.getProperty(USUARIO_DB_PROPERTY),
                     propiedades.getProperty(CLAVE_DB_PROPERTY)
             );
+
         }
         else {
             throw new SQLException("No es posible encontrar las credenciales de la base de datos");
@@ -78,17 +84,18 @@ public class AdministradorBaseDatos {
      * @throws ErrorDAO tipo conexión si ocurre un error al intentar desconectar
      */
     public static boolean desconectar () throws ErrorDAO {
-       boolean estaCerrado = false;
-       try {
-           if (conexion != null) {
-               conexion.close();
-           }
-           estaCerrado = true;
-       } catch (SQLException error) {
-           BITACORA.fatal(error);
-           throw new ErrorDAO("Algo sucedio mal con el sistema. \nContacte con un técnico", ErrorDAO.Tipo.CONEXION);
-       }
-       return estaCerrado;
+        boolean estaCerrado = false;
+        try {
+            if (conexion != null) {
+                conexion.close();
+            }
+            estaCerrado = true;
+        }
+        catch (SQLException error) {
+            BITACORA.fatal(error);
+            throw new ErrorDAO("Algo sucedio mal con el sistema. \nContacte con un técnico", ErrorDAO.Tipo.CONEXION);
+        }
+        return estaCerrado;
     }
 
     /**
@@ -130,7 +137,7 @@ public class AdministradorBaseDatos {
         catch (FileNotFoundException error) {
             BITACORA.fatal(error);
         }
-        catch (IOException error){
+        catch (IOException error) {
             BITACORA.fatal(error);
         }
         return configuracion;

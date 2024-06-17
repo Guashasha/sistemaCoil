@@ -59,8 +59,7 @@ public class EditarEstudianteControlador {
                     this.listaEstudiantesControlador = listaEstudiantesControlador;
 
                     this.tfNombre.setText(this.estudiante.getNombre());
-                    this.tfApellidoPaterno.setText(this.estudiante.getApellidoPaterno());
-                    this.tfApellidoMaterno.setText(this.estudiante.getApellidoMaterno());
+                    this.tfApellidoPaterno.setText(this.estudiante.getApellidos());
                     this.txtMatriculaActual.setText(this.estudiante.getMatricula());
                     this.txtUniversidadActual.setText(universidadOptional.get()
                                                                          .getNombre());
@@ -82,8 +81,7 @@ public class EditarEstudianteControlador {
 
             try {
                 estudianteEditado.setNombre(tfNombre.getText());
-                estudianteEditado.setApellidoPaterno(tfApellidoPaterno.getText());
-                estudianteEditado.setApellidoMaterno(tfApellidoMaterno.getText());
+                estudianteEditado.setApellidos(tfApellidoPaterno.getText());
                 estudianteEditado.setMatricula(txtMatriculaActual.getText());
                 estudianteEditado.setIdUniversidad(this.estudiante.getIdUniversidad());
                 filasAfectadas = estudianteDAO.modificar(estudianteEditado);
@@ -137,6 +135,10 @@ public class EditarEstudianteControlador {
         String nuevoApellidoMaterno = tfApellidoMaterno.getText()
                                                        .trim();
         return nuevoNombre.equals(this.estudiante.getNombre()) && nuevoApeliidoPaterno.equals(this.estudiante.getApellidoPaterno()) && nuevoApellidoMaterno.equals(this.estudiante.getApellidoMaterno());
+                                                       .trim();
+        return nuevoNombre.equals(this.estudiante
+                                          .getNombre()) && nuevoApeliidoPaterno.equals(this.estudiante
+                                                                                               .getApellidos());
     }
 
     private void etiquetarCamposVacios () {

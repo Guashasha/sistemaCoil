@@ -26,16 +26,15 @@ public class EstudianteDAO implements IEstudianteDAO {
      */
     @Override
     public int agregar (EstudianteDTO estudianteDTO) throws ErrorDAO {
-        String procedimientoSQL = "{CALL registrar_Estudiante(?, ?, ?, ?, ?)}";
+        String procedimientoSQL = "{CALL registrar_Estudiante(?, ?, ?, ?)}";
         int resultado;
         try {
             CallableStatement registrarEstudiante = AdministradorBaseDatos.getInstancia().
                                                                           prepareCall(procedimientoSQL);
             registrarEstudiante.setString(1, estudianteDTO.getNombre());
-            registrarEstudiante.setString(2, estudianteDTO.getApellidoPaterno());
-            registrarEstudiante.setString(3, estudianteDTO.getApellidoMaterno());
-            registrarEstudiante.setInt(4, estudianteDTO.getIdUniversidad());
-            registrarEstudiante.setString(5, estudianteDTO.getMatricula());
+            registrarEstudiante.setString(2, estudianteDTO.getApellidos());
+            registrarEstudiante.setInt(3, estudianteDTO.getIdUniversidad());
+            registrarEstudiante.setString(4, estudianteDTO.getMatricula());
 
             resultado = registrarEstudiante.executeUpdate();
             registrarEstudiante.close();
@@ -59,16 +58,15 @@ public class EstudianteDAO implements IEstudianteDAO {
      */
     @Override
     public int modificar (EstudianteDTO estudianteDTO) throws ErrorDAO {
-        String procedimientoSQL = "{CALL editar_Estudiante(?, ?, ?, ?, ?)}";
+        String procedimientoSQL = "{CALL editar_Estudiante(?, ?, ?, ?)}";
         int resultado;
         try {
             CallableStatement editarEstudiante = AdministradorBaseDatos.getInstancia().
                                                                        prepareCall(procedimientoSQL);
             editarEstudiante.setString(1, estudianteDTO.getNombre());
-            editarEstudiante.setString(2, estudianteDTO.getApellidoPaterno());
-            editarEstudiante.setString(3, estudianteDTO.getApellidoMaterno());
-            editarEstudiante.setString(4, estudianteDTO.getMatricula());
-            editarEstudiante.setInt(5, estudianteDTO.getIdUniversidad());
+            editarEstudiante.setString(2, estudianteDTO.getApellidos());
+            editarEstudiante.setString(3, estudianteDTO.getMatricula());
+            editarEstudiante.setInt(4, estudianteDTO.getIdUniversidad());
 
             resultado = editarEstudiante.executeUpdate();
             editarEstudiante.close();
@@ -285,8 +283,7 @@ public class EstudianteDAO implements IEstudianteDAO {
         EstudianteDTO estudianteDTO = new EstudianteDTO();
         estudianteDTO.setIdPersona(resultado.getInt("idPersona"));
         estudianteDTO.setNombre(resultado.getString("nombre"));
-        estudianteDTO.setApellidoPaterno(resultado.getString("apellidoPaterno"));
-        estudianteDTO.setApellidoMaterno(resultado.getString("apellidoMaterno"));
+        estudianteDTO.setApellidos(resultado.getString("apellidos"));
         estudianteDTO.setIdEstudiante(resultado.getInt("idEstudiante"));
         estudianteDTO.setMatricula(resultado.getString("matricula"));
         estudianteDTO.setIdUniversidad(resultado.getInt("universidad"));

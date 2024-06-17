@@ -12,7 +12,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -87,8 +86,7 @@ public class ProgresoColaboracionControlador {
     private void cargarLabels () {
         this.lbAcademicoPar.setText(colaboracionDTO.getAcademicoPar()
                                                    .getNombre() + " " + colaboracionDTO.getAcademicoPar()
-                                                                                       .getApellidoPaterno() + " " + colaboracionDTO.getAcademicoPar()
-                                                                                                                                    .getApellidoMaterno());
+                                                                                       .getApellidos());
         this.lbIdioma.setText(colaboracionDTO.getIdioma());
         this.lbObjetivo.setText(colaboracionDTO.getObjetivo());
         this.lbPerfil.setText(colaboracionDTO.getPerfilEstudiante());
@@ -223,7 +221,6 @@ public class ProgresoColaboracionControlador {
                                             """, Alert.AlertType.WARNING);
             return false;
         }
-
         return true;
     }
 

@@ -156,7 +156,7 @@ class ColaboracionDAOTest {
 
         estudianteDTO1.setIdPersona(4);
         estudianteDTO1.setNombre("Eduardo");
-        estudianteDTO1.setApellidoPaterno("Villegas");
+        estudianteDTO1.setApellidos("Villegas");
         estudianteDTO1.setApellidoMaterno("Hurtado");
         estudianteDTO1.setIdUniversidad(1);
         estudianteDTO1.setIdEstudiante(1);
@@ -164,7 +164,7 @@ class ColaboracionDAOTest {
 
         estudianteDTO2.setIdPersona(5);
         estudianteDTO2.setNombre("John");
-        estudianteDTO2.setApellidoPaterno("Smith");
+        estudianteDTO2.setApellidos("Smith");
         estudianteDTO2.setApellidoMaterno("Onell");
         estudianteDTO2.setIdUniversidad(2);
         estudianteDTO2.setIdEstudiante(2);

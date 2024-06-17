@@ -84,11 +84,10 @@ public class ColaboracionDisponibleItemControlador implements Initializable {
 
         StringBuilder contenido = new StringBuilder();
         contenido.append("Tipo: ").append(colaboracionDTO.getTipo().toString()).append("\n\n")
-               .append("Perfil del estudiante: ").append(colaboracionDTO.getPerfilEstudiante()).append("\n\n")
-               .append("Academico: ").append(colaboracionDTO.getAnfitrion().getNombre()).append(" ")
-               .append(colaboracionDTO.getAnfitrion().getApellidoPaterno()).append(" ")
-               .append(colaboracionDTO.getAnfitrion().getApellidoMaterno()).append("\n\n")
-               .append("Universidad: ").append(getUniversidad(colaboracionDTO.getAnfitrion().getIdUniversidad()).getNombre()).append("\n");
+                 .append("Perfil del estudiante: ").append(colaboracionDTO.getPerfilEstudiante()).append("\n\n")
+                 .append("Academico: ").append(colaboracionDTO.getAnfitrion().getNombre()).append(" ")
+                 .append(colaboracionDTO.getAnfitrion().getApellidos()).append("\n\n")
+                 .append("Universidad: ").append(getUniversidad(colaboracionDTO.getAnfitrion().getIdUniversidad()).getNombre()).append("\n");
 
         TextArea taAreaDatos = new TextArea(contenido.toString());
         taAreaDatos.setWrapText(true);

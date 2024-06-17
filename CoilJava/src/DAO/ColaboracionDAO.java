@@ -1068,8 +1068,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
         EstudianteDTO estudianteDTO = new EstudianteDTO();
         estudianteDTO.setIdPersona(resultado.getInt("idPersona"));
         estudianteDTO.setNombre(resultado.getString("nombre"));
-        estudianteDTO.setApellidoPaterno(resultado.getString("apellidoPaterno"));
-        estudianteDTO.setApellidoMaterno(resultado.getString("apellidoMaterno"));
+        estudianteDTO.setApellidos(resultado.getString("apellidos"));
         estudianteDTO.setIdEstudiante(resultado.getInt("idEstudiante"));
         estudianteDTO.setMatricula(resultado.getString("matricula"));
         estudianteDTO.setIdUniversidad(resultado.getInt("universidad"));
@@ -1082,8 +1081,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
 
         academicoDTO.setIdPersona(resultado.getInt("idPersona"));
         academicoDTO.setNombre(resultado.getString("nombre"));
-        academicoDTO.setApellidoPaterno(resultado.getString("apellidoPaterno"));
-        academicoDTO.setApellidoMaterno(resultado.getString("apellidoMaterno"));
+        academicoDTO.setApellidos(resultado.getString("apellidos"));
         academicoDTO.setIdUniversidad(resultado.getInt("idUniversidad"));
         academicoDTO.setCedulaProfesional(resultado.getString("cedulaProfesional"));
 

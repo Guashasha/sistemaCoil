@@ -48,7 +48,7 @@ public class ListaEstudiantesItemControlador {
 
                 this.lbMatricula
                         .setText(estudiante.getMatricula());
-                String nombreConpleto = estudiante.getNombre() + " " + estudiante.getApellidoPaterno() + " " + estudiante.getApellidoMaterno();
+                String nombreConpleto = estudiante.getNombre() + " " + estudiante.getApellidos();
                 this.lbNombre
                         .setText(nombreConpleto);
                 this.lbUniversidad

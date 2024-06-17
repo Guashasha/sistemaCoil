@@ -68,8 +68,7 @@ public class RegistroEstudianteControlador {
 
             try {
                 estudiante.setNombre(this.tfNombre.getText());
-                estudiante.setApellidoPaterno(this.tfApellidoPaterno.getText());
-                estudiante.setApellidoMaterno(this.tfApellidoMaterno.getText());
+                estudiante.setApellidos(this.tfApellidoPaterno.getText());
                 estudiante.setIdUniversidad(this.universidad.getId());
                 estudiante.setMatricula(this.tfMatricula.getText());
                 filasAfectadas = estudianteAuxiliar.agregar(estudiante);

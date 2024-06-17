@@ -165,8 +165,6 @@ public class CuentaItemControlador implements Initializable {
         AcademicoDTO academicoDTO = getAcademico(cuentaDTOObtenida.getIdPersona());
         lbNombre.setText(academicoDTO.getNombre());
         setToolTip(lbNombre);
-        lbApellidos.setText(academicoDTO.getApellidoPaterno() + " " + academicoDTO.getApellidoMaterno());
-        setToolTip(lbApellidos);
         lbCorreo.setText(academicoDTO.getCorreoElectronico());
         setToolTip(lbCorreo);
         lbCedula.setText(academicoDTO.getCedulaProfesional());

@@ -19,7 +19,7 @@ class EstudianteDAOTest {
         estudianteRegistrado1 = new EstudianteDTO();
         estudianteRegistrado1.setIdPersona(1);
         estudianteRegistrado1.setNombre("Jose");
-        estudianteRegistrado1.setApellidoPaterno("Lopez");
+        estudianteRegistrado1.setApellidos("Lopez");
         estudianteRegistrado1.setApellidoMaterno("Perez");
         estudianteRegistrado1.setIdUniversidad(1);
         estudianteRegistrado1.setIdEstudiante(1);
@@ -28,7 +28,7 @@ class EstudianteDAOTest {
         estudianteRegistrado2 = new EstudianteDTO();
         estudianteRegistrado2.setIdPersona(2);
         estudianteRegistrado2.setNombre("Juan");
-        estudianteRegistrado2.setApellidoPaterno("Negrete");
+        estudianteRegistrado2.setApellidos("Negrete");
         estudianteRegistrado2.setApellidoMaterno("Incumplido");
         estudianteRegistrado2.setIdUniversidad(1);
         estudianteRegistrado2.setIdEstudiante(2);
@@ -74,7 +74,7 @@ class EstudianteDAOTest {
         try {
             EstudianteDTO estudianteDTO = new EstudianteDTO();
             estudianteDTO.setNombre("Jose");
-            estudianteDTO.setApellidoPaterno("Lopez");
+            estudianteDTO.setApellidos("Lopez");
             estudianteDTO.setApellidoMaterno("Lara");
             estudianteDTO.setMatricula("zs22013600");
             estudianteDTO.setIdUniversidad(1);
@@ -94,7 +94,7 @@ class EstudianteDAOTest {
         try {
             EstudianteDTO estudiante = new EstudianteDTO();
             estudiante.setNombre(estudianteRegistrado1.getNombre());
-            estudiante.setApellidoPaterno(estudianteRegistrado1.getApellidoPaterno());
+            estudiante.setApellidos(estudianteRegistrado1.getApellidos());
             estudiante.setApellidoMaterno(estudianteRegistrado1.getApellidoMaterno());
             estudiante.setMatricula(estudianteRegistrado1.getMatricula());
             estudiante.setIdUniversidad(1);
@@ -117,7 +117,7 @@ class EstudianteDAOTest {
         boolean resultado = false;
         try {
             estudianteDTO.setNombre("Emmanuel");
-            estudianteDTO.setApellidoPaterno("Lopez");
+            estudianteDTO.setApellidos("Lopez");
             estudianteDTO.setApellidoMaterno("Lara");
             estudianteDTO.setMatricula("zs 22");
             estudianteDTO.setIdUniversidad(1);
@@ -135,7 +135,7 @@ class EstudianteDAOTest {
         boolean resultado = false;
         try {
             estudianteDTO.setNombre("Emmanuel");
-            estudianteDTO.setApellidoPaterno("Lopez");
+            estudianteDTO.setApellidos("Lopez");
             estudianteDTO.setApellidoMaterno("Lara");
             estudianteDTO.setMatricula(null);
             estudianteDTO.setIdUniversidad(1);
@@ -153,7 +153,7 @@ class EstudianteDAOTest {
         boolean resultado = false;
         try {
             estudianteDTO.setNombre("Emmanuel@123saaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-            estudianteDTO.setApellidoPaterno("Lopez");
+            estudianteDTO.setApellidos("Lopez");
             estudianteDTO.setApellidoMaterno("Lara");
             estudianteDTO.setMatricula("zs22013690");
             estudianteDTO.setIdUniversidad(1);
@@ -171,7 +171,7 @@ class EstudianteDAOTest {
         boolean resultado = false;
         try {
             estudianteDTO.setNombre("Jose");
-            estudianteDTO.setApellidoPaterno("Lopz@_123asddddddddddddddddddddddddddddddddddddddddddddddddddddddddd");
+            estudianteDTO.setApellidos("Lopz@_123asddddddddddddddddddddddddddddddddddddddddddddddddddddddddd");
             estudianteDTO.setApellidoMaterno("Lara");
             estudianteDTO.setMatricula("zs22013690");
             estudianteDTO.setIdUniversidad(1);
@@ -189,7 +189,7 @@ class EstudianteDAOTest {
         boolean resultado = false;
         try {
             estudianteDTO.setNombre("Jose");
-            estudianteDTO.setApellidoPaterno("Lopez");
+            estudianteDTO.setApellidos("Lopez");
             estudianteDTO.setApellidoMaterno("12_@Herrera;adsadaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaafsafsadasaaffafsaa");
             estudianteDTO.setMatricula("zs22013690");
             estudianteDTO.setIdUniversidad(1);
@@ -205,7 +205,7 @@ class EstudianteDAOTest {
     void pruebaAgregarEstudianteUniversidadInexistente () {
         EstudianteDTO estudiante = new EstudianteDTO();
         estudiante.setNombre("Jose");
-        estudiante.setApellidoPaterno("Lopez");
+        estudiante.setApellidos("Lopez");
         estudiante.setApellidoMaterno("Herrera");
         estudiante.setMatricula("zs22013690");
         estudiante.setIdUniversidad(100);
@@ -216,7 +216,7 @@ class EstudianteDAOTest {
     void pruebaAgregarEstudianteUniversidadInvalida () {
         EstudianteDTO estudianteDTO = new EstudianteDTO();
         estudianteDTO.setNombre("Jose");
-        estudianteDTO.setApellidoPaterno("Lopez");
+        estudianteDTO.setApellidos("Lopez");
         estudianteDTO.setApellidoMaterno("Lara");
         estudianteDTO.setMatricula("zs22013690");
         estudianteDTO.setIdUniversidad(0);
@@ -230,7 +230,7 @@ class EstudianteDAOTest {
         int esperado = 2;
         try {
             estudiante.setNombre("Jose");
-            estudiante.setApellidoPaterno("López");
+            estudiante.setApellidos("López");
             estudiante.setApellidoMaterno("Lara");
             estudiante.setMatricula(estudianteRegistrado1.getMatricula());
             estudiante.setIdUniversidad(1);
@@ -259,7 +259,7 @@ class EstudianteDAOTest {
     void pruebaModificarMatriculaInexistente () {
         EstudianteDTO estudiante = new EstudianteDTO();
         estudiante.setNombre("Jose");
-        estudiante.setApellidoPaterno("Lopez");
+        estudiante.setApellidos("Lopez");
         estudiante.setApellidoMaterno("Perez");
         estudiante.setMatricula("zs22013601");
         estudiante.setIdUniversidad(1);
@@ -281,7 +281,7 @@ class EstudianteDAOTest {
         boolean resultado = false;
         try {
             estudianteDTO.setNombre("Jose");
-            estudianteDTO.setApellidoPaterno("Lopez");
+            estudianteDTO.setApellidos("Lopez");
             estudianteDTO.setApellidoMaterno("Lara");
             estudianteDTO.setMatricula("zs 22");
             estudianteDTO.setIdUniversidad(1);
@@ -299,7 +299,7 @@ class EstudianteDAOTest {
         boolean resultado = false;
         try {
             estudianteDTO.setNombre("Jose");
-            estudianteDTO.setApellidoPaterno("Lopez");
+            estudianteDTO.setApellidos("Lopez");
             estudianteDTO.setApellidoMaterno("Lara");
             estudianteDTO.setMatricula(null);
             estudianteDTO.setIdUniversidad(1);
@@ -317,7 +317,7 @@ class EstudianteDAOTest {
         boolean resultado = false;
         try {
             estudianteDTO.setNombre("Emmanuel@123saddddddddddddddsdsadwwwdwdwdwddwddwdwdwddwdwddwdwdwdwwd");
-            estudianteDTO.setApellidoPaterno("Lopez");
+            estudianteDTO.setApellidos("Lopez");
             estudianteDTO.setApellidoMaterno("Lara");
             estudianteDTO.setMatricula("zs22013690");
             estudianteDTO.setIdUniversidad(1);
@@ -335,7 +335,7 @@ class EstudianteDAOTest {
         boolean resultado = false;
         try {
             estudianteDTO.setNombre("Jose");
-            estudianteDTO.setApellidoPaterno("Lopz@_123asdasasadddddddddddddddddddddddddddddddddddddddddddddd");
+            estudianteDTO.setApellidos("Lopz@_123asdasasadddddddddddddddddddddddddddddddddddddddddddddd");
             estudianteDTO.setApellidoMaterno("Lara");
             estudianteDTO.setMatricula("zs22013690");
             estudianteDTO.setIdUniversidad(1);
@@ -353,7 +353,7 @@ class EstudianteDAOTest {
         boolean resultado = false;
         try {
             estudianteDTO.setNombre("Jose");
-            estudianteDTO.setApellidoPaterno("Lopez");
+            estudianteDTO.setApellidos("Lopez");
             estudianteDTO.setApellidoMaterno("12_@Herrera;");
             estudianteDTO.setMatricula("zs2201369041213");
             estudianteDTO.setIdUniversidad(1);
@@ -369,7 +369,7 @@ class EstudianteDAOTest {
     void pruebaModificarEstudianteUniversidadInexistente () {
         EstudianteDTO estudiante = new EstudianteDTO();
         estudiante.setNombre("Jose");
-        estudiante.setApellidoPaterno("Lopez");
+        estudiante.setApellidos("Lopez");
         estudiante.setApellidoMaterno("Herrera");
         estudiante.setMatricula("zs22013690");
         estudiante.setIdUniversidad(10);
@@ -380,7 +380,7 @@ class EstudianteDAOTest {
     void pruebaModificarEstudianteUniversidadInvalida () {
         EstudianteDTO estudianteDTO = new EstudianteDTO();
         estudianteDTO.setNombre("Jose");
-        estudianteDTO.setApellidoPaterno("Lopez");
+        estudianteDTO.setApellidos("Lopez");
         estudianteDTO.setApellidoMaterno("Lara");
         estudianteDTO.setMatricula("zs22013690");
         estudianteDTO.setIdUniversidad(0);

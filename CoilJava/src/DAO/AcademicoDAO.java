@@ -16,10 +16,10 @@ public class AcademicoDAO implements IAcademicoDAO {
     private static final Logger BITACORA = Logger.getLogger(AcademicoDAO.class);
 
     /**
-     * Obtiene una lista de objetos AcademicoDTO basado en un campo y valor específicos.
+     * Obtiene una lista de objetos AcademicoDTO basado en nombre de la fila de la base de datos y el patrón a buscar .
      *
-     * @param campo el nombre del campo por el cual se desea filtrar los académicos (por ejemplo, "facultad", "universidad").
-     * @param valor el valor correspondiente al campo que se desea buscar.
+     * @param campo el nombre de la fila por el cual se desea filtrar los académicos (por ejemplo, "facultad", "universidad").
+     * @param valor el patrón correspondiente al campo que se desea buscar.
      * @return una lista de objetos AcademicoDTO que cumplen con los criterios especificados.
      * @throws ErrorDAO si ocurre un error durante la consulta a la base de datos.
      */
@@ -277,16 +277,16 @@ public class AcademicoDAO implements IAcademicoDAO {
      */
     @Override
     public int agregarAcademicoConCuenta (AcademicoDTO academicoDTO, CuentaDTO cuentaDTO) throws ErrorDAO {
-        String procedimientoSQL = "{CALL registrar_Academico(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
+        String procedimientoSQL = "{CALL registrar_Academico(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
         int resultado = -1;
         try {
             Connection conexion = AdministradorBaseDatos.getInstancia();
             conexion.setAutoCommit(false);
             CallableStatement registrarAcademico = conexion.prepareCall(procedimientoSQL);
             setAcademicoParametros(registrarAcademico, academicoDTO);
-            registrarAcademico.registerOutParameter(12, Types.INTEGER);
+            registrarAcademico.registerOutParameter(11, Types.INTEGER);
             resultado = registrarAcademico.executeUpdate();
-            int idPersona = registrarAcademico.getInt(12);
+            int idPersona = registrarAcademico.getInt(11);
 
             CallableStatement agregarCuenta = conexion.prepareCall("{CALL registrar_cuenta(?,?,?,?,?)}");
             cuentaDTO.setIdPersona(idPersona);
@@ -313,16 +313,15 @@ public class AcademicoDAO implements IAcademicoDAO {
 
     private void setAcademicoParametros (CallableStatement declaracion, AcademicoDTO academicoDTO) throws SQLException {
         declaracion.setString(1, academicoDTO.getNombre());
-        declaracion.setString(2, academicoDTO.getApellidoPaterno());
-        declaracion.setString(3, academicoDTO.getApellidoMaterno());
-        declaracion.setInt(4, academicoDTO.getIdUniversidad());
-        declaracion.setString(5, academicoDTO.getCedulaProfesional());
-        declaracion.setString(6, academicoDTO.getNumeroPersonal());
-        declaracion.setString(7, academicoDTO.getAreaEstudios());
-        declaracion.setString(8, academicoDTO.getCorreoElectronico());
-        declaracion.setString(9, academicoDTO.getNumeroTelefonico());
-        declaracion.setString(10, academicoDTO.getCategoriaContratacion());
-        declaracion.setObject(11, academicoDTO.getIdFacultad());
+        declaracion.setString(2, academicoDTO.getApellidos());
+        declaracion.setInt(3, academicoDTO.getIdUniversidad());
+        declaracion.setString(4, academicoDTO.getCedulaProfesional());
+        declaracion.setString(5, academicoDTO.getNumeroPersonal());
+        declaracion.setString(6, academicoDTO.getAreaEstudios());
+        declaracion.setString(7, academicoDTO.getCorreoElectronico());
+        declaracion.setString(8, academicoDTO.getNumeroTelefonico());
+        declaracion.setString(9, academicoDTO.getCategoriaContratacion());
+        declaracion.setObject(10, academicoDTO.getIdFacultad());
     }
 
 
@@ -331,8 +330,7 @@ public class AcademicoDAO implements IAcademicoDAO {
 
         academicoDTO.setIdPersona(resultado.getInt("idPersona"));
         academicoDTO.setNombre(resultado.getString("nombre"));
-        academicoDTO.setApellidoPaterno(resultado.getString("apellidoPaterno"));
-        academicoDTO.setApellidoMaterno(resultado.getString("apellidoMaterno"));
+        academicoDTO.setApellidos(resultado.getString("apellidos"));
         academicoDTO.setIdUniversidad(resultado.getInt("idUniversidad"));
         academicoDTO.setCedulaProfesional(resultado.getString("cedulaProfesional"));
         academicoDTO.setCategoriaContratacion(resultado.getString("categoriaContratacion"));

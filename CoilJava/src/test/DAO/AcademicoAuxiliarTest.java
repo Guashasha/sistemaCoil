@@ -220,7 +220,7 @@ class AcademicoAuxiliarTest {
 
         AcademicoDTO academicoDTO = new AcademicoDTO();
         academicoDTO.setNombre("Hernan");
-        academicoDTO.setApellidoPaterno("Llamas");
+        academicoDTO.setApellidos("Llamas");
         academicoDTO.setApellidoMaterno("Villa Señor");
         academicoDTO.setIdUniversidad(1);
         academicoDTO.setCedulaProfesional("9877985");
@@ -251,7 +251,7 @@ class AcademicoAuxiliarTest {
         System.out.println("pruebaAgregarCedulaRepetidaFallida");
         AcademicoDTO academicoDTO = new AcademicoDTO();
         academicoDTO.setNombre("Manuel");
-        academicoDTO.setApellidoPaterno("Llamas");
+        academicoDTO.setApellidos("Llamas");
         academicoDTO.setApellidoMaterno("Villa Señor");
         academicoDTO.setIdUniversidad(1);
         academicoDTO.setCedulaProfesional("123");
@@ -270,7 +270,7 @@ class AcademicoAuxiliarTest {
         System.out.println("pruebaEditarAcademicoExitoso");
         AcademicoDTO academicoDTO = new AcademicoDTO();
         academicoDTO.setNombre("Fernando");
-        academicoDTO.setApellidoPaterno("Hernandez");
+        academicoDTO.setApellidos("Hernandez");
         academicoDTO.setApellidoMaterno("Lopez");
         academicoDTO.setIdUniversidad(1);
         academicoDTO.setCedulaProfesional("200011");

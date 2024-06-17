@@ -7,17 +7,15 @@ import java.util.regex.Pattern;
 public abstract class PersonaDTO {
     private int idPersona;
     private String nombre;
-    private String apellidoPaterno;
-    private String apellidoMaterno;
+    private String apellidos;
     private int idUniversidad;
 
     public PersonaDTO() {}
 
-    public PersonaDTO(int idPersona, String nombre, String apellidoPaterno, String apellidoMaterno, int idUniversidad) {
+    public PersonaDTO(int idPersona, String nombre, String apellidos, int idUniversidad) {
         this.idPersona = idPersona;
         setNombre(nombre);
-        setApellidoPaterno(apellidoPaterno);
-        setApellidoMaterno(apellidoMaterno);
+        setApellidos(apellidos);
         this.idUniversidad = idUniversidad;
     }
 
@@ -33,12 +31,8 @@ public abstract class PersonaDTO {
         return this.nombre;
     }
 
-    public String getApellidoPaterno () {
-        return this.apellidoPaterno;
-    }
-
-    public String getApellidoMaterno () {
-        return this.apellidoMaterno;
+    public String getApellidos () {
+        return this.apellidos;
     }
 
     public void setNombre(String nombre) {
@@ -46,14 +40,9 @@ public abstract class PersonaDTO {
         this.nombre = nombre;
     }
 
-    public void setApellidoPaterno(String apellidoPaterno) {
-        verificarApellido(apellidoPaterno);
-        this.apellidoPaterno = apellidoPaterno;
-    }
-
-    public void setApellidoMaterno(String apellidoMaterno) {
-        verificarApellido(apellidoMaterno);
-        this.apellidoMaterno = apellidoMaterno;
+    public void setApellidos (String apellidos) {
+        verificarApellido(apellidos);
+        this.apellidos = apellidos;
     }
 
     public int getIdUniversidad () {
@@ -84,7 +73,7 @@ public abstract class PersonaDTO {
         if (!esCadenaValida(apellido)) {
             throw new ErrorDAO("El nombre no puede estar vacío o compuesto solo de espacios en blanco", ErrorDAO.Tipo.VALIDACION);
         }
-        String apellidosRegex = "^.{1,20}$";
+        String apellidosRegex = "^.{1,80}$";
         Pattern patron = Pattern.compile(apellidosRegex);
         if (apellido == null || apellido.isEmpty()) {
             throw new ErrorDAO("Los apellidos no pueden estar vacíos", ErrorDAO.Tipo.VALIDACION);
@@ -93,7 +82,7 @@ public abstract class PersonaDTO {
         if (!matcher.matches()) {
             throw new ErrorDAO("""
                                                        El apellido no es válido
-                                                       1. Su longitud debe ser máximo 20 caracteres""", ErrorDAO.Tipo.VALIDACION);
+                                                       1. Su longitud debe ser máximo 80 caracteres""", ErrorDAO.Tipo.VALIDACION);
         }
     }
 
