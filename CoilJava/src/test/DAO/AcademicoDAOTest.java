@@ -244,7 +244,7 @@ class AcademicoDAOTest {
     void pruebaAgregarAcademicoUVExitoso () {
         AcademicoDTO academicoDTO = new AcademicoDTO();
         academicoDTO.setNombre("Hernan");
-        academicoDTO.setApellidoPaterno("Llamas");
+        academicoDTO.setApellidos("Llamas");
         academicoDTO.setApellidoMaterno("Villa Señor");
         academicoDTO.setIdUniversidad(1);
         academicoDTO.setCedulaProfesional("9877985");
@@ -275,7 +275,7 @@ class AcademicoDAOTest {
     void pruebaAgregarAcademicoUVUniversidadInexistente () {
         AcademicoDTO academicoDTO = new AcademicoDTO();
         academicoDTO.setNombre("Jose");
-        academicoDTO.setApellidoPaterno("Andrei");
+        academicoDTO.setApellidos("Andrei");
         academicoDTO.setApellidoMaterno("De la paz");
         academicoDTO.setIdUniversidad(5);
         academicoDTO.setCedulaProfesional("453432523");
@@ -291,7 +291,7 @@ class AcademicoDAOTest {
     void pruebaAgregarAcademicoUVFacultadInexistente () {
         AcademicoDTO academicoDTO = new AcademicoDTO();
         academicoDTO.setNombre("Jose");
-        academicoDTO.setApellidoPaterno("Andrei");
+        academicoDTO.setApellidos("Andrei");
         academicoDTO.setApellidoMaterno("De la paz");
         academicoDTO.setIdUniversidad(5);
         academicoDTO.setCedulaProfesional("98765");
@@ -308,7 +308,7 @@ class AcademicoDAOTest {
         try {
             AcademicoDTO academicoDTO = new AcademicoDTO();
             academicoDTO.setNombre("Ivan");
-            academicoDTO.setApellidoPaterno("Ingram");
+            academicoDTO.setApellidos("Ingram");
             academicoDTO.setApellidoMaterno("Lopez");
             academicoDTO.setIdUniversidad(1);
             academicoDTO.setCedulaProfesional("564635356");
@@ -328,7 +328,7 @@ class AcademicoDAOTest {
     void pruebaAgregarAcademicoExternoExitosa () {
         AcademicoDTO academicoDTO = new AcademicoDTO();
         academicoDTO.setNombre("Hernan");
-        academicoDTO.setApellidoPaterno("Llamas");
+        academicoDTO.setApellidos("Llamas");
         academicoDTO.setApellidoMaterno("Villa Señor");
         academicoDTO.setIdUniversidad(2);
         academicoDTO.setCedulaProfesional("20001232");
@@ -356,7 +356,7 @@ class AcademicoDAOTest {
     void pruebaAgregarAcademicoExternoUniversidadInexistente () {
         AcademicoDTO academicoDTO = new AcademicoDTO();
         academicoDTO.setNombre("Hernan");
-        academicoDTO.setApellidoPaterno("Llamas");
+        academicoDTO.setApellidos("Llamas");
         academicoDTO.setApellidoMaterno("Villa Señor");
         academicoDTO.setIdUniversidad(20);
         academicoDTO.setCedulaProfesional("9877985");
@@ -371,7 +371,7 @@ class AcademicoDAOTest {
     void pruebaAgregarAcademicoExternoCedulaRepetida () {
         AcademicoDTO academicoDTO = new AcademicoDTO();
         academicoDTO.setNombre("Hernan");
-        academicoDTO.setApellidoPaterno("Llamas");
+        academicoDTO.setApellidos("Llamas");
         academicoDTO.setApellidoMaterno("Villa Señor");
         academicoDTO.setIdUniversidad(2);
         academicoDTO.setCedulaProfesional(ACADEMICO_DTO_ECONOMIA.getCedulaProfesional());
@@ -387,7 +387,7 @@ class AcademicoDAOTest {
         AcademicoDTO academicoDTO = new AcademicoDTO();
         try {
             academicoDTO.setNombre("Hernan");
-            academicoDTO.setApellidoPaterno("Llamas");
+            academicoDTO.setApellidos("Llamas");
             academicoDTO.setApellidoMaterno("Villa Señor");
             academicoDTO.setIdUniversidad(2);
             academicoDTO.setCedulaProfesional("9877985");
@@ -450,7 +450,7 @@ class AcademicoDAOTest {
         int obtenido = 0;
         AcademicoDTO academicoDTO = new AcademicoDTO();
         academicoDTO.setNombre("Fernando");
-        academicoDTO.setApellidoPaterno("Hernandez");
+        academicoDTO.setApellidos("Hernandez");
         academicoDTO.setApellidoMaterno("Lopez");
         academicoDTO.setIdUniversidad(1);
         academicoDTO.setCedulaProfesional(ACADEMICO_DTO_ECONOMIA.getCedulaProfesional());
@@ -477,7 +477,7 @@ class AcademicoDAOTest {
 
         AcademicoDTO academicoDTO = new AcademicoDTO();
         academicoDTO.setNombre("Fernando");
-        academicoDTO.setApellidoPaterno("Martinez");
+        academicoDTO.setApellidos("Martinez");
         academicoDTO.setApellidoMaterno("Ramirez");
         academicoDTO.setIdUniversidad(1);
         academicoDTO.setCedulaProfesional("1");
@@ -499,7 +499,7 @@ class AcademicoDAOTest {
     void pruebaEditarAcademicoUniversidadInexistente () {
         AcademicoDTO academicoDTO = new AcademicoDTO();
         academicoDTO.setNombre("Esther");
-        academicoDTO.setApellidoPaterno("Ramirez");
+        academicoDTO.setApellidos("Ramirez");
         academicoDTO.setApellidoMaterno("Escobar");
         academicoDTO.setIdUniversidad(10);
         academicoDTO.setCedulaProfesional(ACADEMICO_DTO_ECONOMIA.getCedulaProfesional());
@@ -515,7 +515,7 @@ class AcademicoDAOTest {
     void pruebaEditarAcademicoFacultadInexistente () {
         AcademicoDTO academicoDTO = new AcademicoDTO();
         academicoDTO.setNombre("Esther");
-        academicoDTO.setApellidoPaterno("Ramirez");
+        academicoDTO.setApellidos("Ramirez");
         academicoDTO.setApellidoMaterno("Escobar");
         academicoDTO.setIdUniversidad(1);
         academicoDTO.setCedulaProfesional(ACADEMICO_DTO_ECONOMIA.getCedulaProfesional());
@@ -531,7 +531,7 @@ class AcademicoDAOTest {
     void pruebaEditarAcademicoCategoriaFacultadNuloExitosa () {
         AcademicoDTO academicoDTO = new AcademicoDTO();
         academicoDTO.setNombre("Esther");
-        academicoDTO.setApellidoPaterno("Ramirez");
+        academicoDTO.setApellidos("Ramirez");
         academicoDTO.setApellidoMaterno("Escobar");
         academicoDTO.setIdUniversidad(1);
         academicoDTO.setCedulaProfesional(ACADEMICO_DTO_ECONOMIA.getCedulaProfesional());
@@ -555,7 +555,7 @@ class AcademicoDAOTest {
     void pruebaAgregarAcademicoConCuentaExitoso () {
         AcademicoDTO academicoDTO = new AcademicoDTO();
         academicoDTO.setNombre("Hernan");
-        academicoDTO.setApellidoPaterno("Llamas");
+        academicoDTO.setApellidos("Llamas");
         academicoDTO.setApellidoMaterno("Villa Señor");
         academicoDTO.setIdUniversidad(1);
         academicoDTO.setCedulaProfesional("9877985");
@@ -586,7 +586,7 @@ class AcademicoDAOTest {
 
         try {
             academicoDTO.setNombre("Hernan");
-            academicoDTO.setApellidoPaterno("Llamas");
+            academicoDTO.setApellidos("Llamas");
             academicoDTO.setApellidoMaterno("Villa Señor");
             academicoDTO.setIdUniversidad(1);
             academicoDTO.setCedulaProfesional("9877985");
@@ -614,7 +614,7 @@ class AcademicoDAOTest {
 
         try {
             academicoDTO.setNombre("Hernan");
-            academicoDTO.setApellidoPaterno("Llamas");
+            academicoDTO.setApellidos("Llamas");
             academicoDTO.setApellidoMaterno("Villa Señor");
             academicoDTO.setIdUniversidad(1);
             academicoDTO.setCedulaProfesional("9877985");
@@ -642,7 +642,7 @@ class AcademicoDAOTest {
 
         try {
             academicoDTO.setNombre("Hernan");
-            academicoDTO.setApellidoPaterno("Llamas");
+            academicoDTO.setApellidos("Llamas");
             academicoDTO.setApellidoMaterno("Villa Señor");
             academicoDTO.setIdUniversidad(1);
             academicoDTO.setCedulaProfesional("9877985");

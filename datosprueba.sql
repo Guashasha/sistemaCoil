@@ -50,19 +50,19 @@ INSERT INTO region (nombre) VALUES ("veracruz");
 INSERT INTO facultad (nombre, region) VALUES ("estadistica e informatica", 1);
 INSERT INTO facultad (nombre, region) VALUES ("psicología", 2);
 
-INSERT INTO persona (idPersona, nombre, apellidoPaterno, apellidoMaterno, universidad) VALUES (1, 'Jose', 'Lopez', 'Perez', 1);
-INSERT INTO academico (cedulaProfesional, numeroDePersonal, idPersona, areaEstudios, correoElectronico, numeroTelefonico, categoriaContratacion, facultad) VALUES ('ABC123', '123456', 1, 'Ciencias de la Computación', 'jose@gmail.com', '522288536230', 'Investigador', 1);
+INSERT INTO persona (idPersona, nombre, apellidos, universidad) VALUES (1, 'Jose', 'Lopez Perez', 1);
+INSERT INTO academico (cedulaProfesional, numeroDePersonal, idPersona, areaEstudios, correoElectronico, numeroTelefonico, categoriaContratacion, facultad) VALUES ('ABC123', '123456', 1, 'Ciencias de la Computación', 'jose@gmail.com', '522288536230', 'economico-administrativo', 1);
 
-INSERT INTO persona (idPersona, nombre, apellidoPaterno, apellidoMaterno, universidad) VALUES (2, 'Esther', 'Herrara', 'Martinez', 1);
-INSERT INTO academico (cedulaProfesional, numeroDePersonal, idPersona, areaEstudios, correoElectronico, numeroTelefonico, categoriaContratacion, facultad) VALUES ('200011', '4564', 2, 'Filosofia', 'esther@gmail.com', '522288536230', 'Dramaturgo', 1);
+INSERT INTO persona (idPersona, nombre, apellidos, universidad) VALUES (2, 'Esther', 'Herrara Martinez', 1);
+INSERT INTO academico (cedulaProfesional, numeroDePersonal, idPersona, areaEstudios, correoElectronico, numeroTelefonico, categoriaContratacion, facultad) VALUES ('200011', '4564', 2, 'Filosofia', 'esther@gmail.com', '522288536230', 'economico-administrativo', 1);
 
-INSERT INTO persona (idPersona, nombre, apellidoPaterno, apellidoMaterno, universidad) VALUES (3, 'Johan', 'Wallstrom', 'Figurason', 2);
-INSERT INTO academico (cedulaProfesional, numeroDePersonal, idPersona, areaEstudios, correoElectronico, numeroTelefonico, categoriaContratacion, facultad) VALUES ('102939', '02', 3, 'Filosofia', 'johan@ptron.com', '522238536430', 'Sociologia', 1);
+INSERT INTO persona (idPersona, nombre, apellidos, universidad) VALUES (3, 'Johan', 'Wallstrom Figurason', 2);
+INSERT INTO academico (cedulaProfesional, numeroDePersonal, idPersona, areaEstudios, correoElectronico, numeroTelefonico, categoriaContratacion, facultad) VALUES ('102939', '02', 3, 'Filosofia', 'johan@ptron.com', '522238536430', 'economico-administrativo', 1);
 
-INSERT INTO persona (idPersona, nombre, apellidoPaterno, apellidoMaterno, universidad) VALUES (4, 'Eduardo', 'Villegas', 'Hurtado', 1);
+INSERT INTO persona (idPersona, nombre, apellidos, universidad) VALUES (4, 'Eduardo', 'Villegas Hurtado', 1);
 INSERT INTO estudiante (idEstudiante, idPersona, matricula) VALUES (1, 4, 'zs22013693');
 
-INSERT INTO persona (idPersona, nombre, apellidoPaterno, apellidoMaterno, universidad) VALUES (5, 'John', 'Smith', 'Onell', 2);
+INSERT INTO persona (idPersona, nombre, apellidos, universidad) VALUES (5, 'John', 'Smith Onell', 2);
 INSERT INTO estudiante (idEstudiante, idPersona, matricula) VALUES (2, 5, 'zs2201356');
 
 INSERT INTO colaboracion (idColaboracion, estado, tipo, temaInteres, idioma, objetivo, fechaInicio, fechaFin, perfilEstudiante) VALUES (1, 'propuesta', 'claseEspejo', 'Inteligencia Artificial', 'Español', 'Mejorar habilidades en IA', '2024-05-01', '2024-06-30', 'Estudiantes de informática');

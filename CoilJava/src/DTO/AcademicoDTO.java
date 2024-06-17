@@ -24,21 +24,20 @@ public class AcademicoDTO extends PersonaDTO {
     /**
      * Constructor que inicializa todos los campos del académico.
      *
-     * @param idPersona              el ID de la persona.
-     * @param nombre                 el nombre del académico.
-     * @param apellidoPaterno        el apellido paterno del académico.
-     * @param apellidoMaterno        el apellido materno del académico.
-     * @param idUniversidad          el ID de la universidad.
-     * @param cedulaProfesional      la cédula profesional del académico.
-     * @param numeroPersonal         el número de personal del académico.
-     * @param areaEstudios           el área de estudios del académico.
-     * @param correoElectronico      el correo electrónico del académico.
-     * @param numeroTelefonico       el número telefónico del académico.
-     * @param categoriaContratacion  la categoría de contratación del académico.
-     * @param idFacultad             el ID de la facultad.
+     * @param idPersona             el ID de la persona.
+     * @param nombre                el nombre del académico.
+     * @param apellidos             el apellido paterno del académico.
+     * @param idUniversidad         el ID de la universidad.
+     * @param cedulaProfesional     la cédula profesional del académico.
+     * @param numeroPersonal        el número de personal del académico.
+     * @param areaEstudios          el área de estudios del académico.
+     * @param correoElectronico     el correo electrónico del académico.
+     * @param numeroTelefonico      el número telefónico del académico.
+     * @param categoriaContratacion la categoría de contratación del académico.
+     * @param idFacultad            el ID de la facultad.
      */
-    public AcademicoDTO (int idPersona, String nombre, String apellidoPaterno, String apellidoMaterno, int idUniversidad, String cedulaProfesional, String numeroPersonal, String areaEstudios, String correoElectronico, String numeroTelefonico, String categoriaContratacion, Integer idFacultad) {
-        super(idPersona, nombre, apellidoPaterno, apellidoMaterno, idUniversidad);
+    public AcademicoDTO (int idPersona, String nombre, String apellidos, int idUniversidad, String cedulaProfesional, String numeroPersonal, String areaEstudios, String correoElectronico, String numeroTelefonico, String categoriaContratacion, Integer idFacultad) {
+        super(idPersona, nombre, apellidos, idUniversidad);
         this.cedulaProfesional = cedulaProfesional;
         this.numeroPersonal = numeroPersonal;
         this.areaEstudios = areaEstudios;
@@ -133,8 +132,7 @@ public class AcademicoDTO extends PersonaDTO {
     @Override
     public boolean validarNulos () {
         return esCadenaValida(getNombre()) &&
-                esCadenaValida(getApellidoPaterno()) &&
-                esCadenaValida(getApellidoMaterno()) &&
+                esCadenaValida(getApellidos()) &&
                 esCadenaValida(cedulaProfesional) &&
                 esCadenaValida(numeroPersonal) &&
                 esCadenaValida(areaEstudios) &&
@@ -260,9 +258,8 @@ public class AcademicoDTO extends PersonaDTO {
             AcademicoDTO academico = (AcademicoDTO) obj;
             igual = this.getIdPersona() == academico.getIdPersona() && this.getNombre()
                                                                            .equals(academico.getNombre())
-                    && this.getApellidoPaterno()
-                           .equals(academico.getApellidoPaterno()) && this.getApellidoMaterno()
-                                                                          .equals(academico.getApellidoMaterno())
+                    && this.getApellidos()
+                           .equals(academico.getApellidos())
                     && this.getIdUniversidad() == academico.getIdUniversidad() && this.cedulaProfesional.equals(academico.getCedulaProfesional())
                     && this.numeroPersonal.equals(academico.getNumeroPersonal()) && this.areaEstudios.equals(academico.getAreaEstudios())
                     && this.correoElectronico.equals(academico.getCorreoElectronico()) && this.numeroTelefonico.equals(academico.getNumeroTelefonico())

@@ -195,7 +195,7 @@ public class GestionCuentaControlador implements Initializable {
     }
 
     private String getNombreAcademicoCompleto (AcademicoDTO academico) {
-        return academico.getNombre() + " " + academico.getApellidoPaterno() + " " + academico.getApellidoMaterno();
+        return academico.getNombre() + " " + academico.getApellidos();
     }
 
     public void setPnVentanaPrincipal (BorderPane pnVentanaPrincipal) {

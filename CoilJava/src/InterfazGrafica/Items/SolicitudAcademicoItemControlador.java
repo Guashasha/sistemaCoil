@@ -69,8 +69,7 @@ public class SolicitudAcademicoItemControlador {
 
     public void setLabel () {
         lbNombre.setText(this.academicoDTO.getNombre());
-        lbApellidoPaterno.setText(this.academicoDTO.getApellidoPaterno());
-        lbApellidoMaterno.setText(this.academicoDTO.getApellidoMaterno());
+        lbApellidoPaterno.setText(this.academicoDTO.getApellidos());
         lbUniversidad.setText(getUniversidad());
         lbAreaEstudios.setText(this.academicoDTO.getAreaEstudios());
     }

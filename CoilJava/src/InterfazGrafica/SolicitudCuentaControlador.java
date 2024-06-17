@@ -177,8 +177,7 @@ public class SolicitudCuentaControlador implements Initializable {
     private AcademicoDTO getDatosAcademico () {
         AcademicoDTO academicoDTO = new AcademicoDTO();
         academicoDTO.setNombre(tfNombre.getText());
-        academicoDTO.setApellidoPaterno(tfApellidoP.getText());
-        academicoDTO.setApellidoMaterno(tfApellidoM.getText());
+        academicoDTO.setApellidos(tfApellidoP.getText());
         academicoDTO.setCorreoElectronico(tfCorreo.getText());
         academicoDTO.setCedulaProfesional(tfCedula.getText());
         if (cmbPais.getValue() == null) {

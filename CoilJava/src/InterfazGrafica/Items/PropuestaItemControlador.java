@@ -74,8 +74,7 @@ public class PropuestaItemControlador implements Initializable {
         lbNombre.setText(colaboracionDTO.getAnfitrion()
                                         .getNombre());
         lbApellido.setText(colaboracionDTO.getAnfitrion()
-                                          .getApellidoPaterno() + " " + colaboracionDTO.getAnfitrion()
-                                                                                       .getApellidoMaterno());
+                                          .getApellidos() + " " + colaboracionDTO.getAnfitrion());
         UniversidadDTO universidadDTO = getUniversidad();
         lbUniversidad.setText(universidadDTO.getNombre());
         lbPais.setText(getPais(universidadDTO.getIdPais()).getIso());

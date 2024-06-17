@@ -14,6 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+
 import java.util.Optional;
 import java.util.Stack;
 
@@ -50,7 +51,7 @@ public class EditarEstudianteControlador {
             if (estudianteOptional.isPresent()) {
                 UniversidadAuxiliar universidadAuxiliar = new UniversidadAuxiliar();
                 universidadOptional = universidadAuxiliar.getUniversidadPorId(estudianteOptional.get()
-                        .getIdUniversidad());
+                                                                                                .getIdUniversidad());
 
                 if (universidadOptional.isPresent()) {
                     this.historialPaneles = historialPaneles;
@@ -59,11 +60,10 @@ public class EditarEstudianteControlador {
                     this.listaEstudiantesControlador = listaEstudiantesControlador;
 
                     this.tfNombre.setText(this.estudiante.getNombre());
-                    this.tfApellidoPaterno.setText(this.estudiante.getApellidoPaterno());
-                    this.tfApellidoMaterno.setText(this.estudiante.getApellidoMaterno());
+                    this.tfApellidoPaterno.setText(this.estudiante.getApellidos());
                     this.txtMatriculaActual.setText(this.estudiante.getMatricula());
                     this.txtUniversidadActual.setText(universidadOptional.get()
-                            .getNombre());
+                                                                         .getNombre());
                 }
             }
         }
@@ -82,11 +82,10 @@ public class EditarEstudianteControlador {
 
             try {
                 estudianteEditado.setNombre(tfNombre.getText());
-                estudianteEditado.setApellidoPaterno(tfApellidoPaterno.getText());
-                estudianteEditado.setApellidoMaterno(tfApellidoMaterno.getText());
+                estudianteEditado.setApellidos(tfApellidoPaterno.getText());
                 estudianteEditado.setMatricula(txtMatriculaActual.getText());
                 estudianteEditado.setIdUniversidad(this.estudiante
-                        .getIdUniversidad());
+                                                           .getIdUniversidad());
                 filasAfectadas = estudianteDAO.modificar(estudianteEditado);
             }
             catch (ErrorDAO error) {
@@ -110,12 +109,13 @@ public class EditarEstudianteControlador {
         Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
         alerta.setContentText("No se guardarán los cambios");
         alerta.setHeaderText(null);
-        alerta.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.OK) {
-                this.pnVentanaPrincipal.setCenter(this.historialPaneles.pop());
-                listaEstudiantesControlador.cargarListaEstudiantes();
-            }
-        });
+        alerta.showAndWait()
+              .ifPresent(response -> {
+                  if (response == ButtonType.OK) {
+                      this.pnVentanaPrincipal.setCenter(this.historialPaneles.pop());
+                      listaEstudiantesControlador.cargarListaEstudiantes();
+                  }
+              });
     }
 
     private boolean camposVacios () {
@@ -130,15 +130,12 @@ public class EditarEstudianteControlador {
 
     private boolean camposIguales () {
         String nuevoNombre = tfNombre.getText().
-                trim();
+                                     trim();
         String nuevoApeliidoPaterno = tfApellidoPaterno.getText()
-                .trim();
-        String nuevoApellidoMaterno = tfApellidoMaterno.getText()
-                .trim();
+                                                       .trim();
         return nuevoNombre.equals(this.estudiante
-                .getNombre()) && nuevoApeliidoPaterno.equals(this.estudiante
-                .getApellidoPaterno()) && nuevoApellidoMaterno.equals(this.estudiante
-                .getApellidoMaterno());
+                                          .getNombre()) && nuevoApeliidoPaterno.equals(this.estudiante
+                                                                                               .getApellidos());
     }
 
     private void etiquetarCamposVacios () {

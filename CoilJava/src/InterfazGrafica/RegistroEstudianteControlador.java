@@ -80,9 +80,7 @@ public class RegistroEstudianteControlador {
             try {
                 estudiante.setNombre(this.tfNombre
                         .getText());
-                estudiante.setApellidoPaterno(this.tfApellidoPaterno
-                        .getText());
-                estudiante.setApellidoMaterno(this.tfApellidoMaterno
+                estudiante.setApellidos(this.tfApellidoPaterno
                         .getText());
                 estudiante.setIdUniversidad(this.universidad
                         .getId());

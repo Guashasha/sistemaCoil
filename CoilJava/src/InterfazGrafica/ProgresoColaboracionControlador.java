@@ -87,8 +87,7 @@ public class ProgresoColaboracionControlador {
     private void cargarLabels () {
         this.lbAcademicoPar.setText(colaboracionDTO.getAcademicoPar()
                                                    .getNombre() + " " + colaboracionDTO.getAcademicoPar()
-                                                                                       .getApellidoPaterno() + " " + colaboracionDTO.getAcademicoPar()
-                                                                                                                                    .getApellidoMaterno());
+                                                                                       .getApellidos());
         this.lbIdioma.setText(colaboracionDTO.getIdioma());
         this.lbObjetivo.setText(colaboracionDTO.getObjetivo());
         this.lbPerfil.setText(colaboracionDTO.getPerfilEstudiante());
