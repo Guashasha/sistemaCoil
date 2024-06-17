@@ -256,13 +256,42 @@ INSERT INTO region (idRegion,nombre) VALUES (4,'Orizaba-Córdoba');
 INSERT INTO region (idRegion,nombre) VALUES (5,'Coatzacoalcos-Minatitlán');
 
 -- facultades
-INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Contaduría y Administración', 1); -- Xalapa
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Antropología', 1);
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Arquitectura', 1);
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Artes Plásticas', 1);
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Bioanálisis', 1);
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Biología', 1);
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Ciencias Administrativas y Sociales', 1);
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Ciencias Agrícolas', 1);
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Ciencias Químicas', 1);
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Contaduría y Administración', 1);
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Danza', 1);
 INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Derecho', 1); -- Xalapa
-INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Psicología', 1); -- Xalapa
-INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Ciencias Agrícolas', 1); -- Xalapa
-INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Artes', 1); -- Xalapa
 INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Economía', 1); -- Xalapa
-INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Estadística e informática', 1);
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Enfermería', 1);
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Estadística e Informática', 1);
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Filosofía', 1);
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Física', 1);
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Historia', 1);
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Idiomas', 1);
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Ingeniería Civil', 1);
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Ingeniería Mecánica y Eléctrica', 1);
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Instrumentación electrónica', 1);
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Letras Españolas', 1);
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Matemáticas', 1);
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Medicina', 1);
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Música', 1);
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Nutrición', 1);
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Odontología', 1);
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Pedagogía', 1);
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Psicología', 1)
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Química Farmacéutica Biológica', 1);
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Sociología', 1);
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Teatro', 1);
+
+
+
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de ', 2);
 
 INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Ingeniería', 2); -- Veracruz
 INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Medicina', 2); -- Veracruz

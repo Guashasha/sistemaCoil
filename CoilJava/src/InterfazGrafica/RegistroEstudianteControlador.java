@@ -40,7 +40,7 @@ public class RegistroEstudianteControlador {
     private UniversidadDTO universidad;
     private AgregarEstudianteControlador agregarEstudianteControlador;
 
-    public void setAgregarEstudianteControlador(AgregarEstudianteControlador agregarEstudianteControlador) {
+    public void setAgregarEstudianteControlador (AgregarEstudianteControlador agregarEstudianteControlador) {
         this.agregarEstudianteControlador = agregarEstudianteControlador;
     }
 
@@ -67,30 +67,27 @@ public class RegistroEstudianteControlador {
             int filasAfectadas;
 
             try {
-                estudiante.setNombre(this.tfNombre
-                        .getText());
-                estudiante.setApellidoPaterno(this.tfApellidoPaterno
-                        .getText());
-                estudiante.setApellidoMaterno(this.tfApellidoMaterno
-                        .getText());
-                estudiante.setIdUniversidad(this.universidad
-                        .getId());
-                estudiante.setMatricula(this.tfMatricula
-                        .getText());
+                estudiante.setNombre(this.tfNombre.getText());
+                estudiante.setApellidoPaterno(this.tfApellidoPaterno.getText());
+                estudiante.setApellidoMaterno(this.tfApellidoMaterno.getText());
+                estudiante.setIdUniversidad(this.universidad.getId());
+                estudiante.setMatricula(this.tfMatricula.getText());
                 filasAfectadas = estudianteAuxiliar.agregar(estudiante);
             }
             catch (ErrorDAO error) {
                 mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.WARNING);
+                etiquetarCamposVacios();
                 filasAfectadas = -1;
             }
 
             if (filasAfectadas > 0) {
-                mostrarMensajeEmergente("Se ha registrado el estudiante exitosamente", Alert.AlertType.INFORMATION);
+                mostrarMensajeEmergente("Se ha registrado el estudiante exitosamente. También se le ha creado una cuenta con su matricula como usuario y contraseña", Alert.AlertType.INFORMATION);
                 etiquetarCamposVacios();
                 limpiarCampos();
             }
             else if (filasAfectadas == 0) {
                 mostrarMensajeEmergente("Algo salió mal al intentar registrar el estudiante", Alert.AlertType.ERROR);
+                etiquetarCamposVacios();
             }
         }
         else {
@@ -103,14 +100,15 @@ public class RegistroEstudianteControlador {
         Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
         alerta.setContentText("Se cancelará el registro del estudiante");
         alerta.setHeaderText(null);
-        alerta.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.OK) {
-                this.pnVentanaPrincipal.setCenter(this.historialPaneles.pop());
-                if (this.agregarEstudianteControlador != null) {
-                    agregarEstudianteControlador.cargarConsultaGeneral();
-                }
-            }
-        });
+        alerta.showAndWait()
+              .ifPresent(response -> {
+                  if (response == ButtonType.OK) {
+                      this.pnVentanaPrincipal.setCenter(this.historialPaneles.pop());
+                      if (this.agregarEstudianteControlador != null) {
+                          agregarEstudianteControlador.cargarConsultaGeneral();
+                      }
+                  }
+              });
     }
 
     private void limpiarCampos () {
@@ -121,7 +119,7 @@ public class RegistroEstudianteControlador {
     }
 
     private boolean camposVacios () {
-        TextField[] camposTexto = new TextField[]{this.tfNombre,this.tfApellidoPaterno,this.tfApellidoMaterno,this.tfMatricula};
+        TextField[] camposTexto = new TextField[]{this.tfNombre, this.tfApellidoPaterno, this.tfApellidoMaterno, this.tfMatricula};
         boolean vacio = true;
 
         for (TextField textField : camposTexto) {

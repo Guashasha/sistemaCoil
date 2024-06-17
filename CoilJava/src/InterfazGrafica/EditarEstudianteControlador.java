@@ -50,7 +50,7 @@ public class EditarEstudianteControlador {
             if (estudianteOptional.isPresent()) {
                 UniversidadAuxiliar universidadAuxiliar = new UniversidadAuxiliar();
                 universidadOptional = universidadAuxiliar.getUniversidadPorId(estudianteOptional.get()
-                        .getIdUniversidad());
+                                                                                                .getIdUniversidad());
 
                 if (universidadOptional.isPresent()) {
                     this.historialPaneles = historialPaneles;
@@ -63,7 +63,7 @@ public class EditarEstudianteControlador {
                     this.tfApellidoMaterno.setText(this.estudiante.getApellidoMaterno());
                     this.txtMatriculaActual.setText(this.estudiante.getMatricula());
                     this.txtUniversidadActual.setText(universidadOptional.get()
-                            .getNombre());
+                                                                         .getNombre());
                 }
             }
         }
@@ -85,12 +85,15 @@ public class EditarEstudianteControlador {
                 estudianteEditado.setApellidoPaterno(tfApellidoPaterno.getText());
                 estudianteEditado.setApellidoMaterno(tfApellidoMaterno.getText());
                 estudianteEditado.setMatricula(txtMatriculaActual.getText());
-                estudianteEditado.setIdUniversidad(this.estudiante
-                        .getIdUniversidad());
+                estudianteEditado.setIdUniversidad(this.estudiante.getIdUniversidad());
                 filasAfectadas = estudianteDAO.modificar(estudianteEditado);
             }
             catch (ErrorDAO error) {
-                mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.WARNING);
+                Alert.AlertType tipoAlerta = Alert.AlertType.WARNING;
+                if (error.getTipo() == ErrorDAO.Tipo.CONEXION) {
+                    tipoAlerta = Alert.AlertType.ERROR;
+                }
+                mostrarMensajeEmergente(error.getMessage(), tipoAlerta);
                 filasAfectadas = -1;
             }
 
@@ -110,35 +113,30 @@ public class EditarEstudianteControlador {
         Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
         alerta.setContentText("No se guardarán los cambios");
         alerta.setHeaderText(null);
-        alerta.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.OK) {
-                this.pnVentanaPrincipal.setCenter(this.historialPaneles.pop());
-                listaEstudiantesControlador.cargarListaEstudiantes();
-            }
-        });
+        alerta.showAndWait()
+              .ifPresent(response -> {
+                  if (response == ButtonType.OK) {
+                      this.pnVentanaPrincipal.setCenter(this.historialPaneles.pop());
+                      listaEstudiantesControlador.cargarListaEstudiantes();
+                  }
+              });
     }
 
     private boolean camposVacios () {
-        String nombre = this.tfNombre
-                .getText();
-        String apellidoPaterno = this.tfApellidoPaterno
-                .getText();
-        String apellidoMaterno = this.tfApellidoMaterno
-                .getText();
+        String nombre = this.tfNombre.getText();
+        String apellidoPaterno = this.tfApellidoPaterno.getText();
+        String apellidoMaterno = this.tfApellidoMaterno.getText();
         return nombre == null || nombre.isBlank() || apellidoPaterno == null || apellidoPaterno.isBlank() || apellidoMaterno == null || apellidoMaterno.isBlank();
     }
 
     private boolean camposIguales () {
-        String nuevoNombre = tfNombre.getText().
-                trim();
+        String nuevoNombre = tfNombre.getText()
+                                     .trim();
         String nuevoApeliidoPaterno = tfApellidoPaterno.getText()
-                .trim();
+                                                       .trim();
         String nuevoApellidoMaterno = tfApellidoMaterno.getText()
-                .trim();
-        return nuevoNombre.equals(this.estudiante
-                .getNombre()) && nuevoApeliidoPaterno.equals(this.estudiante
-                .getApellidoPaterno()) && nuevoApellidoMaterno.equals(this.estudiante
-                .getApellidoMaterno());
+                                                       .trim();
+        return nuevoNombre.equals(this.estudiante.getNombre()) && nuevoApeliidoPaterno.equals(this.estudiante.getApellidoPaterno()) && nuevoApellidoMaterno.equals(this.estudiante.getApellidoMaterno());
     }
 
     private void etiquetarCamposVacios () {
