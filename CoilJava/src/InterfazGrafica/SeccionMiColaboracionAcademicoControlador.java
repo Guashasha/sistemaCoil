@@ -148,8 +148,16 @@ public class SeccionMiColaboracionAcademicoControlador {
             mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
             return;
         }
+        if (colaboracionVinculadaOActiva.isEmpty()) {
+            ColaboracionDAO dao = new ColaboracionDAO();
+            colaboracionVinculadaOActiva = dao.getEnRevisionPorAcademico(this.academicoDTO);
+            
+            if (colaboracionVinculadaOActiva.isEmpty()) {
+                mostrarMensajeEmergente("No existe una colaboración activa o vinculada con un par", Alert.AlertType.WARNING);
+                return;
+            }
+        }
 
-        if (colaboracionVinculadaOActiva.isPresent()) {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ProgresoColaboracion.fxml"));
             BorderPane pnProgresoColaboracion = null;
 
@@ -157,8 +165,6 @@ public class SeccionMiColaboracionAcademicoControlador {
                 pnProgresoColaboracion = fxmlLoader.load();
             } catch (IOException error) {
                 BITACORA.fatal(error.getMessage(), error);
-                mostrarMensajeEmergente("Error al cargar la sección de inicio de colaboración", Alert.AlertType.ERROR);
-                return;
             }
 
             if (pnProgresoColaboracion != null) {
@@ -170,9 +176,6 @@ public class SeccionMiColaboracionAcademicoControlador {
                 progresoColaboracionControlador.inicializar();
                 this.pnVentanaPrincipal.setCenter(pnProgresoColaboracion);
             }
-        } else {
-            mostrarMensajeEmergente("No existe una colaboración activa o vinculada con un par", Alert.AlertType.WARNING);
-        }
     }
 
     private Optional<ColaboracionDTO> getColaboracionActivaOVinculada () throws ErrorDAO {

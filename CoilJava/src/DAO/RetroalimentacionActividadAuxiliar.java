@@ -39,7 +39,6 @@ public class RetroalimentacionActividadAuxiliar {
         try {
             resultado = retroalimentacionDAO.agregar(retroalimentacion);
         } catch (ErrorDAO error) {
-            BITACORA.error(error);
         }
 
         return resultado;

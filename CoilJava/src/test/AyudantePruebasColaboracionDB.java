@@ -32,19 +32,22 @@ public class AyudantePruebasColaboracionDB {
 
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO colaboracion (idColaboracion, estado, tipo, temaInteres, idioma, objetivo, fechaInicio, fechaFin, perfilEstudiante) VALUES (1, 'vinculada', 'claseEspejo', 'Inteligencia Artificial', 'Español', 'Mejorar habilidades en IA', '2024-05-01', '2024-06-30', 'Estudiantes de informática');");
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO colaboracion (idColaboracion, estado, tipo, temaInteres, idioma, objetivo, fechaInicio, fechaFin, perfilEstudiante) VALUES (2, 'propuesta', 'COIl', 'Desarrollo web', 'Inglés', 'Crear un proyecto conjunto', '2024-04-15', '2024-07-15', 'Estudiantes de ingeniería de software');");
-        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO colaboracion (idColaboracion, estado, tipo, temaInteres, idioma, objetivo, fechaInicio, fechaFin, perfilEstudiante) VALUES (3, 'enRevision', 'COIl', 'Desarrollo web', 'Inglés', 'Crear un proyecto conjunto', '2024-04-15', '2024-07-15', 'Estudiantes de ingeniería de software');");
-        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO colaboracion (idColaboracion, estado, tipo, temaInteres, idioma, objetivo, fechaInicio, fechaFin, perfilEstudiante) VALUES (4, 'enRevision', 'COIl', 'Desarrollo no web', 'español', 'Crear un proyecto conjunto', '2024-04-15', '2024-07-15', 'Estudiantes de ingeniería de software');");
 
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO academicoDesarrolla (idColaboracion, idAcademico, estado) VALUES (2, '102939', 'anfitrion')");
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO academicoDesarrolla (idColaboracion, idAcademico, estado) VALUES (1, '123', 'anfitrion')");
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO academicoDesarrolla (idColaboracion, idAcademico, estado) VALUES (1, '200011', 'pendiente')");
-        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO academicoDesarrolla (idColaboracion, idAcademico, estado) VALUES (3, '200011', 'anfitrion')");
-        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO academicoDesarrolla (idColaboracion, idAcademico, estado) VALUES (4, '123', 'anfitrion')");
 
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO estudiantesColaboracion (idColaboracion, idEstudiante) VALUES (1, 1)");
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO estudiantesColaboracion (idColaboracion, idEstudiante) VALUES (1, 2)");
 
 
+    }
+
+    public static void agregarColaboracionesParaRetroalimentacion () {
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO colaboracion (idColaboracion, estado, tipo, temaInteres, idioma, objetivo, fechaInicio, fechaFin, perfilEstudiante) VALUES (3, 'enRevision', 'COIl', 'Desarrollo web', 'Inglés', 'Crear un proyecto conjunto', '2024-04-15', '2024-07-15', 'Estudiantes de ingeniería de software');");
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO colaboracion (idColaboracion, estado, tipo, temaInteres, idioma, objetivo, fechaInicio, fechaFin, perfilEstudiante) VALUES (4, 'enRevision', 'COIl', 'Desarrollo no web', 'español', 'Crear un proyecto conjunto', '2024-04-15', '2024-07-15', 'Estudiantes de ingeniería de software');");
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO academicoDesarrolla (idColaboracion, idAcademico, estado) VALUES (3, '200011', 'anfitrion')");
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO academicoDesarrolla (idColaboracion, idAcademico, estado) VALUES (4, '123', 'anfitrion')");
     }
 
     public static void vincularActividadConColaboracion() {

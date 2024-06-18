@@ -179,7 +179,7 @@ public class RetroalimentacionActividadDAO implements IRetroalimentacionActivida
 
             resultado.close();
         } catch (SQLException error) {
-            BITACORA.error(e);
+            BITACORA.error(error);
             throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
         }
 
@@ -204,7 +204,7 @@ public class RetroalimentacionActividadDAO implements IRetroalimentacionActivida
             retroalimentacion.setIdUsuario(resultados.getInt(6));
             retroalimentacion.setIdActividad(resultados.getInt(7));
         } catch (SQLException error) {
-            BITACORA.error(e);
+            BITACORA.error(error);
             throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
         }
 

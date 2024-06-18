@@ -64,6 +64,8 @@ public interface IColaboracionDAO extends IDAO<ColaboracionDTO, Integer> {
 
     public int retirarEstudianteDeColaboracion (ColaboracionDTO colaboracion, EstudianteDTO estudiante) throws ErrorDAO;
 
+    Optional<ColaboracionDTO> getEnRevisionPorAcademico(AcademicoDTO academicoDTO) throws ErrorDAO;
+
     public Optional<ColaboracionDTO> getVinculadaPorAcademico (AcademicoDTO academicoDTO) throws ErrorDAO;
 
     public Optional<LocalDate> getFechaColaboracionMasAntigua () throws ErrorDAO;

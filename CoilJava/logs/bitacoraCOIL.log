@@ -718,3 +718,4 @@ Conctacte a un técnico
 =======
 2024-06-11 09:19:10 FATAL AdministradorBaseDatos:72 - java.sql.SQLInvalidAuthorizationSpecException: (conn=47288) Access denied for user 'admin_COL'@'localhost' (using password: YES)
 >>>>>>> paleDAO
+2024-06-18 09:48:45 FATAL AdministradorBaseDatos:51 - java.sql.SQLException: Host '192.168.23.30' is not allowed to connect to this MariaDB server

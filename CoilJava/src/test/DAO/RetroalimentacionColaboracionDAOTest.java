@@ -25,6 +25,7 @@ public class RetroalimentacionColaboracionDAOTest {
         ConfiguracionPrueba.borrarDatosTablaRetroalimentacion();
 
         AyudantePruebasColaboracionDB.agregarPrecondiciones();
+        AyudantePruebasColaboracionDB.agregarColaboracionesParaRetroalimentacion();
 
         RetroalimentacionColaboracionAuxiliar rt = new RetroalimentacionColaboracionAuxiliar();
         rt.agregar(crearRetroalimentacion2());
