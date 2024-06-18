@@ -38,8 +38,8 @@ public class EnvioPropuestaControlador implements Initializable {
 
     private ColaboracionDTO getDatosGUI () {
         ColaboracionDTO colaboracionDTO = new ColaboracionDTO();
-        colaboracionDTO.setTemaInteres(taTemaInteres.getText());
-        colaboracionDTO.setObjetivo(taObjetivo.getText());
+        colaboracionDTO.setTemaInteres(taTemaInteres.getText().trim());
+        colaboracionDTO.setObjetivo(taObjetivo.getText().trim());
         return colaboracionDTO;
     }
 
