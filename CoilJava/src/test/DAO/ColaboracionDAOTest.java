@@ -49,9 +49,7 @@ class ColaboracionDAOTest {
         colaboracionDTO.setPerfilEstudiante("Estudiantes de informática");
         return colaboracionDTO;
     }
-
-
-    //todo
+    
     @Test
     void pruebaGetColaboracionPorIdExitosa () {
         ColaboracionDTO esperado = instanciarColaboracion();

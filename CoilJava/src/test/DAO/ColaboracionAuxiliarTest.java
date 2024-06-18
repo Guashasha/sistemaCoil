@@ -23,6 +23,7 @@ class ColaboracionAuxiliarTest {
     @BeforeEach
     void setUp () {
         AyudantePruebasColaboracionDB.borrarTodosDatosTabla();
+        AyudantePruebasColaboracionDB.borrarTodosDatosTabla();
         AyudantePruebasColaboracionDB.agregarPrecondiciones();
     }
 
