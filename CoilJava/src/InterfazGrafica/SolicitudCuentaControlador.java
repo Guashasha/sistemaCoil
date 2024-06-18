@@ -41,9 +41,7 @@ public class SolicitudCuentaControlador implements Initializable {
     @FXML
     private TextField pfContrasena;
     @FXML
-    private TextField tfApellidoM;
-    @FXML
-    private TextField tfApellidoP;
+    private TextField tfApellidos;
     @FXML
     private TextField tfCedula;
     @FXML
@@ -177,7 +175,7 @@ public class SolicitudCuentaControlador implements Initializable {
     private AcademicoDTO getDatosAcademico () {
         AcademicoDTO academicoDTO = new AcademicoDTO();
         academicoDTO.setNombre(tfNombre.getText());
-        academicoDTO.setApellidos(tfApellidoP.getText());
+        academicoDTO.setApellidos(tfApellidos.getText());
         academicoDTO.setCorreoElectronico(tfCorreo.getText());
         academicoDTO.setCedulaProfesional(tfCedula.getText());
         if (cmbPais.getValue() == null) {
@@ -227,25 +225,18 @@ public class SolicitudCuentaControlador implements Initializable {
     }
 
     @FXML
-    private void restriccionTfNombre (KeyEvent evento) {
-        if (tfNombre.getText()
-                    .length() >= 20) {
+    private void restriccionTfNombre(KeyEvent evento) {
+        String input = evento.getCharacter();
+        if (tfNombre.getText().length() >= 20 || input.matches("\\d")) {
             evento.consume();
         }
     }
 
     @FXML
-    private void restriccionTfApellidoPaterno (KeyEvent evento) {
-        if (tfApellidoP.getText()
-                       .length() >= 20) {
-            evento.consume();
-        }
-    }
-
-    @FXML
-    private void restriccionTfApellidoMaterno (KeyEvent evento) {
-        if (tfApellidoM.getText()
-                       .length() >= 20) {
+    private void restriccionTfApellidos (KeyEvent evento) {
+        String input = evento.getCharacter();
+        if (tfApellidos.getText()
+                       .length() >= 80 || input.matches("\\d")) {
             evento.consume();
         }
     }
@@ -314,8 +305,7 @@ public class SolicitudCuentaControlador implements Initializable {
 
     private void registrarEventFilters () {
         tfNombre.addEventFilter(KeyEvent.KEY_TYPED, this::restriccionTfNombre);
-        tfApellidoP.addEventFilter(KeyEvent.KEY_TYPED, this::restriccionTfApellidoPaterno);
-        tfApellidoM.addEventFilter(KeyEvent.KEY_TYPED, this::restriccionTfApellidoMaterno);
+        tfApellidos.addEventFilter(KeyEvent.KEY_TYPED, this::restriccionTfApellidos);
         tfCorreo.addEventFilter(KeyEvent.KEY_TYPED, this::restriccionTfCorreo);
         tfCedula.addEventFilter(KeyEvent.KEY_TYPED, this::restriccionTfCedula);
         tfUsuario.addEventFilter(KeyEvent.KEY_TYPED, this::restriccionTfUsuario);
@@ -330,16 +320,10 @@ public class SolicitudCuentaControlador implements Initializable {
             mostrarMensajeEmergente("Ingrese su nombre", Alert.AlertType.WARNING);
             return false;
         }
-        if (tfApellidoP.getText() == null || tfApellidoP.getText()
+        if (tfApellidos.getText() == null || tfApellidos.getText()
                                                         .trim()
                                                         .isEmpty()) {
             mostrarMensajeEmergente("Ingrese su apellido paterno", Alert.AlertType.WARNING);
-            return false;
-        }
-        if (tfApellidoM.getText() == null || tfApellidoM.getText()
-                                                        .trim()
-                                                        .isEmpty()) {
-            mostrarMensajeEmergente("Ingrese su apellido materno", Alert.AlertType.WARNING);
             return false;
         }
         if (tfCorreo.getText() == null || tfCorreo.getText()
