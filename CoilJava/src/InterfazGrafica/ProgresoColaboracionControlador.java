@@ -109,6 +109,15 @@ public class ProgresoColaboracionControlador {
     public void actualizarVisibilidadBotones () {
         ColaboracionDTO.EstadoColaboracion estado = this.colaboracionDTO.getEstado();
 
+        if (this.colaboracionDTO.getAnfitrion().equals(this.academicoDTO)) {
+            btnIniciar.setVisible(true);
+            btnFinalizar.setVisible(true);
+        }
+        else {
+            btnIniciar.setVisible(false);
+            btnFinalizar.setVisible(false);
+        }
+
         switch (estado) {
             case finalizada:
                 btnRetroalimentar.setVisible(false);
@@ -118,6 +127,7 @@ public class ProgresoColaboracionControlador {
             case vinculada:
                 btnRetroalimentar.setVisible(false);
                 btnFinalizar.setVisible(false);
+
                 break;
             case activa:
                 btnRetroalimentar.setVisible(false);
