@@ -18,34 +18,19 @@ import javafx.scene.layout.*;
 import java.util.Optional;
 
 public class SolicitudAcademicoItemControlador {
-
     @FXML
-    private Button btnConfirmar;
-
-    @FXML
-    private Button btnEliminar;
-
-    @FXML
-    private Label lbApellidoPaterno;
-
-    @FXML
-    private Label lbApellidoMaterno;
-
+    private Label lbApellidos;
     @FXML
     private Label lbNombre;
-
     @FXML
     private Label lbUniversidad;
-
     @FXML
     private Label lbAreaEstudios;
     @FXML
     private AnchorPane paneItem;
-
     private AcademicoDTO academicoDTO;
     private ColaboracionDTO colaboracionDTO;
     private SolicitudesAColaboracionControlador solicitudesAColaboracionControlador;
-    private Pane pnMiColaboracion;
     public BorderPane pnlVentanaPrincipal;
     private VBox vbContenedor;
 
@@ -69,7 +54,7 @@ public class SolicitudAcademicoItemControlador {
 
     public void setLabel () {
         lbNombre.setText(this.academicoDTO.getNombre());
-        lbApellidoPaterno.setText(this.academicoDTO.getApellidos());
+        lbApellidos.setText(this.academicoDTO.getApellidos());
         lbUniversidad.setText(getUniversidad());
         lbAreaEstudios.setText(this.academicoDTO.getAreaEstudios());
     }
