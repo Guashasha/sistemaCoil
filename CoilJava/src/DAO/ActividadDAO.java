@@ -3,8 +3,10 @@ package DAO;
 import DAO.Interfaces.IActividadDAO;
 import DTO.ActividadDTO;
 import AccesoDatos.AdministradorBaseDatos;
+import DTO.RetroalimentacionActividadDTO;
 import Utilidades.ErrorDAO;
 import org.apache.commons.lang3.NotImplementedException;
+import org.apache.log4j.Logger;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class ActividadDAO implements IActividadDAO {
+    private static final Logger BITACORA = Logger.getLogger(RetroalimentacionActividadDTO.class);
 
     /**
      * Agrega una actividad a la base de datos
@@ -35,6 +38,7 @@ public class ActividadDAO implements IActividadDAO {
             resultado = consulta.executeUpdate();
             consulta.close();
         } catch (SQLException e) {
+            BITACORA.error(e);
             throw new ErrorDAO(e.getMessage(), ErrorDAO.Tipo.CONEXION);
         } finally {
             AdministradorBaseDatos.desconectar();
@@ -66,6 +70,7 @@ public class ActividadDAO implements IActividadDAO {
             resultado = consulta.executeQuery();
             consulta.close();
         } catch (SQLException e) {
+            BITACORA.error(e);
             throw new ErrorDAO(e.getMessage(), ErrorDAO.Tipo.CONEXION);
         } finally {
             AdministradorBaseDatos.desconectar();
@@ -77,6 +82,7 @@ public class ActividadDAO implements IActividadDAO {
             }
         }
         catch (SQLException error) {
+            BITACORA.error(error);
             throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
         }
 
@@ -102,6 +108,7 @@ public class ActividadDAO implements IActividadDAO {
             consulta.close();
         }
         catch (SQLException error) {
+            BITACORA.error(error);
             throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
         }
         finally {
@@ -114,6 +121,7 @@ public class ActividadDAO implements IActividadDAO {
             }
         }
         catch (SQLException error) {
+            BITACORA.error(error);
             throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
         }
 
@@ -138,6 +146,7 @@ public class ActividadDAO implements IActividadDAO {
             resultado = consulta.executeQuery();
             consulta.close();
         } catch (SQLException e) {
+            BITACORA.error(e);
             throw new ErrorDAO(e.getMessage(), ErrorDAO.Tipo.CONEXION);
         } finally {
             AdministradorBaseDatos.desconectar();
@@ -161,6 +170,7 @@ public class ActividadDAO implements IActividadDAO {
             resultado.close();
         }
         catch (SQLException error) {
+            BITACORA.error(error);
             throw new ErrorDAO("Ocurrió un error con la base de datos: " + error.getMessage(), ErrorDAO.Tipo.CONEXION);
         }
 
@@ -189,6 +199,7 @@ public class ActividadDAO implements IActividadDAO {
             actividadDTO.setTipo(ActividadDTO.TipoActividad.valueOf(resultados.getString(4)));
         }
         catch (SQLException error) {
+            BITACORA.error(error);
             throw new ErrorDAO("Ocurrió un error con la base de datos: " + error.getMessage(), ErrorDAO.Tipo.CONEXION);
         }
 

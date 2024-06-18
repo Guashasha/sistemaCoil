@@ -36,7 +36,7 @@ ALTER TABLE region AUTO_INCREMENT=1;
 
 CREATE TABLE `facultad` (
   `idFacultad` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(50) NOT NULL,
+  `nombre` varchar(80) NOT NULL,
   `region` int NOT NULL
 );
 ALTER TABLE facultad AUTO_INCREMENT=1;
@@ -184,17 +184,17 @@ DROP USER IF EXISTS "admin_COIL3"@"192.168.125.91";
 DROP USER IF EXISTS "admin_COIL"@"%";
 DROP USER IF EXISTS "admin_COIL"@"localhost";
 
-CREATE USER IF NOT EXISTS "admin_COIL"@"192.168.116.30" IDENTIFIED BY "habitacionDeVuelo";
+CREATE USER IF NOT EXISTS "admin_COIL"@"192.168.23.30" IDENTIFIED BY "habitacionDeVuelo";
 
-GRANT INSERT, SELECT, EXECUTE, UPDATE, DELETE ON COIL.* TO "admin_COIL"@"192.168.116.30";
+GRANT INSERT, SELECT, EXECUTE, UPDATE, DELETE ON COIL.* TO "admin_COIL"@"192.168.23.30";
 
-CREATE USER IF NOT EXISTS "admin_COIL2"@" 192.168.116.76" IDENTIFIED BY "habitacionDeVuelo";
+CREATE USER IF NOT EXISTS "admin_COIL2"@"192.168.23.76" IDENTIFIED BY "habitacionDeVuelo";
 
-GRANT INSERT, SELECT, EXECUTE, UPDATE, DELETE ON COIL.* TO "admin_COIL2"@"192.168.116.76";
+GRANT INSERT, SELECT, EXECUTE, UPDATE, DELETE ON COIL.* TO "admin_COIL2"@"192.168.23.76";
 
-CREATE USER IF NOT EXISTS "admin_COIL3"@"192.168.125.91" IDENTIFIED BY "habitacionDeVuelo";
+CREATE USER IF NOT EXISTS "admin_COIL3"@"192.168.23.91" IDENTIFIED BY "habitacionDeVuelo";
 
-GRANT INSERT, SELECT, EXECUTE, UPDATE, DELETE ON COIL.* TO "admin_COIL3"@"192.168.125.91";
+GRANT INSERT, SELECT, EXECUTE, UPDATE, DELETE ON COIL.* TO "admin_COIL3"@"192.168.23.91";
 
 DROP USER IF EXISTS "CarrionMartinezPale"@"localhost";
 
@@ -213,4 +213,4 @@ SOURCE datosCoil.sql;
 
 SELECT "base de datos creada correctamente";
 
-CALL registrar_cuenta_administrador("david", "carrion", "romero", 1, "admin", "contrasena");
+CALL registrar_cuenta_administrador("david", "carrion romero", 1, "admin", "contrasena");

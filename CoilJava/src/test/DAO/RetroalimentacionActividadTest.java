@@ -5,6 +5,7 @@ import DAO.RetroalimentacionActividadAuxiliar;
 import DTO.ActividadDTO;
 import DTO.RetroalimentacionActividadDTO;
 import Utilidades.ErrorDAO;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import test.AyudantePruebasColaboracionDB;
@@ -20,6 +21,7 @@ public class RetroalimentacionActividadTest {
     @BeforeAll
     static void setUp () {
         ConfiguracionPrueba.borrarDatosTablaRetroalimentacionActividad();
+        ConfiguracionPrueba.borrarDatosTablaCalendarioActividades();
         ConfiguracionPrueba.borrarDatosTablaRetroalimentacion();
         ConfiguracionPrueba.borrarDatosTablaActividad();
         AyudantePruebasColaboracionDB.agregarPrecondiciones();
@@ -38,6 +40,12 @@ public class RetroalimentacionActividadTest {
         RetroalimentacionActividadAuxiliar ret = new RetroalimentacionActividadAuxiliar();
         ret.agregar(retroalimentacion);
     }
+
+    @AfterAll
+    static void limpiarBase () {
+        ConfiguracionPrueba.borrarTodosLosDatosTabla();
+    }
+
     @Test
     void pruebaAgregarRetroalimentacionActividad () {
         int resultado = -1;

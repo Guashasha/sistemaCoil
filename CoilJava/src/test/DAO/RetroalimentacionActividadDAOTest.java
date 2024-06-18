@@ -7,6 +7,7 @@ import DAO.RetroalimentacionActividadAuxiliar;
 import DTO.ActividadDTO;
 import DTO.RetroalimentacionActividadDTO;
 import Utilidades.ErrorDAO;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import test.ConfiguracionPrueba;
@@ -46,6 +47,11 @@ public class RetroalimentacionActividadDAOTest {
         retroalimentacion.setInteraccionConPar(4);
         retroalimentacion.setDificultad(4);
         ret.agregar(retroalimentacion);
+    }
+
+    @AfterAll
+    static void limpiarBase () {
+        ConfiguracionPrueba.borrarTodosLosDatosTabla();
     }
 
     @Test

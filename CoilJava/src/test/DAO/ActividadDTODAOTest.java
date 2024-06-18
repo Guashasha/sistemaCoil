@@ -21,8 +21,14 @@ public class ActividadDTODAOTest {
     @BeforeAll
     static void setUp () {
         ConfiguracionPrueba.borrarDatosTablaRetroalimentacionActividad();
+        ConfiguracionPrueba.borrarDatosTablaCalendarioActividades();
         ConfiguracionPrueba.borrarDatosTablaActividad();
         AyudantePruebasColaboracionDB.agregarActividades();
+    }
+
+    @AfterAll
+    static void limpiarBase () {
+        ConfiguracionPrueba.borrarTodosLosDatosTabla();
     }
 
     @Test

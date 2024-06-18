@@ -1,10 +1,13 @@
 package test.DAO;
 
 import DAO.ActividadAuxiliar;
+import DAO.CronogramaActividadAuxiliar;
 import DTO.ActividadDTO;
 import Utilidades.ErrorDAO;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import test.AyudantePruebasColaboracionDB;
 import test.ConfiguracionPrueba;
 
 import java.util.ArrayList;
@@ -18,13 +21,20 @@ public class ActividadAuxiliarTest {
     @BeforeAll
     public static void setUp () {
         ConfiguracionPrueba.borrarDatosTablaRetroalimentacionActividad();
+        ConfiguracionPrueba.borrarDatosTablaCalendarioActividades();
         ConfiguracionPrueba.borrarDatosTablaActividad();
+        AyudantePruebasColaboracionDB.vincularActividadConColaboracion();
         ActividadDTO actividadDTO = new ActividadDTO("titulo 1", "descripcion 1", ActividadDTO.TipoActividad.rompeHielo);
         ActividadDTO actividadDTO2 = new ActividadDTO("titulo 2", "descripcion 2", ActividadDTO.TipoActividad.cierre);
 
         ActividadAuxiliar act = new ActividadAuxiliar();
         act.agregar(actividadDTO);
         act.agregar(actividadDTO2);
+    }
+
+    @AfterAll
+    static void limpiarBase () {
+        ConfiguracionPrueba.borrarTodosLosDatosTabla();
     }
 
     @Test
@@ -62,7 +72,7 @@ public class ActividadAuxiliarTest {
         ActividadAuxiliar act = new ActividadAuxiliar();
 
         try {
-            resultado = act.getPorId(2);
+            resultado = act.getPorId(4);
         }
         catch (ErrorDAO error) {
             fail();
@@ -126,5 +136,33 @@ public class ActividadAuxiliarTest {
         }
 
         assert(resultado.isEmpty());
+    }
+
+    @Test
+    public void pruebaGetPorColaboracion () {
+        final ActividadDTO ACTIVIDAD1 = new ActividadDTO(1,"kahoot prueba", "descripcion de la actividad prueba", ActividadDTO.TipoActividad.cierre);
+        final ActividadDTO ACTIVIDAD2 = new ActividadDTO(2,"Presentacion","presentacion individual ante grupo", ActividadDTO.TipoActividad.rompeHielo);
+        ArrayList<ActividadDTO> esperado = new ArrayList<>();
+        esperado.add(ACTIVIDAD1);
+        esperado.add(ACTIVIDAD2);
+
+        ActividadAuxiliar act = new ActividadAuxiliar();
+
+        try {
+            assertEquals(esperado, act.getPorIdColaboracion(1));
+        } catch (ErrorDAO e) {
+            fail(e.getMessage());
+        }
+    }
+
+    @Test
+    public void pruebaGetPorColaboracionInexistente () {
+        ActividadAuxiliar act = new ActividadAuxiliar();
+
+        try {
+            assert(act.getPorIdColaboracion(1000).isEmpty());
+        } catch (ErrorDAO e) {
+            fail(e.getMessage());
+        }
     }
 }

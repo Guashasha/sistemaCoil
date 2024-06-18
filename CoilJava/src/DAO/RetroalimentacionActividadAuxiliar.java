@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.Optional;
 
 public class RetroalimentacionActividadAuxiliar {
-    private static final Logger BITACORA = Logger.getLogger(RetroalimentacionActividadDTO.class.getName());
-
     /**
      * Valida y registra una retroalimentación de actividad a la base de datos
      *
@@ -41,7 +39,6 @@ public class RetroalimentacionActividadAuxiliar {
         try {
             resultado = retroalimentacionDAO.agregar(retroalimentacion);
         } catch (ErrorDAO error) {
-            BITACORA.error(error);
         }
 
         return resultado;
@@ -65,7 +62,7 @@ public class RetroalimentacionActividadAuxiliar {
         try {
             rsRetroalimentacion = retroalimentacionDAO.getPorId(id);
         } catch (ErrorDAO error) {
-            BITACORA.error(error);
+            throw error;
         }
 
         return rsRetroalimentacion;
@@ -84,7 +81,7 @@ public class RetroalimentacionActividadAuxiliar {
         try {
             retroalimentaciones = retroalimentacionDAO.getTodos();
         } catch (ErrorDAO error) {
-            BITACORA.error(error);
+            throw error;
         }
 
         return retroalimentaciones;
@@ -110,7 +107,7 @@ public class RetroalimentacionActividadAuxiliar {
         try {
             retroalimentacion = retroalimentacionDAO.getPorPersonaYActividad(idPersona, idActividad);
         } catch (ErrorDAO error) {
-            BITACORA.error(error);
+            throw error;
         }
 
         return retroalimentacion;
