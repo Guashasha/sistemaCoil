@@ -77,10 +77,6 @@ public class ProgresoColaboracionControlador {
         getAcademicoParPorColaboracion();
         cargarLabels();
         actualizarVisibilidadBotones();
-        if (colaboracionDTO.getEstado() == ColaboracionDTO.EstadoColaboracion.enRevision) {
-            RetroalimentacionColaboracionAuxiliar retroalimentacionColaboracionAuxiliar = new RetroalimentacionColaboracionAuxiliar();
-            retroalimentacionColaboracionOpt = retroalimentacionColaboracionAuxiliar.getPorPersonaYColaboracion(academicoDTO.getIdPersona(), colaboracionDTO.getIdColaboracion());
-        }
     }
 
     private void cargarLabels () {
@@ -131,6 +127,9 @@ public class ProgresoColaboracionControlador {
                 btnIniciar.setVisible(false);
                 break;
             case enRevision:
+                RetroalimentacionColaboracionAuxiliar retroalimentacionColaboracionAuxiliar = new RetroalimentacionColaboracionAuxiliar();
+                retroalimentacionColaboracionOpt = retroalimentacionColaboracionAuxiliar.getPorPersonaYColaboracion(academicoDTO.getIdPersona(), colaboracionDTO.getIdColaboracion());
+
                 if (retroalimentacionColaboracionOpt.isPresent()) {
                     btnRetroalimentar.setVisible(false);
                     btnFinalizar.setVisible(true);

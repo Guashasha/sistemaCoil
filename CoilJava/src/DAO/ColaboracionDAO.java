@@ -772,7 +772,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
      */
     @Override
     public int rechazarOtrasSolicitudesDeParticipacion (int idColaboracion, String cedulaProfesional) throws ErrorDAO {
-        String actualizacionSQL = "UPDATE academicoDesarrolla SET estado = 'rechazada' WHERE idAcademico = ? AND idColaboracion != ?";
+        String actualizacionSQL = "UPDATE academicoDesarrolla SET estado = 'rechazado' WHERE idAcademico = ? AND idColaboracion != ?";
         int filasAfectadas;
 
         try {
