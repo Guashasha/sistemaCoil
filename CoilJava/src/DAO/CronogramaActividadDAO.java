@@ -39,7 +39,7 @@ public class CronogramaActividadDAO implements ICronogramaActividad {
             resultado = consulta.executeUpdate();
             consulta.close();
         } catch (SQLException e) {
-            BITACORA.error(e);
+            BITACORA.warn(e);
             throw new ErrorDAO(e.getMessage(), ErrorDAO.Tipo.CONEXION);
         } finally {
             AdministradorBaseDatos.desconectar();
@@ -68,7 +68,7 @@ public class CronogramaActividadDAO implements ICronogramaActividad {
             consulta.close();
         }
         catch (SQLException error) {
-            BITACORA.error(error);
+            BITACORA.warn(error);
             throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
         }
         finally {
@@ -99,7 +99,7 @@ public class CronogramaActividadDAO implements ICronogramaActividad {
             consulta.close();
         }
         catch (SQLException error) {
-            BITACORA.error(error);
+            BITACORA.warn(error);
             throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
         }
         finally {
@@ -134,7 +134,7 @@ public class CronogramaActividadDAO implements ICronogramaActividad {
             resultado = consulta.executeQuery();
             consulta.close();
         } catch (SQLException e) {
-            BITACORA.error(e);
+            BITACORA.warn(e);
             throw new ErrorDAO(e.getMessage(), ErrorDAO.Tipo.CONEXION);
         } finally {
             AdministradorBaseDatos.desconectar();
@@ -146,7 +146,7 @@ public class CronogramaActividadDAO implements ICronogramaActividad {
             }
         }
         catch (SQLException error) {
-            BITACORA.error(error);
+            BITACORA.warn(error);
             throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
         }
 
@@ -168,7 +168,7 @@ public class CronogramaActividadDAO implements ICronogramaActividad {
             actividades = consulta.executeQuery();
             consulta.close();
         } catch (SQLException e) {
-            BITACORA.error(e);
+            BITACORA.warn(e);
             throw new ErrorDAO(e.getMessage(), ErrorDAO.Tipo.CONEXION);
         } finally {
             AdministradorBaseDatos.desconectar();
@@ -190,7 +190,7 @@ public class CronogramaActividadDAO implements ICronogramaActividad {
             }
         }
         catch (SQLException error) {
-            BITACORA.error(error);
+            BITACORA.warn(error);
             throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
         }
 
@@ -228,7 +228,7 @@ public class CronogramaActividadDAO implements ICronogramaActividad {
                 actividadVinculadaDTO = new ActividadVinculadaDTO(actividad.get(), colaboracion.get(), fecha.toLocalDate());
             }
         } catch (SQLException error) {
-            BITACORA.error(error);
+            BITACORA.warn(error);
             throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
         }
 
