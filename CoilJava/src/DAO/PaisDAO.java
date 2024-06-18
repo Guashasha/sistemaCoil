@@ -48,7 +48,7 @@ public class PaisDAO implements IPaisDAO {
             resultadoConsulta.close();
         }
         catch (SQLException excepcionSQL) {
-            BITACORA.info(excepcionSQL.getMessage());
+            BITACORA.warn(excepcionSQL.getMessage());
             throw new ErrorDAO("Ocurrió un error al intentar obtener los paises. Si el problema persiste contacte a soporte", ErrorDAO.Tipo.CONEXION);
         }
         finally {
@@ -85,7 +85,7 @@ public class PaisDAO implements IPaisDAO {
             resultadoConsulta.close();
         }
         catch (SQLException excepcionSQL) {
-            BITACORA.info(excepcionSQL.getMessage());
+            BITACORA.warn(excepcionSQL.getMessage());
             throw new ErrorDAO("Ocurrió un error al intentar obtener el pais. Si el problema persiste contacte a soporte", ErrorDAO.Tipo.CONSULTA);
         }
         finally {
@@ -122,7 +122,7 @@ public class PaisDAO implements IPaisDAO {
             resultadoConsulta.close();
         }
         catch (SQLException excepcionSQL) {
-            BITACORA.info(excepcionSQL.getMessage());
+            BITACORA.warn(excepcionSQL.getMessage());
             throw new ErrorDAO("Ocurrió un error al intentar obtener el pais. Si el problema persiste contacte a soporte", ErrorDAO.Tipo.CONSULTA);
         }
         finally {

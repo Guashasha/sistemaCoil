@@ -46,7 +46,7 @@ public class UniversidadDAO implements IUniversidadDAO {
             insertarUniversidad.close();
         }
         catch (SQLException excepcionSQL) {
-            BITACORA.info(excepcionSQL.getMessage());
+            BITACORA.warn(excepcionSQL.getMessage());
             throw new ErrorDAO("Ocurrió un error al intentar registrar la universidad. Si el problema persiste contacte a soporte", ErrorDAO.Tipo.CONEXION);
         }
         finally {
@@ -80,7 +80,7 @@ public class UniversidadDAO implements IUniversidadDAO {
             actualizarUniversidad.close();
         }
         catch (SQLException excepcionSQL) {
-            BITACORA.info(excepcionSQL.getMessage());
+            BITACORA.warn(excepcionSQL.getMessage());
             throw new ErrorDAO("Ocurrió un error al intentar editar la universidad. Si el problema persiste contacte a soporte", ErrorDAO.Tipo.CONEXION);
         }
         finally {
@@ -117,7 +117,7 @@ public class UniversidadDAO implements IUniversidadDAO {
             resultadoConsulta.close();
         }
         catch (SQLException excepcionSQL) {
-            BITACORA.fatal(excepcionSQL.getMessage());
+            BITACORA.warn(excepcionSQL.getMessage());
             throw new ErrorDAO("Ocurrió un error al intentar obtener la universidad. Si el problema persiste contacte a soporte", ErrorDAO.Tipo.CONSULTA);
         }
         finally {
@@ -154,7 +154,7 @@ public class UniversidadDAO implements IUniversidadDAO {
             resultadoConsulta.close();
         }
         catch (SQLException excepcionSQL) {
-            BITACORA.fatal(excepcionSQL.getMessage());
+            BITACORA.warn(excepcionSQL.getMessage());
             throw new ErrorDAO("Ocurrió un error al intentar obtener las universidades. Si el problema persiste contacte a soporte", ErrorDAO.Tipo.CONEXION);
         }
         finally {
@@ -191,7 +191,7 @@ public class UniversidadDAO implements IUniversidadDAO {
             resultadoConsulta.close();
         }
         catch (SQLException excepcionSQL) {
-            BITACORA.info(excepcionSQL.getMessage());
+            BITACORA.warn(excepcionSQL.getMessage());
             throw new ErrorDAO("Ocurrió un error al intentar obtener las universidades. Si el problema persiste contacte a soporte", ErrorDAO.Tipo.CONEXION);
         }
         finally {
@@ -226,7 +226,7 @@ public class UniversidadDAO implements IUniversidadDAO {
             resultadoConsulta.close();
         }
         catch (SQLException excepcionSQL) {
-            BITACORA.fatal(excepcionSQL.getMessage());
+            BITACORA.warn(excepcionSQL.getMessage());
             throw new ErrorDAO("Ocurrió un error al intentar registrar las universidades. Si el problema persiste contacte a soporte", ErrorDAO.Tipo.CONEXION);
         }
         finally {
@@ -265,7 +265,7 @@ public class UniversidadDAO implements IUniversidadDAO {
             resultadoConsulta.close();
         }
         catch (SQLException excepcionSQL) {
-            BITACORA.info(excepcionSQL.getMessage());
+            BITACORA.warn(excepcionSQL.getMessage());
             throw new ErrorDAO("Ocurrió un error al intentar obtener la universidad. Si el problema persiste contacte a soporte", ErrorDAO.Tipo.CONEXION);
         }
         finally {
@@ -302,7 +302,7 @@ public class UniversidadDAO implements IUniversidadDAO {
             resultadoConsulta.close();
         }
         catch (SQLException excepcionSQL) {
-            BITACORA.info(excepcionSQL.getMessage());
+            BITACORA.warn(excepcionSQL.getMessage());
             throw new ErrorDAO("Ocurrió un error al intentar obtener la universidad. Si el problema persiste contacte a soporte", ErrorDAO.Tipo.CONSULTA);
         }
         finally {
