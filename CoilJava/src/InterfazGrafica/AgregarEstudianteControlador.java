@@ -161,9 +161,8 @@ public class AgregarEstudianteControlador {
                     break;
                 }
 
-                this.vboxResultadosBusqueda
-                        .getChildren()
-                        .add(hboxFila);
+                this.vboxResultadosBusqueda.getChildren()
+                                           .add(hboxFila);
             }
         }
     }

@@ -20,9 +20,7 @@ public class RegistroEstudianteControlador {
     @FXML
     private TextField tfNombre;
     @FXML
-    private TextField tfApellidoPaterno;
-    @FXML
-    private TextField tfApellidoMaterno;
+    private TextField tfApellidos;
     @FXML
     private TextField tfMatricula;
     @FXML
@@ -30,9 +28,7 @@ public class RegistroEstudianteControlador {
     @FXML
     private Label txtObligatorioNombre;
     @FXML
-    private Label txtObligatorioApellidoPaterno;
-    @FXML
-    private Label txtObligatorioApellidoMaterno;
+    private Label txtObligatorioApellidos;
     @FXML
     private Label txtObligatorioMatricula;
     private Stack<Pane> historialPaneles;
@@ -68,7 +64,7 @@ public class RegistroEstudianteControlador {
 
             try {
                 estudiante.setNombre(this.tfNombre.getText());
-                estudiante.setApellidos(this.tfApellidoPaterno.getText());
+                estudiante.setApellidos(this.tfApellidos.getText());
                 estudiante.setIdUniversidad(this.universidad.getId());
                 estudiante.setMatricula(this.tfMatricula.getText());
                 filasAfectadas = estudianteAuxiliar.agregar(estudiante);
@@ -112,34 +108,23 @@ public class RegistroEstudianteControlador {
 
     private void limpiarCampos () {
         tfNombre.setText(null);
-        tfApellidoPaterno.setText(null);
-        tfApellidoMaterno.setText(null);
+        tfApellidos.setText(null);
         tfMatricula.setText(null);
     }
 
     private boolean camposVacios () {
-        TextField[] camposTexto = new TextField[]{this.tfNombre, this.tfApellidoPaterno, this.tfApellidoMaterno, this.tfMatricula};
-        boolean vacio = true;
-
-        for (TextField textField : camposTexto) {
-            String texto = textField.getText();
-            vacio = texto == null || texto.isBlank();
-            if (vacio) {
-                break;
-            }
-        }
-
-        return vacio;
+        String nombre = this.tfNombre.getText();
+        String apellidos = this.tfApellidos.getText();
+        String matricula = this.tfMatricula.getText();
+        return nombre == null || nombre.isBlank() || apellidos == null || apellidos.isBlank() || matricula == null || matricula.isBlank();
     }
 
     private void etiquetarCamposVacios () {
         String nombre = tfNombre.getText();
-        String apellidoPaterno = tfApellidoPaterno.getText();
-        String apellidoMaterno = tfApellidoMaterno.getText();
+        String apellidos = tfApellidos.getText();
         String matricula = tfMatricula.getText();
         txtObligatorioNombre.setVisible(nombre == null || nombre.isBlank());
-        txtObligatorioApellidoPaterno.setVisible(apellidoPaterno == null || apellidoPaterno.isBlank());
-        txtObligatorioApellidoMaterno.setVisible(apellidoMaterno == null || apellidoMaterno.isBlank());
+        txtObligatorioApellidos.setVisible(apellidos == null || apellidos.isBlank());
         txtObligatorioMatricula.setVisible(matricula == null || matricula.isBlank());
     }
 

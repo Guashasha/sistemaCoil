@@ -284,14 +284,14 @@ INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Música', 1);
 INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Nutrición', 1);
 INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Odontología', 1);
 INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Pedagogía', 1);
-INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Psicología', 1)
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Psicología', 1);
 INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Química Farmacéutica Biológica', 1);
 INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Sociología', 1);
 INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Teatro', 1);
 
 
 
-INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de ', 2);
+-- INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de ', 2);
 
 INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Ingeniería', 2); -- Veracruz
 INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Medicina', 2); -- Veracruz
