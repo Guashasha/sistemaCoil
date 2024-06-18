@@ -27,18 +27,18 @@ public class AcademicoDAO implements IAcademicoDAO {
         String procedimientoSQL = "{CALL obtener_academicos_campos(?,?)}";
         List<AcademicoDTO> listaAcademicoDTOS = new ArrayList<>();
         try {
-            CallableStatement obtenerPorCampo = AdministradorBaseDatos.getInstancia().
+            CallableStatement procedimientoAcademico = AdministradorBaseDatos.getInstancia().
                                                                       prepareCall(procedimientoSQL);
-            obtenerPorCampo.setString(1, campo);
-            obtenerPorCampo.setString(2, valor);
-            ResultSet resultadoLLamada = obtenerPorCampo.executeQuery();
+            procedimientoAcademico.setString(1, campo);
+            procedimientoAcademico.setString(2, valor);
+            ResultSet resultado = procedimientoAcademico.executeQuery();
 
-            while (resultadoLLamada.next()) {
-                AcademicoDTO academicoDTO = convertirAcademico(resultadoLLamada);
+            while (resultado.next()) {
+                AcademicoDTO academicoDTO = convertirAcademico(resultado);
                 listaAcademicoDTOS.add(academicoDTO);
             }
-            obtenerPorCampo.close();
-            resultadoLLamada.close();
+            procedimientoAcademico.close();
+            resultado.close();
         }
         catch (SQLException error) {
             BITACORA.fatal(error.getMessage());
@@ -74,17 +74,17 @@ public class AcademicoDAO implements IAcademicoDAO {
         String procedimientoSQL = "{CALL obtener_academicos_campos(?,?)}";
         AcademicoDTO academicoDTO = null;
         try {
-            CallableStatement obtenerPorCampo = AdministradorBaseDatos.getInstancia().
+            CallableStatement procedimientoAcademico = AdministradorBaseDatos.getInstancia().
                                                                       prepareCall(procedimientoSQL);
-            obtenerPorCampo.setString(1, "cedula");
-            obtenerPorCampo.setString(2, cedula);
-            ResultSet resultadoLLamada = obtenerPorCampo.executeQuery();
+            procedimientoAcademico.setString(1, "cedula");
+            procedimientoAcademico.setString(2, cedula);
+            ResultSet resultadoLLamada = procedimientoAcademico.executeQuery();
 
             if (resultadoLLamada.next()) {
                 academicoDTO = convertirAcademico(resultadoLLamada);
             }
 
-            obtenerPorCampo.close();
+            procedimientoAcademico.close();
             resultadoLLamada.close();
         }
         catch (SQLException error) {
@@ -155,14 +155,14 @@ public class AcademicoDAO implements IAcademicoDAO {
     @Override
     public int agregar (AcademicoDTO academicoDTO) throws ErrorDAO {
         String procedimientoSQL = "{CALL registrar_Academico(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
-        int resultado = -1;
+        int filasAfectadas = -1;
         try {
-            CallableStatement registrarAcademico = AdministradorBaseDatos.getInstancia().
+            CallableStatement procedimientoAcademico = AdministradorBaseDatos.getInstancia().
                                                                          prepareCall(procedimientoSQL);
-            setAcademicoParametros(registrarAcademico, academicoDTO);
-            registrarAcademico.registerOutParameter(11, Types.INTEGER);
-            resultado = registrarAcademico.executeUpdate();
-            registrarAcademico.close();
+            setAcademicoParametros(procedimientoAcademico, academicoDTO);
+            procedimientoAcademico.registerOutParameter(11, Types.INTEGER);
+            filasAfectadas = procedimientoAcademico.executeUpdate();
+            procedimientoAcademico.close();
         }
         catch (SQLException error) {
             BITACORA.fatal(error.getMessage());
@@ -171,7 +171,7 @@ public class AcademicoDAO implements IAcademicoDAO {
         finally {
             AdministradorBaseDatos.desconectar();
         }
-        return resultado;
+        return filasAfectadas;
     }
 
     /**
@@ -183,18 +183,18 @@ public class AcademicoDAO implements IAcademicoDAO {
      */
     @Override
     public Optional<AcademicoDTO> getPorId (Integer id) throws ErrorDAO {
-        String consulta = "SELECT * from vista_academico WHERE idPersona = ?";
+        String consultaSQL = "SELECT * from vista_academico WHERE idPersona = ?";
         AcademicoDTO academicoDTO = null;
         try {
-            PreparedStatement consultarAcademico = AdministradorBaseDatos.getInstancia().
-                                                                         prepareStatement(consulta);
-            consultarAcademico.setInt(1, id);
-            ResultSet resultadoConsulta = consultarAcademico.executeQuery();
-            if (resultadoConsulta.next()) {
-                academicoDTO = convertirAcademico(resultadoConsulta);
+            PreparedStatement consultaAcademico = AdministradorBaseDatos.getInstancia().
+                                                                         prepareStatement(consultaSQL);
+            consultaAcademico.setInt(1, id);
+            ResultSet resultado = consultaAcademico.executeQuery();
+            if (resultado.next()) {
+                academicoDTO = convertirAcademico(resultado);
             }
-            consultarAcademico.close();
-            resultadoConsulta.close();
+            consultaAcademico.close();
+            resultado.close();
         }
         catch (SQLException error) {
             BITACORA.fatal(error.getMessage());
@@ -213,19 +213,19 @@ public class AcademicoDAO implements IAcademicoDAO {
      * @throws ErrorDAO tipo consulta si ocurre un error durante la ejecución de la consulta
      */
     public List<AcademicoDTO> getTodos () throws ErrorDAO {
+        String consultaSQL = "SELECT * FROM vista_academico";
         List<AcademicoDTO> listaAcademicoDTOS = new ArrayList<>();
-        String consulta = "SELECT * FROM vista_academico";
 
         try {
             PreparedStatement consultaAcademico = AdministradorBaseDatos.getInstancia().
-                                                                        prepareStatement(consulta);
-            ResultSet resultadoConsulta = consultaAcademico.executeQuery();
-            while (resultadoConsulta.next()) {
-                AcademicoDTO academicoDTO = convertirAcademico(resultadoConsulta);
+                                                                        prepareStatement(consultaSQL);
+            ResultSet resultado = consultaAcademico.executeQuery();
+            while (resultado.next()) {
+                AcademicoDTO academicoDTO = convertirAcademico(resultado);
                 listaAcademicoDTOS.add(academicoDTO);
             }
             consultaAcademico.close();
-            resultadoConsulta.close();
+            resultado.close();
         }
         catch (SQLException error) {
             BITACORA.fatal(error.getMessage());
@@ -245,17 +245,17 @@ public class AcademicoDAO implements IAcademicoDAO {
      * @throws ErrorDAO tipo modificación si ocurre un error durante la modificación
      */
     public int modificar (AcademicoDTO academicoDTO) throws ErrorDAO {
-        int resultado;
+        int filasAfectadas;
         String procedimientoSQL = "{CALL editar_academico(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
 
         try {
-            CallableStatement editarAcademico = AdministradorBaseDatos.getInstancia().
+            CallableStatement procedimientoAcademico = AdministradorBaseDatos.getInstancia().
                                                                       prepareCall(procedimientoSQL);
-            setAcademicoParametros(editarAcademico, academicoDTO);
+            setAcademicoParametros(procedimientoAcademico, academicoDTO);
 
-            resultado = editarAcademico.executeUpdate();
+            filasAfectadas = procedimientoAcademico.executeUpdate();
 
-            editarAcademico.close();
+            procedimientoAcademico.close();
         }
         catch (SQLException error) {
             BITACORA.fatal(error.getMessage());
@@ -264,7 +264,7 @@ public class AcademicoDAO implements IAcademicoDAO {
         finally {
             AdministradorBaseDatos.desconectar();
         }
-        return resultado;
+        return filasAfectadas;
     }
 
     /**
@@ -282,25 +282,25 @@ public class AcademicoDAO implements IAcademicoDAO {
         try {
             Connection conexion = AdministradorBaseDatos.getInstancia();
             conexion.setAutoCommit(false);
-            CallableStatement registrarAcademico = conexion.prepareCall(procedimientoSQL);
-            setAcademicoParametros(registrarAcademico, academicoDTO);
-            registrarAcademico.registerOutParameter(11, Types.INTEGER);
-            resultado = registrarAcademico.executeUpdate();
-            int idPersona = registrarAcademico.getInt(11);
+            CallableStatement procedimientoAcademico = conexion.prepareCall(procedimientoSQL);
+            setAcademicoParametros(procedimientoAcademico, academicoDTO);
+            procedimientoAcademico.registerOutParameter(11, Types.INTEGER);
+            resultado = procedimientoAcademico.executeUpdate();
+            int idPersona = procedimientoAcademico.getInt(11);
 
-            CallableStatement agregarCuenta = conexion.prepareCall("{CALL registrar_cuenta(?,?,?,?,?)}");
+            CallableStatement procedimientoCuenta = conexion.prepareCall("{CALL registrar_cuenta(?,?,?,?,?)}");
             cuentaDTO.setIdPersona(idPersona);
-            agregarCuenta.setInt(1, cuentaDTO.getIdPersona());
-            agregarCuenta.setString(2, cuentaDTO.getNombreUsuario());
-            agregarCuenta.setString(3, cuentaDTO.getContrasena());
-            agregarCuenta.setString(4, cuentaDTO.getTipo().
+            procedimientoCuenta.setInt(1, cuentaDTO.getIdPersona());
+            procedimientoCuenta.setString(2, cuentaDTO.getNombreUsuario());
+            procedimientoCuenta.setString(3, cuentaDTO.getContrasena());
+            procedimientoCuenta.setString(4, cuentaDTO.getTipo().
                                                 toString());
-            agregarCuenta.setString(5, cuentaDTO.getEstado().
+            procedimientoCuenta.setString(5, cuentaDTO.getEstado().
                                                 toString());
-            resultado += agregarCuenta.executeUpdate();
+            resultado += procedimientoCuenta.executeUpdate();
 
-            agregarCuenta.close();
-            registrarAcademico.close();
+            procedimientoCuenta.close();
+            procedimientoAcademico.close();
             conexion.commit();
         }
         catch (SQLException error) {
