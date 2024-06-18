@@ -40,7 +40,7 @@ public class EstudianteDAO implements IEstudianteDAO {
             procedimientoEstudiante.close();
         }
         catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
+            BITACORA.warn(error.getMessage());
             throw new ErrorDAO("Error al agregar estudiantes", Tipo.CONEXION);
         }
         finally {
@@ -72,7 +72,7 @@ public class EstudianteDAO implements IEstudianteDAO {
             procedimientoEstudiante.close();
         }
         catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
+            BITACORA.warn(error.getMessage());
             throw new ErrorDAO("Error al editar al estudianteDTO", Tipo.CONEXION);
         }
         finally {
@@ -105,7 +105,7 @@ public class EstudianteDAO implements IEstudianteDAO {
             resultado.close();
         }
         catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
+            BITACORA.warn(error.getMessage());
             throw new ErrorDAO("Error al obtener un estudianteDTO", Tipo.CONEXION);
         }
         finally {
@@ -137,7 +137,7 @@ public class EstudianteDAO implements IEstudianteDAO {
             resultado.close();
         }
         catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
+            BITACORA.warn(error.getMessage());
             throw new ErrorDAO("Error al consultar al estudiante", Tipo.CONEXION);
         }
         finally {
@@ -172,7 +172,7 @@ public class EstudianteDAO implements IEstudianteDAO {
             resultado.close();
         }
         catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
+            BITACORA.warn(error.getMessage());
             throw new ErrorDAO("Error al consultar al estudianteDTO", Tipo.CONEXION);
         }
         finally {
@@ -206,7 +206,7 @@ public class EstudianteDAO implements IEstudianteDAO {
             resultado.close();
         }
         catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
+            BITACORA.warn(error.getMessage());
             throw new ErrorDAO("Error al obtener a los estudiantes", Tipo.CONEXION);
         }
         finally {
@@ -238,7 +238,7 @@ public class EstudianteDAO implements IEstudianteDAO {
             resultado.close();
         }
         catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
+            BITACORA.warn(error.getMessage());
             throw new ErrorDAO("Error al consultar al estudianteDTO", Tipo.CONEXION);
         }
         finally {
@@ -269,7 +269,7 @@ public class EstudianteDAO implements IEstudianteDAO {
             resultado.close();
         }
         catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
+            BITACORA.warn(error.getMessage());
             throw new ErrorDAO("Error al obtener los estudiantes", Tipo.CONEXION);
         }
         finally {

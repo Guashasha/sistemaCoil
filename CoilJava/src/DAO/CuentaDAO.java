@@ -40,7 +40,7 @@ public class CuentaDAO implements ICuentaDAO {
             resultado.close();
         }
         catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
+            BITACORA.warn(error.getMessage());
             throw new ErrorDAO("Error al obtener la cuenta", Tipo.CONSULTA);
         }
         finally {
@@ -71,7 +71,7 @@ public class CuentaDAO implements ICuentaDAO {
             actualizacionUsuario.close();
         }
         catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
+            BITACORA.warn(error.getMessage());
             throw new ErrorDAO("Error al actualizar el nombre de usuario", Tipo.INSERCION);
         }
         finally {
@@ -105,7 +105,7 @@ public class CuentaDAO implements ICuentaDAO {
             procedimientoCuenta.close();
         }
         catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
+            BITACORA.warn(error.getMessage());
             throw new ErrorDAO("Error al verificar las credenciales", Tipo.CONSULTA);
         }
         finally {
@@ -140,7 +140,7 @@ public class CuentaDAO implements ICuentaDAO {
             procedimientoCuenta.close();
         }
         catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
+            BITACORA.warn(error.getMessage());
             throw new ErrorDAO("Error al actualizar la contraseña", Tipo.INSERCION);
         }
         finally {
@@ -173,7 +173,7 @@ public class CuentaDAO implements ICuentaDAO {
             actualizacionCuenta.close();
         }
         catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
+            BITACORA.warn(error.getMessage());
             throw new ErrorDAO("Error al cambiar el estado de la cuentaDTO", Tipo.INSERCION);
         }
         finally {
@@ -208,7 +208,7 @@ public class CuentaDAO implements ICuentaDAO {
             resultado.close();
         }
         catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
+            BITACORA.warn(error.getMessage());
             throw new ErrorDAO("Error al obtener las cuentas por su clasificación", Tipo.CONSULTA);
         }
         finally {
@@ -243,7 +243,7 @@ public class CuentaDAO implements ICuentaDAO {
             resultado.close();
         }
         catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
+            BITACORA.warn(error.getMessage());
             throw new ErrorDAO("Error al obtener las cuentas por su estado", Tipo.CONSULTA);
         }
         finally {
@@ -277,7 +277,7 @@ public class CuentaDAO implements ICuentaDAO {
             procedimientoCuenta.close();
         }
         catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
+            BITACORA.warn(error.getMessage());
             throw new ErrorDAO("Error al crear la cuenta", Tipo.INSERCION);
         }
         finally {
@@ -324,7 +324,7 @@ public class CuentaDAO implements ICuentaDAO {
             resultado.close();
         }
         catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
+            BITACORA.warn(error.getMessage());
             throw new ErrorDAO("Error al obtener la cuenta por su identficador", Tipo.CONSULTA);
         }
         finally {
@@ -353,7 +353,7 @@ public class CuentaDAO implements ICuentaDAO {
                 cuenta = convertirCuenta(resultado);
             }
         } catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
+            BITACORA.warn(error.getMessage());
             throw new ErrorDAO("Error al obtener la cuenta por el id de la persona", Tipo.CONSULTA);
         }
         finally {
@@ -386,7 +386,7 @@ public class CuentaDAO implements ICuentaDAO {
             resultado.close();
         }
         catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
+            BITACORA.warn(error.getMessage());
             throw new ErrorDAO("Error al obtener todas las cuentas", Tipo.CONSULTA);
         }
         finally {
