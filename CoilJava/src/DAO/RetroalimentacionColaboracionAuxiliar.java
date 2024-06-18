@@ -7,12 +7,9 @@ import Utilidades.ErrorDAO;
 import Utilidades.ErrorDAO.Tipo;
 import org.apache.log4j.Logger;
 
-import java.util.List;
 import java.util.Optional;
 
 public class RetroalimentacionColaboracionAuxiliar {
-  private static final Logger BITACORA = Logger.getLogger(RetroalimentacionActividadDTO.class.getName());
-
   /**
    * Agrega a la base de datos una retroalimentación de colaboración
    * @param retroalimentacion la retroalimentación que se registrará en la base de datos
@@ -44,7 +41,6 @@ public class RetroalimentacionColaboracionAuxiliar {
     try {
       resultado = retroalimentacionDAO.agregar(retroalimentacion);
     } catch (ErrorDAO error) {
-      BITACORA.error(error);
       throw error;
     }
 
@@ -68,7 +64,6 @@ public class RetroalimentacionColaboracionAuxiliar {
     try {
       retroalimentacion = retroalimentacionDAO.getPorId(id);
     } catch (ErrorDAO error) {
-      BITACORA.error(error);
     }
 
     return retroalimentacion;
@@ -92,31 +87,8 @@ public class RetroalimentacionColaboracionAuxiliar {
     try {
       retroalimentacion = retroalimentacionDAO.getPorPersonaYColaboracion(idPersona, idColaboracion);
     } catch (ErrorDAO error) {
-      BITACORA.error(error);
     }
 
     return retroalimentacion;
-  }
-
-  /**
-   * Consigue todas las retroalimentaciones que se encuentren guardadas en la base de datos
-   * @return ArrayList de todas las retroalimentaciones de colaboración que se encuentren en la base de datos
-   * @throws ErrorDAO tipo conexión si ocurre un error de sql, tipo consulta si no existen retroalimentaciones
-   */
-  public List<RetroalimentacionColaboracionDTO> getTodos() throws ErrorDAO {
-    List<RetroalimentacionColaboracionDTO> resultados = null;
-    RetroalimentacionColaboracionDAO retroalimentacionDAO = new RetroalimentacionColaboracionDAO();
-
-    try {
-      resultados = retroalimentacionDAO.getTodos();
-    } catch (ErrorDAO error) {
-      BITACORA.error(error);
-    }
-
-    if (resultados == null) {
-      throw new ErrorDAO("No hay retroalimentaciones registradas", Tipo.CONSULTA);
-    }
-
-    return resultados;
   }
 }

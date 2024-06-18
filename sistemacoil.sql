@@ -213,4 +213,4 @@ SOURCE datosCoil.sql;
 
 SELECT "base de datos creada correctamente";
 
-CALL registrar_cuenta_administrador("david", "carrion", "romero", 1, "admin", "contrasena");
+CALL registrar_cuenta_administrador("david", "carrion romero", 1, "admin", "contrasena");

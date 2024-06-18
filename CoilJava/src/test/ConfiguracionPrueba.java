@@ -73,6 +73,7 @@ public class ConfiguracionPrueba {
     }
 
     public static void borrarTodosLosDatosTabla () {
+        borrarDatosTablaCuenta();
         borrarDatosTablaAcademicoDesarrolla();
         borrarDatosTablaEstudiantesColaboracion();
         borrarDatosTablaColaboracion();
@@ -87,7 +88,7 @@ public class ConfiguracionPrueba {
 
     public static void ejecutarInstruccionSQL (String instruccionSQL) {
         try {
-            String urlBaseDatos = "jdbc:mariadb://localhost:3307/COIL";
+            String urlBaseDatos = "jdbc:mariadb://localhost:3306/COIL";
             String usuario = "CarrionMartinezPale";
             String contrasena = "cremaxx";
 

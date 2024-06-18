@@ -1,8 +1,10 @@
 package test.DAO;
 
 import DAO.RetroalimentacionColaboracionAuxiliar;
+import DAO.RetroalimentacionColaboracionDAO;
 import DTO.RetroalimentacionColaboracionDTO;
 import Utilidades.ErrorDAO;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import test.AyudantePruebasColaboracionDB;
@@ -15,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class RetroalimentacionColaboracionDAOTest {
-    private static final RetroalimentacionColaboracionAuxiliar dao = new RetroalimentacionColaboracionAuxiliar();
+    private static final RetroalimentacionColaboracionDAO dao = new RetroalimentacionColaboracionDAO();
 
     @BeforeAll
     public static void setUp() {
@@ -28,10 +30,15 @@ public class RetroalimentacionColaboracionDAOTest {
         rt.agregar(crearRetroalimentacion2());
     }
 
+    @AfterAll
+    static void limpiarBase () {
+        ConfiguracionPrueba.borrarTodosLosDatosTabla();
+    }
+
     private static RetroalimentacionColaboracionDTO crearRetroalimentacion () {
         RetroalimentacionColaboracionDTO retroalimentacion = new RetroalimentacionColaboracionDTO();
         retroalimentacion.setIdUsuario(1);
-        retroalimentacion.setColaboracion(1);
+        retroalimentacion.setColaboracion(3);
         retroalimentacion.setComentario("hola mundo");
         retroalimentacion.setInteraccionConPar(5);
         retroalimentacion.setHabilidadesObtenidas(5);
@@ -47,7 +54,7 @@ public class RetroalimentacionColaboracionDAOTest {
     private static RetroalimentacionColaboracionDTO crearRetroalimentacion2 () {
     RetroalimentacionColaboracionDTO retroalimentacion = new RetroalimentacionColaboracionDTO();
         retroalimentacion.setIdUsuario(2);
-        retroalimentacion.setColaboracion(2);
+        retroalimentacion.setColaboracion(4);
         retroalimentacion.setComentario("hola mundo");
         retroalimentacion.setInteraccionConPar(5);
         retroalimentacion.setHabilidadesObtenidas(5);
@@ -65,14 +72,36 @@ public class RetroalimentacionColaboracionDAOTest {
         int resultado = -1;
 
         try {
-            dao.agregar(crearRetroalimentacion());
+            resultado = dao.agregar(crearRetroalimentacion());
         }
         catch (ErrorDAO error) {
             fail(error.getMessage());
         }
 
         assertEquals(2, resultado);
-  }
+    }
+
+    @Test
+    public void pruebaAgregarRetroalimentacionIncorrecta () {
+        RetroalimentacionColaboracionDTO retroalimentacion = new RetroalimentacionColaboracionDTO();
+        retroalimentacion.setIdUsuario(500);
+        retroalimentacion.setColaboracion(4);
+        retroalimentacion.setComentario("hola mundo");
+        retroalimentacion.setInteraccionConPar(5);
+        retroalimentacion.setHabilidadesObtenidas(5);
+        retroalimentacion.setCalificacion(5);
+        retroalimentacion.setIntercambioCultural(5);
+        retroalimentacion.setMejoraDelLenguaje(5);
+        retroalimentacion.setTrabajoColaborativo(5);
+        retroalimentacion.setMejoraFormacionProfesional(4);
+
+        try {
+            dao.agregar(retroalimentacion);
+            fail();
+        } catch (ErrorDAO e) {
+            assertEquals(ErrorDAO.Tipo.CONEXION, e.getTipo());
+        }
+    }
 
     @Test
     public void pruebaGetPorId () {
@@ -88,14 +117,27 @@ public class RetroalimentacionColaboracionDAOTest {
             fail("no se encontró la retroalimentacion esperada");
         }
 
-        RetroalimentacionColaboracionDTO retroalimentacion = new RetroalimentacionColaboracionDTO();
+        RetroalimentacionColaboracionDTO retroalimentacion = resultado.get();
 
-        assertEquals(2, retroalimentacion.getIdRetroalimentacion());
-        assertEquals(1, retroalimentacion.getIdUsuario());
-        assertEquals(1, retroalimentacion.getColaboracion());
+        assertEquals(1, retroalimentacion.getIdRetroalimentacion());
+        assertEquals(2, retroalimentacion.getIdUsuario());
+        assertEquals(4, retroalimentacion.getColaboracion());
         assertEquals(5, retroalimentacion.getInteraccionConPar());
-        assertEquals(4, retroalimentacion.getIntercambioCultural());
-        assertEquals(4, retroalimentacion.getCalificacion());
+        assertEquals(5, retroalimentacion.getIntercambioCultural());
+        assertEquals(5, retroalimentacion.getCalificacion());
+    }
+
+    @Test
+    public void pruebaGetPorIdIncorrecto () {
+        Optional<RetroalimentacionColaboracionDTO> resultado = Optional.empty();
+
+        try {
+            resultado = dao.getPorId(1000);
+        } catch (ErrorDAO e) {
+            fail();
+        }
+
+        assert(resultado.isEmpty());
     }
 
   @Test
@@ -103,7 +145,7 @@ public class RetroalimentacionColaboracionDAOTest {
         Optional<RetroalimentacionColaboracionDTO> resultado = Optional.empty();
 
         try {
-            resultado = dao.getPorPersonaYColaboracion(1, 1);
+            resultado = dao.getPorPersonaYColaboracion(1, 3);
         } catch (ErrorDAO e) {
             fail();
       }
@@ -112,41 +154,39 @@ public class RetroalimentacionColaboracionDAOTest {
           fail("no se encontró la retroalimentacion esperada");
       }
 
-      RetroalimentacionColaboracionDTO retroalimentacion = new RetroalimentacionColaboracionDTO();
+      RetroalimentacionColaboracionDTO retroalimentacion = resultado.get();
 
       assertEquals(2, retroalimentacion.getIdRetroalimentacion());
       assertEquals(1, retroalimentacion.getIdUsuario());
-      assertEquals(1, retroalimentacion.getColaboracion());
+      assertEquals(3, retroalimentacion.getColaboracion());
       assertEquals(5, retroalimentacion.getInteraccionConPar());
       assertEquals(4, retroalimentacion.getIntercambioCultural());
       assertEquals(4, retroalimentacion.getCalificacion());
     }
 
     @Test
-    public void pruebaGetTodos () {
-      List<RetroalimentacionColaboracionDTO> resultado = null;
+    public void pruebaPorPersonaSinColaboracion () {
+        Optional<RetroalimentacionColaboracionDTO> resultado = Optional.empty();
 
         try {
-            resultado = dao.getTodos();
+            resultado = dao.getPorPersonaYColaboracion(1, 3000);
         } catch (ErrorDAO e) {
             fail();
         }
 
-        if (resultado == null) {
+        assert(resultado.isEmpty());
+    }
+
+    @Test
+    public void pruebaPorColaboracionSinPersona () {
+        Optional<RetroalimentacionColaboracionDTO> resultado = Optional.empty();
+
+        try {
+            resultado = dao.getPorPersonaYColaboracion(1000, 3);
+        } catch (ErrorDAO e) {
             fail();
         }
 
-        assertEquals(2, resultado.get(0).getIdRetroalimentacion());
-        assertEquals(1, resultado.get(0).getIdUsuario());
-        assertEquals(1, resultado.get(0).getColaboracion());
-        assertEquals(5, resultado.get(0).getInteraccionConPar());
-        assertEquals(4, resultado.get(0).getIntercambioCultural());
-
-        assertEquals(1, resultado.get(1).getIdRetroalimentacion());
-        assertEquals(2, resultado.get(1).getIdUsuario());
-        assertEquals(2, resultado.get(1).getColaboracion());
-        assertEquals(5, resultado.get(1).getInteraccionConPar());
-        assertEquals(5, resultado.get(1).getIntercambioCultural());
-        assertEquals(4, resultado.get(1).getMejoraFormacionProfesional());
+        assert(resultado.isEmpty());
     }
 }
