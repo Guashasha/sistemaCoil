@@ -1,11 +1,11 @@
 package InterfazGrafica;
 
-import DTO.EstudianteDTO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import org.apache.log4j.Logger;
 import java.io.IOException;
 import java.net.URL;
@@ -13,19 +13,21 @@ import java.util.ResourceBundle;
 
 public class VentanaPrincipalEstudianteControlador implements Initializable {
     private final Logger BITACORA = Logger.getLogger(VentanaPrincipalEstudianteControlador.class);
-    private EstudianteDTO estudianteDTO;
     @FXML
     private BorderPane pnVentanaPrincipal;
-
-    public void setEstudiante (EstudianteDTO estudianteDTO) {
-        this.estudianteDTO = estudianteDTO;
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         abrirSeccionNumeralia();
     }
 
+    @FXML
+    public void cerrarVentana () {
+        Stage window = (Stage) pnVentanaPrincipal.getScene().getWindow();
+        window.close();
+    }
+
+    @FXML
     private void abrirSeccionNumeralia () {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Numeralia.fxml"));
         BorderPane pnNumeralia = null;

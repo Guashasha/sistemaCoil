@@ -8,7 +8,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.apache.log4j.Logger;
 import java.io.IOException;
@@ -16,11 +15,8 @@ import java.util.Stack;
 
 public class VentanaPrincipalAcademicoControlador {
     private final Logger BITACORA = Logger.getLogger(VentanaPrincipalAcademicoControlador.class);
-
     @FXML
     private BorderPane pnPrincipal;
-    @FXML
-    private VBox vBoxBotones;
     private AcademicoDTO academico;
     private Stack<Pane> historialPaneles = new Stack<>();
 
@@ -34,10 +30,10 @@ public class VentanaPrincipalAcademicoControlador {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ConfiguracionCuenta.fxml"));
 
         try {
-            BorderPane pnConfiguraciónCuenta = fxmlLoader.load();
+            BorderPane pnConfiguracionCuenta = fxmlLoader.load();
             ConfiguracionCuentaControlador controlador = fxmlLoader.getController();
             controlador.setRecursos(this.pnPrincipal,this.academico);
-            this.pnPrincipal.setCenter(pnConfiguraciónCuenta);
+            this.pnPrincipal.setCenter(pnConfiguracionCuenta);
         }
         catch (IOException error) {
             BITACORA.fatal(error.getMessage());

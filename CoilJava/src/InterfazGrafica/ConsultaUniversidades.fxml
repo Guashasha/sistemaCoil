@@ -67,7 +67,7 @@
          <children>
             <HBox alignment="CENTER" layoutX="32.0" layoutY="17.0" prefHeight="42.0" prefWidth="456.0" style="-fx-background-radius: 100; -fx-background-color: #FFFFFF;">
                <children>
-                  <TextField fx:id="tfBarraBusqueda" alignment="CENTER" prefHeight="26.0" prefWidth="406.0" promptText="Buscar universidad" style="-fx-background-color: rgba(0,0,0,0);">
+                  <TextField fx:id="tfBarraBusqueda" alignment="CENTER" onKeyPressed="#limitarCaracteresBarraBusqueda" prefHeight="26.0" prefWidth="406.0" promptText="Buscar universidad" style="-fx-background-color: rgba(0,0,0,0);">
                      <font>
                         <Font size="16.0" />
                      </font></TextField>

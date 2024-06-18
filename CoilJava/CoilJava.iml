@@ -181,5 +181,9 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="javafx-lib" level="project" />
+    <orderEntry type="library" name="javax.ejb" level="project" />
+    <orderEntry type="library" name="javax.faces-api-2.0" level="project" />
+    <orderEntry type="library" name="javax-inject" level="project" />
+    <orderEntry type="library" name="lombok" level="project" />
   </component>
 </module>
