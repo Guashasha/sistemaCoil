@@ -4,7 +4,6 @@ import DTO.AcademicoDTO;
 import DTO.CuentaDTO;
 import Utilidades.ErrorDAO;
 
-import java.sql.ResultSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -91,6 +90,9 @@ public class AcademicoAuxiliar {
 
     public int agregarAcademicoConCuenta (AcademicoDTO academicoDTO, CuentaDTO cuentaDTO) throws ErrorDAO {
         try {
+            if (ACADEMICO_DAO.getAcademicoPorCorreo(academicoDTO.getCorreoElectronico()).isPresent()) {
+                throw new ErrorDAO ("El correo electrónico ya se encuentra registrado", ErrorDAO.Tipo.VALIDACION);
+            }
             existe(academicoDTO);
             CuentaAuxiliar cuentaAuxiliar = new CuentaAuxiliar();
             cuentaAuxiliar.usuarioExistente(cuentaDTO);
@@ -127,10 +129,6 @@ public class AcademicoAuxiliar {
         catch (ErrorDAO error) {
             throw new ErrorDAO(error.getMessage(), error.getTipo());
         }
-    }
-
-    public AcademicoDTO resultSetAObjeto (ResultSet resultados) {
-        return null;
     }
 
     public static boolean cadenaValida (String cadena) {
