@@ -178,8 +178,8 @@ ALTER TABLE `calendarioActividades` ADD FOREIGN KEY (`idActividad`) REFERENCES `
 ALTER TABLE `universidad` ADD FOREIGN KEY (`paisOrigen`) REFERENCES `pais` (`idPais`);
 
 SELECT "creando usuarios...";
-DROP USER IF EXISTS "admin_COIL"@"192.168.125.31";
-DROP USER IF EXISTS "admin_COIL2"@"192.168.125.76";
+DROP USER IF EXISTS "admin_COIL"@"192.168.116.30";
+DROP USER IF EXISTS "admin_COIL2"@"192.168.116.76";
 DROP USER IF EXISTS "admin_COIL3"@"192.168.125.91";
 DROP USER IF EXISTS "admin_COIL"@"%";
 DROP USER IF EXISTS "admin_COIL"@"localhost";
