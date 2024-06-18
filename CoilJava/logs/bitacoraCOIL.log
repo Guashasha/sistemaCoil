@@ -122,17 +122,17 @@
 2024-05-27 18:16:37 FATAL AcademicoDAO:136 - (conn=27) Table 'COIL.vista_Academico' doesn't exist
 2024-05-27 18:18:05 FATAL AcademicoDAO:136 - (conn=32) Table 'COIL.vista_Academico' doesn't exist
 2024-05-27 21:44:29 FATAL AcademicoDAO:136 - (conn=14) Table 'COIL.vista_Academico' doesn't exist
-2024-05-27 21:44:32 FATAL VentanaPrincipalAdministradorControlador:130 -
+2024-05-27 21:44:32 FATAL VentanaPrincipalAdministradorControlador:130 - 
 /home/guashasha/Documents/escuela/semestres/cuarto_semestre/coil/CoilJava/out/production/CoilJava/InterfazGrafica/GestionCuenta.fxml
 
 2024-05-27 23:22:53 FATAL ColaboracionDAO:458 - (conn=85) You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'OR estado = 'activa' OR estado = 'enRevision') AND cedulaProfesional = '45698...' at line 1
-2024-05-28 08:45:47 FATAL VentanaPrincipalAdministradorControlador:131 -
+2024-05-28 08:45:47 FATAL VentanaPrincipalAdministradorControlador:131 - 
 /home/guashasha/Documents/escuela/semestres/cuarto_semestre/coil/CoilJava/out/production/CoilJava/InterfazGrafica/CrearCuentaAcademico.fxml:15
 
-2024-05-28 08:45:55 FATAL VentanaPrincipalAdministradorControlador:131 -
+2024-05-28 08:45:55 FATAL VentanaPrincipalAdministradorControlador:131 - 
 /home/guashasha/Documents/escuela/semestres/cuarto_semestre/coil/CoilJava/out/production/CoilJava/InterfazGrafica/CrearCuentaAcademico.fxml:15
 
-2024-05-28 08:47:02 FATAL VentanaPrincipalAdministradorControlador:131 -
+2024-05-28 08:47:02 FATAL VentanaPrincipalAdministradorControlador:131 - 
 /home/guashasha/Documents/escuela/semestres/cuarto_semestre/coil/CoilJava/out/production/CoilJava/InterfazGrafica/CrearCuentaAcademico.fxml:15
 
 2024-05-28 10:23:27 FATAL AcademicoDAO:221 - (conn=74) Cannot add or update a child row: a foreign key constraint fails (`COIL`.`persona`, CONSTRAINT `persona_ibfk_1` FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`))
@@ -198,7 +198,6 @@
 2024-06-09 23:05:45 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=3)(type=primary). Connection refused: getsockopt
 2024-06-09 23:05:48 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=3)(type=primary). Connection refused: getsockopt
 2024-06-09 23:06:37 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=36)(type=primary). Connection refused: getsockopt
-<<<<<<< HEAD
 2024-06-09 23:38:22 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=3306)(type=primary). Connection refused
 2024-06-09 23:38:25 ERROR RetroalimentacionActividadDTO:33 - Utilidades.ErrorDAO: No fue posible realizar la conexion con la base de datos.
 Conctacte a un técnico
@@ -222,6 +221,7 @@ Conctacte a un técnico
 2024-06-10 01:54:50 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=3306)(type=primary). Connection refused
 2024-06-10 01:54:51 ERROR RetroalimentacionActividadDTO:58 - Utilidades.ErrorDAO: No fue posible realizar la conexion con la base de datos.
 Conctacte a un técnico
+<<<<<<< HEAD
 2024-06-10 08:53:19 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=3306)(type=primary). Connection refused
 2024-06-10 08:53:25 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=3306)(type=primary). Connection refused
 2024-06-10 09:37:48 FATAL AcademicoDAO:184 - (conn=10) Data too long for column 'p_numeroTelefono' at row 2
@@ -407,20 +407,3 @@ Conctacte a un técnico
 2024-06-11 09:18:13 FATAL AdministradorBaseDatos:72 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=33)(type=primary). Connection refused: getsockopt
 2024-06-11 09:18:42 FATAL AdministradorBaseDatos:72 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localt)(port=3306)(type=primary). localt
 2024-06-11 09:19:10 FATAL AdministradorBaseDatos:72 - java.sql.SQLInvalidAuthorizationSpecException: (conn=47288) Access denied for user 'admin_COL'@'localhost' (using password: YES)
->>>>>>> ferDAO
-2024-06-17 18:19:13 FATAL ConfiguracionPrueba:103 - (conn=7347) Unknown column 'apellidoPaterno' in 'field list'
-2024-06-17 18:19:15 FATAL ConfiguracionPrueba:103 - (conn=7348) Unknown column 'apellidoPaterno' in 'field list'
-2024-06-17 18:19:17 FATAL ConfiguracionPrueba:103 - (conn=7349) Cannot add or update a child row: a foreign key constraint fails (`coil`.`estudiante`, CONSTRAINT `estudiante_ibfk_1` FOREIGN KEY (`idPersona`) REFERENCES `persona` (`idPersona`))
-2024-06-17 18:19:53 FATAL ConfiguracionPrueba:103 - (conn=7351) Duplicate entry '1' for key 'PRIMARY'
-2024-06-17 18:23:01 FATAL EstudianteDAO:43 - (conn=8010) Cannot add or update a child row: a foreign key constraint fails (`coil`.`persona`, CONSTRAINT `persona_ibfk_1` FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`))
-2024-06-17 18:23:10 FATAL EstudianteDAO:43 - (conn=8087) Column 'nombre' cannot be null
-2024-06-17 18:23:17 FATAL EstudianteDAO:75 - (conn=8164) Cannot add or update a child row: a foreign key constraint fails (`coil`.`persona`, CONSTRAINT `persona_ibfk_1` FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`))
-2024-06-17 18:23:22 FATAL EstudianteDAO:75 - (conn=8195) Cannot add or update a child row: a foreign key constraint fails (`coil`.`persona`, CONSTRAINT `persona_ibfk_1` FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`))
-2024-06-17 18:23:35 FATAL EstudianteDAO:43 - (conn=8322) Cannot add or update a child row: a foreign key constraint fails (`coil`.`persona`, CONSTRAINT `persona_ibfk_1` FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`))
-2024-06-17 18:26:54 FATAL CuentaDAO:143 - (conn=8408) Las contrasenas son distintas
-2024-06-17 18:27:09 FATAL CuentaDAO:281 - (conn=8552) Duplicate entry 'EduVillegas' for key 'nombreUsuario'
-2024-06-17 18:27:20 FATAL CuentaDAO:143 - (conn=8668) Las contrasenas son distintas
-2024-06-17 18:28:17 FATAL CuentaDAO:176 - (conn=9302) Data truncated for column 'estado' at row 1
-2024-06-17 18:29:32 FATAL CuentaDAO:143 - (conn=9331) Las contrasenas son distintas
-2024-06-17 18:29:47 FATAL CuentaDAO:281 - (conn=9475) Duplicate entry 'EduVillegas' for key 'nombreUsuario'
-2024-06-17 18:29:58 FATAL CuentaDAO:143 - (conn=9591) Las contrasenas son distintas

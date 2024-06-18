@@ -14,7 +14,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
-
 import java.util.Optional;
 import java.util.Stack;
 
@@ -84,12 +83,15 @@ public class EditarEstudianteControlador {
                 estudianteEditado.setNombre(tfNombre.getText());
                 estudianteEditado.setApellidos(tfApellidoPaterno.getText());
                 estudianteEditado.setMatricula(txtMatriculaActual.getText());
-                estudianteEditado.setIdUniversidad(this.estudiante
-                                                           .getIdUniversidad());
+                estudianteEditado.setIdUniversidad(this.estudiante.getIdUniversidad());
                 filasAfectadas = estudianteDAO.modificar(estudianteEditado);
             }
             catch (ErrorDAO error) {
-                mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.WARNING);
+                Alert.AlertType tipoAlerta = Alert.AlertType.WARNING;
+                if (error.getTipo() == ErrorDAO.Tipo.CONEXION) {
+                    tipoAlerta = Alert.AlertType.ERROR;
+                }
+                mostrarMensajeEmergente(error.getMessage(), tipoAlerta);
                 filasAfectadas = -1;
             }
 
@@ -119,23 +121,20 @@ public class EditarEstudianteControlador {
     }
 
     private boolean camposVacios () {
-        String nombre = this.tfNombre
-                .getText();
-        String apellidoPaterno = this.tfApellidoPaterno
-                .getText();
-        String apellidoMaterno = this.tfApellidoMaterno
-                .getText();
+        String nombre = this.tfNombre.getText();
+        String apellidoPaterno = this.tfApellidoPaterno.getText();
+        String apellidoMaterno = this.tfApellidoMaterno.getText();
         return nombre == null || nombre.isBlank() || apellidoPaterno == null || apellidoPaterno.isBlank() || apellidoMaterno == null || apellidoMaterno.isBlank();
     }
 
     private boolean camposIguales () {
-        String nuevoNombre = tfNombre.getText().
-                                     trim();
+        String nuevoNombre = tfNombre.getText()
+                                     .trim();
         String nuevoApeliidoPaterno = tfApellidoPaterno.getText()
                                                        .trim();
-        return nuevoNombre.equals(this.estudiante
-                                          .getNombre()) && nuevoApeliidoPaterno.equals(this.estudiante
-                                                                                               .getApellidos());
+        String nuevoApellidoMaterno = tfApellidoMaterno.getText()
+                                                       .trim();
+        return nuevoNombre.equals(this.estudiante.getNombre()) && nuevoApeliidoPaterno.equals(this.estudiante.getApellidos());
     }
 
     private void etiquetarCamposVacios () {
