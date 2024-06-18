@@ -311,6 +311,30 @@ public class AcademicoDAO implements IAcademicoDAO {
         return resultado;
     }
 
+    @Override
+    public Optional<AcademicoDTO> getAcademicoPorCorreo (String correo) throws ErrorDAO {
+        String consultaSQL = "SELECT * FROM vista_academico WHERE correoElectronico = ?";
+        AcademicoDTO academico = null;
+        try {
+            PreparedStatement consultaAcademico = AdministradorBaseDatos.getInstancia().prepareStatement(consultaSQL);
+            consultaAcademico.setString(1, correo);
+            ResultSet resultado = consultaAcademico.executeQuery();
+
+            if (resultado.next()) {
+                academico = convertirAcademico(resultado);
+            }
+
+            consultaAcademico.close();
+            resultado.close();
+        }
+        catch (SQLException error) {
+            error.printStackTrace();
+            BITACORA.info(error);
+            throw new ErrorDAO("Error al buscar correo", ErrorDAO.Tipo.CONSULTA);
+        }
+        return Optional.ofNullable(academico);
+    }
+
     private void setAcademicoParametros (CallableStatement declaracion, AcademicoDTO academicoDTO) throws SQLException {
         declaracion.setString(1, academicoDTO.getNombre());
         declaracion.setString(2, academicoDTO.getApellidos());
