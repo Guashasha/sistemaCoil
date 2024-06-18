@@ -8,8 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * La clase UniversidadAuxiliar funciona como intermediario entre el cliente y las clases DAO. Procesa y valida la información de los parámetros
- * antes de mandarla o después de recibirla de las clases DAO.
+ * La clase UniversidadAuxiliar funciona como intermediario entre el cliente y las clases DAO. Procesa y valida la información de los parámetros antes de mandarla o después de recibirla de las clases DAO.
  * @author pale
  */
 public class UniversidadAuxiliar {

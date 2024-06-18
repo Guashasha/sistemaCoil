@@ -74,7 +74,7 @@ class FacultadAuxiliarTest {
         listaEsperada.add(new FacultadDTO(2,"Derecho",1));
 
         try {
-            listaObtenida = FACULTAD_AUXILIAR.getFacultadPorRegion("Xalapa");
+            listaObtenida = FACULTAD_AUXILIAR.getFacultadesPorRegion("Xalapa");
         }
         catch (ErrorDAO error) {
             fail("Fallida: pruebaGetFacultadPorRegionExitosa");
@@ -90,7 +90,7 @@ class FacultadAuxiliarTest {
     @Test
     void pruebaGetFacultadPorRegionCadenaInvalida () {
         try {
-            List<FacultadDTO> resultado = FACULTAD_AUXILIAR.getFacultadPorRegion(null);
+            List<FacultadDTO> resultado = FACULTAD_AUXILIAR.getFacultadesPorRegion(null);
             assertTrue(resultado.isEmpty(),"pruebaGetFacultadPorRegionCadenaInvalida");
         }
         catch (ErrorDAO error) {
@@ -101,7 +101,7 @@ class FacultadAuxiliarTest {
     @Test
     void pruebaGetFacultadPorRegionInexistente () {
         try {
-            List<FacultadDTO> resultado = FACULTAD_AUXILIAR.getFacultadPorRegion("Sur");
+            List<FacultadDTO> resultado = FACULTAD_AUXILIAR.getFacultadesPorRegion("Sur");
             assertTrue(resultado.isEmpty(),"pruebaGetFacultadPorRegionInexistente");
         }
         catch (ErrorDAO error) {
