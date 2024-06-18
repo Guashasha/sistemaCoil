@@ -48,7 +48,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
             consultaColaboracion.close();
         }
         catch (SQLException error) {
-            BITACORA.info(error);
+            BITACORA.warn(error);
             throw new ErrorDAO("Error al obtener las colaboraciones por su identificador", ErrorDAO.Tipo.CONSULTA);
         }
         finally {
@@ -116,7 +116,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
             consultaColaboracion.close();
         }
         catch (SQLException error) {
-            BITACORA.info(error);
+            BITACORA.warn(error);
             throw new ErrorDAO("Error al obtener los estudiantes participantes en la colaboración", ErrorDAO.Tipo.CONSULTA);
         }
         finally {
@@ -150,7 +150,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
             consultaColaboracion.close();
         }
         catch (SQLException error) {
-            BITACORA.info(error);
+            BITACORA.warn(error);
             throw new ErrorDAO("Error al obtneer lo academicos participantes en la colaboración", ErrorDAO.Tipo.CONSULTA);
         }
         finally {
@@ -186,7 +186,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
 
         }
         catch (SQLException error) {
-            BITACORA.info(error);
+            BITACORA.warn(error);
             throw new ErrorDAO("Error al obtener las colaboraciones por periodoDTO", ErrorDAO.Tipo.CONSULTA);
         }
         finally {
@@ -219,7 +219,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
             resultadoColaboracionPorIdioma.close();
         }
         catch (SQLException error) {
-            BITACORA.info(error);
+            BITACORA.warn(error);
             throw new ErrorDAO("Error al obtener las colaboraciones por idioma", ErrorDAO.Tipo.CONSULTA);
         }
         finally {
@@ -252,7 +252,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
             consultaColaboracion.close();
         }
         catch (SQLException error) {
-            BITACORA.info(error);
+            BITACORA.warn(error);
             throw new ErrorDAO("Error al obtener la colaboración", ErrorDAO.Tipo.CONSULTA);
         }
         finally {
@@ -384,7 +384,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
             }
         }
         catch (SQLException error) {
-            BITACORA.info(error);
+            BITACORA.warn(error);
             throw new ErrorDAO("Error al obtener la colaboracion activa por academico", ErrorDAO.Tipo.CONSULTA);
         }
         finally {
@@ -415,7 +415,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
             }
         }
         catch (SQLException error) {
-            BITACORA.info(error);
+            BITACORA.warn(error);
             throw new ErrorDAO("Error al obtener la colaboracion activa por academico", ErrorDAO.Tipo.CONSULTA);
         }
         finally {
@@ -447,7 +447,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
             }
         }
         catch (SQLException error) {
-            BITACORA.info(error);
+            BITACORA.warn(error);
             throw new ErrorDAO("Error al obtener la colaboracion activa por academico", ErrorDAO.Tipo.CONSULTA);
         }
         finally {
@@ -526,7 +526,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
             consultaColaboracion.close();
         }
         catch (SQLException error) {
-            BITACORA.info(error);
+            BITACORA.warn(error);
             throw new ErrorDAO("Error al obtener la propuesta de colaboracion", ErrorDAO.Tipo.CONSULTA);
         }
         finally {
@@ -561,7 +561,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
             consultaColaboracion.close();
         }
         catch (SQLException error) {
-            BITACORA.info(error);
+            BITACORA.warn(error);
             throw new ErrorDAO("Error al obtener las colaboraciones disponibles", ErrorDAO.Tipo.CONSULTA);
         }
         return listaColaboracion;
@@ -599,7 +599,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
             }
         }
         catch (SQLException error) {
-            BITACORA.info(error);
+            BITACORA.warn(error);
             throw new ErrorDAO("Error al obtener las colaboracion actual del académico", ErrorDAO.Tipo.CONSULTA);
         }
         return Optional.ofNullable(colaboracionDTO);
@@ -628,7 +628,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
             }
         }
         catch (SQLException error) {
-            BITACORA.info(error);
+            BITACORA.warn(error);
             throw new ErrorDAO("Error al obtener las colaboraciones disponibles", ErrorDAO.Tipo.CONSULTA);
         }
         return Optional.ofNullable(colaboracionDTO);
@@ -658,7 +658,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
             consultaColaboracion.close();
         }
         catch (SQLException error) {
-            BITACORA.info(error);
+            BITACORA.warn(error);
             throw new ErrorDAO("Error al comprobar si existe una solicitud previa", ErrorDAO.Tipo.CONSULTA);
         }
         return colaboracion.isPresent();
@@ -687,7 +687,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
             consultaAcademico.close();
         }
         catch (SQLException error) {
-            BITACORA.info(error);
+            BITACORA.warn(error);
             throw new ErrorDAO("Error al obtener las solicitudes de la colaboracion", ErrorDAO.Tipo.CONSULTA);
         }
         finally {
@@ -718,7 +718,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
             consultaColaboracion.close();
         }
         catch (SQLException error) {
-            BITACORA.info(error);
+            BITACORA.warn(error);
             throw new ErrorDAO("Error al obtener las solicitudes de la colaboracion", ErrorDAO.Tipo.CONSULTA);
         }
         finally {
@@ -933,7 +933,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
             resultado.close();
         }
         catch (SQLException error) {
-            BITACORA.info(error);
+            BITACORA.warn(error);
             throw new ErrorDAO("Error al obtener la colaboración", ErrorDAO.Tipo.CONSULTA);
         }
         finally {
@@ -967,7 +967,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
 
         }
         catch (SQLException error) {
-            BITACORA.info(error);
+            BITACORA.warn(error);
             throw new ErrorDAO("Error al obtener al académico par", ErrorDAO.Tipo.CONSULTA);
         }
         finally {
@@ -997,7 +997,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
             consultaColaboracion.close();
         }
         catch (SQLException error) {
-            BITACORA.info(error);
+            BITACORA.warn(error);
             throw new ErrorDAO("Error al obtener todas las colaboraciones registradas", ErrorDAO.Tipo.CONSULTA);
         }
         finally {
@@ -1171,7 +1171,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
             AdministradorBaseDatos.desconectar();
         }
         catch (SQLException error) {
-            BITACORA.info(error);
+            BITACORA.warn(error);
             throw new ErrorDAO("Error al consultar colaboraciones", ErrorDAO.Tipo.CONSULTA);
         }
 
@@ -1241,7 +1241,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
             }
         }
         catch (SQLException error) {
-            BITACORA.info(error);
+            BITACORA.warn(error);
             throw new ErrorDAO("Error al obtener la colaboracion en estaod \"vinculada\" por academico", ErrorDAO.Tipo.CONSULTA);
         }
         finally {
@@ -1274,7 +1274,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
             }
         }
         catch (SQLException error) {
-            BITACORA.info(error);
+            BITACORA.warn(error);
             throw new ErrorDAO("Error al obtener la colaboracion en estaod \"vinculada\" por academico", ErrorDAO.Tipo.CONSULTA);
         }
         finally {
