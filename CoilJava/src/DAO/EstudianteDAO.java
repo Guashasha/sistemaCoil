@@ -14,6 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * La clase EstudianteDAO se encarga de obtener información de las regiones en la base de datos y mandarlos a capas superiores mediante Transfer Objects.
+ *
+ * @author FerRMZ
+ */
 public class EstudianteDAO implements IEstudianteDAO {
     private static final Logger BITACORA = Logger.getLogger(EstudianteDAO.class);
 
