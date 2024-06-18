@@ -332,16 +332,16 @@ INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Ciencias Quími
 INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Enfermería', 4); -- Orizaba-Córdoba
 INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Ingeniería', 4); -- Orizaba-Córdoba
 INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Medicina', 4); -- Orizaba-Córdoba
-INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Negocios y Tecnologías', 4); -- Orizaba-Córdoba
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Negocios y Tecnologías', 4);
 INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Odontología', 4);
 
 
 -- Coatzscoalcos - Minatitlán
 INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Ingeniería en Sistemas de Producción Agropecuaria', 5);
 INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Ciencia Químicas', 5);
-INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Contaduría y Administración', 5); -- Coatzacoalcos-Minatitlán
-INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Enfermería', 5); -- Coatzacoalcos-Minatitlán
-INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Ingeniería', 5); -- Coatzacoalcos-Minatitlán
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Contaduría y Administración', 5);
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Enfermería', 5);
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Ingeniería', 5);
 INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Medicina', 5);
-INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Odontología', 5); -- Coatzacoalcos-Minatitlán
+INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Odontología', 5);
 INSERT INTO `facultad` (`nombre`, `region`) VALUES ('Facultad de Trabajo Social', 5);
