@@ -53,7 +53,12 @@ public class RegistroUniversidadControlador {
                 filasAfectadas = universidadAuxiliar.registrarUniversidad(universidadDTO, paisDTO);
             }
             catch (ErrorDAO error) {
-                mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.WARNING);
+                Alert.AlertType tipoAlerta = Alert.AlertType.WARNING;
+                if (error.getTipo() == ErrorDAO.Tipo.CONEXION) {
+                    tipoAlerta = Alert.AlertType.ERROR;
+                }
+                etiquetarCamposVacios();
+                mostrarMensajeEmergente(error.getMessage(), tipoAlerta);
                 filasAfectadas = -1;
             }
 
@@ -64,6 +69,7 @@ public class RegistroUniversidadControlador {
             }
             else if (filasAfectadas == 0) {
                 mostrarMensajeEmergente("Algo salió mal. Inténtelo de nuevo más tarde", Alert.AlertType.ERROR);
+                etiquetarCamposVacios();
             }
         }
         else {
@@ -85,7 +91,7 @@ public class RegistroUniversidadControlador {
     }
 
     @FXML
-    private void limitarCaracteres () {
+    private void limitarCaracteresCampoNombre () {
         int longitud = tfNombre.getLength();
         if (longitud > UniversidadDTO.LONGITUD_NOMBRE) {
             tfNombre.setText(tfNombre.getText()
