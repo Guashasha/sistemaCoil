@@ -40,7 +40,7 @@ public class SeccionMiColaboracionAcademicoControlador {
             return;
         }
 
-        if (colaboracionActivaOVinculadaOptional.isPresent()) {
+        if (!colaboracionActivaOVinculadaOptional.isPresent()) {
             if (optionalColaboracion.isPresent()) {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SolicitudesAColaboracion.fxml"));
                 BorderPane pnSolicitudColaboracion = null;
@@ -140,20 +140,16 @@ public class SeccionMiColaboracionAcademicoControlador {
     @FXML
     private void abrirProgresoColaboracion() {
         Optional<ColaboracionDTO> colaboracionVinculadaOActiva;
-        Optional<ColaboracionDTO> colaboracionActual;
 
         try {
             colaboracionVinculadaOActiva = getColaboracionActivaOVinculada();
-            colaboracionActual = getColaboracionActual();
         }
         catch (ErrorDAO error) {
             mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
             return;
         }
 
-        Optional<ColaboracionDTO> colaboracionOptional = colaboracionVinculadaOActiva.isPresent() ? colaboracionVinculadaOActiva : colaboracionActual;
-
-        if (colaboracionOptional.isPresent()) {
+        if (colaboracionVinculadaOActiva.isPresent()) {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ProgresoColaboracion.fxml"));
             BorderPane pnProgresoColaboracion = null;
 
@@ -168,7 +164,7 @@ public class SeccionMiColaboracionAcademicoControlador {
             if (pnProgresoColaboracion != null) {
                 this.historialPaneles.push(pnActual);
                 ProgresoColaboracionControlador progresoColaboracionControlador = fxmlLoader.getController();
-                progresoColaboracionControlador.setColaboracionDTO(colaboracionOptional.get());
+                progresoColaboracionControlador.setColaboracionDTO(colaboracionVinculadaOActiva.get());
                 progresoColaboracionControlador.setAcademicoDTO(this.academicoDTO);
                 progresoColaboracionControlador.setPnVentanaPrincipal(this.pnVentanaPrincipal);
                 progresoColaboracionControlador.inicializar();
