@@ -1225,6 +1225,39 @@ public class ColaboracionDAO implements IColaboracionDAO {
      * @throws ErrorDAO si ocurre un error de acceso a datos.
      */
     @Override
+    public Optional<ColaboracionDTO> getEnRevisionPorAcademico (AcademicoDTO academicoDTO) throws ErrorDAO {
+        String consultaSQL = "SELECT * FROM vista_colaboracion_con_academico WHERE estado = 'enRevision' AND cedulaProfesional = ?";
+        ColaboracionDTO colaboracion = null;
+
+        try {
+            PreparedStatement consultaColaboracion = AdministradorBaseDatos.getInstancia()
+                    .prepareStatement(consultaSQL);
+            consultaColaboracion.setString(1, academicoDTO.getCedulaProfesional());
+            ResultSet resultado = consultaColaboracion.executeQuery();
+
+            if (resultado.next()) {
+                colaboracion = convertirResultSetAColaboracionDTO(resultado);
+                getAcademico(colaboracion, resultado);
+            }
+        }
+        catch (SQLException error) {
+            BITACORA.info(error);
+            throw new ErrorDAO("Error al obtener la colaboracion en estaod \"vinculada\" por academico", ErrorDAO.Tipo.CONSULTA);
+        }
+        finally {
+            AdministradorBaseDatos.desconectar();
+        }
+        return Optional.ofNullable(colaboracion);
+    }
+
+    /**
+     * Obtiene la colaboración vinculada para un académico.
+     *
+     * @param academicoDTO el académico.
+     * @return un Optional que contiene la colaboración si se encuentra, de lo contrario está vacío.
+     * @throws ErrorDAO si ocurre un error de acceso a datos.
+     */
+    @Override
     public Optional<ColaboracionDTO> getVinculadaPorAcademico (AcademicoDTO academicoDTO) throws ErrorDAO {
         String consultaSQL = "SELECT * FROM vista_colaboracion_con_academico WHERE estado = 'vinculada' AND cedulaProfesional = ?";
         ColaboracionDTO colaboracion = null;

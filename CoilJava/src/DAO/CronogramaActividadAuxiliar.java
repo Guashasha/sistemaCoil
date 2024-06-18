@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Optional;
 
 public class CronogramaActividadAuxiliar {
-    private static final Logger BITACORA = Logger.getLogger(CronogramaActividadAuxiliar.class);
-
     /**
      * Valida y vincula una actividad con una colaboración, la actividad vinculada debe contener ambas, actividad y colaboración
      * @param actividadVinculadaDTO los datos de la actividad y la colaboración que serán vinculados
@@ -89,7 +87,6 @@ public class CronogramaActividadAuxiliar {
             rsActividad = cronogramaDAO.getPorActividadYColaboracion(idActividad, idColaboracion);
         }
         catch (ErrorDAO error) {
-            BITACORA.error(error);
             throw new ErrorDAO("Error de conexion a la base de datos: " + error.getMessage(), ErrorDAO.Tipo.CONEXION);
         }
 

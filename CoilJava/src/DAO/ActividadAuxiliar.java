@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.Optional;
 
 public class ActividadAuxiliar {
-    private static final Logger BITACORA = Logger.getLogger(RetroalimentacionActividadDTO.class);
-
     /**
      * Valida y registra una actividad en la base de datos
      * @param actividadDTO actividad a registrar en la base de datos
@@ -30,7 +28,6 @@ public class ActividadAuxiliar {
             resultado = actividadDAO.agregar(actividadDTO);
         }
         catch (ErrorDAO error) {
-            BITACORA.error(error);
             throw error;
         }
 
@@ -55,7 +52,6 @@ public class ActividadAuxiliar {
             resultado = actividadDAO.getPorId(idActividad);
         }
         catch (ErrorDAO error) {
-            BITACORA.error(error);
             throw error;
         }
 
@@ -76,7 +72,6 @@ public class ActividadAuxiliar {
             resultado = actividadDAO.getPorTitulo(titulo);
         }
         catch (ErrorDAO error) {
-            BITACORA.error(error);
             throw error;
         }
 
@@ -97,7 +92,6 @@ public class ActividadAuxiliar {
             resultado = actividadDAO.getPorIdColaboracion(idColaboracion);
         }
         catch (ErrorDAO error) {
-            BITACORA.error(error);
             throw error;
         }
 

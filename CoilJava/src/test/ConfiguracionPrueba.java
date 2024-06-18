@@ -73,6 +73,7 @@ public class ConfiguracionPrueba {
     }
 
     public static void borrarTodosLosDatosTabla () {
+        borrarDatosTablaCuenta();
         borrarDatosTablaAcademicoDesarrolla();
         borrarDatosTablaEstudiantesColaboracion();
         borrarDatosTablaColaboracion();
