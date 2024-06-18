@@ -34,16 +34,16 @@ public class UniversidadDAO implements IUniversidadDAO {
     public int registrarUniversidad (UniversidadDTO universidad) throws ErrorDAO {
         int filasAfectadas;
         String insercionSQL = "INSERT INTO universidad (nombre, paisOrigen) VALUES (?,?)";
-        PreparedStatement insertarUniversidad;
+        PreparedStatement insercionUniversidad;
 
         try {
-            insertarUniversidad = AdministradorBaseDatos.getInstancia().
+            insercionUniversidad = AdministradorBaseDatos.getInstancia().
                                                         prepareStatement(insercionSQL);
-            insertarUniversidad.setString(1, universidad.getNombre());
-            insertarUniversidad.setInt(2, universidad.getIdPais());
-            filasAfectadas = insertarUniversidad.executeUpdate();
+            insercionUniversidad.setString(1, universidad.getNombre());
+            insercionUniversidad.setInt(2, universidad.getIdPais());
+            filasAfectadas = insercionUniversidad.executeUpdate();
 
-            insertarUniversidad.close();
+            insercionUniversidad.close();
         }
         catch (SQLException excepcionSQL) {
             BITACORA.info(excepcionSQL.getMessage());
@@ -67,17 +67,17 @@ public class UniversidadDAO implements IUniversidadDAO {
     public int editarUniversidad (UniversidadDTO universidad) throws ErrorDAO {
         int filasAfectadas;
         String actualizacionSQL = "UPDATE universidad SET nombre = ?, paisOrigen = ? WHERE idUniversidad = ?";
-        PreparedStatement actualizarUniversidad;
+        PreparedStatement actualizacionUniversidad;
 
         try {
-            actualizarUniversidad = AdministradorBaseDatos.getInstancia().
+            actualizacionUniversidad = AdministradorBaseDatos.getInstancia().
                                                           prepareStatement(actualizacionSQL);
-            actualizarUniversidad.setString(1, universidad.getNombre());
-            actualizarUniversidad.setInt(2, universidad.getIdPais());
-            actualizarUniversidad.setInt(3, universidad.getId());
-            filasAfectadas = actualizarUniversidad.executeUpdate();
+            actualizacionUniversidad.setString(1, universidad.getNombre());
+            actualizacionUniversidad.setInt(2, universidad.getIdPais());
+            actualizacionUniversidad.setInt(3, universidad.getId());
+            filasAfectadas = actualizacionUniversidad.executeUpdate();
 
-            actualizarUniversidad.close();
+            actualizacionUniversidad.close();
         }
         catch (SQLException excepcionSQL) {
             BITACORA.info(excepcionSQL.getMessage());

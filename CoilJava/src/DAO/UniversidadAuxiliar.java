@@ -77,7 +77,7 @@ public class UniversidadAuxiliar {
                                               .trim();
 
             if (universidadExiste(nuevoNombre, nombreNuevoPais)) {
-                throw new ErrorDAO("La institución " + nuevoNombre + " ya existe", ErrorDAO.Tipo.DUPLICIDAD);
+                throw new ErrorDAO("Ya existe una institución registrada con los mismos datos que introduciste", ErrorDAO.Tipo.DUPLICIDAD);
             }
             else {
                 filasAfectadas = UNIVERSIDAD_DAO.editarUniversidad(prepararUniversidadEditada(nombreActual, nuevoNombre, nombreNuevoPais));
@@ -176,7 +176,9 @@ public class UniversidadAuxiliar {
         PaisDTO paisOrigen = new PaisDTO(pais);
 
         if (universidadABuscar.nombreValido() && paisOrigen.nombreValido()) {
-            Optional<UniversidadDTO> universidadDTO = UNIVERSIDAD_DAO.getUniversidadPorNombreYPais(universidad, pais);
+            String[] nombreUniversidadSeparado = universidad.split("\\s+");
+            String nombreUniversidad = String.join(" ",nombreUniversidadSeparado);
+            Optional<UniversidadDTO> universidadDTO = UNIVERSIDAD_DAO.getUniversidadPorNombreYPais(nombreUniversidad, pais);
 
             if (universidadDTO.isPresent()) {
                 existe = true;
