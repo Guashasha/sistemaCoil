@@ -12,6 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * La clase AcademicoDAO se encarga de obtener información de los académicos en la base de datos y mandarlos a capas superiores mediante Transfer Objects.
+ *
+ * @author FerRMZ
+ */
 public class AcademicoDAO implements IAcademicoDAO {
     private static final Logger BITACORA = Logger.getLogger(AcademicoDAO.class);
 
