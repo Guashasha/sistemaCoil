@@ -49,9 +49,7 @@ class ColaboracionDAOTest {
         colaboracionDTO.setPerfilEstudiante("Estudiantes de informática");
         return colaboracionDTO;
     }
-
-
-    //todo
+    
     @Test
     void pruebaGetColaboracionPorIdExitosa () {
         ColaboracionDTO esperado = instanciarColaboracion();
@@ -156,14 +154,14 @@ class ColaboracionDAOTest {
 
         estudianteDTO1.setIdPersona(4);
         estudianteDTO1.setNombre("Eduardo");
-        estudianteDTO1.setApellidos("Villegas");
+        estudianteDTO1.setApellidos("Villegas Hurtado");
         estudianteDTO1.setIdUniversidad(1);
         estudianteDTO1.setIdEstudiante(1);
         estudianteDTO1.setMatricula("zs22013693");
 
         estudianteDTO2.setIdPersona(5);
         estudianteDTO2.setNombre("John");
-        estudianteDTO2.setApellidos("Smith");
+        estudianteDTO2.setApellidos("Smith Onell");
         estudianteDTO2.setIdUniversidad(2);
         estudianteDTO2.setIdEstudiante(2);
         estudianteDTO2.setMatricula("zs2201356");

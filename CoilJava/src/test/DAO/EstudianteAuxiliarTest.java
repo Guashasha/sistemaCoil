@@ -19,7 +19,7 @@ class EstudianteAuxiliarTest {
         estudianteRegistrado1 = new EstudianteDTO();
         estudianteRegistrado1.setIdPersona(1);
         estudianteRegistrado1.setNombre("Jose");
-        estudianteRegistrado1.setApellidos("Lopez");
+        estudianteRegistrado1.setApellidos("Lopez Perez");
         estudianteRegistrado1.setIdUniversidad(1);
         estudianteRegistrado1.setIdEstudiante(1);
         estudianteRegistrado1.setMatricula("zs22013690");
@@ -27,7 +27,7 @@ class EstudianteAuxiliarTest {
         estudianteRegistrado2 = new EstudianteDTO();
         estudianteRegistrado2.setIdPersona(2);
         estudianteRegistrado2.setNombre("Juan");
-        estudianteRegistrado2.setApellidos("Negrete");
+        estudianteRegistrado2.setApellidos("Negrete Incumplido");
         estudianteRegistrado2.setIdUniversidad(1);
         estudianteRegistrado2.setIdEstudiante(2);
         estudianteRegistrado2.setMatricula("zs22013688");
@@ -42,8 +42,8 @@ class EstudianteAuxiliarTest {
 
     @BeforeEach
     void reiniciarDatosParaTest () {
-        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO persona (idPersona, nombre, apellidoPaterno, apellidoMaterno, universidad) VALUES (1, 'Jose', 'Lopez', 'Perez', 1);");
-        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO persona (idPersona, nombre, apellidoPaterno, apellidoMaterno, universidad) VALUES (2, 'Juan', 'Negrete', 'Incumplido', 1);");
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO persona (idPersona, nombre, apellidos, universidad) VALUES (1, 'Jose', 'Lopez Perez', 1);");
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO persona (idPersona, nombre, apellidos, universidad) VALUES (2, 'Juan', 'Negrete Incumplido', 1);");
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO estudiante (idEstudiante, idPersona, matricula) VALUES (1, 1, 'zs22013690')");
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO estudiante (idEstudiante, idPersona, matricula) VALUES (2, 2, 'zs22013688')");
     }

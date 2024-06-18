@@ -46,14 +46,11 @@ public class ListaEstudiantesItemControlador {
                 this.listaEstudiantesControlador = listaEstudiantesControlador;
                 this.estudiante = estudiante;
 
-                this.lbMatricula
-                        .setText(estudiante.getMatricula());
-                String nombreConpleto = estudiante.getNombre() + " " + estudiante.getApellidos();
-                this.lbNombre
-                        .setText(nombreConpleto);
-                this.lbUniversidad
-                        .setText(universidadOptional.get()
-                                .getNombre());
+                this.lbMatricula.setText(estudiante.getMatricula());
+                String nombreCompleto = estudiante.getNombre() + " " + estudiante.getApellidos();
+                this.lbNombre.setText(nombreCompleto);
+                this.lbUniversidad.setText(universidadOptional.get()
+                                                              .getNombre());
             }
             else {
                 throw new ErrorDAO("Error al cargar recursos. Reinicie la aplicación", ErrorDAO.Tipo.VALIDACION);
@@ -70,11 +67,11 @@ public class ListaEstudiantesItemControlador {
         alerta.setContentText("El alumno se retirará de la colaboración");
         alerta.setHeaderText(null);
         alerta.showAndWait()
-                .ifPresent(response -> {
-                    if (response == ButtonType.OK) {
-                        retirarEstudianteDeColaboracion();
-                    }
-                });
+              .ifPresent(response -> {
+                  if (response == ButtonType.OK) {
+                      retirarEstudianteDeColaboracion();
+                  }
+              });
     }
 
     @FXML
@@ -85,7 +82,7 @@ public class ListaEstudiantesItemControlador {
         try {
             pnAgregarEstudiante = fxmlLoader.load();
             EditarEstudianteControlador controlador = fxmlLoader.getController();
-            controlador.setRecursos(this.historialPaneles,this.pnVentanaPrincipal,this.estudiante,this.listaEstudiantesControlador);
+            controlador.setRecursos(this.historialPaneles, this.pnVentanaPrincipal, this.estudiante, this.listaEstudiantesControlador);
             this.pnVentanaPrincipal.setCenter(pnAgregarEstudiante);
         }
         catch (IOException error) {
@@ -102,7 +99,7 @@ public class ListaEstudiantesItemControlador {
         int filasAfectadas;
 
         try {
-            filasAfectadas = colaboracionAuxiliar.retirarEstudianteDeColaboracion(this.colaboracion,this.estudiante);
+            filasAfectadas = colaboracionAuxiliar.retirarEstudianteDeColaboracion(this.colaboracion, this.estudiante);
         }
         catch (ErrorDAO error) {
             mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
@@ -111,8 +108,7 @@ public class ListaEstudiantesItemControlador {
 
         if (filasAfectadas > 0) {
             mostrarMensajeEmergente("Se ha retirado el estudiante de la colaboración", Alert.AlertType.INFORMATION);
-            this.listaEstudiantesControlador
-                    .cargarListaEstudiantes();
+            this.listaEstudiantesControlador.cargarListaEstudiantes();
         }
         else if (filasAfectadas == 0) {
             mostrarMensajeEmergente("Algo salió mal al retirar el estudiante de la colaboración. Inténtelo de nuevo más tarde", Alert.AlertType.WARNING);

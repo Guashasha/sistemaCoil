@@ -45,18 +45,7 @@ public class CuentaItemControlador implements Initializable {
     private Label lbUsuario;
 
     private CuentaDTO cuentaDTOObtenida;
-
-    private VBox vboxCuenta;
     private AcademicoDTO academicoDTO;
-
-
-    public VBox getVboxCuenta () {
-        return vboxCuenta;
-    }
-
-    public void setVboxCuenta (VBox vboxCuenta) {
-        this.vboxCuenta = vboxCuenta;
-    }
 
     public void setCuentaObtenida (CuentaDTO cuentaDTOObtenida) {
         this.cuentaDTOObtenida = cuentaDTOObtenida;
@@ -64,10 +53,6 @@ public class CuentaItemControlador implements Initializable {
 
     public Button getBtEvaluar () {
         return btEvaluar;
-    }
-
-    public void setBtEvaluar (Button btEvaluar) {
-        this.btEvaluar = btEvaluar;
     }
 
     public CuentaDTO getCuentaObtenida () {
@@ -85,33 +70,10 @@ public class CuentaItemControlador implements Initializable {
         }
     }
 
-    public Label getLbApellidos () {
-        return lbApellidos;
-    }
-
-    public Label getLbCedula () {
-        return lbCedula;
-    }
-
-    public Label getLbCorreo () {
-        return lbCorreo;
-    }
-
-    public Label getLbNombre () {
-        return lbNombre;
-    }
-
-    public Label getLbPais () {
-        return lbPais;
-    }
-
     public Label getLbUniversidad () {
         return lbUniversidad;
     }
 
-    public Label getLbUsuario () {
-        return lbUsuario;
-    }
 
     public AcademicoDTO getAcademico (int idPersona) {
         AcademicoDTO academicoDTO = null;
@@ -165,6 +127,8 @@ public class CuentaItemControlador implements Initializable {
         AcademicoDTO academicoDTO = getAcademico(cuentaDTOObtenida.getIdPersona());
         lbNombre.setText(academicoDTO.getNombre());
         setToolTip(lbNombre);
+        lbApellidos.setText(academicoDTO.getApellidos());
+        setToolTip(lbApellidos);
         lbCorreo.setText(academicoDTO.getCorreoElectronico());
         setToolTip(lbCorreo);
         lbCedula.setText(academicoDTO.getCedulaProfesional());

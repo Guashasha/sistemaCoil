@@ -70,7 +70,7 @@ public class ConsultaUniversidadesControlador {
             RegistroUniversidadControlador registroUniversidadControlador = fxmlLoader.getController();
 
             try {
-                registroUniversidadControlador.setRecursos(this.pnVentanaPrincipal,this.historialPaneles,this);
+                registroUniversidadControlador.setRecursos(this.pnVentanaPrincipal, this.historialPaneles, this);
                 this.pnVentanaPrincipal.setCenter(pnRegistroUniversidad);
             }
             catch (ErrorDAO error) {
@@ -80,7 +80,17 @@ public class ConsultaUniversidadesControlador {
         }
     }
 
-    public void cargarConsultaGeneral() {
+    @FXML
+    private void limitarCaracteresBarraBusqueda () {
+        int longitud = tfBarraBusqueda.getLength();
+        if (longitud > UniversidadDTO.LONGITUD_NOMBRE) {
+            tfBarraBusqueda.setText(tfBarraBusqueda.getText()
+                                                   .substring(0, UniversidadDTO.LONGITUD_NOMBRE));
+            tfBarraBusqueda.positionCaret(tfBarraBusqueda.getLength());
+        }
+    }
+
+    public void cargarConsultaGeneral () {
         UniversidadDAO universidadDAO = new UniversidadDAO();
         List<UniversidadDTO> listaUniversidades = new ArrayList<>();
         try {
@@ -93,12 +103,13 @@ public class ConsultaUniversidadesControlador {
     }
 
     private void mostrarConsulta (List<UniversidadDTO> listaUniversidades) {
-        vboxConsultaUniversidades.getChildren().clear();
-        listaUniversidades.removeIf(universidad -> universidad.getNombre().equals("Universidad Veracruzana"));
+        vboxConsultaUniversidades.getChildren()
+                                 .clear();
+        listaUniversidades.removeIf(universidad -> universidad.getNombre()
+                                                              .equals("Universidad Veracruzana"));
 
         if (!listaUniversidades.isEmpty()) {
-            this.historialPaneles
-                    .push(this.pnConsultaUniversidades);
+            this.historialPaneles.push(this.pnConsultaUniversidades);
         }
 
         for (UniversidadDTO universidad : listaUniversidades) {
@@ -119,7 +130,8 @@ public class ConsultaUniversidadesControlador {
                 break;
             }
 
-            this.vboxConsultaUniversidades.getChildren().add(hboxFila);
+            this.vboxConsultaUniversidades.getChildren()
+                                          .add(hboxFila);
         }
     }
 
@@ -141,5 +153,5 @@ public class ConsultaUniversidadesControlador {
         alerta.setHeaderText(null);
         alerta.show();
     }
-    
+
 }

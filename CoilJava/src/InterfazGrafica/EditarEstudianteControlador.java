@@ -14,7 +14,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
-
 import java.util.Optional;
 import java.util.Stack;
 
@@ -22,9 +21,7 @@ public class EditarEstudianteControlador {
     @FXML
     private TextField tfNombre;
     @FXML
-    private TextField tfApellidoPaterno;
-    @FXML
-    private TextField tfApellidoMaterno;
+    private TextField tfApellidos;
     @FXML
     private Text txtMatriculaActual;
     @FXML
@@ -32,9 +29,7 @@ public class EditarEstudianteControlador {
     @FXML
     private Label txtObligatorioNombre;
     @FXML
-    private Label txtObligatorioApellidoPaterno;
-    @FXML
-    private Label txtObligatorioApellidoMaterno;
+    private Label txtObligatorioApellidos;
     private Stack<Pane> historialPaneles;
     private BorderPane pnVentanaPrincipal;
     private EstudianteDTO estudiante;
@@ -60,7 +55,7 @@ public class EditarEstudianteControlador {
                     this.listaEstudiantesControlador = listaEstudiantesControlador;
 
                     this.tfNombre.setText(this.estudiante.getNombre());
-                    this.tfApellidoPaterno.setText(this.estudiante.getApellidos());
+                    this.tfApellidos.setText(this.estudiante.getApellidos());
                     this.txtMatriculaActual.setText(this.estudiante.getMatricula());
                     this.txtUniversidadActual.setText(universidadOptional.get()
                                                                          .getNombre());
@@ -82,14 +77,17 @@ public class EditarEstudianteControlador {
 
             try {
                 estudianteEditado.setNombre(tfNombre.getText());
-                estudianteEditado.setApellidos(tfApellidoPaterno.getText());
+                estudianteEditado.setApellidos(tfApellidos.getText());
                 estudianteEditado.setMatricula(txtMatriculaActual.getText());
-                estudianteEditado.setIdUniversidad(this.estudiante
-                                                           .getIdUniversidad());
+                estudianteEditado.setIdUniversidad(this.estudiante.getIdUniversidad());
                 filasAfectadas = estudianteDAO.modificar(estudianteEditado);
             }
             catch (ErrorDAO error) {
-                mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.WARNING);
+                Alert.AlertType tipoAlerta = Alert.AlertType.WARNING;
+                if (error.getTipo() == ErrorDAO.Tipo.CONEXION) {
+                    tipoAlerta = Alert.AlertType.ERROR;
+                }
+                mostrarMensajeEmergente(error.getMessage(), tipoAlerta);
                 filasAfectadas = -1;
             }
 
@@ -119,32 +117,24 @@ public class EditarEstudianteControlador {
     }
 
     private boolean camposVacios () {
-        String nombre = this.tfNombre
-                .getText();
-        String apellidoPaterno = this.tfApellidoPaterno
-                .getText();
-        String apellidoMaterno = this.tfApellidoMaterno
-                .getText();
-        return nombre == null || nombre.isBlank() || apellidoPaterno == null || apellidoPaterno.isBlank() || apellidoMaterno == null || apellidoMaterno.isBlank();
+        String nombre = this.tfNombre.getText();
+        String apellidos = this.tfApellidos.getText();
+        return nombre == null || nombre.isBlank() || apellidos == null || apellidos.isBlank();
     }
 
     private boolean camposIguales () {
-        String nuevoNombre = tfNombre.getText().
-                                     trim();
-        String nuevoApeliidoPaterno = tfApellidoPaterno.getText()
-                                                       .trim();
-        return nuevoNombre.equals(this.estudiante
-                                          .getNombre()) && nuevoApeliidoPaterno.equals(this.estudiante
-                                                                                               .getApellidos());
+        String nuevoNombre = tfNombre.getText()
+                                     .trim();
+        String nuevosApellidos = tfApellidos.getText()
+                                            .trim();
+        return nuevoNombre.equals(this.estudiante.getNombre()) && nuevosApellidos.equals(this.estudiante.getApellidos());
     }
 
     private void etiquetarCamposVacios () {
         String nombre = tfNombre.getText();
-        String apellidoPaterno = tfApellidoPaterno.getText();
-        String apellidoMaterno = tfApellidoMaterno.getText();
+        String apellidos = tfApellidos.getText();
         txtObligatorioNombre.setVisible(nombre == null || nombre.isBlank());
-        txtObligatorioApellidoPaterno.setVisible(apellidoPaterno == null || apellidoPaterno.isBlank());
-        txtObligatorioApellidoMaterno.setVisible(apellidoMaterno == null || apellidoMaterno.isBlank());
+        txtObligatorioApellidos.setVisible(apellidos == null || apellidos.isBlank());
     }
 
     private void mostrarMensajeEmergente (String mensaje, Alert.AlertType tipoAlerta) {

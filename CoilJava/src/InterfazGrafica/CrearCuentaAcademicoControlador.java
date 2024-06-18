@@ -12,7 +12,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

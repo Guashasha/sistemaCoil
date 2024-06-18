@@ -11,7 +11,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.layout.Pane;
 
 import java.net.URL;
 import java.util.Optional;
@@ -20,13 +19,10 @@ import java.util.ResourceBundle;
 public class PropuestaItemControlador implements Initializable {
     @FXML
     private Button btnAceptar;
-
     @FXML
     private Button btnRechazar;
-
     @FXML
-    private Label lbApellido;
-
+    private Label lbApellidos;
     @FXML
     private Label lbNombre;
     @FXML
@@ -35,8 +31,6 @@ public class PropuestaItemControlador implements Initializable {
     private Label lbUniversidad;
     @FXML
     private TextArea taObjetivo;
-    @FXML
-    private Pane pnPropuestaItem;
     @FXML
     private Label lbPais;
 
@@ -50,16 +44,8 @@ public class PropuestaItemControlador implements Initializable {
         return btnAceptar;
     }
 
-    public void setBtnAceptar (Button btnAceptar) {
-        this.btnAceptar = btnAceptar;
-    }
-
     public Button getBtnRechazar () {
         return btnRechazar;
-    }
-
-    public void setBtnRechazar (Button btnRechazar) {
-        this.btnRechazar = btnRechazar;
     }
 
     public void setColaboracionDTO (ColaboracionDTO colaboracionDTO) {
@@ -73,8 +59,8 @@ public class PropuestaItemControlador implements Initializable {
         taObjetivo.setEditable(false);
         lbNombre.setText(colaboracionDTO.getAnfitrion()
                                         .getNombre());
-        lbApellido.setText(colaboracionDTO.getAnfitrion()
-                                          .getApellidos() + " " + colaboracionDTO.getAnfitrion());
+        lbApellidos.setText(colaboracionDTO.getAnfitrion()
+                                           .getApellidos() + " " + colaboracionDTO.getAnfitrion());
         UniversidadDTO universidadDTO = getUniversidad();
         lbUniversidad.setText(universidadDTO.getNombre());
         lbPais.setText(getPais(universidadDTO.getIdPais()).getIso());

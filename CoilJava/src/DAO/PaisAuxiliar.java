@@ -6,9 +6,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * La clase PaisAuxiliar funciona como intermediario entre el cliente y las clases DAO. Procesa y valida la información de los parámetros antes de mandarla o después de recibirla de las clases DAO.
+ * @author pale
+ */
 public class PaisAuxiliar {
+    /**
+     *Instancia de la clase PaisDAO que se utiliza en los métodos de la clase.
+     */
     private final PaisDAO PAIS_DAO = new PaisDAO();
 
+    /**
+     * Procesa todos los países que están registrados y obtiene una lista de los nombres ordenados de manera alfabética
+     * @return Lista de los nombres de todos los países ordenados de manera alfabética.
+     * @throws ErrorDAO si ocurre un error o durante el acceso a la base de datos.
+     */
     public List<String> getNombresPaisesAlfabeticamente () throws ErrorDAO {
         List<PaisDTO> listaPaises = PAIS_DAO.getPaisesAlfabeticamente();
         List<String> nombresPaises = new ArrayList<>();
@@ -20,6 +32,12 @@ public class PaisAuxiliar {
         return nombresPaises;
     }
 
+    /**
+     * Valida los parámetros para obtener un país de acuerdo a su nombre, utilizando la clase PaisDAO.
+     * @param nombre Nombre del País a buscar.
+     * @return Objeto Optional con el Pais inicializado con su id, iso y nombre; o un objeto Optional vacío si no se encuentran resultados.
+     * @throws ErrorDAO si ocurre un error en la validación de los parámetros o durante el acceso a la base de datos.
+     */
     public Optional<PaisDTO> getPaisPorNombre (String nombre) throws ErrorDAO {
         Optional<PaisDTO> paisDTOOptional;
         PaisDTO paisAConsultar = new PaisDTO(nombre);
@@ -34,6 +52,12 @@ public class PaisAuxiliar {
         return paisDTOOptional;
     }
 
+    /**
+     * Valida los parámetros para obtener un país de acuerdo a su id asociado en la base de datos, con la clase PaisDAO.
+     * @param id id asociado al País.
+     * @return Objeto Optional con el país inicializado con su id, iso y nombre; o un objeto Optional vacío si no se encuentran resultados.
+     * @throws ErrorDAO si ocurre un error en la validación de los parámetros o durante el acceso a la base de datos.
+     */
     public Optional<PaisDTO> getPaisPorId (int id) throws ErrorDAO {
         Optional<PaisDTO> paisDTOOptional;
         if (id > 0) {
