@@ -323,7 +323,7 @@ public class SolicitudCuentaControlador implements Initializable {
         if (tfApellidos.getText() == null || tfApellidos.getText()
                                                         .trim()
                                                         .isEmpty()) {
-            mostrarMensajeEmergente("Ingrese su apellido paterno", Alert.AlertType.WARNING);
+            mostrarMensajeEmergente("Ingrese sus apellidos", Alert.AlertType.WARNING);
             return false;
         }
         if (tfCorreo.getText() == null || tfCorreo.getText()

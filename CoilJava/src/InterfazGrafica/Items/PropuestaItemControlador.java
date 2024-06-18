@@ -60,7 +60,7 @@ public class PropuestaItemControlador implements Initializable {
         lbNombre.setText(colaboracionDTO.getAnfitrion()
                                         .getNombre());
         lbApellidos.setText(colaboracionDTO.getAnfitrion()
-                                           .getApellidos() + " " + colaboracionDTO.getAnfitrion());
+                                           .getApellidos());
         UniversidadDTO universidadDTO = getUniversidad();
         lbUniversidad.setText(universidadDTO.getNombre());
         lbPais.setText(getPais(universidadDTO.getIdPais()).getIso());
