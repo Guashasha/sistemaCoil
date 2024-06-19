@@ -17,6 +17,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * La clase CronogramaActividadDAO se encarga de obtener información de las regiones en la base de datos y mandarlos a capas superiores mediante Transfer Objects.
+ *
+ * @author CronogramaActividadDAO
+ */
 public class CronogramaActividadDAO implements ICronogramaActividad {
     private static final Logger BITACORA = Logger.getLogger(CronogramaActividadAuxiliar.class);
 
@@ -39,7 +44,7 @@ public class CronogramaActividadDAO implements ICronogramaActividad {
             resultado = consulta.executeUpdate();
             consulta.close();
         } catch (SQLException e) {
-            BITACORA.error(e);
+            BITACORA.warn(e);
             throw new ErrorDAO(e.getMessage(), ErrorDAO.Tipo.CONEXION);
         } finally {
             AdministradorBaseDatos.desconectar();
@@ -68,7 +73,7 @@ public class CronogramaActividadDAO implements ICronogramaActividad {
             consulta.close();
         }
         catch (SQLException error) {
-            BITACORA.error(error);
+            BITACORA.warn(error);
             throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
         }
         finally {
@@ -99,7 +104,7 @@ public class CronogramaActividadDAO implements ICronogramaActividad {
             consulta.close();
         }
         catch (SQLException error) {
-            BITACORA.error(error);
+            BITACORA.warn(error);
             throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
         }
         finally {
@@ -134,7 +139,7 @@ public class CronogramaActividadDAO implements ICronogramaActividad {
             resultado = consulta.executeQuery();
             consulta.close();
         } catch (SQLException e) {
-            BITACORA.error(e);
+            BITACORA.warn(e);
             throw new ErrorDAO(e.getMessage(), ErrorDAO.Tipo.CONEXION);
         } finally {
             AdministradorBaseDatos.desconectar();
@@ -146,7 +151,7 @@ public class CronogramaActividadDAO implements ICronogramaActividad {
             }
         }
         catch (SQLException error) {
-            BITACORA.error(error);
+            BITACORA.warn(error);
             throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
         }
 
@@ -168,7 +173,7 @@ public class CronogramaActividadDAO implements ICronogramaActividad {
             actividades = consulta.executeQuery();
             consulta.close();
         } catch (SQLException e) {
-            BITACORA.error(e);
+            BITACORA.warn(e);
             throw new ErrorDAO(e.getMessage(), ErrorDAO.Tipo.CONEXION);
         } finally {
             AdministradorBaseDatos.desconectar();
@@ -190,7 +195,7 @@ public class CronogramaActividadDAO implements ICronogramaActividad {
             }
         }
         catch (SQLException error) {
-            BITACORA.error(error);
+            BITACORA.warn(error);
             throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
         }
 
@@ -228,7 +233,7 @@ public class CronogramaActividadDAO implements ICronogramaActividad {
                 actividadVinculadaDTO = new ActividadVinculadaDTO(actividad.get(), colaboracion.get(), fecha.toLocalDate());
             }
         } catch (SQLException error) {
-            BITACORA.error(error);
+            BITACORA.warn(error);
             throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
         }
 

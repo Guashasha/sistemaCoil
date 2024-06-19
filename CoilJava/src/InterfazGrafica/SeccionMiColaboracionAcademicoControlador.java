@@ -78,20 +78,21 @@ public class SeccionMiColaboracionAcademicoControlador {
 
     @FXML
     public void abrirActividades () {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ActividadesColaboracion.fxml"));
-        Pane pnActividades = null;
+        if (this.colaboracion.getEstado() == ColaboracionDTO.EstadoColaboracion.enRevision || this.colaboracion.getEstado() == ColaboracionDTO.EstadoColaboracion.vinculada || this.colaboracion.getEstado() == ColaboracionDTO.EstadoColaboracion.activa) {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ActividadesColaboracion.fxml"));
+            Pane pnActividades = null;
 
-        try {
-            pnActividades = fxmlLoader.load();
-        }
-        catch (IOException error) {
-            mostrarMensajeEmergente("Error al mostrar la sección de actividades: ", Alert.AlertType.ERROR);
-        }
-        if (pnActividades != null) {
-            this.historialPaneles.push(this.pnActual);
-            ActividadesColaboracionControlador ventanaActividadesControlador = fxmlLoader.getController();
-            ventanaActividadesControlador.initialize(pnActual, pnVentanaPrincipal, this.colaboracion, this.usuario);
-            this.pnVentanaPrincipal.setCenter(pnActividades);
+            try {
+                pnActividades = fxmlLoader.load();
+            } catch (IOException error) {
+                mostrarMensajeEmergente("Error al mostrar la sección de actividades: ", Alert.AlertType.ERROR);
+            }
+            if (pnActividades != null) {
+                this.historialPaneles.push(this.pnActual);
+                ActividadesColaboracionControlador ventanaActividadesControlador = fxmlLoader.getController();
+                ventanaActividadesControlador.initialize(pnActual, pnVentanaPrincipal, this.colaboracion, this.usuario);
+                this.pnVentanaPrincipal.setCenter(pnActividades);
+            }
         }
     }
 
@@ -151,7 +152,7 @@ public class SeccionMiColaboracionAcademicoControlador {
         if (colaboracionVinculadaOActiva.isEmpty()) {
             ColaboracionDAO dao = new ColaboracionDAO();
             colaboracionVinculadaOActiva = dao.getEnRevisionPorAcademico(this.academicoDTO);
-            
+
             if (colaboracionVinculadaOActiva.isEmpty()) {
                 mostrarMensajeEmergente("No existe una colaboración activa o vinculada con un par", Alert.AlertType.WARNING);
                 return;

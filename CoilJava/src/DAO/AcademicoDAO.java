@@ -12,6 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * La clase AcademicoDAO se encarga de obtener información de los académicos en la base de datos y mandarlos a capas superiores mediante Transfer Objects.
+ *
+ * @author FerRMZ
+ */
 public class AcademicoDAO implements IAcademicoDAO {
     private static final Logger BITACORA = Logger.getLogger(AcademicoDAO.class);
 
@@ -41,7 +46,7 @@ public class AcademicoDAO implements IAcademicoDAO {
             resultado.close();
         }
         catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
+            BITACORA.warn(error.getMessage());
             throw new ErrorDAO("No fue posible obtener a los academicos registrados", ErrorDAO.Tipo.CONSULTA);
         }
         finally {
@@ -88,7 +93,7 @@ public class AcademicoDAO implements IAcademicoDAO {
             resultadoLLamada.close();
         }
         catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
+            BITACORA.warn(error.getMessage());
             throw new ErrorDAO("Error al obtener a los academicos por cedula", ErrorDAO.Tipo.CONSULTA);
         }
         finally {
@@ -165,7 +170,7 @@ public class AcademicoDAO implements IAcademicoDAO {
             procedimientoAcademico.close();
         }
         catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
+            BITACORA.warn(error.getMessage());
             throw new ErrorDAO("Error al registrar al academico", ErrorDAO.Tipo.INSERCION);
         }
         finally {
@@ -197,7 +202,7 @@ public class AcademicoDAO implements IAcademicoDAO {
             resultado.close();
         }
         catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
+            BITACORA.warn(error.getMessage());
             throw new ErrorDAO("Error al obtener a un académico", ErrorDAO.Tipo.CONSULTA);
         }
         finally {
@@ -228,7 +233,7 @@ public class AcademicoDAO implements IAcademicoDAO {
             resultado.close();
         }
         catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
+            BITACORA.warn(error.getMessage());
             throw new ErrorDAO("Error al obtener a todos los académicos registrados", ErrorDAO.Tipo.CONSULTA);
         }
         finally {
@@ -258,7 +263,7 @@ public class AcademicoDAO implements IAcademicoDAO {
             procedimientoAcademico.close();
         }
         catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
+            BITACORA.warn(error.getMessage());
             throw new ErrorDAO("Error en la modificación del académico", ErrorDAO.Tipo.MODIFICACION);
         }
         finally {
@@ -304,7 +309,7 @@ public class AcademicoDAO implements IAcademicoDAO {
             conexion.commit();
         }
         catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
+            BITACORA.warn(error.getMessage());
             AdministradorBaseDatos.rollback();
             throw new ErrorDAO("Error al registrar al academico junto con su cuenta", ErrorDAO.Tipo.INSERCION);
         }
@@ -329,7 +334,7 @@ public class AcademicoDAO implements IAcademicoDAO {
         }
         catch (SQLException error) {
             error.printStackTrace();
-            BITACORA.info(error);
+            BITACORA.warn(error);
             throw new ErrorDAO("Error al buscar correo", ErrorDAO.Tipo.CONSULTA);
         }
         return Optional.ofNullable(academico);

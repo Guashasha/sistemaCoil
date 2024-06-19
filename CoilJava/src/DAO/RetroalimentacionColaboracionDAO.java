@@ -53,7 +53,7 @@ public class RetroalimentacionColaboracionDAO implements IRetroalimentacionColab
             resultado = consulta.executeUpdate();
             consulta.close();
         } catch (SQLException error) {
-            BITACORA.error(error);
+            BITACORA.warn(error);
             throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
         } finally {
             AdministradorBaseDatos.desconectar();
@@ -87,7 +87,7 @@ public class RetroalimentacionColaboracionDAO implements IRetroalimentacionColab
             resultado = consulta.executeQuery();
             consulta.close();
         } catch (SQLException error) {
-            BITACORA.error(error);
+            BITACORA.warn(error);
             throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
         } finally {
             AdministradorBaseDatos.desconectar();
@@ -98,7 +98,7 @@ public class RetroalimentacionColaboracionDAO implements IRetroalimentacionColab
                 return Optional.empty();
             }
         } catch (SQLException error) {
-            BITACORA.error(error);
+            BITACORA.warn(error);
             throw new ErrorDAO("La retroalimentación no se encotró", Tipo.CONSULTA);
         }
 
@@ -127,7 +127,7 @@ public class RetroalimentacionColaboracionDAO implements IRetroalimentacionColab
             resultado = consulta.executeQuery();
             consulta.close();
         } catch (SQLException error) {
-            BITACORA.error(error);
+            BITACORA.warn(error);
             throw new ErrorDAO(error.getMessage(), Tipo.CONEXION);
         } finally {
             AdministradorBaseDatos.desconectar();
@@ -138,7 +138,7 @@ public class RetroalimentacionColaboracionDAO implements IRetroalimentacionColab
                 return Optional.empty();
             }
         } catch (SQLException error) {
-            BITACORA.error(error);
+            BITACORA.warn(error);
             throw new ErrorDAO("La retroalimentacion no se encontró", Tipo.CONSULTA);
         }
 
@@ -174,7 +174,7 @@ public class RetroalimentacionColaboracionDAO implements IRetroalimentacionColab
 
             return retroalimentacion;
         } catch (SQLException error) {
-            BITACORA.error(error);
+            BITACORA.warn(error);
             throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
         }
     }

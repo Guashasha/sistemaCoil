@@ -50,7 +50,7 @@ public class FacultadDAO implements IFacultadDAO {
             resultadoConsulta.close();
         }
         catch (SQLException excepcionSQL) {
-            BITACORA.info(excepcionSQL.getMessage());
+            BITACORA.warn(excepcionSQL.getMessage());
             throw new ErrorDAO("Ocurrió un error al intentar obtener la facultad. Si el problema persiste contacte a soporte", ErrorDAO.Tipo.CONSULTA);
         }
         finally {
@@ -87,7 +87,7 @@ public class FacultadDAO implements IFacultadDAO {
             resultadoConsulta.close();
         }
         catch (SQLException excepcionSQL) {
-            BITACORA.info(excepcionSQL.getMessage());
+            BITACORA.warn(excepcionSQL.getMessage());
             throw new ErrorDAO("Ocurrió un error al intentar obtener las Facultades. Si el problema persiste contacte a soporte", ErrorDAO.Tipo.CONSULTA);
         }
         finally {

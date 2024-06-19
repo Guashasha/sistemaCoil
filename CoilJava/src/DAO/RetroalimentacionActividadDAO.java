@@ -38,7 +38,7 @@ public class RetroalimentacionActividadDAO implements IRetroalimentacionActivida
             retroalimentacion = consulta.executeQuery();
             consulta.close();
         } catch (SQLException e) {
-            BITACORA.error(e);
+            BITACORA.warn(e);
             throw new ErrorDAO(e.getMessage(), ErrorDAO.Tipo.CONEXION);
         } finally {
             AdministradorBaseDatos.desconectar();
@@ -49,7 +49,7 @@ public class RetroalimentacionActividadDAO implements IRetroalimentacionActivida
                 return Optional.empty();
             }
         } catch (SQLException error) {
-            BITACORA.error(error);
+            BITACORA.warn(error);
             throw new ErrorDAO("La retroalimentación no se encotró", ErrorDAO.Tipo.CONSULTA);
         }
 
@@ -78,7 +78,7 @@ public class RetroalimentacionActividadDAO implements IRetroalimentacionActivida
             resultado = consulta.executeQuery();
             consulta.close();
         } catch (SQLException error) {
-            BITACORA.error(error);
+            BITACORA.warn(error);
             throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
         } finally {
             AdministradorBaseDatos.desconectar();
@@ -89,7 +89,7 @@ public class RetroalimentacionActividadDAO implements IRetroalimentacionActivida
                 return Optional.empty();
             }
         } catch (SQLException error) {
-            BITACORA.error(error);
+            BITACORA.warn(error);
             throw new ErrorDAO("La retroalimentación no se encotró", ErrorDAO.Tipo.CONSULTA);
         }
 
@@ -126,7 +126,7 @@ public class RetroalimentacionActividadDAO implements IRetroalimentacionActivida
             resultado = consulta.executeUpdate();
             consulta.close();
         } catch (SQLException e) {
-            BITACORA.error(e);
+            BITACORA.warn(e);
             throw new ErrorDAO(e.getMessage(), ErrorDAO.Tipo.CONEXION);
         } finally {
             AdministradorBaseDatos.desconectar();
@@ -156,7 +156,7 @@ public class RetroalimentacionActividadDAO implements IRetroalimentacionActivida
             resultado = consulta.executeQuery();
             consulta.close();
         } catch (SQLException e) {
-            BITACORA.error(e);
+            BITACORA.warn(e);
             throw new ErrorDAO(e.getMessage(), ErrorDAO.Tipo.CONEXION);
         } finally {
             AdministradorBaseDatos.desconectar();
@@ -179,7 +179,7 @@ public class RetroalimentacionActividadDAO implements IRetroalimentacionActivida
 
             resultado.close();
         } catch (SQLException error) {
-            BITACORA.error(error);
+            BITACORA.warn(error);
             throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
         }
 
@@ -204,7 +204,7 @@ public class RetroalimentacionActividadDAO implements IRetroalimentacionActivida
             retroalimentacion.setIdUsuario(resultados.getInt(6));
             retroalimentacion.setIdActividad(resultados.getInt(7));
         } catch (SQLException error) {
-            BITACORA.error(error);
+            BITACORA.warn(error);
             throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
         }
 

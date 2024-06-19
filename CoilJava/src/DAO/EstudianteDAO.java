@@ -14,6 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * La clase EstudianteDAO se encarga de obtener información de las regiones en la base de datos y mandarlos a capas superiores mediante Transfer Objects.
+ *
+ * @author FerRMZ
+ */
 public class EstudianteDAO implements IEstudianteDAO {
     private static final Logger BITACORA = Logger.getLogger(EstudianteDAO.class);
 
@@ -40,7 +45,7 @@ public class EstudianteDAO implements IEstudianteDAO {
             procedimientoEstudiante.close();
         }
         catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
+            BITACORA.warn(error.getMessage());
             throw new ErrorDAO("Error al agregar estudiantes", Tipo.CONEXION);
         }
         finally {
@@ -72,7 +77,7 @@ public class EstudianteDAO implements IEstudianteDAO {
             procedimientoEstudiante.close();
         }
         catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
+            BITACORA.warn(error.getMessage());
             throw new ErrorDAO("Error al editar al estudianteDTO", Tipo.CONEXION);
         }
         finally {
@@ -105,7 +110,7 @@ public class EstudianteDAO implements IEstudianteDAO {
             resultado.close();
         }
         catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
+            BITACORA.warn(error.getMessage());
             throw new ErrorDAO("Error al obtener un estudianteDTO", Tipo.CONEXION);
         }
         finally {
@@ -137,7 +142,7 @@ public class EstudianteDAO implements IEstudianteDAO {
             resultado.close();
         }
         catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
+            BITACORA.warn(error.getMessage());
             throw new ErrorDAO("Error al consultar al estudiante", Tipo.CONEXION);
         }
         finally {
@@ -172,7 +177,7 @@ public class EstudianteDAO implements IEstudianteDAO {
             resultado.close();
         }
         catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
+            BITACORA.warn(error.getMessage());
             throw new ErrorDAO("Error al consultar al estudianteDTO", Tipo.CONEXION);
         }
         finally {
@@ -206,7 +211,7 @@ public class EstudianteDAO implements IEstudianteDAO {
             resultado.close();
         }
         catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
+            BITACORA.warn(error.getMessage());
             throw new ErrorDAO("Error al obtener a los estudiantes", Tipo.CONEXION);
         }
         finally {
@@ -238,7 +243,7 @@ public class EstudianteDAO implements IEstudianteDAO {
             resultado.close();
         }
         catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
+            BITACORA.warn(error.getMessage());
             throw new ErrorDAO("Error al consultar al estudianteDTO", Tipo.CONEXION);
         }
         finally {
@@ -269,7 +274,7 @@ public class EstudianteDAO implements IEstudianteDAO {
             resultado.close();
         }
         catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
+            BITACORA.warn(error.getMessage());
             throw new ErrorDAO("Error al obtener los estudiantes", Tipo.CONEXION);
         }
         finally {

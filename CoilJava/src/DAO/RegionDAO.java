@@ -47,7 +47,7 @@ public class RegionDAO implements IRegionDAO {
             resultadoConsulta.close();
         }
         catch (SQLException excepcionSQL) {
-            BITACORA.info(excepcionSQL.getMessage());
+            BITACORA.warn(excepcionSQL.getMessage());
             throw new ErrorDAO("Ocurrió un error al intentar obtener las regiones. Si el problema persiste contacte a soporte", ErrorDAO.Tipo.CONSULTA);
         }
         finally {

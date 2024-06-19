@@ -15,6 +15,7 @@ import javafx.scene.layout.Pane;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -37,6 +38,12 @@ public class ProgresoColaboracionControlador {
 
     @FXML
     private Label lbIdioma;
+
+    @FXML
+    private Label lbFechaInicio;
+
+    @FXML
+    private Label lbFechaFin;
 
     @FXML
     private Label lbObjetivo;
@@ -109,6 +116,19 @@ public class ProgresoColaboracionControlador {
     public void actualizarVisibilidadBotones () {
         ColaboracionDTO.EstadoColaboracion estado = this.colaboracionDTO.getEstado();
 
+        if (this.colaboracionDTO.getAnfitrion().equals(this.academicoDTO)) {
+            btnIniciar.setVisible(true);
+            btnFinalizar.setVisible(true);
+        }
+        else {
+            btnIniciar.setVisible(false);
+            btnFinalizar.setVisible(false);
+            dpFechaFin.setVisible(false);
+            lbFechaFin.setVisible(false);
+            dpFechaInicio.setVisible(false);
+            lbFechaInicio.setVisible(false);
+        }
+
         switch (estado) {
             case finalizada:
                 btnRetroalimentar.setVisible(false);
@@ -118,6 +138,7 @@ public class ProgresoColaboracionControlador {
             case vinculada:
                 btnRetroalimentar.setVisible(false);
                 btnFinalizar.setVisible(false);
+
                 break;
             case activa:
                 btnRetroalimentar.setVisible(false);
@@ -129,6 +150,7 @@ public class ProgresoColaboracionControlador {
             case enRevision:
                 RetroalimentacionColaboracionAuxiliar retroalimentacionColaboracionAuxiliar = new RetroalimentacionColaboracionAuxiliar();
                 retroalimentacionColaboracionOpt = retroalimentacionColaboracionAuxiliar.getPorPersonaYColaboracion(academicoDTO.getIdPersona(), colaboracionDTO.getIdColaboracion());
+
                 if (retroalimentacionColaboracionOpt.isPresent()) {
                     btnRetroalimentar.setVisible(false);
                     btnFinalizar.setVisible(true);
@@ -150,14 +172,17 @@ public class ProgresoColaboracionControlador {
     private void getAcademicoParPorColaboracion () {
         ColaboracionDAO colaboracionDAO = new ColaboracionDAO();
         Optional<AcademicoDTO> academicoDTOOptional = Optional.empty();
+        List<AcademicoDTO> academicos = null;
         try {
             academicoDTOOptional = colaboracionDAO.getAcademicoPar(this.colaboracionDTO);
+            academicos = colaboracionDAO.getAcademicosParticipantes(this.colaboracionDTO);
         }
         catch (ErrorDAO errorDAO) {
             mostrarMensajeEmergente(errorDAO.getMessage(), Alert.AlertType.ERROR);
         }
-        if (academicoDTOOptional.isPresent()) {
+        if (academicoDTOOptional.isPresent() && academicos != null) {
             this.colaboracionDTO.setAcademicoPar(academicoDTOOptional.get());
+            this.colaboracionDTO.setAnfitrion(academicos.get(0));
         }
         else {
             mostrarMensajeEmergente("Aún no cuenta con un académico par en su colaboración", Alert.AlertType.INFORMATION);
