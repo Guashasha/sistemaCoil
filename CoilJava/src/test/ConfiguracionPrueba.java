@@ -106,7 +106,7 @@ public class ConfiguracionPrueba {
             conexion.close();
         }
         catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
+            BITACORA.info(error.getMessage());
         }
     }
 
