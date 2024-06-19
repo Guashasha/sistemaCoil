@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import java.lang.annotation.ElementType;
 import java.util.List;
 import java.util.Stack;
 
@@ -29,7 +30,7 @@ public class EditarUniversidadControlador {
     private BorderPane pnVentanaPrincipal;
     private ConsultaUniversidadesControlador consultaUniversidadesControlador;
 
-    public void setRecursos (BorderPane pnVentanaPrincipal,Stack<Pane> historialPaneles,UniversidadDTO universidadActual,PaisDTO paisActual,ConsultaUniversidadesControlador consultaUniversidadesControlador) throws ErrorDAO {
+    public void setRecursos (BorderPane pnVentanaPrincipal, Stack<Pane> historialPaneles, UniversidadDTO universidadActual, PaisDTO paisActual, ConsultaUniversidadesControlador consultaUniversidadesControlador) throws ErrorDAO {
         if (pnVentanaPrincipal != null && historialPaneles != null && universidadActual != null && paisActual != null && consultaUniversidadesControlador != null) {
             this.pnVentanaPrincipal = pnVentanaPrincipal;
             this.historialPaneles = historialPaneles;
@@ -59,7 +60,11 @@ public class EditarUniversidadControlador {
                 filasAfectadas = universidadAuxiliar.editarUniversidad(this.universidadActual, universidadDTO, paisDTO);
             }
             catch (ErrorDAO error) {
-                mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.WARNING);
+                Alert.AlertType tipoAlerta = Alert.AlertType.WARNING;
+                if (error.getTipo() == ErrorDAO.Tipo.CONEXION) {
+                    tipoAlerta = Alert.AlertType.ERROR;
+                }
+                mostrarMensajeEmergente(error.getMessage(), tipoAlerta);
                 filasAfectadas = -1;
             }
 
@@ -68,7 +73,7 @@ public class EditarUniversidadControlador {
                 this.paisActual.setNombre(paisDTO.getNombre());
                 mostrarMensajeEmergente("Se han guardado los cambios exitosamente", Alert.AlertType.INFORMATION);
             }
-            else if (filasAfectadas == 0){
+            else if (filasAfectadas == 0) {
                 mostrarMensajeEmergente("Algo salió mal. Intentelo de nuevo más tarde", Alert.AlertType.ERROR);
             }
         }
@@ -79,7 +84,7 @@ public class EditarUniversidadControlador {
         int longitud = tfNombre.getLength();
         if (longitud > UniversidadDTO.LONGITUD_NOMBRE) {
             tfNombre.setText(tfNombre.getText()
-                    .substring(0, UniversidadDTO.LONGITUD_NOMBRE));
+                                     .substring(0, UniversidadDTO.LONGITUD_NOMBRE));
             tfNombre.positionCaret(tfNombre.getLength());
         }
     }
@@ -90,14 +95,12 @@ public class EditarUniversidadControlador {
         alerta.setContentText("No se guardarán los cambios");
         alerta.setHeaderText(null);
         alerta.showAndWait()
-                .ifPresent(response -> {
-            if (response == ButtonType.OK) {
-                this.pnVentanaPrincipal
-                        .setCenter(this.historialPaneles
-                        .pop());
-                this.consultaUniversidadesControlador.cargarConsultaGeneral();
-            }
-        });
+              .ifPresent(response -> {
+                  if (response == ButtonType.OK) {
+                      this.pnVentanaPrincipal.setCenter(this.historialPaneles.pop());
+                      this.consultaUniversidadesControlador.cargarConsultaGeneral();
+                  }
+              });
     }
 
     private boolean objetosValidos () {
@@ -124,11 +127,11 @@ public class EditarUniversidadControlador {
         alerta.show();
     }
 
-    private boolean camposVacios() {
+    private boolean camposVacios () {
         String nombre = tfNombre.getText();
         boolean nombreVacio = nombre == null || nombre.isBlank();
         boolean paisVacio = cmbPaises.getValue() == null;
-        etiquetarCamposVacios(nombreVacio,paisVacio);
+        etiquetarCamposVacios(nombreVacio, paisVacio);
         return nombreVacio || paisVacio;
     }
 
@@ -138,20 +141,18 @@ public class EditarUniversidadControlador {
     }
 
     private boolean camposSinCambios () {
-        String nuevoNombre = tfNombre.getText().
-                trim();
+        String nuevoNombre = tfNombre.getText()
+                                     .trim();
+        String[] nuevoNombreUniversidadSeparado = nuevoNombre.split("\\s+");
+        String[] nombreUniversidadSeparado = this.universidadActual.getNombre().split("\\s+");
+        String nuevoNombreUniversidad = String.join(" ",nuevoNombreUniversidadSeparado);
+        String nombreUniversidad = String.join(" ",nombreUniversidadSeparado);
         String nuevoPais = cmbPaises.getValue();
-        return nuevoNombre.equals(this.universidadActual.
-                getNombre()) && nuevoPais.equals(this.paisActual.
-                getNombre());
+        return nombreUniversidad.equals(nuevoNombreUniversidad) && nuevoPais.equals(this.paisActual.getNombre());
     }
 
     private void autocompletarCampos () {
-        this.tfNombre
-                .setText(this.universidadActual
-                                 .getNombre());
-        this.cmbPaises
-                .setValue(this.paisActual
-                                  .getNombre());
+        this.tfNombre.setText(this.universidadActual.getNombre());
+        this.cmbPaises.setValue(this.paisActual.getNombre());
     }
 }

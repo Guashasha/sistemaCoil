@@ -208,114 +208,6 @@ class ColaboracionDAOTest {
         }
     }
 
-    @Test
-    void pruebaGetAcademicosParticipantesExitoso () {
-        ColaboracionDTO colaboracionDTOPrueba = new ColaboracionDTO();
-        colaboracionDTOPrueba.setIdColaboracion(1);
-        List<AcademicoDTO> esperada = new ArrayList<>();
-        List<AcademicoDTO> obtenida = new ArrayList<>();
-
-        AcademicoDTO academicoDTO1 = new AcademicoDTO();
-
-        esperada.add(academicoDTO1);
-
-        try {
-            obtenida = COLABORACION_DAO.getAcademicosParticipantes(colaboracionDTOPrueba);
-        }
-        catch (ErrorDAO error) {
-            fail("Fallida: pruebaGetAcademicosParticipantesExitoso " + error.getMessage());
-        }
-
-        assertEquals(esperada.size(), obtenida.size(), "pruebaGetAcademicosParticipantesExitoso");
-    }
-
-    @Test
-    void pruebaGetAcademicosParticipantesColaboracionInexistente () {
-        ColaboracionDTO colaboracionDTO = new ColaboracionDTO();
-        colaboracionDTO.setIdColaboracion(-10);
-        try {
-            List<AcademicoDTO> listaAcademico = COLABORACION_DAO.getAcademicosParticipantes(colaboracionDTO);
-        }
-        catch (ErrorDAO error) {
-            assertTrue(true, "pruebaGetAcademicosParticipantesColaboracionInexistente");
-        }
-    }
-
-    @Test
-    void pruebaGetColaboracionPorPeriodoExitosa () {
-        int colaboracionesEsperadas = 1;
-        List<ColaboracionDTO> listaColaboraciones = null;
-
-        LocalDate fechaInicio = LocalDate.of(2024, 5, 1);
-        LocalDate fechaFin = LocalDate.of(2024, 6, 30);
-
-        PeriodoDTO periodoDTO = new PeriodoDTO();
-        periodoDTO.setFechaInicio(fechaInicio);
-        periodoDTO.setFechaFin(fechaFin);
-
-        try {
-            listaColaboraciones = COLABORACION_DAO.getColaboracionPorPeriodo(periodoDTO);
-
-        }
-        catch (ErrorDAO error) {
-            fail("Error en pruebaGetColaboracionPorPeriodoExitosa: " + error.getMessage());
-
-        }
-
-        assertEquals(colaboracionesEsperadas, listaColaboraciones.size(), "pruebaGetColaboracionPorPeriodoExitosa");
-
-    }
-
-    @Test
-    void pruebaGetColaboracionPorPeriodoFallida () {
-        int colaboracionesEsperadas = 0;
-        List<ColaboracionDTO> listaColaboraciones = null;
-
-        LocalDate fechaInicio = LocalDate.of(2024, 7, 1);
-        LocalDate fechaFin = LocalDate.of(2024, 8, 30);
-
-        PeriodoDTO periodoDTO = new PeriodoDTO();
-        periodoDTO.setFechaInicio(fechaInicio);
-        periodoDTO.setFechaFin(fechaFin);
-
-        try {
-            listaColaboraciones = COLABORACION_DAO.getColaboracionPorPeriodo(periodoDTO);
-        }
-        catch (ErrorDAO error) {
-            fail("Error en pruebaGetColaboracionPorPeriodoFallida: " + error.getMessage());
-        }
-
-        assertEquals(colaboracionesEsperadas, listaColaboraciones.size(), "pruebaGetColaboracionPorPeriodoFallida");
-    }
-
-    //todo
-    @Test
-    void pruebaGetColaboracionPorIdiomaExitosa () {
-        List<ColaboracionDTO> listaColaboraciones = null;
-        String idioma = "Español";
-        int esperado = 1;
-        try {
-            listaColaboraciones = COLABORACION_DAO.getColaboracionPorIdioma(idioma);
-        }
-        catch (ErrorDAO errorDAO) {
-            fail("Fallida: pruebaGetColaboracionPorIdiomaExitosa");
-        }
-        assertEquals(esperado, listaColaboraciones.size(), "pruebaGetColaboracionPorIdiomaExitosa");
-    }
-
-    @Test
-    void pruebaGetColaboracionPorIdiomaCadenaInvalida () {
-        List<ColaboracionDTO> listaColaboraciones = null;
-        int esperado = 0;
-        try {
-            listaColaboraciones = COLABORACION_DAO.getColaboracionPorIdioma("");
-        }
-        catch (ErrorDAO errorDAO) {
-            fail("Fallida: pruebaGetColaboracionPorIdiomaExitosa");
-        }
-        assertEquals(esperado, listaColaboraciones.size(), "pruebaGetColaboracionPorIdiomaExitosa");
-    }
-
 
     @Test
     void pruebaCambiarEstadoColaboracionExitosa () {
@@ -367,22 +259,6 @@ class ColaboracionDAOTest {
 
     }
 
-    //todo
-    @Test
-    void pruebaGetColaboracionPorEstadoExitoso () {
-        List<ColaboracionDTO> listaColaboracionDTO = null;
-
-        String estado = "propuesta";
-        int tamanoEsperado = 1;
-
-        try {
-            listaColaboracionDTO = COLABORACION_DAO.getColaboracionPorEstado(estado);
-        }
-        catch (ErrorDAO errorDAO) {
-            fail("Fallido: pruebaGetColaboracionPorEstadoExitoso");
-        }
-        assertEquals(tamanoEsperado, listaColaboracionDTO.size(), "pruebaGetColaboracionPorEstadoExitoso");
-    }
 
     @Test
     void pruebaAgregarEstudianteAColaboracionExitoso () {

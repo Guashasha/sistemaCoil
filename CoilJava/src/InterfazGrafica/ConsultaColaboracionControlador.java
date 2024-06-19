@@ -36,7 +36,6 @@ public class ConsultaColaboracionControlador implements Initializable {
     private BorderPane pnVentanaPrincipal;
     private Stack<Pane> historialPaneles = new Stack<>();
 
-
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle) {
         if (academicoDTO != null) {
