@@ -13,6 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * La clase CuentaDAO se encarga de obtener información de las regiones en la base de datos y mandarlos a capas superiores mediante Transfer Objects.
+ *
+ * @author FerRMZ
+ */
 public class CuentaDAO implements ICuentaDAO {
     private static final Logger BITACORA = Logger.getLogger(CuentaDAO.class);
 

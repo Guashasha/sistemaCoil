@@ -17,6 +17,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * La clase CronogramaActividadDAO se encarga de obtener información de las regiones en la base de datos y mandarlos a capas superiores mediante Transfer Objects.
+ *
+ * @author CronogramaActividadDAO
+ */
 public class CronogramaActividadDAO implements ICronogramaActividad {
     private static final Logger BITACORA = Logger.getLogger(CronogramaActividadAuxiliar.class);
 

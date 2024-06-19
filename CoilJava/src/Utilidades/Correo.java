@@ -12,6 +12,8 @@ import java.util.Properties;
 
 /**
  * Clase para gestionar el envío de correos electrónicos.
+ *
+ * @author FerRMZ
  */
 public class Correo {
     private static final Logger BITACORA = Logger.getLogger(VerificadorBitacora.class);

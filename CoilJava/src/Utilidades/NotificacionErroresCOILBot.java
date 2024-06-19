@@ -13,6 +13,8 @@ import java.util.List;
 
 /**
  * Bot de Telegram para notificar errores de COIL.
+ *
+ * @author FerRMZ
  */
 @SuppressWarnings("deprecation")
 public class NotificacionErroresCOILBot extends TelegramLongPollingBot {

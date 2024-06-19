@@ -16,7 +16,9 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Escribir y leer de la base de datos acciones sobre objetos ActividadDTO
+ * La clase ActividadDAO se encarga de obtener información de las regiones en la base de datos y mandarlos a capas superiores mediante Transfer Objects.
+ *
+ * @author guashasha
  */
 public class ActividadDAO implements IActividadDAO {
     private static final Logger BITACORA = Logger.getLogger(RetroalimentacionActividadDTO.class);
