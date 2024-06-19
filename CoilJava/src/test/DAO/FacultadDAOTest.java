@@ -18,8 +18,7 @@ class FacultadDAOTest {
 
     @BeforeAll
     static void prepararBaseDatos () {
-        ConfiguracionPrueba.borrarDatosTablaFacultad();
-        ConfiguracionPrueba.borrarDatosTablaRegion();
+        ConfiguracionPrueba.borrarDatosTodasLasTablas();
         ejecutarInstruccionSQL("INSERT INTO region (idRegion,nombre) VALUES (1,'Xalapa'), (2,'Veracruz'), (3,'Orizaba-Córdoba');");
         ejecutarInstruccionSQL("INSERT INTO facultad (idFacultad,nombre, region) VALUES (1,'Facultad de Estadística e Informática',1),(2,'Derecho',1),(3,'Arquitectura',3);");
 

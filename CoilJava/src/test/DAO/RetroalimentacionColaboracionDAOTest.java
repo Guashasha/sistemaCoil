@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import test.AyudantePruebasColaboracionDB;
 import test.ConfiguracionPrueba;
 
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -33,7 +32,7 @@ public class RetroalimentacionColaboracionDAOTest {
 
     @AfterAll
     static void limpiarBase () {
-        ConfiguracionPrueba.borrarTodosLosDatosTabla();
+        ConfiguracionPrueba.borrarDatosTodasLasTablas();
     }
 
     private static RetroalimentacionColaboracionDTO crearRetroalimentacion () {

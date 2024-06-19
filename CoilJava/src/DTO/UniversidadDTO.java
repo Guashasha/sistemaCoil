@@ -4,8 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * La clase UniversidadDTO funciona como transfer object, para transferir la información desde la base de datos a capas
- * superiores dentro de la aplicación.
+ * La clase UniversidadDTO funciona como transfer object, para transferir la información desde la base de datos a capas superiores dentro de la aplicación.
  * @author pale
  */
 public class UniversidadDTO {

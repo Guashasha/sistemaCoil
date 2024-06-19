@@ -51,7 +51,7 @@ public class RetroalimentacionActividadDAOTest {
 
     @AfterAll
     static void limpiarBase () {
-        ConfiguracionPrueba.borrarTodosLosDatosTabla();
+        ConfiguracionPrueba.borrarDatosTodasLasTablas();
     }
 
     @Test

@@ -26,7 +26,7 @@ public class UniversidadAuxiliar {
      * @param universidad universidad a registrar, inicializada con su nombre.
      * @param pais pais de la universidad a registrar, inicializado con su nombre.
      * @return número de filas afectadas por la sentencia SQL.
-     * @throws ErrorDAO si ocurre un error en la validación de la información o durante el acceso a la base de datos.
+     * @throws ErrorDAO si ocurre un error en la validación de los parámetros o durante el acceso a la base de datos.
      */
     public int registrarUniversidad (UniversidadDTO universidad, PaisDTO pais) throws ErrorDAO {
         if (esNulo(universidad) || esNulo(pais)) {
