@@ -16,13 +16,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class PaisDAOTest {
     private final PaisDAO PAIS_DAO = new PaisDAO();
     @BeforeAll
-    static void setUp() {
-        ConfiguracionPrueba.borrarDatosTablaPais();
+    static void prepararBaseDatos() {
+        ConfiguracionPrueba.borrarDatosTodasLasTablas();
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO pais (idPais,Iso,nombre) VALUES (1,'MX','México'),  (2,'US','Estados Unidos'), (3,'BR','Brasil');");
     }
 
     @AfterAll
-    static void afterAll () {
+    static void limpiarBaseDatos () {
         ConfiguracionPrueba.borrarDatosTablaPais();
     }
 

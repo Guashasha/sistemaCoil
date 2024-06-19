@@ -9,6 +9,7 @@ import test.ConfiguracionPrueba;
 import java.util.ArrayList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
+import static test.ConfiguracionPrueba.borrarDatosTodasLasTablas;
 import static test.ConfiguracionPrueba.ejecutarInstruccionSQL;
 
 class RegionDAOTest {
@@ -16,6 +17,7 @@ class RegionDAOTest {
 
     @BeforeAll
     static void prepararBaseDatos () {
+        borrarDatosTodasLasTablas();
         ejecutarInstruccionSQL("INSERT INTO region (idRegion,nombre) VALUES (1,'Xalapa'), (2,'Veracruz'), (3,'Orizaba-Córdoba');");
     }
 

@@ -1,7 +1,6 @@
 package InterfazGrafica;
 
 import DAO.EstudianteAuxiliar;
-import DAO.EstudianteDAO;
 import DAO.UniversidadAuxiliar;
 import DTO.EstudianteDTO;
 import DTO.UniversidadDTO;
@@ -71,7 +70,7 @@ public class EditarEstudianteControlador {
     @FXML
     private void editarEstudiante () {
         if (!camposVacios() && !camposIguales()) {
-            EstudianteDAO estudianteDAO = new EstudianteDAO();
+            EstudianteAuxiliar estudianteAuxiliar = new EstudianteAuxiliar();
             EstudianteDTO estudianteEditado = new EstudianteDTO();
             int filasAfectadas;
 
@@ -80,7 +79,7 @@ public class EditarEstudianteControlador {
                 estudianteEditado.setApellidos(tfApellidos.getText());
                 estudianteEditado.setMatricula(txtMatriculaActual.getText());
                 estudianteEditado.setIdUniversidad(this.estudiante.getIdUniversidad());
-                filasAfectadas = estudianteDAO.modificar(estudianteEditado);
+                filasAfectadas = estudianteAuxiliar.modificar(estudianteEditado);
             }
             catch (ErrorDAO error) {
                 Alert.AlertType tipoAlerta = Alert.AlertType.WARNING;

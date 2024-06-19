@@ -246,10 +246,6 @@ public class ColaboracionAuxiliar {
         }
     }
 
-    public ColaboracionDTO resultSetAObjeto (ResultSet resultados) {
-        throw new NotImplementedException("No esta implementada esta función");
-    }
-
     public Map<String, int[]> getNumeraliaRegion (PeriodoDTO periodo) throws ErrorDAO {
         Map<String, int[]> numeralia;
 

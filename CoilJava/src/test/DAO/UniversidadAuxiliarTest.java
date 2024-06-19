@@ -19,6 +19,7 @@ class UniversidadAuxiliarTest {
 
     @BeforeAll
     static void prepararBaseDatos () {
+        borrarDatosTodasLasTablas();
         ejecutarInstruccionSQL("INSERT INTO pais (idPais,Iso,nombre) VALUES (1,'MX','México'),  (2,'US','Estados Unidos');");
     }
 

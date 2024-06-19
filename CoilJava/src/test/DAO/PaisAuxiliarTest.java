@@ -8,7 +8,6 @@ import test.ConfiguracionPrueba;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import static test.ConfiguracionPrueba.borrarDatosTablaPais;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PaisAuxiliarTest {
@@ -16,12 +15,13 @@ class PaisAuxiliarTest {
 
     @BeforeAll
     static void prepararBaseDatos () {
+        ConfiguracionPrueba.borrarDatosTodasLasTablas();
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO pais (idPais,Iso,nombre) VALUES (1,'MX','México'),  (2,'US','Estados Unidos'), (3,'BR','Brasil');");
     }
 
     @AfterAll
     static void limpiarBaseDatos () {
-        borrarDatosTablaPais();
+        ConfiguracionPrueba.borrarDatosTablaPais();
     }
 
     @Test

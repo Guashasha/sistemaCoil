@@ -1,9 +1,6 @@
 package test.DAO;
 
-import DAO.ColaboracionAuxiliar;
 import DAO.RetroalimentacionColaboracionAuxiliar;
-import DTO.ColaboracionDTO;
-import DTO.PeriodoDTO;
 import DTO.RetroalimentacionColaboracionDTO;
 import Utilidades.ErrorDAO;
 import org.junit.jupiter.api.AfterAll;
@@ -12,10 +9,6 @@ import org.junit.jupiter.api.Test;
 import test.AyudantePruebasColaboracionDB;
 import test.ConfiguracionPrueba;
 
-import java.time.LocalDate;
-import java.time.Month;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -49,7 +42,7 @@ public class RetroalimentacionColaboracionAuxiliarTest {
 
     @AfterAll
     static void limpiarBase () {
-        ConfiguracionPrueba.borrarTodosLosDatosTabla();
+        ConfiguracionPrueba.borrarDatosTodasLasTablas();
     }
 
     @Test

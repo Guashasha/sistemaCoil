@@ -5,6 +5,9 @@ import Utilidades.ErrorDAO;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * La clase EstudianteDTO funciona como transfer object, para transferir la información desde la base de datos a capas superiores dentro de la aplicación.
+ */
 public class EstudianteDTO extends PersonaDTO {
     private int idEstudiante;
     private String matricula;

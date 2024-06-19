@@ -4,6 +4,9 @@ import Utilidades.ErrorDAO;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * La clase abstracta PersonaDTO funciona como la generalización de EstudianteSTO y AcademicoDTO. Contiene los datos esenciales de ambos objetos.
+ */
 public abstract class PersonaDTO {
     private int idPersona;
     private String nombre;
