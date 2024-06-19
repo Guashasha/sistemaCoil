@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Escribir y leer de la base de datos acciones sobre objetos ActividadDTO
+ */
 public class ActividadDAO implements IActividadDAO {
     private static final Logger BITACORA = Logger.getLogger(RetroalimentacionActividadDTO.class);
 

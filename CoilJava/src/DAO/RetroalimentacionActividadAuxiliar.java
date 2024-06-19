@@ -4,11 +4,13 @@ import DTO.ActividadDTO;
 import DTO.RetroalimentacionActividadDTO;
 import Utilidades.ErrorDAO;
 import Utilidades.ErrorDAO.Tipo;
-import org.apache.log4j.Logger;
 
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Valida los datos antes de realizar la acción, si son correctos llama a la clase RetroalimentacionActividadDAO para completar la acción del metodo
+ */
 public class RetroalimentacionActividadAuxiliar {
     /**
      * Valida y registra una retroalimentación de actividad a la base de datos
