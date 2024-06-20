@@ -192,7 +192,7 @@ public class CrearCuentaAcademicoControlador {
         ArrayList<String> nombresFacultades = new ArrayList<>();
 
         try {
-            List<FacultadDTO> facultades = dao.getFacultadPorRegion(this.cbRegion.getValue());
+            List<FacultadDTO> facultades = dao.getFacultadesPorRegion(this.cbRegion.getValue());
 
             for (FacultadDTO facultad : facultades) {
                 nombresFacultades.add(facultad.getNombre());

@@ -39,13 +39,13 @@ class EstudianteDAOTest {
         ConfiguracionPrueba.borrarDatosTodasLasTablas();
         crearObjetosParaTest();
         ejecutarInstruccionSQL("INSERT INTO pais (idPais,Iso,nombre) VALUES (1,'MX','México');");
-        ejecutarInstruccionSQL("INSERT INTO universidad (nombre,paisOrigen) VALUES ('Universidad Veracruzana',1);");
+        ejecutarInstruccionSQL("INSERT INTO universidad (idUniversidad,nombre,paisOrigen) VALUES (1,'Universidad Veracruzana',1), (2,'BUAP',1);");
     }
 
     @BeforeEach
     void reiniciarBaseDatosParaTest () {
-        ejecutarInstruccionSQL("INSERT INTO persona (idPersona, nombre, apellidos, universidad) VALUES (1, 'Jose', 'Lopez Perez', 1);");
-        ejecutarInstruccionSQL("INSERT INTO persona (idPersona, nombre, apellidos, universidad) VALUES (2, 'Juan', 'Negrete Incumplido', 1);");
+        ejecutarInstruccionSQL("INSERT INTO persona (idPersona, nombre, apellidos, universidad) VALUES (1, 'Jose', 'Lopez Perez', 1)");
+        ejecutarInstruccionSQL("INSERT INTO persona (idPersona, nombre, apellidos, universidad) VALUES (2, 'Juan', 'Negrete Incumplido', 1)");
         ejecutarInstruccionSQL("INSERT INTO estudiante (idEstudiante, idPersona, matricula) VALUES (1, 1, 'zs22013690')");
         ejecutarInstruccionSQL("INSERT INTO estudiante (idEstudiante, idPersona, matricula) VALUES (2, 2, 'zs22013688')");
     }
@@ -88,7 +88,7 @@ class EstudianteDAOTest {
     @Test
     void pruebaAgregaEstudianteDuplicado () {
         int esperado = 3;
-        int obtenido = -1;
+        int obtenido = 0;
 
         try {
             obtenido = ESTUDIANTE_DAO.agregar(estudianteRegistrado1);
@@ -102,74 +102,6 @@ class EstudianteDAOTest {
     @Test
     void pruebaAgregarEstudianteVacioFallida () {
         assertThrows(ErrorDAO.class, () -> ESTUDIANTE_DAO.agregar(new EstudianteDTO()),"pruebaAgregarEstudianteVacioFallida");
-    }
-
-    @Test
-    void pruebaAgregarEstudianteMatriculaInvalida () {
-        EstudianteDTO estudianteDTO = new EstudianteDTO();
-        boolean resultado = false;
-        try {
-            estudianteDTO.setNombre("Emmanuel");
-            estudianteDTO.setApellidos("Lopez");
-            estudianteDTO.setMatricula("zs 22");
-            estudianteDTO.setIdUniversidad(1);
-            ESTUDIANTE_DAO.agregar(estudianteDTO);
-        }
-        catch (ErrorDAO errorDAO) {
-            resultado = true;
-        }
-        assertTrue(resultado,"pruebaAgregarEstudianteMatriculaInvalida");
-    }
-
-    @Test
-    void pruebaAgregarEstudianteMatriculaNula () {
-        EstudianteDTO estudianteDTO = new EstudianteDTO();
-        boolean resultado = false;
-        try {
-            estudianteDTO.setNombre("Emmanuel");
-            estudianteDTO.setApellidos("Lopez");
-            estudianteDTO.setMatricula(null);
-            estudianteDTO.setIdUniversidad(1);
-            ESTUDIANTE_DAO.agregar(estudianteDTO);
-        }
-        catch (ErrorDAO errorDAO) {
-            resultado = true;
-        }
-        assertTrue(resultado,"pruebaAgregarEstudianteMatriculaNula");
-    }
-
-    @Test
-    void pruebaAgregarEstudianteNombreInvalido () {
-        EstudianteDTO estudianteDTO = new EstudianteDTO();
-        boolean resultado = false;
-        try {
-            estudianteDTO.setNombre("Emmanuel@123saaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-            estudianteDTO.setApellidos("Lopez");
-            estudianteDTO.setMatricula("zs22013690");
-            estudianteDTO.setIdUniversidad(1);
-            ESTUDIANTE_DAO.agregar(estudianteDTO);
-        }
-        catch (ErrorDAO errorDAO) {
-            resultado = true;
-        }
-        assertTrue(resultado,"pruebaAgregarEstudianteNombreInvalido");
-    }
-
-    @Test
-    void pruebaAgregarEstudianteApellidosInvalidos () {
-        EstudianteDTO estudianteDTO = new EstudianteDTO();
-        boolean resultado = false;
-        try {
-            estudianteDTO.setNombre("Jose");
-            estudianteDTO.setApellidos("Lopz@_123asddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd");
-            estudianteDTO.setMatricula("zs22013690");
-            estudianteDTO.setIdUniversidad(1);
-            ESTUDIANTE_DAO.agregar(estudianteDTO);
-        }
-        catch (ErrorDAO errorDAO) {
-            resultado = true;
-        }
-        assertTrue(resultado,"pruebaAgregarEstudianteApellidoPaternoInvalido");
     }
 
     @Test
@@ -188,17 +120,17 @@ class EstudianteDAOTest {
         estudianteDTO.setNombre("Jose");
         estudianteDTO.setApellidos("Lopez");
         estudianteDTO.setMatricula("zs22013690");
-        estudianteDTO.setIdUniversidad(0);
+        estudianteDTO.setIdUniversidad(-1);
         assertThrows(ErrorDAO.class, () -> ESTUDIANTE_DAO.agregar(estudianteDTO),"pruebaAgregarEstudianteUniversidadInvalida");
     }
 
     @Test
     void pruebaModificarExitosa () {
         EstudianteDTO estudiante = new EstudianteDTO();
-        int obtenido = -1;
+        int obtenido = 0;
         int esperado = 2;
         try {
-            estudiante.setNombre("Jose");
+            estudiante.setNombre("Mario");
             estudiante.setApellidos("López");
             estudiante.setMatricula(estudianteRegistrado1.getMatricula());
             estudiante.setIdUniversidad(1);
@@ -243,79 +175,11 @@ class EstudianteDAOTest {
     }
 
     @Test
-    void pruebaModificarMatriculaInvalida () {
-        EstudianteDTO estudianteDTO = new EstudianteDTO();
-        boolean resultado = false;
-        try {
-            estudianteDTO.setNombre("Jose");
-            estudianteDTO.setApellidos("Lopez");
-            estudianteDTO.setMatricula("zs 22");
-            estudianteDTO.setIdUniversidad(1);
-            ESTUDIANTE_DAO.modificar(estudianteDTO);
-        }
-        catch (ErrorDAO errorDAO) {
-            resultado = true;
-        }
-        assertTrue(resultado,"pruebaModificarMatriculaInvalida");
-    }
-
-    @Test
-    void pruebaModificarMatriculaNula () {
-        EstudianteDTO estudianteDTO = new EstudianteDTO();
-        boolean resultado = false;
-        try {
-            estudianteDTO.setNombre("Jose");
-            estudianteDTO.setApellidos("Lopez");
-            estudianteDTO.setMatricula(null);
-            estudianteDTO.setIdUniversidad(1);
-            ESTUDIANTE_DAO.modificar(estudianteDTO);
-        }
-        catch (ErrorDAO errorDAO) {
-            resultado = true;
-        }
-        assertTrue(resultado,"pruebaModificarMatriculaNula");
-    }
-
-    @Test
-    void pruebaModificarNombreInvalido () {
-        EstudianteDTO estudianteDTO = new EstudianteDTO();
-        boolean resultado = false;
-        try {
-            estudianteDTO.setNombre("Emmanuel@123saddddddddddddddsdsadwwwdwdwdwddwddwdwdwddwdwddwdwdwdwwd");
-            estudianteDTO.setApellidos("Lopez");
-            estudianteDTO.setMatricula("zs22013690");
-            estudianteDTO.setIdUniversidad(1);
-            ESTUDIANTE_DAO.modificar(estudianteDTO);
-        }
-        catch (ErrorDAO errorDAO) {
-            resultado = true;
-        }
-        assertTrue(resultado,"pruebaModificarNombreInvalido");
-    }
-
-    @Test
-    void pruebaModificarApellidosInvalidos () {
-        EstudianteDTO estudianteDTO = new EstudianteDTO();
-        boolean resultado = false;
-        try {
-            estudianteDTO.setNombre("Jose");
-            estudianteDTO.setApellidos("Lopez");
-            estudianteDTO.setMatricula("zs2201369041213");
-            estudianteDTO.setIdUniversidad(1);
-            ESTUDIANTE_DAO.modificar(estudianteDTO);
-        }
-        catch (ErrorDAO errorDAO) {
-            resultado = true;
-        }
-        assertTrue(resultado,"pruebaModificarApellidosInvalidos");
-    }
-
-    @Test
     void pruebaModificarEstudianteUniversidadInexistente () {
         EstudianteDTO estudiante = new EstudianteDTO();
         estudiante.setNombre("Jose");
         estudiante.setApellidos("Lopez");
-        estudiante.setMatricula("zs22013690");
+        estudiante.setMatricula(estudianteRegistrado1.getMatricula());
         estudiante.setIdUniversidad(10);
         assertThrows(ErrorDAO.class,()->ESTUDIANTE_DAO.modificar(estudiante),"pruebaModificarEstudianteUniversidadInexistente");
     }

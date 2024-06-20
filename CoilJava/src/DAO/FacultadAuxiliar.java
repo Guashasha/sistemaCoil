@@ -42,7 +42,7 @@ public class FacultadAuxiliar {
         RegionDTO regionAsociada = new RegionDTO(region);
 
         if (regionAsociada.nombreValido()) {
-            listaFacultades = FACULTAD_DAO.getFacultadPorRegion(region.trim());
+            listaFacultades = FACULTAD_DAO.getFacultadesPorRegion(region.trim());
         }
         return listaFacultades;
     }

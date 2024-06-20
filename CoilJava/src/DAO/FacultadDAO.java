@@ -65,7 +65,7 @@ public class FacultadDAO implements IFacultadDAO {
      * @throws ErrorDAO si ocurre un error de acceso a la base de datos.
      */
     @Override
-    public List<FacultadDTO> getFacultadPorRegion (String region) throws ErrorDAO {
+    public List<FacultadDTO> getFacultadesPorRegion (String region) throws ErrorDAO {
         List<FacultadDTO> listaFacultades = new ArrayList<>();
         String consultaSQL = "SELECT * FROM facultad_con_region WHERE region = ?";
         PreparedStatement consultaFacultades;

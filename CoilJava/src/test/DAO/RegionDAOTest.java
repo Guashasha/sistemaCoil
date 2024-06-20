@@ -38,7 +38,7 @@ class RegionDAOTest {
             listaObtenida = REGION_DAO.getTodasAlfabeticamente();
         }
         catch (Error error) {
-            fail("Fallida: pruebaGetTodasAlfabeticamenteExitosa");
+            fail("Fallida: pruebaGetTodasAlfabeticamenteExitosa\n" + error.getMessage());
         }
 
         assertEquals(listaEsperada,listaObtenida,"pruebaGetTodasAlfabeticamenteExitosa");
