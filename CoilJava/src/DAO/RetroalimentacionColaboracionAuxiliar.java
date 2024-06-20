@@ -1,11 +1,9 @@
 package DAO;
 
 import DTO.ColaboracionDTO;
-import DTO.RetroalimentacionActividadDTO;
 import DTO.RetroalimentacionColaboracionDTO;
 import Utilidades.ErrorDAO;
 import Utilidades.ErrorDAO.Tipo;
-import org.apache.log4j.Logger;
 
 import java.util.Optional;
 

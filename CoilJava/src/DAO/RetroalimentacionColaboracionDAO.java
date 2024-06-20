@@ -16,6 +16,9 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Lee y escribe a la base de datos objetos de la clase RetroalimentacionColaboracionDTO
+ */
 public class RetroalimentacionColaboracionDAO implements IRetroalimentacionColaboracionDAO {
     private static final Logger BITACORA = Logger.getLogger(RetroalimentacionActividadDTO.class.getName());
 

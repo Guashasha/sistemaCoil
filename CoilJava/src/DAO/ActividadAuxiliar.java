@@ -1,14 +1,15 @@
 package DAO;
 
 import DTO.ActividadDTO;
-import DTO.RetroalimentacionActividadDTO;
 import Utilidades.ErrorDAO;
 import Utilidades.ErrorDAO.Tipo;
 import jdk.jshell.spi.ExecutionControl;
-import org.apache.log4j.Logger;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Valida datos antes de realizar la operación y si tod0 es correcto se llama  la clase ActividadDAO para realizar la opreración
+ */
 public class ActividadAuxiliar {
     /**
      * Valida y registra una actividad en la base de datos
