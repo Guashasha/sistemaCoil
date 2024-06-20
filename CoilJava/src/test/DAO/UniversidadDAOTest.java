@@ -228,8 +228,90 @@ class UniversidadDAOTest {
     }
 
     @Test
+    void pruebaGetUniversidadPorNombreYPaisExitosa () {
+        UniversidadDTO esperado = new UniversidadDTO(2,"Harvard",2);
+        Optional<UniversidadDTO> obtenida = Optional.empty();
+        try {
+            obtenida = UNIVERSIDAD_DAO.getUniversidadPorNombreYPais(esperado.getNombre(),"Estados Unidos");
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaGetUniversidadPorNombreYPaisExitosa\n" + error.getMessage());
+        }
+        assertTrue(obtenida.isPresent());
+        assertEquals(esperado,obtenida.get(),"pruebaGetUniversidadPorNombreYPaisExitosa");
+    }
+
+    @Test
+    void pruebaGetUniversidadPorNombreYPaisInexistente () {
+        try {
+            Optional<UniversidadDTO> obtenida = UNIVERSIDAD_DAO.getUniversidadPorNombreYPais("UNAM","Argentina");
+            assertTrue(obtenida.isEmpty(),"pruebaGetUniversidadPorNombreYPaisInexistente");
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaGetUniversidadPorNombreYPaisInexistente\n" + error.getMessage());
+        }
+    }
+
+    @Test
+    void pruebaGetUniversidadPorNombreYPaisNombreNulo () {
+        try {
+            Optional<UniversidadDTO> obtenida = UNIVERSIDAD_DAO.getUniversidadPorNombreYPais(null,"México");
+            assertTrue(obtenida.isEmpty(),"pruebaGetUniversidadPorNombreYPaisInexistente");
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaGetUniversidadPorNombreYPaisInexistente\n" + error.getMessage());
+        }
+    }
+
+    @Test
+    void pruebaGetUniversidadPorNombreYPaisNulo () {
+        try {
+            Optional<UniversidadDTO> obtenida = UNIVERSIDAD_DAO.getUniversidadPorNombreYPais("Universidad Veracruzana",null);
+            assertTrue(obtenida.isEmpty(),"pruebaGetUniversidadPorNombreYPaisInexistente");
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaGetUniversidadPorNombreYPaisInexistente\n" + error.getMessage());
+        }
+    }
+
+    @Test
+    void pruebaGetUniversidadPorIdExitosa () {
+        UniversidadDTO esperado = new UniversidadDTO(2,"Harvard",2);
+        Optional<UniversidadDTO> obtenida = Optional.empty();
+        try {
+            obtenida = UNIVERSIDAD_DAO.getUniversidadPorId(esperado.getId());
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaGetUniversidadPorIdExitosa\n" + error.getMessage());
+        }
+        assertTrue(obtenida.isPresent());
+        assertEquals(esperado,obtenida.get(),"pruebaGetUniversidadPorIdExitosa");
+    }
+
+    @Test
+    void pruebaGetUniversidadPorIdEInexistente () {
+        try {
+            Optional<UniversidadDTO> obtenida = UNIVERSIDAD_DAO.getUniversidadPorId(10);
+            assertTrue(obtenida.isEmpty(),"pruebaGetUniversidadPorIdEInexistente");
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaGetUniversidadPorIdEInexistente\n" + error.getMessage());
+        }
+    }
+
+    @Test
+    void pruebaGetUniversidadPorIdNegativo () {
+        try {
+            Optional<UniversidadDTO> obtenida = UNIVERSIDAD_DAO.getUniversidadPorId(-10);
+            assertTrue(obtenida.isEmpty(),"pruebaGetUniversidadPorIdNegativo");
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaGetUniversidadPorIdNegativo\n" + error.getMessage());
+        }
+    }
+
+    @Test
     void pruebaGetTodasAlfabeticamenteExitosa () {
-        System.out.println("getTodasAlfabeticamente");
         List<UniversidadDTO> listaEsperada = new ArrayList<>();
         List<UniversidadDTO> listaObtenida = new ArrayList<>();
         listaEsperada.add(new UniversidadDTO(3,"BUAP",1));
@@ -243,11 +325,7 @@ class UniversidadDAOTest {
             fail("Fallida: getTodasAlfabeticamente");
         }
 
-        assertEquals(listaEsperada.size(),listaObtenida.size());
-        for (UniversidadDTO universidad : listaEsperada) {
-            assertEquals(universidad,listaObtenida.get(0));
-            listaObtenida.remove(0);
-        }
+        assertEquals(listaEsperada,listaObtenida,"getTodasAlfabeticamente");
     }
 
 }

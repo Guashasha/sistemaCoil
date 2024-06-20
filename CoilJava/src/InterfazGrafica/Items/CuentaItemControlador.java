@@ -1,8 +1,6 @@
 package InterfazGrafica.Items;
 
-import DAO.AcademicoAuxiliar;
-import DAO.PaisAuxiliar;
-import DAO.UniversidadAuxiliar;
+import DAO.*;
 import DTO.AcademicoDTO;
 import DTO.CuentaDTO;
 import DTO.PaisDTO;
@@ -93,9 +91,9 @@ public class CuentaItemControlador implements Initializable {
 
     public UniversidadDTO getUniversidadPorId (int idUnivesidad) {
         UniversidadDTO universidadDTO = null;
-        UniversidadAuxiliar universidadAuxiliar = new UniversidadAuxiliar();
+        UniversidadDAO universidadDAO = new UniversidadDAO();
         try {
-            Optional universidadOptional = universidadAuxiliar.getUniversidadPorId(idUnivesidad);
+            Optional universidadOptional = universidadDAO.getUniversidadPorId(idUnivesidad);
             if (universidadOptional.isPresent()) {
                 universidadDTO = (UniversidadDTO) universidadOptional.get();
             }
@@ -108,9 +106,9 @@ public class CuentaItemControlador implements Initializable {
 
     public PaisDTO getPaisPorId (int idPais) {
         PaisDTO paisDTO = null;
-        PaisAuxiliar paisAuxiliar = new PaisAuxiliar();
+        PaisDAO paisDAO = new PaisDAO();
         try {
-            Optional paisOptional = paisAuxiliar.getPaisPorId(idPais);
+            Optional paisOptional = paisDAO.getPaisPorId(idPais);
             if (paisOptional.isPresent()) {
                 paisDTO = (PaisDTO) paisOptional.get();
             }

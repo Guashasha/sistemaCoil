@@ -18,9 +18,6 @@ import java.util.Optional;
  * @author pale
  */
 public class PaisDAO implements IPaisDAO {
-    /**
-     * Instancia del logger para registrar las excepciones que se pueden atrapar en las funciones de la clase.
-     */
     private final static Logger BITACORA = Logger.getLogger(PaisDAO.class);
 
     /**
@@ -132,13 +129,6 @@ public class PaisDAO implements IPaisDAO {
         return Optional.ofNullable(paisDTO);
     }
 
-    /**
-     * Convierte un objeto ResultSet a un objeto PaisDTO, para poder transferir los datos obtenidos de una consulta SQL.
-     *
-     * @param resultado ResultSet que se obtuvo de una consulta SQL.
-     * @return Pais inicializada con su id, iso y nombre.
-     * @throws SQLException si ocurre un error de acceso a la base de datos.
-     */
     private PaisDTO convertirResultSetAPais (ResultSet resultado) throws SQLException {
         PaisDTO paisDTO = new PaisDTO();
 

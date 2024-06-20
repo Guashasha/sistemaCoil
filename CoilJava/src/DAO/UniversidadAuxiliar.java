@@ -12,13 +12,7 @@ import java.util.Optional;
  * @author pale
  */
 public class UniversidadAuxiliar {
-    /**
-     *Instancia de la clase UniversidadDAO que se utiliza en los métodos de la clase.
-     */
     private final UniversidadDAO UNIVERSIDAD_DAO = new UniversidadDAO();
-    /**
-     *Instancia de la clase PaisDAO que se utiliza en los métodos de la clase.
-     */
     private final PaisDAO PAIS_DAO = new PaisDAO();
 
     /**
@@ -144,23 +138,6 @@ public class UniversidadAuxiliar {
         }
 
         return listaUniversidades;
-    }
-
-    /**
-     * Valida los parámetros y obtiene una universidad que esté registrada con un id específico.
-     * @param id id de la universidad a buscar
-     * @return Objeto Optional con una universidad inicializa con su id, nombre e id de país; o un objeto Optional vacío si no se encuentran resultados.
-     * @throws ErrorDAO si ocurre un error en la validación de la información o durante el acceso a la base de datos.
-     */
-    public Optional<UniversidadDTO> getUniversidadPorId (int id) throws ErrorDAO {
-        Optional<UniversidadDTO> universidad;
-        if (id > 0) {
-            universidad = UNIVERSIDAD_DAO.getUniversidadPorId(id);
-        }
-        else {
-            throw new ErrorDAO("ID inválido", ErrorDAO.Tipo.VALIDACION);
-        }
-        return universidad;
     }
 
     /**

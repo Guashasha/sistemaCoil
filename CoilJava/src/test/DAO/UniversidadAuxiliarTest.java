@@ -127,7 +127,6 @@ class UniversidadAuxiliarTest {
 
     @Test
     void pruebaGetUniversidadesPorPaisOrigenExitosa () {
-        System.out.println("pruebaGetUniversidadesPorPaisOrigenExitosa");
         List<UniversidadDTO> listaEsperada = new ArrayList<>();
         List<UniversidadDTO> listaObtenida = new ArrayList<>();
         listaEsperada.add(new UniversidadDTO(1,"Universidad Veracruzana",1));
@@ -140,11 +139,7 @@ class UniversidadAuxiliarTest {
             fail("Fallida: pruebaGetUniversidadesPorPaisOrigenExitosa");
         }
 
-        assertEquals(listaEsperada.size(),listaObtenida.size());
-        for (UniversidadDTO universidad : listaEsperada) {
-            assertEquals(universidad,listaObtenida.get(0));
-            listaObtenida.remove(0);
-        }
+        assertEquals(listaEsperada,listaObtenida,"pruebaGetUniversidadesPorPaisOrigenExitosa");
     }
 
     @Test

@@ -175,7 +175,7 @@ public class ProgresoColaboracionControlador {
         List<AcademicoDTO> academicos = null;
         try {
             academicoDTOOptional = colaboracionDAO.getAcademicoPar(this.colaboracionDTO);
-            academicos = colaboracionDAO.getAcademicosParticipantes(this.colaboracionDTO);
+            //academicos = colaboracionDAO.getAcademicosParticipantes(this.colaboracionDTO);
         }
         catch (ErrorDAO errorDAO) {
             mostrarMensajeEmergente(errorDAO.getMessage(), Alert.AlertType.ERROR);

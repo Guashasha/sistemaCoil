@@ -3,6 +3,7 @@ package InterfazGrafica;
 import DAO.AcademicoAuxiliar;
 import DAO.AcademicoDAO;
 import DAO.UniversidadAuxiliar;
+import DAO.UniversidadDAO;
 import DTO.AcademicoDTO;
 import DTO.UniversidadDTO;
 import Utilidades.ErrorDAO;
@@ -121,8 +122,8 @@ public class ConfiguracionCuentaControlador {
 
         if (academicoOptional.isPresent()) {
             this.academico = academicoOptional.get();
-            UniversidadAuxiliar universidadAuxiliar = new UniversidadAuxiliar();
-            universidadOptional = universidadAuxiliar.getUniversidadPorId(this.academico
+            UniversidadDAO universidadDAO = new UniversidadDAO();
+            universidadOptional = universidadDAO.getUniversidadPorId(this.academico
                     .getIdUniversidad());
 
             if (universidadOptional.isPresent()) {

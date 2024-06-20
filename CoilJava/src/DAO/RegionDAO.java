@@ -17,9 +17,6 @@ import java.util.List;
  * @author pale
  */
 public class RegionDAO implements IRegionDAO {
-    /**
-     * Instancia del logger para registrar las excepciones que se pueden atrapar en las funciones de la clase.
-     */
     private final Logger BITACORA = Logger.getLogger(RegionDAO.class);
 
     /**
@@ -57,13 +54,6 @@ public class RegionDAO implements IRegionDAO {
         return listaRegiones;
     }
 
-    /**
-     * Convierte un objeto ResultSet a un objeto RegionDTO, para poder transferir los datos obtenidos de una consulta SQL.
-     *
-     * @param resultado ResultSet que se obtuvo de una consulta SQL.
-     * @return Region inicializada con su id y nombre.
-     * @throws SQLException si ocurre un error de acceso a la base de datos.
-     */
     private RegionDTO convertirResultSetARegion (ResultSet resultado) throws SQLException {
         RegionDTO regionDTO = new RegionDTO();
         regionDTO.setId(resultado.getInt(1));

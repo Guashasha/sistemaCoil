@@ -3,7 +3,6 @@ package DAO;
 import DTO.EstudianteDTO;
 import Utilidades.ErrorDAO;
 import Utilidades.ErrorDAO.Tipo;
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -40,35 +39,7 @@ public class EstudianteAuxiliar {
         if (estudiante == null) {
             throw new ErrorDAO("Algo salió mal, inténtelo de nuevo más tarde", ErrorDAO.Tipo.VALIDACION);
         }
-        return ESTUDIANTE_DAO.agregar(estudiante);
-    }
-
-    /**
-     * Valida los parámetros para obtener un estudiante de acuerdo su id asociado en la base de datos, con la clase EstudianteDAO
-     *
-     * @param id id del estudiante a buscar
-     * @return Objeto optional con el estudiante encontrado o un objeto Optional vacío si no encuentra resultados.
-     * @throws ErrorDAO si ocurre un error en la validación de los parámetros o durante el acceso a la base de aatos.
-     */
-    public Optional<EstudianteDTO> getPorId (Integer id) throws ErrorDAO {
-        if (noEsIdValido(id)) {
-            throw new ErrorDAO("El id del estudiante no es valido", ErrorDAO.Tipo.VALIDACION);
-        }
-        return ESTUDIANTE_DAO.getPorId(id);
-    }
-
-    /**
-     * Valida los parámetros para obtener un estudiante de acuerdo a su id de persona asociado en la base de datos, con la clase EstudianteDAO
-     *
-     * @param idPersona id de persona asociado al estudiante a buscar.
-     * @return Objeto Optional con el estudiante encontrado o un objeto Optional vacío si no encuentra resultados.
-     * @throws ErrorDAO si ocurre un error en la validación de los parámetros o durante el acceso a la base de aatos.
-     */
-    public Optional<EstudianteDTO> getEstudiantePorIdPersona (int idPersona) throws ErrorDAO {
-        if (noEsIdValido(idPersona)) {
-            throw new ErrorDAO("Id de persona invalido", ErrorDAO.Tipo.VALIDACION);
-        }
-        return ESTUDIANTE_DAO.getEstudiantePorIdPersona(idPersona);
+        return ESTUDIANTE_DAO.modificar(estudiante);
     }
 
     /**
@@ -80,25 +51,8 @@ public class EstudianteAuxiliar {
      * @throws ErrorDAO si ocurre un error en la validación de los parámetros o durante el acceso a la base de aatos.
      */
     public Optional<EstudianteDTO> getEstudiantePorMatriculaYUniversidad (String matricula, int idUniversidad) throws ErrorDAO {
-        if (noEsIdValido(idUniversidad)) {
-            throw new ErrorDAO("La universidad no es válida", Tipo.VALIDACION);
-        }
         probarMatricula(matricula);
         return ESTUDIANTE_DAO.getEstudiantePorMatriculaYUniversidad(matricula, idUniversidad);
-    }
-
-    /**
-     * Valida los parámetros para obtener los estudiantes que no se encuentran actualmente en una colaboración vinculada o activa, y que están asociados a una universidad específica
-     *
-     * @param idUniversidad id de la universidad asociada a los estudiantes.
-     * @return Lista con los estudiantes encontrados.
-     * @throws ErrorDAO si ocurre un error en la validación de los parámetros o durante el acceso a la base de aatos.
-     */
-    public List<EstudianteDTO> getEstudiantesSinColaboracionActivaOVinculadaPorUniversidad (int idUniversidad) throws ErrorDAO {
-        if (noEsIdValido(idUniversidad)) {
-            throw new ErrorDAO("Id de una universidad invalido", ErrorDAO.Tipo.VALIDACION);
-        }
-        return ESTUDIANTE_DAO.getEstudiantesSinColaboracionActivaOVinculadaPorUniversidad(idUniversidad);
     }
 
     /**
@@ -111,10 +65,6 @@ public class EstudianteAuxiliar {
     public Optional<EstudianteDTO> getEstudiantePorMatricula (String matricula) throws ErrorDAO {
         probarMatricula(matricula);
         return ESTUDIANTE_DAO.getEstudiantePorMatricula(matricula);
-    }
-
-    private boolean noEsIdValido (int id) {
-        return id <= 0;
     }
 
     private boolean estudianteExiste (String matricula) throws ErrorDAO {

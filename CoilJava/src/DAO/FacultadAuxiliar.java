@@ -12,9 +12,6 @@ import java.util.Optional;
  * @author pale
  */
 public class FacultadAuxiliar {
-    /**
-     *Instancia de la clase FacultadDAO que se utiliza en los métodos de la clase.
-     */
     private final FacultadDAO FACULTAD_DAO = new FacultadDAO();
 
     /**
