@@ -19,7 +19,6 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import org.apache.log4j.Logger;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;

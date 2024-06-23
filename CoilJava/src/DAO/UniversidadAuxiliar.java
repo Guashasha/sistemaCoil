@@ -42,7 +42,7 @@ public class UniversidadAuxiliar {
             }
         }
         else {
-            throw new ErrorDAO("Los nombres no pueden contener caracteres especiales.\nSolo son válidas letras del alfabeto en español y guiones en el medio", ErrorDAO.Tipo.VALIDACION);
+            throw new ErrorDAO("El nombre de la universidad no puede estar vacío", ErrorDAO.Tipo.VALIDACION);
         }
 
         return filasAfectadas;
@@ -78,7 +78,7 @@ public class UniversidadAuxiliar {
             }
         }
         else {
-            throw new ErrorDAO("Los nombres no pueden contener caracteres especiales.\nSolo son válidas letras del alfabeto en español y guiones en el medio", ErrorDAO.Tipo.VALIDACION);
+            throw new ErrorDAO("El nombre de la universidad no puede estar vacío", ErrorDAO.Tipo.VALIDACION);
         }
 
         return filasAfectadas;
@@ -97,7 +97,7 @@ public class UniversidadAuxiliar {
             universidad = UNIVERSIDAD_DAO.getUniversidadPorNombre(nombre.trim());
         }
         else {
-            throw new ErrorDAO("Los nombres no pueden contener caracteres especiales.\nSolo son válidas letras del alfabeto en español y guiones en el medio", ErrorDAO.Tipo.VALIDACION);
+            throw new ErrorDAO("El nombre de la universidad no puede estar vacío", ErrorDAO.Tipo.VALIDACION);
         }
         return universidad;
     }
@@ -134,7 +134,7 @@ public class UniversidadAuxiliar {
                                                                                       .trim());
         }
         else {
-            throw new ErrorDAO("Los nombres no pueden contener caracteres especiales.\nSolo son válidas letras del alfabeto en español y guiones en el medio", ErrorDAO.Tipo.VALIDACION);
+            throw new ErrorDAO("El nombre de la universidad no puede estar vacío", ErrorDAO.Tipo.VALIDACION);
         }
 
         return listaUniversidades;
@@ -148,24 +148,8 @@ public class UniversidadAuxiliar {
      * @throws ErrorDAO si ocurre un error en la validación de la información o durante el acceso a la base de datos.
      */
     public boolean universidadExiste (String universidad, String pais) throws ErrorDAO {
-        boolean existe = false;
-        UniversidadDTO universidadABuscar = new UniversidadDTO(universidad);
-        PaisDTO paisOrigen = new PaisDTO(pais);
-
-        if (universidadABuscar.nombreValido() && paisOrigen.nombreValido()) {
-            String[] nombreUniversidadSeparado = universidad.split("\\s+");
-            String nombreUniversidad = String.join(" ",nombreUniversidadSeparado);
-            Optional<UniversidadDTO> universidadDTO = UNIVERSIDAD_DAO.getUniversidadPorNombreYPais(nombreUniversidad, pais);
-
-            if (universidadDTO.isPresent()) {
-                existe = true;
-            }
-        }
-        else {
-            throw new ErrorDAO("Los nombres no pueden estar vacíos ni contener caracteres especiales.\nSolo son válidas letras del alfabeto en español y guiones en el medio", ErrorDAO.Tipo.VALIDACION);
-        }
-
-        return existe;
+        return UNIVERSIDAD_DAO.getUniversidadPorNombreYPais(universidad, pais)
+                                    .isPresent();
     }
 
     private static boolean esNulo (Object objeto) {

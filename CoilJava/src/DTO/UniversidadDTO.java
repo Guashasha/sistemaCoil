@@ -91,7 +91,7 @@ public class UniversidadDTO {
      * @return true si el nombre está inicializado y en formato válido, de otra manera false.
      */
     public boolean nombreValido () {
-        return this.nombre == null || this.nombre.isBlank();
+        return this.nombre != null && !this.nombre.isBlank();
     }
 
     @Override
