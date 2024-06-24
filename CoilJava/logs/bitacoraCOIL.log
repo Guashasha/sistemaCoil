@@ -4982,3 +4982,4 @@ Conctacte a un técnico
 2024-06-18 22:11:55 ERROR NotificacionErroresCOILBot:104 - Error executing org.telegram.telegrambots.meta.api.methods.send.SendMessage query: [429] Too Many Requests: retry after 1018
 2024-06-18 22:11:56 FATAL ConfiguracionPrueba:104 - (conn=9276) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`universidad`, CONSTRAINT `universidad_ibfk_1` FOREIGN KEY (`paisOrigen`) REFERENCES `pais` (`idPais`))
 2024-06-18 22:11:56 ERROR NotificacionErroresCOILBot:104 - Error executing org.telegram.telegrambots.meta.api.methods.send.SendMessage query: [429] Too Many Requests: retry after 1017
+2024-06-24 09:27:43 FATAL AdministradorBaseDatos:43 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=3307)(type=primary). Connection refused
