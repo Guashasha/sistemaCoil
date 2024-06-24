@@ -4982,3 +4982,9 @@ Conctacte a un técnico
 2024-06-18 22:11:55 ERROR NotificacionErroresCOILBot:104 - Error executing org.telegram.telegrambots.meta.api.methods.send.SendMessage query: [429] Too Many Requests: retry after 1018
 2024-06-18 22:11:56 FATAL ConfiguracionPrueba:104 - (conn=9276) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`universidad`, CONSTRAINT `universidad_ibfk_1` FOREIGN KEY (`paisOrigen`) REFERENCES `pais` (`idPais`))
 2024-06-18 22:11:56 ERROR NotificacionErroresCOILBot:104 - Error executing org.telegram.telegrambots.meta.api.methods.send.SendMessage query: [429] Too Many Requests: retry after 1017
+2024-06-24 10:12:34 FATAL AdministradorBaseDatos:43 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.241.30)(port=3306)(type=primary). Connection timed out: getsockopt
+2024-06-24 10:13:25 FATAL AdministradorBaseDatos:43 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.241.30)(port=3306)(type=primary). Connection timed out: getsockopt
+2024-06-24 10:14:53 FATAL AdministradorBaseDatos:43 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.241.30)(port=3306)(type=primary). Connection timed out: getsockopt
+2024-06-24 10:15:40 FATAL AdministradorBaseDatos:43 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.241.30)(port=3306)(type=primary). Connection timed out: getsockopt
+2024-06-24 10:16:39 FATAL AdministradorBaseDatos:43 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.241.30)(port=3306)(type=primary). Connection timed out: getsockopt
+2024-06-24 10:20:03 FATAL AdministradorBaseDatos:43 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.241.30)(port=3306)(type=primary). Connection timed out: getsockopt
