@@ -88,7 +88,7 @@ class AcademicoDAOTest {
     }
 
     @Test
-    void pruebaGetListaAcademicoPorCampoUniversidadExitoso () {
+    void pruebaGetListaAcademicoUniversidadExitoso () {
         List<AcademicoDTO> listaEsperada = new ArrayList<>();
         List<AcademicoDTO> listaObtenida = new ArrayList<>();
         listaEsperada.add(this.ACADEMICO_DTO_TECNICA);
@@ -108,7 +108,7 @@ class AcademicoDAOTest {
     }
 
     @Test
-    void pruebaGetListaAcademicoPorCampoUniversidadVacia () {
+    void pruebaGetListaAcademicoUniversidadVacia () {
         try {
             List<AcademicoDTO> resultado = ACADEMICO_DAO.getAcademicosPorUniversidad("UNAM");
             assertTrue(resultado.isEmpty(),"pruebaGetListaAcademicoPorCampoUniversidadVacia");
@@ -119,7 +119,7 @@ class AcademicoDAOTest {
     }
 
     @Test
-    void pruebaGetListaAcademicoPorCampoAreaExitosa () {
+    void pruebaGetListaAcademicoAreaExitosa () {
         List<AcademicoDTO> listaEsperada = new ArrayList<>();
         List<AcademicoDTO> listaObtenida = new ArrayList<>();
         listaEsperada.add(this.ACADEMICO_DTO_ECONOMIA);
@@ -136,7 +136,7 @@ class AcademicoDAOTest {
     }
 
     @Test
-    void pruebaGetListaAcademicoPorCampoAreaVacia () {
+    void pruebaGetListaAcademicoAreaVacia () {
         try {
             List<AcademicoDTO> listaObtenida = ACADEMICO_DAO.getAcademicosPorAreaEstudios("F");
             assertTrue(listaObtenida.isEmpty(),"pruebaGetListaAcademicoPorCampoAreaVacia");
@@ -441,7 +441,7 @@ class AcademicoDAOTest {
         int obtenido = 0;
         AcademicoDTO academicoDTO = new AcademicoDTO();
         academicoDTO.setNombre("Fernando");
-        academicoDTO.setApellidos("Hernandez");
+        academicoDTO.setApellidos("Martinez Ramirez");
         academicoDTO.setIdUniversidad(1);
         academicoDTO.setCedulaProfesional(ACADEMICO_DTO_ECONOMIA.getCedulaProfesional());
         academicoDTO.setNumeroPersonal(ACADEMICO_DTO_ECONOMIA.getNumeroPersonal());
@@ -569,7 +569,7 @@ class AcademicoDAOTest {
     void pruebaAgregarAcademicoConCuentaUsuarioExcesoCaracteresFallido () {
         AcademicoDTO academicoDTO = new AcademicoDTO();
 
-        try {
+
             academicoDTO.setNombre("Hernan");
             academicoDTO.setApellidos("Llamas");
             academicoDTO.setIdUniversidad(1);
@@ -580,16 +580,13 @@ class AcademicoDAOTest {
             academicoDTO.setNumeroTelefonico("523311756675");
 
             CuentaDTO cuentaDTO = new CuentaDTO();
-            cuentaDTO.setNombreUsuario("HernanVillasdadasdssdsdadasasdsadddasdsadaqwwqMiasdfERADSASFhETANASA SDOEA");
-            cuentaDTO.setContrasena("MyZillTippens");
-            cuentaDTO.setTipo(CuentaDTO.TipoUsuario.academico);
-            cuentaDTO.setEstado(CuentaDTO.EstadoCuenta.pendiente);
-            ACADEMICO_DAO.agregarAcademicoConCuenta(academicoDTO, cuentaDTO);
-
-        }
-        catch (ErrorDAO errorDAO) {
-            assertTrue(true, "PruebaAgregarAcademicoConCuentaFallido");
-        }
+            assertThrows(ErrorDAO.class, () -> {
+                cuentaDTO.setNombreUsuario("HernanVillasdadasdssdsdadasasdsadddasdsadaqwwqMiasdfERADSASFhETANASA SDOEA");
+                cuentaDTO.setContrasena("MyZillTippens");
+                cuentaDTO.setTipo(CuentaDTO.TipoUsuario.academico);
+                cuentaDTO.setEstado(CuentaDTO.EstadoCuenta.pendiente);
+                ACADEMICO_DAO.agregarAcademicoConCuenta(academicoDTO, cuentaDTO);
+            });
     }
 
     @Test
