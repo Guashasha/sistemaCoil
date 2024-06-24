@@ -274,7 +274,7 @@ public class CrearCuentaAcademicoControlador {
             crearAlertaValidacion("El correo proporcionado no es valido");
             return false;
         }
-        if (telefono.isBlank() || !Pattern.matches("^(?!0)[1-9]\\d{11,13}$", telefono)) {
+        if (telefono.isBlank() || !Pattern.matches("^(?!0)[1-9]\\d{10,12}$", telefono)) {
             crearAlertaValidacion("El numero de telefono es invalido, asegurese de poner su lada, seguido de su numero de telefono (min. 11 digitos, max .13 digitos)");
             return false;
         }

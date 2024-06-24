@@ -1183,4 +1183,7 @@ public class ColaboracionDAO implements IColaboracionDAO {
         }
         return filasAfectadas;
     }
+
+    public List<AcademicoDTO> getAcademicosParticipantes(ColaboracionDTO colaboracionDTO) {
+    }
 }

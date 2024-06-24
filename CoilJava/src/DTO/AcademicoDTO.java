@@ -228,7 +228,7 @@ public class AcademicoDTO extends PersonaDTO {
      * @throws ErrorDAO si el número no es válido.
      */
     private void verificarNumeroTelefonico (String numeroTelefonico) {
-        String NUMERO_TELEFONO_REGEX = "^(?!0)[1-9]\\d{11,13}$";
+        String NUMERO_TELEFONO_REGEX = "^(?!0)[1-9]\\d{10,12}$";
         Pattern patron = Pattern.compile(NUMERO_TELEFONO_REGEX);
         if (numeroTelefonico != null) {
             Matcher matcher = patron.matcher(numeroTelefonico);

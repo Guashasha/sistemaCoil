@@ -185,18 +185,18 @@ DROP USER IF EXISTS "admin_COIL"@"%";
 DROP USER IF EXISTS "admin_COIL"@"localhost";
 
 CREATE USER IF NOT EXISTS "admin_COIL"@"localhost" IDENTIFIED BY "habitacionDeVuelo";
-CREATE USER IF NOT EXISTS "admin_COIL"@"192.168.23.30" IDENTIFIED BY "habitacionDeVuelo";
+CREATE USER IF NOT EXISTS "admin_COIL"@"192.168.241.30" IDENTIFIED BY "habitacionDeVuelo";
 
-GRANT INSERT, SELECT, EXECUTE, UPDATE, DELETE ON COIL.* TO "admin_COIL"@"192.168.23.30";
+GRANT INSERT, SELECT, EXECUTE, UPDATE, DELETE ON COIL.* TO "admin_COIL"@"192.168.241.30";
 GRANT INSERT, SELECT, EXECUTE, UPDATE, DELETE ON COIL.* TO "admin_COIL"@"localhost";
 
-CREATE USER IF NOT EXISTS "admin_COIL2"@"192.168.23.76" IDENTIFIED BY "habitacionDeVuelo";
+CREATE USER IF NOT EXISTS "admin_COIL2"@"192.168.241.76" IDENTIFIED BY "habitacionDeVuelo";
 
-GRANT INSERT, SELECT, EXECUTE, UPDATE, DELETE ON COIL.* TO "admin_COIL2"@"192.168.23.76";
+GRANT INSERT, SELECT, EXECUTE, UPDATE, DELETE ON COIL.* TO "admin_COIL2"@"192.168.241.76";
 
-CREATE USER IF NOT EXISTS "admin_COIL3"@"192.168.23.91" IDENTIFIED BY "habitacionDeVuelo";
+CREATE USER IF NOT EXISTS "admin_COIL3"@"192.168.241.91" IDENTIFIED BY "habitacionDeVuelo";
 
-GRANT INSERT, SELECT, EXECUTE, UPDATE, DELETE ON COIL.* TO "admin_COIL3"@"192.168.23.91";
+GRANT INSERT, SELECT, EXECUTE, UPDATE, DELETE ON COIL.* TO "admin_COIL3"@"192.168.241.91";
 
 DROP USER IF EXISTS "CarrionMartinezPale"@"localhost";
 
@@ -211,8 +211,8 @@ SELECT "cargando procedimientos...";
 SOURCE procedimientosCoil.sql;
 
 SELECT "ingresando datos...";
---SOURCE datosCoil.sql;
+SOURCE datosCoil.sql;
 
 SELECT "base de datos creada correctamente";
 
---CALL registrar_cuenta_administrador("david", "carrion romero", 1, "admin", "contrasena");
+CALL registrar_cuenta_administrador("david", "carrion romero", 1, "admin", "contrasena");
