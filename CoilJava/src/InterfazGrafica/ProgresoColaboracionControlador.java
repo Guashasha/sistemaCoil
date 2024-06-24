@@ -198,7 +198,6 @@ public class ProgresoColaboracionControlador {
 
         int anioInicio = fechaInicio.getYear();
         int anioFin = fechaFin.getYear();
-
         LocalDate fechaActual = LocalDate.now();
 
         if (!fechaInicio.isAfter(fechaActual) || !fechaFin.isAfter(fechaActual)) {
@@ -206,8 +205,9 @@ public class ProgresoColaboracionControlador {
             return false;
         }
 
-        if (anioInicio != anioFin) {
-            mostrarMensajeEmergente("Las fechas deben estar en el mismo año.", Alert.AlertType.WARNING);
+
+        if (anioInicio > anioFin || anioInicio + 1 != anioFin) {
+            mostrarMensajeEmergente("Las fechas ingresadas no estan dentro del mismo periodo", Alert.AlertType.WARNING);
             return false;
         }
 
@@ -216,20 +216,24 @@ public class ProgresoColaboracionControlador {
             return false;
         }
 
+
+
         int mesInicio = fechaInicio.getMonthValue();
         int mesFin = fechaFin.getMonthValue();
 
-        boolean esPrimerSemestre = (mesInicio >= 1 && mesInicio <= 7) && (mesFin >= 1 && mesFin <= 7);
-        boolean esSegundoSemestre = (mesInicio >= 8 && mesInicio <= 12) && (mesFin >= 8 && mesFin <= 12);
+        boolean esPrimerSemestre = (mesInicio >= 2 && mesInicio <= 8) && (mesFin >= 1 && mesFin <= 7);
+        boolean esSegundoSemestre = (mesInicio >= 9 && mesInicio <= 1) && (mesFin >= 9 && mesFin <= 1);
 
         if (!esPrimerSemestre && !esSegundoSemestre) {
             mostrarMensajeEmergente("""
                                             Las fechas deben estar dentro del mismo semestre:
-                                            1. Enero a Julio.
+                                            1. Febrero a Julio.
                                             2. Agosto a Diciembre.
                                             """, Alert.AlertType.WARNING);
             return false;
         }
+
+
         return true;
     }
 
