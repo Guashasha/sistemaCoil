@@ -63,14 +63,14 @@ public class NuevaActividadControlador {
     }
 
     private boolean camposSobrepasanLimite () {
-        if (tfTitulo.getText().length() > 50) {
+        if (tfTitulo.getText().length() > 100) {
             Alert alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setContentText("El titulo puede tener un maximo de 50 caracteres");
             alerta.setHeaderText("Titulo demasiado largo");
             alerta.showAndWait();
             return true;
         }
-        else if (tfDescripcion.getText().length() > 200) {
+        else if (tfDescripcion.getText().length() > 300) {
             Alert alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setContentText("La descripción puede tener un maximo de 200 caracteres");
             alerta.setHeaderText("Descripción demasiado larga");

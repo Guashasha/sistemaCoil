@@ -98,6 +98,7 @@ public class EvaluacionPropuestaControlador implements Initializable {
 
             vboxContenedor.getChildren()
                           .remove(pane);
+            mostrarAlert("Propuesta aceptada", Alert.AlertType.INFORMATION);
         }
         catch (ErrorDAO errorDAO) {
             mostrarAlert(errorDAO.getMessage(), Alert.AlertType.ERROR);
@@ -113,6 +114,7 @@ public class EvaluacionPropuestaControlador implements Initializable {
 
             vboxContenedor.getChildren()
                           .remove(pane);
+            mostrarAlert("Propuesta rechazada", Alert.AlertType.INFORMATION);
         }
         catch (ErrorDAO errorDAO) {
             mostrarAlert(errorDAO.getMessage(), Alert.AlertType.ERROR);
