@@ -70,8 +70,8 @@ END //
 -- Procedimientos academicos
 DROP PROCEDURE IF EXISTS registrar_Academico;
 CREATE PROCEDURE registrar_Academico (
-    IN p_nombre VARCHAR(50), 
-    IN p_apellidos VARCHAR(80),
+    IN p_nombre VARCHAR(100), 
+    IN p_apellidos VARCHAR(100),
     IN p_universidad INT,
     IN p_cedulaProfesional VARCHAR(30),
     IN p_numeroDePersonal VARCHAR(40),
@@ -98,8 +98,8 @@ END;
 
 DROP PROCEDURE IF EXISTS editar_academico;
 CREATE PROCEDURE editar_academico (
-    IN p_nombre varchar(50), 
-    IN p_apellidos varchar(80),
+    IN p_nombre varchar(100), 
+    IN p_apellidos varchar(100),
     IN p_universidad int,
     IN p_cedulaProfesional varchar(30),
     IN p_numeroDePersonal varchar(40),
@@ -136,8 +136,8 @@ END //
 -- Procedimientos estudiantes.
 DROP PROCEDURE IF EXISTS registrar_Estudiante//
 create procedure registrar_Estudiante(
-    IN p_nombre varchar(20), 
-    IN p_apellidos varchar(80),
+    IN p_nombre varchar(100), 
+    IN p_apellidos varchar(100),
     IN p_universidad int,
     IN p_matricula char(10))
 BEGIN
@@ -151,8 +151,8 @@ END //
 
 DROP PROCEDURE IF EXISTS editar_estudiante//
 create procedure editar_estudiante (
-    in p_nombre varchar(50),
-    in p_apellidos varchar(80),
+    in p_nombre varchar(100),
+    in p_apellidos varchar(100),
     in p_matricula char(10),
     in p_universidad int
 )
@@ -351,8 +351,8 @@ END //
 
 DROP PROCEDURE IF EXISTS registrar_cuenta_administrador//
 CREATE PROCEDURE registrar_cuenta_administrador (
-    IN p_nombre VARCHAR(20),
-    IN p_apellidos VARCHAR(80),
+    IN p_nombre VARCHAR(100),
+    IN p_apellidos VARCHAR(100),
     IN p_universidad INT,
     IN p_nombreUsuario VARCHAR(50),
     IN p_contrasena VARCHAR(300)

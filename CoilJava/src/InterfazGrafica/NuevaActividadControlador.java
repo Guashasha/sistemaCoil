@@ -15,6 +15,7 @@ import javafx.scene.layout.Pane;
 import org.apache.log4j.Logger;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 public class NuevaActividadControlador {
@@ -91,6 +92,9 @@ public class NuevaActividadControlador {
             return;
         }
         else if (camposSobrepasanLimite()) {
+            return;
+        }
+        else if (actividadDuplicada()) {
             return;
         }
 
@@ -176,6 +180,53 @@ public class NuevaActividadControlador {
         }
 
         volver();
+    }
+
+    private boolean actividadDuplicada() {
+        ActividadAuxiliar dao = new ActividadAuxiliar();
+        List<ActividadDTO> actividades = null;
+
+        try {
+            actividades = dao.getPorIdColaboracion(this.colaboracionDTO.getIdColaboracion());
+        } catch (ErrorDAO e) {
+            Alert alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setContentText(e.getMessage());
+            alerta.setHeaderText("Error de conexión");
+            alerta.showAndWait();
+            return true;
+        }
+
+        String titulo = tfTitulo.getText().trim();
+        String descripcion = tfDescripcion.getText().trim();
+        String tipo = ( (RadioButton) tgTipoActividad.getSelectedToggle()).getText();
+
+        if (actividades != null) {
+            for (ActividadDTO actividad : actividades) {
+                if (titulo.equals(actividad.getTitulo())) {
+                    Alert alerta = new Alert(Alert.AlertType.ERROR);
+                    alerta.setContentText("Ya existe una actividad con ese titulo");
+                    alerta.setHeaderText("Error al agregar la actividad");
+                    alerta.showAndWait();
+                    return true;
+                }
+                if (tipo.equals(actividad.getTipo().toString())) {
+                    Alert alerta = new Alert(Alert.AlertType.ERROR);
+                    alerta.setContentText("Ya existe una actividad con ese tipo de actividad");
+                    alerta.setHeaderText("Error al agregar la actividad");
+                    alerta.showAndWait();
+                    return true;
+                }
+                if (descripcion.equals(actividad.getDescripcion())) {
+                    Alert alerta = new Alert(Alert.AlertType.ERROR);
+                    alerta.setContentText("Ya existe una actividad con esa descripción");
+                    alerta.setHeaderText("Error al agregar la actividad");
+                    alerta.showAndWait();
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     private static Alert crearAlerta (ErrorDAO error) {
