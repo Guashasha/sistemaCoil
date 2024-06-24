@@ -206,7 +206,7 @@ public class ProgresoColaboracionControlador {
         }
 
 
-        if (anioInicio > anioFin || anioInicio + 1 != anioFin) {
+        if (anioInicio > anioFin || anioInicio + 1 <= anioFin) {
             mostrarMensajeEmergente("Las fechas ingresadas no estan dentro del mismo periodo", Alert.AlertType.WARNING);
             return false;
         }
@@ -221,7 +221,7 @@ public class ProgresoColaboracionControlador {
         int mesInicio = fechaInicio.getMonthValue();
         int mesFin = fechaFin.getMonthValue();
 
-        boolean esPrimerSemestre = (mesInicio >= 2 && mesInicio <= 8) && (mesFin >= 1 && mesFin <= 7);
+        boolean esPrimerSemestre = (mesInicio >= 2 && mesInicio <= 8) && (mesFin >= 1 && mesFin <= 8);
         boolean esSegundoSemestre = (mesInicio >= 9 && mesInicio <= 1) && (mesFin >= 9 && mesFin <= 1);
 
         if (!esPrimerSemestre && !esSegundoSemestre) {

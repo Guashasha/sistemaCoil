@@ -1,6 +1,12 @@
 package Utilidades;
 
+/**
+ * La clase ErrorDAO es un error personalizado que tiene el propósito de propagar errores menores o mensajes específicos relacionados a otra excepción
+ */
 public class ErrorDAO extends Error {
+    /**
+     * Tipos en los que se puede clasificar el error que comunica la clase ErrorDAO
+     */
     public enum Tipo {
         INSERCION,
         MODIFICACION,
@@ -17,6 +23,11 @@ public class ErrorDAO extends Error {
     private String mensaje;
     private Tipo tipo;
 
+    /**
+     * Inicializa un objeto ErrorDAO con su mensaje y su tipo.
+     * @param mensaje Mensaje que se quiere propagar.
+     * @param tipo Tipo de ErrorDAO relacionado al mensaje del error.
+     */
     public ErrorDAO (String mensaje, Tipo tipo) {
         this.mensaje = mensaje;
         this.tipo = tipo;

@@ -2,6 +2,10 @@ package DTO;
 
 import java.util.Optional;
 
+/**
+ * La clase RegionDTO funciona como transfer object, para transferir la información desde la base de datos a capas superiores dentro de la aplicación.
+ * También es la generalización de RetroalimentacionActividadDTO y RelroalimentacionColaboracionDTO. Contiene los datos esenciales de ambas.
+ */
 public class RetroalimentacionDTO {
     private int idRetroalimentacion;
     private Optional<String> comentario = Optional.empty();

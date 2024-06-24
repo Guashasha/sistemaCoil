@@ -3,6 +3,7 @@ package InterfazGrafica;
 import DAO.EstudianteAuxiliar;
 import DAO.EstudianteDAO;
 import DAO.UniversidadAuxiliar;
+import DAO.UniversidadDAO;
 import DTO.EstudianteDTO;
 import DTO.UniversidadDTO;
 import Utilidades.ErrorDAO;
@@ -40,11 +41,11 @@ public class EditarEstudianteControlador {
         Optional<UniversidadDTO> universidadOptional = Optional.empty();
 
         if (historialPaneles != null && pnVentanaPrincipal != null && estudiante != null) {
-            EstudianteAuxiliar estudianteAuxiliar = new EstudianteAuxiliar();
-            estudianteOptional = estudianteAuxiliar.getPorId(estudiante.getIdEstudiante());
+            EstudianteDAO estudianteDap = new EstudianteDAO();
+            estudianteOptional = estudianteDap.getPorId(estudiante.getIdEstudiante());
 
             if (estudianteOptional.isPresent()) {
-                UniversidadAuxiliar universidadAuxiliar = new UniversidadAuxiliar();
+                UniversidadDAO universidadAuxiliar = new UniversidadDAO();
                 universidadOptional = universidadAuxiliar.getUniversidadPorId(estudianteOptional.get()
                                                                                                 .getIdUniversidad());
 
@@ -71,7 +72,7 @@ public class EditarEstudianteControlador {
     @FXML
     private void editarEstudiante () {
         if (!camposVacios() && !camposIguales()) {
-            EstudianteDAO estudianteDAO = new EstudianteDAO();
+            EstudianteAuxiliar estudianteAuxiliar = new EstudianteAuxiliar();
             EstudianteDTO estudianteEditado = new EstudianteDTO();
             int filasAfectadas;
 
@@ -80,7 +81,7 @@ public class EditarEstudianteControlador {
                 estudianteEditado.setApellidos(tfApellidos.getText());
                 estudianteEditado.setMatricula(txtMatriculaActual.getText());
                 estudianteEditado.setIdUniversidad(this.estudiante.getIdUniversidad());
-                filasAfectadas = estudianteDAO.modificar(estudianteEditado);
+                filasAfectadas = estudianteAuxiliar.modificar(estudianteEditado);
             }
             catch (ErrorDAO error) {
                 Alert.AlertType tipoAlerta = Alert.AlertType.WARNING;

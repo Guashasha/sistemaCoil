@@ -1,8 +1,6 @@
 package InterfazGrafica;
 
-import DAO.ColaboracionAuxiliar;
-import DAO.EstudianteAuxiliar;
-import DAO.UniversidadAuxiliar;
+import DAO.*;
 import DTO.AcademicoDTO;
 import DTO.ColaboracionDTO;
 import DTO.EstudianteDTO;
@@ -121,7 +119,7 @@ public class AgregarEstudianteControlador {
     }
 
     public void cargarConsultaGeneral () {
-        EstudianteAuxiliar estudianteAuxiliar = new EstudianteAuxiliar();
+        EstudianteDAO estudianteAuxiliar = new EstudianteDAO();
         List<EstudianteDTO> listaEstudiantes = null;
 
         try {
@@ -168,8 +166,8 @@ public class AgregarEstudianteControlador {
     }
 
     private void agregarDatosFilaEstudiante (AgregarEstudianteItemControlador controlador, EstudianteDTO estudiante) throws ErrorDAO {
-        UniversidadAuxiliar universidadAuxiliar = new UniversidadAuxiliar();
-        Optional<UniversidadDTO> universidadOptional = universidadAuxiliar.getUniversidadPorId(estudiante.getIdUniversidad());
+        UniversidadDAO universidadDAO = new UniversidadDAO();
+        Optional<UniversidadDTO> universidadOptional = universidadDAO.getUniversidadPorId(estudiante.getIdUniversidad());
 
         if (universidadOptional.isPresent()) {
             controlador.setUniversidad(universidadOptional.get());

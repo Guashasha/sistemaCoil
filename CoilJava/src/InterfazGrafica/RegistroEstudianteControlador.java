@@ -2,6 +2,7 @@ package InterfazGrafica;
 
 import DAO.EstudianteAuxiliar;
 import DAO.UniversidadAuxiliar;
+import DAO.UniversidadDAO;
 import DTO.EstudianteDTO;
 import DTO.UniversidadDTO;
 import Utilidades.ErrorDAO;
@@ -41,8 +42,8 @@ public class RegistroEstudianteControlador {
     }
 
     public void setRecursos (Stack<Pane> historialPaneles, BorderPane pnVentanaPrincipal, int idUniversidad) throws ErrorDAO {
-        UniversidadAuxiliar universidadAuxiliar = new UniversidadAuxiliar();
-        Optional<UniversidadDTO> universidadOptional = universidadAuxiliar.getUniversidadPorId(idUniversidad);
+        UniversidadDAO universidadDAO = new UniversidadDAO();
+        Optional<UniversidadDTO> universidadOptional = universidadDAO.getUniversidadPorId(idUniversidad);
 
         if (universidadOptional.isPresent()) {
             this.historialPaneles = historialPaneles;

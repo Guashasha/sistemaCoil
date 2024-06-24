@@ -33,7 +33,7 @@ public class RetroalimentacionColaboracionDAOTest {
 
     @AfterAll
     static void limpiarBase () {
-        ConfiguracionPrueba.borrarTodosLosDatosTabla();
+        ConfiguracionPrueba.borrarDatosTodasLasTablas();
     }
 
     private static RetroalimentacionColaboracionDTO crearRetroalimentacion () {

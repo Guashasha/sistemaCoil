@@ -2,6 +2,7 @@ package InterfazGrafica.Items;
 
 import DAO.ColaboracionAuxiliar;
 import DAO.UniversidadAuxiliar;
+import DAO.UniversidadDAO;
 import DTO.ColaboracionDTO;
 import DTO.EstudianteDTO;
 import DTO.UniversidadDTO;
@@ -36,8 +37,8 @@ public class ListaEstudiantesItemControlador {
 
     public void setRecursos (BorderPane pnVentanaPrincipal, Stack<Pane> historialPaneles, ColaboracionDTO colaboracion, ListaEstudiantesControlador listaEstudiantesControlador, EstudianteDTO estudiante) throws ErrorDAO {
         if (pnVentanaPrincipal != null && historialPaneles != null && colaboracion != null && listaEstudiantesControlador != null && estudiante != null) {
-            UniversidadAuxiliar universidadAuxiliar = new UniversidadAuxiliar();
-            Optional<UniversidadDTO> universidadOptional = universidadAuxiliar.getUniversidadPorId(estudiante.getIdUniversidad());
+            UniversidadDAO universidadDAO = new UniversidadDAO();
+            Optional<UniversidadDTO> universidadOptional = universidadDAO.getUniversidadPorId(estudiante.getIdUniversidad());
 
             if (universidadOptional.isPresent()) {
                 this.pnVentanaPrincipal = pnVentanaPrincipal;

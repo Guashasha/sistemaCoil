@@ -1,6 +1,7 @@
 package InterfazGrafica;
 
 import DAO.PaisAuxiliar;
+import DAO.PaisDAO;
 import DAO.UniversidadAuxiliar;
 import DAO.UniversidadDAO;
 import DTO.PaisDTO;
@@ -136,9 +137,9 @@ public class ConsultaUniversidadesControlador {
     }
 
     private void agregarDatosFilaUniversidad (UniversidadItemControlador controlador, UniversidadDTO universidad) throws ErrorDAO {
-        PaisAuxiliar paisAuxiliar = new PaisAuxiliar();
+        PaisDAO paisDAO = new PaisDAO();
 
-        Optional<PaisDTO> paisOptional = paisAuxiliar.getPaisPorId(universidad.getIdPais());
+        Optional<PaisDTO> paisOptional = paisDAO.getPaisPorId(universidad.getIdPais());
 
         controlador.setUniversidad(universidad);
         paisOptional.ifPresent(controlador::setPais);

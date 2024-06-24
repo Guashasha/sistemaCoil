@@ -75,16 +75,17 @@ public class AcademicoDTO extends PersonaDTO {
         return numeroPersonal;
     }
 
-    /**
-     * Obtiene el área de estudios del académico.
-     *
-     * @return el área de estudios.
-     */
+
     public void setNumeroPersonal (String numeroPersonal) {
         verificarNumeroPersonal(numeroPersonal);
         this.numeroPersonal = numeroPersonal;
     }
 
+    /**
+     * Obtiene el área de estudios del académico.
+     *
+     * @return el área de estudios.
+     */
     public String getAreaEstudios () {
         return areaEstudios;
     }
