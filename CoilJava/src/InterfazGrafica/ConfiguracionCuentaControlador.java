@@ -75,17 +75,22 @@ public class ConfiguracionCuentaControlador {
 
     @FXML
     private void guardaCambios () {
-        if (!camposVacios() && !camposSinCambios()) {
+        if (!camposVacios() && camposActualizados()) {
             int filasAfectadas;
-            AcademicoAuxiliar academicoAuxiliar = new AcademicoAuxiliar();
-            AcademicoDTO academicoEditado = this.academico;
+            AcademicoDTO academicoEditado = new AcademicoDTO();
+            academicoEditado.setIdPersona(this.academico.getIdPersona());
+            academicoEditado.setNombre(this.academico.getNombre());
+            academicoEditado.setApellidos(this.academico.getApellidos());
+            academicoEditado.setIdUniversidad(this.academico.getIdUniversidad());
+            academicoEditado.setCedulaProfesional(this.academico.getCedulaProfesional());
+            academicoEditado.setNumeroPersonal(this.academico.getNumeroPersonal());
+            academicoEditado.setIdFacultad(this.academico.getIdFacultad());
 
             try {
                 academicoEditado.setAreaEstudios(this.cmbAreaEstudios.getValue());
                 academicoEditado.setCategoriaContratacion(this.cbCategoriaContratacion.getValue());
-                academicoEditado.setCorreoElectronico(this.tfCorreo.getText());
                 academicoEditado.setNumeroTelefonico(this.tfTelefono.getText());
-                filasAfectadas = academicoAuxiliar.modificar(academicoEditado);
+                filasAfectadas = actualizarDatosAcademico(academicoEditado);
             }
             catch (ErrorDAO error) {
                 mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.WARNING);
@@ -101,6 +106,21 @@ public class ConfiguracionCuentaControlador {
             }
         }
         etiquetarCamposVacios();
+    }
+
+    private int actualizarDatosAcademico (AcademicoDTO academicoEditado) throws ErrorDAO {
+        int filasAfectadas;
+        if (correoActualizado()) {
+            AcademicoAuxiliar academicoAuxiliar = new AcademicoAuxiliar();
+            academicoEditado.setCorreoElectronico(this.tfCorreo.getText());
+            filasAfectadas = academicoAuxiliar.modificar(academicoEditado);
+        }
+        else {
+            AcademicoDAO academicoDAO = new AcademicoDAO();
+            academicoEditado.setCorreoElectronico(this.academico.getCorreoElectronico());
+            filasAfectadas = academicoDAO.modificar(academicoEditado);
+        }
+        return filasAfectadas;
     }
 
     private void llenarComboBoxAreasEstudio () {
@@ -123,8 +143,7 @@ public class ConfiguracionCuentaControlador {
         if (academicoOptional.isPresent()) {
             this.academico = academicoOptional.get();
             UniversidadDAO universidadDAO = new UniversidadDAO();
-            universidadOptional = universidadDAO.getUniversidadPorId(this.academico
-                                                                             .getIdUniversidad());
+            universidadOptional = universidadDAO.getUniversidadPorId(this.academico.getIdUniversidad());
 
             if (universidadOptional.isPresent()) {
                 this.cmbAreaEstudios.setValue(this.academico.getAreaEstudios());
@@ -156,7 +175,7 @@ public class ConfiguracionCuentaControlador {
         return vacios;
     }
 
-    private boolean camposSinCambios () {
+    private boolean camposActualizados () {
         boolean camposSinCambios;
         String areaEstudios = this.cmbAreaEstudios.getValue();
         String correo = this.tfCorreo.getText()
@@ -166,12 +185,18 @@ public class ConfiguracionCuentaControlador {
         if (this.universidadAcademico.getNombre()
                                      .equals("Universidad Veracruzana")) {
             String categoriaContratacion = this.cbCategoriaContratacion.getValue();
-            camposSinCambios = areaEstudios.equals(this.academico.getAreaEstudios()) && categoriaContratacion.equals(this.academico.getCategoriaContratacion()) && correo.equals(this.academico.getCorreoElectronico()) && telefono.equals(this.academico.getNumeroTelefonico());
+            camposSinCambios = !areaEstudios.equals(this.academico.getAreaEstudios()) || !categoriaContratacion.equals(this.academico.getCategoriaContratacion()) || !correo.equals(this.academico.getCorreoElectronico()) || !telefono.equals(this.academico.getNumeroTelefonico());
         }
         else {
-            camposSinCambios = areaEstudios.equals(this.academico.getAreaEstudios()) && correo.equals(this.academico.getCorreoElectronico()) && telefono.equals(this.academico.getNumeroTelefonico());
+            camposSinCambios = !areaEstudios.equals(this.academico.getAreaEstudios()) || !correo.equals(this.academico.getCorreoElectronico()) || !telefono.equals(this.academico.getNumeroTelefonico());
         }
         return camposSinCambios;
+    }
+
+    private boolean correoActualizado () {
+        String correo = this.tfCorreo.getText()
+                                     .trim();
+        return !correo.equals(this.academico.getCorreoElectronico());
     }
 
     private void etiquetarCamposVacios () {
