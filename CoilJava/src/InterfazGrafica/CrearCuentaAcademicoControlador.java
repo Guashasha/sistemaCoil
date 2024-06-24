@@ -263,11 +263,11 @@ public class CrearCuentaAcademicoControlador {
         String categoriaContratacion = cbCategoriaContratacion.getValue();
 
         if (nombre.isBlank()) {
-            crearAlertaValidacion("El tamaño del nombre debe ser entre 1 y 20 caracteres");
+            crearAlertaValidacion("El tamaño del nombre debe ser entre 1 y 100 caracteres");
             return false;
         }
         if (apellidos.isBlank()) {
-            crearAlertaValidacion("El tamaño del apellido paterno debe ser entre 1 y 20 caracteres");
+            crearAlertaValidacion("El tamaño del apellido paterno debe ser entre 1 y 100 caracteres");
             return false;
         }
         if (correo.isBlank() || !Pattern.matches("[A-z0-9./+-]+@[A-z]+\\.[A-z]{1,3}", correo)) {

@@ -15,6 +15,7 @@ import javafx.scene.layout.Pane;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -160,15 +161,16 @@ public class ProgresoColaboracionControlador {
 
     private void getAcademicoParPorColaboracion () {
         ColaboracionDAO colaboracionDAO = new ColaboracionDAO();
-        Optional<AcademicoDTO> academicoDTOOptional = Optional.empty();
+        List<AcademicoDTO> academicoDTOOptional = null;
         try {
-            academicoDTOOptional = colaboracionDAO.getAcademicoPar(this.colaboracionDTO);
+            academicoDTOOptional = colaboracionDAO.getAcademicosParticipantes(this.colaboracionDTO);
         }
         catch (ErrorDAO errorDAO) {
             mostrarMensajeEmergente(errorDAO.getMessage(), Alert.AlertType.ERROR);
         }
-        if (academicoDTOOptional.isPresent()) {
-            this.colaboracionDTO.setAcademicoPar(academicoDTOOptional.get());
+        if (academicoDTOOptional != null) {
+            this.colaboracionDTO.setAnfitrion(academicoDTOOptional.get(0));
+            this.colaboracionDTO.setAcademicoPar(academicoDTOOptional.get(1));
         }
         else {
             mostrarMensajeEmergente("Aún no cuenta con un académico par en su colaboración", Alert.AlertType.INFORMATION);
