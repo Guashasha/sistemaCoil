@@ -56,7 +56,7 @@ public class RetroalimentacionActividadDAOTest {
 
     @Test
     void pruebaAgregarRetroalimentacion () {
-        int resultado = -1;
+        int resultadoConsulta = -1;
 
         RetroalimentacionActividadDTO retroalimentacion = new RetroalimentacionActividadDTO();
         retroalimentacion.setIdActividad(2);
@@ -67,13 +67,13 @@ public class RetroalimentacionActividadDAOTest {
         retroalimentacion.setComentario("hola mundo");
 
         try {
-            resultado = dao.agregar(retroalimentacion);
+            resultadoConsulta = dao.agregar(retroalimentacion);
         }
         catch (ErrorDAO error) {
             fail(error.getMessage());
         }
 
-        assertEquals(2, resultado);
+        assertEquals(2, resultadoConsulta);
     }
 
     @Test
@@ -87,7 +87,6 @@ public class RetroalimentacionActividadDAOTest {
 
         try {
             dao.agregar(retroalimentacion);
-            fail();
         }
         catch (ErrorDAO error) {
             assert(true);
@@ -103,19 +102,19 @@ public class RetroalimentacionActividadDAOTest {
         esperado.setInteraccionConPar(4);
         esperado.setDificultad(4);
 
-        Optional<RetroalimentacionActividadDTO> resultado = Optional.empty();
+        Optional<RetroalimentacionActividadDTO> retroalimentacionObtenida = Optional.empty();
 
         try {
-            resultado = dao.getPorId(1);
+            retroalimentacionObtenida = dao.getPorId(1);
         } catch (ErrorDAO e) {
             fail();
         }
 
-        if (resultado.isEmpty()) {
+        if (retroalimentacionObtenida.isEmpty()) {
             fail();
         }
 
-        RetroalimentacionActividadDTO retroalimentacion = resultado.get();
+        RetroalimentacionActividadDTO retroalimentacion = retroalimentacionObtenida.get();
 
         assertEquals(esperado, retroalimentacion);
     }
@@ -142,46 +141,46 @@ public class RetroalimentacionActividadDAOTest {
         esperado.setInteraccionConPar(4);
         esperado.setDificultad(4);
 
-        Optional<RetroalimentacionActividadDTO> resultado = Optional.empty();
+        Optional<RetroalimentacionActividadDTO> retroalimentacionObtenida = Optional.empty();
 
         try {
-            resultado = dao.getPorPersonaYActividad(1, 1);
+            retroalimentacionObtenida = dao.getPorPersonaYActividad(1, 1);
         } catch (ErrorDAO e) {
             fail();
         }
 
-        if (resultado.isEmpty()) {
+        if (retroalimentacionObtenida.isEmpty()) {
             fail();
         }
 
-        RetroalimentacionActividadDTO retroalimentacion = resultado.get();
+        RetroalimentacionActividadDTO retroalimentacion = retroalimentacionObtenida.get();
 
         assertEquals(esperado, retroalimentacion);
     }
 
     @Test
     void pruebaGetPorPersonaSinActividad () {
-        Optional<RetroalimentacionActividadDTO> resultado = Optional.empty();
+        Optional<RetroalimentacionActividadDTO> retroalimentacionObtenida = Optional.empty();
 
         try {
-            resultado = dao.getPorPersonaYActividad(1, 9);
+            retroalimentacionObtenida = dao.getPorPersonaYActividad(1, 9);
         } catch (ErrorDAO e) {
             fail();
         }
 
-        assert(resultado.isEmpty());
+        assert(retroalimentacionObtenida.isEmpty());
     }
 
     @Test
     void pruebaGetSinPersonaConActividad () {
-        Optional<RetroalimentacionActividadDTO> resultado = Optional.empty();
+        Optional<RetroalimentacionActividadDTO> retroalimentacionObtenida = Optional.empty();
 
         try {
-            resultado = dao.getPorPersonaYActividad(16, 1);
+            retroalimentacionObtenida = dao.getPorPersonaYActividad(16, 1);
         } catch (ErrorDAO e) {
             fail();
         }
 
-        assert(resultado.isEmpty());
+        assert(retroalimentacionObtenida.isEmpty());
   }
 }

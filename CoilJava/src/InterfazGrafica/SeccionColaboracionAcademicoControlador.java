@@ -176,9 +176,22 @@ public class SeccionColaboracionAcademicoControlador {
     @FXML
     public void abrirMiColaboracion () {
         CuentaDAO cuentaDao = new CuentaDAO();
-        Optional<CuentaDTO> usuario = cuentaDao.getCuentaPorPersona(this.academicoDTO.getIdPersona());
+        Optional<CuentaDTO> usuario;
         ColaboracionDAO colaboracionDao = new ColaboracionDAO();
-        Optional<ColaboracionDTO> colaboracion = colaboracionDao.getColaboracionActualPorAcademico(academicoDTO.getCedulaProfesional());
+        Optional<ColaboracionDTO> colaboracion;
+
+        try {
+            usuario = cuentaDao.getCuentaPorPersona(this.academicoDTO.getIdPersona());
+            colaboracion = colaboracionDao.getColaboracionActualPorAcademico(academicoDTO.getCedulaProfesional());
+        }
+        catch (ErrorDAO error) {
+            Alert alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setContentText(error.getMessage());
+            alerta.setHeaderText("Ocurrió un error");
+            alerta.showAndWait();
+            return;
+        }
+        
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SeccionMiColaboracionAcademico.fxml"));
         BorderPane bpSeccionColaboracion = null;
 
