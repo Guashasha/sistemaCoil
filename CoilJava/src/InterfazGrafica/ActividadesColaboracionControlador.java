@@ -8,7 +8,6 @@ import DTO.ActividadVinculadaDTO;
 import DTO.ColaboracionDTO;
 import DTO.CuentaDTO;
 import Utilidades.ErrorDAO;
-import Utilidades.VerificadorBitacora;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -201,7 +200,7 @@ public class ActividadesColaboracionControlador {
         Button boton = new Button("Calificar");
 
         boton.setOnAction( e -> {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("RetroalimentarActividad.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("RetroalimentacionActividad.fxml"));
             SplitPane apActividades;
 
             try {
@@ -217,7 +216,7 @@ public class ActividadesColaboracionControlador {
             }
 
             if (apActividades != null) {
-                RetroalimentarActividadControlador ventanaActividadesControlador = fxmlLoader.getController();
+                RetroalimentacionActividadControlador ventanaActividadesControlador = fxmlLoader.getController();
                 ventanaActividadesControlador.initialize(this.ventanaPrincipal, this.pnMain, actividad, this.usuario, this);
                 this.ventanaPrincipal.setCenter(apActividades);
             }
