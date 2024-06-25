@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="pnRegistroEstudiante" prefHeight="759.0" prefWidth="973.0" styleClass="root" stylesheets="@Recursos/EstiloVentanas.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.EditarEstudianteControlador">
+<BorderPane fx:id="pnRegistroEstudiante" prefHeight="759.0" prefWidth="973.0" styleClass="root" stylesheets="@Recursos/EstiloVentanas.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.EdicionEstudianteControlador">
    <center>
       <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="674.0" prefWidth="774.0" stylesheets="@Recursos/EstiloVentanas.css" BorderPane.alignment="CENTER">
          <children>

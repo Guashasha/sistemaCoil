@@ -3,6 +3,7 @@ package InterfazGrafica.Items;
 import DAO.ColaboracionAuxiliar;
 import DAO.ColaboracionDAO;
 import DAO.UniversidadAuxiliar;
+import DAO.UniversidadDAO;
 import DTO.AcademicoDTO;
 import DTO.ColaboracionDTO;
 import DTO.UniversidadDTO;
@@ -43,8 +44,8 @@ public class SolicitudAcademicoItemControlador {
     }
 
     private String getUniversidad () {
-        UniversidadAuxiliar universidadAuxiliar = new UniversidadAuxiliar();
-        Optional<UniversidadDTO> universidadDTOOptional = universidadAuxiliar.getUniversidadPorId(this.academicoDTO.getIdUniversidad());
+        UniversidadDAO universidadDAO = new UniversidadDAO();
+        Optional<UniversidadDTO> universidadDTOOptional = universidadDAO.getUniversidadPorId(this.academicoDTO.getIdUniversidad());
         if (universidadDTOOptional.isPresent()) {
             return universidadDTOOptional.get()
                                          .getNombre();

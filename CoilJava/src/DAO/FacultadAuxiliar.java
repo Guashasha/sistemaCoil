@@ -12,9 +12,6 @@ import java.util.Optional;
  * @author pale
  */
 public class FacultadAuxiliar {
-    /**
-     *Instancia de la clase FacultadDAO que se utiliza en los métodos de la clase.
-     */
     private final FacultadDAO FACULTAD_DAO = new FacultadDAO();
 
     /**
@@ -45,7 +42,7 @@ public class FacultadAuxiliar {
         RegionDTO regionAsociada = new RegionDTO(region);
 
         if (regionAsociada.nombreValido()) {
-            listaFacultades = FACULTAD_DAO.getFacultadPorRegion(region.trim());
+            listaFacultades = FACULTAD_DAO.getFacultadesPorRegion(region.trim());
         }
         return listaFacultades;
     }

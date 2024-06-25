@@ -3,6 +3,7 @@ package InterfazGrafica.Items;
 import DAO.ColaboracionAuxiliar;
 import DAO.ColaboracionDAO;
 import DAO.UniversidadAuxiliar;
+import DAO.UniversidadDAO;
 import DTO.AcademicoDTO;
 import DTO.ColaboracionDTO;
 import DTO.UniversidadDTO;
@@ -105,8 +106,8 @@ public class ColaboracionDisponibleItemControlador implements Initializable {
     }
 
     private UniversidadDTO getUniversidad (int id) {
-        UniversidadAuxiliar universidadAuxiliar = new UniversidadAuxiliar();
-        Optional<UniversidadDTO> universidadDTOOptional = universidadAuxiliar.getUniversidadPorId(id);
+        UniversidadDAO universidadDAO = new UniversidadDAO();
+        Optional<UniversidadDTO> universidadDTOOptional = universidadDAO.getUniversidadPorId(id);
         if (universidadDTOOptional.isPresent()) {
             return universidadDTOOptional.get();
         }

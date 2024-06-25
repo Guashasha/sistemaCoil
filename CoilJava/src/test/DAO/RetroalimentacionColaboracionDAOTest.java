@@ -2,6 +2,7 @@ package test.DAO;
 
 import DAO.RetroalimentacionColaboracionAuxiliar;
 import DAO.RetroalimentacionColaboracionDAO;
+import DTO.RetroalimentacionActividadDTO;
 import DTO.RetroalimentacionColaboracionDTO;
 import Utilidades.ErrorDAO;
 import org.junit.jupiter.api.AfterAll;
@@ -33,7 +34,7 @@ public class RetroalimentacionColaboracionDAOTest {
 
     @AfterAll
     static void limpiarBase () {
-        ConfiguracionPrueba.borrarTodosLosDatosTabla();
+        ConfiguracionPrueba.borrarDatosTodasLasTablas();
     }
 
     private static RetroalimentacionColaboracionDTO crearRetroalimentacion () {
@@ -106,6 +107,7 @@ public class RetroalimentacionColaboracionDAOTest {
 
     @Test
     public void pruebaGetPorId () {
+        RetroalimentacionColaboracionDTO esperado = crearRetroalimentacion2();
         Optional<RetroalimentacionColaboracionDTO> resultado = Optional.empty();
 
         try {
@@ -120,12 +122,7 @@ public class RetroalimentacionColaboracionDAOTest {
 
         RetroalimentacionColaboracionDTO retroalimentacion = resultado.get();
 
-        assertEquals(1, retroalimentacion.getIdRetroalimentacion());
-        assertEquals(2, retroalimentacion.getIdUsuario());
-        assertEquals(4, retroalimentacion.getColaboracion());
-        assertEquals(5, retroalimentacion.getInteraccionConPar());
-        assertEquals(5, retroalimentacion.getIntercambioCultural());
-        assertEquals(5, retroalimentacion.getCalificacion());
+        assertEquals(esperado, retroalimentacion);
     }
 
     @Test
@@ -143,6 +140,7 @@ public class RetroalimentacionColaboracionDAOTest {
 
   @Test
     public void pruebaGetPorPersonaYColaboracion () {
+        RetroalimentacionColaboracionDTO esperado = crearRetroalimentacion();
         Optional<RetroalimentacionColaboracionDTO> resultado = Optional.empty();
 
         try {
@@ -157,12 +155,7 @@ public class RetroalimentacionColaboracionDAOTest {
 
       RetroalimentacionColaboracionDTO retroalimentacion = resultado.get();
 
-      assertEquals(2, retroalimentacion.getIdRetroalimentacion());
-      assertEquals(1, retroalimentacion.getIdUsuario());
-      assertEquals(3, retroalimentacion.getColaboracion());
-      assertEquals(5, retroalimentacion.getInteraccionConPar());
-      assertEquals(4, retroalimentacion.getIntercambioCultural());
-      assertEquals(4, retroalimentacion.getCalificacion());
+      assertEquals(esperado, retroalimentacion);
     }
 
     @Test

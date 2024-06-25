@@ -1,5 +1,8 @@
 package DTO;
 
+/**
+ * La clase RetroalimentacionColaboracionDTO funciona como transfer object, para transferir la información desde la base de datos a capas superiores dentro de la aplicación.
+ */
 public class RetroalimentacionColaboracionDTO extends RetroalimentacionDTO {
     private int habilidadesObtenidas;
     private int calificacion;

@@ -51,7 +51,7 @@ public class RetroalimentacionActividadDAOTest {
 
     @AfterAll
     static void limpiarBase () {
-        ConfiguracionPrueba.borrarTodosLosDatosTabla();
+        ConfiguracionPrueba.borrarDatosTodasLasTablas();
     }
 
     @Test
@@ -96,6 +96,13 @@ public class RetroalimentacionActividadDAOTest {
 
     @Test
     void pruebaGetPorId () {
+        RetroalimentacionActividadDTO esperado = new RetroalimentacionActividadDTO();
+        esperado.setIdActividad(1);
+        esperado.setIdUsuario(1);
+        esperado.setInteres(4);
+        esperado.setInteraccionConPar(4);
+        esperado.setDificultad(4);
+
         Optional<RetroalimentacionActividadDTO> resultado = Optional.empty();
 
         try {
@@ -110,11 +117,7 @@ public class RetroalimentacionActividadDAOTest {
 
         RetroalimentacionActividadDTO retroalimentacion = resultado.get();
 
-        assertEquals(1, retroalimentacion.getIdActividad());
-        assertEquals(1, retroalimentacion.getIdUsuario());
-        assertEquals(4, retroalimentacion.getInteres());
-        assertEquals(4, retroalimentacion.getInteraccionConPar());
-        assertEquals(4, retroalimentacion.getDificultad());
+        assertEquals(esperado, retroalimentacion);
     }
 
     @Test
@@ -132,6 +135,13 @@ public class RetroalimentacionActividadDAOTest {
 
     @Test
     void pruebaGetPorPersonaYActividad () {
+        RetroalimentacionActividadDTO esperado = new RetroalimentacionActividadDTO();
+        esperado.setIdActividad(1);
+        esperado.setIdUsuario(1);
+        esperado.setInteres(4);
+        esperado.setInteraccionConPar(4);
+        esperado.setDificultad(4);
+
         Optional<RetroalimentacionActividadDTO> resultado = Optional.empty();
 
         try {
@@ -140,13 +150,13 @@ public class RetroalimentacionActividadDAOTest {
             fail();
         }
 
-        assert(resultado.isPresent());
+        if (resultado.isEmpty()) {
+            fail();
+        }
 
         RetroalimentacionActividadDTO retroalimentacion = resultado.get();
 
-        assertEquals(4, retroalimentacion.getInteres());
-        assertEquals(4, retroalimentacion.getInteraccionConPar());
-        assertEquals(4, retroalimentacion.getDificultad());
+        assertEquals(esperado, retroalimentacion);
     }
 
     @Test

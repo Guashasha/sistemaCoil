@@ -1,13 +1,11 @@
 package InterfazGrafica;
 
-import DAO.ColaboracionAuxiliar;
-import DAO.EstudianteAuxiliar;
-import DAO.UniversidadAuxiliar;
+import DAO.*;
 import DTO.AcademicoDTO;
 import DTO.ColaboracionDTO;
 import DTO.EstudianteDTO;
 import DTO.UniversidadDTO;
-import InterfazGrafica.Items.AgregarEstudianteItemControlador;
+import InterfazGrafica.Items.VinculacionEstudianteItemControlador;
 import Utilidades.ErrorDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,8 +22,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Stack;
 
-public class AgregarEstudianteControlador {
-    private static final Logger BITACORA = Logger.getLogger(AgregarEstudianteControlador.class);
+public class VinculacionEstudiantesControlador {
+    private static final Logger BITACORA = Logger.getLogger(VinculacionEstudiantesControlador.class);
     @FXML
     private BorderPane pnAgregarEstudiante;
     @FXML
@@ -121,7 +119,7 @@ public class AgregarEstudianteControlador {
     }
 
     public void cargarConsultaGeneral () {
-        EstudianteAuxiliar estudianteAuxiliar = new EstudianteAuxiliar();
+        EstudianteDAO estudianteAuxiliar = new EstudianteDAO();
         List<EstudianteDTO> listaEstudiantes = null;
 
         try {
@@ -144,7 +142,7 @@ public class AgregarEstudianteControlador {
 
         for (EstudianteDTO estudiante : listaEstudiantes) {
             if (!this.idsEstudiantesEnColaboracion.contains(estudiante.getIdEstudiante())) {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Items/AgregarEstudianteItem.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Items/VinculacionEstudianteItem.fxml"));
                 HBox hboxFila;
 
                 try {
@@ -167,9 +165,9 @@ public class AgregarEstudianteControlador {
         }
     }
 
-    private void agregarDatosFilaEstudiante (AgregarEstudianteItemControlador controlador, EstudianteDTO estudiante) throws ErrorDAO {
-        UniversidadAuxiliar universidadAuxiliar = new UniversidadAuxiliar();
-        Optional<UniversidadDTO> universidadOptional = universidadAuxiliar.getUniversidadPorId(estudiante.getIdUniversidad());
+    private void agregarDatosFilaEstudiante (VinculacionEstudianteItemControlador controlador, EstudianteDTO estudiante) throws ErrorDAO {
+        UniversidadDAO universidadDAO = new UniversidadDAO();
+        Optional<UniversidadDTO> universidadOptional = universidadDAO.getUniversidadPorId(estudiante.getIdUniversidad());
 
         if (universidadOptional.isPresent()) {
             controlador.setUniversidad(universidadOptional.get());

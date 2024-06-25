@@ -1,13 +1,14 @@
 package DAO;
 
-import DTO.ActividadDTO;
 import DTO.ActividadVinculadaDTO;
 import Utilidades.ErrorDAO;
-import org.apache.log4j.Logger;
 
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Valida los datos antes de realizar las operaciónes, si son correctos llama a la clase CronogramaActiviadDAO
+ */
 public class CronogramaActividadAuxiliar {
     /**
      * Valida y vincula una actividad con una colaboración, la actividad vinculada debe contener ambas, actividad y colaboración

@@ -2,7 +2,7 @@ package InterfazGrafica;
 
 import DAO.AcademicoAuxiliar;
 import DAO.AcademicoDAO;
-import DAO.UniversidadAuxiliar;
+import DAO.UniversidadDAO;
 import DTO.AcademicoDTO;
 import DTO.UniversidadDTO;
 import Utilidades.ErrorDAO;
@@ -54,7 +54,7 @@ public class ConfiguracionCuentaControlador {
     private void setUniversidadAcademico (UniversidadDTO universidadAcademico) throws ErrorDAO {
         this.universidadAcademico = universidadAcademico;
         if (!universidadAcademico.getNombre()
-                .equals("Universidad Veracruzana")) {
+                                 .equals("Universidad Veracruzana")) {
             this.lbCategoriaContratacion.setVisible(false);
             this.cbCategoriaContratacion.setVisible(false);
         }
@@ -65,26 +65,32 @@ public class ConfiguracionCuentaControlador {
         Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
         alerta.setContentText("Cualquier cambio no guardado se perderá");
         alerta.setHeaderText(null);
-        alerta.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.OK) {
-                this.pnVentanaPrincipal.setCenter(null);
-            }
-        });
+        alerta.showAndWait()
+              .ifPresent(response -> {
+                  if (response == ButtonType.OK) {
+                      this.pnVentanaPrincipal.setCenter(null);
+                  }
+              });
     }
 
     @FXML
     private void guardaCambios () {
-        if (!camposVacios() && !camposSinCambios()) {
+        if (!camposVacios() && camposActualizados()) {
             int filasAfectadas;
-            AcademicoDAO academicoDAO = new AcademicoDAO();
-            AcademicoDTO academicoEditado = this.academico;
+            AcademicoDTO academicoEditado = new AcademicoDTO();
+            academicoEditado.setIdPersona(this.academico.getIdPersona());
+            academicoEditado.setNombre(this.academico.getNombre());
+            academicoEditado.setApellidos(this.academico.getApellidos());
+            academicoEditado.setIdUniversidad(this.academico.getIdUniversidad());
+            academicoEditado.setCedulaProfesional(this.academico.getCedulaProfesional());
+            academicoEditado.setNumeroPersonal(this.academico.getNumeroPersonal());
+            academicoEditado.setIdFacultad(this.academico.getIdFacultad());
 
             try {
-                academicoEditado.setAreaEstudios(cmbAreaEstudios.getValue());
-                academicoEditado.setCategoriaContratacion(cbCategoriaContratacion.getValue());
-                academicoEditado.setCorreoElectronico(tfCorreo.getText());
-                academicoEditado.setNumeroTelefonico(tfTelefono.getText());
-                filasAfectadas = academicoDAO.modificar(academicoEditado);
+                academicoEditado.setAreaEstudios(this.cmbAreaEstudios.getValue());
+                academicoEditado.setCategoriaContratacion(this.cbCategoriaContratacion.getValue());
+                academicoEditado.setNumeroTelefonico(this.tfTelefono.getText());
+                filasAfectadas = actualizarDatosAcademico(academicoEditado);
             }
             catch (ErrorDAO error) {
                 mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.WARNING);
@@ -100,6 +106,21 @@ public class ConfiguracionCuentaControlador {
             }
         }
         etiquetarCamposVacios();
+    }
+
+    private int actualizarDatosAcademico (AcademicoDTO academicoEditado) throws ErrorDAO {
+        int filasAfectadas;
+        if (correoActualizado()) {
+            AcademicoAuxiliar academicoAuxiliar = new AcademicoAuxiliar();
+            academicoEditado.setCorreoElectronico(this.tfCorreo.getText());
+            filasAfectadas = academicoAuxiliar.modificar(academicoEditado);
+        }
+        else {
+            AcademicoDAO academicoDAO = new AcademicoDAO();
+            academicoEditado.setCorreoElectronico(this.academico.getCorreoElectronico());
+            filasAfectadas = academicoDAO.modificar(academicoEditado);
+        }
+        return filasAfectadas;
     }
 
     private void llenarComboBoxAreasEstudio () {
@@ -121,23 +142,14 @@ public class ConfiguracionCuentaControlador {
 
         if (academicoOptional.isPresent()) {
             this.academico = academicoOptional.get();
-            UniversidadAuxiliar universidadAuxiliar = new UniversidadAuxiliar();
-            universidadOptional = universidadAuxiliar.getUniversidadPorId(this.academico
-                    .getIdUniversidad());
+            UniversidadDAO universidadDAO = new UniversidadDAO();
+            universidadOptional = universidadDAO.getUniversidadPorId(this.academico.getIdUniversidad());
 
             if (universidadOptional.isPresent()) {
-                this.cmbAreaEstudios
-                        .setValue(this.academico
-                                .getAreaEstudios());
-                this.cbCategoriaContratacion
-                        .setValue(this.academico
-                                .getCategoriaContratacion());
-                this.tfCorreo
-                        .setText(this.academico
-                                .getCorreoElectronico());
-                this.tfTelefono
-                        .setText(this.academico
-                                .getNumeroTelefonico());
+                this.cmbAreaEstudios.setValue(this.academico.getAreaEstudios());
+                this.cbCategoriaContratacion.setValue(this.academico.getCategoriaContratacion());
+                this.tfCorreo.setText(this.academico.getCorreoElectronico());
+                this.tfTelefono.setText(this.academico.getNumeroTelefonico());
                 setUniversidadAcademico(universidadOptional.get());
             }
         }
@@ -152,8 +164,8 @@ public class ConfiguracionCuentaControlador {
         String areaEstudios = cmbAreaEstudios.getValue();
         String correo = tfCorreo.getText();
         String telefono = tfTelefono.getText();
-        if (this.universidadAcademico
-                .getNombre().equals("Universidad Veracruzana")) {
+        if (this.universidadAcademico.getNombre()
+                                     .equals("Universidad Veracruzana")) {
             String categoriaContratacion = cbCategoriaContratacion.getValue();
             vacios = areaEstudios == null || categoriaContratacion == null || correo == null || correo.isBlank() || telefono == null || telefono.isBlank();
         }
@@ -163,50 +175,41 @@ public class ConfiguracionCuentaControlador {
         return vacios;
     }
 
-    private boolean camposSinCambios () {
+    private boolean camposActualizados () {
         boolean camposSinCambios;
-        String areaEstudios = this.cmbAreaEstudios
-                .getValue();
-        String correo = this.tfCorreo
-                .getText().trim();
-        String telefono = this.tfTelefono
-                .getText().trim();
-        if (this.universidadAcademico
-                .getNombre().equals("Universidad Veracruzana")) {
-            String categoriaContratacion = this.cbCategoriaContratacion
-                    .getValue();
-            camposSinCambios = areaEstudios.equals(this.academico
-                    .getAreaEstudios()) && categoriaContratacion.equals(this.academico
-                    .getCategoriaContratacion()) && correo.equals(this.academico
-                    .getCorreoElectronico()) && telefono.equals(this.academico
-                    .getNumeroTelefonico());
+        String areaEstudios = this.cmbAreaEstudios.getValue();
+        String correo = this.tfCorreo.getText()
+                                     .trim();
+        String telefono = this.tfTelefono.getText()
+                                         .trim();
+        if (this.universidadAcademico.getNombre()
+                                     .equals("Universidad Veracruzana")) {
+            String categoriaContratacion = this.cbCategoriaContratacion.getValue();
+            camposSinCambios = !areaEstudios.equals(this.academico.getAreaEstudios()) || !categoriaContratacion.equals(this.academico.getCategoriaContratacion()) || !correo.equals(this.academico.getCorreoElectronico()) || !telefono.equals(this.academico.getNumeroTelefonico());
         }
         else {
-            camposSinCambios = areaEstudios.equals(this.academico
-                    .getAreaEstudios()) && correo.equals(this.academico
-                    .getCorreoElectronico()) && telefono.equals(this.academico
-                    .getNumeroTelefonico());
+            camposSinCambios = !areaEstudios.equals(this.academico.getAreaEstudios()) || !correo.equals(this.academico.getCorreoElectronico()) || !telefono.equals(this.academico.getNumeroTelefonico());
         }
         return camposSinCambios;
     }
 
+    private boolean correoActualizado () {
+        String correo = this.tfCorreo.getText()
+                                     .trim();
+        return !correo.equals(this.academico.getCorreoElectronico());
+    }
+
     private void etiquetarCamposVacios () {
-        String correo = this.tfCorreo
-                .getText();
-        String telefono = this.tfTelefono
-                .getText();
-        this.lbObligatorioAreaEstudios.setVisible(this.cmbAreaEstudios
-                .getValue() == null);
-        this.lbObligatorioCorreo
-                .setVisible(correo == null || correo.isBlank());
+        String correo = this.tfCorreo.getText();
+        String telefono = this.tfTelefono.getText();
+        this.lbObligatorioAreaEstudios.setVisible(this.cmbAreaEstudios.getValue() == null);
+        this.lbObligatorioCorreo.setVisible(correo == null || correo.isBlank());
         this.lbObligatorioTelefono.setVisible(telefono == null || telefono.isBlank());
 
-        if (this.universidadAcademico
-                .getNombre().equals("Universidad Veracruzana")) {
-            String categoriaContratacion = this.cbCategoriaContratacion
-                    .getValue();
-            this.lbObligatorioCategoria
-                    .setVisible(categoriaContratacion == null || categoriaContratacion.isBlank());
+        if (this.universidadAcademico.getNombre()
+                                     .equals("Universidad Veracruzana")) {
+            String categoriaContratacion = this.cbCategoriaContratacion.getValue();
+            this.lbObligatorioCategoria.setVisible(categoriaContratacion == null || categoriaContratacion.isBlank());
         }
     }
 

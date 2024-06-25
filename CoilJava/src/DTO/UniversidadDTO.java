@@ -1,11 +1,7 @@
 package DTO;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
- * La clase UniversidadDTO funciona como transfer object, para transferir la información desde la base de datos a capas
- * superiores dentro de la aplicación.
+ * La clase UniversidadDTO funciona como transfer object, para transferir la información desde la base de datos a capas superiores dentro de la aplicación.
  * @author pale
  */
 public class UniversidadDTO {
@@ -95,17 +91,7 @@ public class UniversidadDTO {
      * @return true si el nombre está inicializado y en formato válido, de otra manera false.
      */
     public boolean nombreValido () {
-        boolean nombreValido;
-        if (this.nombre == null || this.nombre.isBlank()) {
-            nombreValido = false;
-        }
-        else {
-            String expresionRegular = "^[A-Za-záéíóúÁÉÍÓÚñÑ]([-A-Za-záéíóúÁÉÍÓÚñÑ\\s]*[A-Za-záéíóúÁÉÍÓÚñÑ])?$";
-            Pattern patron = Pattern.compile(expresionRegular);
-            Matcher matcher = patron.matcher(this.nombre.trim());
-            nombreValido = matcher.matches();
-        }
-        return nombreValido;
+        return this.nombre != null && !this.nombre.isBlank();
     }
 
     @Override

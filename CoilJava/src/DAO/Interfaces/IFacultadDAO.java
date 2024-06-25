@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface IFacultadDAO {
     Optional<FacultadDTO> getFacultadPorNombre (String nombre) throws ErrorDAO;
-    List<FacultadDTO> getFacultadPorRegion (String region) throws ErrorDAO;
+    List<FacultadDTO> getFacultadesPorRegion (String region) throws ErrorDAO;
 }

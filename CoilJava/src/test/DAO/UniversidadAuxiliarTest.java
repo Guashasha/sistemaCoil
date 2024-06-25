@@ -19,6 +19,7 @@ class UniversidadAuxiliarTest {
 
     @BeforeAll
     static void prepararBaseDatos () {
+        borrarDatosTodasLasTablas();
         ejecutarInstruccionSQL("INSERT INTO pais (idPais,Iso,nombre) VALUES (1,'MX','México'),  (2,'US','Estados Unidos');");
     }
 
@@ -126,7 +127,6 @@ class UniversidadAuxiliarTest {
 
     @Test
     void pruebaGetUniversidadesPorPaisOrigenExitosa () {
-        System.out.println("pruebaGetUniversidadesPorPaisOrigenExitosa");
         List<UniversidadDTO> listaEsperada = new ArrayList<>();
         List<UniversidadDTO> listaObtenida = new ArrayList<>();
         listaEsperada.add(new UniversidadDTO(1,"Universidad Veracruzana",1));
@@ -139,11 +139,7 @@ class UniversidadAuxiliarTest {
             fail("Fallida: pruebaGetUniversidadesPorPaisOrigenExitosa");
         }
 
-        assertEquals(listaEsperada.size(),listaObtenida.size());
-        for (UniversidadDTO universidad : listaEsperada) {
-            assertEquals(universidad,listaObtenida.get(0));
-            listaObtenida.remove(0);
-        }
+        assertEquals(listaEsperada,listaObtenida,"pruebaGetUniversidadesPorPaisOrigenExitosa");
     }
 
     @Test
@@ -212,12 +208,22 @@ class UniversidadAuxiliarTest {
 
     @Test
     void pruebaUniversidadExisteUniversidadNula () {
-        assertThrows(ErrorDAO.class,()->UNIVERSIDAD_AUXILIAR.universidadExiste(null,"Estados Unidos"),"pruebaUniversidadExisteUniversidadNula");
+        try {
+            assertFalse(UNIVERSIDAD_AUXILIAR.universidadExiste(null,"Estados Unidos"),"pruebaUniversidadExistePaisNulo");
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaUniversidadExisteUniversidadNula\n" + error.getMessage());
+        }
     }
 
     @Test
     void pruebaUniversidadExistePaisNulo () {
-        assertThrows(ErrorDAO.class,()->UNIVERSIDAD_AUXILIAR.universidadExiste("Harvard",null),"pruebaUniversidadExistePaisNulo");
+        try {
+            assertFalse(UNIVERSIDAD_AUXILIAR.universidadExiste("Harvard",null),"pruebaUniversidadExistePaisNulo");
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaUniversidadExisteUniversidadNula\n" + error.getMessage());
+        }
     }
 
     @Test

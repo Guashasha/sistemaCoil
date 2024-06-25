@@ -43,7 +43,7 @@ public class ActividadDAO implements IActividadDAO {
             resultado = consulta.executeUpdate();
             consulta.close();
         } catch (SQLException e) {
-            BITACORA.error(e);
+            BITACORA.warn(e);
             throw new ErrorDAO(e.getMessage(), ErrorDAO.Tipo.CONEXION);
         } finally {
             AdministradorBaseDatos.desconectar();
@@ -75,7 +75,7 @@ public class ActividadDAO implements IActividadDAO {
             resultado = consulta.executeQuery();
             consulta.close();
         } catch (SQLException e) {
-            BITACORA.error(e);
+            BITACORA.warn(e);
             throw new ErrorDAO(e.getMessage(), ErrorDAO.Tipo.CONEXION);
         } finally {
             AdministradorBaseDatos.desconectar();
@@ -87,7 +87,7 @@ public class ActividadDAO implements IActividadDAO {
             }
         }
         catch (SQLException error) {
-            BITACORA.error(error);
+            BITACORA.warn(error);
             throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
         }
 
@@ -113,7 +113,7 @@ public class ActividadDAO implements IActividadDAO {
             consulta.close();
         }
         catch (SQLException error) {
-            BITACORA.error(error);
+            BITACORA.warn(error);
             throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
         }
         finally {
@@ -126,7 +126,7 @@ public class ActividadDAO implements IActividadDAO {
             }
         }
         catch (SQLException error) {
-            BITACORA.error(error);
+            BITACORA.warn(error);
             throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
         }
 
@@ -151,7 +151,7 @@ public class ActividadDAO implements IActividadDAO {
             resultado = consulta.executeQuery();
             consulta.close();
         } catch (SQLException e) {
-            BITACORA.error(e);
+            BITACORA.warn(e);
             throw new ErrorDAO(e.getMessage(), ErrorDAO.Tipo.CONEXION);
         } finally {
             AdministradorBaseDatos.desconectar();
@@ -175,7 +175,7 @@ public class ActividadDAO implements IActividadDAO {
             resultado.close();
         }
         catch (SQLException error) {
-            BITACORA.error(error);
+            BITACORA.warn(error);
             throw new ErrorDAO("Ocurrió un error con la base de datos: " + error.getMessage(), ErrorDAO.Tipo.CONEXION);
         }
 
@@ -204,7 +204,7 @@ public class ActividadDAO implements IActividadDAO {
             actividadDTO.setTipo(ActividadDTO.TipoActividad.valueOf(resultados.getString(4)));
         }
         catch (SQLException error) {
-            BITACORA.error(error);
+            BITACORA.warn(error);
             throw new ErrorDAO("Ocurrió un error con la base de datos: " + error.getMessage(), ErrorDAO.Tipo.CONEXION);
         }
 

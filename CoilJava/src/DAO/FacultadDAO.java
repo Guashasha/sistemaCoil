@@ -18,9 +18,6 @@ import java.util.Optional;
  * @author pale
  */
 public class FacultadDAO implements IFacultadDAO {
-    /**
-     * Instancia del logger para registrar las excepciones que se pueden atrapar en las funciones de la clase.
-     */
     private final Logger BITACORA = Logger.getLogger(FacultadDAO.class);
 
     /**
@@ -50,7 +47,7 @@ public class FacultadDAO implements IFacultadDAO {
             resultadoConsulta.close();
         }
         catch (SQLException excepcionSQL) {
-            BITACORA.info(excepcionSQL.getMessage());
+            BITACORA.warn(excepcionSQL.getMessage());
             throw new ErrorDAO("Ocurrió un error al intentar obtener la facultad. Si el problema persiste contacte a soporte", ErrorDAO.Tipo.CONSULTA);
         }
         finally {
@@ -68,7 +65,7 @@ public class FacultadDAO implements IFacultadDAO {
      * @throws ErrorDAO si ocurre un error de acceso a la base de datos.
      */
     @Override
-    public List<FacultadDTO> getFacultadPorRegion (String region) throws ErrorDAO {
+    public List<FacultadDTO> getFacultadesPorRegion (String region) throws ErrorDAO {
         List<FacultadDTO> listaFacultades = new ArrayList<>();
         String consultaSQL = "SELECT * FROM facultad_con_region WHERE region = ?";
         PreparedStatement consultaFacultades;
@@ -87,7 +84,7 @@ public class FacultadDAO implements IFacultadDAO {
             resultadoConsulta.close();
         }
         catch (SQLException excepcionSQL) {
-            BITACORA.info(excepcionSQL.getMessage());
+            BITACORA.warn(excepcionSQL.getMessage());
             throw new ErrorDAO("Ocurrió un error al intentar obtener las Facultades. Si el problema persiste contacte a soporte", ErrorDAO.Tipo.CONSULTA);
         }
         finally {
@@ -97,13 +94,6 @@ public class FacultadDAO implements IFacultadDAO {
         return listaFacultades;
     }
 
-    /**
-     * Convierte un objeto ResultSet a un objeto FacultadDTO, para poder transferir los datos obtenidos de una consulta SQL.
-     *
-     * @param resultado ResultSet que se obtuvo de una consulta SQL.
-     * @return Facultad inicializada con su id, nombre y el id de la región a la que se asocia.
-     * @throws SQLException si ocurre un error de acceso a la base de datos.
-     */
     private static FacultadDTO convertirResultSetAFacultad (ResultSet resultado) throws SQLException {
         FacultadDTO facultadDTO = new FacultadDTO();
 

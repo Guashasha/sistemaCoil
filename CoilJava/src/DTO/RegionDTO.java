@@ -1,8 +1,7 @@
 package DTO;
 
 /**
- * La clase RegionDTO funciona como transfer object, para transferir la información desde la base de datos a capas
- * superiores dentro de la aplicación.
+ * La clase RegionDTO funciona como transfer object, para transferir la información desde la base de datos a capas superiores dentro de la aplicación.
  * @author pale
  */
 public class RegionDTO {
