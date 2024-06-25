@@ -66,16 +66,16 @@ public class RetroalimentacionColaboracionAuxiliarTest {
         retroalimentacion.setMejoraFormacionProfesional(5);
 
         RetroalimentacionColaboracionAuxiliar ret = new RetroalimentacionColaboracionAuxiliar();
-        int resultado = -1;
+        int resultadoConsulta = -1;
 
         try {
-            resultado = ret.agregar(retroalimentacion);
+            resultadoConsulta = ret.agregar(retroalimentacion);
         }
         catch (ErrorDAO error) {
             fail();
         }
 
-        assertEquals(2, resultado);
+        assertEquals(2, resultadoConsulta);
     }
 
     @Test
@@ -189,17 +189,17 @@ public class RetroalimentacionColaboracionAuxiliarTest {
 
         RetroalimentacionColaboracionAuxiliar ret = new RetroalimentacionColaboracionAuxiliar();
 
-        Optional<RetroalimentacionColaboracionDTO> resultado = Optional.empty();
+        Optional<RetroalimentacionColaboracionDTO> retroalimentacionObtenida = Optional.empty();
 
         try {
-            resultado = ret.getPorId(1);
+            retroalimentacionObtenida = ret.getPorId(1);
         }
         catch (ErrorDAO error) {
             fail();
         }
 
-        if (resultado.isPresent()) {
-            assertEquals(retroalimentacion, resultado.get());
+        if (retroalimentacionObtenida.isPresent()) {
+            assertEquals(retroalimentacion, retroalimentacionObtenida.get());
         }
         else {
             fail();
@@ -210,16 +210,16 @@ public class RetroalimentacionColaboracionAuxiliarTest {
     public void pruebaGetPorIdInexistente () {
         RetroalimentacionColaboracionAuxiliar ret = new RetroalimentacionColaboracionAuxiliar();
 
-        Optional<RetroalimentacionColaboracionDTO> resultado = Optional.empty();
+        Optional<RetroalimentacionColaboracionDTO> retroalimentacionObtenida = Optional.empty();
 
         try {
-            resultado = ret.getPorId(1000);
+            retroalimentacionObtenida = ret.getPorId(1000);
         }
         catch (ErrorDAO error) {
             fail();
         }
 
-        assert(resultado.isEmpty());
+        assert(retroalimentacionObtenida.isEmpty());
     }
 
     @Test
