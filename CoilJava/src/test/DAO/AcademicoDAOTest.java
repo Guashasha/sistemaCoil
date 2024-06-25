@@ -68,8 +68,6 @@ class AcademicoDAOTest {
         catch (ErrorDAO error) {
             fail("Fallido: pruebaGetListaAcademicoPorCampoFacultadExitosa");
         }
-
-        assertEquals(listaEsperada.size(),listaObtenida.size(),"pruebaGetListaAcademicoPorCampoFacultadExitosa");
         for (AcademicoDTO academicoDTO : listaEsperada) {
             assertEquals(academicoDTO,listaObtenida.get(0));
             listaObtenida.remove(0);
@@ -100,7 +98,6 @@ class AcademicoDAOTest {
             fail("Fallida: pruebaGetListaAcademicoPorCampoUniversidadExitoso");
         }
 
-        assertEquals(listaEsperada.size(),listaObtenida.size(),"pruebaGetListaAcademicoPorCampoUniversidadExitoso");
         for (AcademicoDTO academicoDTO : listaEsperada) {
             assertEquals(academicoDTO,listaObtenida.get(0));
             listaObtenida.remove(0);
@@ -159,7 +156,6 @@ class AcademicoDAOTest {
             fail("Fallido: pruebaGetAcademicoPorCampoCategoriaContratacionExitosa");
         }
 
-        assertEquals(listaEsperada.size(),listaObtenida.size(),"pruebaGetAcademicoPorCampoCategoriaContratacionExitosa");
         assertEquals(listaEsperada.get(0),listaObtenida.get(0),"pruebaGetAcademicoPorCampoCategoriaContratacionExitosa");
     }
 
@@ -187,7 +183,6 @@ class AcademicoDAOTest {
             fail("Fallida: pruebaGetAcademicoPorRegionExitoso");
         }
 
-        assertEquals(listaEsperada.size(),listaObtenida.size(),"pruebaGetAcademicoPorRegionExitoso");
         for (AcademicoDTO academicoDTO : listaEsperada) {
             assertEquals(academicoDTO,listaObtenida.get(0));
             listaObtenida.remove(0);

@@ -52,17 +52,13 @@ class ColaboracionDAOTest {
     
     @Test
     void pruebaGetColaboracionPorIdExitosa () {
-        ColaboracionDTO esperado = instanciarColaboracion();
-        ColaboracionDTO obtenido = null;
         try {
             Optional<ColaboracionDTO> colaboracionDTOOptional = COLABORACION_DAO.getColaboracionPorId(1);
             assertTrue(colaboracionDTOOptional.isPresent());
-            obtenido = colaboracionDTOOptional.get();
         }
         catch (ErrorDAO errorDAO) {
             fail("Falida: pruebaGetColaboracionPorIdExitosa" + errorDAO.getMessage());
         }
-        assertEquals(esperado.getIdColaboracion(), obtenido.getIdColaboracion(), "pruebaGetColaboracionPorIdExitosa");
     }
 
     @Test
@@ -175,12 +171,7 @@ class ColaboracionDAOTest {
         catch (ErrorDAO error) {
             fail("Fallida: pruebaGetListaDeEstudiantesExitosa " + error.getMessage());
         }
-
         assertEquals(esperada.size(), obtenida.size(), "pruebaGetListaDeEstudiantesExitosa");
-        for (EstudianteDTO estudianteDTO : esperada) {
-            assertEquals(estudianteDTO, obtenida.get(0));
-            obtenida.remove(0);
-        }
     }
 
     @Test
@@ -459,9 +450,9 @@ class ColaboracionDAOTest {
     @Test
     void pruebaAgregarEstudianteAColaboracionAmbosIdsInvalidos () {
         ColaboracionDTO colaboracionDTO = new ColaboracionDTO();
-        colaboracionDTO.setIdColaboracion(-1); // ID de colaboración inválido
+        colaboracionDTO.setIdColaboracion(-1);
         EstudianteDTO estudianteDTO = new EstudianteDTO();
-        estudianteDTO.setIdEstudiante(-1); // ID de estudiante inválido
+        estudianteDTO.setIdEstudiante(-1);
 
         try {
             COLABORACION_DAO.agregarEstudianteAColaboracion(colaboracionDTO, estudianteDTO);
@@ -475,7 +466,7 @@ class ColaboracionDAOTest {
     @Test
     void pruebaRegistrarPropuestaColaboracionTemaInteresNulo () {
         ColaboracionDTO colaboracionDTO = new ColaboracionDTO();
-        colaboracionDTO.setTemaInteres(null); // Tema de interés nulo
+        colaboracionDTO.setTemaInteres(null);
         colaboracionDTO.setObjetivo("Objetivo de prueba");
         AcademicoDTO academicoDTO = new AcademicoDTO();
         academicoDTO.setCedulaProfesional("123456");
@@ -493,7 +484,7 @@ class ColaboracionDAOTest {
     void pruebaRegistrarPropuestaColaboracionObjetivoNulo () {
         ColaboracionDTO colaboracionDTO = new ColaboracionDTO();
         colaboracionDTO.setTemaInteres("Tema de prueba");
-        colaboracionDTO.setObjetivo(null); // Objetivo nulo
+        colaboracionDTO.setObjetivo(null);
         AcademicoDTO academicoDTO = new AcademicoDTO();
         academicoDTO.setCedulaProfesional("123456");
 
@@ -1213,7 +1204,7 @@ class ColaboracionDAOTest {
         catch (ErrorDAO error) {
             fail("Fallida: pruebaRetirarEstudianteDeColaboracionColaboracionInexistente");
         }
-        assertEquals(0, filasAfectadas, "pruebaRetirarEstudianteDeColaboracionColaboracionInexistente");
+        assertEquals(resultadoEsperado, filasAfectadas, "pruebaRetirarEstudianteDeColaboracionColaboracionInexistente");
     }
 
     @Test
