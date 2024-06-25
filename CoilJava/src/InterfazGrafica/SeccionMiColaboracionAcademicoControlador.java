@@ -150,8 +150,8 @@ public class SeccionMiColaboracionAcademicoControlador {
             return;
         }
         if (colaboracionVinculadaOActiva.isEmpty()) {
-            ColaboracionDAO dao = new ColaboracionDAO();
-            colaboracionVinculadaOActiva = dao.getEnRevisionPorAcademico(this.academicoDTO);
+            ColaboracionDAO colaboracionDAO = new ColaboracionDAO();
+            colaboracionVinculadaOActiva = colaboracionDAO.getEnRevisionPorAcademico(this.academicoDTO);
 
             if (colaboracionVinculadaOActiva.isEmpty()) {
                 mostrarMensajeEmergente("No existe una colaboración activa o vinculada con un par", Alert.AlertType.WARNING);

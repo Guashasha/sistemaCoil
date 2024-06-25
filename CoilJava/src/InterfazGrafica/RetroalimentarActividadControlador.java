@@ -16,11 +16,9 @@ import org.apache.log4j.Logger;
 
 public class RetroalimentarActividadControlador {
     private static final Logger BITACORA = Logger.getLogger(NuevaActividadControlador.class);
-    private BorderPane ventanaPrincipal;
-    private Pane ventanaAnterior;
+    private BorderPane pnVentanaPrincipal;
+    private Pane pnVentanaAnterior;
 
-    @FXML
-    private Pane pnPrincipal;
     @FXML
     private Slider slInteraccion;
     @FXML
@@ -47,13 +45,9 @@ public class RetroalimentarActividadControlador {
 
         this.actividad = actividad;
         this.usuario = usuario;
-        this.ventanaPrincipal = ventanaPrincipal;
-        this.ventanaAnterior = ventanaAnterior;
+        this.pnVentanaPrincipal = ventanaPrincipal;
+        this.pnVentanaAnterior = ventanaAnterior;
         this.controladorAnterior = controlador;
-    }
-
-    public Pane getPane () {
-        return pnPrincipal;
     }
 
     public void guardarRetroalimentacion () {
@@ -67,10 +61,10 @@ public class RetroalimentarActividadControlador {
             return;
         }
 
-        RetroalimentacionActividadAuxiliar dao = new RetroalimentacionActividadAuxiliar();
+        RetroalimentacionActividadAuxiliar retroalimentacionAUX = new RetroalimentacionActividadAuxiliar();
 
         try {
-            dao.agregar(retroalimentacion);
+            retroalimentacionAUX.agregar(retroalimentacion);
         }
         catch (ErrorDAO error) {
             Alert alertaError = crearAlerta(error);
@@ -87,7 +81,7 @@ public class RetroalimentarActividadControlador {
     }
 
     public void regresar () {
-        this.ventanaPrincipal.setCenter(this.ventanaAnterior);
+        this.pnVentanaPrincipal.setCenter(this.pnVentanaAnterior);
         this.controladorAnterior.actualizarLista();
     }
 
