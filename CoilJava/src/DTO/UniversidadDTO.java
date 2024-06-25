@@ -20,7 +20,7 @@ public class UniversidadDTO {
     /**
      * Límite de longitud del nombre de la universidad para ser registrada en la base de datos.
      */
-    public static final int LONGITUD_NOMBRE = 50;
+    public static final int LONGITUD_NOMBRE = 100;
 
     public UniversidadDTO() {}
 

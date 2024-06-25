@@ -60,7 +60,7 @@ public abstract class PersonaDTO {
         if (!esCadenaValida(nombre)) {
             throw new ErrorDAO("El nombre no puede estar vacío o compuesto solo de espacios en blanco", ErrorDAO.Tipo.VALIDACION);
         }
-        String nombreRegex = "^.{1,20}$";
+        String nombreRegex = "^.{1,100}$";
         Pattern patron = Pattern.compile(nombreRegex);
         if (nombre == null || nombre.isEmpty()) {
             throw new ErrorDAO("El nombre no puede estar vacío", ErrorDAO.Tipo.VALIDACION);
@@ -69,14 +69,14 @@ public abstract class PersonaDTO {
         if (!matcher.matches()) {
             throw new ErrorDAO("""
                                                        El nombre no es válido
-                                                       1. Su longitud debe ser máximo 20 caracteres.""", ErrorDAO.Tipo.VALIDACION);
+                                                       1. Su longitud debe ser máximo 100 caracteres.""", ErrorDAO.Tipo.VALIDACION);
         }
     }
     private void verificarApellido (String apellido) {
         if (!esCadenaValida(apellido)) {
             throw new ErrorDAO("El nombre no puede estar vacío o compuesto solo de espacios en blanco", ErrorDAO.Tipo.VALIDACION);
         }
-        String apellidosRegex = "^.{1,80}$";
+        String apellidosRegex = "^.{1,100}$";
         Pattern patron = Pattern.compile(apellidosRegex);
         if (apellido == null || apellido.isEmpty()) {
             throw new ErrorDAO("Los apellidos no pueden estar vacíos", ErrorDAO.Tipo.VALIDACION);
@@ -85,7 +85,7 @@ public abstract class PersonaDTO {
         if (!matcher.matches()) {
             throw new ErrorDAO("""
                                                        El apellido no es válido
-                                                       1. Su longitud debe ser máximo 80 caracteres""", ErrorDAO.Tipo.VALIDACION);
+                                                       1. Su longitud debe ser máximo 100 caracteres""", ErrorDAO.Tipo.VALIDACION);
         }
     }
 

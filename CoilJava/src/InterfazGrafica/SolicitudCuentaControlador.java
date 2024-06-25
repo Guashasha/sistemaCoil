@@ -226,7 +226,7 @@ public class SolicitudCuentaControlador implements Initializable {
     @FXML
     private void restriccionTfNombre(KeyEvent evento) {
         String input = evento.getCharacter();
-        if (tfNombre.getText().length() >= 20 || input.matches("\\d")) {
+        if (tfNombre.getText().length() >= 100 || input.matches("\\d")) {
             evento.consume();
         }
     }
@@ -235,7 +235,7 @@ public class SolicitudCuentaControlador implements Initializable {
     private void restriccionTfApellidos (KeyEvent evento) {
         String input = evento.getCharacter();
         if (tfApellidos.getText()
-                       .length() >= 80 || input.matches("\\d")) {
+                       .length() >= 100 || input.matches("\\d")) {
             evento.consume();
         }
     }

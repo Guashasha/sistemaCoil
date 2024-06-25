@@ -266,7 +266,7 @@ public class AcademicoDTO extends PersonaDTO {
                     && this.getIdUniversidad() == academico.getIdUniversidad() && this.cedulaProfesional.equals(academico.getCedulaProfesional())
                     && this.numeroPersonal.equals(academico.getNumeroPersonal()) && this.areaEstudios.equals(academico.getAreaEstudios())
                     && this.correoElectronico.equals(academico.getCorreoElectronico()) && this.numeroTelefonico.equals(academico.getNumeroTelefonico())
-                    && this.categoriaContratacion.equals(academico.getCategoriaContratacion()) && this.idFacultad == academico.getIdFacultad();
+                    && this.categoriaContratacion == academico.getCategoriaContratacion() && this.idFacultad == academico.getIdFacultad();
         }
         return igual;
     }

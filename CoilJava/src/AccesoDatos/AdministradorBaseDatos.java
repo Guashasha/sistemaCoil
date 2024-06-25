@@ -49,7 +49,7 @@ public class AdministradorBaseDatos {
         }
         catch (SQLException error) {
             BITACORA.fatal(error);
-            throw new ErrorDAO("No fue posible realizar la conexion con la base de datos.\nConctacte a un técnico", ErrorDAO.Tipo.CONEXION);
+            throw new ErrorDAO("No fue posible realizar la conexion con la base de datos.\nContacte a un técnico", ErrorDAO.Tipo.CONEXION);
         }
         return conexion;
     }
