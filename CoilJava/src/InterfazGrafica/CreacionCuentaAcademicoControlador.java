@@ -17,9 +17,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
-public class CrearCuentaAcademicoControlador {
-    private BorderPane ventanaPrincipal;
-
+public class CreacionCuentaAcademicoControlador {
+    private BorderPane pnVentanaPrincipal;
     @FXML
     private TextField tfNombre;
     @FXML
@@ -42,7 +41,7 @@ public class CrearCuentaAcademicoControlador {
     private ComboBox<String> cbRegion;
 
     public void initialize(BorderPane ventanaPrincipal) {
-        this.ventanaPrincipal = ventanaPrincipal;
+        this.pnVentanaPrincipal = ventanaPrincipal;
 
         llenarComboBoxAreasEstudio();
         llenarComboBoxRegion();
@@ -148,19 +147,19 @@ public class CrearCuentaAcademicoControlador {
             return null;
         }
 
-        AcademicoDTO persona = new AcademicoDTO();
+        AcademicoDTO academico = new AcademicoDTO();
 
         try {
-            persona.setNombre(nombre);
-            persona.setApellidos(apellidos);
-            persona.setCorreoElectronico(correo);
-            persona.setNumeroTelefonico(telefono);
-            persona.setNumeroPersonal(numeroPersonal);
-            persona.setCedulaProfesional(cedula);
-            persona.setAreaEstudios(areaEstudios);
-            persona.setIdFacultad(facultad.get().getId());
-            persona.setCategoriaContratacion(categoriaContratacion);
-            persona.setIdUniversidad(1);
+            academico.setNombre(nombre);
+            academico.setApellidos(apellidos);
+            academico.setCorreoElectronico(correo);
+            academico.setNumeroTelefonico(telefono);
+            academico.setNumeroPersonal(numeroPersonal);
+            academico.setCedulaProfesional(cedula);
+            academico.setAreaEstudios(areaEstudios);
+            academico.setIdFacultad(facultad.get().getId());
+            academico.setCategoriaContratacion(categoriaContratacion);
+            academico.setIdUniversidad(1);
         } catch (ErrorDAO error) {
             Alert alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setHeaderText("Datos incorrectos");
@@ -170,7 +169,7 @@ public class CrearCuentaAcademicoControlador {
             return null;
         }
 
-        return persona;
+        return academico;
     }
 
     private void llenarComboBoxAreasEstudio() {
@@ -187,12 +186,12 @@ public class CrearCuentaAcademicoControlador {
 
     @FXML
     private void llenarComboBoxFacultades() {
-        FacultadDAO dao = new FacultadDAO();
+        FacultadDAO facultadDAO = new FacultadDAO();
         this.cbFacultad.setItems(null);
         ArrayList<String> nombresFacultades = new ArrayList<>();
 
         try {
-            List<FacultadDTO> facultades = dao.getFacultadesPorRegion(this.cbRegion.getValue());
+            List<FacultadDTO> facultades = facultadDAO.getFacultadesPorRegion(this.cbRegion.getValue());
 
             for (FacultadDTO facultad : facultades) {
                 nombresFacultades.add(facultad.getNombre());
@@ -208,11 +207,11 @@ public class CrearCuentaAcademicoControlador {
     }
 
     private void llenarComboBoxRegion() {
-        RegionDAO dao = new RegionDAO();
+        RegionDAO regionDAO = new RegionDAO();
         ArrayList<String> regiones = new ArrayList<>();
 
         try {
-            List<RegionDTO> listaRegiones = dao.getTodasAlfabeticamente();
+            List<RegionDTO> listaRegiones = regionDAO.getTodasAlfabeticamente();
 
             for (RegionDTO region : listaRegiones) {
                 regiones.add(region.getNombre());

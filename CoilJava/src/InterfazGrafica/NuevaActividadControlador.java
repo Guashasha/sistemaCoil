@@ -5,23 +5,20 @@ import DAO.CronogramaActividadAuxiliar;
 import DTO.ActividadDTO;
 import DTO.ActividadVinculadaDTO;
 import DTO.ColaboracionDTO;
-import DTO.PeriodoDTO;
 import Utilidades.ErrorDAO;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import org.apache.log4j.Logger;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 public class NuevaActividadControlador {
     private static final Logger BITACORA = Logger.getLogger(NuevaActividadControlador.class);
-    private BorderPane panelPrincipal;
-    private Pane panelAnterior;
+    private BorderPane pnVentanaPrincipal;
+    private Pane pnVentanaAnterior;
     private ActividadesColaboracionControlador controlador;
 
     @FXML
@@ -41,8 +38,8 @@ public class NuevaActividadControlador {
         }
 
         this.colaboracionDTO = colaboracionDTO;
-        this.panelAnterior = panelAnterior;
-        this.panelPrincipal = panelPrincipal;
+        this.pnVentanaAnterior = panelAnterior;
+        this.pnVentanaPrincipal = panelPrincipal;
         this.controlador = item;
     }
 
@@ -52,7 +49,7 @@ public class NuevaActividadControlador {
 
     public void volver () {
         this.controlador.actualizarLista();
-        panelPrincipal.setCenter(panelAnterior);
+        pnVentanaPrincipal.setCenter(pnVentanaAnterior);
     }
 
     private boolean camposInvalidos () {
@@ -107,11 +104,11 @@ public class NuevaActividadControlador {
         ActividadDTO actividadDTO = new ActividadDTO(titulo, descripcion, tipo);
         ActividadVinculadaDTO actividadVinculadaDTO = new ActividadVinculadaDTO(actividadDTO, this.colaboracionDTO);
 
-        ActividadAuxiliar dao = new ActividadAuxiliar();
+        ActividadAuxiliar actividadAUX = new ActividadAuxiliar();
         int resultado = -1;
 
         try {
-            resultado = dao.agregar(actividadDTO);
+            resultado = actividadAUX.agregar(actividadDTO);
         }
         catch (ErrorDAO error) {
             Alert errorAlert = crearAlerta(error);
@@ -132,7 +129,7 @@ public class NuevaActividadControlador {
         Optional<ActividadDTO> act;
 
         try {
-             act = dao.getPorTitulo(titulo);
+             act = actividadAUX.getPorTitulo(titulo);
 
              if (act.isEmpty()) {
                  Alert errorAlert = new Alert(Alert.AlertType.ERROR);
@@ -153,10 +150,10 @@ public class NuevaActividadControlador {
         }
 
         actividadVinculadaDTO.getActividad().setIdActividad(act.get().getIdActividad());
-        CronogramaActividadAuxiliar cronograma = new CronogramaActividadAuxiliar();
+        CronogramaActividadAuxiliar cronogramaAUX = new CronogramaActividadAuxiliar();
 
         try {
-            resultado = cronograma.agregar(actividadVinculadaDTO);
+            resultado = cronogramaAUX.agregar(actividadVinculadaDTO);
         }
         catch (ErrorDAO error) {
             BITACORA.error(error);
@@ -183,11 +180,11 @@ public class NuevaActividadControlador {
     }
 
     private boolean actividadDuplicada() {
-        ActividadAuxiliar dao = new ActividadAuxiliar();
+        ActividadAuxiliar actividadAUX = new ActividadAuxiliar();
         List<ActividadDTO> actividades = null;
 
         try {
-            actividades = dao.getPorIdColaboracion(this.colaboracionDTO.getIdColaboracion());
+            actividades = actividadAUX.getPorIdColaboracion(this.colaboracionDTO.getIdColaboracion());
         } catch (ErrorDAO e) {
             Alert alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setContentText(e.getMessage());
