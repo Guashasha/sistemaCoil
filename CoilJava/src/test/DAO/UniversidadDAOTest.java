@@ -35,94 +35,91 @@ class UniversidadDAOTest {
 
     @Test
     void pruebaRegistrarUniversidadExitoso () {
-        UniversidadDTO universidadDTO = new UniversidadDTO("UNAM",1);
-        int esperado = 1;
-        int obtenido = 0;
+        UniversidadDTO universidad = new UniversidadDTO("UNAM",1);
+        int filasAfectadasEsperadas = 1;
+        int filasAfectadasObtenidas = 0;
         try {
-            obtenido = UNIVERSIDAD_DAO.registrarUniversidad(universidadDTO);
+            filasAfectadasObtenidas = UNIVERSIDAD_DAO.registrarUniversidad(universidad);
         }
         catch (ErrorDAO error) {
             fail("Fallida: registrarUniversidadExitoso");
         }
-        assertEquals(esperado,obtenido,"pruebaRegistrarUniversidadExitoso");
+        assertEquals(filasAfectadasEsperadas,filasAfectadasObtenidas,"pruebaRegistrarUniversidadExitoso");
     }
 
     @Test
     void pruebaRegistrarUniversidadVaciaFallida () {
-        UniversidadDTO universidadDTO = new UniversidadDTO();
-        assertThrows(ErrorDAO.class,() -> UNIVERSIDAD_DAO.registrarUniversidad(universidadDTO),"pruebaRegistrarUniversidadVaciaFallida");
+        assertThrows(ErrorDAO.class,() -> UNIVERSIDAD_DAO.registrarUniversidad(new UniversidadDTO()),"pruebaRegistrarUniversidadVaciaFallida");
     }
 
     @Test
     void pruebaRegistrarUniversidadIncorrecta () {
-        UniversidadDTO universidadDTO = new UniversidadDTO("Universidad Veracruzana",10);
-        assertThrows(ErrorDAO.class,()-> UNIVERSIDAD_DAO.registrarUniversidad(universidadDTO),"pruebaRegistrarUniversidadIncorrecta");
+        assertThrows(ErrorDAO.class,()-> UNIVERSIDAD_DAO.registrarUniversidad(new UniversidadDTO("Universidad Veracruzana",10)),"pruebaRegistrarUniversidadIncorrecta");
     }
 
     @Test
     void pruebaEditarUniversidadExitosa () {
-        UniversidadDTO universidadDTO = new UniversidadDTO(3,"Benemérita Universidad de Puebla",2);
-        int esperado = 1;
-        int obtenido = 0;
+        UniversidadDTO universidad = new UniversidadDTO(3,"Benemérita Universidad de Puebla",2);
+        int filasAfectadasEsperadas = 1;
+        int filasAfectadasObtenidas = 0;
         try {
-            obtenido = UNIVERSIDAD_DAO.editarUniversidad(universidadDTO);
+            filasAfectadasObtenidas = UNIVERSIDAD_DAO.editarUniversidad(universidad);
         }
         catch (ErrorDAO error) {
             fail("Fallida: pruebaEditarUniversidadExitosa");
         }
-        assertEquals(esperado,obtenido,"pruebaEditarUniversidadExitosa");
+        assertEquals(filasAfectadasEsperadas,filasAfectadasObtenidas,"pruebaEditarUniversidadExitosa");
     }
 
     @Test
     void pruebaEditarUniversidadInexistente () {
-        UniversidadDTO universidadDTO = new UniversidadDTO(10,"UV",1);
-        int esperado = 0;
-        int obtenido = 1;
+        UniversidadDTO universidad = new UniversidadDTO(10,"UV",1);
+        int filasAfectadasEsperadas = 0;
+        int filasAfectadasObtenidas = 1;
 
         try {
-            obtenido = UNIVERSIDAD_DAO.editarUniversidad(universidadDTO);
+            filasAfectadasObtenidas = UNIVERSIDAD_DAO.editarUniversidad(universidad);
         }
         catch (ErrorDAO error) {
             fail("Fallida: pruebaEditarUniversidadInexistente");
         }
 
-        assertEquals(esperado,obtenido,"pruebaEditarUniversidadInexistente");
+        assertEquals(filasAfectadasEsperadas,filasAfectadasObtenidas,"pruebaEditarUniversidadInexistente");
     }
 
     @Test
     void pruebaEditarUniversidadVacia () {
-        UniversidadDTO universidadDTO = new UniversidadDTO();
-        int filasAfectadas = 1;
-
+        UniversidadDTO universidad = new UniversidadDTO();
+        int filasAfectadasEsperadas = 1;
+        int filasAfectadasObtenidas = 0;
         try {
-            filasAfectadas = UNIVERSIDAD_DAO.editarUniversidad(universidadDTO);
+            filasAfectadasEsperadas = UNIVERSIDAD_DAO.editarUniversidad(universidad);
         }
         catch (ErrorDAO error) {
-            fail("Fallida: pruebaEditarUniversidadInexistente. Filas afectadas = " + filasAfectadas);
+            fail("Fallida: pruebaEditarUniversidadInexistente. Filas afectadas = " + filasAfectadasEsperadas);
         }
 
-        assertEquals(0,filasAfectadas,"pruebaEditarUniversidadInexistente");
+        assertEquals(filasAfectadasObtenidas,filasAfectadasEsperadas,"pruebaEditarUniversidadInexistente");
     }
 
     @Test
     void pruebaGetUniversidadPorNombreExitosa () {
-        UniversidadDTO esperada = new UniversidadDTO(1,"Universidad Veracruzana",1);
-        Optional<UniversidadDTO> obtenida = Optional.empty();
+        UniversidadDTO universidadEsperada = new UniversidadDTO(1,"Universidad Veracruzana",1);
+        Optional<UniversidadDTO> universidadObtenida = Optional.empty();
         try {
-            obtenida = UNIVERSIDAD_DAO.getUniversidadPorNombre("Universidad Veracruzana");
+            universidadObtenida = UNIVERSIDAD_DAO.getUniversidadPorNombre("Universidad Veracruzana");
         }
         catch (ErrorDAO error) {
             fail("Fallida: pruebaGetUniversidadPorNombreExitosa");
         }
-        assertTrue(obtenida.isPresent());
-        assertEquals(esperada,obtenida.get(),"pruebaGetUniversidadPorNombreExitosa");
+        assertEquals(universidadEsperada,universidadObtenida.get(),"pruebaGetUniversidadPorNombreExitosa");
     }
 
     @Test
     void pruebaGetUniversidadPorNombreInexistente () {
         try {
-            Optional<UniversidadDTO> obtenida = UNIVERSIDAD_DAO.getUniversidadPorNombre("VU");
-            assertTrue(obtenida.isEmpty(),"pruebaGetUniversidadPorNombreInexistente");
+            Optional<UniversidadDTO> universidadObtenida = UNIVERSIDAD_DAO.getUniversidadPorNombre("VU");
+            assertTrue(universidadObtenida.isEmpty(),"pruebaGetUniversidadPorNombreInexistente");
         }
         catch (ErrorDAO error) {
             fail("Fallida: pruebaGetUniversidadPorNombreExitosa");
@@ -132,8 +129,8 @@ class UniversidadDAOTest {
     @Test
     void pruebaGetUniversidadPorNombreNulo () {
         try {
-            Optional<UniversidadDTO> obtenida = UNIVERSIDAD_DAO.getUniversidadPorNombre(null);
-            assertTrue(obtenida.isEmpty(),"pruebaGetUniversidadPorNombreNulo");
+            Optional<UniversidadDTO> universidadObtenida = UNIVERSIDAD_DAO.getUniversidadPorNombre(null);
+            assertTrue(universidadObtenida.isEmpty(),"pruebaGetUniversidadPorNombreNulo");
         }
         catch (ErrorDAO error) {
             fail("Fallida: pruebaGetUniversidadPorNombreExitosa");
@@ -224,23 +221,22 @@ class UniversidadDAOTest {
 
     @Test
     void pruebaGetUniversidadPorNombreYPaisExitosa () {
-        UniversidadDTO esperado = new UniversidadDTO(2,"Harvard",2);
-        Optional<UniversidadDTO> obtenida = Optional.empty();
+        UniversidadDTO universidadEsperada = new UniversidadDTO(2,"Harvard",2);
+        Optional<UniversidadDTO> universidadObtenida = Optional.empty();
         try {
-            obtenida = UNIVERSIDAD_DAO.getUniversidadPorNombreYPais(esperado.getNombre(),"Estados Unidos");
+            universidadObtenida = UNIVERSIDAD_DAO.getUniversidadPorNombreYPais(universidadEsperada.getNombre(),"Estados Unidos");
         }
         catch (ErrorDAO error) {
             fail("Fallida: pruebaGetUniversidadPorNombreYPaisExitosa\n" + error.getMessage());
         }
-        assertTrue(obtenida.isPresent());
-        assertEquals(esperado,obtenida.get(),"pruebaGetUniversidadPorNombreYPaisExitosa");
+        assertEquals(universidadEsperada,universidadObtenida.get(),"pruebaGetUniversidadPorNombreYPaisExitosa");
     }
 
     @Test
     void pruebaGetUniversidadPorNombreYPaisInexistente () {
         try {
-            Optional<UniversidadDTO> obtenida = UNIVERSIDAD_DAO.getUniversidadPorNombreYPais("UNAM","Argentina");
-            assertTrue(obtenida.isEmpty(),"pruebaGetUniversidadPorNombreYPaisInexistente");
+            Optional<UniversidadDTO> universidadObtenida = UNIVERSIDAD_DAO.getUniversidadPorNombreYPais("UNAM","Argentina");
+            assertTrue(universidadObtenida.isEmpty(),"pruebaGetUniversidadPorNombreYPaisInexistente");
         }
         catch (ErrorDAO error) {
             fail("Fallida: pruebaGetUniversidadPorNombreYPaisInexistente\n" + error.getMessage());
@@ -250,8 +246,8 @@ class UniversidadDAOTest {
     @Test
     void pruebaGetUniversidadPorNombreYPaisNombreNulo () {
         try {
-            Optional<UniversidadDTO> obtenida = UNIVERSIDAD_DAO.getUniversidadPorNombreYPais(null,"México");
-            assertTrue(obtenida.isEmpty(),"pruebaGetUniversidadPorNombreYPaisInexistente");
+            Optional<UniversidadDTO> universidadObtenida = UNIVERSIDAD_DAO.getUniversidadPorNombreYPais(null,"México");
+            assertTrue(universidadObtenida.isEmpty(),"pruebaGetUniversidadPorNombreYPaisInexistente");
         }
         catch (ErrorDAO error) {
             fail("Fallida: pruebaGetUniversidadPorNombreYPaisInexistente\n" + error.getMessage());
@@ -261,8 +257,8 @@ class UniversidadDAOTest {
     @Test
     void pruebaGetUniversidadPorNombreYPaisNulo () {
         try {
-            Optional<UniversidadDTO> obtenida = UNIVERSIDAD_DAO.getUniversidadPorNombreYPais("Universidad Veracruzana",null);
-            assertTrue(obtenida.isEmpty(),"pruebaGetUniversidadPorNombreYPaisInexistente");
+            Optional<UniversidadDTO> universidadObtenida = UNIVERSIDAD_DAO.getUniversidadPorNombreYPais("Universidad Veracruzana",null);
+            assertTrue(universidadObtenida.isEmpty(),"pruebaGetUniversidadPorNombreYPaisInexistente");
         }
         catch (ErrorDAO error) {
             fail("Fallida: pruebaGetUniversidadPorNombreYPaisInexistente\n" + error.getMessage());
@@ -271,23 +267,22 @@ class UniversidadDAOTest {
 
     @Test
     void pruebaGetUniversidadPorIdExitosa () {
-        UniversidadDTO esperado = new UniversidadDTO(2,"Harvard",2);
-        Optional<UniversidadDTO> obtenida = Optional.empty();
+        UniversidadDTO universidadEsperada = new UniversidadDTO(2,"Harvard",2);
+        Optional<UniversidadDTO> universidadObtenida = Optional.empty();
         try {
-            obtenida = UNIVERSIDAD_DAO.getUniversidadPorId(esperado.getId());
+            universidadObtenida = UNIVERSIDAD_DAO.getUniversidadPorId(universidadEsperada.getId());
         }
         catch (ErrorDAO error) {
             fail("Fallida: pruebaGetUniversidadPorIdExitosa\n" + error.getMessage());
         }
-        assertTrue(obtenida.isPresent());
-        assertEquals(esperado,obtenida.get(),"pruebaGetUniversidadPorIdExitosa");
+        assertEquals(universidadEsperada,universidadObtenida.get(),"pruebaGetUniversidadPorIdExitosa");
     }
 
     @Test
     void pruebaGetUniversidadPorIdInexistente () {
         try {
-            Optional<UniversidadDTO> obtenida = UNIVERSIDAD_DAO.getUniversidadPorId(10);
-            assertTrue(obtenida.isEmpty(),"pruebaGetUniversidadPorIdInexistente");
+            Optional<UniversidadDTO> universidadObtenida = UNIVERSIDAD_DAO.getUniversidadPorId(10);
+            assertTrue(universidadObtenida.isEmpty(),"pruebaGetUniversidadPorIdInexistente");
         }
         catch (ErrorDAO error) {
             fail("Fallida: pruebaGetUniversidadPorIdInexistente\n" + error.getMessage());
@@ -297,8 +292,8 @@ class UniversidadDAOTest {
     @Test
     void pruebaGetUniversidadPorIdNegativo () {
         try {
-            Optional<UniversidadDTO> obtenida = UNIVERSIDAD_DAO.getUniversidadPorId(-10);
-            assertTrue(obtenida.isEmpty(),"pruebaGetUniversidadPorIdNegativo");
+            Optional<UniversidadDTO> universidadObtenida = UNIVERSIDAD_DAO.getUniversidadPorId(-10);
+            assertTrue(universidadObtenida.isEmpty(),"pruebaGetUniversidadPorIdNegativo");
         }
         catch (ErrorDAO error) {
             fail("Fallida: pruebaGetUniversidadPorIdNegativo\n" + error.getMessage());

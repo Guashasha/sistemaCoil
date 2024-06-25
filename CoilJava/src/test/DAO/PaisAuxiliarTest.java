@@ -42,23 +42,22 @@ class PaisAuxiliarTest {
 
     @Test
     void pruebaGetPaisPorNombreExitosa () {
-        Optional<PaisDTO> obtenido = Optional.empty();
-        PaisDTO esperado = new PaisDTO(2,"US","Estados Unidos");
+        Optional<PaisDTO> paisObtenido = Optional.empty();
+        PaisDTO paisEsperado = new PaisDTO(2,"US","Estados Unidos");
         try {
-            obtenido = PAIS_AUXILIAR.getPaisPorNombre("Estados Unidos");
+            paisObtenido = PAIS_AUXILIAR.getPaisPorNombre("Estados Unidos");
         }
         catch (Exception error) {
             fail("Fallida: pruebaGetPaisPorNombreExitosa");
         }
-        assertTrue(obtenido.isPresent());
-        assertEquals(esperado,obtenido.get(),"pruebaGetPaisPorNombreExitosa");
+        assertEquals(paisEsperado,paisObtenido.get(),"pruebaGetPaisPorNombreExitosa");
     }
 
     @Test
     void pruebaGetPaisPorNombreInexistente () {
         try {
-            Optional<PaisDTO> resultado = PAIS_AUXILIAR.getPaisPorNombre("Veracruz");
-            assertTrue(resultado.isEmpty(),"pruebaGetPaisPorNombreInexistente");
+            Optional<PaisDTO> paisObtenido = PAIS_AUXILIAR.getPaisPorNombre("Veracruz");
+            assertTrue(paisObtenido.isEmpty(),"pruebaGetPaisPorNombreInexistente");
         }
         catch (Exception error) {
             fail("Fallida: pruebaGetPaisPorNombreInexistente");

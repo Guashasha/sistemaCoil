@@ -45,23 +45,22 @@ class PaisDAOTest {
 
     @Test
     void pruebaGetPaisPorNombreExitosa () {
-        Optional<PaisDTO> paisObtenidoOptional = Optional.empty();
+        Optional<PaisDTO> paisObtenido = Optional.empty();
         PaisDTO esperado = new PaisDTO(2,"US","Estados Unidos");
         try {
-            paisObtenidoOptional = PAIS_DAO.getPaisPorNombre(esperado.getNombre());
+            paisObtenido = PAIS_DAO.getPaisPorNombre(esperado.getNombre());
         }
         catch (ErrorDAO error) {
             fail("Fallida: pruebaGetPaisPorNombreExitosa");
         }
-        assertTrue(paisObtenidoOptional.isPresent());
-        assertEquals(esperado,paisObtenidoOptional.get(),"pruebaGetPaisPorNombreExitosa");
+        assertEquals(esperado,paisObtenido.get(),"pruebaGetPaisPorNombreExitosa");
     }
 
     @Test
     void pruebaGetPaisPorNombreInexistente () {
         try {
-            Optional<PaisDTO> obtenido = PAIS_DAO.getPaisPorNombre("Argentina");
-            assertTrue(obtenido.isEmpty(),"pruebaGetPaisPorNombreInexistente");
+            Optional<PaisDTO> paisObtenido = PAIS_DAO.getPaisPorNombre("Argentina");
+            assertTrue(paisObtenido.isEmpty(),"pruebaGetPaisPorNombreInexistente");
         }
         catch (ErrorDAO error) {
             fail("Fallida: pruebaGetPaisPorNombreExitosa");
@@ -71,8 +70,8 @@ class PaisDAOTest {
     @Test
     void pruebaGetPaisPorNombreNulo () {
         try {
-            Optional<PaisDTO> obtenido = PAIS_DAO.getPaisPorNombre(null);
-            assertTrue(obtenido.isEmpty(),"pruebaGetPaisPorNombreNulo");
+            Optional<PaisDTO> paisObtenido = PAIS_DAO.getPaisPorNombre(null);
+            assertTrue(paisObtenido.isEmpty(),"pruebaGetPaisPorNombreNulo");
         }
         catch (ErrorDAO error) {
             fail("Fallida: pruebaGetPaisPorNombreNulo");
@@ -81,23 +80,22 @@ class PaisDAOTest {
 
     @Test
     void pruebaGetPaisPorIdExitosa () {
-        Optional<PaisDTO> obtenidoOptional = Optional.empty();
-        PaisDTO esperado = new PaisDTO(2,"US","Estados Unidos");
+        Optional<PaisDTO> paisObtenido = Optional.empty();
+        PaisDTO paisEsperado = new PaisDTO(2,"US","Estados Unidos");
         try {
-            obtenidoOptional = PAIS_DAO.getPaisPorId(esperado.getId());
+            paisObtenido = PAIS_DAO.getPaisPorId(paisEsperado.getId());
         }
         catch (ErrorDAO error) {
             fail("Fallida: pruebaGetPaisPorIdExitosa");
         }
-        assertTrue(obtenidoOptional.isPresent());
-        assertEquals(esperado,obtenidoOptional.get(),"pruebaGetPaisPorIdExitosa");
+        assertEquals(paisEsperado,paisObtenido.get(),"pruebaGetPaisPorIdExitosa");
     }
 
     @Test
     void pruebaGetPaisPorIdInexistente () {
         try {
-            Optional<PaisDTO> obtenido = PAIS_DAO.getPaisPorId(0);
-            assertTrue(obtenido.isEmpty(),"pruebaGetPaisPorIdInexistente");
+            Optional<PaisDTO> paisObtenido = PAIS_DAO.getPaisPorId(0);
+            assertTrue(paisObtenido.isEmpty(),"pruebaGetPaisPorIdInexistente");
         }
         catch (ErrorDAO error) {
             fail("Fallida: pruebaGetPaisPorIdInexistente");

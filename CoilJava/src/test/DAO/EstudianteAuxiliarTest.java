@@ -203,8 +203,8 @@ class EstudianteAuxiliarTest {
     @Test
     void pruebaGetEstudiantePorMatriculaYUniversidadIdUniversidadInvalido () {
         try {
-            Optional<EstudianteDTO> optionalObtenido = ESTUDIANTE_AUXILIAR.getEstudiantePorMatriculaYUniversidad(estudianteRegistrado1.getMatricula(),0);
-            assertTrue(optionalObtenido.isEmpty(),"pruebaGetEstudiantePorMatriculaYUniversidadIdUniversidadInvalido");
+            Optional<EstudianteDTO> estudianteObtenido = ESTUDIANTE_AUXILIAR.getEstudiantePorMatriculaYUniversidad(estudianteRegistrado1.getMatricula(),0);
+            assertTrue(estudianteObtenido.isEmpty(),"pruebaGetEstudiantePorMatriculaYUniversidadIdUniversidadInvalido");
         }
         catch (ErrorDAO error) {
             fail("Fallida: pruebaGetEstudiantePorMatriculaYUniversidadIdUniversidadInvalido\n" + error.getMessage());
@@ -236,8 +236,8 @@ class EstudianteAuxiliarTest {
     @Test
     void pruebaGetEstudiantePorMatriculaInexistente () {
         try {
-            Optional<EstudianteDTO> resultado = ESTUDIANTE_AUXILIAR.getEstudiantePorMatricula("zs22013029");
-            assertTrue(resultado.isEmpty(),"pruebaGetEstudiantePorMatriculaInexistente");
+            Optional<EstudianteDTO> estudianteObtenido = ESTUDIANTE_AUXILIAR.getEstudiantePorMatricula("zs22013029");
+            assertTrue(estudianteObtenido.isEmpty(),"pruebaGetEstudiantePorMatriculaInexistente");
         }
         catch (ErrorDAO error) {
             fail("Fallida: pruebaGetEstudiantePorMatriculaInexistente\n" +  error.getMessage());

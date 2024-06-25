@@ -32,40 +32,39 @@ class FacultadDAOTest {
 
     @Test
     void pruebaGetFacultadPorNombreExitosa () {
-        FacultadDTO esperada = new FacultadDTO(2,"Derecho",1);
-        Optional<FacultadDTO> obtenido = Optional.empty();
+        FacultadDTO facultadEsperada = new FacultadDTO(2,"Derecho",1);
+        Optional<FacultadDTO> facultadObtenida = Optional.empty();
         try {
-            obtenido = FACULTAD_DAO.getFacultadPorNombre(esperada.getNombre());
+            facultadObtenida = FACULTAD_DAO.getFacultadPorNombre(facultadEsperada.getNombre());
         }
         catch (ErrorDAO error) {
             fail("Fallida: pruebaGetFacultadPorNombreExitosa");
         }
-        assertTrue(obtenido.isPresent());
-        assertEquals(esperada,obtenido.get(),"pruebaGetFacultadPorNombreExitosa");
+        assertEquals(facultadEsperada,facultadObtenida.get(),"pruebaGetFacultadPorNombreExitosa");
     }
 
     @Test
     void pruebaGetFacultadPorNombreInexistente () {
-        Optional<FacultadDTO> resultado = Optional.empty();
+        Optional<FacultadDTO> facultadObtenida = Optional.empty();
         try {
-            resultado = FACULTAD_DAO.getFacultadPorNombre("FEI");
+            facultadObtenida = FACULTAD_DAO.getFacultadPorNombre("FEI");
         }
         catch (ErrorDAO error) {
             fail("Fallida: pruebaGetFacultadPorNombreInexistente");
         }
-        assertTrue(resultado.isEmpty(),"pruebaGetFacultadPorNombreInexistente");
+        assertTrue(facultadObtenida.isEmpty(),"pruebaGetFacultadPorNombreInexistente");
     }
 
     @Test
     void pruebaGetFacultadPorNombreNulo () {
-        Optional<FacultadDTO> resultado = Optional.empty();
+        Optional<FacultadDTO> facultadObtenida = Optional.empty();
         try {
-            resultado = FACULTAD_DAO.getFacultadPorNombre(null);
+            facultadObtenida = FACULTAD_DAO.getFacultadPorNombre(null);
         }
         catch (ErrorDAO error) {
             fail("Fallida: pruebaGetFacultadPorNombreInexistente");
         }
-        assertTrue(resultado.isEmpty(),"pruebaGetFacultadPorNombreInexistente");
+        assertTrue(facultadObtenida.isEmpty(),"pruebaGetFacultadPorNombreInexistente");
     }
 
     @Test
