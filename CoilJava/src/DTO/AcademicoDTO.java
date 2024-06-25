@@ -259,6 +259,12 @@ public class AcademicoDTO extends PersonaDTO {
         }
         else {
             AcademicoDTO academico = (AcademicoDTO) obj;
+
+            boolean categoriaContratacionIgual = false;
+            if (categoriaContratacion != null) {
+                categoriaContratacionIgual = this.categoriaContratacion.equals(academico.getCategoriaContratacion());
+            }
+
             igual = this.getIdPersona() == academico.getIdPersona() && this.getNombre()
                                                                            .equals(academico.getNombre())
                     && this.getApellidos()
@@ -266,7 +272,7 @@ public class AcademicoDTO extends PersonaDTO {
                     && this.getIdUniversidad() == academico.getIdUniversidad() && this.cedulaProfesional.equals(academico.getCedulaProfesional())
                     && this.numeroPersonal.equals(academico.getNumeroPersonal()) && this.areaEstudios.equals(academico.getAreaEstudios())
                     && this.correoElectronico.equals(academico.getCorreoElectronico()) && this.numeroTelefonico.equals(academico.getNumeroTelefonico())
-                    && this.categoriaContratacion == academico.getCategoriaContratacion() && this.idFacultad == academico.getIdFacultad();
+                    && categoriaContratacionIgual && this.idFacultad == academico.getIdFacultad();
         }
         return igual;
     }

@@ -67,21 +67,17 @@ public class ActividadAuxiliarTest {
     public void pruebaGetPorId () {
         ActividadDTO actividadDTO = new ActividadDTO("titulo 2", "descripcion 2", ActividadDTO.TipoActividad.cierre);
 
-        Optional<ActividadDTO> resultado = Optional.empty();
+        Optional<ActividadDTO> actividadObtenida = Optional.empty();
         ActividadAuxiliar act = new ActividadAuxiliar();
 
         try {
-            resultado = act.getPorId(4);
+            actividadObtenida = act.getPorId(4);
         }
         catch (ErrorDAO error) {
             fail();
         }
 
-        if (resultado.isEmpty()) {
-            fail();
-        }
-
-        assertEquals(actividadDTO, resultado.get());
+        assertEquals(actividadDTO, actividadObtenida.get());
     }
 
     @Test

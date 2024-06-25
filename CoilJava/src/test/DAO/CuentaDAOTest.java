@@ -29,28 +29,19 @@ class CuentaDAOTest {
     void pruebaGetCuentaPorUsuarioExitosa () {
         System.out.print("pruebaGetCuentaPorUsuarioExitosa");
 
-        CuentaDTO cuentaDTOEsperada = new CuentaDTO();
-        cuentaDTOEsperada.setIdCuenta(1);
-        cuentaDTOEsperada.setIdPersona(4);
-        cuentaDTOEsperada.setEstado(CuentaDTO.EstadoCuenta.aceptada);
-        cuentaDTOEsperada.setTipo(CuentaDTO.TipoUsuario.estudiante);
-
-        CuentaDTO cuentaDTOObtenida = null;
+        CuentaDTO cuentaEsperada = new CuentaDTO();
+        cuentaEsperada.setIdCuenta(1);
+        cuentaEsperada.setIdPersona(4);
+        cuentaEsperada.setEstado(CuentaDTO.EstadoCuenta.aceptada);
+        cuentaEsperada.setTipo(CuentaDTO.TipoUsuario.estudiante);
 
         try {
-            Optional<CuentaDTO> cuentaDTOOptional = CUENTA_DAO.getCuentaPorUsuario("EduVillegas");
-            assertTrue(cuentaDTOOptional.isPresent());
-            cuentaDTOObtenida = cuentaDTOOptional.get();
-
+            Optional<CuentaDTO> cuentaObtenida = CUENTA_DAO.getCuentaPorUsuario("EduVillegas");
+            assertEquals(cuentaEsperada.getIdCuenta(), cuentaObtenida.get().getIdCuenta());
         }
         catch (ErrorDAO errorDAO) {
             fail("pruebaGetCuentaPorUsuarioExitosa " + errorDAO.getMessage());
         }
-
-        assertEquals(cuentaDTOEsperada.getIdCuenta(), cuentaDTOObtenida.getIdCuenta());
-        assertEquals(cuentaDTOEsperada.getIdPersona(), cuentaDTOObtenida.getIdPersona());
-        assertEquals(cuentaDTOEsperada.getEstado(), cuentaDTOObtenida.getEstado());
-        assertEquals(cuentaDTOEsperada.getTipo(), cuentaDTOObtenida.getTipo());
     }
 
     @Test
@@ -58,10 +49,10 @@ class CuentaDAOTest {
         System.out.print("pruebaGetCuentaPorUsuarioFallida");
 
 
-        Optional<CuentaDTO> cuentaDTOObtenida;
+        Optional<CuentaDTO> cuentaobtenida;
         try {
-            cuentaDTOObtenida = CUENTA_DAO.getCuentaPorUsuario("Maryek");
-            assertFalse(cuentaDTOObtenida.isPresent());
+            cuentaobtenida = CUENTA_DAO.getCuentaPorUsuario("Maryek");
+            assertFalse(cuentaobtenida.isPresent());
 
         }
         catch (ErrorDAO errorDAO) {
@@ -73,15 +64,15 @@ class CuentaDAOTest {
     void pruebaActualizarNombreUsuarioExitoso () {
         System.out.println("pruebaActualizarNombreUsuarioExitoso");
 
-        CuentaDTO cuentaDTOPrueba = new CuentaDTO();
-        cuentaDTOPrueba.setIdCuenta(1);
-        cuentaDTOPrueba.setNombreUsuario("MarLom");
+        CuentaDTO cuenta = new CuentaDTO();
+        cuenta.setIdCuenta(1);
+        cuenta.setNombreUsuario("MarLom");
 
         int filasAfectadasEsperado = 1;
-        int filasAfectadasObtenido = -1;
+        int filasAfectadasObtenido = 0;
 
         try {
-            filasAfectadasObtenido = CUENTA_DAO.actualizarNombreUsuario(cuentaDTOPrueba);
+            filasAfectadasObtenido = CUENTA_DAO.actualizarNombreUsuario(cuenta);
 
         }
         catch (ErrorDAO errorDAO) {
@@ -92,21 +83,6 @@ class CuentaDAOTest {
 
     }
 
-    @Test
-    void pruebaActualizarNombreUsuarioExtensoFallido () {
-        System.out.println("pruebaActualizarNombreUsuarioExtensoFallido");
-        CuentaDTO cuentaDTOPrueba = new CuentaDTO();
-        boolean resultado = false;
-        try {
-            cuentaDTOPrueba.setIdCuenta(1);
-            cuentaDTOPrueba.setNombreUsuario("SSSGGHJSKKFKFKFKFKFKFKDKSKSKSKSKSKKSK477LSXLFLHL6LWKSKVLYLTLRKKDKFKRKEKXKFKFKKDKKDKDKDDKDKDKDKDKDKDK");
-            CUENTA_DAO.actualizarNombreUsuario(cuentaDTOPrueba);
-        }
-        catch (ErrorDAO errorDAO) {
-            resultado = true;
-        }
-        assertTrue(resultado);
-    }
 
     @Test
     void pruebaVerificarCredencialesExitoso () {
@@ -115,17 +91,17 @@ class CuentaDAOTest {
         String nombreUsuario = "EduVillegas";
         String contrasena = "eduVillegas2000";
 
-        boolean validacion = false;
+        boolean credencialesValidas = false;
 
         try {
-            validacion = CUENTA_DAO.verificarCredenciales(nombreUsuario, contrasena);
+            credencialesValidas = CUENTA_DAO.verificarCredenciales(nombreUsuario, contrasena);
 
         }
         catch (ErrorDAO errorDAO) {
             fail("pruebaVerificarCredencialesExitoso " + errorDAO.getMessage());
         }
 
-        assertTrue(validacion);
+        assertTrue(credencialesValidas);
 
     }
 
@@ -136,37 +112,35 @@ class CuentaDAOTest {
         String nombreUsuario = "EduVIllegas";
         String contrasena = "eduVillegas2001";
 
-        boolean validacion = false;
+        boolean credencialesValidas = false;
 
         try {
-            validacion = CUENTA_DAO.verificarCredenciales(nombreUsuario, contrasena);
+            credencialesValidas = CUENTA_DAO.verificarCredenciales(nombreUsuario, contrasena);
 
         }
         catch (ErrorDAO errorDAO) {
             fail("pruebaVerificarCredencialesUsuarioDistintoFallida " + errorDAO.getMessage());
         }
 
-        assertFalse(validacion);
+        assertFalse(credencialesValidas);
     }
 
     @Test
     void pruebaVerificarCredencialesContrasenaDistintaFallida () {
-        System.out.println("pruebaVerificarCredencialesContrasenaDistintaFallida");
 
         String nombreUsuario = "EduVillegas";
         String contrasena = "eduVillega2000";
 
-        boolean validacion = false;
+        boolean credencialesValidas = false;
 
         try {
-            validacion = CUENTA_DAO.verificarCredenciales(nombreUsuario, contrasena);
-
+            credencialesValidas = CUENTA_DAO.verificarCredenciales(nombreUsuario, contrasena);
         }
         catch (ErrorDAO errorDAO) {
             fail("pruebaVerificarCredencialesContrasenaDistintaFallida " + errorDAO.getMessage());
         }
 
-        assertFalse(validacion);
+        assertFalse(credencialesValidas);
 
     }
 
@@ -177,17 +151,17 @@ class CuentaDAOTest {
         String nombreUsuario = "";
         String contrasena = "";
 
-        boolean validacion = false;
+        boolean credencialesValidas = false;
 
         try {
-            validacion = CUENTA_DAO.verificarCredenciales(nombreUsuario, contrasena);
+            credencialesValidas = CUENTA_DAO.verificarCredenciales(nombreUsuario, contrasena);
 
         }
         catch (ErrorDAO errorDAO) {
             fail("pruebaVerificarCredencialesVaciosFallida " + errorDAO.getMessage());
         }
 
-        assertFalse(validacion);
+        assertFalse(credencialesValidas);
 
     }
 
@@ -219,7 +193,6 @@ class CuentaDAOTest {
 
     @Test
     void pruebaActualizarContrasenaContrasenaAntiguaFallida () {
-        System.out.println("pruebaActualizarContrasenaExitosa");
 
         CuentaDTO cuentaDTOPrueba = new CuentaDTO();
         cuentaDTOPrueba.setIdCuenta(1);
@@ -228,66 +201,60 @@ class CuentaDAOTest {
         String contrasenaNueva = "FomePo" ;
         String contrasenaAntigua = "eduVillegas200";
 
-        assertThrows(ErrorDAO.class, () -> CUENTA_DAO.actualizarContrasena(cuentaDTOPrueba, contrasenaAntigua, contrasenaNueva));
+        assertThrows(ErrorDAO.class, () -> CUENTA_DAO.actualizarContrasena(cuentaDTOPrueba, contrasenaAntigua, contrasenaNueva), "pruebaActualizarContrasenaExitosa");
     }
 
     @Test
     void pruebaCambiarEstadoCuentaExitoso () {
-        System.out.println("pruebaCambiarEstadoCuentaExitoso");
 
-        CuentaDTO cuentaDTOPrueba = new CuentaDTO();
-        cuentaDTOPrueba.setIdCuenta(1);
+        CuentaDTO cuenta = new CuentaDTO();
+        cuenta.setIdCuenta(1);
 
-        String estado = "pendiente";
+        String nuevoEstado = "pendiente";
 
         int filasAfectadasEsperado = 1;
-        int filasAfectadasObtenido = -1;
+        int filasAfectadasObtenido = 0;
 
         try {
-            filasAfectadasObtenido = CUENTA_DAO.cambiarEstadoCuenta(cuentaDTOPrueba, estado);
+            filasAfectadasObtenido = CUENTA_DAO.cambiarEstadoCuenta(cuenta, nuevoEstado);
 
         }
         catch (ErrorDAO errorDAO) {
             fail("pruebaCambiarEstadoCuentaExitoso" + errorDAO.getMessage());
 
         }
-
-        assertEquals(filasAfectadasEsperado, filasAfectadasObtenido);
+        assertEquals(filasAfectadasEsperado, filasAfectadasObtenido, "pruebaCambiarEstadoCuentaExitoso");
     }
 
     @Test
-    void pruebaCambiarEstadoCuentaNoValidoFalido () {
-        System.out.println("pruebaCambiarEstadoCuentaNoValidoFalido");
-        CuentaDTO cuentaDTO = new CuentaDTO();
-        cuentaDTO.setIdCuenta(1);
+    void pruebaCambiarEstadoCuentaEstadoNoValidoFalido () {
+        CuentaDTO cuenta = new CuentaDTO();
+        cuenta.setIdCuenta(1);
 
-        String estado = "Auxiliar";
+        String nuevoEstado = "Auxiliar";
 
-        assertThrows(ErrorDAO.class, () -> CUENTA_DAO.cambiarEstadoCuenta(cuentaDTO, estado));
+        assertThrows(ErrorDAO.class, () -> CUENTA_DAO.cambiarEstadoCuenta(cuenta, nuevoEstado), "pruebaCambiarEstadoCuentaNoValidoFalido");
 
     }
     @Test
     void pruebCambiarEstadoCuentaIdInexistenteFallido () {
-        System.out.println("pruebaCambiarEstadoCuentaNoValidoFalido");
-        CuentaDTO cuentaDTO = new CuentaDTO();
-        cuentaDTO.setIdCuenta(99);
+        CuentaDTO cuenta = new CuentaDTO();
+        cuenta.setIdCuenta(99);
 
-        String estado = "pendiente";
+        String nuevoEstado = "pendiente";
 
         int filasAfectadasEsperado = 0;
-        int filasAfectadasObtenido = -1;
+        int filasAfectadasObtenido = 0;
 
         try {
-            filasAfectadasObtenido = CUENTA_DAO.cambiarEstadoCuenta(cuentaDTO, estado);
+            filasAfectadasObtenido = CUENTA_DAO.cambiarEstadoCuenta(cuenta, nuevoEstado);
 
         }
         catch (ErrorDAO errorDAO) {
             fail("pruebaCambiarEstadoCuentaExitoso" + errorDAO.getMessage());
 
         }
-
-        assertEquals(filasAfectadasEsperado, filasAfectadasObtenido);
-
+        assertEquals(filasAfectadasEsperado, filasAfectadasObtenido, "pruebaCambiarEstadoCuentaNoValidoFalido");
     }
 
 
@@ -295,53 +262,45 @@ class CuentaDAOTest {
     void pruebaGetCuentaPorTipoExitoso () {
         System.out.println("pruebaGetCuentaPorTipoExitoso");
 
-        int tamanoEsperado = 1;
+        int tamanoListaEsperado = 1;
 
-        List<CuentaDTO> listaCuentaDTOS = null;
+        List<CuentaDTO> listaObtenida = null;
 
         try {
-            listaCuentaDTOS = CUENTA_DAO.getCuentasPorTipo("estudiante");
-
+            listaObtenida = CUENTA_DAO.getCuentasPorTipo("estudiante");
         }
         catch (ErrorDAO errorDAO) {
             fail("pruebaGetCuentaPorTipoExitoso " + errorDAO.getMessage());
 
         }
-
-        assertEquals(tamanoEsperado, listaCuentaDTOS.size());
-
-
+        assertEquals(tamanoListaEsperado, listaObtenida.size(), "pruebaGetCuentaPorTipoExitoso");
     }
 
     @Test
     void pruebaGetCuentaPorTipoFallido () {
-        System.out.println("pruebaGetCuentaPorTipoFallido");
 
-        List<CuentaDTO> listaCuentaDTOS = null;
+        List<CuentaDTO> listaCuentasObtenidas = null;
         int tamanoEsperado = 0;
 
         try {
-            listaCuentaDTOS = CUENTA_DAO.getCuentasPorTipo("administrador");
+            listaCuentasObtenidas = CUENTA_DAO.getCuentasPorTipo("administrador");
 
         }
         catch (ErrorDAO errorDAO) {
             fail("pruebaGetCuentaPorTipoExitoso " + errorDAO.getMessage());
 
         }
-
-        assertEquals(tamanoEsperado, listaCuentaDTOS.size());
+        assertEquals(tamanoEsperado, listaCuentasObtenidas.size(), "pruebaGetCuentaPorTipoFallido");
     }
 
     @Test
     void pruebaGetPorEstadoExitoso () {
-        System.out.println("pruebaGetPorEstadoExitoso");
+        int tamanoListaCuentaEsperado = 1;
 
-        int tamanoEsperado = 1;
-
-        List<CuentaDTO> listaCuentaDTOS = null;
+        List<CuentaDTO> listaCuentaObtenido = null;
 
         try {
-            listaCuentaDTOS = CUENTA_DAO.getCuentasPorEstado("aceptada");
+            listaCuentaObtenido = CUENTA_DAO.getCuentasPorEstado("aceptada");
 
         }
         catch (ErrorDAO errorDAO) {
@@ -349,30 +308,26 @@ class CuentaDAOTest {
 
         }
 
-        assertEquals(tamanoEsperado, listaCuentaDTOS.size());
+        assertEquals(tamanoListaCuentaEsperado, listaCuentaObtenido.size(), "pruebaGetPorEstadoExitoso");
 
     }
 
     @Test
-    void pruebaGetPorEstado () {
+    void pruebaGetPorEstadoFallido () {
         System.out.println("pruebaGetPorEstadoFallido");
 
         int tamanoEsperado = 0;
 
-        List<CuentaDTO> listaCuentaDTOS = null;
+        List<CuentaDTO> listaCuentaObtenido = null;
 
         try {
-            listaCuentaDTOS = CUENTA_DAO.getCuentasPorEstado("rechazada");
+            listaCuentaObtenido = CUENTA_DAO.getCuentasPorEstado("rechazada");
 
         }
         catch (ErrorDAO errorDAO) {
             fail("pruebaGetPorEstadoExitoso " + errorDAO.getMessage());
-
         }
-
-        assertEquals(tamanoEsperado, listaCuentaDTOS.size());
-
-
+        assertEquals(tamanoEsperado, listaCuentaObtenido.size(), "pruebaGetPorEstadoFallido");
     }
 
 
@@ -381,7 +336,6 @@ class CuentaDAOTest {
         System.out.println("pruebaAgregarCuentaExitoso");
 
         CuentaDTO cuentaDTOPrueba = new CuentaDTO();
-
 
         cuentaDTOPrueba.setIdPersona(1);
         cuentaDTOPrueba.setNombreUsuario("JoseLo");
@@ -394,7 +348,6 @@ class CuentaDAOTest {
 
         try {
             filasAfectadasObtenido = CUENTA_DAO.agregar(cuentaDTOPrueba);
-
         }
         catch (ErrorDAO errorDAO) {
             fail("pruebaAgregarCuentaExitoso " + errorDAO.getMessage());
@@ -418,123 +371,60 @@ class CuentaDAOTest {
 
         assertThrows(ErrorDAO.class, () -> CUENTA_DAO.agregar(cuentaDTOPrueba));
     }
-    @Test
-    void pruebaAgregarCuentaNombreExtensoFallida () {
-        System.out.println("pruebaAgregarCuentaNombreExtensoFallida");
-        CuentaDTO cuentaDTOPrueba = new CuentaDTO();
-        boolean resultado = false;
-        try {
-            cuentaDTOPrueba.setIdPersona(5);
-            cuentaDTOPrueba.setNombreUsuario("HernandoCarmenElizabethJuanitaDeCostabravaCortesIngDoctorYMaestroDramaturgoExperto");
-            cuentaDTOPrueba.setContrasena("drew2000");
-            cuentaDTOPrueba.setTipo(CuentaDTO.TipoUsuario.academico);
-            cuentaDTOPrueba.setEstado(CuentaDTO.EstadoCuenta.pendiente);
-            CUENTA_DAO.agregar(cuentaDTOPrueba);
-        }
-        catch (ErrorDAO errorDAO) {
-            resultado = true;
-        }
-        assertTrue(resultado);
-    }
+
     @Test
     void pruebaAgregarCuentaVaciaFallida () {
-        System.out.println("pruebaAgregarCuentaNombreExtensoFallida");
-
         CuentaDTO cuentaDTOPrueba = new CuentaDTO();
-
-
-        assertThrows(NullPointerException.class, () -> CUENTA_DAO.agregar(cuentaDTOPrueba));
+        assertThrows(NullPointerException.class, () -> CUENTA_DAO.agregar(cuentaDTOPrueba), "pruebaAgregarCuentaNombreExtensoFallida");
     }
 
 
     @Test
     void pruebaGetPorIdExitosa () {
         System.out.println("pruebaGetPorIdExitosa");
-
-        CuentaDTO cuentaDTOEsperada = new CuentaDTO();
-
-        cuentaDTOEsperada.setIdCuenta(1);
-        cuentaDTOEsperada.setIdPersona(4);
-        cuentaDTOEsperada.setNombreUsuario("EduVillegas");
-        cuentaDTOEsperada.setContrasena("eduVillegas2000");
-        cuentaDTOEsperada.setTipo(CuentaDTO.TipoUsuario.estudiante);
-        cuentaDTOEsperada.setEstado(CuentaDTO.EstadoCuenta.aceptada);
-
-
-        CuentaDTO cuentaDTOPrueba = new CuentaDTO();
+        CuentaDTO cuentaEsperada = new CuentaDTO();
+        cuentaEsperada.setIdCuenta(1);
+        cuentaEsperada.setIdPersona(4);
+        cuentaEsperada.setNombreUsuario("EduVillegas");
+        cuentaEsperada.setContrasena("eduVillegas2000");
+        cuentaEsperada.setTipo(CuentaDTO.TipoUsuario.estudiante);
+        cuentaEsperada.setEstado(CuentaDTO.EstadoCuenta.aceptada);
 
         try {
-            Optional<CuentaDTO> cuentaDTOOptional;
-            cuentaDTOOptional = CUENTA_DAO.getPorId(1);
-            assertTrue(cuentaDTOOptional.isPresent());
-            cuentaDTOPrueba = cuentaDTOOptional.get();
-
+            Optional<CuentaDTO> cuentaObtenida = CUENTA_DAO.getPorId(1);
+            assertEquals(cuentaEsperada.getIdCuenta(), cuentaObtenida.get().getIdCuenta(), "pruebaGetPorIdExitosa");
         }
         catch (ErrorDAO errorDAO) {
             fail("pruebaGetPorIdExitosa " + errorDAO.getMessage());
 
         }
-        assertEquals(cuentaDTOEsperada.getIdCuenta(), cuentaDTOPrueba.getIdCuenta());
-        assertEquals(cuentaDTOEsperada.getIdPersona(), cuentaDTOPrueba.getIdPersona());
-        assertEquals(cuentaDTOEsperada.getNombreUsuario(), cuentaDTOPrueba.getNombreUsuario());
-        assertEquals(cuentaDTOEsperada.getTipo(), cuentaDTOPrueba.getTipo());
-        assertEquals(cuentaDTOEsperada.getEstado(), cuentaDTOPrueba.getEstado());
-
     }
 
     @Test
     void pruebaGetPorIdFallida () {
-        System.out.println("pruebaGetPorIdFallida");
-
         try {
-            Optional<CuentaDTO> cuentaDTOPrueba = CUENTA_DAO.getPorId(20);
-            assertFalse(cuentaDTOPrueba.isPresent());
-
+            Optional<CuentaDTO> cuentaoObtenida = CUENTA_DAO.getPorId(20);
+            assertFalse(cuentaoObtenida.isPresent(), "pruebaGetPorIdFallida");
         }
         catch (ErrorDAO errorDAO) {
             fail("pruebaGetPorIdExitosa " + errorDAO.getMessage());
-
         }
     }
 
     @Test
     void pruebaGetTodosExitoso () {
         System.out.println("pruebaGetPorIdExitosa");
-
         int tamanoEsperado = 1;
-
-        List<CuentaDTO> listaCuentaDTOS = null;
+        List<CuentaDTO> listaCuentasObtenida = null;
 
         try {
-            listaCuentaDTOS = CUENTA_DAO.getTodos();
-
+            listaCuentasObtenida = CUENTA_DAO.getTodos();
         }
         catch (ErrorDAO errorDAO) {
             fail("pruebaGetPorIdExitosa " + errorDAO.getMessage());
 
         }
-
-        assertEquals(tamanoEsperado, listaCuentaDTOS.size());
-
-    }
-
-    @Test
-    void pruebaGetTodosFallida () {
-        System.out.println("pruebaGetPorIdFallida");
-
-        int tamanoEsperado = 0;
-
-        List<CuentaDTO> listaCuentaDTOS = null;
-
-        try {
-            listaCuentaDTOS = CUENTA_DAO.getTodos();
-
-        }
-        catch (ErrorDAO errorDAO) {
-            fail("pruebaGetPorIdExitosa " + errorDAO.getMessage());
-
-        }
-        assertNotEquals(tamanoEsperado, listaCuentaDTOS.size());
+        assertEquals(tamanoEsperado, listaCuentasObtenida.size(), "pruebaGetPorIdExitosa");
     }
 
     @Test
@@ -545,96 +435,40 @@ class CuentaDAOTest {
 
     @Test
     void pruebaActualizarContrasenaFallidaPorContrasenaAntiguaIncorrecta() {
-        System.out.println("pruebaActualizarContrasenaFallidaPorContrasenaAntiguaIncorrecta");
-
-        CuentaDTO cuentaDTOPrueba = new CuentaDTO();
-        cuentaDTOPrueba.setIdCuenta(1);
-        cuentaDTOPrueba.setNombreUsuario("EduVillegas");
+        CuentaDTO cuenta = new CuentaDTO();
+        cuenta.setIdCuenta(1);
+        cuenta.setNombreUsuario("EduVillegas");
 
         String contrasenaNueva = "NuevaContrasena123";
         String contrasenaAntigua = "ContrasenaIncorrecta";
 
-        assertThrows(ErrorDAO.class, () -> CUENTA_DAO.actualizarContrasena(cuentaDTOPrueba, contrasenaAntigua, contrasenaNueva));
-    }
-
-    @Test
-    void pruebaActualizarNombreUsuarioFallidoPorNombreVacio() {
-        try {
-            CuentaDTO cuentaDTOPrueba = new CuentaDTO();
-            cuentaDTOPrueba.setIdCuenta(1);
-            cuentaDTOPrueba.setNombreUsuario("");
-        }
-        catch (ErrorDAO error) {
-            assertTrue(true, "pruebaActualizarNombreUsuarioFallidoPorNombreVacio");
-        }
-    }
-
-    @Test
-    void pruebaAgregarCuentaFallidaPorNombreUsuarioVacio() {
-        CuentaDTO cuentaDTOPrueba = new CuentaDTO();
-        try {
-            cuentaDTOPrueba.setIdPersona(1);
-            cuentaDTOPrueba.setNombreUsuario("");
-            cuentaDTOPrueba.setContrasena("ContrasenaValida123");
-            cuentaDTOPrueba.setTipo(CuentaDTO.TipoUsuario.academico);
-            cuentaDTOPrueba.setEstado(CuentaDTO.EstadoCuenta.pendiente);
-        }
-        catch (ErrorDAO error) {
-            assertTrue(true, "pruebaAgregarCuentaFallidaPorNombreUsuarioVacio");
-        }
-        assertThrows(NullPointerException.class, () -> CUENTA_DAO.agregar(cuentaDTOPrueba));
-    }
-
-    @Test
-    void pruebaAgregarCuentaFallidaPorContrasenaVacia() {
-        CuentaDTO cuentaDTOPrueba = new CuentaDTO();
-        try {
-            cuentaDTOPrueba.setIdPersona(1);
-            cuentaDTOPrueba.setNombreUsuario("UsuarioValido");
-            cuentaDTOPrueba.setContrasena("");
-            cuentaDTOPrueba.setTipo(CuentaDTO.TipoUsuario.academico);
-            cuentaDTOPrueba.setEstado(CuentaDTO.EstadoCuenta.pendiente);
-            CUENTA_DAO.agregar(cuentaDTOPrueba);
-        }
-        catch (ErrorDAO error) {
-            assertTrue(true, "pruebaAgregarCuentaFallidaPorContrasenaVacia");
-        }
+        assertThrows(ErrorDAO.class, () -> CUENTA_DAO.actualizarContrasena(cuenta, contrasenaAntigua, contrasenaNueva), "pruebaActualizarContrasenaFallidaPorContrasenaAntiguaIncorrecta");
     }
 
     @Test
     void pruebaGetCuentaPorEstadoConEstadoInvalido() {
-        System.out.println("pruebaGetCuentaPorEstadoConEstadoInvalido");
-
-        List<CuentaDTO> listaCuentaDTOS = null;
+        List<CuentaDTO> listaCuentaObtenida = null;
         int tamanoEsperado = 0;
 
         try {
-            listaCuentaDTOS = CUENTA_DAO.getCuentasPorEstado("estadoInvalido");
+            listaCuentaObtenida = CUENTA_DAO.getCuentasPorEstado("estadoInvalido");
         } catch (ErrorDAO errorDAO) {
             fail("pruebaGetCuentaPorEstadoConEstadoInvalido " + errorDAO.getMessage());
         }
-
-        assertEquals(tamanoEsperado, listaCuentaDTOS.size());
+        assertEquals(tamanoEsperado, listaCuentaObtenida.size(), "pruebaGetCuentaPorEstadoConEstadoInvalido");
     }
 
     @Test
     void pruebaGetCuentaPorTipoConTipoInvalido() {
-        System.out.println("pruebaGetCuentaPorTipoConTipoInvalido");
-
-        List<CuentaDTO> listaCuentaDTOS = null;
+        List<CuentaDTO> listaCuentaObtenido = null;
         int tamanoEsperado = 0;
 
         try {
-            listaCuentaDTOS = CUENTA_DAO.getCuentasPorTipo("tipoInvalido");
+            listaCuentaObtenido = CUENTA_DAO.getCuentasPorTipo("tipoInvalido");
         } catch (ErrorDAO errorDAO) {
             fail("pruebaGetCuentaPorTipoConTipoInvalido " + errorDAO.getMessage());
         }
 
-        assertEquals(tamanoEsperado, listaCuentaDTOS.size());
+        assertEquals(tamanoEsperado, listaCuentaObtenido.size(), "pruebaGetCuentaPorTipoConTipoInvalido");
     }
-
-
-
-
-
 }

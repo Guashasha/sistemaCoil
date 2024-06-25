@@ -474,168 +474,82 @@ class AcademicoDAOTest {
 
     @Test
     void pruebaEditarAcademicoUniversidadInexistente () {
-        AcademicoDTO academicoDTO = new AcademicoDTO();
-        academicoDTO.setNombre("Esther");
-        academicoDTO.setApellidos("Ramirez");
-        academicoDTO.setIdUniversidad(10);
-        academicoDTO.setCedulaProfesional(ACADEMICO_DTO_ECONOMIA.getCedulaProfesional());
-        academicoDTO.setNumeroPersonal(ACADEMICO_DTO_ECONOMIA.getNumeroPersonal());
-        academicoDTO.setAreaEstudios("economico-administrativo");
-        academicoDTO.setCorreoElectronico("Esther@Institucion.mx");
-        academicoDTO.setNumeroTelefonico("522288536230");
-        academicoDTO.setCategoriaContratacion("Fijo");
-        academicoDTO.setIdFacultad(1);
-        assertThrows(ErrorDAO.class, () -> ACADEMICO_DAO.modificar(academicoDTO), "pruebaEditarAcademicoUniversidadInexistente");
+        AcademicoDTO academico = new AcademicoDTO();
+        academico.setNombre("Esther");
+        academico.setApellidos("Ramirez");
+        academico.setIdUniversidad(10);
+        academico.setCedulaProfesional(ACADEMICO_DTO_ECONOMIA.getCedulaProfesional());
+        academico.setNumeroPersonal(ACADEMICO_DTO_ECONOMIA.getNumeroPersonal());
+        academico.setAreaEstudios("economico-administrativo");
+        academico.setCorreoElectronico("Esther@Institucion.mx");
+        academico.setNumeroTelefonico("522288536230");
+        academico.setCategoriaContratacion("Fijo");
+        academico.setIdFacultad(1);
+        assertThrows(ErrorDAO.class, () -> ACADEMICO_DAO.modificar(academico), "pruebaEditarAcademicoUniversidadInexistente");
     }
     @Test
     void pruebaEditarAcademicoFacultadInexistente () {
-        AcademicoDTO academicoDTO = new AcademicoDTO();
-        academicoDTO.setNombre("Esther");
-        academicoDTO.setApellidos("Ramirez");
-        academicoDTO.setIdUniversidad(1);
-        academicoDTO.setCedulaProfesional(ACADEMICO_DTO_ECONOMIA.getCedulaProfesional());
-        academicoDTO.setNumeroPersonal(ACADEMICO_DTO_ECONOMIA.getNumeroPersonal());
-        academicoDTO.setAreaEstudios("economico-administrativo");
-        academicoDTO.setCorreoElectronico("esther@gmail.com");
-        academicoDTO.setNumeroTelefonico("522288536230");
-        academicoDTO.setIdFacultad(10);
-        assertThrows(ErrorDAO.class, () -> ACADEMICO_DAO.modificar(academicoDTO), "pruebaEditarAcademicoFacultadInexistente");
+        AcademicoDTO academico = new AcademicoDTO();
+        academico.setNombre("Esther");
+        academico.setApellidos("Ramirez");
+        academico.setIdUniversidad(1);
+        academico.setCedulaProfesional(ACADEMICO_DTO_ECONOMIA.getCedulaProfesional());
+        academico.setNumeroPersonal(ACADEMICO_DTO_ECONOMIA.getNumeroPersonal());
+        academico.setAreaEstudios("economico-administrativo");
+        academico.setCorreoElectronico("esther@gmail.com");
+        academico.setNumeroTelefonico("522288536230");
+        academico.setIdFacultad(10);
+        assertThrows(ErrorDAO.class, () -> ACADEMICO_DAO.modificar(academico), "pruebaEditarAcademicoFacultadInexistente");
     }
 
     @Test
     void pruebaEditarAcademicoCategoriaFacultadNuloExitosa () {
-        AcademicoDTO academicoDTO = new AcademicoDTO();
-        academicoDTO.setNombre("Esther");
-        academicoDTO.setApellidos("Ramirez");
-        academicoDTO.setIdUniversidad(1);
-        academicoDTO.setCedulaProfesional(ACADEMICO_DTO_ECONOMIA.getCedulaProfesional());
-        academicoDTO.setNumeroPersonal(ACADEMICO_DTO_ECONOMIA.getNumeroPersonal());
-        academicoDTO.setAreaEstudios("economico-administrativo");
-        academicoDTO.setCorreoElectronico("esther@gmail.com");
-        academicoDTO.setNumeroTelefonico("522288536230");
-        academicoDTO.setIdFacultad(1);
-        int esperado = 3;
-        int real = 0;
+        AcademicoDTO academico = new AcademicoDTO();
+        academico.setNombre("Esther");
+        academico.setApellidos("Ramirez");
+        academico.setIdUniversidad(1);
+        academico.setCedulaProfesional(ACADEMICO_DTO_ECONOMIA.getCedulaProfesional());
+        academico.setNumeroPersonal(ACADEMICO_DTO_ECONOMIA.getNumeroPersonal());
+        academico.setAreaEstudios("economico-administrativo");
+        academico.setCorreoElectronico("esther@gmail.com");
+        academico.setNumeroTelefonico("522288536230");
+        academico.setIdFacultad(1);
+        int filasAfectadasEsperadas = 3;
+        int filasAfectadasObtenidas = 0;
         try {
-            real = ACADEMICO_DAO.modificar(academicoDTO);
+            filasAfectadasObtenidas = ACADEMICO_DAO.modificar(academico);
         }
         catch (ErrorDAO errorDAO) {
             fail("Error en la prueba " + errorDAO.getMessage());
         }
-        assertEquals(esperado,real);
+        assertEquals(filasAfectadasEsperadas,filasAfectadasObtenidas);
     }
 
     @Test
     void pruebaAgregarAcademicoConCuentaExitoso () {
-        AcademicoDTO academicoDTO = new AcademicoDTO();
-        academicoDTO.setNombre("Hernan");
-        academicoDTO.setApellidos("Llamas");
-        academicoDTO.setIdUniversidad(1);
-        academicoDTO.setCedulaProfesional("9877985");
-        academicoDTO.setNumeroPersonal("34563");
-        academicoDTO.setAreaEstudios("economico-administrativo");
-        academicoDTO.setCorreoElectronico("hernan@Institucion.mx");
-        academicoDTO.setNumeroTelefonico("523311756675");
+        AcademicoDTO academico = new AcademicoDTO();
+        academico.setNombre("Hernan");
+        academico.setApellidos("Llamas");
+        academico.setIdUniversidad(1);
+        academico.setCedulaProfesional("9877985");
+        academico.setNumeroPersonal("34563");
+        academico.setAreaEstudios("economico-administrativo");
+        academico.setCorreoElectronico("hernan@Institucion.mx");
+        academico.setNumeroTelefonico("523311756675");
 
-        CuentaDTO cuentaDTO = new CuentaDTO();
-        cuentaDTO.setNombreUsuario("HernanVilla");
-        cuentaDTO.setContrasena("MyZillTippens");
-        cuentaDTO.setTipo(CuentaDTO.TipoUsuario.academico);
-        cuentaDTO.setEstado(CuentaDTO.EstadoCuenta.pendiente);
-        int esperado = 3;
-        int obtenido = 0;
+        CuentaDTO cuenta = new CuentaDTO();
+        cuenta.setNombreUsuario("HernanVilla");
+        cuenta.setContrasena("MyZillTippens");
+        cuenta.setTipo(CuentaDTO.TipoUsuario.academico);
+        cuenta.setEstado(CuentaDTO.EstadoCuenta.pendiente);
+        int filasAfectadasEsperada = 3;
+        int filasAfectadasObtenida = 0;
         try {
-            obtenido = ACADEMICO_DAO.agregarAcademicoConCuenta(academicoDTO, cuentaDTO);
+            filasAfectadasObtenida = ACADEMICO_DAO.agregarAcademicoConCuenta(academico, cuenta);
         }
         catch (ErrorDAO error) {
             fail("Fallida: pruebaAgregarAcademicoExternoExitosa\n" + error.getMessage());
         }
-        assertEquals(esperado,obtenido,"pruebaAgregarAcademicoExternoExitosa");
-    }
-
-    @Test
-    void pruebaAgregarAcademicoConCuentaUsuarioExcesoCaracteresFallido () {
-        AcademicoDTO academicoDTO = new AcademicoDTO();
-
-        try {
-            academicoDTO.setNombre("Hernan");
-            academicoDTO.setApellidos("Llamas");
-            academicoDTO.setIdUniversidad(1);
-            academicoDTO.setCedulaProfesional("9877985");
-            academicoDTO.setNumeroPersonal("34563");
-            academicoDTO.setAreaEstudios("economico-administrativo");
-            academicoDTO.setCorreoElectronico("hernan@Institucion.mx");
-            academicoDTO.setNumeroTelefonico("523311756675");
-
-            CuentaDTO cuentaDTO = new CuentaDTO();
-            cuentaDTO.setNombreUsuario("HernanVillasdadasdssdsdadasasdsadddasdsadaqwwqMiasdfERADSASFhETANASA SDOEA");
-            cuentaDTO.setContrasena("MyZillTippens");
-            cuentaDTO.setTipo(CuentaDTO.TipoUsuario.academico);
-            cuentaDTO.setEstado(CuentaDTO.EstadoCuenta.pendiente);
-            ACADEMICO_DAO.agregarAcademicoConCuenta(academicoDTO, cuentaDTO);
-
-        }
-        catch (ErrorDAO errorDAO) {
-            assertTrue(true, "PruebaAgregarAcademicoConCuentaFallido");
-        }
-    }
-
-    @Test
-    void pruebaAgregarAcademicoConCuentaUsuarioEspaciosFallido () {
-        AcademicoDTO academicoDTO = new AcademicoDTO();
-
-        try {
-            academicoDTO.setNombre("Hernan");
-            academicoDTO.setApellidos("Llamas");
-            academicoDTO.setIdUniversidad(1);
-            academicoDTO.setCedulaProfesional("9877985");
-            academicoDTO.setNumeroPersonal("34563");
-            academicoDTO.setAreaEstudios("economico-administrativo");
-            academicoDTO.setCorreoElectronico("hernan@Institucion.mx");
-            academicoDTO.setNumeroTelefonico("523311756675");
-
-            CuentaDTO cuentaDTO = new CuentaDTO();
-            cuentaDTO.setNombreUsuario("Herna   nVila");
-            cuentaDTO.setContrasena("MyZillTippens");
-            cuentaDTO.setTipo(CuentaDTO.TipoUsuario.academico);
-            cuentaDTO.setEstado(CuentaDTO.EstadoCuenta.pendiente);
-            ACADEMICO_DAO.agregarAcademicoConCuenta(academicoDTO, cuentaDTO);
-
-        }
-        catch (ErrorDAO errorDAO) {
-            assertTrue(true, "pruebaAgregarAcademicoConCuentaUsuarioEspaciosFallido");
-        }
-    }
-
-    @Test
-    void pruebaAgregarAcademicoConCuentaContrasenaExcesoCaracteresFallida () {
-        AcademicoDTO academicoDTO = new AcademicoDTO();
-
-        try {
-            academicoDTO.setNombre("Hernan");
-            academicoDTO.setApellidos("Llamas");
-            academicoDTO.setIdUniversidad(1);
-            academicoDTO.setCedulaProfesional("9877985");
-            academicoDTO.setNumeroPersonal("34563");
-            academicoDTO.setAreaEstudios("economico-administrativo");
-            academicoDTO.setCorreoElectronico("hernan@Institucion.mx");
-            academicoDTO.setNumeroTelefonico("523311756675");
-
-            CuentaDTO cuentaDTO = new CuentaDTO();
-            cuentaDTO.setNombreUsuario("HernanVila");
-            cuentaDTO.setContrasena("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-                                            + "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-                                            + "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-                                            + "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-                                            + "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-                                            + "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
-            cuentaDTO.setTipo(CuentaDTO.TipoUsuario.academico);
-            cuentaDTO.setEstado(CuentaDTO.EstadoCuenta.pendiente);
-            ACADEMICO_DAO.agregarAcademicoConCuenta(academicoDTO, cuentaDTO);
-
-        }
-        catch (ErrorDAO errorDAO) {
-            assertTrue(true, "pruebaAgregarAcademicoConCuentaContrasenaExcesoCaracteresFallida");
-        }
+        assertEquals(filasAfectadasEsperada,filasAfectadasObtenida,"pruebaAgregarAcademicoExternoExitosa");
     }
 }
