@@ -12,13 +12,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
-import org.apache.log4j.Logger;
 
-public class RetroalimentarActividadControlador {
-    private static final Logger BITACORA = Logger.getLogger(NuevaActividadControlador.class);
+public class RetroalimentacionActividadControlador {
     private BorderPane pnVentanaPrincipal;
     private Pane pnVentanaAnterior;
 
+    @FXML
+    private Pane pnPrincipal;
     @FXML
     private Slider slInteraccion;
     @FXML
@@ -35,19 +35,23 @@ public class RetroalimentarActividadControlador {
     private Text txtInteres;
 
     private ActividadDTO actividad;
-    private CuentaDTO usuario;
-    private ActividadesColaboracionControlador controladorAnterior;
+    private CuentaDTO cuenta;
+    private ActividadesColaboracionControlador actividadesColaboracionControlador;
 
-    public void initialize (BorderPane ventanaPrincipal, Pane ventanaAnterior, ActividadDTO actividad, CuentaDTO usuario, ActividadesColaboracionControlador controlador) {
+    public void initialize (BorderPane pnVentanaPrincipal, Pane pnVentanaAnterior, ActividadDTO actividad, CuentaDTO cuenta, ActividadesColaboracionControlador actividadesColaboracionControlador) {
         if (!actividad.esCorrecta()) {
             return;
         }
 
         this.actividad = actividad;
-        this.usuario = usuario;
-        this.pnVentanaPrincipal = ventanaPrincipal;
-        this.pnVentanaAnterior = ventanaAnterior;
-        this.controladorAnterior = controlador;
+        this.cuenta = cuenta;
+        this.pnVentanaPrincipal = pnVentanaPrincipal;
+        this.pnVentanaAnterior = pnVentanaAnterior;
+        this.actividadesColaboracionControlador = actividadesColaboracionControlador;
+    }
+
+    public Pane getPane () {
+        return pnPrincipal;
     }
 
     public void guardarRetroalimentacion () {
@@ -61,10 +65,10 @@ public class RetroalimentarActividadControlador {
             return;
         }
 
-        RetroalimentacionActividadAuxiliar retroalimentacionAUX = new RetroalimentacionActividadAuxiliar();
+        RetroalimentacionActividadAuxiliar retroalimentacionActividadAuxiliar = new RetroalimentacionActividadAuxiliar();
 
         try {
-            retroalimentacionAUX.agregar(retroalimentacion);
+            retroalimentacionActividadAuxiliar.agregar(retroalimentacion);
         }
         catch (ErrorDAO error) {
             Alert alertaError = crearAlerta(error);
@@ -82,7 +86,7 @@ public class RetroalimentarActividadControlador {
 
     public void regresar () {
         this.pnVentanaPrincipal.setCenter(this.pnVentanaAnterior);
-        this.controladorAnterior.actualizarLista();
+        this.actividadesColaboracionControlador.actualizarLista();
     }
 
     private static Alert crearAlerta(ErrorDAO error) {
@@ -121,7 +125,7 @@ public class RetroalimentarActividadControlador {
         retroalimentacion.setDificultad(dificultad);
         retroalimentacion.setInteraccionConPar(interaccionPar);
         retroalimentacion.setComentario(mensaje);
-        retroalimentacion.setIdUsuario(this.usuario.getIdPersona());
+        retroalimentacion.setIdUsuario(this.cuenta.getIdPersona());
 
         return retroalimentacion;
     }

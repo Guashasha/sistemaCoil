@@ -24,8 +24,8 @@ public class ActividadesColaboracionControlador {
     private static final Logger BITACORA = Logger.getLogger(NuevaActividadControlador.class);
     private CuentaDTO usuario;
     private ColaboracionDTO colaboracion;
-    private BorderPane pnVentanaPrincipal;
-    private Pane pnVentanaAnterior;
+    private BorderPane ventanaPrincipal;
+    private Pane ventanaAnterior;
 
     @FXML
     private VBox vboxActividades;
@@ -34,9 +34,9 @@ public class ActividadesColaboracionControlador {
     @FXML
     private Button btnNuevaActividad;
 
-    public void initialize (Pane pnVentanaAnterior, BorderPane pnVentanaPrincipal, ColaboracionDTO colaboracion, CuentaDTO usuario) {
-        this.pnVentanaAnterior = pnVentanaAnterior;
-        this.pnVentanaPrincipal = pnVentanaPrincipal;
+    public void initialize (Pane ventanaAnterior, BorderPane ventanaPrincipal, ColaboracionDTO colaboracion, CuentaDTO usuario) {
+        this.ventanaAnterior = ventanaAnterior;
+        this.ventanaPrincipal = ventanaPrincipal;
         this.colaboracion = colaboracion;
         this.usuario = usuario;
 
@@ -48,16 +48,16 @@ public class ActividadesColaboracionControlador {
     }
 
     public void regresar () {
-        this.pnVentanaPrincipal.setCenter(this.pnVentanaAnterior);
+        this.ventanaPrincipal.setCenter(this.ventanaAnterior);
     }
 
     public void actualizarLista () {
         vboxActividades.getChildren().clear();
-        ActividadDAO actividadDAO = new ActividadDAO();
+        ActividadDAO dao = new ActividadDAO();
         List<ActividadDTO> actividades;
 
         try {
-             actividades = actividadDAO.getPorIdColaboracion(this.colaboracion.getIdColaboracion());
+             actividades = dao.getPorIdColaboracion(this.colaboracion.getIdColaboracion());
         } catch (ErrorDAO e) {
             Alert alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setHeaderText("Ocurrió un error");
@@ -88,15 +88,15 @@ public class ActividadesColaboracionControlador {
         }
         else if (this.colaboracion.getEstado() == ColaboracionDTO.EstadoColaboracion.enRevision) {
             panelActividad.setSpacing(30.0);
-            Button btnRetroalimentar = crearBotonRetroalimentar(actividad);
+            Button boton = crearBotonRetroalimentar(actividad);
 
-            RetroalimentacionActividadAuxiliar actividadAUX = new RetroalimentacionActividadAuxiliar();
+            RetroalimentacionActividadAuxiliar dao = new RetroalimentacionActividadAuxiliar();
 
-            if (actividadAUX.getPorPersonaYActividad(usuario.getIdPersona(), actividad.getIdActividad()).isPresent()) {
-                btnRetroalimentar.setDisable(true);
+            if (dao.getPorPersonaYActividad(usuario.getIdPersona(), actividad.getIdActividad()).isPresent()) {
+                boton.setDisable(true);
             }
 
-            panelActividad.getChildren().addAll(new Label(actividad.getTitulo()), btnRetroalimentar);
+            panelActividad.getChildren().addAll(new Label(actividad.getTitulo()), boton);
         }
         else {
             panelActividad.setSpacing(50.0);
@@ -118,13 +118,13 @@ public class ActividadesColaboracionControlador {
     }
 
     private Button crearBotonBorrar (ActividadDTO actividad) {
-        Button btnBorrar = new Button("Borrar");
+        Button boton = new Button("Borrar");
 
-        CronogramaActividadAuxiliar actividadAUX = new CronogramaActividadAuxiliar();
-        Optional<ActividadVinculadaDTO> actividadVinculada = actividadAUX.getPorActividadYColaboracion(actividad.getIdActividad(), this.colaboracion.getIdColaboracion());
+        CronogramaActividadAuxiliar dao = new CronogramaActividadAuxiliar();
+        Optional<ActividadVinculadaDTO> actividadVinculada = dao.getPorActividadYColaboracion(actividad.getIdActividad(), this.colaboracion.getIdColaboracion());
 
         if (actividadVinculada.isPresent() && actividadVinculada.get().getPeriodo() == null) {
-            btnBorrar.setOnAction(e -> {
+            boton.setOnAction(e -> {
                 Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
                 confirmacion.setHeaderText("Borrar actividad");
                 confirmacion.setContentText("¿Está seguro que deséa borrar la actividad?");
@@ -136,7 +136,7 @@ public class ActividadesColaboracionControlador {
 
                 if (confirmacion.getResult() == btnAceptar) {
                     try {
-                        if (actividadAUX.desvincular(new ActividadVinculadaDTO(actividad, this.colaboracion)) < 1) {
+                        if (dao.desvincular(new ActividadVinculadaDTO(actividad, this.colaboracion)) < 1) {
                             Alert alerta = new Alert(Alert.AlertType.ERROR);
                             alerta.setHeaderText("Error");
                             alerta.setContentText("No se pudo eliminar la actividad, intente de nuevo");
@@ -155,24 +155,24 @@ public class ActividadesColaboracionControlador {
             });
         }
         else {
-            btnBorrar.setDisable(true);
+            boton.setDisable(true);
         }
 
-        return btnBorrar;
+        return boton;
     }
 
     private Button crearBotonMarcarConcluida (ActividadDTO actividad) {
-        Button btnBorrar = new Button("Finalizar");
+        Button boton = new Button("Finalizar");
 
-        CronogramaActividadAuxiliar actividadAUX = new CronogramaActividadAuxiliar();
-        Optional<ActividadVinculadaDTO> actividadVinculada = actividadAUX.getPorActividadYColaboracion(actividad.getIdActividad(), this.colaboracion.getIdColaboracion());
+        CronogramaActividadAuxiliar dao = new CronogramaActividadAuxiliar();
+        Optional<ActividadVinculadaDTO> actividadVinculada = dao.getPorActividadYColaboracion(actividad.getIdActividad(), this.colaboracion.getIdColaboracion());
 
         if (actividadVinculada.isPresent() && actividadVinculada.get().getPeriodo() == null) {
-            btnBorrar.setOnAction(e -> {
+            boton.setOnAction(e -> {
                 actividadVinculada.get().setPeriodo(LocalDate.now());
 
                 try {
-                    if (actividadAUX.modificar(actividadVinculada.orElse(null)) < 1) {
+                    if (dao.modificar(actividadVinculada.orElse(null)) < 1) {
                         Alert alerta = new Alert(Alert.AlertType.ERROR);
                         alerta.setHeaderText("Error");
                         alerta.setContentText("No se pudo finalizar la actividad, intente de nuevo");
@@ -190,17 +190,17 @@ public class ActividadesColaboracionControlador {
             });
         }
         else {
-            btnBorrar.setDisable(true);
+            boton.setDisable(true);
         }
 
-        return btnBorrar;
+        return boton;
     }
 
     private Button crearBotonRetroalimentar (ActividadDTO actividad) {
-        Button btnBorrar = new Button("Calificar");
+        Button boton = new Button("Calificar");
 
-        btnBorrar.setOnAction( e -> {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("RetroalimentarActividad.fxml"));
+        boton.setOnAction( e -> {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("RetroalimentacionActividad.fxml"));
             SplitPane apActividades;
 
             try {
@@ -216,13 +216,13 @@ public class ActividadesColaboracionControlador {
             }
 
             if (apActividades != null) {
-                RetroalimentarActividadControlador ventanaActividadesControlador = fxmlLoader.getController();
-                ventanaActividadesControlador.initialize(this.pnVentanaPrincipal, this.pnMain, actividad, this.usuario, this);
-                this.pnVentanaPrincipal.setCenter(apActividades);
+                RetroalimentacionActividadControlador ventanaActividadesControlador = fxmlLoader.getController();
+                ventanaActividadesControlador.initialize(this.ventanaPrincipal, this.pnMain, actividad, this.usuario, this);
+                this.ventanaPrincipal.setCenter(apActividades);
             }
         } );
 
-        return btnBorrar;
+        return boton;
     }
 
     @FXML
@@ -243,13 +243,13 @@ public class ActividadesColaboracionControlador {
 
         if (apActividades != null) {
             NuevaActividadControlador ventanaActividadesControlador = fxmlLoader.getController();
-            ventanaActividadesControlador.initialize(this.colaboracion, this.pnVentanaPrincipal, this.pnMain, this);
+            ventanaActividadesControlador.initialize(this.colaboracion, this.ventanaPrincipal, this.pnMain, this);
             ventanaActividadesControlador.colaboracionDTO = colaboracion;
-            this.pnVentanaPrincipal.setCenter(apActividades);
+            this.ventanaPrincipal.setCenter(apActividades);
         }
     }
 
     public void volver () {
-        pnVentanaPrincipal.setCenter(pnVentanaAnterior);
+        ventanaPrincipal.setCenter(ventanaAnterior);
     }
 }

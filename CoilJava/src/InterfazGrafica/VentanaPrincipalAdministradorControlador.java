@@ -82,7 +82,7 @@ public class VentanaPrincipalAdministradorControlador implements Initializable {
 
     @FXML
     private void abrirCrearCuenta () {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CrearCuentaAcademico.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CreacionCuentaAcademico.fxml"));
         Pane pnCrearCuenta = null;
 
         try {
@@ -94,7 +94,7 @@ public class VentanaPrincipalAdministradorControlador implements Initializable {
         }
 
         if (pnCrearCuenta != null) {
-            CrearCuentaAcademicoControlador controlador = fxmlLoader.getController();
+            CreacionCuentaAcademicoControlador controlador = fxmlLoader.getController();
             controlador.initialize(this.pnPrincipal);
             this.pnPrincipal.setCenter(pnCrearCuenta);
         }

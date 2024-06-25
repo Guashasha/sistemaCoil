@@ -346,7 +346,7 @@ public class ProgresoColaboracionControlador {
 
     @FXML
     private void abrirRetroalimentarColaboracion () {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("RetroalimentarColaboracion.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("RetroalimentacionColaboracion.fxml"));
         SplitPane pnRetroalimentacion;
 
         try {
@@ -361,7 +361,7 @@ public class ProgresoColaboracionControlador {
         }
 
         if (pnRetroalimentacion != null) {
-            RetroalimentarColaboracionControlador controlador = fxmlLoader.getController();
+            RetroalimentacionColaboracionControlador controlador = fxmlLoader.getController();
             controlador.initialize(this.colaboracionDTO, this.pnVentanaPrincipal, this.pnActual, this, this.academicoDTO);
             this.pnVentanaPrincipal.setCenter(pnRetroalimentacion);
         }

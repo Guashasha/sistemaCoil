@@ -1,6 +1,5 @@
 package InterfazGrafica;
 
-import DAO.ColaboracionAuxiliar;
 import DAO.RetroalimentacionColaboracionAuxiliar;
 import DTO.ColaboracionDTO;
 import DTO.PersonaDTO;
@@ -15,7 +14,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import org.apache.log4j.Logger;
 
-public class RetroalimentarColaboracionControlador {
+public class RetroalimentacionColaboracionControlador {
     private static final Logger BITACORA = Logger.getLogger(NuevaActividadControlador.class);
 
     @FXML
@@ -38,17 +37,17 @@ public class RetroalimentarColaboracionControlador {
     private TextField tfComentario = new TextField();
 
     private ColaboracionDTO colaboracion;
-    private BorderPane ventanaPrincipal;
-    private Pane panelAnterior;
-    private ProgresoColaboracionControlador controladorAnterior;
-    private PersonaDTO usuario;
+    private BorderPane pnVentanaPrincipal;
+    private Pane pnAnterior;
+    private ProgresoColaboracionControlador progresoColaboracionControlador;
+    private PersonaDTO persona;
 
-    public void initialize (ColaboracionDTO colaboracion, BorderPane ventanaPrincipal, Pane panelAnterior, ProgresoColaboracionControlador controladorAnterior, PersonaDTO usuario) {
-        this.panelAnterior = panelAnterior;
-        this.ventanaPrincipal = ventanaPrincipal;
+    public void initialize (ColaboracionDTO colaboracion, BorderPane pnVentanaPrincipal, Pane pnPanelAnterior, ProgresoColaboracionControlador progresoColaboracionControlador, PersonaDTO persona) {
+        this.pnAnterior = pnPanelAnterior;
+        this.pnVentanaPrincipal = pnVentanaPrincipal;
         this.colaboracion = colaboracion;
-        this.controladorAnterior = controladorAnterior;
-        this.usuario = usuario;
+        this.progresoColaboracionControlador = progresoColaboracionControlador;
+        this.persona = persona;
     }
 
     public SplitPane getPane () {
@@ -58,10 +57,10 @@ public class RetroalimentarColaboracionControlador {
     public void guardarRetroalimentacion () {
         RetroalimentacionColaboracionDTO retroalimentacion = leerDatosRetroalimentacion();
 
-        RetroalimentacionColaboracionAuxiliar dao = new RetroalimentacionColaboracionAuxiliar();
+        RetroalimentacionColaboracionAuxiliar retroalimentacionColaboracionAuxiliar = new RetroalimentacionColaboracionAuxiliar();
 
         try {
-            dao.agregar(retroalimentacion);
+            retroalimentacionColaboracionAuxiliar.agregar(retroalimentacion);
         }
         catch (ErrorDAO error) {
             Alert alertaError = crearAlerta(error);
@@ -77,7 +76,7 @@ public class RetroalimentarColaboracionControlador {
         mensajeConfirmacion.showAndWait();
 
         regresar();
-        controladorAnterior.actualizarVisibilidadBotones();
+        progresoColaboracionControlador.actualizarVisibilidadBotones();
     }
 
     private static Alert crearAlerta(ErrorDAO error) {
@@ -116,7 +115,7 @@ public class RetroalimentarColaboracionControlador {
 
         RetroalimentacionColaboracionDTO retroalimentacion = new RetroalimentacionColaboracionDTO();
         retroalimentacion.setColaboracion(colaboracion.getIdColaboracion());
-        retroalimentacion.setIdUsuario(this.usuario.getIdPersona());
+        retroalimentacion.setIdUsuario(this.persona.getIdPersona());
         retroalimentacion.setCalificacion(calificacion);
         retroalimentacion.setHabilidadesObtenidas(habilidades);
         retroalimentacion.setIntercambioCultural(intercambio);
@@ -130,7 +129,7 @@ public class RetroalimentarColaboracionControlador {
     }
 
     public void regresar () {
-        controladorAnterior.actualizarVisibilidadBotones();
-        this.ventanaPrincipal.setCenter(this.panelAnterior);
+        progresoColaboracionControlador.actualizarVisibilidadBotones();
+        this.pnVentanaPrincipal.setCenter(this.pnAnterior);
     }
 }
