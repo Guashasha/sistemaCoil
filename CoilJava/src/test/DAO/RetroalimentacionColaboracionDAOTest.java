@@ -71,16 +71,16 @@ public class RetroalimentacionColaboracionDAOTest {
 
     @Test
     public void pruebaAgregarRetroalimentacion () {
-        int resultado = -1;
+        int resultadoConsulta = -1;
 
         try {
-            resultado = dao.agregar(crearRetroalimentacion());
+            resultadoConsulta = dao.agregar(crearRetroalimentacion());
         }
         catch (ErrorDAO error) {
             fail(error.getMessage());
         }
 
-        assertEquals(2, resultado);
+        assertEquals(2, resultadoConsulta);
     }
 
     @Test
@@ -108,79 +108,71 @@ public class RetroalimentacionColaboracionDAOTest {
     @Test
     public void pruebaGetPorId () {
         RetroalimentacionColaboracionDTO esperado = crearRetroalimentacion2();
-        Optional<RetroalimentacionColaboracionDTO> resultado = Optional.empty();
+        Optional<RetroalimentacionColaboracionDTO> retroalimentacionObtenida = Optional.empty();
 
         try {
-            resultado = dao.getPorId(1);
+            retroalimentacionObtenida = dao.getPorId(1);
         } catch (ErrorDAO e) {
             fail();
         }
 
-        if (resultado.isEmpty()) {
-            fail("no se encontró la retroalimentacion esperada");
-        }
-
-        RetroalimentacionColaboracionDTO retroalimentacion = resultado.get();
+        RetroalimentacionColaboracionDTO retroalimentacion = retroalimentacionObtenida.get();
 
         assertEquals(esperado, retroalimentacion);
     }
 
     @Test
     public void pruebaGetPorIdIncorrecto () {
-        Optional<RetroalimentacionColaboracionDTO> resultado = Optional.empty();
+        Optional<RetroalimentacionColaboracionDTO> resultadoConsulta = Optional.empty();
 
         try {
-            resultado = dao.getPorId(1000);
+            resultadoConsulta = dao.getPorId(1000);
         } catch (ErrorDAO e) {
             fail();
         }
 
-        assert(resultado.isEmpty());
+        assert(resultadoConsulta.isEmpty());
     }
 
   @Test
     public void pruebaGetPorPersonaYColaboracion () {
         RetroalimentacionColaboracionDTO esperado = crearRetroalimentacion();
-        Optional<RetroalimentacionColaboracionDTO> resultado = Optional.empty();
+        Optional<RetroalimentacionColaboracionDTO> retroalimentacionObtenida = Optional.empty();
 
         try {
-            resultado = dao.getPorPersonaYColaboracion(1, 3);
+            retroalimentacionObtenida = dao.getPorPersonaYColaboracion(1, 3);
         } catch (ErrorDAO e) {
             fail();
       }
 
-      if (resultado.isEmpty()) {
-          fail("no se encontró la retroalimentacion esperada");
-      }
-
-      RetroalimentacionColaboracionDTO retroalimentacion = resultado.get();
+      RetroalimentacionColaboracionDTO retroalimentacion = retroalimentacionObtenida.get();
 
       assertEquals(esperado, retroalimentacion);
     }
 
     @Test
     public void pruebaPorPersonaSinColaboracion () {
-        Optional<RetroalimentacionColaboracionDTO> resultado = Optional.empty();
+        Optional<RetroalimentacionColaboracionDTO> retroalimentacionObtenida = Optional.empty();
 
         try {
-            resultado = dao.getPorPersonaYColaboracion(1, 3000);
+            retroalimentacionObtenida = dao.getPorPersonaYColaboracion(1, 3000);
         } catch (ErrorDAO e) {
             fail();
         }
 
-        assert(resultado.isEmpty());
+        assert(retroalimentacionObtenida.isEmpty());
     }
 
     @Test
     public void pruebaPorColaboracionSinPersona () {
-        Optional<RetroalimentacionColaboracionDTO> resultado = Optional.empty();
+        Optional<RetroalimentacionColaboracionDTO> retroalimentacionObtenida = Optional.empty();
 
         try {
-            resultado = dao.getPorPersonaYColaboracion(1000, 3);
+            retroalimentacionObtenida = dao.getPorPersonaYColaboracion(1000, 3);
         } catch (ErrorDAO e) {
             fail();
         }
 
-        assert(resultado.isEmpty());
+        assert(retroalimentacionObtenida.isEmpty());
     }
 }
