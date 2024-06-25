@@ -59,6 +59,14 @@ public class RetroalimentarActividadControlador {
     public void guardarRetroalimentacion () {
         RetroalimentacionActividadDTO retroalimentacion = leerDatosRetroalimentacion();
 
+        if (retroalimentacion.getComentario().isPresent() && retroalimentacion.getComentario().get().length() > 200) {
+            Alert alerta = new Alert(Alert.AlertType.WARNING);
+            alerta.setHeaderText("Comentario muy largo");
+            alerta.setContentText("El comentario debe ser de maximo 200 caracteres");
+            alerta.showAndWait();
+            return;
+        }
+
         RetroalimentacionActividadAuxiliar dao = new RetroalimentacionActividadAuxiliar();
 
         try {
