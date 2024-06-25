@@ -208,12 +208,22 @@ class UniversidadAuxiliarTest {
 
     @Test
     void pruebaUniversidadExisteUniversidadNula () {
-        assertThrows(ErrorDAO.class,()->UNIVERSIDAD_AUXILIAR.universidadExiste(null,"Estados Unidos"),"pruebaUniversidadExisteUniversidadNula");
+        try {
+            assertFalse(UNIVERSIDAD_AUXILIAR.universidadExiste(null,"Estados Unidos"),"pruebaUniversidadExistePaisNulo");
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaUniversidadExisteUniversidadNula\n" + error.getMessage());
+        }
     }
 
     @Test
     void pruebaUniversidadExistePaisNulo () {
-        assertThrows(ErrorDAO.class,()->UNIVERSIDAD_AUXILIAR.universidadExiste("Harvard",null),"pruebaUniversidadExistePaisNulo");
+        try {
+            assertFalse(UNIVERSIDAD_AUXILIAR.universidadExiste("Harvard",null),"pruebaUniversidadExistePaisNulo");
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaUniversidadExisteUniversidadNula\n" + error.getMessage());
+        }
     }
 
     @Test
