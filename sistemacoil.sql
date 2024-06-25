@@ -7,8 +7,8 @@ USE COIL;
 
 CREATE TABLE `persona` (
   `idPersona` int PRIMARY KEY AUTO_INCREMENT,
-  `nombre` varchar(20) NOT NULL,
-  `apellidos` varchar(80) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `apellidos` varchar(100) NOT NULL,
   `universidad` int NOT NULL
 );
 ALTER TABLE persona AUTO_INCREMENT=1;
@@ -23,7 +23,7 @@ ALTER TABLE estudiante AUTO_INCREMENT=1;
 
 CREATE TABLE `universidad` (
   `idUniversidad` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(60) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
   `paisOrigen` int NOT NULL
 );
 ALTER TABLE universidad AUTO_INCREMENT=1;
