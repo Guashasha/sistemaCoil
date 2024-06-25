@@ -28,20 +28,20 @@ public class SeccionMiColaboracionAcademicoControlador {
     @FXML
     public void abrirVentanaSolicitudColaboracion () {
         ColaboracionDAO colaboracionDAO = new ColaboracionDAO();
-        Optional<ColaboracionDTO> optionalColaboracion;
-        Optional<ColaboracionDTO> colaboracionActivaOVinculadaOptional;
+        Optional<ColaboracionDTO> colaboracionDisponible;
+        Optional<ColaboracionDTO> colaboracionActivaOVinculada;
 
         try {
-            optionalColaboracion = colaboracionDAO.getColaboracionDisponiblePorAcademico(academicoDTO.getCedulaProfesional());
-            colaboracionActivaOVinculadaOptional = getColaboracionActivaOVinculada();
+            colaboracionDisponible = colaboracionDAO.getColaboracionDisponiblePorAcademico(academicoDTO.getCedulaProfesional());
+            colaboracionActivaOVinculada = getColaboracionActivaOVinculada();
         }
         catch (ErrorDAO error) {
             mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
             return;
         }
 
-        if (!colaboracionActivaOVinculadaOptional.isPresent()) {
-            if (optionalColaboracion.isPresent()) {
+        if (!colaboracionActivaOVinculada.isPresent()) {
+            if (colaboracionDisponible.isPresent()) {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SolicitudesAColaboracion.fxml"));
                 BorderPane pnSolicitudColaboracion = null;
 
@@ -56,7 +56,7 @@ public class SeccionMiColaboracionAcademicoControlador {
                 if (pnSolicitudColaboracion != null) {
                     this.historialPaneles.push(this.pnActual);
                     SolicitudesAColaboracionControlador solicitudesAColaboracionControlador = fxmlLoader.getController();
-                    solicitudesAColaboracionControlador.setColaboracionDTO(optionalColaboracion.get());
+                    solicitudesAColaboracionControlador.setColaboracionDTO(colaboracionDisponible.get());
                     solicitudesAColaboracionControlador.setAcademicoDTO(this.academicoDTO);
                     solicitudesAColaboracionControlador.cargarAcademicosItem();
                     solicitudesAColaboracionControlador.cargarAcademicosItemPorBusqueda();
@@ -98,18 +98,18 @@ public class SeccionMiColaboracionAcademicoControlador {
 
     @FXML
     private void abrirSeccionEstudiantes () {
-        Optional<ColaboracionDTO> colaboracionActivaOVinculadaOptional;
+        Optional<ColaboracionDTO> colaboracionActivaOVinculada;
 
         try {
-            colaboracionActivaOVinculadaOptional = getColaboracionActivaOVinculada();
+            colaboracionActivaOVinculada = getColaboracionActivaOVinculada();
         }
         catch (ErrorDAO error) {
             mostrarMensajeEmergente(error.getMessage(),Alert.AlertType.ERROR);
             return;
         }
 
-        if (colaboracionActivaOVinculadaOptional.isPresent()) {
-            ColaboracionDTO colaboracion = colaboracionActivaOVinculadaOptional.get();
+        if (colaboracionActivaOVinculada.isPresent()) {
+            ColaboracionDTO colaboracion = colaboracionActivaOVinculada.get();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ListaEstudiantes.fxml"));
             BorderPane pnListaEstudiantes = null;
 
@@ -224,4 +224,3 @@ public class SeccionMiColaboracionAcademicoControlador {
         this.usuario = usuario;
     }
 }
-
