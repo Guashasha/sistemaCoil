@@ -11,7 +11,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import java.lang.annotation.ElementType;
 import java.util.List;
 import java.util.Stack;
 
@@ -74,7 +73,7 @@ public class EditarUniversidadControlador {
                 mostrarMensajeEmergente("Se han guardado los cambios exitosamente", Alert.AlertType.INFORMATION);
             }
             else if (filasAfectadas == 0) {
-                mostrarMensajeEmergente("Algo salió mal. Intentelo de nuevo más tarde", Alert.AlertType.ERROR);
+                mostrarMensajeEmergente("Algo salió mal. Inténtelo de nuevo más tarde", Alert.AlertType.ERROR);
             }
         }
     }
@@ -143,12 +142,8 @@ public class EditarUniversidadControlador {
     private boolean camposSinCambios () {
         String nuevoNombre = tfNombre.getText()
                                      .trim();
-        String[] nuevoNombreUniversidadSeparado = nuevoNombre.split("\\s+");
-        String[] nombreUniversidadSeparado = this.universidadActual.getNombre().split("\\s+");
-        String nuevoNombreUniversidad = String.join(" ",nuevoNombreUniversidadSeparado);
-        String nombreUniversidad = String.join(" ",nombreUniversidadSeparado);
         String nuevoPais = cmbPaises.getValue();
-        return nombreUniversidad.equals(nuevoNombreUniversidad) && nuevoPais.equals(this.paisActual.getNombre());
+        return nuevoNombre.equals(this.universidadActual.getNombre()) && nuevoPais.equals(this.paisActual.getNombre());
     }
 
     private void autocompletarCampos () {

@@ -72,10 +72,15 @@ public class ConfiguracionPrueba {
         ejecutarInstruccionSQL("DELETE FROM calendarioActividades;");
     }
 
-    public static void borrarTodosLosDatosTabla () {
+    public static void borrarDatosTodasLasTablas () {
         borrarDatosTablaCuenta();
         borrarDatosTablaAcademicoDesarrolla();
         borrarDatosTablaEstudiantesColaboracion();
+        borrarDatosTablaCalendarioActividades();
+        borrarDatosTablaRetroalimentacionColaboracion();
+        borrarDatosTablaRetroalimentacionActividad();
+        borrarDatosTablaRetroalimentacion();
+        borrarDatosTablaActividad();
         borrarDatosTablaColaboracion();
         borrarDatosTablaEstudiante();
         borrarDatosTablaAcademico();

@@ -2,6 +2,7 @@ package InterfazGrafica;
 
 import DAO.AcademicoAuxiliar;
 import DAO.EstudianteAuxiliar;
+import DAO.EstudianteDAO;
 import DTO.AcademicoDTO;
 import DTO.CuentaDTO;
 import DAO.CuentaAuxiliar;
@@ -226,7 +227,7 @@ public class InicioSesionControlador {
     }
 
     private Optional<EstudianteDTO> recupearEstudiantePorCuenta (CuentaDTO cuenta) {
-        EstudianteAuxiliar daoEstudiante = new EstudianteAuxiliar();
+        EstudianteDAO daoEstudiante = new EstudianteDAO();
         Optional<EstudianteDTO> optionalEstudiante = daoEstudiante.getEstudiantePorIdPersona(cuenta.getIdPersona());
         return optionalEstudiante;
     }

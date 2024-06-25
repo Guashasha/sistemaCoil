@@ -2,6 +2,9 @@ package DTO;
 
 import java.time.LocalDate;
 
+/**
+ * La clase ActividadVinculadaDTO funciona como transfer object, para transferir la información desde la base de datos a capas superiores dentro de la aplicación.
+ */
 public class ActividadVinculadaDTO {
     private ActividadDTO actividadDTO;
     private ColaboracionDTO colaboracionDTO;

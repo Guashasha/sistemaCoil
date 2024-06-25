@@ -1,6 +1,7 @@
 package InterfazGrafica;
 
 import DAO.AcademicoAuxiliar;
+import DAO.AcademicoDAO;
 import DTO.AcademicoDTO;
 import Utilidades.ErrorDAO;
 import javafx.collections.FXCollections;
@@ -131,7 +132,8 @@ public class FormularioCompletarDatosControlador implements Initializable {
     }
 
     private void agregarDatosFaltantes () {
-        if (ACADEMICO_AUXILIAR.modificar(this.academico) < 0) {
+        AcademicoDAO academicoDAO = new AcademicoDAO();
+        if (academicoDAO.modificar(this.academico) < 0) {
             throw new ErrorDAO("Eror al registrar los datos faltantes", ErrorDAO.Tipo.INSERCION);
         }
     }

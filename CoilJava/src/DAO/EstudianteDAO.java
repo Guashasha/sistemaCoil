@@ -35,7 +35,7 @@ public class EstudianteDAO implements IEstudianteDAO {
         int filasAfectadas;
         try {
             CallableStatement procedimientoEstudiante = AdministradorBaseDatos.getInstancia().
-                                                                          prepareCall(procedimientoSQL);
+                                                                              prepareCall(procedimientoSQL);
             procedimientoEstudiante.setString(1, estudianteDTO.getNombre());
             procedimientoEstudiante.setString(2, estudianteDTO.getApellidos());
             procedimientoEstudiante.setInt(3, estudianteDTO.getIdUniversidad());
@@ -67,7 +67,7 @@ public class EstudianteDAO implements IEstudianteDAO {
         int filasAfectadas;
         try {
             CallableStatement procedimientoEstudiante = AdministradorBaseDatos.getInstancia().
-                                                                       prepareCall(procedimientoSQL);
+                                                                              prepareCall(procedimientoSQL);
             procedimientoEstudiante.setString(1, estudianteDTO.getNombre());
             procedimientoEstudiante.setString(2, estudianteDTO.getApellidos());
             procedimientoEstudiante.setString(3, estudianteDTO.getMatricula());
@@ -100,7 +100,7 @@ public class EstudianteDAO implements IEstudianteDAO {
 
         try {
             PreparedStatement consultaEstudiante = AdministradorBaseDatos.getInstancia().
-                                                                           prepareStatement(consultaSQL);
+                                                                         prepareStatement(consultaSQL);
             consultaEstudiante.setInt(1, id);
             ResultSet resultado = consultaEstudiante.executeQuery();
             if (resultado.next()) {
@@ -132,7 +132,7 @@ public class EstudianteDAO implements IEstudianteDAO {
         EstudianteDTO estudiante = null;
         try {
             PreparedStatement consultaEstudiante = AdministradorBaseDatos.getInstancia().
-                                                                                  prepareStatement(consulta);
+                                                                         prepareStatement(consulta);
             consultaEstudiante.setInt(1, idPersona);
             ResultSet resultado = consultaEstudiante.executeQuery();
             if (resultado.next()) {
@@ -155,7 +155,7 @@ public class EstudianteDAO implements IEstudianteDAO {
     /**
      * Obtiene un estudiante basado en su matrícula y la universidad.
      *
-     * @param matricula la matrícula del estudiante.
+     * @param matricula     la matrícula del estudiante.
      * @param idUniversidad el ID de la universidad.
      * @return un objeto Optional que contiene el estudiante encontrado o vacío si no se encuentra el estudiante.
      * @throws ErrorDAO si ocurre un error durante la consulta a la base de datos.
@@ -166,7 +166,7 @@ public class EstudianteDAO implements IEstudianteDAO {
         EstudianteDTO estudianteDTO = null;
         try {
             PreparedStatement consultaEstudiante = AdministradorBaseDatos.getInstancia().
-                                                                                  prepareStatement(consultaSQL);
+                                                                         prepareStatement(consultaSQL);
             consultaEstudiante.setString(1, matricula);
             consultaEstudiante.setInt(2, idUniversidad);
             ResultSet resultado = consultaEstudiante.executeQuery();
@@ -199,7 +199,7 @@ public class EstudianteDAO implements IEstudianteDAO {
         ArrayList<EstudianteDTO> listaEstudianteDTOS = new ArrayList<>();
         try {
             PreparedStatement consultaEstudiante = AdministradorBaseDatos.getInstancia().
-                                                                                    prepareStatement(consultaSQL);
+                                                                         prepareStatement(consultaSQL);
             consultaEstudiante.setInt(1, idUniversidad);
             ResultSet resultado = consultaEstudiante.executeQuery();
 
@@ -233,7 +233,7 @@ public class EstudianteDAO implements IEstudianteDAO {
         EstudianteDTO estudianteDTO = null;
         try {
             PreparedStatement consultaEstudiante = AdministradorBaseDatos.getInstancia().
-                                                                                  prepareStatement(consultaSQL);
+                                                                         prepareStatement(consultaSQL);
             consultaEstudiante.setString(1, matricula);
             ResultSet resultado = consultaEstudiante.executeQuery();
             if (resultado.next()) {

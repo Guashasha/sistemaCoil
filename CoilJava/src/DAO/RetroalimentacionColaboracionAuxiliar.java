@@ -1,14 +1,15 @@
 package DAO;
 
 import DTO.ColaboracionDTO;
-import DTO.RetroalimentacionActividadDTO;
 import DTO.RetroalimentacionColaboracionDTO;
 import Utilidades.ErrorDAO;
 import Utilidades.ErrorDAO.Tipo;
-import org.apache.log4j.Logger;
 
 import java.util.Optional;
 
+/**
+ * La clase RetroalimentacionColaboracionAuxiliar funciona como intermediario entre el cliente y las clases DAO. Procesa y valida la información de los parámetros antes de mandarla o después de recibirla de las clases DAO.
+ */
 public class RetroalimentacionColaboracionAuxiliar {
   /**
    * Agrega a la base de datos una retroalimentación de colaboración

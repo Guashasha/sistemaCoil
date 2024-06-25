@@ -16,6 +16,9 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Lee y escribe a la base de datos objetos de la clase RetroalimentacionColaboracionDTO
+ */
 public class RetroalimentacionColaboracionDAO implements IRetroalimentacionColaboracionDAO {
     private static final Logger BITACORA = Logger.getLogger(RetroalimentacionActividadDTO.class.getName());
 
@@ -53,7 +56,7 @@ public class RetroalimentacionColaboracionDAO implements IRetroalimentacionColab
             resultado = consulta.executeUpdate();
             consulta.close();
         } catch (SQLException error) {
-            BITACORA.error(error);
+            BITACORA.warn(error);
             throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
         } finally {
             AdministradorBaseDatos.desconectar();
@@ -87,7 +90,7 @@ public class RetroalimentacionColaboracionDAO implements IRetroalimentacionColab
             resultado = consulta.executeQuery();
             consulta.close();
         } catch (SQLException error) {
-            BITACORA.error(error);
+            BITACORA.warn(error);
             throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONEXION);
         } finally {
             AdministradorBaseDatos.desconectar();
@@ -98,7 +101,7 @@ public class RetroalimentacionColaboracionDAO implements IRetroalimentacionColab
                 return Optional.empty();
             }
         } catch (SQLException error) {
-            BITACORA.error(error);
+            BITACORA.warn(error);
             throw new ErrorDAO("La retroalimentación no se encotró", Tipo.CONSULTA);
         }
 
@@ -127,7 +130,7 @@ public class RetroalimentacionColaboracionDAO implements IRetroalimentacionColab
             resultado = consulta.executeQuery();
             consulta.close();
         } catch (SQLException error) {
-            BITACORA.error(error);
+            BITACORA.warn(error);
             throw new ErrorDAO(error.getMessage(), Tipo.CONEXION);
         } finally {
             AdministradorBaseDatos.desconectar();
@@ -138,7 +141,7 @@ public class RetroalimentacionColaboracionDAO implements IRetroalimentacionColab
                 return Optional.empty();
             }
         } catch (SQLException error) {
-            BITACORA.error(error);
+            BITACORA.warn(error);
             throw new ErrorDAO("La retroalimentacion no se encontró", Tipo.CONSULTA);
         }
 
@@ -174,7 +177,7 @@ public class RetroalimentacionColaboracionDAO implements IRetroalimentacionColab
 
             return retroalimentacion;
         } catch (SQLException error) {
-            BITACORA.error(error);
+            BITACORA.warn(error);
             throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
         }
     }

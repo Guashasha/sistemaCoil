@@ -11,7 +11,6 @@ import test.AyudantePruebasColaboracionDB;
 import test.ConfiguracionPrueba;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -34,7 +33,7 @@ public class ActividadAuxiliarTest {
 
     @AfterAll
     static void limpiarBase () {
-        ConfiguracionPrueba.borrarTodosLosDatosTabla();
+        ConfiguracionPrueba.borrarDatosTodasLasTablas();
     }
 
     @Test

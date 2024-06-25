@@ -11,9 +11,6 @@ import java.util.Optional;
  * @author pale
  */
 public class PaisAuxiliar {
-    /**
-     *Instancia de la clase PaisDAO que se utiliza en los métodos de la clase.
-     */
     private final PaisDAO PAIS_DAO = new PaisDAO();
 
     /**
@@ -49,23 +46,6 @@ public class PaisAuxiliar {
             throw new ErrorDAO("Los nombres no pueden contener caracteres especiales.\nSolo son válidas letras del alfabeto en español y guiones en el medio", ErrorDAO.Tipo.VALIDACION);
         }
 
-        return paisDTOOptional;
-    }
-
-    /**
-     * Valida los parámetros para obtener un país de acuerdo a su id asociado en la base de datos, con la clase PaisDAO.
-     * @param id id asociado al País.
-     * @return Objeto Optional con el país inicializado con su id, iso y nombre; o un objeto Optional vacío si no se encuentran resultados.
-     * @throws ErrorDAO si ocurre un error en la validación de los parámetros o durante el acceso a la base de datos.
-     */
-    public Optional<PaisDTO> getPaisPorId (int id) throws ErrorDAO {
-        Optional<PaisDTO> paisDTOOptional;
-        if (id > 0) {
-            paisDTOOptional = PAIS_DAO.getPaisPorId(id);
-        }
-        else {
-            throw new ErrorDAO("ID inválido. Debe ser mayor a 0", ErrorDAO.Tipo.VALIDACION);
-        }
         return paisDTOOptional;
     }
 }

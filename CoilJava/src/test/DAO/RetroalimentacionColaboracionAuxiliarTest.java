@@ -49,7 +49,7 @@ public class RetroalimentacionColaboracionAuxiliarTest {
 
     @AfterAll
     static void limpiarBase () {
-        ConfiguracionPrueba.borrarTodosLosDatosTabla();
+        ConfiguracionPrueba.borrarDatosTodasLasTablas();
     }
 
     @Test

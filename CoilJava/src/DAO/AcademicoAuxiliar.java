@@ -147,14 +147,15 @@ public class AcademicoAuxiliar {
      * Agrega un objeto AcademicoDTO junto con un objeto CuentaDTO.
      *
      * @param academicoDTO el objeto AcademicoDTO que se desea agregar.
-     * @param cuentaDTO el objeto CuentaDTO asociado al académico.
+     * @param cuentaDTO    el objeto CuentaDTO asociado al académico.
      * @return el ID del académico agregado.
      * @throws ErrorDAO si ocurre un error durante la consulta a la base de datos.
      */
     public int agregarAcademicoConCuenta (AcademicoDTO academicoDTO, CuentaDTO cuentaDTO) throws ErrorDAO {
         try {
-            if (ACADEMICO_DAO.getAcademicoPorCorreo(academicoDTO.getCorreoElectronico()).isPresent()) {
-                throw new ErrorDAO ("El correo electrónico ya se encuentra registrado", ErrorDAO.Tipo.VALIDACION);
+            if (ACADEMICO_DAO.getAcademicoPorCorreo(academicoDTO.getCorreoElectronico())
+                             .isPresent()) {
+                throw new ErrorDAO("El correo electrónico ya se encuentra registrado", ErrorDAO.Tipo.VALIDACION);
             }
             existe(academicoDTO);
             CuentaAuxiliar cuentaAuxiliar = new CuentaAuxiliar();
@@ -186,17 +187,16 @@ public class AcademicoAuxiliar {
     /**
      * Modifica un objeto AcademicoDTO.
      *
-     * @param academicoDTO el objeto AcademicoDTO que se desea modificar.
+     * @param academico el objeto AcademicoDTO que se desea modificar.
      * @return el número de filas afectadas.
      * @throws ErrorDAO si ocurre un error durante la consulta a la base de datos.
      */
-    public int modificar (AcademicoDTO academicoDTO) throws ErrorDAO {
-        try {
-            return ACADEMICO_DAO.modificar(academicoDTO);
+    public int modificar (AcademicoDTO academico) throws ErrorDAO {
+        if (ACADEMICO_DAO.getAcademicoPorCorreo(academico.getCorreoElectronico())
+                         .isPresent()) {
+            throw new ErrorDAO("El correo electrónico que introdujo ya se encuentra asociado a una cuenta", ErrorDAO.Tipo.VALIDACION);
         }
-        catch (ErrorDAO error) {
-            throw new ErrorDAO(error.getMessage(), error.getTipo());
-        }
+        return ACADEMICO_DAO.modificar(academico);
     }
 
     /**

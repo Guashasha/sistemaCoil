@@ -5,6 +5,9 @@ import Utilidades.ErrorDAO;
 
 import java.time.LocalDate;
 
+/**
+ * La clase PeriodoDTO funciona como transfer object y también como atributo de otros transfer object para transferir la información desde la base de datos a capas superiores dentro de la aplicación.
+ */
 public class PeriodoDTO {
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
