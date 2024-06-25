@@ -175,7 +175,7 @@ class ColaboracionDAOTest {
 
     @Test
     void pruebaGetColaboracionPorPeriodoExitosa () {
-        int colaboracionesEsperadas = 1;
+        int colaboracionesEsperadas = 2;
         List<ColaboracionDTO> listaColaboraciones = null;
 
         LocalDate fechaInicio = LocalDate.of(2024, 5, 1);
@@ -220,7 +220,7 @@ class ColaboracionDAOTest {
     void pruebaGetColaboracionPorIdiomaExitosa () {
         List<ColaboracionDTO> listaColaboraciones = null;
         String idioma = "Español";
-        int tamanoEsperado = 1;
+        int tamanoEsperado = 2;
         try {
             listaColaboraciones = COLABORACION_DAO.getColaboracionPorIdioma(idioma);
         }
@@ -891,7 +891,7 @@ class ColaboracionDAOTest {
     void pruebaGetTodosExitosa () {
         List<ColaboracionDTO> listaColaboracionDTO = null;
 
-        int tamanoEsperado = 2;
+        int tamanoEsperado = 3;
 
         try {
             listaColaboracionDTO = COLABORACION_DAO.getTodos();

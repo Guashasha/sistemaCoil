@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 public class RetroalimentacionColaboracionAuxiliarTest {
     @BeforeAll
     public static void setUp () {
+        ConfiguracionPrueba.borrarDatosTodasLasTablas();
         ConfiguracionPrueba.borrarDatosTablaRetroalimentacionColaboracion();
         ConfiguracionPrueba.borrarDatosTablaAcademicoDesarrolla();
         ConfiguracionPrueba.borrarDatosTablaColaboracion();
@@ -33,7 +34,7 @@ public class RetroalimentacionColaboracionAuxiliarTest {
         AyudantePruebasColaboracionDB.agregarColaboracionesParaRetroalimentacion();
 
         RetroalimentacionColaboracionDTO retroalimentacion = new RetroalimentacionColaboracionDTO();
-        retroalimentacion.setColaboracion(3);
+        retroalimentacion.setColaboracion(5);
         retroalimentacion.setIdUsuario(1);
         retroalimentacion.setInteraccionConPar(5);
         retroalimentacion.setHabilidadesObtenidas(5);
@@ -55,7 +56,7 @@ public class RetroalimentacionColaboracionAuxiliarTest {
     @Test
     public void pruebaAgregar () {
         RetroalimentacionColaboracionDTO retroalimentacion = new RetroalimentacionColaboracionDTO();
-        retroalimentacion.setColaboracion(4);
+        retroalimentacion.setColaboracion(6);
         retroalimentacion.setIdUsuario(1);
         retroalimentacion.setInteraccionConPar(5);
         retroalimentacion.setHabilidadesObtenidas(5);
@@ -105,7 +106,7 @@ public class RetroalimentacionColaboracionAuxiliarTest {
     @Test
     public void pruebaAgregarExistente () {
         RetroalimentacionColaboracionDTO retroalimentacion = new RetroalimentacionColaboracionDTO();
-        retroalimentacion.setColaboracion(3);
+        retroalimentacion.setColaboracion(5);
         retroalimentacion.setIdUsuario(1);
         retroalimentacion.setInteraccionConPar(5);
         retroalimentacion.setHabilidadesObtenidas(5);
@@ -177,7 +178,7 @@ public class RetroalimentacionColaboracionAuxiliarTest {
     @Test
     public void pruebaGetPorId () {
         RetroalimentacionColaboracionDTO retroalimentacion = new RetroalimentacionColaboracionDTO();
-        retroalimentacion.setColaboracion(3);
+        retroalimentacion.setColaboracion(5);
         retroalimentacion.setIdUsuario(1);
         retroalimentacion.setInteraccionConPar(5);
         retroalimentacion.setHabilidadesObtenidas(5);

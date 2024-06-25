@@ -17,6 +17,7 @@ public class RetroalimentacionColaboracionDAOTest {
 
     @BeforeAll
     public static void setUp () {
+        ConfiguracionPrueba.borrarDatosTodasLasTablas();
         ConfiguracionPrueba.borrarDatosTablaRetroalimentacionColaboracion();
         ConfiguracionPrueba.borrarDatosTablaRetroalimentacion();
 
@@ -35,7 +36,7 @@ public class RetroalimentacionColaboracionDAOTest {
     private static RetroalimentacionColaboracionDTO crearRetroalimentacion () {
         RetroalimentacionColaboracionDTO retroalimentacion = new RetroalimentacionColaboracionDTO();
         retroalimentacion.setIdUsuario(1);
-        retroalimentacion.setColaboracion(3);
+        retroalimentacion.setColaboracion(5);
         retroalimentacion.setComentario("hola mundo");
         retroalimentacion.setInteraccionConPar(5);
         retroalimentacion.setHabilidadesObtenidas(5);
@@ -51,7 +52,7 @@ public class RetroalimentacionColaboracionDAOTest {
     private static RetroalimentacionColaboracionDTO crearRetroalimentacion2 () {
         RetroalimentacionColaboracionDTO retroalimentacion = new RetroalimentacionColaboracionDTO();
         retroalimentacion.setIdUsuario(2);
-        retroalimentacion.setColaboracion(4);
+        retroalimentacion.setColaboracion(6);
         retroalimentacion.setComentario("hola mundo");
         retroalimentacion.setInteraccionConPar(5);
         retroalimentacion.setHabilidadesObtenidas(5);
@@ -123,11 +124,11 @@ public class RetroalimentacionColaboracionDAOTest {
 
     @Test
     public void pruebaGetPorPersonaYColaboracion () {
-        RetroalimentacionColaboracionDTO esperado = crearRetroalimentacion();
+        RetroalimentacionColaboracionDTO retroalimentacionEsperada = crearRetroalimentacion();
         Optional<RetroalimentacionColaboracionDTO> retroalimentacionObtenida = Optional.empty();
 
         try {
-            retroalimentacionObtenida = dao.getPorPersonaYColaboracion(1, 3);
+            retroalimentacionObtenida = dao.getPorPersonaYColaboracion(1, 5);
         }
         catch (ErrorDAO e) {
             fail();
@@ -135,7 +136,7 @@ public class RetroalimentacionColaboracionDAOTest {
 
         RetroalimentacionColaboracionDTO retroalimentacion = retroalimentacionObtenida.get();
 
-        assertEquals(esperado, retroalimentacion);
+        assertEquals(retroalimentacionEsperada, retroalimentacion);
     }
 
     @Test

@@ -35,15 +35,8 @@ public class RetroalimentacionActividadAuxiliar {
             throw new ErrorDAO("La actividad no existe", Tipo.CONSULTA);
         }
 
-        int resultado = -1;
         RetroalimentacionActividadDAO retroalimentacionDAO = new RetroalimentacionActividadDAO();
-
-        try {
-            resultado = retroalimentacionDAO.agregar(retroalimentacion);
-        } catch (ErrorDAO error) {
-        }
-
-        return resultado;
+        return retroalimentacionDAO.agregar(retroalimentacion);
     }
 
     /**

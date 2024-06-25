@@ -89,7 +89,7 @@ class ColaboracionAuxiliarTest {
         periodoDTO.setFechaFin(fechaFin);
 
         List<ColaboracionDTO> listaColaboraciones = null;
-        int colaboracionesEsperadas = 1;
+        int colaboracionesEsperadas = 2;
 
         try {
             listaColaboraciones = INSTANCIA.getColaboracionPorPeriodo(periodoDTO);
@@ -105,7 +105,7 @@ class ColaboracionAuxiliarTest {
         System.out.println("pruebaGetColaboracionPorIdiomaExitosa");
         List<ColaboracionDTO> listaColaboraciones = null;
         String idioma = "Español";
-        int esperado = 1;
+        int esperado = 2;
         try {
             listaColaboraciones = INSTANCIA.getColaboracionPorIdioma(idioma);
         }

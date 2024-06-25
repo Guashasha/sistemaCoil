@@ -18,35 +18,33 @@ public class RetroalimentacionActividadDAOTest {
     RetroalimentacionActividadAuxiliar dao = new RetroalimentacionActividadAuxiliar();
 
     @BeforeAll
-    static void setUp() {
-        ConfiguracionPrueba.borrarDatosTablaRetroalimentacionActividad();
-        ConfiguracionPrueba.borrarDatosTablaRetroalimentacionColaboracion();
-        ConfiguracionPrueba.borrarDatosTablaRetroalimentacion();
-        ConfiguracionPrueba.borrarDatosTablaActividad();
+    static void prepararBaseDatos () {
+        ConfiguracionPrueba.borrarDatosTodasLasTablas();
 
-        ActividadAuxiliar act = new ActividadAuxiliar();
+        ActividadAuxiliar actividadAuxiliar = new ActividadAuxiliar();
+        ActividadDTO actividad = new ActividadDTO();
+        actividad.setTitulo("act prueba");
+        actividad.setDescripcion("prueba para base de datos");
+        actividad.setTipo(ActividadDTO.TipoActividad.disciplinar);
+        actividadAuxiliar.agregar(actividad);
 
-        ActividadDTO actividadDTO = new ActividadDTO();
-        actividadDTO.setTitulo("act prueba");
-        actividadDTO.setDescripcion("prueba para base de datos");
-        actividadDTO.setTipo(ActividadDTO.TipoActividad.disciplinar);
-        act.agregar(actividadDTO);
+        actividad = new ActividadDTO();
+        actividad.setTitulo("act 2 prueba");
+        actividad.setDescripcion("segunda prueba para base de datos");
+        actividad.setTipo(ActividadDTO.TipoActividad.intercultural);
+        actividadAuxiliar.agregar(actividad);
 
-        actividadDTO = new ActividadDTO();
-        actividadDTO.setTitulo("act 2 prueba");
-        actividadDTO.setDescripcion("segunda prueba para base de datos");
-        actividadDTO.setTipo(ActividadDTO.TipoActividad.intercultural);
-        act.agregar(actividadDTO);
-
-        RetroalimentacionActividadAuxiliar ret = new RetroalimentacionActividadAuxiliar();
-
-        RetroalimentacionActividadDTO retroalimentacion = new RetroalimentacionActividadDTO();
-        retroalimentacion.setIdActividad(1);
-        retroalimentacion.setIdUsuario(1);
-        retroalimentacion.setInteres(4);
-        retroalimentacion.setInteraccionConPar(4);
-        retroalimentacion.setDificultad(4);
-        ret.agregar(retroalimentacion);
+        RetroalimentacionActividadAuxiliar retroalimentacionActividadAuxiliar = new RetroalimentacionActividadAuxiliar();
+        RetroalimentacionActividadDTO retroalimentacionActividad = new RetroalimentacionActividadDTO();
+        retroalimentacionActividad.setIdActividad(1);
+        retroalimentacionActividad.setInteraccionConPar(4);
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO pais (idPais, iso, nombre) VALUES (1,'MX','México')");
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO universidad (idUniversidad,nombre,paisOrigen) VALUES (1,'UV',1)");
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO persona (idPersona,nombre,apellidos,universidad) VALUES (1,'Emmanuel','Pale',1)");
+        retroalimentacionActividad.setIdUsuario(1);
+        retroalimentacionActividad.setInteres(4);
+        retroalimentacionActividad.setDificultad(4);
+        retroalimentacionActividadAuxiliar.agregar(retroalimentacionActividad);
     }
 
     @AfterAll
@@ -56,7 +54,7 @@ public class RetroalimentacionActividadDAOTest {
 
     @Test
     void pruebaAgregarRetroalimentacion () {
-        int resultadoConsulta = -1;
+        int filasAfectadasObtenidas = -1;
 
         RetroalimentacionActividadDTO retroalimentacion = new RetroalimentacionActividadDTO();
         retroalimentacion.setIdActividad(2);
@@ -67,13 +65,13 @@ public class RetroalimentacionActividadDAOTest {
         retroalimentacion.setComentario("hola mundo");
 
         try {
-            resultadoConsulta = dao.agregar(retroalimentacion);
+            filasAfectadasObtenidas = dao.agregar(retroalimentacion);
         }
         catch (ErrorDAO error) {
             fail(error.getMessage());
         }
 
-        assertEquals(2, resultadoConsulta);
+        assertEquals(2, filasAfectadasObtenidas);
     }
 
     @Test
