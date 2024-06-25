@@ -35,10 +35,10 @@ public class ActividadDTODAOTest {
     void pruebaAgregarActividadExitosa () {
         try {
             int resultado = dao.agregar(ACTIVIDAD1);
-            assertEquals(1,resultado,"pruebaAgregarActividadExitosa");
+            assertEquals(1, resultado);
         }
         catch (ErrorDAO error) {
-            fail("Fallida: pruebaAgregarActividadExitosa");
+            fail();
         }
     }
 
@@ -54,7 +54,7 @@ public class ActividadDTODAOTest {
         try {
             resultado = dao.getPorId(1);
         } catch (ErrorDAO e) {
-            fail("Fallida: pruebaGetPorIdExitosa");
+            fail();
         }
 
         if (resultado.isEmpty()) {
@@ -62,9 +62,7 @@ public class ActividadDTODAOTest {
         }
 
         ActividadDTO actividad = resultado.get();
-        assertEquals(ACTIVIDAD1.getTitulo(), actividad.getTitulo());
-        assertEquals("descripcion de la actividad prueba", actividad.getDescripcion());
-        assertEquals("cierre", actividad.getTipo().toString());
+        assertEquals(actividad, ACTIVIDAD1);
     }
 
     @Test
@@ -74,7 +72,7 @@ public class ActividadDTODAOTest {
             assert(resultado.isEmpty());
         }
         catch (ErrorDAO error) {
-            fail("Fallida: pruebaGetPorIdInexistente");
+            fail();
         }
     }
 
@@ -85,7 +83,7 @@ public class ActividadDTODAOTest {
         try {
             resultado = dao.getPorTitulo(ACTIVIDAD1.getTitulo());
         } catch (ErrorDAO e) {
-            fail("Fallida: pruebaGetPorTituloExitosa");
+            fail();
         }
 
         if (resultado.isEmpty()) {
@@ -94,10 +92,7 @@ public class ActividadDTODAOTest {
 
         ActividadDTO actividad = resultado.get();
 
-        assertEquals(ACTIVIDAD1.getIdActividad(), actividad.getIdActividad());
-        assertEquals(ACTIVIDAD1.getTitulo(), actividad.getTitulo());
-        assertEquals(ACTIVIDAD1.getDescripcion(), actividad.getDescripcion());
-        assertEquals(ACTIVIDAD1.getTipo().toString(), actividad.getTipo().toString());
+        assertEquals(ACTIVIDAD1, actividad);
     }
 
     @Test

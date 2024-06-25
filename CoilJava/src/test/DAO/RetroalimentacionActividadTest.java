@@ -132,6 +132,13 @@ public class RetroalimentacionActividadTest {
     @Test
     void pruebaGetRetroalimentacionPorId () {
         RetroalimentacionActividadAuxiliar ret = new RetroalimentacionActividadAuxiliar();
+        RetroalimentacionActividadDTO esperado = new RetroalimentacionActividadDTO();
+        esperado.setDificultad(5);
+        esperado.setInteres(4);
+        esperado.setIdUsuario(1);
+        esperado.setIdActividad(1);
+        esperado.setInteraccionConPar(4);
+
         Optional<RetroalimentacionActividadDTO> retroalimentacion = Optional.empty();
 
         try {
@@ -146,10 +153,7 @@ public class RetroalimentacionActividadTest {
         if (retroalimentacion.isPresent()) {
             objRetroalimentacion = retroalimentacion.get();
 
-            assertEquals(4, objRetroalimentacion.getInteraccionConPar());
-            assertEquals(1, objRetroalimentacion.getIdRetroalimentacion());
-            assertEquals(5, objRetroalimentacion.getDificultad());
-            assert(objRetroalimentacion.getComentario().isEmpty());
+            assertEquals(esperado, objRetroalimentacion);
         }
         else {
             fail("no existe la retroalimentacion");
