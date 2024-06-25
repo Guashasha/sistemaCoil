@@ -47,7 +47,7 @@ public class ListaEstudiantesControlador {
     @FXML
     private void agregarEstudiante () {
         if (objetosValidos()) {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AgregarEstudiante.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("VinculacionEstudiantes.fxml"));
             BorderPane pnAgregarEstudiante = null;
 
             try {
@@ -130,7 +130,7 @@ public class ListaEstudiantesControlador {
         }
     }
 
-    private void agregarDatosVentanaAgregarEstudiante (AgregarEstudianteControlador controlador) {
+    private void agregarDatosVentanaAgregarEstudiante (VinculacionEstudiantesControlador controlador) {
         this.historialPaneles.push(this.pnListaEstudiantes);
 
         controlador.setPnVentanaPrincipal(this.pnVentanaPrincipal);

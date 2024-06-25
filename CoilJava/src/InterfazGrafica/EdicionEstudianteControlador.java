@@ -2,7 +2,6 @@ package InterfazGrafica;
 
 import DAO.EstudianteAuxiliar;
 import DAO.EstudianteDAO;
-import DAO.UniversidadAuxiliar;
 import DAO.UniversidadDAO;
 import DTO.EstudianteDTO;
 import DTO.UniversidadDTO;
@@ -18,7 +17,7 @@ import javafx.scene.text.Text;
 import java.util.Optional;
 import java.util.Stack;
 
-public class EditarEstudianteControlador {
+public class EdicionEstudianteControlador {
     @FXML
     private TextField tfNombre;
     @FXML

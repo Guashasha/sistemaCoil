@@ -1,7 +1,6 @@
 package InterfazGrafica;
 
 import DAO.EstudianteAuxiliar;
-import DAO.UniversidadAuxiliar;
 import DAO.UniversidadDAO;
 import DTO.EstudianteDTO;
 import DTO.UniversidadDTO;
@@ -35,10 +34,10 @@ public class RegistroEstudianteControlador {
     private Stack<Pane> historialPaneles;
     private BorderPane pnVentanaPrincipal;
     private UniversidadDTO universidad;
-    private AgregarEstudianteControlador agregarEstudianteControlador;
+    private VinculacionEstudiantesControlador vinculacionEstudiantesControlador;
 
-    public void setAgregarEstudianteControlador (AgregarEstudianteControlador agregarEstudianteControlador) {
-        this.agregarEstudianteControlador = agregarEstudianteControlador;
+    public void setAgregarEstudianteControlador (VinculacionEstudiantesControlador vinculacionEstudiantesControlador) {
+        this.vinculacionEstudiantesControlador = vinculacionEstudiantesControlador;
     }
 
     public void setRecursos (Stack<Pane> historialPaneles, BorderPane pnVentanaPrincipal, int idUniversidad) throws ErrorDAO {
@@ -100,8 +99,8 @@ public class RegistroEstudianteControlador {
               .ifPresent(response -> {
                   if (response == ButtonType.OK) {
                       this.pnVentanaPrincipal.setCenter(this.historialPaneles.pop());
-                      if (this.agregarEstudianteControlador != null) {
-                          agregarEstudianteControlador.cargarConsultaGeneral();
+                      if (this.vinculacionEstudiantesControlador != null) {
+                          vinculacionEstudiantesControlador.cargarConsultaGeneral();
                       }
                   }
               });

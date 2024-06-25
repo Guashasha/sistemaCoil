@@ -3,7 +3,7 @@ package InterfazGrafica.Items;
 import DTO.PaisDTO;
 import DTO.UniversidadDTO;
 import InterfazGrafica.ConsultaUniversidadesControlador;
-import InterfazGrafica.EditarUniversidadControlador;
+import InterfazGrafica.EdicionUniversidadControlador;
 import Utilidades.ErrorDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -47,7 +47,7 @@ public class UniversidadItemControlador {
 
     @FXML
     private void editarUniversidad () {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../EditarUniversidad.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../EdicionUniversidad.fxml"));
         BorderPane pnEditarUniversidad = null;
 
         try {
@@ -59,10 +59,10 @@ public class UniversidadItemControlador {
         }
 
         if (pnEditarUniversidad != null) {
-            EditarUniversidadControlador editarUniversidadControlador = fxmlLoader.getController();
+            EdicionUniversidadControlador edicionUniversidadControlador = fxmlLoader.getController();
 
             try {
-                editarUniversidadControlador.setRecursos(this.pnVentanaPrincipal,this.historialPaneles,new UniversidadDTO(lbUniversidad.getText()),new PaisDTO(lbPais.getText()),this.consultaUniversidadesControlador);
+                edicionUniversidadControlador.setRecursos(this.pnVentanaPrincipal, this.historialPaneles, new UniversidadDTO(lbUniversidad.getText()), new PaisDTO(lbPais.getText()), this.consultaUniversidadesControlador);
                 this.pnVentanaPrincipal.setCenter(pnEditarUniversidad);
             }
             catch (ErrorDAO error) {

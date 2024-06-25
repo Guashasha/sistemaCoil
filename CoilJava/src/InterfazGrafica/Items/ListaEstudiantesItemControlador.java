@@ -1,12 +1,11 @@
 package InterfazGrafica.Items;
 
 import DAO.ColaboracionAuxiliar;
-import DAO.UniversidadAuxiliar;
 import DAO.UniversidadDAO;
 import DTO.ColaboracionDTO;
 import DTO.EstudianteDTO;
 import DTO.UniversidadDTO;
-import InterfazGrafica.EditarEstudianteControlador;
+import InterfazGrafica.EdicionEstudianteControlador;
 import InterfazGrafica.ListaEstudiantesControlador;
 import Utilidades.ErrorDAO;
 import javafx.fxml.FXML;
@@ -77,12 +76,12 @@ public class ListaEstudiantesItemControlador {
 
     @FXML
     private void editarEstudiante () {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../EditarEstudiante.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../EdicionEstudiante.fxml"));
         BorderPane pnAgregarEstudiante;
 
         try {
             pnAgregarEstudiante = fxmlLoader.load();
-            EditarEstudianteControlador controlador = fxmlLoader.getController();
+            EdicionEstudianteControlador controlador = fxmlLoader.getController();
             controlador.setRecursos(this.historialPaneles, this.pnVentanaPrincipal, this.estudiante, this.listaEstudiantesControlador);
             this.pnVentanaPrincipal.setCenter(pnAgregarEstudiante);
         }

@@ -14,7 +14,7 @@ import javafx.scene.layout.Pane;
 import java.util.List;
 import java.util.Stack;
 
-public class EditarUniversidadControlador {
+public class EdicionUniversidadControlador {
     private UniversidadDTO universidadActual;
     private PaisDTO paisActual;
     @FXML
