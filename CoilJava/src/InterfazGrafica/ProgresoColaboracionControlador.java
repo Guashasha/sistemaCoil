@@ -304,28 +304,40 @@ public class ProgresoColaboracionControlador {
         RetroalimentacionColaboracionAuxiliar retroalimentacionDAO = new RetroalimentacionColaboracionAuxiliar();
         if (this.colaboracionDTO.getEstado() == ColaboracionDTO.EstadoColaboracion.activa) {
             try {
-                colaboracionDAO.cambiarEstadoColaboracion("enRevision", this.colaboracionDTO.getIdColaboracion());
-                this.colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.enRevision);
-                mostrarMensajeEmergente("Retroalimente la colaboracion para poder finalizarla", Alert.AlertType.INFORMATION);
+                if (colaboracionDAO.cambiarEstadoColaboracion("enRevision", this.colaboracionDTO.getIdColaboracion()) > 0) {
+                    this.colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.enRevision);
+                }
             }
             catch (ErrorDAO error) {
                 mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
+                return;
             }
         }
 
-        if (this.colaboracionDTO.getEstado() == ColaboracionDTO.EstadoColaboracion.enRevision && retroalimentacionDAO.getPorPersonaYColaboracion(this.academicoDTO.getIdPersona(), this.colaboracionDTO.getIdColaboracion())
-                                                                                                                     .isPresent()) {
+        boolean colaboracionRealizada = false;
+        try {
+            colaboracionRealizada = retroalimentacionDAO.getPorPersonaYColaboracion(this.academicoDTO.getIdPersona(), this.colaboracionDTO.getIdColaboracion()).isPresent();
+        }
+        catch (ErrorDAO error) {
+            Alert alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setHeaderText("Ocurrió un error");
+            alerta.setContentText(error.getMessage());
+            alerta.showAndWait();
+            return;
+        }
+
+        if (this.colaboracionDTO.getEstado() == ColaboracionDTO.EstadoColaboracion.enRevision && colaboracionRealizada) {
             try {
                 colaboracionDAO.cambiarEstadoColaboracion("finalizada", this.colaboracionDTO.getIdColaboracion());
                 this.colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.enRevision);
                 mostrarMensajeEmergente("Colaboracion finalizada, gracias por participar.", Alert.AlertType.INFORMATION);
-            }
-            catch (ErrorDAO error) {
+            } catch (ErrorDAO error) {
                 mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
+                return;
             }
-        }
-        else {
+        } else {
             mostrarMensajeEmergente("Retroalimente la colaboración para poder continuar", Alert.AlertType.INFORMATION);
+            return;
         }
 
         actualizarVisibilidadBotones();

@@ -729,3 +729,14 @@ Conctacte a un técnico
 2024-06-24 12:30:24 ERROR NuevaActividadControlador:147 - Utilidades.ErrorDAO: Tiempo de espera de conexión agotado. Por favor, inténtelo nuevamente.
 2024-06-24 12:30:32 FATAL AdministradorBaseDatos:43 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.241.30)(port=3306)(type=primary). Connection refused
 2024-06-25 09:37:33 FATAL AdministradorBaseDatos:43 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=3307)(type=primary). Connection refused
+2024-06-25 10:13:25 FATAL AdministradorBaseDatos:43 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.241.30)(port=3306)(type=primary). Connection refused
+2024-06-25 10:43:37 FATAL AdministradorBaseDatos:43 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.241.30)(port=3306)(type=primary). Connection refused
+2024-06-25 10:43:42 FATAL AdministradorBaseDatos:43 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.241.30)(port=3306)(type=primary). Connection refused
+2024-06-25 10:43:54 FATAL AdministradorBaseDatos:43 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.241.30)(port=3306)(type=primary). Connection refused
+2024-06-25 10:48:51 FATAL AdministradorBaseDatos:43 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.241.30)(port=3306)(type=primary). Connection refused
+2024-06-25 10:54:22 FATAL AdministradorBaseDatos:43 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.241.30)(port=3306)(type=primary). Connection refused
+2024-06-25 10:55:42 FATAL AdministradorBaseDatos:43 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.241.30)(port=3306)(type=primary). Connection refused
+2024-06-25 10:56:17 FATAL AdministradorBaseDatos:43 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.241.30)(port=3306)(type=primary). Connection refused
+2024-06-25 10:58:52 FATAL AdministradorBaseDatos:43 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.241.30)(port=3306)(type=primary). Connection refused
+2024-06-25 11:01:51 FATAL AdministradorBaseDatos:43 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.241.30)(port=3306)(type=primary). Connection refused
+2024-06-25 11:04:27 FATAL AdministradorBaseDatos:43 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.241.30)(port=3306)(type=primary). Connection refused

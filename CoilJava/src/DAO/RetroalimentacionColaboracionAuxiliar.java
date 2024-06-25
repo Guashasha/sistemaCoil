@@ -85,10 +85,7 @@ public class RetroalimentacionColaboracionAuxiliar {
     Optional<RetroalimentacionColaboracionDTO> retroalimentacion = Optional.empty();
     RetroalimentacionColaboracionDAO retroalimentacionDAO = new RetroalimentacionColaboracionDAO();
 
-    try {
-      retroalimentacion = retroalimentacionDAO.getPorPersonaYColaboracion(idPersona, idColaboracion);
-    } catch (ErrorDAO error) {
-    }
+    retroalimentacion = retroalimentacionDAO.getPorPersonaYColaboracion(idPersona, idColaboracion);
 
     return retroalimentacion;
   }
