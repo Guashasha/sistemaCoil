@@ -7,9 +7,12 @@ import DTO.AcademicoDTO;
 import DTO.UniversidadDTO;
 import Utilidades.ErrorDAO;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Label;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +39,7 @@ public class ConfiguracionCuentaControlador {
     private ComboBox<String> cmbAreaEstudios;
     private BorderPane pnVentanaPrincipal;
     private AcademicoDTO academico;
-    private UniversidadDTO universidadAcademico;
+    private UniversidadDTO universidadDelAcademico;
 
     public void setRecursos (BorderPane pnVentanaPrincipal, AcademicoDTO academico) throws ErrorDAO {
         if (pnVentanaPrincipal != null && academico != null) {
@@ -51,10 +54,10 @@ public class ConfiguracionCuentaControlador {
         }
     }
 
-    private void setUniversidadAcademico (UniversidadDTO universidadAcademico) throws ErrorDAO {
-        this.universidadAcademico = universidadAcademico;
-        if (!universidadAcademico.getNombre()
-                                 .equals("Universidad Veracruzana")) {
+    private void setUniversidadDelAcademico (UniversidadDTO universidadDelAcademico) throws ErrorDAO {
+        this.universidadDelAcademico = universidadDelAcademico;
+        if (!universidadDelAcademico.getNombre()
+                                    .equals("Universidad Veracruzana")) {
             this.lbCategoriaContratacion.setVisible(false);
             this.cbCategoriaContratacion.setVisible(false);
         }
@@ -131,66 +134,65 @@ public class ConfiguracionCuentaControlador {
         listaAreasEstudio.add("Ciencias de la Salud");
         listaAreasEstudio.add("Biología-Agropecuarias");
         listaAreasEstudio.add("DGRI");
-        ObservableList<String> areaEstudioObservable = FXCollections.observableArrayList(listaAreasEstudio);
-        this.cmbAreaEstudios.setItems(areaEstudioObservable);
+        this.cmbAreaEstudios.setItems(FXCollections.observableArrayList(listaAreasEstudio));
     }
 
     private void autocompletarCampos () throws ErrorDAO {
         AcademicoAuxiliar academicoAuxiliar = new AcademicoAuxiliar();
-        Optional<AcademicoDTO> academicoOptional = academicoAuxiliar.getPorId(this.academico.getIdPersona());
-        Optional<UniversidadDTO> universidadOptional = Optional.empty();
+        Optional<AcademicoDTO> academico = academicoAuxiliar.getPorId(this.academico.getIdPersona());
+        Optional<UniversidadDTO> universidadDelAcademico = Optional.empty();
 
-        if (academicoOptional.isPresent()) {
-            this.academico = academicoOptional.get();
+        if (academico.isPresent()) {
+            this.academico = academico.get();
             UniversidadDAO universidadDAO = new UniversidadDAO();
-            universidadOptional = universidadDAO.getUniversidadPorId(this.academico.getIdUniversidad());
+            universidadDelAcademico = universidadDAO.getUniversidadPorId(this.academico.getIdUniversidad());
 
-            if (universidadOptional.isPresent()) {
+            if (universidadDelAcademico.isPresent()) {
                 this.cmbAreaEstudios.setValue(this.academico.getAreaEstudios());
                 this.cbCategoriaContratacion.setValue(this.academico.getCategoriaContratacion());
                 this.tfCorreo.setText(this.academico.getCorreoElectronico());
                 this.tfTelefono.setText(this.academico.getNumeroTelefonico());
-                setUniversidadAcademico(universidadOptional.get());
+                setUniversidadDelAcademico(universidadDelAcademico.get());
             }
         }
 
-        if (academicoOptional.isEmpty() || universidadOptional.isEmpty()) {
+        if (academico.isEmpty() || universidadDelAcademico.isEmpty()) {
             throw new ErrorDAO("Error al cargar los recursos de la ventana: Configuración de cuenta", ErrorDAO.Tipo.CONSULTA);
         }
     }
 
     private boolean camposVacios () {
-        boolean vacios;
+        boolean camposVacios;
         String areaEstudios = cmbAreaEstudios.getValue();
         String correo = tfCorreo.getText();
         String telefono = tfTelefono.getText();
-        if (this.universidadAcademico.getNombre()
-                                     .equals("Universidad Veracruzana")) {
+        if (this.universidadDelAcademico.getNombre()
+                                        .equals("Universidad Veracruzana")) {
             String categoriaContratacion = cbCategoriaContratacion.getValue();
-            vacios = areaEstudios == null || categoriaContratacion == null || correo == null || correo.isBlank() || telefono == null || telefono.isBlank();
+            camposVacios = areaEstudios == null || categoriaContratacion == null || correo == null || correo.isBlank() || telefono == null || telefono.isBlank();
         }
         else {
-            vacios = areaEstudios == null || correo == null || correo.isBlank() || telefono == null || telefono.isBlank();
+            camposVacios = areaEstudios == null || correo == null || correo.isBlank() || telefono == null || telefono.isBlank();
         }
-        return vacios;
+        return camposVacios;
     }
 
     private boolean camposActualizados () {
-        boolean camposSinCambios;
+        boolean camposActualizados;
         String areaEstudios = this.cmbAreaEstudios.getValue();
         String correo = this.tfCorreo.getText()
                                      .trim();
         String telefono = this.tfTelefono.getText()
                                          .trim();
-        if (this.universidadAcademico.getNombre()
-                                     .equals("Universidad Veracruzana")) {
+        if (this.universidadDelAcademico.getNombre()
+                                        .equals("Universidad Veracruzana")) {
             String categoriaContratacion = this.cbCategoriaContratacion.getValue();
-            camposSinCambios = !areaEstudios.equals(this.academico.getAreaEstudios()) || !categoriaContratacion.equals(this.academico.getCategoriaContratacion()) || !correo.equals(this.academico.getCorreoElectronico()) || !telefono.equals(this.academico.getNumeroTelefonico());
+            camposActualizados = !areaEstudios.equals(this.academico.getAreaEstudios()) || !categoriaContratacion.equals(this.academico.getCategoriaContratacion()) || !correo.equals(this.academico.getCorreoElectronico()) || !telefono.equals(this.academico.getNumeroTelefonico());
         }
         else {
-            camposSinCambios = !areaEstudios.equals(this.academico.getAreaEstudios()) || !correo.equals(this.academico.getCorreoElectronico()) || !telefono.equals(this.academico.getNumeroTelefonico());
+            camposActualizados = !areaEstudios.equals(this.academico.getAreaEstudios()) || !correo.equals(this.academico.getCorreoElectronico()) || !telefono.equals(this.academico.getNumeroTelefonico());
         }
-        return camposSinCambios;
+        return camposActualizados;
     }
 
     private boolean correoActualizado () {
@@ -206,8 +208,8 @@ public class ConfiguracionCuentaControlador {
         this.lbObligatorioCorreo.setVisible(correo == null || correo.isBlank());
         this.lbObligatorioTelefono.setVisible(telefono == null || telefono.isBlank());
 
-        if (this.universidadAcademico.getNombre()
-                                     .equals("Universidad Veracruzana")) {
+        if (this.universidadDelAcademico.getNombre()
+                                        .equals("Universidad Veracruzana")) {
             String categoriaContratacion = this.cbCategoriaContratacion.getValue();
             this.lbObligatorioCategoria.setVisible(categoriaContratacion == null || categoriaContratacion.isBlank());
         }
@@ -221,27 +223,27 @@ public class ConfiguracionCuentaControlador {
     }
 
     private void llenarComboBoxCategoriaContratacion () {
-        ArrayList<String> categorias = new ArrayList<>();
-        categorias.add("planta");
-        categorias.add("interino por plaza");
-        categorias.add("interino por persona");
-        categorias.add("interino por tiempo determinado");
-        categorias.add("interino por obra determinada");
-        categorias.add("interino por falta de grado");
-        categorias.add("suplente");
-        categorias.add("trabajos especificos");
-        categorias.add("interino por plaza con plaza");
-        categorias.add("interino por persona con plaza");
-        categorias.add("suplente con plaza");
-        categorias.add("eventual");
-        categorias.add("beca trabajo");
-        categorias.add("apoyo");
-        categorias.add("beca subsidio");
-        categorias.add("beca posgrado");
-        categorias.add("beca sistema nacional de investigación");
-        categorias.add("beca profesional");
+        ArrayList<String> categoriasContratacion = new ArrayList<>();
+        categoriasContratacion.add("Planta");
+        categoriasContratacion.add("Interino por plaza");
+        categoriasContratacion.add("Interino por persona");
+        categoriasContratacion.add("Interino por tiempo determinado");
+        categoriasContratacion.add("Interino por obra determinada");
+        categoriasContratacion.add("Interino por falta de grado");
+        categoriasContratacion.add("suplente");
+        categoriasContratacion.add("Trabajos específicos");
+        categoriasContratacion.add("Interino por plaza con plaza");
+        categoriasContratacion.add("Interino por persona con plaza");
+        categoriasContratacion.add("Suplente con plaza");
+        categoriasContratacion.add("Eventual");
+        categoriasContratacion.add("Beca trabajo");
+        categoriasContratacion.add("Apoyo");
+        categoriasContratacion.add("Beca subsidio");
+        categoriasContratacion.add("Beca posgrado");
+        categoriasContratacion.add("Beca sistema nacional de investigación");
+        categoriasContratacion.add("Beca profesional");
 
-        this.cbCategoriaContratacion.setItems(FXCollections.observableArrayList(categorias));
+        this.cbCategoriaContratacion.setItems(FXCollections.observableArrayList(categoriasContratacion));
     }
 
 }

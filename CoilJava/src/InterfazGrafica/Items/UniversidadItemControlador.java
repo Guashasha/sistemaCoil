@@ -41,29 +41,29 @@ public class UniversidadItemControlador {
         this.lbPais.setText(paisDTO.getNombre());
     }
 
-    public void setConsultaUniversidadesControlador(ConsultaUniversidadesControlador consultaUniversidadesControlador) {
+    public void setConsultaUniversidadesControlador (ConsultaUniversidadesControlador consultaUniversidadesControlador) {
         this.consultaUniversidadesControlador = consultaUniversidadesControlador;
     }
 
     @FXML
     private void editarUniversidad () {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../EdicionUniversidad.fxml"));
-        BorderPane pnEditarUniversidad = null;
+        BorderPane pnEdicionUniversidad = null;
 
         try {
-            pnEditarUniversidad = fxmlLoader.load();
+            pnEdicionUniversidad = fxmlLoader.load();
         }
         catch (IOException error) {
             BITACORA.info(error.getMessage());
             mostrarMensajeEmergente("Algo salió mal al cargar las configuraciones de la Universidad", Alert.AlertType.ERROR);
         }
 
-        if (pnEditarUniversidad != null) {
+        if (pnEdicionUniversidad != null) {
             EdicionUniversidadControlador edicionUniversidadControlador = fxmlLoader.getController();
 
             try {
                 edicionUniversidadControlador.setRecursos(this.pnVentanaPrincipal, this.historialPaneles, new UniversidadDTO(lbUniversidad.getText()), new PaisDTO(lbPais.getText()), this.consultaUniversidadesControlador);
-                this.pnVentanaPrincipal.setCenter(pnEditarUniversidad);
+                this.pnVentanaPrincipal.setCenter(pnEdicionUniversidad);
             }
             catch (ErrorDAO error) {
                 mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);

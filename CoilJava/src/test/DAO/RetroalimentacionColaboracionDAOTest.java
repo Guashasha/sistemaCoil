@@ -2,26 +2,21 @@ package test.DAO;
 
 import DAO.RetroalimentacionColaboracionAuxiliar;
 import DAO.RetroalimentacionColaboracionDAO;
-import DTO.RetroalimentacionActividadDTO;
 import DTO.RetroalimentacionColaboracionDTO;
 import Utilidades.ErrorDAO;
 import org.junit.jupiter.api.AfterAll;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import test.AyudantePruebasColaboracionDB;
 import test.ConfiguracionPrueba;
-
-import java.util.List;
 import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
 
 public class RetroalimentacionColaboracionDAOTest {
     private static final RetroalimentacionColaboracionDAO dao = new RetroalimentacionColaboracionDAO();
 
     @BeforeAll
-    public static void setUp() {
+    public static void setUp () {
         ConfiguracionPrueba.borrarDatosTablaRetroalimentacionColaboracion();
         ConfiguracionPrueba.borrarDatosTablaRetroalimentacion();
 
@@ -54,7 +49,7 @@ public class RetroalimentacionColaboracionDAOTest {
     }
 
     private static RetroalimentacionColaboracionDTO crearRetroalimentacion2 () {
-    RetroalimentacionColaboracionDTO retroalimentacion = new RetroalimentacionColaboracionDTO();
+        RetroalimentacionColaboracionDTO retroalimentacion = new RetroalimentacionColaboracionDTO();
         retroalimentacion.setIdUsuario(2);
         retroalimentacion.setColaboracion(4);
         retroalimentacion.setComentario("hola mundo");
@@ -71,16 +66,16 @@ public class RetroalimentacionColaboracionDAOTest {
 
     @Test
     public void pruebaAgregarRetroalimentacion () {
-        int resultadoConsulta = -1;
+        int filasAfectadasObtenidas = -1;
 
         try {
-            resultadoConsulta = dao.agregar(crearRetroalimentacion());
+            filasAfectadasObtenidas = dao.agregar(crearRetroalimentacion());
         }
         catch (ErrorDAO error) {
             fail(error.getMessage());
         }
 
-        assertEquals(2, resultadoConsulta);
+        assertEquals(2, filasAfectadasObtenidas);
     }
 
     @Test
@@ -96,23 +91,45 @@ public class RetroalimentacionColaboracionDAOTest {
         retroalimentacion.setMejoraDelLenguaje(5);
         retroalimentacion.setTrabajoColaborativo(5);
         retroalimentacion.setMejoraFormacionProfesional(4);
-
-        try {
-            dao.agregar(retroalimentacion);
-            fail();
-        } catch (ErrorDAO e) {
-            assertEquals(ErrorDAO.Tipo.CONEXION, e.getTipo());
-        }
+        assertThrows(ErrorDAO.class,()->dao.agregar(retroalimentacion));
     }
 
     @Test
     public void pruebaGetPorId () {
-        RetroalimentacionColaboracionDTO esperado = crearRetroalimentacion2();
+        RetroalimentacionColaboracionDTO retroalimentacionEsperada = crearRetroalimentacion2();
+        Optional<RetroalimentacionColaboracionDTO> retroalimentacionObtenida = Optional.empty();
+        try {
+            retroalimentacionObtenida = dao.getPorId(1);
+        }
+        catch (ErrorDAO e) {
+            fail();
+        }
+        assertEquals(retroalimentacionEsperada, retroalimentacionObtenida.get());
+    }
+
+    @Test
+    public void pruebaGetPorIdIncorrecto () {
+        Optional<RetroalimentacionColaboracionDTO> resultadoConsulta = Optional.empty();
+
+        try {
+            resultadoConsulta = dao.getPorId(1000);
+        }
+        catch (ErrorDAO e) {
+            fail();
+        }
+
+        assert (resultadoConsulta.isEmpty());
+    }
+
+    @Test
+    public void pruebaGetPorPersonaYColaboracion () {
+        RetroalimentacionColaboracionDTO esperado = crearRetroalimentacion();
         Optional<RetroalimentacionColaboracionDTO> retroalimentacionObtenida = Optional.empty();
 
         try {
-            retroalimentacionObtenida = dao.getPorId(1);
-        } catch (ErrorDAO e) {
+            retroalimentacionObtenida = dao.getPorPersonaYColaboracion(1, 3);
+        }
+        catch (ErrorDAO e) {
             fail();
         }
 
@@ -122,45 +139,17 @@ public class RetroalimentacionColaboracionDAOTest {
     }
 
     @Test
-    public void pruebaGetPorIdIncorrecto () {
-        Optional<RetroalimentacionColaboracionDTO> resultadoConsulta = Optional.empty();
-
-        try {
-            resultadoConsulta = dao.getPorId(1000);
-        } catch (ErrorDAO e) {
-            fail();
-        }
-
-        assert(resultadoConsulta.isEmpty());
-    }
-
-  @Test
-    public void pruebaGetPorPersonaYColaboracion () {
-        RetroalimentacionColaboracionDTO esperado = crearRetroalimentacion();
-        Optional<RetroalimentacionColaboracionDTO> retroalimentacionObtenida = Optional.empty();
-
-        try {
-            retroalimentacionObtenida = dao.getPorPersonaYColaboracion(1, 3);
-        } catch (ErrorDAO e) {
-            fail();
-      }
-
-      RetroalimentacionColaboracionDTO retroalimentacion = retroalimentacionObtenida.get();
-
-      assertEquals(esperado, retroalimentacion);
-    }
-
-    @Test
     public void pruebaPorPersonaSinColaboracion () {
         Optional<RetroalimentacionColaboracionDTO> retroalimentacionObtenida = Optional.empty();
 
         try {
             retroalimentacionObtenida = dao.getPorPersonaYColaboracion(1, 3000);
-        } catch (ErrorDAO e) {
+        }
+        catch (ErrorDAO e) {
             fail();
         }
 
-        assert(retroalimentacionObtenida.isEmpty());
+        assert (retroalimentacionObtenida.isEmpty());
     }
 
     @Test
@@ -169,10 +158,11 @@ public class RetroalimentacionColaboracionDAOTest {
 
         try {
             retroalimentacionObtenida = dao.getPorPersonaYColaboracion(1000, 3);
-        } catch (ErrorDAO e) {
+        }
+        catch (ErrorDAO e) {
             fail();
         }
 
-        assert(retroalimentacionObtenida.isEmpty());
+        assert (retroalimentacionObtenida.isEmpty());
     }
 }

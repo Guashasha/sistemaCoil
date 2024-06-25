@@ -37,9 +37,9 @@ public class ListaEstudiantesItemControlador {
     public void setRecursos (BorderPane pnVentanaPrincipal, Stack<Pane> historialPaneles, ColaboracionDTO colaboracion, ListaEstudiantesControlador listaEstudiantesControlador, EstudianteDTO estudiante) throws ErrorDAO {
         if (pnVentanaPrincipal != null && historialPaneles != null && colaboracion != null && listaEstudiantesControlador != null && estudiante != null) {
             UniversidadDAO universidadDAO = new UniversidadDAO();
-            Optional<UniversidadDTO> universidadOptional = universidadDAO.getUniversidadPorId(estudiante.getIdUniversidad());
+            Optional<UniversidadDTO> universidadDelEstudiante = universidadDAO.getUniversidadPorId(estudiante.getIdUniversidad());
 
-            if (universidadOptional.isPresent()) {
+            if (universidadDelEstudiante.isPresent()) {
                 this.pnVentanaPrincipal = pnVentanaPrincipal;
                 this.historialPaneles = historialPaneles;
                 this.colaboracion = colaboracion;
@@ -49,7 +49,7 @@ public class ListaEstudiantesItemControlador {
                 this.lbMatricula.setText(estudiante.getMatricula());
                 String nombreCompleto = estudiante.getNombre() + " " + estudiante.getApellidos();
                 this.lbNombre.setText(nombreCompleto);
-                this.lbUniversidad.setText(universidadOptional.get()
+                this.lbUniversidad.setText(universidadDelEstudiante.get()
                                                               .getNombre());
             }
             else {
@@ -77,13 +77,13 @@ public class ListaEstudiantesItemControlador {
     @FXML
     private void editarEstudiante () {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../EdicionEstudiante.fxml"));
-        BorderPane pnAgregarEstudiante;
+        BorderPane pnEdicionEstudiante;
 
         try {
-            pnAgregarEstudiante = fxmlLoader.load();
+            pnEdicionEstudiante = fxmlLoader.load();
             EdicionEstudianteControlador controlador = fxmlLoader.getController();
             controlador.setRecursos(this.historialPaneles, this.pnVentanaPrincipal, this.estudiante, this.listaEstudiantesControlador);
-            this.pnVentanaPrincipal.setCenter(pnAgregarEstudiante);
+            this.pnVentanaPrincipal.setCenter(pnEdicionEstudiante);
         }
         catch (IOException error) {
             BITACORA.info(error.getMessage());

@@ -91,15 +91,15 @@ public class UniversidadAuxiliar {
      * @throws ErrorDAO si ocurre un error en la validación de la información o durante el acceso a la base de datos.
      */
     public Optional<UniversidadDTO> getUniversidadPorNombre (String nombre) throws ErrorDAO {
-        Optional<UniversidadDTO> universidad;
-        UniversidadDTO universidadABuscar = new UniversidadDTO(nombre);
-        if (universidadABuscar.nombreValido()) {
-            universidad = UNIVERSIDAD_DAO.getUniversidadPorNombre(nombre.trim());
+        Optional<UniversidadDTO> universidadOptional;
+        UniversidadDTO universidadBuscada = new UniversidadDTO(nombre);
+        if (universidadBuscada.nombreValido()) {
+            universidadOptional = UNIVERSIDAD_DAO.getUniversidadPorNombre(nombre.trim());
         }
         else {
             throw new ErrorDAO("El nombre de la universidad no puede estar vacío", ErrorDAO.Tipo.VALIDACION);
         }
-        return universidad;
+        return universidadOptional;
     }
 
     /**

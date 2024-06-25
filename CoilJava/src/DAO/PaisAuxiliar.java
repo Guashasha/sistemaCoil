@@ -20,13 +20,13 @@ public class PaisAuxiliar {
      */
     public List<String> getNombresPaisesAlfabeticamente () throws ErrorDAO {
         List<PaisDTO> listaPaises = PAIS_DAO.getPaisesAlfabeticamente();
-        List<String> nombresPaises = new ArrayList<>();
+        List<String> listaNombresPaises = new ArrayList<>();
 
         for (PaisDTO paisDTO : listaPaises) {
-            nombresPaises.add(paisDTO.getNombre());
+            listaNombresPaises.add(paisDTO.getNombre());
         }
 
-        return nombresPaises;
+        return listaNombresPaises;
     }
 
     /**
@@ -36,16 +36,16 @@ public class PaisAuxiliar {
      * @throws ErrorDAO si ocurre un error en la validación de los parámetros o durante el acceso a la base de datos.
      */
     public Optional<PaisDTO> getPaisPorNombre (String nombre) throws ErrorDAO {
-        Optional<PaisDTO> paisDTOOptional;
-        PaisDTO paisAConsultar = new PaisDTO(nombre);
+        Optional<PaisDTO> paisOptional;
+        PaisDTO paisBuscado = new PaisDTO(nombre);
 
-        if (paisAConsultar.nombreValido()) {
-            paisDTOOptional = PAIS_DAO.getPaisPorNombre(nombre.trim());
+        if (paisBuscado.nombreValido()) {
+            paisOptional = PAIS_DAO.getPaisPorNombre(nombre.trim());
         }
         else {
             throw new ErrorDAO("Los nombres no pueden contener caracteres especiales.\nSolo son válidas letras del alfabeto en español y guiones en el medio", ErrorDAO.Tipo.VALIDACION);
         }
 
-        return paisDTOOptional;
+        return paisOptional;
     }
 }
