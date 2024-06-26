@@ -1,21 +1,23 @@
 package DAO;
 
-import DTO.ActividadDTO;
 import DTO.ActividadVinculadaDTO;
 import Utilidades.ErrorDAO;
-import org.apache.log4j.Logger;
 
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Valida los datos antes de realizar las operaciónes, si son correctos llama a la clase CronogramaActiviadDAO
+ */
 public class CronogramaActividadAuxiliar {
-    private static final Logger BITACORA = Logger.getLogger(CronogramaActividadAuxiliar.class);
-
+    /**
+     * Valida y vincula una actividad con una colaboración, la actividad vinculada debe contener ambas, actividad y colaboración
+     * @param actividadVinculadaDTO los datos de la actividad y la colaboración que serán vinculados
+     * @return el numero de filas afectadas
+     * @throws ErrorDAO tipo validación si la actividad o la colaboración son incorrectas, tipo inserción si no se pudieron vincular y tipo conexión si ocurre un error de sql
+     */
     public int agregar (ActividadVinculadaDTO actividadVinculadaDTO) throws ErrorDAO {
-        if (!actividadVinculadaDTO.getPeriodo()
-                .esCorrecto()) {
-            throw new ErrorDAO("El periodo especificado es incorrecto.", ErrorDAO.Tipo.VALIDACION);
-        } else if (!actividadVinculadaDTO.getActividad()
+        if (!actividadVinculadaDTO.getActividad()
                 .esCorrecta()) {
             throw new ErrorDAO("La actividad es incorrecta", ErrorDAO.Tipo.VALIDACION);
         } else if (!actividadVinculadaDTO.getColaboracion()
@@ -32,6 +34,12 @@ public class CronogramaActividadAuxiliar {
         return 1;
     }
 
+    /**
+     * Desvincula una actividad de una colaboración
+     * @param actividadVinculadaDTO los datos de la actividad que se desvinculará de la colaboración
+     * @return el numero de filas afectadas
+     * @throws ErrorDAO tipo validación si la actividad o la colaboración es incorrecta, tipo conexión si ocurre un error de sql
+     */
     public int desvincular (ActividadVinculadaDTO actividadVinculadaDTO) throws ErrorDAO {
         if (!actividadVinculadaDTO.esCorrecto()) {
             throw new ErrorDAO("La actividad vinculada es incorrecta.", ErrorDAO.Tipo.VALIDACION);
@@ -45,6 +53,12 @@ public class CronogramaActividadAuxiliar {
         return resultado;
     }
 
+    /**
+     * Modifica la fecha de finalización de una vinculación entre una actividad y una colaboración
+     * @param actividadVinculadaDTO el objeto que contiene la actividad, colaboración y feacha
+     * @return el numero de filas afectadas
+     * @throws ErrorDAO tipo validación si la actividad o lacolaboración son incorrectas, tipo inserción si no se logra modificar, y tipo conexion si ocurre un error de sql
+     */
     public int modificar (ActividadVinculadaDTO actividadVinculadaDTO) throws ErrorDAO {
         if (!actividadVinculadaDTO.esCorrecto()) {
             throw new ErrorDAO("La actividad vinculada es incorrecta", ErrorDAO.Tipo.VALIDACION);
@@ -59,8 +73,15 @@ public class CronogramaActividadAuxiliar {
         return 1;
     }
 
+    /**
+     * Consigue una vinculación de actividad con colaboración proporcionando la actividad y la colaboración
+     * @param idActividad el id de la activida que se busca
+     * @param idColaboracion el id de la colaboración con la que debe estár vinculada
+     * @return la actividad vinculada que pretenece a la colaboración y actividad proporcionadas, empty si no se encuentra
+     * @throws ErrorDAO tipo conexión si ocurre un error de sql
+     */
     public Optional<ActividadVinculadaDTO> getPorActividadYColaboracion (int idActividad, int idColaboracion) {
-        Optional<ActividadVinculadaDTO> rsActividad = Optional.empty();
+        Optional<ActividadVinculadaDTO> rsActividad;
         CronogramaActividadDAO cronogramaDAO = new CronogramaActividadDAO();
 
         try {
@@ -73,6 +94,11 @@ public class CronogramaActividadAuxiliar {
         return rsActividad;
     }
 
+/**
+ * Consigue todas las actividades vinculadas con todas las colaboraciones
+ * @return ArrayList con todas las vinculaciones
+ * @throws ErrorDAO
+ */
     public List<ActividadVinculadaDTO> getTodos () throws ErrorDAO {
         CronogramaActividadDAO cronogramaDAO = new CronogramaActividadDAO();
 

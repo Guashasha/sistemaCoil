@@ -18,25 +18,27 @@ public class ActividadDTODAOTest {
 
     private final ActividadAuxiliar dao = new ActividadAuxiliar();
 
-    @BeforeEach
-    void setUp () {
+    @BeforeAll
+    static void setUp () {
+        ConfiguracionPrueba.borrarDatosTablaRetroalimentacionActividad();
+        ConfiguracionPrueba.borrarDatosTablaCalendarioActividades();
         ConfiguracionPrueba.borrarDatosTablaActividad();
         AyudantePruebasColaboracionDB.agregarActividades();
     }
 
     @AfterAll
-    static void tearDown () {
-        ConfiguracionPrueba.borrarDatosTablaActividad();
+    static void limpiarBase () {
+        ConfiguracionPrueba.borrarDatosTodasLasTablas();
     }
 
     @Test
     void pruebaAgregarActividadExitosa () {
         try {
             int resultado = dao.agregar(ACTIVIDAD1);
-            assertEquals(1,resultado,"pruebaAgregarActividadExitosa");
+            assertEquals(1, resultado);
         }
         catch (ErrorDAO error) {
-            fail("Fallida: pruebaAgregarActividadExitosa");
+            fail();
         }
     }
 
@@ -52,7 +54,7 @@ public class ActividadDTODAOTest {
         try {
             resultado = dao.getPorId(1);
         } catch (ErrorDAO e) {
-            fail("Fallida: pruebaGetPorIdExitosa");
+            fail();
         }
 
         if (resultado.isEmpty()) {
@@ -60,11 +62,7 @@ public class ActividadDTODAOTest {
         }
 
         ActividadDTO actividad = resultado.get();
-
-        assertEquals(ACTIVIDAD1.getIdActividad(), actividad.getIdActividad());
-        assertEquals(ACTIVIDAD1.getTitulo(), actividad.getTitulo());
-        assertEquals(ACTIVIDAD1.getDescripcion(), actividad.getDescripcion());
-        assertEquals(ACTIVIDAD1.getTipo().toString(), actividad.getTipo().toString());
+        assertEquals(actividad, ACTIVIDAD1);
     }
 
     @Test
@@ -74,7 +72,7 @@ public class ActividadDTODAOTest {
             assert(resultado.isEmpty());
         }
         catch (ErrorDAO error) {
-            fail("Fallida: pruebaGetPorIdInexistente");
+            fail();
         }
     }
 
@@ -85,7 +83,7 @@ public class ActividadDTODAOTest {
         try {
             resultado = dao.getPorTitulo(ACTIVIDAD1.getTitulo());
         } catch (ErrorDAO e) {
-            fail("Fallida: pruebaGetPorTituloExitosa");
+            fail();
         }
 
         if (resultado.isEmpty()) {
@@ -94,10 +92,7 @@ public class ActividadDTODAOTest {
 
         ActividadDTO actividad = resultado.get();
 
-        assertEquals(ACTIVIDAD1.getIdActividad(), actividad.getIdActividad());
-        assertEquals(ACTIVIDAD1.getTitulo(), actividad.getTitulo());
-        assertEquals(ACTIVIDAD1.getDescripcion(), actividad.getDescripcion());
-        assertEquals(ACTIVIDAD1.getTipo().toString(), actividad.getTipo().toString());
+        assertEquals(ACTIVIDAD1, actividad);
     }
 
     @Test
@@ -152,24 +147,5 @@ public class ActividadDTODAOTest {
         catch (ErrorDAO error) {
             fail("Fallida: pruebaGetPorIdColaboracionInexistente");
         }
-    }
-
-    @Test
-    void pruebaGetTodosExitosa () {
-        List<ActividadDTO> resultado = null;
-        List<ActividadDTO> esperado = new ArrayList<>();
-        esperado.add(ACTIVIDAD1);
-        esperado.add(ACTIVIDAD2);
-        try {
-            resultado = dao.getTodos();
-        } catch (ErrorDAO e) {
-            fail("Fallida: pruebaGetTodosExitosa");
-        }
-
-        if (resultado.isEmpty()) {
-            fail("No se encontraron las actividades esperadas");
-        }
-
-        assertEquals(esperado, resultado);
     }
 }

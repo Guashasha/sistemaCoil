@@ -5,19 +5,15 @@ import DTO.AcademicoDTO;
 import DTO.ColaboracionDTO;
 import InterfazGrafica.Items.ColaboracionDisponibleItemControlador;
 import Utilidades.ErrorDAO;
-import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -28,19 +24,17 @@ import java.util.ResourceBundle;
 import java.util.Stack;
 import java.util.stream.Collectors;
 
-public class ConsultaColaboracionControlador extends Application implements Initializable {
+public class ConsultaColaboracionControlador implements Initializable {
     private static final Logger BITACORA = Logger.getLogger(ConsultaColaboracionControlador.class);
     private AcademicoDTO academicoDTO;
 
     @FXML
-    private GridPane gpContenedorColaboraciones;
+    private GridPane pnContenedorColaboraciones;
 
     @FXML
     private TextField tfBusqueda;
     private BorderPane pnVentanaPrincipal;
     private Stack<Pane> historialPaneles = new Stack<>();
-
-
 
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle) {
@@ -52,7 +46,7 @@ public class ConsultaColaboracionControlador extends Application implements Init
 
     private List<ColaboracionDTO> getColaboracionesDisponibles () {
         ColaboracionAuxiliar colaboracionAuxiliar = new ColaboracionAuxiliar();
-        List<ColaboracionDTO> colaboraciones = colaboracionAuxiliar.obtenerColaboracionDisponible(academicoDTO.getCedulaProfesional());
+        List<ColaboracionDTO> colaboraciones = colaboracionAuxiliar.getColaboracionDisponible(academicoDTO.getCedulaProfesional(), academicoDTO.getIdUniversidad());
         String textoBusqueda = tfBusqueda.getText()
                                          .trim()
                                          .toLowerCase();
@@ -67,7 +61,7 @@ public class ConsultaColaboracionControlador extends Application implements Init
     }
 
     public void cargarColaboracionItem () {
-        gpContenedorColaboraciones.getChildren()
+        pnContenedorColaboraciones.getChildren()
                                   .clear();
 
         ArrayList<ColaboracionDTO> arrayListColaboracion;
@@ -87,7 +81,7 @@ public class ConsultaColaboracionControlador extends Application implements Init
             }
         }
         catch (ErrorDAO error) {
-            mostrarAlert(error.getMessage(), Alert.AlertType.ERROR);
+            mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
         }
     }
 
@@ -99,7 +93,7 @@ public class ConsultaColaboracionControlador extends Application implements Init
             ColaboracionDisponibleItemControlador controlador = fxmlLoader.getController();
             controlador.setColaboracionDTO(colaboracionDTO);
             controlador.setAcademicoDTO(academicoDTO);
-            gpContenedorColaboraciones.add(pane, columnas++, filas);
+            pnContenedorColaboraciones.add(pane, columnas++, filas);
             GridPane.setMargin(pane, new Insets(10));
             controlador.inicializarLabel();
         }
@@ -109,7 +103,7 @@ public class ConsultaColaboracionControlador extends Application implements Init
         }
     }
 
-    private void mostrarAlert (String mensaje, Alert.AlertType tipoAlerta) {
+    private void mostrarMensajeEmergente (String mensaje, Alert.AlertType tipoAlerta) {
         Alert alert = new Alert(tipoAlerta);
         alert.setContentText(mensaje);
         alert.setHeaderText("Informacion");
@@ -132,15 +126,7 @@ public class ConsultaColaboracionControlador extends Application implements Init
         this.historialPaneles = historialPaneles;
     }
 
-    @Override
-    public void start (Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../InterfazGrafica/ConsultaColaboracion.fxml"));
-        Parent root = loader.load();
-        Scene scene = new Scene(root);
 
-        stage.setScene(scene);
-        stage.show();
-    }
     public void cargarItemsColaboracionPorBusqueda () {
         tfBusqueda.textProperty()
                   .addListener((observable, oldValue, newValue) -> {
@@ -148,9 +134,7 @@ public class ConsultaColaboracionControlador extends Application implements Init
                   });
     }
 
-
-
-    public static void main (String[] args) {
-        launch(args);
-    }
 }
+
+
+

@@ -1,5 +1,8 @@
 package DTO;
 
+/**
+ * La clase RetroalimentacionColaboracionDTO funciona como transfer object, para transferir la información desde la base de datos a capas superiores dentro de la aplicación.
+ */
 public class RetroalimentacionColaboracionDTO extends RetroalimentacionDTO {
     private int habilidadesObtenidas;
     private int calificacion;
@@ -90,33 +93,27 @@ public class RetroalimentacionColaboracionDTO extends RetroalimentacionDTO {
     }
 
     public boolean esCorrecta () {
-        boolean resultado = calificacionCorrecta(this.getCalificacion());
+        if (!calificacionCorrecta(this.getCalificacion())) {
+            return false;
+        }
 
         if (!calificacionCorrecta(this.getHabilidadesObtenidas())) {
-            resultado = false;
+            return false;
         }
 
         if (!calificacionCorrecta(this.getIntercambioCultural())) {
-            resultado = false;
+            return false;
         }
 
         if (!calificacionCorrecta(this.getMejoraDelLenguaje())) {
-            resultado = false;
+            return false;
         }
 
         if (!calificacionCorrecta(this.getTrabajoColaborativo())) {
-            resultado = false;
+            return false;
         }
 
-        if (!calificacionCorrecta(this.getMejoraFormacionProfesional())) {
-            resultado = false;
-        }
-
-        if (!calificacionCorrecta(this.getIntercambioCultural())) {
-            resultado = false;
-        }
-
-        return resultado;
+        return calificacionCorrecta(this.getMejoraFormacionProfesional());
     }
 
     private boolean calificacionCorrecta (int calificacion) {

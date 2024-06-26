@@ -1,7 +1,9 @@
 package InterfazGrafica;
 
 import DAO.PaisAuxiliar;
+import DAO.PaisDAO;
 import DAO.UniversidadAuxiliar;
+import DAO.UniversidadDAO;
 import DTO.PaisDTO;
 import DTO.UniversidadDTO;
 import InterfazGrafica.Items.UniversidadItemControlador;
@@ -67,18 +69,33 @@ public class ConsultaUniversidadesControlador {
         if (pnRegistroUniversidad != null) {
             this.historialPaneles.push(this.pnConsultaUniversidades);
             RegistroUniversidadControlador registroUniversidadControlador = fxmlLoader.getController();
-            registroUniversidadControlador.setPnVentanaPrincipal(this.pnVentanaPrincipal);
-            registroUniversidadControlador.setHistorialPaneles(this.historialPaneles);
-            registroUniversidadControlador.setConsultaUniversidadesControlador(this);
-            this.pnVentanaPrincipal.setCenter(pnRegistroUniversidad);
+
+            try {
+                registroUniversidadControlador.setRecursos(this.pnVentanaPrincipal, this.historialPaneles, this);
+                this.pnVentanaPrincipal.setCenter(pnRegistroUniversidad);
+            }
+            catch (ErrorDAO error) {
+                mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
+                this.historialPaneles.pop();
+            }
         }
     }
 
-    public void cargarConsultaGeneral() {
-        UniversidadAuxiliar universidadAuxiliar = new UniversidadAuxiliar();
+    @FXML
+    private void limitarCaracteresBarraBusqueda () {
+        int longitud = tfBarraBusqueda.getLength();
+        if (longitud > UniversidadDTO.LONGITUD_NOMBRE) {
+            tfBarraBusqueda.setText(tfBarraBusqueda.getText()
+                                                   .substring(0, UniversidadDTO.LONGITUD_NOMBRE));
+            tfBarraBusqueda.positionCaret(tfBarraBusqueda.getLength());
+        }
+    }
+
+    public void cargarConsultaGeneral () {
+        UniversidadDAO universidadDAO = new UniversidadDAO();
         List<UniversidadDTO> listaUniversidades = new ArrayList<>();
         try {
-            listaUniversidades = universidadAuxiliar.getTodasAlfabeticamente();
+            listaUniversidades = universidadDAO.getTodasAlfabeticamente();
         }
         catch (ErrorDAO error) {
             mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
@@ -87,12 +104,13 @@ public class ConsultaUniversidadesControlador {
     }
 
     private void mostrarConsulta (List<UniversidadDTO> listaUniversidades) {
-        vboxConsultaUniversidades.getChildren().clear();
-        listaUniversidades.removeIf(universidad -> universidad.getNombre().equals("Universidad Veracruzana"));
+        vboxConsultaUniversidades.getChildren()
+                                 .clear();
+        listaUniversidades.removeIf(universidad -> universidad.getNombre()
+                                                              .equals("Universidad Veracruzana"));
 
         if (!listaUniversidades.isEmpty()) {
-            this.historialPaneles
-                    .push(this.pnConsultaUniversidades);
+            this.historialPaneles.push(this.pnConsultaUniversidades);
         }
 
         for (UniversidadDTO universidad : listaUniversidades) {
@@ -113,14 +131,15 @@ public class ConsultaUniversidadesControlador {
                 break;
             }
 
-            this.vboxConsultaUniversidades.getChildren().add(hboxFila);
+            this.vboxConsultaUniversidades.getChildren()
+                                          .add(hboxFila);
         }
     }
 
     private void agregarDatosFilaUniversidad (UniversidadItemControlador controlador, UniversidadDTO universidad) throws ErrorDAO {
-        PaisAuxiliar paisAuxiliar = new PaisAuxiliar();
+        PaisDAO paisDAO = new PaisDAO();
 
-        Optional<PaisDTO> paisOptional = paisAuxiliar.getPaisPorId(universidad.getIdPais());
+        Optional<PaisDTO> paisOptional = paisDAO.getPaisPorId(universidad.getIdPais());
 
         controlador.setUniversidad(universidad);
         paisOptional.ifPresent(controlador::setPais);
@@ -135,5 +154,5 @@ public class ConsultaUniversidadesControlador {
         alerta.setHeaderText(null);
         alerta.show();
     }
-    
+
 }

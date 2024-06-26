@@ -3,30 +3,53 @@ package DAO;
 import DAO.Interfaces.IRegionDAO;
 import DTO.RegionDTO;
 import AccesoDatos.AdministradorBaseDatos;
+import Utilidades.ErrorDAO;
+import org.apache.log4j.Logger;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * La clase RegionDAO se encarga de obtener información de las regiones en la base de datos y mandarlos a capas superiores mediante Transfer Objects.
+ *
+ * @author pale
+ */
 public class RegionDAO implements IRegionDAO {
+    private final Logger BITACORA = Logger.getLogger(RegionDAO.class);
+
+    /**
+     * Obtiene una lista de todas las regiones que se encuentran en la base de datos, ordenadas de manera alfabética de acuerdo a su nombre.
+     *
+     * @return Lista de universidades ordenada de manera alfabética o una lista vacía si no se encuentran resultados.
+     * @throws ErrorDAO si ocurre un error de acceso a la base de datos.
+     */
     @Override
-    public List<RegionDTO> getTodasAlfabeticamente () throws SQLException {
+    public List<RegionDTO> getTodasAlfabeticamente () throws ErrorDAO {
         List<RegionDTO> listaRegiones = new ArrayList<>();
-        String consultaRegionesSQL = "SELECT idRegion, nombre FROM region ORDER BY nombre ASC";
+        String consultaSQL = "SELECT idRegion, nombre FROM region ORDER BY nombre ASC";
         PreparedStatement consultaRegiones;
         ResultSet resultadoConsulta;
 
-        consultaRegiones = AdministradorBaseDatos.getInstancia()
-                .prepareStatement(consultaRegionesSQL);
-        resultadoConsulta = consultaRegiones.executeQuery();
+        try {
+            consultaRegiones = AdministradorBaseDatos.getInstancia()
+                                                     .prepareStatement(consultaSQL);
+            resultadoConsulta = consultaRegiones.executeQuery();
 
-        while (resultadoConsulta.next()) {
-            listaRegiones.add(convertirResultSetARegion(resultadoConsulta));
+            while (resultadoConsulta.next()) {
+                listaRegiones.add(convertirResultSetARegion(resultadoConsulta));
+            }
+            consultaRegiones.close();
+            resultadoConsulta.close();
         }
-        consultaRegiones.close();
-        resultadoConsulta.close();
-        AdministradorBaseDatos.desconectar();
+        catch (SQLException excepcionSQL) {
+            BITACORA.warn(excepcionSQL.getMessage());
+            throw new ErrorDAO("Ocurrió un error al intentar obtener las regiones. Si el problema persiste contacte a soporte", ErrorDAO.Tipo.CONSULTA);
+        }
+        finally {
+            AdministradorBaseDatos.desconectar();
+        }
 
         return listaRegiones;
     }

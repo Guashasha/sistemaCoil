@@ -5,6 +5,7 @@ import DAO.RetroalimentacionActividadAuxiliar;
 import DTO.ActividadDTO;
 import DTO.RetroalimentacionActividadDTO;
 import Utilidades.ErrorDAO;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import test.AyudantePruebasColaboracionDB;
@@ -20,6 +21,7 @@ public class RetroalimentacionActividadTest {
     @BeforeAll
     static void setUp () {
         ConfiguracionPrueba.borrarDatosTablaRetroalimentacionActividad();
+        ConfiguracionPrueba.borrarDatosTablaCalendarioActividades();
         ConfiguracionPrueba.borrarDatosTablaRetroalimentacion();
         ConfiguracionPrueba.borrarDatosTablaActividad();
         AyudantePruebasColaboracionDB.agregarPrecondiciones();
@@ -38,9 +40,15 @@ public class RetroalimentacionActividadTest {
         RetroalimentacionActividadAuxiliar ret = new RetroalimentacionActividadAuxiliar();
         ret.agregar(retroalimentacion);
     }
+
+    @AfterAll
+    static void limpiarBase () {
+        ConfiguracionPrueba.borrarDatosTodasLasTablas();
+    }
+
     @Test
     void pruebaAgregarRetroalimentacionActividad () {
-        int resultado = -1;
+        int resultadoConsulta = -1;
         RetroalimentacionActividadAuxiliar ret = new RetroalimentacionActividadAuxiliar();
 
         RetroalimentacionActividadDTO retroalimentacion = new RetroalimentacionActividadDTO();
@@ -52,13 +60,13 @@ public class RetroalimentacionActividadTest {
         retroalimentacion.setIdActividad(1);
 
         try {
-            resultado = ret.agregar(retroalimentacion);
+            resultadoConsulta = ret.agregar(retroalimentacion);
         }
         catch (ErrorDAO error) {
             fail(error.getMessage());
         }
 
-        assertEquals(2, resultado);
+        assertEquals(2, resultadoConsulta);
     }
 
     @Test
@@ -70,10 +78,10 @@ public class RetroalimentacionActividadTest {
         retroalimentacion.setInteres(9);
         retroalimentacion.setInteraccionConPar(5);
 
-        RetroalimentacionActividadAuxiliar ret = new RetroalimentacionActividadAuxiliar();
+        RetroalimentacionActividadAuxiliar dao = new RetroalimentacionActividadAuxiliar();
 
         try {
-            ret.agregar(retroalimentacion);
+            dao.agregar(retroalimentacion);
             fail();
         }
         catch (ErrorDAO error) {
@@ -90,10 +98,10 @@ public class RetroalimentacionActividadTest {
         retroalimentacion.setInteres(4);
         retroalimentacion.setInteraccionConPar(5);
 
-        RetroalimentacionActividadAuxiliar ret = new RetroalimentacionActividadAuxiliar();
+        RetroalimentacionActividadAuxiliar dao = new RetroalimentacionActividadAuxiliar();
 
         try {
-            ret.agregar(retroalimentacion);
+            dao.agregar(retroalimentacion);
             fail();
         }
         catch (ErrorDAO error) {
@@ -110,10 +118,10 @@ public class RetroalimentacionActividadTest {
         retroalimentacion.setInteres(4);
         retroalimentacion.setInteraccionConPar(5);
 
-        RetroalimentacionActividadAuxiliar ret = new RetroalimentacionActividadAuxiliar();
+        RetroalimentacionActividadAuxiliar dao = new RetroalimentacionActividadAuxiliar();
 
         try {
-            ret.agregar(retroalimentacion);
+            dao.agregar(retroalimentacion);
             fail();
         }
         catch (ErrorDAO error) {
@@ -123,11 +131,18 @@ public class RetroalimentacionActividadTest {
 
     @Test
     void pruebaGetRetroalimentacionPorId () {
-        RetroalimentacionActividadAuxiliar ret = new RetroalimentacionActividadAuxiliar();
-        Optional<RetroalimentacionActividadDTO> retroalimentacion = Optional.empty();
+        RetroalimentacionActividadAuxiliar dao = new RetroalimentacionActividadAuxiliar();
+        RetroalimentacionActividadDTO esperado = new RetroalimentacionActividadDTO();
+        esperado.setDificultad(5);
+        esperado.setInteres(4);
+        esperado.setIdUsuario(1);
+        esperado.setIdActividad(1);
+        esperado.setInteraccionConPar(4);
+
+        Optional<RetroalimentacionActividadDTO> retroalimentacionObtenida = Optional.empty();
 
         try {
-            retroalimentacion = ret.getPorId(1);
+            retroalimentacionObtenida = dao.getPorId(1);
         }
         catch (ErrorDAO error) {
             fail(error.getMessage());
@@ -135,13 +150,10 @@ public class RetroalimentacionActividadTest {
 
         RetroalimentacionActividadDTO objRetroalimentacion = null;
 
-        if (retroalimentacion.isPresent()) {
-            objRetroalimentacion = retroalimentacion.get();
+        if (retroalimentacionObtenida.isPresent()) {
+            objRetroalimentacion = retroalimentacionObtenida.get();
 
-            assertEquals(4, objRetroalimentacion.getInteraccionConPar());
-            assertEquals(1, objRetroalimentacion.getIdRetroalimentacion());
-            assertEquals(5, objRetroalimentacion.getDificultad());
-            assert(objRetroalimentacion.getComentario().isEmpty());
+            assertEquals(esperado, objRetroalimentacion);
         }
         else {
             fail("no existe la retroalimentacion");
@@ -150,10 +162,10 @@ public class RetroalimentacionActividadTest {
 
     @Test
     public void pruebaGetPorIdInvalido () {
-        RetroalimentacionActividadAuxiliar ret = new RetroalimentacionActividadAuxiliar();
+        RetroalimentacionActividadAuxiliar dao = new RetroalimentacionActividadAuxiliar();
 
         try {
-            ret.getPorId(-5);
+            dao.getPorId(-5);
             fail();
         }
         catch (ErrorDAO error) {
@@ -163,26 +175,26 @@ public class RetroalimentacionActividadTest {
 
     @Test
     public void pruebaGetPorIdInexistente () {
-        RetroalimentacionActividadAuxiliar ret = new RetroalimentacionActividadAuxiliar();
+        RetroalimentacionActividadAuxiliar dao = new RetroalimentacionActividadAuxiliar();
 
-        Optional<RetroalimentacionActividadDTO> resultado = Optional.empty();
+        Optional<RetroalimentacionActividadDTO> retroalimentacionObtenida = Optional.empty();
 
         try {
-            resultado = ret.getPorId(100);
+            retroalimentacionObtenida = dao.getPorId(100);
         }
         catch (ErrorDAO error) {
             fail();
         }
 
-        assertEquals(Optional.empty(), resultado);
+        assertEquals(Optional.empty(), retroalimentacionObtenida);
     }
 
     @Test
     void pruebaPorPersonaIncorrecta () {
-        RetroalimentacionActividadAuxiliar ret = new RetroalimentacionActividadAuxiliar();
+        RetroalimentacionActividadAuxiliar dao = new RetroalimentacionActividadAuxiliar();
 
         try {
-            ret.getPorPersonaYActividad(-10, 1);
+            dao.getPorPersonaYActividad(-10, 1);
             fail();
         }
         catch (ErrorDAO error) {
@@ -192,10 +204,10 @@ public class RetroalimentacionActividadTest {
 
     @Test
     void pruebaPorActividadIncorrecta () {
-        RetroalimentacionActividadAuxiliar ret = new RetroalimentacionActividadAuxiliar();
+        RetroalimentacionActividadAuxiliar dao = new RetroalimentacionActividadAuxiliar();
 
         try {
-            ret.getPorPersonaYActividad(1, -20);
+            dao.getPorPersonaYActividad(1, -20);
             fail();
         }
         catch (ErrorDAO error) {
@@ -205,38 +217,38 @@ public class RetroalimentacionActividadTest {
 
     @Test
     void getPorPersonaInexistente () {
-        RetroalimentacionActividadAuxiliar ret = new RetroalimentacionActividadAuxiliar();
-        Optional<RetroalimentacionActividadDTO> resultado = Optional.empty();
+        RetroalimentacionActividadAuxiliar dao = new RetroalimentacionActividadAuxiliar();
+        Optional<RetroalimentacionActividadDTO> retroalimentacionObtenida = Optional.empty();
 
         try {
-            ret.getPorPersonaYActividad(200, 1);
+            dao.getPorPersonaYActividad(200, 1);
         }
         catch (ErrorDAO error) {
             fail();
         }
 
-        assertEquals(Optional.empty(), resultado);
+        assertEquals(Optional.empty(), retroalimentacionObtenida);
     }
 
     @Test
     void getPorActividadInexistente () {
-        RetroalimentacionActividadAuxiliar ret = new RetroalimentacionActividadAuxiliar();
-        Optional<RetroalimentacionActividadDTO> resultado = Optional.empty();
+        RetroalimentacionActividadAuxiliar dao = new RetroalimentacionActividadAuxiliar();
+        Optional<RetroalimentacionActividadDTO> retroalimentacionObtenida = Optional.empty();
 
         try {
-            ret.getPorPersonaYActividad(1, 1000);
+            dao.getPorPersonaYActividad(1, 1000);
         }
         catch (ErrorDAO error) {
             fail();
         }
 
-        assertEquals(Optional.empty(), resultado);
+        assertEquals(Optional.empty(), retroalimentacionObtenida);
     }
 
     @Test
     void pruebaValidarRetroalimentacion () {
         RetroalimentacionActividadDTO retroalimentacion = new RetroalimentacionActividadDTO();
-        RetroalimentacionActividadAuxiliar ret = new RetroalimentacionActividadAuxiliar();
+        RetroalimentacionActividadAuxiliar dao = new RetroalimentacionActividadAuxiliar();
 
         retroalimentacion.setComentario("hola mundo");
         retroalimentacion.setInteres(5);
@@ -250,18 +262,18 @@ public class RetroalimentacionActividadTest {
 
     @Test
     void pruebaGetTodos () {
-        RetroalimentacionActividadAuxiliar ret = new RetroalimentacionActividadAuxiliar();
+        RetroalimentacionActividadAuxiliar dao = new RetroalimentacionActividadAuxiliar();
 
-        List<RetroalimentacionActividadDTO> retroalimentaciones = null;
+        List<RetroalimentacionActividadDTO> retroalimentacionesObtenidas = null;
 
         try {
-            retroalimentaciones = ret.getTodos();
+            retroalimentacionesObtenidas = dao.getTodos();
         }
         catch (ErrorDAO error) {
             fail(error.getMessage());
         }
 
-        assertEquals(1, retroalimentaciones.size());
+        assertEquals(2, retroalimentacionesObtenidas.size());
 
         RetroalimentacionActividadDTO retroalimentacion = new RetroalimentacionActividadDTO();
         retroalimentacion.setDificultad(5);
@@ -270,17 +282,17 @@ public class RetroalimentacionActividadTest {
         retroalimentacion.setIdActividad(1);
         retroalimentacion.setInteraccionConPar(4);
 
-        assert(retroalimentacion.equals(retroalimentaciones.get(0)));
+        assert(retroalimentacion.equals(retroalimentacionesObtenidas.get(0)));
     }
 
     @Test
     void pruebaGetPorPersonaYActividad () {
-        RetroalimentacionActividadAuxiliar ret = new RetroalimentacionActividadAuxiliar();
+        RetroalimentacionActividadAuxiliar dao = new RetroalimentacionActividadAuxiliar();
 
-        Optional<RetroalimentacionActividadDTO> retroalimentacion = Optional.empty();
+        Optional<RetroalimentacionActividadDTO> retroalimentacionObtenida = Optional.empty();
 
         try {
-            retroalimentacion = ret.getPorPersonaYActividad(1, 1);
+            retroalimentacionObtenida = dao.getPorPersonaYActividad(1, 1);
         }
         catch (ErrorDAO error) {
             fail(error.getMessage());
@@ -293,8 +305,8 @@ public class RetroalimentacionActividadTest {
         resultadoEsperado.setIdActividad(1);
         resultadoEsperado.setInteraccionConPar(4);
 
-        if (retroalimentacion.isPresent()) {
-            assert(resultadoEsperado.equals(retroalimentacion.get()));
+        if (retroalimentacionObtenida.isPresent()) {
+            assert(resultadoEsperado.equals(retroalimentacionObtenida.get()));
         }
         else {
             fail("no existe la retroalimentacion");

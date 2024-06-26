@@ -1,9 +1,8 @@
 package InterfazGrafica;
 
 import DAO.AcademicoDAO;
-import DAO.CuentaDAO;
 import DAO.FacultadDAO;
-import DAO.RegionAuxiliar;
+import DAO.RegionDAO;
 import DTO.*;
 import Utilidades.ErrorDAO;
 import javafx.collections.FXCollections;
@@ -11,25 +10,19 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
-
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
-public class CrearCuentaAcademicoControlador {
-    private BorderPane ventanaPrincipal;
-
+public class CreacionCuentaAcademicoControlador {
+    private BorderPane pnVentanaPrincipal;
     @FXML
     private TextField tfNombre;
     @FXML
-    private TextField tfApPaterno;
-    @FXML
-    private TextField tfApMaterno;
+    private TextField tfApellidos;
     @FXML
     private TextField tfCorreo;
     @FXML
@@ -47,8 +40,8 @@ public class CrearCuentaAcademicoControlador {
     @FXML
     private ComboBox<String> cbRegion;
 
-    public void initialize (BorderPane ventanaPrincipal) {
-        this.ventanaPrincipal = ventanaPrincipal;
+    public void initialize(BorderPane ventanaPrincipal) {
+        this.pnVentanaPrincipal = ventanaPrincipal;
 
         llenarComboBoxAreasEstudio();
         llenarComboBoxRegion();
@@ -56,15 +49,23 @@ public class CrearCuentaAcademicoControlador {
     }
 
     @FXML
-    private void registrarCuenta () {
+    private void registrarCuenta() {
         AcademicoDTO academico = leerCamposAcademico();
 
         if (academico != null) {
             CuentaDTO cuenta = new CuentaDTO();
-            cuenta.setNombreUsuario(academico.getCedulaProfesional());
-            cuenta.setContrasena(academico.getNumeroPersonal());
-            cuenta.setTipo(CuentaDTO.TipoUsuario.academico);
-            cuenta.setEstado(CuentaDTO.EstadoCuenta.aceptada);
+            try {
+                cuenta.setNombreUsuario(academico.getCedulaProfesional());
+                cuenta.setContrasena(academico.getNumeroPersonal());
+                cuenta.setTipo(CuentaDTO.TipoUsuario.academico);
+                cuenta.setEstado(CuentaDTO.EstadoCuenta.aceptada);
+            } catch (ErrorDAO error) {
+                Alert alerta = new Alert(Alert.AlertType.ERROR);
+                alerta.setHeaderText("Ocurrió un error");
+                alerta.setContentText(error.getMessage());
+                alerta.showAndWait();
+                return;
+            }
 
             AcademicoDAO dao = new AcademicoDAO();
 
@@ -77,26 +78,31 @@ public class CrearCuentaAcademicoControlador {
                 alerta.showAndWait();
                 return;
             }
-        }
 
-        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-        alerta.setContentText("Se creó la cuenta correctamente");
-        alerta.setHeaderText("Cuenta creada");
+            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+            alerta.setHeaderText("Cuenta creada");
+            alerta.setContentText("La cuenta se creó exitosamente");
+            alerta.showAndWait();
+            limpiarCampos();
+        }
     }
 
-    private AcademicoDTO leerCamposAcademico () {
-        if (datosInvalidos()) {
-            Alert alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setHeaderText("Datos incorrectos");
-            alerta.setContentText("Algunos de los datos ingresados son incorrectos, intente de nuevo");
-            alerta.showAndWait();
+    void limpiarCampos() {
+        tfNombre.setText("");
+        tfApellidos.setText("");
+        tfCorreo.setText("");
+        tfTelefono.setText("");
+        tfCedulaProfesional.setText("");
+        tfNumeroPersonal.setText("");
+    }
 
+    private AcademicoDTO leerCamposAcademico() {
+        if (!datosInvalidos()) {
             return null;
         }
 
         String nombre = tfNombre.getText();
-        String aPaterno = tfApPaterno.getText();
-        String aMaterno = tfApMaterno.getText();
+        String apellidos = tfApellidos.getText();
         String correo = tfCorreo.getText();
         String telefono = tfTelefono.getText();
         String numeroPersonal = tfNumeroPersonal.getText();
@@ -107,10 +113,19 @@ public class CrearCuentaAcademicoControlador {
 
         AcademicoDAO dao = new AcademicoDAO();
 
-        if (dao.getAcademicoPorCedula(cedula).isPresent()) {
+        try {
+            if (dao.getAcademicoPorCedula(cedula).isPresent()) {
+                Alert alerta = new Alert(Alert.AlertType.ERROR);
+                alerta.setHeaderText("Cuenta ya existente");
+                alerta.setContentText("Los datos ingresados ya pertenecen a una cuenta");
+                alerta.showAndWait();
+                return null;
+            }
+        }
+        catch (ErrorDAO error) {
             Alert alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setHeaderText("Cuenta ya existente");
-            alerta.setContentText("Los datos ingresados ya pertenecen a una cuenta");
+            alerta.setHeaderText("Error");
+            alerta.setContentText(error.getMessage());
             alerta.showAndWait();
             return null;
         }
@@ -124,7 +139,7 @@ public class CrearCuentaAcademicoControlador {
             if (facultad.isEmpty()) {
                 return null;
             }
-        } catch (SQLException e) {
+        } catch (ErrorDAO e) {
             Alert alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setHeaderText("Error al cargar los datos");
             alerta.setContentText("No se pudo recuperar la lista de facultades.");
@@ -132,34 +147,32 @@ public class CrearCuentaAcademicoControlador {
             return null;
         }
 
-        AcademicoDTO persona = new AcademicoDTO();
+        AcademicoDTO academico = new AcademicoDTO();
 
         try {
-            persona.setNombre(nombre);
-            persona.setApellidoPaterno(aPaterno);
-            persona.setApellidoMaterno(aMaterno);
-            persona.setCorreoElectronico(correo);
-            persona.setNumeroTelefonico(telefono);
-            persona.setNumeroPersonal(numeroPersonal);
-            persona.setCedulaProfesional(cedula);
-            persona.setAreaEstudios(areaEstudios);
-            persona.setIdFacultad(facultad.get().getId());
-            persona.setCategoriaContratacion(categoriaContratacion);
-            persona.setIdUniversidad(1);
-        }
-        catch (ErrorDAO error) {
+            academico.setNombre(nombre);
+            academico.setApellidos(apellidos);
+            academico.setCorreoElectronico(correo);
+            academico.setNumeroTelefonico(telefono);
+            academico.setNumeroPersonal(numeroPersonal);
+            academico.setCedulaProfesional(cedula);
+            academico.setAreaEstudios(areaEstudios);
+            academico.setIdFacultad(facultad.get().getId());
+            academico.setCategoriaContratacion(categoriaContratacion);
+            academico.setIdUniversidad(1);
+        } catch (ErrorDAO error) {
             Alert alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setHeaderText("Datos incorrectos");
-            alerta.setContentText("Algunos de los datos ingresados son incorrectos, intente de nuevo");
+            alerta.setContentText(error.getMessage());
             alerta.showAndWait();
 
             return null;
         }
 
-        return persona;
+        return academico;
     }
 
-    private void llenarComboBoxAreasEstudio () {
+    private void llenarComboBoxAreasEstudio() {
         List<String> listaAreasEstudio = new ArrayList<>();
         listaAreasEstudio.add("Económico-Administrativo");
         listaAreasEstudio.add("Humanidades");
@@ -172,18 +185,18 @@ public class CrearCuentaAcademicoControlador {
     }
 
     @FXML
-    private void llenarComboBoxFacultades () {
-        FacultadDAO dao = new FacultadDAO();
+    private void llenarComboBoxFacultades() {
+        FacultadDAO facultadDAO = new FacultadDAO();
         this.cbFacultad.setItems(null);
         ArrayList<String> nombresFacultades = new ArrayList<>();
 
         try {
-            List<FacultadDTO> facultades = dao.getFacultadPorRegion(this.cbRegion.getValue());
+            List<FacultadDTO> facultades = facultadDAO.getFacultadesPorRegion(this.cbRegion.getValue());
 
             for (FacultadDTO facultad : facultades) {
                 nombresFacultades.add(facultad.getNombre());
             }
-        } catch (SQLException e) {
+        } catch (ErrorDAO e) {
             Alert alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setHeaderText("Error al cargar los datos");
             alerta.setContentText("No se pudo recuperar la lista de facultades.");
@@ -193,12 +206,12 @@ public class CrearCuentaAcademicoControlador {
         this.cbFacultad.setItems(FXCollections.observableArrayList(nombresFacultades));
     }
 
-    private void llenarComboBoxRegion () {
-        RegionAuxiliar dao = new RegionAuxiliar();
+    private void llenarComboBoxRegion() {
+        RegionDAO regionDAO = new RegionDAO();
         ArrayList<String> regiones = new ArrayList<>();
 
         try {
-            List<RegionDTO> listaRegiones = dao.getTodasAlfabeticamente();
+            List<RegionDTO> listaRegiones = regionDAO.getTodasAlfabeticamente();
 
             for (RegionDTO region : listaRegiones) {
                 regiones.add(region.getNombre());
@@ -213,7 +226,7 @@ public class CrearCuentaAcademicoControlador {
         this.cbRegion.setItems(FXCollections.observableArrayList(regiones));
     }
 
-    private void llenarComboBoxCategoriaContratacion () {
+    private void llenarComboBoxCategoriaContratacion() {
         ArrayList<String> categorias = new ArrayList<>();
         categorias.add("planta");
         categorias.add("interino por plaza");
@@ -239,8 +252,7 @@ public class CrearCuentaAcademicoControlador {
 
     private boolean datosInvalidos() {
         String nombre = tfNombre.getText();
-        String aPaterno = tfApPaterno.getText();
-        String aMaterno = tfApMaterno.getText();
+        String apellidos = tfApellidos.getText();
         String correo = tfCorreo.getText();
         String telefono = tfTelefono.getText();
         String numeroPersonal = tfNumeroPersonal.getText();
@@ -249,9 +261,50 @@ public class CrearCuentaAcademicoControlador {
         String facultad = cbFacultad.getValue();
         String categoriaContratacion = cbCategoriaContratacion.getValue();
 
-        return nombre.isBlank() || aPaterno.isBlank() || aMaterno.isBlank() || correo.isBlank()
-                || telefono.isBlank() || numeroPersonal.isBlank() || cedula.isBlank()
-                || areaEstudios == null || areaEstudios.isBlank() ||
-                facultad.isBlank() || categoriaContratacion.isBlank();
+        if (nombre.isBlank()) {
+            crearAlertaValidacion("El tamaño del nombre debe ser entre 1 y 100 caracteres");
+            return false;
+        }
+        if (apellidos.isBlank()) {
+            crearAlertaValidacion("El tamaño del apellido paterno debe ser entre 1 y 100 caracteres");
+            return false;
+        }
+        if (correo.isBlank() || !Pattern.matches("[A-z0-9./+-]+@[A-z]+\\.[A-z]{1,3}", correo)) {
+            crearAlertaValidacion("El correo proporcionado no es valido");
+            return false;
+        }
+        if (telefono.isBlank() || !Pattern.matches("^(?!0)[1-9]\\d{11,13}$", telefono)) {
+            crearAlertaValidacion("El numero de telefono es invalido, asegurese de poner su lada, seguido de su numero de telefono (min. 11 digitos, max .13 digitos)");
+            return false;
+        }
+        if (numeroPersonal.isBlank() || !Pattern.matches("^[1-9][0-9]{1,40}$", numeroPersonal)) {
+            crearAlertaValidacion("El numero de personal ingresado debe ser numerico y de 1 a 40 digitos");
+            return false;
+        }
+        if (cedula.isBlank() || !Pattern.matches("^[0-9]{1,30}$", cedula)) {
+            crearAlertaValidacion("La cedula profesional debe ser numerica y de 1 a 30 digitos");
+            return false;
+        }
+        if (areaEstudios == null || areaEstudios.isBlank()) {
+            crearAlertaValidacion("Profavor seleccione un area de estudios");
+            return false;
+        }
+        if (facultad == null || facultad.isBlank()) {
+            crearAlertaValidacion("Por favor seleccione una facultad");
+            return false;
+        }
+        if (categoriaContratacion == null || categoriaContratacion.isBlank()) {
+            crearAlertaValidacion("Por favor seleccione una categoria de contratación");
+            return false;
+        }
+
+        return true;
+    }
+
+    private void crearAlertaValidacion(String mensaje) {
+        Alert alerta = new Alert(Alert.AlertType.ERROR);
+        alerta.setHeaderText("Campos incorrectos");
+        alerta.setContentText(mensaje);
+        alerta.showAndWait();
     }
 }

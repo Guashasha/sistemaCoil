@@ -1,74 +1,55 @@
 package InterfazGrafica;
 
 import DAO.ActividadAuxiliar;
-import DAO.ColaboracionAuxiliar;
 import DAO.CronogramaActividadAuxiliar;
 import DTO.ActividadDTO;
 import DTO.ActividadVinculadaDTO;
 import DTO.ColaboracionDTO;
-import DTO.PeriodoDTO;
 import Utilidades.ErrorDAO;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import org.apache.log4j.Logger;
 
-import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 public class NuevaActividadControlador {
     private static final Logger BITACORA = Logger.getLogger(NuevaActividadControlador.class);
-    private Pane panelPrincipal;
-    private Pane panelAnterior;
+    private BorderPane pnVentanaPrincipal;
+    private Pane pnVentanaAnterior;
+    private ActividadesColaboracionControlador controlador;
 
     @FXML
     private Pane pnPrincipal;
-    private ColaboracionDTO colaboracionDTO;
+    public ColaboracionDTO colaboracionDTO;
 
     @FXML
-    private Button btnAceptar = new Button();
-    @FXML
-    private Button btnCancelar = new Button();
-    @FXML
     private ToggleGroup tgTipoActividad = new ToggleGroup();
-    @FXML
-    private DatePicker dpFechaInicio = new DatePicker();
-    @FXML
-    private DatePicker dpFechaFin = new DatePicker();
     @FXML
     private TextField tfDescripcion = new TextField();
     @FXML
     private TextField tfTitulo = new TextField();
 
-    public void initialize (ColaboracionDTO colaboracionDTO, Pane panelPrincipal, Pane panelAnterior) {
+    public void initialize (ColaboracionDTO colaboracionDTO, BorderPane panelPrincipal, Pane panelAnterior, ActividadesColaboracionControlador item) {
         if (!colaboracionDTO.esValido()) {
             return;
         }
 
-        ColaboracionAuxiliar dao = new ColaboracionAuxiliar();
-        Optional<ColaboracionDTO> colaboracion;
-        try {
-             colaboracion = dao.getColaboracionPorId(colaboracionDTO.getIdColaboracion());
-
-            if (colaboracion.isEmpty()) {
-                return;
-            }
-        } catch (ErrorDAO e) {
-            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-            errorAlert.setHeaderText("Error al iniciar la ventana nueva actividad");
-            errorAlert.setContentText("Ocurrió un error desconocido al intentar abrir la ventana nueva actividad");
-            errorAlert.showAndWait();
-
-            return;
-        }
-
-        this.colaboracionDTO = colaboracion.get();
-        this.panelAnterior = panelAnterior;
-        this.panelPrincipal = panelPrincipal;
+        this.colaboracionDTO = colaboracionDTO;
+        this.pnVentanaAnterior = panelAnterior;
+        this.pnVentanaPrincipal = panelPrincipal;
+        this.controlador = item;
     }
 
     public Pane getPane () {
         return pnPrincipal;
+    }
+
+    public void volver () {
+        this.controlador.actualizarLista();
+        pnVentanaPrincipal.setCenter(pnVentanaAnterior);
     }
 
     private boolean camposInvalidos () {
@@ -76,11 +57,26 @@ public class NuevaActividadControlador {
                 .isBlank() ||
                 tfDescripcion.getText()
                         .isBlank() ||
-                tgTipoActividad.getSelectedToggle() == null ||
-                dpFechaFin.getValue() == null ||
-                dpFechaInicio.getValue() == null ||
-                dpFechaInicio.getValue()
-                        .isAfter(dpFechaFin.getValue());
+                tgTipoActividad.getSelectedToggle() == null;
+    }
+
+    private boolean camposSobrepasanLimite () {
+        if (tfTitulo.getText().length() > 100) {
+            Alert alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setContentText("El titulo puede tener un maximo de 50 caracteres");
+            alerta.setHeaderText("Titulo demasiado largo");
+            alerta.showAndWait();
+            return true;
+        }
+        else if (tfDescripcion.getText().length() > 300) {
+            Alert alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setContentText("La descripción puede tener un maximo de 200 caracteres");
+            alerta.setHeaderText("Descripción demasiado larga");
+            alerta.showAndWait();
+            return true;
+        }
+
+        return false;
     }
 
     public void agregarActividad () {
@@ -92,24 +88,27 @@ public class NuevaActividadControlador {
 
             return;
         }
+        else if (camposSobrepasanLimite()) {
+            return;
+        }
+        else if (actividadDuplicada()) {
+            return;
+        }
 
         RadioButton rbTipoActividad = (RadioButton) tgTipoActividad.getSelectedToggle();
 
         String titulo = tfTitulo.getText();
         String descripcion = tfDescripcion.getText();
         ActividadDTO.TipoActividad tipo = ActividadDTO.TipoActividad.valueOf(rbTipoActividad.getText());
-        LocalDate fechaInicio = dpFechaInicio.getValue();
-        LocalDate fechaFin = dpFechaFin.getValue();
-
-        PeriodoDTO periodoDTO = new PeriodoDTO(fechaInicio, fechaFin);
 
         ActividadDTO actividadDTO = new ActividadDTO(titulo, descripcion, tipo);
+        ActividadVinculadaDTO actividadVinculadaDTO = new ActividadVinculadaDTO(actividadDTO, this.colaboracionDTO);
 
-        ActividadAuxiliar dao = new ActividadAuxiliar();
+        ActividadAuxiliar actividadAUX = new ActividadAuxiliar();
         int resultado = -1;
 
         try {
-            resultado = dao.agregar(actividadDTO);
+            resultado = actividadAUX.agregar(actividadDTO);
         }
         catch (ErrorDAO error) {
             Alert errorAlert = crearAlerta(error);
@@ -127,13 +126,37 @@ public class NuevaActividadControlador {
             return;
         }
 
-        ActividadVinculadaDTO actividadVinculadaDTO = new ActividadVinculadaDTO(actividadDTO, this.colaboracionDTO, periodoDTO);
-        CronogramaActividadAuxiliar cronograma = new CronogramaActividadAuxiliar();
+        Optional<ActividadDTO> act;
 
         try {
-            resultado = cronograma.agregar(actividadVinculadaDTO);
+             act = actividadAUX.getPorTitulo(titulo);
+
+             if (act.isEmpty()) {
+                 Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                 errorAlert.setHeaderText("Error al agregar actividadDTO");
+                 errorAlert.setContentText("Ocurrió un error al agregar la actividadDTO");
+                 errorAlert.showAndWait();
+
+                 return;
+             }
         }
         catch (ErrorDAO error) {
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setHeaderText("Error al agregar actividad");
+            errorAlert.setContentText("Ocurrió un error al agregar la actividad: " + error.getMessage());
+            errorAlert.showAndWait();
+
+            return;
+        }
+
+        actividadVinculadaDTO.getActividad().setIdActividad(act.get().getIdActividad());
+        CronogramaActividadAuxiliar cronogramaAUX = new CronogramaActividadAuxiliar();
+
+        try {
+            resultado = cronogramaAUX.agregar(actividadVinculadaDTO);
+        }
+        catch (ErrorDAO error) {
+            BITACORA.error(error);
             Alert errorAlert = crearAlerta(error);
             errorAlert.showAndWait();
 
@@ -146,6 +169,61 @@ public class NuevaActividadControlador {
             errorAlert.setContentText("Ocurrió un error al vincular la actividadDTO");
             errorAlert.showAndWait();
         }
+        else {
+            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+            alerta.setContentText("Se agregó la actividad correctamente");
+            alerta.setHeaderText("Actividad agregada");
+            alerta.showAndWait();
+        }
+
+        volver();
+    }
+
+    private boolean actividadDuplicada() {
+        ActividadAuxiliar actividadAUX = new ActividadAuxiliar();
+        List<ActividadDTO> actividades = null;
+
+        try {
+            actividades = actividadAUX.getPorIdColaboracion(this.colaboracionDTO.getIdColaboracion());
+        } catch (ErrorDAO e) {
+            Alert alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setContentText(e.getMessage());
+            alerta.setHeaderText("Error de conexión");
+            alerta.showAndWait();
+            return true;
+        }
+
+        String titulo = tfTitulo.getText().trim();
+        String descripcion = tfDescripcion.getText().trim();
+        String tipo = ( (RadioButton) tgTipoActividad.getSelectedToggle()).getText();
+
+        if (actividades != null) {
+            for (ActividadDTO actividad : actividades) {
+                if (titulo.equals(actividad.getTitulo())) {
+                    Alert alerta = new Alert(Alert.AlertType.ERROR);
+                    alerta.setContentText("Ya existe una actividad con ese titulo");
+                    alerta.setHeaderText("Error al agregar la actividad");
+                    alerta.showAndWait();
+                    return true;
+                }
+                if (tipo.equals(actividad.getTipo().toString())) {
+                    Alert alerta = new Alert(Alert.AlertType.ERROR);
+                    alerta.setContentText("Ya existe una actividad con ese tipo de actividad");
+                    alerta.setHeaderText("Error al agregar la actividad");
+                    alerta.showAndWait();
+                    return true;
+                }
+                if (descripcion.equals(actividad.getDescripcion())) {
+                    Alert alerta = new Alert(Alert.AlertType.ERROR);
+                    alerta.setContentText("Ya existe una actividad con esa descripción");
+                    alerta.setHeaderText("Error al agregar la actividad");
+                    alerta.showAndWait();
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     private static Alert crearAlerta (ErrorDAO error) {
@@ -154,7 +232,7 @@ public class NuevaActividadControlador {
         switch (error.getTipo()) {
             case VALIDACION:
                 errorAlert.setHeaderText("Error de datos");
-                errorAlert.setContentText("Los datos de la actividad son incorrectos, verifiquelos e intente de nuevo");
+                errorAlert.setContentText("Los datos de la actividad son incorrectos, verifiquelos e intente de nuevo: "+ error.getMessage());
                 break;
 
             case CONSULTA:
@@ -169,7 +247,7 @@ public class NuevaActividadControlador {
 
             case CONEXION:
                 errorAlert.setHeaderText("Error de base de datos");
-                errorAlert.setContentText("Ocurrió un error al conectarse a la base de datos, intente nuevamente más tarde");
+                errorAlert.setContentText("Ocurrió un error al conectarse a la base de datos, intente nuevamente más tarde: ");
                 break;
         }
 

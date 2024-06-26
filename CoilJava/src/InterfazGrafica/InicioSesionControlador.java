@@ -2,6 +2,7 @@ package InterfazGrafica;
 
 import DAO.AcademicoAuxiliar;
 import DAO.EstudianteAuxiliar;
+import DAO.EstudianteDAO;
 import DTO.AcademicoDTO;
 import DTO.CuentaDTO;
 import DAO.CuentaAuxiliar;
@@ -19,19 +20,19 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.apache.log4j.Logger;
+
 import java.io.IOException;
 import java.util.Optional;
 
 public class InicioSesionControlador {
     private static final Logger BITACORA = Logger.getLogger(InicioSesionControlador.class);
     private final CuentaAuxiliar CUENTA_AUXILIAR = new CuentaAuxiliar();
-
     @FXML
     private TextField tfUsuario;
     @FXML
-    private PasswordField tfContrasena;
+    private PasswordField pfContrasena;
     @FXML
-    public BorderPane bdPane;
+    public BorderPane pnVentanaActual;
 
     @FXML
     public void solicitarCuenta () {
@@ -39,46 +40,49 @@ public class InicioSesionControlador {
             mostrarVentanaSolicitudCuenta();
         }
         catch (ErrorDAO errorDAO) {
-            mostrarVentanaAlert(errorDAO.getMessage(), Alert.AlertType.ERROR);
+            mostrarVentanaEmergente(errorDAO.getMessage(), Alert.AlertType.ERROR);
         }
     }
 
     @FXML
     public void ingresarCuenta () {
         try {
-            sonCredencialesValidas(tfUsuario.getText(), tfContrasena.getText());
+            sonCredencialesValidas(tfUsuario.getText(), pfContrasena.getText());
             CuentaDTO cuenta = getCuentaRegistrada();
             esCuentaAceptada(cuenta);
             abrirVentanaPorTipoCuenta(cuenta);
         }
         catch (ErrorDAO errorDAO) {
-            mostrarVentanaAlert(errorDAO.getMessage(), Alert.AlertType.WARNING);
+            mostrarVentanaEmergente(errorDAO.getMessage(), Alert.AlertType.ERROR);
         }
     }
-
 
     @FXML
     private void mostrarVentanaWindowMenuPrincipalAcademico (AcademicoDTO academicoDTO) {
         try {
-            Stage stagePrincipal = (Stage) tfUsuario.getScene()
-                                                    .getWindow();
+            Stage stagePrincipal = new Stage(StageStyle.TRANSPARENT);
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("VentanaPrincipalAcademico.fxml"));
             Parent root = fxmlLoader.load();
             VentanaPrincipalAcademicoControlador ventanaPrincipalAcademicoControlador = fxmlLoader.getController();
             ventanaPrincipalAcademicoControlador.setAcademico(academicoDTO);
             Scene nuevaEscena = new Scene(root);
             stagePrincipal.setScene(nuevaEscena);
+            stagePrincipal.centerOnScreen();
+            stagePrincipal.show();
+            Stage ventanaActual = (Stage) tfUsuario.getScene()
+                                                   .getWindow();
+            ventanaActual.close();
         }
         catch (IOException error) {
             BITACORA.fatal(error.getMessage());
-            mostrarVentanaAlert("Error al cargar la ventana principal", Alert.AlertType.ERROR);
+            mostrarVentanaEmergente("Error al cargar la ventana principal", Alert.AlertType.ERROR);
         }
     }
 
     private void mostrarVentanaPrincipalEstudiante () {
         try {
             Stage stagePrincipal = (Stage) tfUsuario.getScene()
-                    .getWindow();
+                                                    .getWindow();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("VentanaPrincipalEstudiante.fxml"));
             Parent root = fxmlLoader.load();
             Scene nuevaEscena = new Scene(root);
@@ -86,7 +90,7 @@ public class InicioSesionControlador {
         }
         catch (IOException error) {
             BITACORA.fatal(error.getMessage());
-            mostrarVentanaAlert("Error al cargar la ventana principal", Alert.AlertType.ERROR);
+            mostrarVentanaEmergente("Error al cargar la ventana principal", Alert.AlertType.ERROR);
         }
     }
 
@@ -107,7 +111,7 @@ public class InicioSesionControlador {
         }
     }
 
-    private void mostrarVentanaAlert (String mensaje, Alert.AlertType tipoAlert) {
+    private void mostrarVentanaEmergente (String mensaje, Alert.AlertType tipoAlert) {
         Alert alert = new Alert(tipoAlert);
         alert.setTitle("Error");
         alert.setContentText(mensaje);
@@ -125,7 +129,7 @@ public class InicioSesionControlador {
                 stagePrincipal.setScene(nuevaEscena);
             }
             catch (ErrorDAO errorDAO) {
-                mostrarVentanaAlert(errorDAO.getMessage(), Alert.AlertType.ERROR);
+                mostrarVentanaEmergente(errorDAO.getMessage(), Alert.AlertType.ERROR);
             }
         }
         catch (IOException error) {
@@ -134,32 +138,33 @@ public class InicioSesionControlador {
         }
     }
 
-    private void mostrarVentanaPrincipalAdministrador() {
+    private void mostrarVentanaPrincipalAdministrador () {
         try {
-            Stage ventanaActual = (Stage) tfUsuario.getScene().getWindow();
+            Stage ventanaActual = (Stage) tfUsuario.getScene()
+                                                   .getWindow();
             Stage stagePrincipal = new Stage(StageStyle.TRANSPARENT);
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("VentanaPrincipalAdministrador.fxml"));
             Parent root = fxmlLoader.load();
             Scene nuevaEscena = new Scene(root);
             stagePrincipal.setScene(nuevaEscena);
             stagePrincipal.setResizable(false);
-            Screen screen = Screen.getPrimary();
-            double screenWidth = screen.getBounds().getWidth();
-            double screenHeight = screen.getBounds().getHeight();
+            Screen pantalla = Screen.getPrimary();
+            double screenWidth = pantalla.getBounds()
+                                         .getWidth();
+            double screenHeight = pantalla.getBounds()
+                                          .getHeight();
             double ventanaWidth = Math.min(root.prefWidth(-1), screenWidth);
             double ventanaHeight = Math.min(root.prefHeight(ventanaWidth), screenHeight);
             stagePrincipal.setWidth(ventanaWidth);
             stagePrincipal.setHeight(ventanaHeight);
             stagePrincipal.show();
             ventanaActual.close();
-        } catch (IOException error) {
+        }
+        catch (IOException error) {
             BITACORA.fatal(error.getMessage());
             throw new ErrorDAO("Error al abrir la ventana de solicitud de cuenta", ErrorDAO.Tipo.VALIDACION);
         }
     }
-
-
-
 
     private void sonCredencialesValidas (String usuario, String contrasena) {
         if (!CUENTA_AUXILIAR.verificarCredenciales(usuario, contrasena)) {
@@ -193,7 +198,7 @@ public class InicioSesionControlador {
         Optional<AcademicoDTO> optionalAcademico = recuperarAcademicoPorCuenta(cuenta);
         verificarOptional(optionalAcademico);
         if (existenDatosNulosAcademico(optionalAcademico.get())) {
-            mostrarVentanaAlert("Para poder ingresar necesita completar sus datos.", Alert.AlertType.INFORMATION);
+            mostrarVentanaEmergente("Para poder ingresar necesita completar sus datos.", Alert.AlertType.INFORMATION);
             mostrarVentanaFormularioCompletarDatos(optionalAcademico.get());
         }
         else {
@@ -204,7 +209,7 @@ public class InicioSesionControlador {
     private CuentaDTO getCuentaPorTextField () {
         CuentaDTO cuenta = new CuentaDTO();
         cuenta.setNombreUsuario(tfUsuario.getText());
-        cuenta.setContrasena(tfContrasena.getText());
+        cuenta.setContrasena(pfContrasena.getText());
         return cuenta;
     }
 
@@ -222,7 +227,7 @@ public class InicioSesionControlador {
     }
 
     private Optional<EstudianteDTO> recupearEstudiantePorCuenta (CuentaDTO cuenta) {
-        EstudianteAuxiliar daoEstudiante = new EstudianteAuxiliar();
+        EstudianteDAO daoEstudiante = new EstudianteDAO();
         Optional<EstudianteDTO> optionalEstudiante = daoEstudiante.getEstudiantePorIdPersona(cuenta.getIdPersona());
         return optionalEstudiante;
     }

@@ -70,15 +70,14 @@ END //
 -- Procedimientos academicos
 DROP PROCEDURE IF EXISTS registrar_Academico;
 CREATE PROCEDURE registrar_Academico (
-    IN p_nombre VARCHAR(50), 
-    IN p_apellidoPaterno VARCHAR(50),
-    IN p_apellidoMaterno VARCHAR(50), 
+    IN p_nombre VARCHAR(100), 
+    IN p_apellidos VARCHAR(100),
     IN p_universidad INT,
     IN p_cedulaProfesional VARCHAR(30),
     IN p_numeroDePersonal VARCHAR(40),
     IN p_areaEstudios VARCHAR(40),
-    IN p_correoElectronico VARCHAR(30),
-    IN p_numeroTelefono VARCHAR(12),
+    IN p_correoElectronico VARCHAR(320),
+    IN p_numeroTelefono VARCHAR(13),
     IN p_categoriaContratacion VARCHAR(40), 
     IN p_facultad INT,
     OUT p_id_persona INT
@@ -86,8 +85,8 @@ CREATE PROCEDURE registrar_Academico (
 BEGIN
     DECLARE id_persona INT;
 
-    INSERT INTO persona (nombre, apellidoPaterno, apellidoMaterno, universidad) 
-    VALUES (p_nombre, p_apellidoPaterno, p_apellidoMaterno, p_universidad);
+    INSERT INTO persona (nombre, apellidos, universidad) 
+    VALUES (p_nombre, p_apellidos, p_universidad);
 
     SET id_persona = LAST_INSERT_ID();
     SET p_id_persona = id_persona;
@@ -99,15 +98,14 @@ END;
 
 DROP PROCEDURE IF EXISTS editar_academico;
 CREATE PROCEDURE editar_academico (
-    IN p_nombre varchar(50), 
-    IN p_apellidoPaterno varchar(50),
-    IN p_apellidoMaterno varchar(50), 
+    IN p_nombre varchar(100), 
+    IN p_apellidos varchar(100),
     IN p_universidad int,
     IN p_cedulaProfesional varchar(30),
     IN p_numeroDePersonal varchar(40),
     IN p_areaEstudios varchar(40),
-    IN p_correoElectronico varchar(30),
-    IN p_numeroTelefono varchar(12),
+    IN p_correoElectronico varchar(320),
+    IN p_numeroTelefono varchar(230),
     IN p_categoriaContratacion varchar(40), 
     IN p_facultad int
 )
@@ -120,8 +118,7 @@ BEGIN
     
     UPDATE persona 
     SET nombre = p_nombre,
-        apellidoPaterno = p_apellidoPaterno,
-        apellidoMaterno = p_apellidoMaterno,
+        apellidos = p_apellidos,
         universidad = p_universidad
     WHERE idPersona = id_persona;
         
@@ -139,25 +136,23 @@ END //
 -- Procedimientos estudiantes.
 DROP PROCEDURE IF EXISTS registrar_Estudiante//
 create procedure registrar_Estudiante(
-    IN p_nombre varchar(20), 
-    IN p_apellidoPaterno varchar(20),
-    IN p_apellidoMaterno varchar(20),
+    IN p_nombre varchar(100), 
+    IN p_apellidos varchar(100),
     IN p_universidad int,
     IN p_matricula char(10))
 BEGIN
 	DECLARE id_persona INT;
-	INSERT INTO persona (nombre, apellidoPaterno, apellidoMaterno, universidad) VALUES (p_nombre, p_apellidoPaterno, p_apellidoMaterno, p_universidad);
+	INSERT INTO persona (nombre, apellidos, universidad) VALUES (p_nombre, p_apellidos, p_universidad);
 	SET id_persona = LAST_INSERT_ID();
 	INSERT INTO estudiante (idPersona, matricula) VALUES (id_persona, p_matricula);
-	CALL registrar_cuenta (id_Persona, p_nombre, p_matricula, 'estudiante', 'aceptada');
+	CALL registrar_cuenta (id_Persona, p_matricula, p_matricula, 'estudiante', 'aceptada');
 END //
 
 
 DROP PROCEDURE IF EXISTS editar_estudiante//
 create procedure editar_estudiante (
-    in p_nombre varchar(50),
-    in p_apellidoPaterno varchar(50),
-    in p_apellidoMaterno varchar(50),
+    in p_nombre varchar(100),
+    in p_apellidos varchar(100),
     in p_matricula char(10),
     in p_universidad int
 )
@@ -170,14 +165,9 @@ begin
 
     UPDATE persona 
     SET nombre = p_nombre,
-        apellidoPaterno = p_apellidoPaterno,
-        apellidoMaterno = p_apellidoMaterno,
+        apellidos = p_apellidos,
         universidad = p_universidad
     WHERE idPersona = id_persona;
-    
-    UPDATE cuenta
-    SET nombreUsuario = p_nombre
-    WHERE cuenta.idPersona = id_persona;
 end //
 
 
@@ -254,12 +244,12 @@ DROP PROCEDURE IF EXISTS registrar_Colaboracion;
 create procedure registrar_Colaboracion(
     IN p_estado enum ('propuesta', 'aceptada', 'rechazada', 'disponible', 'vinculada', 'activa', 'enRevision', 'finalizada'),
     IN p_tipo enum ('claseEspejo', 'COIL'),
-    IN p_temaInteres varchar(80), 
+    IN p_temaInteres varchar(100),
     IN p_idioma varchar(30),
-    IN p_objetivo varchar(80), 
+    IN p_objetivo varchar(300),
     IN p_fechaInicio date,
     IN p_fechaFinal date, 
-    IN p_perfilEstudiante varchar(50)
+    IN p_perfilEstudiante varchar(200)
 )
 BEGIN
 	INSERT INTO colaboracion (estado, tipo, temaInteres, idioma, objetivo, fechaInicio, fechaFin, perfilEstudiante)
@@ -296,7 +286,7 @@ create procedure obtener_estudiantes_colaboracion (
 begin
     select v_e.*
     from vista_estudiante v_e
-    join estudiantescolaboracion e_col ON v_e.idEstudiante = e_col.idEstudiante
+    join estudiantesColaboracion e_col ON v_e.idEstudiante = e_col.idEstudiante
     where e_col.idColaboracion = p_idColaboracion;
 end //
 
@@ -318,12 +308,12 @@ CREATE PROCEDURE actualizar_Colaboracion(
     IN p_idColaboracion INT,
     IN p_estado ENUM('propuesta', 'aceptada', 'rechazada', 'disponible', 'vinculada', 'activa', 'enRevision', 'finalizada'),
     IN p_tipo ENUM('claseEspejo', 'COIL'),
-    IN p_temaInteres VARCHAR(80),
+    IN p_temaInteres VARCHAR(100),
     IN p_idioma VARCHAR(30),
-    IN p_objetivo VARCHAR(80),
+    IN p_objetivo VARCHAR(300),
     IN p_fechaInicio DATE,
     IN p_fechaFinal DATE,
-    IN p_perfilEstudiante VARCHAR(50)
+    IN p_perfilEstudiante VARCHAR(200)
 )
 BEGIN
     UPDATE colaboracion
@@ -361,9 +351,8 @@ END //
 
 DROP PROCEDURE IF EXISTS registrar_cuenta_administrador//
 CREATE PROCEDURE registrar_cuenta_administrador (
-    IN p_nombre VARCHAR(20),
-    IN p_apellidoPaterno VARCHAR(20),
-    IN p_apellidoMaterno VARCHAR(20),
+    IN p_nombre VARCHAR(100),
+    IN p_apellidos VARCHAR(100),
     IN p_universidad INT,
     IN p_nombreUsuario VARCHAR(50),
     IN p_contrasena VARCHAR(300)
@@ -373,8 +362,8 @@ BEGIN
     DECLARE v_idPersona INT;
     SET v_contrasena_encriptada = SHA2(p_contrasena, 256);
 
-    INSERT INTO persona (nombre, apellidoPaterno, apellidoMaterno, universidad)
-    VALUES (p_nombre, p_apellidoPaterno, p_apellidoMaterno, p_universidad);
+    INSERT INTO persona (nombre, apellidos, universidad)
+    VALUES (p_nombre, p_apellidos, p_universidad);
     
     SET v_idPersona = LAST_INSERT_ID();
 

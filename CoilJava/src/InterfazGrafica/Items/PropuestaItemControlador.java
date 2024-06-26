@@ -1,7 +1,9 @@
 package InterfazGrafica.Items;
 
 import DAO.PaisAuxiliar;
+import DAO.PaisDAO;
 import DAO.UniversidadAuxiliar;
+import DAO.UniversidadDAO;
 import DTO.ColaboracionDTO;
 import DTO.PaisDTO;
 import DTO.UniversidadDTO;
@@ -11,7 +13,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.layout.Pane;
 
 import java.net.URL;
 import java.util.Optional;
@@ -20,25 +21,18 @@ import java.util.ResourceBundle;
 public class PropuestaItemControlador implements Initializable {
     @FXML
     private Button btnAceptar;
-
     @FXML
     private Button btnRechazar;
-
     @FXML
-    private Label lbApellido;
-
+    private Label lbApellidos;
     @FXML
     private Label lbNombre;
-
     @FXML
-    private Label lbTemaInteres;
-
+    private TextArea taTemaInteres;
     @FXML
     private Label lbUniversidad;
     @FXML
     private TextArea taObjetivo;
-    @FXML
-    private Pane pnPropuestaItem;
     @FXML
     private Label lbPais;
 
@@ -52,16 +46,8 @@ public class PropuestaItemControlador implements Initializable {
         return btnAceptar;
     }
 
-    public void setBtnAceptar (Button btnAceptar) {
-        this.btnAceptar = btnAceptar;
-    }
-
     public Button getBtnRechazar () {
         return btnRechazar;
-    }
-
-    public void setBtnRechazar (Button btnRechazar) {
-        this.btnRechazar = btnRechazar;
     }
 
     public void setColaboracionDTO (ColaboracionDTO colaboracionDTO) {
@@ -70,22 +56,21 @@ public class PropuestaItemControlador implements Initializable {
 
 
     public void inicializarLabels () {
-        lbTemaInteres.setText(colaboracionDTO.getTemaInteres());
+        taTemaInteres.setText(colaboracionDTO.getTemaInteres());
         taObjetivo.setText(colaboracionDTO.getObjetivo());
         taObjetivo.setEditable(false);
         lbNombre.setText(colaboracionDTO.getAnfitrion()
                                         .getNombre());
-        lbApellido.setText(colaboracionDTO.getAnfitrion()
-                                          .getApellidoPaterno() + " " + colaboracionDTO.getAnfitrion()
-                                                                                       .getApellidoMaterno());
+        lbApellidos.setText(colaboracionDTO.getAnfitrion()
+                                           .getApellidos());
         UniversidadDTO universidadDTO = getUniversidad();
         lbUniversidad.setText(universidadDTO.getNombre());
         lbPais.setText(getPais(universidadDTO.getIdPais()).getIso());
     }
 
     private UniversidadDTO getUniversidad () {
-        UniversidadAuxiliar universidadAuxiliar = new UniversidadAuxiliar();
-        Optional<UniversidadDTO> universidadDTOOptional = universidadAuxiliar.getUniversidadPorId(colaboracionDTO.getAnfitrion()
+        UniversidadDAO universidadDAO = new UniversidadDAO();
+        Optional<UniversidadDTO> universidadDTOOptional = universidadDAO.getUniversidadPorId(colaboracionDTO.getAnfitrion()
                                                                                                                  .getIdUniversidad());
         if (universidadDTOOptional.isPresent()) {
             return universidadDTOOptional.get();
@@ -96,8 +81,8 @@ public class PropuestaItemControlador implements Initializable {
     }
 
     private PaisDTO getPais (int id) {
-        PaisAuxiliar paisAuxiliar = new PaisAuxiliar();
-        Optional<PaisDTO> paisDTOOptional = paisAuxiliar.getPaisPorId(id);
+        PaisDAO paisDAO = new PaisDAO();
+        Optional<PaisDTO> paisDTOOptional = paisDAO.getPaisPorId(id);
         if (paisDTOOptional.isPresent()) {
             return paisDTOOptional.get();
         }

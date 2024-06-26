@@ -3,7 +3,8 @@ package InterfazGrafica.Items;
 import DTO.PaisDTO;
 import DTO.UniversidadDTO;
 import InterfazGrafica.ConsultaUniversidadesControlador;
-import InterfazGrafica.EditarUniversidadControlador;
+import InterfazGrafica.EdicionUniversidadControlador;
+import Utilidades.ErrorDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
@@ -40,36 +41,34 @@ public class UniversidadItemControlador {
         this.lbPais.setText(paisDTO.getNombre());
     }
 
-    public void setConsultaUniversidadesControlador(ConsultaUniversidadesControlador consultaUniversidadesControlador) {
+    public void setConsultaUniversidadesControlador (ConsultaUniversidadesControlador consultaUniversidadesControlador) {
         this.consultaUniversidadesControlador = consultaUniversidadesControlador;
     }
 
     @FXML
     private void editarUniversidad () {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../EditarUniversidad.fxml"));
-        BorderPane pnEditarUniversidad = null;
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../EdicionUniversidad.fxml"));
+        BorderPane pnEdicionUniversidad = null;
 
         try {
-            pnEditarUniversidad = fxmlLoader.load();
+            pnEdicionUniversidad = fxmlLoader.load();
         }
         catch (IOException error) {
             BITACORA.info(error.getMessage());
             mostrarMensajeEmergente("Algo salió mal al cargar las configuraciones de la Universidad", Alert.AlertType.ERROR);
         }
 
-        if (pnEditarUniversidad != null) {
-            agregarDatosVentanaEditar(fxmlLoader.getController());
-            this.pnVentanaPrincipal.setCenter(pnEditarUniversidad);
-        }
-    }
+        if (pnEdicionUniversidad != null) {
+            EdicionUniversidadControlador edicionUniversidadControlador = fxmlLoader.getController();
 
-    private void agregarDatosVentanaEditar (EditarUniversidadControlador controlador) {
-        controlador.setPnVentanaPrincipal(this.pnVentanaPrincipal);
-        controlador.setHistorialPaneles(this.historialPaneles);
-        controlador.setUniversidadActual(new UniversidadDTO(lbUniversidad.getText()));
-        controlador.setPaisActual(new PaisDTO(lbPais.getText()));
-        controlador.setConsultaUniversidadesControlador(this.consultaUniversidadesControlador);
-        controlador.autocompletarCampos();
+            try {
+                edicionUniversidadControlador.setRecursos(this.pnVentanaPrincipal, this.historialPaneles, new UniversidadDTO(lbUniversidad.getText()), new PaisDTO(lbPais.getText()), this.consultaUniversidadesControlador);
+                this.pnVentanaPrincipal.setCenter(pnEdicionUniversidad);
+            }
+            catch (ErrorDAO error) {
+                mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
+            }
+        }
     }
 
     private void mostrarMensajeEmergente (String mensaje, Alert.AlertType tipoAlerta) {

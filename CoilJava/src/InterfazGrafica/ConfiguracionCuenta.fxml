@@ -58,10 +58,6 @@
                               <Font name="Franklin Gothic Book" size="20.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="tfCategoriaContratacion" layoutX="255.0" layoutY="74.0" prefHeight="32.0" prefWidth="330.0" styleClass="label-inicioSesion-rosado">
-                           <font>
-                              <Font name="Franklin Gothic Book" size="16.0" />
-                           </font></TextField>
                         <ComboBox fx:id="cmbAreaEstudios" layoutX="254.0" layoutY="17.0" prefHeight="28.0" prefWidth="329.0" styleClass="label-inicioSesion-rosado" />
                         <Label fx:id="lbObligatorioAreaEstudios" layoutX="2.0" layoutY="7.0" text="*Campo obligatorio" textFill="#fc0000" visible="false">
                            <font>
@@ -73,6 +69,7 @@
                               <Font size="15.0" />
                            </font>
                         </Label>
+                        <ComboBox fx:id="cbCategoriaContratacion" layoutX="254.0" layoutY="83.0" prefHeight="28.0" prefWidth="329.0" styleClass="label-inicioSesion-rosado" />
                      </children>
                   </AnchorPane>
                </children>

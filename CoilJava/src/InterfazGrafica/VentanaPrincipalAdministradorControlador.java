@@ -35,8 +35,8 @@ public class VentanaPrincipalAdministradorControlador implements Initializable {
             mostrarMensajeEmergente("Algo salió mal al mostrar la sección de colaboración", Alert.AlertType.ERROR);
         }
         if (apColaboracion != null) {
-            SeccionColaboracionAdministradorControlador seccionColaboracionAdministradorControlador = fxmlLoader.getController();
-            seccionColaboracionAdministradorControlador.setPnVentanaPrincipal(this.pnPrincipal);
+            SeccionColaboracionAdministradorControlador controlador = fxmlLoader.getController();
+            controlador.setPnVentanaPrincipal(this.pnPrincipal);
             this.pnPrincipal.setCenter(apColaboracion);
         }
     }
@@ -82,7 +82,7 @@ public class VentanaPrincipalAdministradorControlador implements Initializable {
 
     @FXML
     private void abrirCrearCuenta () {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CrearCuentaAcademico.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CreacionCuentaAcademico.fxml"));
         Pane pnCrearCuenta = null;
 
         try {
@@ -94,7 +94,7 @@ public class VentanaPrincipalAdministradorControlador implements Initializable {
         }
 
         if (pnCrearCuenta != null) {
-            CrearCuentaAcademicoControlador controlador = fxmlLoader.getController();
+            CreacionCuentaAcademicoControlador controlador = fxmlLoader.getController();
             controlador.initialize(this.pnPrincipal);
             this.pnPrincipal.setCenter(pnCrearCuenta);
         }
@@ -114,12 +114,10 @@ public class VentanaPrincipalAdministradorControlador implements Initializable {
         }
 
         if (bpGestionCuenta != null) {
-            GestionCuentaControlador gestionCuentaControlador = fxmlLoader.getController();
-            gestionCuentaControlador.setPnVentanaPrincipal(this.pnPrincipal);
+            GestionCuentaControlador controlador = fxmlLoader.getController();
+            controlador.setPnVentanaPrincipal(this.pnPrincipal);
             this.pnPrincipal.setCenter(bpGestionCuenta);
         }
-
-
     }
 
     private void mostrarMensajeEmergente (String mensaje, Alert.AlertType tipoAlerta) {

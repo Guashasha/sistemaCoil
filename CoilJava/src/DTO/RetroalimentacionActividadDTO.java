@@ -1,5 +1,8 @@
 package DTO;
 
+/**
+ * La clase RetroalimentacionActividadDTO funciona como transfer object, para transferir la información desde la base de datos a capas superiores dentro de la aplicación.
+ */
 public class RetroalimentacionActividadDTO extends RetroalimentacionDTO {
     private int idActividad;
     private int dificultad;

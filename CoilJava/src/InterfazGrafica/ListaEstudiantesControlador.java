@@ -36,18 +36,18 @@ public class ListaEstudiantesControlador {
         this.historialPaneles = historialPaneles;
     }
 
-    public void setColaboracion(ColaboracionDTO colaboracion) {
+    public void setColaboracion (ColaboracionDTO colaboracion) {
         this.colaboracion = colaboracion;
     }
 
-    public void setAcademico(AcademicoDTO academico) {
+    public void setAcademico (AcademicoDTO academico) {
         this.academico = academico;
     }
 
     @FXML
     private void agregarEstudiante () {
         if (objetosValidos()) {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AgregarEstudiante.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("VinculacionEstudiantes.fxml"));
             BorderPane pnAgregarEstudiante = null;
 
             try {
@@ -70,14 +70,10 @@ public class ListaEstudiantesControlador {
 
     @FXML
     private void regresar () {
-        if (this.historialPaneles
-                .peek() == this.pnListaEstudiantes) {
-            this.historialPaneles
-                    .pop();
+        if (this.historialPaneles.peek() == this.pnListaEstudiantes) {
+            this.historialPaneles.pop();
         }
-        this.pnVentanaPrincipal
-                .setCenter(this.historialPaneles
-                        .pop());
+        this.pnVentanaPrincipal.setCenter(this.historialPaneles.pop());
     }
 
     private boolean objetosValidos () {
@@ -103,11 +99,11 @@ public class ListaEstudiantesControlador {
 
     private void mostrarListaEstudiantes (List<EstudianteDTO> listaEstudiantes) {
         if (!listaEstudiantes.isEmpty() && historialPaneles.peek() != this.pnListaEstudiantes) {
-            this.historialPaneles
-                    .push(this.pnListaEstudiantes);
+            this.historialPaneles.push(this.pnListaEstudiantes);
         }
 
-        this.vboxListaEstudiantes.getChildren().clear();
+        this.vboxListaEstudiantes.getChildren()
+                                 .clear();
 
         for (EstudianteDTO estudiante : listaEstudiantes) {
             if (estudiante.getIdUniversidad() == this.academico.getIdUniversidad()) {
@@ -117,9 +113,9 @@ public class ListaEstudiantesControlador {
                 try {
                     hboxFila = fxmlLoader.load();
                     ListaEstudiantesItemControlador controlador = fxmlLoader.getController();
-                    controlador.setRecursos(this.pnVentanaPrincipal,this.historialPaneles,this.colaboracion,this,estudiante);
-                    this.vboxListaEstudiantes
-                            .getChildren().add(hboxFila);
+                    controlador.setRecursos(this.pnVentanaPrincipal, this.historialPaneles, this.colaboracion, this, estudiante);
+                    this.vboxListaEstudiantes.getChildren()
+                                             .add(hboxFila);
                 }
                 catch (IOException error) {
                     BITACORA.info(error.getMessage());
@@ -134,7 +130,7 @@ public class ListaEstudiantesControlador {
         }
     }
 
-    private void agregarDatosVentanaAgregarEstudiante (AgregarEstudianteControlador controlador) {
+    private void agregarDatosVentanaAgregarEstudiante (VinculacionEstudiantesControlador controlador) {
         this.historialPaneles.push(this.pnListaEstudiantes);
 
         controlador.setPnVentanaPrincipal(this.pnVentanaPrincipal);

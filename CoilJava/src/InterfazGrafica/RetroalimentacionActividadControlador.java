@@ -2,45 +2,52 @@ package InterfazGrafica;
 
 import DAO.RetroalimentacionActividadAuxiliar;
 import DTO.ActividadDTO;
+import DTO.CuentaDTO;
 import DTO.RetroalimentacionActividadDTO;
 import Utilidades.ErrorDAO;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import org.apache.log4j.Logger;
+import javafx.scene.text.Text;
 
-import java.io.IOException;
-import java.util.Stack;
-
-public class RetroalimentarActividadControlador {
-    private static final Logger BITACORA = Logger.getLogger(NuevaActividadControlador.class);
-    private Pane ventanaPrincipal;
-    private Pane ventanaAnterior;
+public class RetroalimentacionActividadControlador {
+    private BorderPane pnVentanaPrincipal;
+    private Pane pnVentanaAnterior;
 
     @FXML
     private Pane pnPrincipal;
     @FXML
-    private Slider slInteraccion = new Slider();
+    private Slider slInteraccion;
     @FXML
-    private Slider slDificultad = new Slider();
+    private Slider slDificultad;
     @FXML
-    private Slider slInteres = new Slider();
+    private Slider slInteres;
     @FXML
-    private TextField tfComentario = new TextField();
+    private TextField tfComentario;
+    @FXML
+    private Text txtInteraccionPar;
+    @FXML
+    private Text txtDificultad;
+    @FXML
+    private Text txtInteres;
 
     private ActividadDTO actividad;
+    private CuentaDTO cuenta;
+    private ActividadesColaboracionControlador actividadesColaboracionControlador;
 
-    public void initialize (Pane ventanaPrincipal, Pane ventanaAnterior, ActividadDTO actividad) {
+    public void initialize (BorderPane pnVentanaPrincipal, Pane pnVentanaAnterior, ActividadDTO actividad, CuentaDTO cuenta, ActividadesColaboracionControlador actividadesColaboracionControlador) {
         if (!actividad.esCorrecta()) {
             return;
         }
 
         this.actividad = actividad;
-        this.ventanaPrincipal = ventanaPrincipal;
-        this.ventanaAnterior = ventanaAnterior;
+        this.cuenta = cuenta;
+        this.pnVentanaPrincipal = pnVentanaPrincipal;
+        this.pnVentanaAnterior = pnVentanaAnterior;
+        this.actividadesColaboracionControlador = actividadesColaboracionControlador;
     }
 
     public Pane getPane () {
@@ -50,10 +57,18 @@ public class RetroalimentarActividadControlador {
     public void guardarRetroalimentacion () {
         RetroalimentacionActividadDTO retroalimentacion = leerDatosRetroalimentacion();
 
-        RetroalimentacionActividadAuxiliar dao = new RetroalimentacionActividadAuxiliar();
+        if (retroalimentacion.getComentario().isPresent() && retroalimentacion.getComentario().get().length() > 200) {
+            Alert alerta = new Alert(Alert.AlertType.WARNING);
+            alerta.setHeaderText("Comentario muy largo");
+            alerta.setContentText("El comentario debe ser de maximo 200 caracteres");
+            alerta.showAndWait();
+            return;
+        }
+
+        RetroalimentacionActividadAuxiliar retroalimentacionActividadAuxiliar = new RetroalimentacionActividadAuxiliar();
 
         try {
-            dao.agregar(retroalimentacion);
+            retroalimentacionActividadAuxiliar.agregar(retroalimentacion);
         }
         catch (ErrorDAO error) {
             Alert alertaError = crearAlerta(error);
@@ -66,6 +81,12 @@ public class RetroalimentarActividadControlador {
         mensajeConfirmacion.setHeaderText("Colaboración calificada correctamente");
         mensajeConfirmacion.setContentText("La información de la retroalimentación se guardó correctamente. Gracias por participar en la colaboración.");
         mensajeConfirmacion.showAndWait();
+        regresar();
+    }
+
+    public void regresar () {
+        this.pnVentanaPrincipal.setCenter(this.pnVentanaAnterior);
+        this.actividadesColaboracionControlador.actualizarLista();
     }
 
     private static Alert crearAlerta(ErrorDAO error) {
@@ -99,12 +120,19 @@ public class RetroalimentarActividadControlador {
         String mensaje = tfComentario.getText();
 
         RetroalimentacionActividadDTO retroalimentacion = new RetroalimentacionActividadDTO();
-        retroalimentacion.setIdActividad(actividad.getIdActividad());
+        retroalimentacion.setIdActividad(this.actividad.getIdActividad());
         retroalimentacion.setInteres(interes);
         retroalimentacion.setDificultad(dificultad);
         retroalimentacion.setInteraccionConPar(interaccionPar);
         retroalimentacion.setComentario(mensaje);
+        retroalimentacion.setIdUsuario(this.cuenta.getIdPersona());
 
         return retroalimentacion;
+    }
+
+    public void actualizarEtiquetas () {
+        txtInteres.setText(String.valueOf(slInteres.getValue()));
+        txtDificultad.setText(String.valueOf(slDificultad.getValue()));
+        txtInteraccionPar.setText(String.valueOf(slInteraccion.getValue()));
     }
 }

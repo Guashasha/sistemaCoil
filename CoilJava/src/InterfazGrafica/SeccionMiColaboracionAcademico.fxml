@@ -11,7 +11,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="bpMiColaboracion" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="759.0" prefWidth="973.0" stylesheets="@Recursos/EstiloLabels.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.SeccionMiColaboracionAcademicoControlador">
+<BorderPane fx:id="pnActual" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="759.0" prefWidth="973.0" stylesheets="@Recursos/EstiloLabels.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.SeccionMiColaboracionAcademicoControlador">
    <center>
       <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
@@ -66,7 +66,7 @@
                   </Label>
                </children>
             </VBox>
-            <VBox alignment="CENTER" layoutX="197.0" layoutY="222.0" onMouseClicked="#abrirIniciarMiColaboracion" prefHeight="200.0" prefWidth="172.0" styleClass="panel" stylesheets="@Recursos/EstiloLabels.css">
+            <VBox alignment="CENTER" layoutX="197.0" layoutY="222.0" onMouseClicked="#abrirProgresoColaboracion" prefHeight="200.0" prefWidth="172.0" styleClass="panel" stylesheets="@Recursos/EstiloLabels.css">
                <children>
                   <ImageView fitHeight="81.0" fitWidth="148.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -99,7 +99,7 @@
             <Insets left="40.0" right="40.0" top="40.0" />
          </BorderPane.margin>
          <children>
-            <Pane prefHeight="82.0" prefWidth="62.0">
+            <Pane onMouseClicked="#regresar" prefHeight="82.0" prefWidth="62.0">
                <children>
                   <Circle fill="WHITE" layoutX="31.0" layoutY="39.0" radius="27.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
                   <ImageView fitHeight="48.0" fitWidth="42.0" layoutX="10.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">

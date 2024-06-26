@@ -8,18 +8,14 @@ import Utilidades.ComprobadorInternet;
 import Utilidades.ErrorDAO;
 import Utilidades.ManejadorCorreo;
 import Utilidades.PlantillasCorreo;
-import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
-import javafx.stage.Stage;
 import javafx.stage.Window;
 import org.apache.log4j.Logger;
 
@@ -30,16 +26,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class GestionCuentaControlador extends Application implements Initializable {
+public class GestionCuentaControlador implements Initializable {
     private static final Logger BITACORA = Logger.getLogger(GestionCuentaControlador.class);
     @FXML
-    private VBox lyInformacionCuenta;
+    private VBox vbContenedorCuenta;
     private BorderPane pnVentanaPrincipal;
     @FXML
-    private BorderPane root;
+    private BorderPane pnActual;
 
-    public void setRoot (BorderPane root) {
-        this.root = root;
+    public void setPnActual (BorderPane pnActual) {
+        this.pnActual = pnActual;
     }
 
     @Override
@@ -57,8 +53,8 @@ public class GestionCuentaControlador extends Application implements Initializab
             cuentaItemController.setCuentaObtenida(cuenta);
             cuentaItemController.setLabel();
 
-            lyInformacionCuenta.getChildren()
-                               .add(vBox);
+            vbContenedorCuenta.getChildren()
+                              .add(vBox);
             configurarBotonEvaluar(cuentaItemController, vBox);
         }
         catch (IOException ioException) {
@@ -76,11 +72,11 @@ public class GestionCuentaControlador extends Application implements Initializab
                 }
             }
             else {
-                mostrarAlert("No hay cuentas por revisar", Alert.AlertType.INFORMATION);
+                mostrarMensajeEmergente("No hay cuentas por revisar", Alert.AlertType.INFORMATION);
             }
         }
         catch (ErrorDAO errorDAO) {
-            mostrarAlert(errorDAO.getMessage(), Alert.AlertType.ERROR);
+            mostrarMensajeEmergente(errorDAO.getMessage(), Alert.AlertType.ERROR);
         }
     }
 
@@ -91,7 +87,7 @@ public class GestionCuentaControlador extends Application implements Initializab
                                     evaluarCuenta(cuentaItemController, vBox);
                                 }
                                 catch (ErrorDAO errorDAO) {
-                                    mostrarAlert(errorDAO.getMessage(), Alert.AlertType.ERROR);
+                                    mostrarMensajeEmergente(errorDAO.getMessage(), Alert.AlertType.ERROR);
                                 }
                             });
     }
@@ -103,13 +99,13 @@ public class GestionCuentaControlador extends Application implements Initializab
         if (resultado != -1) {
             try {
                 cambiarEstadoCuenta(cuentaSeleccionada, resultado, academico);
-                lyInformacionCuenta.getChildren()
-                                   .remove(vBox);
+                vbContenedorCuenta.getChildren()
+                                  .remove(vBox);
             }
             catch (ErrorDAO errorDAO) {
                 if (errorDAO.getTipo() != ErrorDAO.Tipo.ERROR_CONEXION_INTERNET) {
-                    lyInformacionCuenta.getChildren()
-                                       .remove(vBox);
+                    vbContenedorCuenta.getChildren()
+                                      .remove(vBox);
                 }
                 throw errorDAO;
             }
@@ -199,33 +195,17 @@ public class GestionCuentaControlador extends Application implements Initializab
     }
 
     private String getNombreAcademicoCompleto (AcademicoDTO academico) {
-        return academico.getNombre() + " " + academico.getApellidoPaterno() + " " + academico.getApellidoMaterno();
+        return academico.getNombre() + " " + academico.getApellidos();
     }
 
     public void setPnVentanaPrincipal (BorderPane pnVentanaPrincipal) {
         this.pnVentanaPrincipal = pnVentanaPrincipal;
     }
 
-    private void mostrarAlert (String mensaje, Alert.AlertType tipoAlerta) {
+    private void mostrarMensajeEmergente (String mensaje, Alert.AlertType tipoAlerta) {
         Alert alerta = new Alert(tipoAlerta);
         alerta.setContentText(mensaje);
         alerta.setHeaderText(null);
         alerta.showAndWait();
     }
-
-    @Override
-    public void start (Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../InterfazGrafica/GestionCuenta.fxml"));
-        Parent root = loader.load();
-        Scene scene = new Scene(root);
-
-        primaryStage.setTitle("Gestión de Cuentas");
-        primaryStage.setScene(scene);
-        primaryStage.show();
-    }
-
-    public static void main (String[] args) {
-        launch(args);
-    }
-
 }

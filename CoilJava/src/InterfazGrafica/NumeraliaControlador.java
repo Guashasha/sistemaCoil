@@ -78,7 +78,7 @@ public class NumeraliaControlador implements Initializable {
     private Button btnAnioAdelante;
     @FXML
     private HBox hboxTablas;
-    private final Map<String,Label[]> MAPA_ETIQUETAS = new HashMap<>();
+    private final Map<String, Label[]> MAPA_ETIQUETAS = new HashMap<>();
     private int anioMaximo;
     private int anioMinimo;
 
@@ -87,24 +87,40 @@ public class NumeraliaControlador implements Initializable {
     }
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void initialize (URL url, ResourceBundle resourceBundle) {
         crearMapaEtiquetas();
-        cargarNumeraliaPrincipal();
-        asignarAnioMinimo();
+        try {
+            cargarNumeraliaPrincipal();
+            asignarAnioMinimo();
+        }
+        catch (ErrorDAO error) {
+            mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
+        }
+
     }
 
     @FXML
     private void cambiarPeriodoFebreroJulio () {
         int anio = Integer.parseInt(lbAnio.getText());
-        PeriodoDTO periodoFebreroJulio = new PeriodoDTO(LocalDate.of(anio,2,1),LocalDate.of(anio,7,31));
-        cargarNumeralia(periodoFebreroJulio);
+        PeriodoDTO periodoFebreroJulio = new PeriodoDTO(LocalDate.of(anio, 2, 1), LocalDate.of(anio, 7, 31));
+        try {
+            cargarNumeralia(periodoFebreroJulio);
+        }
+        catch (ErrorDAO error) {
+            mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
+        }
     }
 
     @FXML
     private void cambiarPeriodoAgostoEnero () {
         int anio = Integer.parseInt(lbAnio.getText());
-        PeriodoDTO periodoAgostoEnero = new PeriodoDTO(LocalDate.of(anio,8,1),LocalDate.of(anio+1,1,31));
-        cargarNumeralia(periodoAgostoEnero);
+        PeriodoDTO periodoAgostoEnero = new PeriodoDTO(LocalDate.of(anio, 8, 1), LocalDate.of(anio + 1, 1, 31));
+        try {
+            cargarNumeralia(periodoAgostoEnero);
+        }
+        catch (ErrorDAO error) {
+            mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
+        }
     }
 
     @FXML
@@ -138,20 +154,20 @@ public class NumeraliaControlador implements Initializable {
     }
 
     private void crearMapaEtiquetas () {
-        MAPA_ETIQUETAS.put("Xalapa",new Label[]{this.lbAlumnosXalapa,this.lbProfesoresXalapa});
-        MAPA_ETIQUETAS.put("Veracruz",new Label[]{lbAlumnosVeracruz,lbProfesoresVeracruz});
-        MAPA_ETIQUETAS.put("Poza Rica - Tuxpan",new Label[]{lbAlumnosPozaRica,lbProfesoresPozaRica});
-        MAPA_ETIQUETAS.put("Orizaba - Córdoba",new Label[]{lbAlumnosOrizaba,lbProfesoresOrizaba});
-        MAPA_ETIQUETAS.put("Coatzacoalcos - Minatitlán",new Label[]{lbAlumnosCoatzacoalcos,lbProfesoresCoatzacoalcos});
-        MAPA_ETIQUETAS.put("economico-administrativo",new Label[]{lbAlumnosEconomico,lbProfesoresEconomico});
-        MAPA_ETIQUETAS.put("humanidades",new Label[]{lbAlumnosHumanidades,lbProfesoresHumanidades});
-        MAPA_ETIQUETAS.put("tecnica",new Label[]{lbAlumnosTecnica,lbProfesoresTecnica});
-        MAPA_ETIQUETAS.put("ciencias de la salud",new Label[]{lbAlumnosSalud,lbProfesoresSalud});
-        MAPA_ETIQUETAS.put("biologia-agropecuarias",new Label[]{lbAlumnosBiologia,lbProfesoresBiologia});
-        MAPA_ETIQUETAS.put("DGRI",new Label[]{lbAlumnosDGRI,lbProfesoresDGRI});
+        MAPA_ETIQUETAS.put("Xalapa", new Label[]{this.lbAlumnosXalapa, this.lbProfesoresXalapa});
+        MAPA_ETIQUETAS.put("Veracruz", new Label[]{lbAlumnosVeracruz, lbProfesoresVeracruz});
+        MAPA_ETIQUETAS.put("Poza Rica - Tuxpan", new Label[]{lbAlumnosPozaRica, lbProfesoresPozaRica});
+        MAPA_ETIQUETAS.put("Orizaba - Córdoba", new Label[]{lbAlumnosOrizaba, lbProfesoresOrizaba});
+        MAPA_ETIQUETAS.put("Coatzacoalcos - Minatitlán", new Label[]{lbAlumnosCoatzacoalcos, lbProfesoresCoatzacoalcos});
+        MAPA_ETIQUETAS.put("economico-administrativo", new Label[]{lbAlumnosEconomico, lbProfesoresEconomico});
+        MAPA_ETIQUETAS.put("humanidades", new Label[]{lbAlumnosHumanidades, lbProfesoresHumanidades});
+        MAPA_ETIQUETAS.put("tecnica", new Label[]{lbAlumnosTecnica, lbProfesoresTecnica});
+        MAPA_ETIQUETAS.put("ciencias de la salud", new Label[]{lbAlumnosSalud, lbProfesoresSalud});
+        MAPA_ETIQUETAS.put("biologia-agropecuarias", new Label[]{lbAlumnosBiologia, lbProfesoresBiologia});
+        MAPA_ETIQUETAS.put("DGRI", new Label[]{lbAlumnosDGRI, lbProfesoresDGRI});
     }
 
-    private void cargarNumeraliaPrincipal() {
+    private void cargarNumeraliaPrincipal () throws ErrorDAO {
         LocalDateTime fechaActual = LocalDateTime.now();
         PeriodoDTO periodoActual = new PeriodoDTO();
 
@@ -159,7 +175,7 @@ public class NumeraliaControlador implements Initializable {
             case FEBRUARY, MARCH, APRIL, MAY, JUNE, JULY -> {
                 periodoActual.setFechaInicio(LocalDate.of(fechaActual.getYear() - 1, 8, 1));
                 periodoActual.setFechaFin(LocalDate.of(fechaActual.getYear(), 1, 31));
-                this.lbAnio.setText(String.valueOf(fechaActual.getYear()-1));
+                this.lbAnio.setText(String.valueOf(fechaActual.getYear() - 1));
             }
             default -> {
                 periodoActual.setFechaInicio(LocalDate.of(fechaActual.getYear(), 2, 1));
@@ -172,40 +188,38 @@ public class NumeraliaControlador implements Initializable {
         cargarNumeralia(periodoActual);
     }
 
-    private void cargarNumeralia (PeriodoDTO periodo) {
+    private void cargarNumeralia (PeriodoDTO periodo) throws ErrorDAO {
         ColaboracionAuxiliar colaboracionAuxiliar = new ColaboracionAuxiliar();
-        Map<String,int[]> numeraliaRegion = null;
-        Map<String,int[]> numeraliaAreas = null;
+        Map<String, int[]> numeraliaRegion;
+        Map<String, int[]> numeraliaAreas;
 
         try {
             numeraliaRegion = colaboracionAuxiliar.getNumeraliaRegion(periodo);
             numeraliaAreas = colaboracionAuxiliar.getNumeraliaAreaAcademica(periodo);
         }
         catch (ErrorDAO error) {
-            mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
             hboxTablas.setVisible(false);
+            throw error;
         }
 
-        if (numeraliaRegion != null && numeraliaAreas != null) {
-            mostrarNumeralia(numeraliaRegion,numeraliaAreas);
-            mostrarEtiquetaPeriodo(periodo);
-        }
+        mostrarNumeralia(numeraliaRegion, numeraliaAreas);
+        mostrarEtiquetaPeriodo(periodo);
     }
 
-    private void mostrarNumeralia(Map<String,int[]> numeraliaRegion, Map<String,int[]> numeraliaAreas) {
-        String[] llavesRegion = new String[]{"Xalapa","Veracruz","Poza Rica - Tuxpan","Orizaba - Córdoba","Coatzacoalcos - Minatitlán"};
-        String[] llavesAreas = new String[]{"economico-administrativo","humanidades","tecnica","ciencias de la salud","biologia-agropecuarias","DGRI"};
+    private void mostrarNumeralia (Map<String, int[]> numeraliaRegion, Map<String, int[]> numeraliaAreas) {
+        String[] llavesRegion = new String[]{"Xalapa", "Veracruz", "Poza Rica - Tuxpan", "Orizaba - Córdoba", "Coatzacoalcos - Minatitlán"};
+        String[] llavesAreas = new String[]{"economico-administrativo", "humanidades", "tecnica", "ciencias de la salud", "biologia-agropecuarias", "DGRI"};
 
-        mostrarCantidades(llavesRegion,numeraliaRegion);
-        mostrarCantidades(llavesAreas,numeraliaAreas);
+        mostrarCantidades(llavesRegion, numeraliaRegion);
+        mostrarCantidades(llavesAreas, numeraliaAreas);
 
         if (!hboxTablas.isVisible()) {
             hboxTablas.setVisible(true);
         }
     }
 
-    private void mostrarCantidades (String[] llaves, Map<String,int[]> numeralia) {
-        for (String llave : llaves){
+    private void mostrarCantidades (String[] llaves, Map<String, int[]> numeralia) {
+        for (String llave : llaves) {
             int[] cantidades = numeralia.get(llave);
             Label[] etiquetas = this.MAPA_ETIQUETAS.get(llave);
             if (cantidades != null) {
@@ -238,16 +252,9 @@ public class NumeraliaControlador implements Initializable {
         this.btnAnioAdelante.setVisible(false);
     }
 
-    private void asignarAnioMinimo () {
+    private void asignarAnioMinimo () throws ErrorDAO {
         ColaboracionDAO colaboracionDAO = new ColaboracionDAO();
-        Optional<LocalDate> fechaMasAntiguaOptional = Optional.empty();
-
-        try {
-            fechaMasAntiguaOptional = colaboracionDAO.getFechaColaboracionMasAntigua();
-        }
-        catch (ErrorDAO error) {
-            mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
-        }
+        Optional<LocalDate> fechaMasAntiguaOptional = colaboracionDAO.getFechaColaboracionMasAntigua();
 
         if (fechaMasAntiguaOptional.isPresent()) {
             LocalDate fecha = fechaMasAntiguaOptional.get();

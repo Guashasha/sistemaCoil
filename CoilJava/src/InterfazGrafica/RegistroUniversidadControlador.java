@@ -8,19 +8,15 @@ import Utilidades.ErrorDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.Stack;
 
-public class RegistroUniversidadControlador implements Initializable {
+public class RegistroUniversidadControlador {
     @FXML
     private Label txtObligatorioNombre;
     @FXML
@@ -33,21 +29,16 @@ public class RegistroUniversidadControlador implements Initializable {
     private BorderPane pnVentanaPrincipal;
     private ConsultaUniversidadesControlador consultaUniversidadesControlador;
 
-    public void setPnVentanaPrincipal (BorderPane pnVentanaPrincipal) {
-        this.pnVentanaPrincipal = pnVentanaPrincipal;
-    }
-
-    public void setHistorialPaneles (Stack<Pane> historialPaneles) {
-        this.historialPaneles = historialPaneles;
-    }
-
-    public void setConsultaUniversidadesControlador(ConsultaUniversidadesControlador consultaUniversidadesControlador) {
-        this.consultaUniversidadesControlador = consultaUniversidadesControlador;
-    }
-
-    @Override
-    public void initialize (URL url, ResourceBundle resourceBundle) {
-        llenarComboBoxPaises();
+    public void setRecursos (BorderPane pnVentanaPrincipal, Stack<Pane> historialPaneles, ConsultaUniversidadesControlador consultaUniversidadesControlador) throws ErrorDAO {
+        if (pnVentanaPrincipal != null && historialPaneles != null && consultaUniversidadesControlador != null) {
+            this.pnVentanaPrincipal = pnVentanaPrincipal;
+            this.historialPaneles = historialPaneles;
+            this.consultaUniversidadesControlador = consultaUniversidadesControlador;
+            llenarComboBoxPaises();
+        }
+        else {
+            throw new ErrorDAO("Algo salió mal, reinicie la aplicación y si el problema persiste, contacte con soporte técnico", ErrorDAO.Tipo.VALIDACION);
+        }
     }
 
     @FXML
@@ -62,16 +53,23 @@ public class RegistroUniversidadControlador implements Initializable {
                 filasAfectadas = universidadAuxiliar.registrarUniversidad(universidadDTO, paisDTO);
             }
             catch (ErrorDAO error) {
-                mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.WARNING);
-                return;
+                Alert.AlertType tipoAlerta = Alert.AlertType.WARNING;
+                if (error.getTipo() == ErrorDAO.Tipo.CONEXION) {
+                    tipoAlerta = Alert.AlertType.ERROR;
+                }
+                etiquetarCamposVacios();
+                mostrarMensajeEmergente(error.getMessage(), tipoAlerta);
+                filasAfectadas = -1;
             }
 
-            if (filasAfectadas == 1) {
+            if (filasAfectadas > 0) {
                 mostrarMensajeEmergente("Se ha registrado la universidad exitosamente", Alert.AlertType.INFORMATION);
+                etiquetarCamposVacios();
                 limpiarCampos();
             }
-            else {
-                mostrarMensajeEmergente("Algo salió mal. Intentelo de nuevo más tarde", Alert.AlertType.ERROR);
+            else if (filasAfectadas == 0) {
+                mostrarMensajeEmergente("Algo salió mal. Inténtelo de nuevo más tarde", Alert.AlertType.ERROR);
+                etiquetarCamposVacios();
             }
         }
         else {
@@ -93,7 +91,7 @@ public class RegistroUniversidadControlador implements Initializable {
     }
 
     @FXML
-    private void limitarCaracteres () {
+    private void limitarCaracteresCampoNombre () {
         int longitud = tfNombre.getLength();
         if (longitud > UniversidadDTO.LONGITUD_NOMBRE) {
             tfNombre.setText(tfNombre.getText()
@@ -102,17 +100,17 @@ public class RegistroUniversidadControlador implements Initializable {
         }
     }
 
-    private void llenarComboBoxPaises () {
+    private void llenarComboBoxPaises () throws ErrorDAO {
         PaisAuxiliar paisAuxiliar = new PaisAuxiliar();
-        List<String> listaPaises = new ArrayList<>();
-        try {
-            listaPaises = paisAuxiliar.getNombresPaisesAlfabeticamente();
+        List<String> listaPaises = paisAuxiliar.getNombresPaisesAlfabeticamente();
+
+        if (!listaPaises.isEmpty()) {
+            ObservableList<String> paisesObservable = FXCollections.observableArrayList(listaPaises);
+            this.cmbPaises.setItems(paisesObservable);
         }
-        catch (ErrorDAO error) {
-            mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
+        else {
+            throw new ErrorDAO("No existen los recursos suficientes en la base de datos. Contacte a soporte técnico", ErrorDAO.Tipo.CONSULTA);
         }
-        ObservableList<String> paisesObservable = FXCollections.observableArrayList(listaPaises);
-        this.cmbPaises.setItems(paisesObservable);
     }
 
     private void mostrarMensajeEmergente (String mensaje, Alert.AlertType tipoAlerta) {

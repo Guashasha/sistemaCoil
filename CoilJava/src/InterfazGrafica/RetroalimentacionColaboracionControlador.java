@@ -1,25 +1,24 @@
 package InterfazGrafica;
 
 import DAO.RetroalimentacionColaboracionAuxiliar;
-import DAO.RetroalimentacionColaboracionDAO;
 import DTO.ColaboracionDTO;
+import DTO.PersonaDTO;
 import DTO.RetroalimentacionColaboracionDTO;
 import Utilidades.ErrorDAO;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Slider;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import org.apache.log4j.Logger;
 
-import java.io.IOException;
-
-public class RetroalimentarColaboracionControlador {
+public class RetroalimentacionColaboracionControlador {
     private static final Logger BITACORA = Logger.getLogger(NuevaActividadControlador.class);
 
     @FXML
-    private Pane pnPrincipal;
+    private SplitPane pnPrincipal;
     @FXML
     private Slider slCalificacion = new Slider();
     @FXML
@@ -38,44 +37,46 @@ public class RetroalimentarColaboracionControlador {
     private TextField tfComentario = new TextField();
 
     private ColaboracionDTO colaboracion;
+    private BorderPane pnVentanaPrincipal;
+    private Pane pnAnterior;
+    private ProgresoColaboracionControlador progresoColaboracionControlador;
+    private PersonaDTO persona;
 
-    public RetroalimentarColaboracionControlador (ColaboracionDTO colaboracion) {
-        if (!colaboracion.esValido()) {
-            return;
-        }
-
+    public void initialize (ColaboracionDTO colaboracion, BorderPane pnVentanaPrincipal, Pane pnPanelAnterior, ProgresoColaboracionControlador progresoColaboracionControlador, PersonaDTO persona) {
+        this.pnAnterior = pnPanelAnterior;
+        this.pnVentanaPrincipal = pnVentanaPrincipal;
         this.colaboracion = colaboracion;
-
-        try {
-            pnPrincipal = FXMLLoader.load(getClass().getResource("RetroalimentarColaboracion.fxml"));
-        } catch (IOException e) {
-            BITACORA.error(e);
-        }
+        this.progresoColaboracionControlador = progresoColaboracionControlador;
+        this.persona = persona;
     }
 
-    public Pane getPane () {
+    public SplitPane getPane () {
         return pnPrincipal;
     }
 
     public void guardarRetroalimentacion () {
         RetroalimentacionColaboracionDTO retroalimentacion = leerDatosRetroalimentacion();
 
-        RetroalimentacionColaboracionAuxiliar dao = new RetroalimentacionColaboracionAuxiliar();
+        RetroalimentacionColaboracionAuxiliar retroalimentacionColaboracionAuxiliar = new RetroalimentacionColaboracionAuxiliar();
 
         try {
-            dao.agregar(retroalimentacion);
+            retroalimentacionColaboracionAuxiliar.agregar(retroalimentacion);
         }
         catch (ErrorDAO error) {
             Alert alertaError = crearAlerta(error);
+            alertaError.setContentText(error.getMessage());
 
             alertaError.showAndWait();           
             return;
         }
-        
+
         Alert mensajeConfirmacion = new Alert(Alert.AlertType.INFORMATION);
         mensajeConfirmacion.setHeaderText("Colaboración calificada correctamente");
         mensajeConfirmacion.setContentText("La información de la retroalimentación se guardó correctamente. Gracias por participar en la colaboración.");
         mensajeConfirmacion.showAndWait();
+
+        regresar();
+        progresoColaboracionControlador.actualizarVisibilidadBotones();
     }
 
     private static Alert crearAlerta(ErrorDAO error) {
@@ -114,6 +115,7 @@ public class RetroalimentarColaboracionControlador {
 
         RetroalimentacionColaboracionDTO retroalimentacion = new RetroalimentacionColaboracionDTO();
         retroalimentacion.setColaboracion(colaboracion.getIdColaboracion());
+        retroalimentacion.setIdUsuario(this.persona.getIdPersona());
         retroalimentacion.setCalificacion(calificacion);
         retroalimentacion.setHabilidadesObtenidas(habilidades);
         retroalimentacion.setIntercambioCultural(intercambio);
@@ -124,5 +126,10 @@ public class RetroalimentarColaboracionControlador {
         retroalimentacion.setComentario(mensaje);
 
         return retroalimentacion;
+    }
+
+    public void regresar () {
+        progresoColaboracionControlador.actualizarVisibilidadBotones();
+        this.pnVentanaPrincipal.setCenter(this.pnAnterior);
     }
 }

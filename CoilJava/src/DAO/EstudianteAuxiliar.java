@@ -3,94 +3,75 @@ package DAO;
 import DTO.EstudianteDTO;
 import Utilidades.ErrorDAO;
 import Utilidades.ErrorDAO.Tipo;
-
-import java.sql.ResultSet;
-import java.util.List;
 import java.util.Optional;
 
+/**
+ * La clase EstudianteAuxiliar funciona como intermediario entre el cliente y las clases DAO. Procesa y valida la información de los parámetros antes de mandarla a las clases DAO
+ */
 public class EstudianteAuxiliar {
     private final EstudianteDAO ESTUDIANTE_DAO = new EstudianteDAO();
 
-    public int agregar (EstudianteDTO estudianteDTO) throws ErrorDAO {
-        if (matriculaExiste(estudianteDTO.getMatricula())) {
-            throw new ErrorDAO("El estudianteDTO con la matricula " + estudianteDTO.getMatricula() + " ya se encuentra registrado", Tipo.VALIDACION);
+    /**
+     * Valida los parámetros para registrar un estudiante en la base de datos, con la clase EstudianteDAO.
+     *
+     * @param estudiante estudiante con los datos necesarios para registrarlo.
+     * @return número de filas afectadas por la sentencia SQL
+     * @throws ErrorDAO si ocurre un error en la validación de los parámetros o durante el acceso a la base de datos.
+     */
+    public int agregar (EstudianteDTO estudiante) throws ErrorDAO {
+        if (estudiante == null) {
+            throw new ErrorDAO("Algo salió mal, inténtelo de nuevo más tarde", ErrorDAO.Tipo.VALIDACION);
         }
-        try {
-            return ESTUDIANTE_DAO.agregar(estudianteDTO);
+        else if (estudianteExiste(estudiante.getMatricula())) {
+            throw new ErrorDAO("El estudiante con la matricula " + estudiante.getMatricula() + " ya se encuentra registrado", Tipo.VALIDACION);
         }
-        catch (ErrorDAO error) {
-            throw new ErrorDAO(error.getMessage(), error.getTipo());
-        }
+        return ESTUDIANTE_DAO.agregar(estudiante);
     }
 
-    public Optional<EstudianteDTO> getPorId (Integer id) throws ErrorDAO {
-        if (noEsIdValido(id)) {
-            throw new ErrorDAO("El id del estudiante no es valido", ErrorDAO.Tipo.VALIDACION);
+    /**
+     * Valida los parámetros para registrar un estudiante en la base de datos, con la clase EstudianteDAO
+     *
+     * @param estudiante Estudiante con los datos ya modificados.
+     * @return número de filas afectadas por la sentencia SQL.
+     * @throws ErrorDAO si ocurre un error en la validación de los parámetros o durante el acceso a la base de aatos.
+     */
+    public int modificar (EstudianteDTO estudiante) throws ErrorDAO {
+        if (estudiante == null) {
+            throw new ErrorDAO("Algo salió mal, inténtelo de nuevo más tarde", ErrorDAO.Tipo.VALIDACION);
         }
-        try {
-            return ESTUDIANTE_DAO.getPorId(id);
-        }
-        catch (ErrorDAO error) {
-            throw new ErrorDAO(error.getMessage(), error.getTipo());
-        }
+        return ESTUDIANTE_DAO.modificar(estudiante);
     }
 
-
-    public List<EstudianteDTO> getTodos () throws ErrorDAO {
-        try {
-            return ESTUDIANTE_DAO.getTodos();
-        }
-        catch (ErrorDAO error) {
-            throw new ErrorDAO(error.getMessage(), error.getTipo());
-        }
+    /**
+     * Valida los parámetros para obtener un estudiante de acuerdo a su matrícula y universidad, con la clase EstudianteDAO.
+     *
+     * @param matricula     Matricula del estudiante a buscar.
+     * @param idUniversidad id de la universidad a la que se asocia el estudiante.
+     * @return Objeto Optional con el estudiante encontrado o un objeto Optional vacío si no se encuentran resultados.
+     * @throws ErrorDAO si ocurre un error en la validación de los parámetros o durante el acceso a la base de aatos.
+     */
+    public Optional<EstudianteDTO> getEstudiantePorMatriculaYUniversidad (String matricula, int idUniversidad) throws ErrorDAO {
+        probarMatricula(matricula);
+        return ESTUDIANTE_DAO.getEstudiantePorMatriculaYUniversidad(matricula, idUniversidad);
     }
 
-    public EstudianteDTO resultSetAObjeto (ResultSet resultados) {
-        return null;
-    }
-
-    public Optional<EstudianteDTO> getEstudiantePorIdPersona (int idPersona) throws ErrorDAO {
-        if (noEsIdValido(idPersona)) {
-            throw new ErrorDAO("Id de persona invalido", ErrorDAO.Tipo.VALIDACION);
-        }
-        try {
-            return ESTUDIANTE_DAO.getEstudiantePorIdPersona(idPersona);
-        }
-        catch (ErrorDAO error) {
-            throw new ErrorDAO(error.getMessage(),error.getTipo());
-        }
-    }
-
+    /**
+     * Valida los parámetros para obtener un estudiante de acuerdo a su matricula, con la clase EstudianteDAO
+     *
+     * @param matricula Matricula del estudiante a buscar.
+     * @return Objeto Optional con el estudiante encontrado o un objeto Optional vacío si no se encuentran resultados.
+     * @throws ErrorDAO si ocurre un error en la validación de los parámetros o durante el acceso a la base de aatos
+     */
     public Optional<EstudianteDTO> getEstudiantePorMatricula (String matricula) throws ErrorDAO {
-        try {
-            probarMatricula(matricula);
-            return ESTUDIANTE_DAO.getEstudiantePorMatricula(matricula);
-        }
-        catch (ErrorDAO error) {
-            throw new ErrorDAO(error.getMessage(), error.getTipo());
-        }
+        probarMatricula(matricula);
+        return ESTUDIANTE_DAO.getEstudiantePorMatricula(matricula);
     }
 
-    public List<EstudianteDTO> getEstudiantesSinColaboracionActivaOVinculadaPorUniversidad(int idUniversidad) throws ErrorDAO {
-        if (noEsIdValido(idUniversidad)) {
-            throw new ErrorDAO("Id de una universidad invalido", ErrorDAO.Tipo.VALIDACION);
-        }
-        try {
-            return  ESTUDIANTE_DAO.getEstudiantesSinColaboracionActivaOVinculadaPorUniversidad(idUniversidad);
-        }
-        catch (ErrorDAO error) {
-            throw new ErrorDAO(error.getMessage(), error.getTipo());
-        }
-    }
-    private boolean noEsIdValido (int id) {
-        return id <= 0;
-    }
-
-    private boolean matriculaExiste (String matricula) {
+    private boolean estudianteExiste (String matricula) throws ErrorDAO {
         return getEstudiantePorMatricula(matricula).isPresent();
     }
 
-    private void probarMatricula (String matricula) {
+    private void probarMatricula (String matricula) throws ErrorDAO {
         EstudianteDTO estudianteDTO = new EstudianteDTO();
         estudianteDTO.setMatricula(matricula);
     }

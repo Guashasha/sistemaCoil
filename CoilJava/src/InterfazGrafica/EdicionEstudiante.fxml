@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="pnRegistroEstudiante" prefHeight="759.0" prefWidth="973.0" styleClass="root" stylesheets="@Recursos/EstiloVentanas.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.EditarEstudianteControlador">
+<BorderPane fx:id="pnRegistroEstudiante" prefHeight="759.0" prefWidth="973.0" styleClass="root" stylesheets="@Recursos/EstiloVentanas.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfazGrafica.EdicionEstudianteControlador">
    <center>
       <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="674.0" prefWidth="774.0" stylesheets="@Recursos/EstiloVentanas.css" BorderPane.alignment="CENTER">
          <children>
@@ -18,12 +18,12 @@
                   <Font name="Franklin Gothic Demi" size="40.0" />
                </font>
             </Text>
-            <Text layoutX="123.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre">
+            <Text layoutX="120.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre:">
                <font>
                   <Font name="Franklin Gothic Book" size="25.0" />
                </font>
             </Text>
-            <Text layoutX="89.0" layoutY="529.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Universidad:">
+            <Text layoutX="84.0" layoutY="395.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Universidad:">
                <font>
                   <Font name="Franklin Gothic Book" size="25.0" />
                </font>
@@ -33,12 +33,12 @@
                   <Font size="18.0" />
                </font>
             </TextField>
-            <Button layoutX="395.0" layoutY="615.0" mnemonicParsing="false" onAction="#editarEstudiante" prefHeight="40.0" prefWidth="152.0" styleClass="button-principal" stylesheets="@Recursos/EstiloVentanas.css" text="Guardar cambios" textFill="WHITE">
+            <Button layoutX="385.0" layoutY="447.0" mnemonicParsing="false" onAction="#editarEstudiante" prefHeight="40.0" prefWidth="152.0" styleClass="button-principal" stylesheets="@Recursos/EstiloVentanas.css" text="Guardar cambios" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button layoutX="606.0" layoutY="615.0" mnemonicParsing="false" onAction="#cancelarEdicion" prefHeight="40.0" prefWidth="100.0" styleClass="button-secundario" text="Cancelar" textFill="#0b0000">
+            <Button layoutX="588.0" layoutY="447.0" mnemonicParsing="false" onAction="#cancelarEdicion" prefHeight="40.0" prefWidth="100.0" styleClass="button-secundario" text="Cancelar" textFill="#0b0000">
                <font>
                   <Font size="18.0" />
                </font>
@@ -48,47 +48,32 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="txtObligatorioApellidoPaterno" layoutX="226.0" layoutY="172.0" text="*Campo obligatorio" textFill="RED" visible="false">
+            <Label fx:id="txtObligatorioApellidos" layoutX="226.0" layoutY="172.0" text="*Campo obligatorio" textFill="RED" visible="false">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextField fx:id="tfApellidoPaterno" layoutX="223.0" layoutY="200.0" prefHeight="48.0" prefWidth="514.0" promptText="Apellido paterno">
+            <TextField fx:id="tfApellidos" layoutX="223.0" layoutY="200.0" prefHeight="48.0" prefWidth="514.0" promptText="Apellidos">
                <font>
                   <Font size="18.0" />
                </font>
             </TextField>
-            <Text layoutX="42.0" layoutY="232.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Apellido paterno">
+            <Text layoutX="114.0" layoutY="233.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Apellidos:">
                <font>
                   <Font name="Franklin Gothic Book" size="25.0" />
                </font>
             </Text>
-            <TextField fx:id="tfApellidoMaterno" layoutX="223.0" layoutY="301.0" prefHeight="48.0" prefWidth="514.0" promptText="Apellido materno">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </TextField>
-            <Text layoutX="38.0" layoutY="334.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Apellido materno">
+            <Text layoutX="112.0" layoutY="323.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Matrícula:">
                <font>
                   <Font name="Franklin Gothic Book" size="25.0" />
                </font>
             </Text>
-            <Text layoutX="115.0" layoutY="432.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Matrícula:">
+            <Text fx:id="txtMatriculaActual" layoutX="226.0" layoutY="323.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Matrícula">
                <font>
                   <Font name="Franklin Gothic Book" size="25.0" />
                </font>
             </Text>
-            <Label fx:id="txtObligatorioApellidoMaterno" layoutX="225.0" layoutY="273.0" text="*Campo obligatorio" textFill="RED" visible="false">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <Text fx:id="txtMatriculaActual" layoutX="226.0" layoutY="432.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Matrícula">
-               <font>
-                  <Font name="Franklin Gothic Book" size="25.0" />
-               </font>
-            </Text>
-            <Text fx:id="txtUniversidadActual" layoutX="226.0" layoutY="529.0" strokeType="OUTSIDE" strokeWidth="0.0" text="universidad">
+            <Text fx:id="txtUniversidadActual" layoutX="225.0" layoutY="395.0" strokeType="OUTSIDE" strokeWidth="0.0" text="universidad">
                <font>
                   <Font name="Franklin Gothic Book" size="25.0" />
                </font>

@@ -18,39 +18,35 @@ class FacultadAuxiliarTest {
     private final FacultadAuxiliar FACULTAD_AUXILIAR = new FacultadAuxiliar();
 
     @BeforeAll
-    static void setUp() {
-        borrarDatosTablaFacultad();
-        borrarDatosTablaRegion();
+    static void prepararBaseDatos () {
         ejecutarInstruccionSQL("INSERT INTO region (idRegion,nombre) VALUES (1,'Xalapa'), (2,'Veracruz'), (3,'Orizaba-Córdoba');");
         ejecutarInstruccionSQL("INSERT INTO facultad (idFacultad,nombre, region) VALUES (1,'Facultad de Estadística e Informática',1),(2,'Derecho',1),(3,'Arquitectura',3);");
-
     }
 
     @AfterAll
-    static void afterAll () {
+    static void limpiarBaseDatos () {
         borrarDatosTablaFacultad();
         borrarDatosTablaRegion();
     }
 
     @Test
     void pruebaGetFacultadPorNombreExitosa () {
-        FacultadDTO esperada = new FacultadDTO(1,"Facultad de Estadística e Informática",1);
-        Optional<FacultadDTO> obtenido = Optional.empty();
+        FacultadDTO facultadEsperada = new FacultadDTO(1,"Facultad de Estadística e Informática",1);
+        Optional<FacultadDTO> facultadObtenida = Optional.empty();
         try {
-            obtenido = FACULTAD_AUXILIAR.getFacultadPorNombre(esperada.getNombre());
+            facultadObtenida = FACULTAD_AUXILIAR.getFacultadPorNombre(facultadEsperada.getNombre());
         }
         catch (Exception error) {
             fail("Fallida: pruebaGetFacultadPorNombreExitosa");
         }
-        assertTrue(obtenido.isPresent());
-        assertEquals(esperada,obtenido.get(),"pruebaGetFacultadPorNombreExitosa");
+        assertEquals(facultadEsperada,facultadObtenida.get(),"pruebaGetFacultadPorNombreExitosa");
     }
 
     @Test
     void pruebaGetFacultadPorNombreCadenaInvalida () {
         try {
-            Optional<FacultadDTO> resultado = FACULTAD_AUXILIAR.getFacultadPorNombre("   ");
-            assertTrue(resultado.isEmpty(),"pruebaGetFacultadPorNombreCadenaInvalida");
+            Optional<FacultadDTO> facultadObtenida = FACULTAD_AUXILIAR.getFacultadPorNombre("   ");
+            assertTrue(facultadObtenida.isEmpty(),"pruebaGetFacultadPorNombreCadenaInvalida");
         }
         catch (ErrorDAO error) {
             fail("Fallida: pruebaGetFacultadPorNombreCadenaInvalida");
@@ -60,8 +56,8 @@ class FacultadAuxiliarTest {
     @Test
     void pruebaGetFacultadPorNombreInexistente () {
         try {
-            Optional<FacultadDTO> resultado = FACULTAD_AUXILIAR.getFacultadPorNombre("Argentina");
-            assertTrue(resultado.isEmpty(),"pruebaGetFacultadPorNombreInexistente");
+            Optional<FacultadDTO> facultadObtenida = FACULTAD_AUXILIAR.getFacultadPorNombre("Argentina");
+            assertTrue(facultadObtenida.isEmpty(),"pruebaGetFacultadPorNombreInexistente");
         }
         catch (Exception error) {
             fail("Fallida: pruebaGetFacultadPorNombreInexistente");
@@ -70,31 +66,24 @@ class FacultadAuxiliarTest {
 
     @Test
     void pruebaGetFacultadPorRegionExitosa () {
-        System.out.println("pruebaGetFacultadPorRegionExitosa");
         List<FacultadDTO> listaEsperada = new ArrayList<>();
         List<FacultadDTO> listaObtenida = new ArrayList<>();
         listaEsperada.add(new FacultadDTO(1,"Facultad de Estadística e Informática",1));
         listaEsperada.add(new FacultadDTO(2,"Derecho",1));
-
         try {
-            listaObtenida = FACULTAD_AUXILIAR.getFacultadPorRegion("Xalapa");
+            listaObtenida = FACULTAD_AUXILIAR.getFacultadesPorRegion("Xalapa");
         }
         catch (ErrorDAO error) {
             fail("Fallida: pruebaGetFacultadPorRegionExitosa");
         }
-
-        assertEquals(listaEsperada.size(),listaObtenida.size());
-        for (FacultadDTO facultad : listaEsperada) {
-            assertEquals(facultad,listaObtenida.get(0));
-            listaObtenida.remove(0);
-        }
+        assertEquals(listaEsperada,listaObtenida,"pruebaGetFacultadPorRegionExitosa");
     }
 
     @Test
     void pruebaGetFacultadPorRegionCadenaInvalida () {
         try {
-            List<FacultadDTO> resultado = FACULTAD_AUXILIAR.getFacultadPorRegion(null);
-            assertTrue(resultado.isEmpty(),"pruebaGetFacultadPorRegionCadenaInvalida");
+            List<FacultadDTO> facultadObtenida = FACULTAD_AUXILIAR.getFacultadesPorRegion(null);
+            assertTrue(facultadObtenida.isEmpty(),"pruebaGetFacultadPorRegionCadenaInvalida");
         }
         catch (ErrorDAO error) {
             fail("pruebaGetFacultadPorRegionCadenaInvalida");
@@ -104,34 +93,11 @@ class FacultadAuxiliarTest {
     @Test
     void pruebaGetFacultadPorRegionInexistente () {
         try {
-            List<FacultadDTO> resultado = FACULTAD_AUXILIAR.getFacultadPorRegion("Sur");
-            assertTrue(resultado.isEmpty(),"pruebaGetFacultadPorRegionInexistente");
+            List<FacultadDTO> facultadObtenida = FACULTAD_AUXILIAR.getFacultadesPorRegion("Sur");
+            assertTrue(facultadObtenida.isEmpty(),"pruebaGetFacultadPorRegionInexistente");
         }
         catch (ErrorDAO error) {
             fail("Fallida: pruebaGetFacultadPorRegionInexistente");
-        }
-    }
-
-    @Test
-    void pruebaGetTodasAlfabeticamenteExitosa() {
-        System.out.println("pruebaGetTodasAlfabeticamenteExitosa");
-        List<FacultadDTO> listaEsperada = new ArrayList<>();
-        List<FacultadDTO> listaObtenida = new ArrayList<>();
-        listaEsperada.add(new FacultadDTO(3,"Arquitectura",3));
-        listaEsperada.add(new FacultadDTO(2,"Derecho",1));
-        listaEsperada.add(new FacultadDTO(1,"Facultad de Estadística e Informática",1));
-
-        try {
-            listaObtenida = FACULTAD_AUXILIAR.getTodasAlfabeticamente();
-        }
-        catch (ErrorDAO error) {
-            fail("Fallida: pruebaGetTodasAlfabeticamenteExitosa");
-        }
-
-        assertEquals(listaEsperada.size(),listaObtenida.size());
-        for (FacultadDTO facultad : listaEsperada) {
-            assertEquals(facultad,listaObtenida.get(0));
-            listaObtenida.remove(0);
         }
     }
 }

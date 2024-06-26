@@ -10,6 +10,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+/**
+ * Clase para gestionar el envío de correos electrónicos.
+ *
+ * @author FerRMZ
+ */
 public class Correo {
     private static final Logger BITACORA = Logger.getLogger(VerificadorBitacora.class);
     private String remitente;
@@ -21,6 +26,9 @@ public class Correo {
     private Session sesion;
     private MimeMessage mimeCorreo;
 
+    /**
+     * Constructor que carga la configuración del correo desde un archivo de propiedades.
+     */
     public Correo () {
         PROPIEDADES_CORREO = new Properties();
         try (FileInputStream archivoConfiguracion = new FileInputStream("src/Utilidades/configuracionCorreo.properties")) {
@@ -32,6 +40,11 @@ public class Correo {
         }
     }
 
+    /**
+     * Crea un correo electrónico con el destinatario, tema y contenido especificados.
+     *
+     * @throws ErrorDAO si hay un error en la sintaxis del correo o un error de mensajería.
+     */
     public void crearCorreo () throws ErrorDAO {
         sesion = Session.getDefaultInstance(PROPIEDADES_CORREO);
 
@@ -53,6 +66,11 @@ public class Correo {
         }
     }
 
+    /**
+     * Envía el correo electrónico previamente creado.
+     *
+     * @throws ErrorDAO si hay un error al enviar el correo electrónico.
+     */
     public void enviarCorreo () throws ErrorDAO {
         try {
             Transport transporte = sesion.getTransport("smtp");
@@ -70,15 +88,30 @@ public class Correo {
         }
     }
 
+    /**
+     * Establece el destinatario del correo.
+     *
+     * @param destinario el destinatario del correo.
+     */
     public void setDestinario (String destinario) {
         this.destinario = destinario;
     }
 
 
+    /**
+     * Establece el tema del correo.
+     *
+     * @param tema el tema del correo.
+     */
     public void setTema (String tema) {
         this.tema = tema;
     }
 
+    /**
+     * Establece el contenido del correo.
+     *
+     * @param contenido el contenido del correo.
+     */
     public void setContenido (String contenido) {
         this.contenido = contenido;
     }

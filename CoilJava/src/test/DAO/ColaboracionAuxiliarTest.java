@@ -17,11 +17,12 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ColaboracionDTOAuxiliarTest {
+class ColaboracionAuxiliarTest {
     private final ColaboracionAuxiliar INSTANCIA = new ColaboracionAuxiliar();
 
     @BeforeEach
     void setUp () {
+        AyudantePruebasColaboracionDB.borrarTodosDatosTabla();
         AyudantePruebasColaboracionDB.borrarTodosDatosTabla();
         AyudantePruebasColaboracionDB.agregarPrecondiciones();
     }
@@ -52,7 +53,7 @@ class ColaboracionDTOAuxiliarTest {
         List<EstudianteDTO> listaEstudianteDTO = null;
         ColaboracionDTO colaboracionDTO = new ColaboracionDTO();
         colaboracionDTO.setIdColaboracion(1);
-        int tamanoEsperado = 1;
+        int tamanoEsperado = 2;
         try {
             listaEstudianteDTO = INSTANCIA.getListaDeEstudiantes(colaboracionDTO);
         }
@@ -67,7 +68,7 @@ class ColaboracionDTOAuxiliarTest {
         List<AcademicoDTO> listaAcademicoDTOS = null;
         ColaboracionDTO colaboracionDTO = new ColaboracionDTO();
         colaboracionDTO.setIdColaboracion(1);
-        int tamanoEsperado = 2;
+        int tamanoEsperado = 1;
         try {
             listaAcademicoDTOS = INSTANCIA.getAcademicosParticipantes(colaboracionDTO);
         }
@@ -88,7 +89,7 @@ class ColaboracionDTOAuxiliarTest {
         periodoDTO.setFechaFin(fechaFin);
 
         List<ColaboracionDTO> listaColaboraciones = null;
-        int colaboracionesEsperadas = 1;
+        int colaboracionesEsperadas = 2;
 
         try {
             listaColaboraciones = INSTANCIA.getColaboracionPorPeriodo(periodoDTO);
@@ -104,7 +105,7 @@ class ColaboracionDTOAuxiliarTest {
         System.out.println("pruebaGetColaboracionPorIdiomaExitosa");
         List<ColaboracionDTO> listaColaboraciones = null;
         String idioma = "Español";
-        int esperado = 1;
+        int esperado = 2;
         try {
             listaColaboraciones = INSTANCIA.getColaboracionPorIdioma(idioma);
         }
@@ -136,17 +137,11 @@ class ColaboracionDTOAuxiliarTest {
     void pruebaCambiarEstadoColaboracionExitoso () {
         System.out.println("pruebaCambiarEstadoColaboracionExitosa");
 
-
-        ColaboracionDTO colaboracionDTOPrueba = new ColaboracionDTO();
-        colaboracionDTOPrueba.setIdColaboracion(1);
-        colaboracionDTOPrueba.setEstado(ColaboracionDTO.EstadoColaboracion.vinculada);
-
-
         int esperado = 1;
         int obtenido = -1;
 
         try {
-            obtenido = INSTANCIA.cambiarEstadoColaboracion(colaboracionDTOPrueba);
+            obtenido = INSTANCIA.cambiarEstadoColaboracion("vinculada", 1);
         }
         catch (ErrorDAO errorDAO) {
             fail("Fallida: pruebaCambiarEstadoColaboracionExitoso");

@@ -1,8 +1,6 @@
 package InterfazGrafica.Items;
 
-import DAO.AcademicoAuxiliar;
-import DAO.PaisAuxiliar;
-import DAO.UniversidadAuxiliar;
+import DAO.*;
 import DTO.AcademicoDTO;
 import DTO.CuentaDTO;
 import DTO.PaisDTO;
@@ -45,18 +43,7 @@ public class CuentaItemControlador implements Initializable {
     private Label lbUsuario;
 
     private CuentaDTO cuentaDTOObtenida;
-
-    private VBox lyInformacionCuenta;
     private AcademicoDTO academicoDTO;
-
-
-    public VBox getLyInformacionCuenta () {
-        return lyInformacionCuenta;
-    }
-
-    public void setLyInformacionCuenta (VBox lyInformacionCuenta) {
-        this.lyInformacionCuenta = lyInformacionCuenta;
-    }
 
     public void setCuentaObtenida (CuentaDTO cuentaDTOObtenida) {
         this.cuentaDTOObtenida = cuentaDTOObtenida;
@@ -64,10 +51,6 @@ public class CuentaItemControlador implements Initializable {
 
     public Button getBtEvaluar () {
         return btEvaluar;
-    }
-
-    public void setBtEvaluar (Button btEvaluar) {
-        this.btEvaluar = btEvaluar;
     }
 
     public CuentaDTO getCuentaObtenida () {
@@ -85,33 +68,10 @@ public class CuentaItemControlador implements Initializable {
         }
     }
 
-    public Label getLbApellidos () {
-        return lbApellidos;
-    }
-
-    public Label getLbCedula () {
-        return lbCedula;
-    }
-
-    public Label getLbCorreo () {
-        return lbCorreo;
-    }
-
-    public Label getLbNombre () {
-        return lbNombre;
-    }
-
-    public Label getLbPais () {
-        return lbPais;
-    }
-
     public Label getLbUniversidad () {
         return lbUniversidad;
     }
 
-    public Label getLbUsuario () {
-        return lbUsuario;
-    }
 
     public AcademicoDTO getAcademico (int idPersona) {
         AcademicoDTO academicoDTO = null;
@@ -131,9 +91,9 @@ public class CuentaItemControlador implements Initializable {
 
     public UniversidadDTO getUniversidadPorId (int idUnivesidad) {
         UniversidadDTO universidadDTO = null;
-        UniversidadAuxiliar universidadAuxiliar = new UniversidadAuxiliar();
+        UniversidadDAO universidadDAO = new UniversidadDAO();
         try {
-            Optional universidadOptional = universidadAuxiliar.getUniversidadPorId(idUnivesidad);
+            Optional universidadOptional = universidadDAO.getUniversidadPorId(idUnivesidad);
             if (universidadOptional.isPresent()) {
                 universidadDTO = (UniversidadDTO) universidadOptional.get();
             }
@@ -146,9 +106,9 @@ public class CuentaItemControlador implements Initializable {
 
     public PaisDTO getPaisPorId (int idPais) {
         PaisDTO paisDTO = null;
-        PaisAuxiliar paisAuxiliar = new PaisAuxiliar();
+        PaisDAO paisDAO = new PaisDAO();
         try {
-            Optional paisOptional = paisAuxiliar.getPaisPorId(idPais);
+            Optional paisOptional = paisDAO.getPaisPorId(idPais);
             if (paisOptional.isPresent()) {
                 paisDTO = (PaisDTO) paisOptional.get();
             }
@@ -165,7 +125,7 @@ public class CuentaItemControlador implements Initializable {
         AcademicoDTO academicoDTO = getAcademico(cuentaDTOObtenida.getIdPersona());
         lbNombre.setText(academicoDTO.getNombre());
         setToolTip(lbNombre);
-        lbApellidos.setText(academicoDTO.getApellidoPaterno() + " " + academicoDTO.getApellidoMaterno());
+        lbApellidos.setText(academicoDTO.getApellidos());
         setToolTip(lbApellidos);
         lbCorreo.setText(academicoDTO.getCorreoElectronico());
         setToolTip(lbCorreo);

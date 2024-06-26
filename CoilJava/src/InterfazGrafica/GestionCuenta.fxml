@@ -14,43 +14,22 @@
          <children>
             <ScrollPane prefHeight="759.0" prefWidth="974.0">
                <content>
-                  <VBox fx:id="lyInformacionCuenta" prefHeight="126.0" prefWidth="974.0">
+                  <VBox fx:id="vbContenedorCuenta" prefHeight="126.0" prefWidth="974.0">
                      <children>
                         <Label alignment="TOP_CENTER" prefHeight="50.0" prefWidth="974.0" styleClass="label-titulo" stylesheets="@Recursos/EstiloLabels.css" text="Evaluacion de cuentas pendientes" />
                         <HBox alignment="CENTER_LEFT" prefHeight="55.0" prefWidth="918.0" style="-fx-background-color: e7c736;">
                            <children>
-                              <Label alignment="CENTER" contentDisplay="TOP" prefHeight="18.0" prefWidth="74.0" text="Usuario">
+                              <Label alignment="CENTER" contentDisplay="TOP" prefHeight="48.0" prefWidth="74.0" text="Usuario">
                                  <cursor>
                                     <Cursor fx:constant="W_RESIZE" />
                                  </cursor>
-                                 <padding>
-                                    <Insets right="5.0" />
-                                 </padding>
                               </Label>
-                              <Label alignment="CENTER" prefHeight="18.0" prefWidth="100.0" text="Nombre">
-                                 <padding>
-                                    <Insets right="5.0" />
-                                 </padding></Label>
-                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="108.0" text="Apellidos">
-                                 <padding>
-                                    <Insets right="5.0" />
-                                 </padding></Label>
-                              <Label alignment="CENTER" prefHeight="18.0" prefWidth="157.0" text="Correo electrónico" textAlignment="CENTER">
-                                 <padding>
-                                    <Insets right="5.0" />
-                                 </padding></Label>
-                              <Label alignment="CENTER" prefHeight="18.0" prefWidth="210.0" text="Universidad">
-                                 <padding>
-                                    <Insets right="5.0" />
-                                 </padding></Label>
-                              <Label alignment="CENTER" prefHeight="18.0" prefWidth="89.0" text="Pais">
-                                 <padding>
-                                    <Insets right="5.0" />
-                                 </padding></Label>
-                              <Label alignment="CENTER" prefHeight="18.0" prefWidth="184.0" text="Cedúla profesional">
-                                 <padding>
-                                    <Insets right="5.0" />
-                                 </padding></Label>
+                              <Label alignment="CENTER" prefHeight="46.0" prefWidth="100.0" text="Nombre" />
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="46.0" prefWidth="108.0" text="Apellidos" />
+                              <Label alignment="CENTER" prefHeight="46.0" prefWidth="157.0" text="Correo electrónico" textAlignment="CENTER" />
+                              <Label alignment="CENTER" prefHeight="50.0" prefWidth="210.0" text="Universidad" />
+                              <Label alignment="CENTER" prefHeight="50.0" prefWidth="89.0" text="Pais" />
+                              <Label alignment="CENTER" prefHeight="50.0" prefWidth="184.0" text="Cedúla profesional" />
                            </children>
                         </HBox>
                         <HBox prefHeight="9.0" prefWidth="886.0">

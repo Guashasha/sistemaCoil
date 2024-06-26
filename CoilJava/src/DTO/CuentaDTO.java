@@ -5,6 +5,10 @@ import Utilidades.ErrorDAO;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
+/**
+ * Clase que representa una cuenta de usuario.
+ */
 public class CuentaDTO {
 
     public enum TipoUsuario {
@@ -45,7 +49,7 @@ public class CuentaDTO {
     }
 
     public void setNombreUsuario (String nombreUsuario) {
-        checarUsuario(nombreUsuario);
+        verificarUsuario(nombreUsuario);
         this.nombreUsuario = nombreUsuario;
     }
 
@@ -54,7 +58,7 @@ public class CuentaDTO {
     }
 
     public void setContrasena (String contrasena) {
-        checarContrasena(contrasena);
+        verificarContrasena(contrasena);
         this.contrasena = contrasena;
     }
 
@@ -74,8 +78,14 @@ public class CuentaDTO {
         this.tipo = tipo;
     }
 
-    private void checarUsuario (String usuario) {
-        String usuarioRegex = "[A-z0-9]{3,50}";
+    /**
+     * Verifica la validez del nombre de usuario.
+     *
+     * @param usuario el nombre de usuario.
+     * @throws ErrorDAO si el nombre de usuario no es válido.
+     */
+    private void verificarUsuario (String usuario) {
+        String usuarioRegex = "[A-z0-9]{1,50}";
 
         Pattern patron = Pattern.compile(usuarioRegex);
         if (usuario == null || usuario.isEmpty()) {
@@ -85,13 +95,20 @@ public class CuentaDTO {
         if (!matcher.matches()) {
             throw new ErrorDAO("""
                                                        El nombre de usuario no es válido.
-                                                       1. La longitud debe ser de mínimo 3 caracteres y máximo 50
+                                                       1. La longitud debe ser de mínimo 2 caracteres y máximo 50
                                                        2. No debe tener espacios al principio ni al final.
                                                        3. No se permiten caracteres especiales.""", ErrorDAO.Tipo.VALIDACION);
         }
     }
-    private void checarContrasena (String contrasena) {
-        String contrasenaRegex = "^.{8,100}$";
+
+    /**
+     * Verifica la validez de la contraseña.
+     *
+     * @param contrasena la contraseña.
+     * @throws ErrorDAO si la contraseña no es válida.
+     */
+    private void verificarContrasena (String contrasena) {
+        String contrasenaRegex = "^.{1,300}$";
         Pattern patron = Pattern.compile(contrasenaRegex);
         if (contrasena == null || contrasena.isEmpty()) {
             throw new ErrorDAO("La contraseña no puede estar vacía", ErrorDAO.Tipo.VALIDACION);
@@ -100,7 +117,7 @@ public class CuentaDTO {
         if (!matcher.matches()) {
             throw new ErrorDAO("""
                                                        La contraseña no es válida.
-                                                       1. La longitud de la contraseña debe ser mayor a 8 y menor a 300 caracteres.""", ErrorDAO.Tipo.VALIDACION);
+                                                       1. La longitud de la contraseña debe ser mayor a 2 y menor a 300 caracteres.""", ErrorDAO.Tipo.VALIDACION);
         }
     }
 
@@ -120,6 +137,13 @@ public class CuentaDTO {
         return nombreUsuario.length() <= 50 &&
                 contrasena.length() <= 300;
     }
+
+    /**
+     * Compara esta cuenta con otro objeto para verificar la igualdad.
+     *
+     * @param obj el objeto a comparar.
+     * @return true si los objetos son iguales, false en caso contrario.
+     */
     @Override
     public boolean equals (Object obj) {
         boolean igual;

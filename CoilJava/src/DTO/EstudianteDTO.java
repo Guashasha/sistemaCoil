@@ -5,6 +5,9 @@ import Utilidades.ErrorDAO;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * La clase EstudianteDTO funciona como transfer object, para transferir la información desde la base de datos a capas superiores dentro de la aplicación.
+ */
 public class EstudianteDTO extends PersonaDTO {
     private int idEstudiante;
     private String matricula;
@@ -12,10 +15,10 @@ public class EstudianteDTO extends PersonaDTO {
     public EstudianteDTO() {
         super();
     }
-    public EstudianteDTO(int idPersona, String nombre, String apellidoPaterno, String apellidoMaterno, int idUniversidad, int idEstudiante, String matricula) {
-        super(idPersona, nombre, apellidoPaterno, apellidoMaterno, idUniversidad);
+    public EstudianteDTO(int idPersona, String nombre, String apellidos, int idUniversidad, int idEstudiante, String matricula) {
+        super(idPersona, nombre, apellidos, idUniversidad);
         this.idEstudiante = idEstudiante;
-        this.matricula = matricula;
+        setMatricula(matricula);
     }
 
     public int getIdEstudiante () {
@@ -35,6 +38,12 @@ public class EstudianteDTO extends PersonaDTO {
         this.matricula = matricula;
     }
 
+    /**
+     * Verifica la validez de la matrícula.
+     *
+     * @param matricula la matrícula.
+     * @throws ErrorDAO si la matrícula no es válida.
+     */
     private void checarMatricula (String matricula) {
         String matriculaRegex = "^[A-Za-z0-9]{8,10}$";
         Pattern patron = Pattern.compile(matriculaRegex);
@@ -45,15 +54,14 @@ public class EstudianteDTO extends PersonaDTO {
         if (!matcher.matches()) {
             throw new ErrorDAO("""
                                                        La matrícula no es valida.
-                                                       1. Su longitud debe ser exactamente de 10 caracteres.
+                                                       1. Su longitud debe ser entre 8 y 10 caracteres.
                                                        2. No debe tener espacios.""", ErrorDAO.Tipo.VALIDACION);
         }
     }
 
     @Override
     public boolean validarNulos() {
-        return cadenaValida(getNombre()) && cadenaValida(getApellidoPaterno()) &&
-                cadenaValida(getApellidoMaterno()) && cadenaValida(getMatricula());
+        return esCadenaValida(getNombre()) && esCadenaValida(getApellidos()) && esCadenaValida(getMatricula());
     }
 
     @Override
@@ -69,13 +77,11 @@ public class EstudianteDTO extends PersonaDTO {
             EstudianteDTO estudianteDTO = (EstudianteDTO) obj;
             igual = this.getIdPersona() == estudianteDTO.getIdPersona()
                     && this.getNombre().equals(estudianteDTO.getNombre())
-                    && this.getApellidoPaterno().equals(estudianteDTO.getApellidoPaterno())
-                    && this.getApellidoMaterno().equals(estudianteDTO.getApellidoMaterno())
+                    && this.getApellidos().equals(estudianteDTO.getApellidos())
                     && this.getIdUniversidad() == estudianteDTO.getIdUniversidad()
                     && this.idEstudiante == estudianteDTO.getIdEstudiante()
                     && this.matricula.equals(estudianteDTO.getMatricula());
         }
         return igual;
     }
-
 }

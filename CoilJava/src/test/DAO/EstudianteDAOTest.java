@@ -3,292 +3,415 @@ package test.DAO;
 import DAO.EstudianteDAO;
 import DTO.EstudianteDTO;
 import Utilidades.ErrorDAO;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import test.ConfiguracionPrueba;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
+import static test.ConfiguracionPrueba.ejecutarInstruccionSQL;
 import static org.junit.jupiter.api.Assertions.*;
 
 class EstudianteDAOTest {
     private final EstudianteDAO ESTUDIANTE_DAO = new EstudianteDAO();
+    private static EstudianteDTO estudianteRegistrado1;
+    private static EstudianteDTO estudianteRegistrado2;
+
+    static void crearObjetosParaTest () {
+        estudianteRegistrado1 = new EstudianteDTO();
+        estudianteRegistrado1.setIdPersona(1);
+        estudianteRegistrado1.setNombre("Jose");
+        estudianteRegistrado1.setApellidos("Lopez Perez");
+        estudianteRegistrado1.setIdUniversidad(1);
+        estudianteRegistrado1.setIdEstudiante(1);
+        estudianteRegistrado1.setMatricula("zs22013690");
+
+        estudianteRegistrado2 = new EstudianteDTO();
+        estudianteRegistrado2.setIdPersona(2);
+        estudianteRegistrado2.setNombre("Juan");
+        estudianteRegistrado2.setApellidos("Negrete Incumplido");
+        estudianteRegistrado2.setIdUniversidad(1);
+        estudianteRegistrado2.setIdEstudiante(2);
+        estudianteRegistrado2.setMatricula("zs22013688");
+    }
+
+    @BeforeAll
+    static void prepararBaseDatosParaTest () {
+        ConfiguracionPrueba.borrarDatosTodasLasTablas();
+        crearObjetosParaTest();
+        ejecutarInstruccionSQL("INSERT INTO pais (idPais,Iso,nombre) VALUES (1,'MX','México');");
+        ejecutarInstruccionSQL("INSERT INTO universidad (idUniversidad,nombre,paisOrigen) VALUES (1,'Universidad Veracruzana',1), (2,'BUAP',1);");
+    }
 
     @BeforeEach
-    void setUp () {
+    void reiniciarBaseDatosParaTest () {
+
+        ejecutarInstruccionSQL("INSERT INTO persona (idPersona, nombre, apellidos, universidad) VALUES (1, 'Jose', 'Lopez Perez', 1)");
+        ejecutarInstruccionSQL("INSERT INTO persona (idPersona, nombre, apellidos, universidad) VALUES (2, 'Juan', 'Negrete Incumplido', 1)");
+        ejecutarInstruccionSQL("INSERT INTO estudiante (idEstudiante, idPersona, matricula) VALUES (1, 1, 'zs22013690')");
+        ejecutarInstruccionSQL("INSERT INTO estudiante (idEstudiante, idPersona, matricula) VALUES (2, 2, 'zs22013688')");
+    }
+
+    @AfterEach
+    void limpiarBaseDatos () {
         ConfiguracionPrueba.borrarDatosTablaEstudiante();
+        ConfiguracionPrueba.borrarDatosTablaCuenta();
         ConfiguracionPrueba.borrarDatosTablaPersona();
-        ConfiguracionPrueba.borrarDatosTablaUniversidad();
-        ConfiguracionPrueba.borrarDatosTablaFacultad();
-        ConfiguracionPrueba.borrarDatosTablaRegion();
-        ConfiguracionPrueba.borrarDatosTablaPais();
-        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO pais (Iso,nombre) VALUES ('MX','México');");
-        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO universidad (nombre,paisOrigen) VALUES ('Universidad Veracruzana',1);");
-        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO region (nombre) VALUES ('XALAPA');");
-        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO facultad (nombre, region) VALUES ('Economia', 1);");
-        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO persona (idPersona, nombre, apellidoPaterno, apellidoMaterno, universidad) VALUES (1, 'Jose', 'Lopez', 'Perez', 1);");
-        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO estudiante (idEstudiante, idPersona, matricula) VALUES (1, 1, 'zs22013690')");
     }
 
     @AfterAll
-    static void tearDown () {
+    static void limpiarBaseDatosFinTest () {
         ConfiguracionPrueba.borrarDatosTablaEstudiante();
+        ConfiguracionPrueba.borrarDatosTablaCuenta();
         ConfiguracionPrueba.borrarDatosTablaPersona();
         ConfiguracionPrueba.borrarDatosTablaUniversidad();
-        ConfiguracionPrueba.borrarDatosTablaFacultad();
-        ConfiguracionPrueba.borrarDatosTablaRegion();
         ConfiguracionPrueba.borrarDatosTablaPais();
     }
 
     @Test
     void pruebaAgregarEstudianteExitoso () {
-        System.out.println("pruebaAgregarEstudianteExitoso");
-
-        EstudianteDTO estudianteDTO = new EstudianteDTO();
-        estudianteDTO.setNombre("Jose");
-        estudianteDTO.setApellidoPaterno("Lopez");
-        estudianteDTO.setApellidoMaterno("Lara");
-        estudianteDTO.setMatricula("zs22013690");
-        estudianteDTO.setIdUniversidad(1);
-
-        int esperado = 2;
-        int obtenido = 0;
+        int filasAfectadasEsperadas = 3;
+        int filasAfectadasObtenidas = 0;
 
         try {
-            obtenido = ESTUDIANTE_DAO.agregar(estudianteDTO);
-
+            EstudianteDTO estudiante = new EstudianteDTO();
+            estudiante.setNombre("Jose");
+            estudiante.setApellidos("Lopez");
+            estudiante.setMatricula("zs22013600");
+            estudiante.setIdUniversidad(1);
+            filasAfectadasObtenidas = ESTUDIANTE_DAO.agregar(estudiante);
         }
         catch (ErrorDAO error) {
-            fail("Fallida: pruebaAgregarEstudianteExitoso");
-
+            fail("Fallida: pruebaAgregarEstudianteExitoso\n" + error.getMessage());
         }
-        assertEquals(esperado, obtenido);
+        assertEquals(filasAfectadasEsperadas, filasAfectadasObtenidas, "pruebaAgregarEstudianteExitoso");
     }
+
+    @Test
+    void pruebaAgregaEstudianteDuplicado () {
+        int filasAfectadasEsperadas = 3;
+        int filasAfectadasObtenidas = 0;
+
+        try {
+            filasAfectadasObtenidas = ESTUDIANTE_DAO.agregar(estudianteRegistrado1);
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaAgregaEstudianteDuplicado\n" + error.getMessage());
+        }
+        assertEquals(filasAfectadasEsperadas,filasAfectadasObtenidas,"pruebaAgregaEstudianteDuplicado");
+     }
 
     @Test
     void pruebaAgregarEstudianteVacioFallida () {
-        System.out.println("pruebaAgregarEstudianteVacioFallida");
-
-        EstudianteDTO estudianteDTO = new EstudianteDTO();
-
-        assertThrows(ErrorDAO.class, () -> ESTUDIANTE_DAO.agregar(estudianteDTO));
+        assertThrows(ErrorDAO.class, () -> ESTUDIANTE_DAO.agregar(new EstudianteDTO()),"pruebaAgregarEstudianteVacioFallida");
     }
 
     @Test
-    void pruebaAgregarEstudianteMatriculaLargaFallida () {
-        System.out.println("pruebaAgregarEstudianteMatriculaLargaFallida");
+    void pruebaAgregarEstudianteUniversidadInexistente () {
+        EstudianteDTO estudiante = new EstudianteDTO();
+        estudiante.setNombre("Jose");
+        estudiante.setApellidos("Lopez");
+        estudiante.setMatricula("zs22013690");
+        estudiante.setIdUniversidad(100);
+        assertThrows(ErrorDAO.class,()->ESTUDIANTE_DAO.agregar(estudiante),"pruebaAgregarEstudianteUniversidadInexistente");
+    }
 
-        EstudianteDTO estudianteDTO = new EstudianteDTO();
-        boolean resultado = false;
+    @Test
+    void pruebaAgregarEstudianteUniversidadInvalida () {
+        EstudianteDTO estudiante = new EstudianteDTO();
+        estudiante.setNombre("Jose");
+        estudiante.setApellidos("Lopez");
+        estudiante.setMatricula("zs22013690");
+        estudiante.setIdUniversidad(-1);
+        assertThrows(ErrorDAO.class, () -> ESTUDIANTE_DAO.agregar(estudiante),"pruebaAgregarEstudianteUniversidadInvalida");
+    }
+
+    @Test
+    void pruebaModificarExitosa () {
+        EstudianteDTO estudiante = new EstudianteDTO();
+        int filasAfectadasObtenidas = 0;
+        int filasAfectadasEsperadas = 2;
         try {
-            estudianteDTO.setNombre("Jose");
-            estudianteDTO.setApellidoPaterno("Lopez");
-            estudianteDTO.setApellidoMaterno("Lara");
-            estudianteDTO.setMatricula("12345678912345");
-            estudianteDTO.setIdUniversidad(1);
-            ESTUDIANTE_DAO.agregar(estudianteDTO);
+            estudiante.setNombre("Mario");
+            estudiante.setApellidos("López");
+            estudiante.setMatricula(estudianteRegistrado1.getMatricula());
+            estudiante.setIdUniversidad(1);
+            filasAfectadasObtenidas = ESTUDIANTE_DAO.modificar(estudiante);
         }
-        catch (ErrorDAO errorDAO) {
-            resultado = true;
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaModificarExitosa\n" + error.getMessage());
         }
-        assertTrue(resultado);
+        assertEquals(filasAfectadasEsperadas,filasAfectadasObtenidas);
     }
 
     @Test
-    void pruebaAgregarEstudianteMatriculaVaciaFallida () {
-        System.out.println("pruebaAgregarEstudianteMatriculaVaciaFallida");
-
-        EstudianteDTO estudianteDTO = new EstudianteDTO();
-        boolean resultado = false;
+    void pruebaModificarEstudianteVacio () {
+        int filasAfectadasEsperadas = 0;
+        int filasAfectadasObtenidas = -1;
         try {
-            estudianteDTO.setNombre("Jose");
-            estudianteDTO.setApellidoPaterno("Lopez");
-            estudianteDTO.setApellidoMaterno("Lara");
-            estudianteDTO.setMatricula(null);
-            estudianteDTO.setIdUniversidad(1);
-            ESTUDIANTE_DAO.agregar(estudianteDTO);
+            filasAfectadasObtenidas = ESTUDIANTE_DAO.modificar(new EstudianteDTO());
         }
-        catch (ErrorDAO errorDAO) {
-            resultado = true;
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaModificarEstudianteVacio");
         }
-        assertTrue(resultado);
+        assertEquals(filasAfectadasEsperadas,filasAfectadasObtenidas,"pruebaModificarEstudianteVacio");
     }
 
     @Test
-    void pruebaAgregarEstudianteNombreVacioFallida () {
-        System.out.println("pruebaAgregarEstudianteNombreVacioFallida");
+    void pruebaModificarMatriculaInexistente () {
+        EstudianteDTO estudiante = new EstudianteDTO();
+        estudiante.setNombre("Jose");
+        estudiante.setApellidos("Lopez");
+        estudiante.setMatricula("zs22013601");
+        estudiante.setIdUniversidad(1);
+        int filasAfectadasEsperadas = 0;
+        int filasAfectadasObtenidas = -1;
 
-        EstudianteDTO estudianteDTO = new EstudianteDTO();
-        boolean resultado = false;
         try {
-            estudianteDTO.setNombre(null);
-            estudianteDTO.setApellidoPaterno("Lopez");
-            estudianteDTO.setApellidoMaterno("Lara");
-            estudianteDTO.setMatricula("zs22013690");
-            estudianteDTO.setIdUniversidad(1);
-            ESTUDIANTE_DAO.agregar(estudianteDTO);
+            filasAfectadasObtenidas = ESTUDIANTE_DAO.modificar(estudiante);
         }
-        catch (ErrorDAO errorDAO) {
-            resultado = true;
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaModificarMatriculaInexistente\n" + error.getMessage());
         }
-        assertTrue(resultado);
+        assertEquals(filasAfectadasEsperadas,filasAfectadasObtenidas,"pruebaModificarMatriculaInexistente");
     }
 
     @Test
-    void pruebaAgregarEstudianteApellidoPaternoVacioFallida () {
-        System.out.println("pruebaAgregarEstudianteNombreVaciaFallida");
-
-        EstudianteDTO estudianteDTO = new EstudianteDTO();
-        boolean resultado = false;
-        try {
-            estudianteDTO.setNombre("Jose");
-            estudianteDTO.setApellidoPaterno(null);
-            estudianteDTO.setApellidoMaterno("Lara");
-            estudianteDTO.setMatricula("zs22013690");
-            estudianteDTO.setIdUniversidad(1);
-            ESTUDIANTE_DAO.agregar(estudianteDTO);
-        }
-        catch (ErrorDAO errorDAO) {
-            resultado = true;
-        }
-        assertTrue(resultado);
-    }
-
-    @Test
-    void pruebaAgregarEstudianteApellidoMaternoVacioFallida () {
-        System.out.println("pruebaAgregarEstudianteApellidoMaternoVacioFallida");
-
-        EstudianteDTO estudianteDTO = new EstudianteDTO();
-        boolean resultado = false;
-        try {
-            estudianteDTO.setNombre("Jose");
-            estudianteDTO.setApellidoPaterno("Lopez");
-            estudianteDTO.setApellidoMaterno(null);
-            estudianteDTO.setMatricula("zs22013690");
-            estudianteDTO.setIdUniversidad(1);
-            ESTUDIANTE_DAO.agregar(estudianteDTO);
-        }
-        catch (ErrorDAO errorDAO) {
-            resultado = true;
-        }
-        assertTrue(resultado);
-    }
-
-    @Test
-    void pruebaAgregarEstudianteUniversidadVaciaFallida () {
-        System.out.println("pruebaAgregarEstudianteUniversidadVaciaFallida");
-
-        EstudianteDTO estudianteDTO = new EstudianteDTO();
-        boolean resultado = false;
-        try {
-            estudianteDTO.setNombre("Jose");
-            estudianteDTO.setApellidoPaterno("Lopez");
-            estudianteDTO.setApellidoMaterno("");
-            estudianteDTO.setMatricula("zs22013690");
-            ESTUDIANTE_DAO.agregar(estudianteDTO);
-        }
-        catch (ErrorDAO errorDAO) {
-            resultado = true;
-        }
-        assertTrue(resultado);
-    }
-
-    @Test
-    void pruebaAgregarEstudianteUniversidadInexistenteFallida () {
-        System.out.println("pruebaAgregarEstudianteApellidoMaternoVacioFallida");
-
-        EstudianteDTO estudianteDTO = new EstudianteDTO();
-        estudianteDTO.setNombre("Jose");
-        estudianteDTO.setApellidoPaterno("Lopez");
-        estudianteDTO.setApellidoMaterno("Lara");
-        estudianteDTO.setMatricula("zs22013690");
-        estudianteDTO.setIdUniversidad(10);
-
-        assertThrows(ErrorDAO.class, () -> ESTUDIANTE_DAO.agregar(estudianteDTO));
-
+    void pruebaModificarEstudianteUniversidadInexistente () {
+        EstudianteDTO estudiante = new EstudianteDTO();
+        estudiante.setNombre("Jose");
+        estudiante.setApellidos("Lopez");
+        estudiante.setMatricula(estudianteRegistrado1.getMatricula());
+        estudiante.setIdUniversidad(10);
+        assertThrows(ErrorDAO.class,()->ESTUDIANTE_DAO.modificar(estudiante),"pruebaModificarEstudianteUniversidadInexistente");
     }
 
     @Test
     void pruebaGetEstudiantePorIDExitosa () {
-        System.out.println("pruebaGetEstudiantePorIDExitosa");
-
-        EstudianteDTO estudianteDTOEsperado = new EstudianteDTO();
-        estudianteDTOEsperado.setIdPersona(1);
-        estudianteDTOEsperado.setIdEstudiante(1);
-        estudianteDTOEsperado.setNombre("Jose");
-        estudianteDTOEsperado.setApellidoPaterno("Lopez");
-        estudianteDTOEsperado.setApellidoMaterno("Perez");
-        estudianteDTOEsperado.setMatricula("zs22013690");
-        estudianteDTOEsperado.setIdUniversidad(1);
-
-        EstudianteDTO estudianteDTOObtenido = null;
-
+        Optional<EstudianteDTO> estudianteObtenido = Optional.empty();
         try {
-            Optional<EstudianteDTO> estudianteDTOOptional = ESTUDIANTE_DAO.getPorId(1);
-            assertTrue(estudianteDTOOptional.isPresent());
-            estudianteDTOObtenido = estudianteDTOOptional.get();
+            estudianteObtenido = ESTUDIANTE_DAO.getPorId(estudianteRegistrado1.getIdEstudiante());
         }
         catch (ErrorDAO error) {
-            fail("Fallida: pruebaGetEstudiantePorIDExitosa " + error.getMessage());
-
+            fail("Fallida: pruebaGetEstudiantePorIDExitosa\n" + error.getMessage());
         }
-
-        assertEquals(estudianteDTOEsperado.getMatricula(), estudianteDTOObtenido.getMatricula());
-        assertEquals(estudianteDTOEsperado.getIdPersona(), estudianteDTOObtenido.getIdPersona());
-
+        assertEquals(estudianteRegistrado1, estudianteObtenido.get(), "pruebaGetEstudiantePorIDExitosa");
     }
 
     @Test
-    void pruebaGetEstudiantePorUniversidadExitosa () {
-        System.out.println("pruebaGetEstudiantePorIDExitosa");
-
-        int tamanoListaEsperado = 1;
-        int tamanoListaReal = -1;
-
-        List<EstudianteDTO> listaEstudianteDTOS;
-
+    void pruebaGetEstudiantePorIdInexistente () {
         try {
-            listaEstudianteDTOS = ESTUDIANTE_DAO.getEstudiantesSinColaboracionActivaOVinculadaPorUniversidad(1);
-            tamanoListaReal = listaEstudianteDTOS.size();
-
+            Optional<EstudianteDTO> estudianteObtenido = ESTUDIANTE_DAO.getPorId(10);
+            assertTrue(estudianteObtenido.isEmpty(),"pruebaGetEstudiantePorIdInexistente");
         }
         catch (ErrorDAO error) {
-            fail("Fallida: pruebaGetEstudiantePorIDExitosa " + error.getMessage());
-
+            fail("Fallida: pruebaGetEstudiantePorIdInexistente\n" + error.getMessage());
         }
-
-        assertEquals(tamanoListaEsperado, tamanoListaReal);
-
     }
 
     @Test
-    void pruebaEditarEstudianteExitoso () {
-        System.out.println("pruebaEditarEstudianteExitoso");
-
-        EstudianteDTO estudianteDTO = new EstudianteDTO();
-        estudianteDTO.setIdPersona(1);
-        estudianteDTO.setIdEstudiante(1);
-        estudianteDTO.setNombre("Jose");
-        estudianteDTO.setApellidoPaterno("Lopez");
-        estudianteDTO.setApellidoMaterno("Perez");
-        estudianteDTO.setMatricula("zs22013690");
-        estudianteDTO.setIdUniversidad(1);
-
-        int resultadoEsperado = 2;
-        int resultadoReal = -1;
+    void pruebaGetEstudiantePorIdInvalido () {
         try {
-            resultadoReal = ESTUDIANTE_DAO.modificar(estudianteDTO);
+            Optional<EstudianteDTO> estudianteObtenido = ESTUDIANTE_DAO.getPorId(-1);
+            assertTrue(estudianteObtenido.isEmpty(),"pruebaGetEstudiantePorIdInvalido");
         }
         catch (ErrorDAO error) {
-            fail("Fallida: pruebaEditarEstudianteExitoso " + error.getMessage());
-
+            fail("Fallida: pruebaGetEstudiantePorIdInvalido\n" + error.getMessage());
         }
-        assertEquals(resultadoEsperado, resultadoReal);
     }
 
+    @Test
+    void pruebaGetEstudiantePorIdPersonaExitosa () {
+        Optional<EstudianteDTO> estudianteObtenido = Optional.empty();
+        try {
+            estudianteObtenido = ESTUDIANTE_DAO.getEstudiantePorIdPersona(estudianteRegistrado1.getIdPersona());
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaGetEstudiantePorIdPersonaExitosa\n" + error.getMessage());
+        }
+        assertEquals(estudianteRegistrado1,estudianteObtenido.get(),"pruebaGetEstudiantePorIdPersonaExitosa");
+    }
 
+    @Test
+    void pruebaGetEstudiantePorIdPersonaInexistente () {
+        try {
+            Optional<EstudianteDTO> estudianteObtenido = ESTUDIANTE_DAO.getEstudiantePorIdPersona(10);
+            assertTrue(estudianteObtenido.isEmpty(),"pruebaGetEstudiantePorIdPersonaInexistente");
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaGetEstudiantePorIdPersonaInexistente" + error.getMessage());
+        }
+    }
 
+    @Test
+    void pruebaGetEstudiantePorIdPersonaInvalido () {
+        try {
+            Optional<EstudianteDTO> estudianteObtenido = ESTUDIANTE_DAO.getEstudiantePorIdPersona(-1);
+            assertTrue(estudianteObtenido.isEmpty(),"pruebaGetEstudiantePorIdPersonaInvalido");
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaGetEstudiantePorIdPersonaInvalido" + error.getMessage());
+        }
+    }
 
+    @Test
+    void pruebaGetEstudiantePorMatriculaYUniversidadExitosa () {
+        Optional<EstudianteDTO> estudianteObtenido = Optional.empty();
+        try {
+            estudianteObtenido = ESTUDIANTE_DAO.getEstudiantePorMatriculaYUniversidad(estudianteRegistrado1.getMatricula(),estudianteRegistrado1.getIdUniversidad());
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaGetEstudiantePorMatriculaYUniversidadExitosa\n" + error.getMessage());
+        }
+        assertEquals(estudianteRegistrado1,estudianteObtenido.get(),"pruebaGetEstudiantePorMatriculaYUniversidadExitosa");
+    }
+
+    @Test
+    void pruebaGetEstudiantePorMatriculaYUniversidadMatriculaInexistente () {
+        Optional<EstudianteDTO> estudianteObtenido = Optional.empty();
+        try {
+            estudianteObtenido = ESTUDIANTE_DAO.getEstudiantePorMatriculaYUniversidad("S21030125",estudianteRegistrado1.getIdUniversidad());
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaGetEstudiantePorMatriculaYUniversidadMatriculaInexistente\n" + error.getMessage());
+        }
+        assertTrue(estudianteObtenido.isEmpty(),"pruebaGetEstudiantePorMatriculaYUniversidadMatriculaInexistente");
+    }
+
+    @Test
+    void pruebaGetEstudiantePorMatriculaYUniversidadIdUniversidadInexistente () {
+        Optional<EstudianteDTO> estudianteObtenido = Optional.empty();
+        try {
+            estudianteObtenido = ESTUDIANTE_DAO.getEstudiantePorMatriculaYUniversidad(estudianteRegistrado1.getMatricula(),10);
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaGetEstudiantePorMatriculaYUniversidadIdUniversidaInexistente\n" + error.getMessage());
+        }
+        assertTrue(estudianteObtenido.isEmpty(),"pruebaGetEstudiantePorMatriculaYUniversidadIdUniversidaInexistente");
+    }
+
+    @Test
+    void pruebaGetEstudiantePorMatriculaYUniversidadIdUniversidadNegativo () {
+        Optional<EstudianteDTO> estudianteObtenido = Optional.empty();
+        try {
+            estudianteObtenido = ESTUDIANTE_DAO.getEstudiantePorMatriculaYUniversidad(estudianteRegistrado1.getMatricula(),-10);
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaGetEstudiantePorMatriculaYUniversidadIdUniversidadNegativo\n" + error.getMessage());
+        }
+        assertTrue(estudianteObtenido.isEmpty(),"pruebaGetEstudiantePorMatriculaYUniversidadIdUniversidadNegativo");
+    }
+
+    @Test
+    void pruebaGetEstudiantePorMatriculaYUniversidadMatriculaNula () {
+        Optional<EstudianteDTO> estudianteObtenido = Optional.empty();
+        try {
+            estudianteObtenido = ESTUDIANTE_DAO.getEstudiantePorMatriculaYUniversidad(null,estudianteRegistrado1.getIdUniversidad());
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaGetEstudiantePorMatriculaYUniversidadMatriculaNula\n" + error.getMessage());
+        }
+        assertTrue(estudianteObtenido.isEmpty(),"pruebaGetEstudiantePorMatriculaYUniversidadMatriculaNula");
+    }
+
+    @Test
+    void pruebaGetEstudiantesSinColaboracionActivaOVinculadaPorUniversidadExitosa () {
+        List<EstudianteDTO> listaEsperada = new ArrayList<>();
+        List<EstudianteDTO> listaObtenida = new ArrayList<>();
+        listaEsperada.add(estudianteRegistrado1);
+        listaEsperada.add(estudianteRegistrado2);
+        try {
+            listaObtenida = ESTUDIANTE_DAO.getEstudiantesSinColaboracionActivaOVinculadaPorUniversidad(1);
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaGetEstudiantesSinColaboracionActivaOVinculadaPorUniversidadExitosa\n" + error.getMessage());
+        }
+        assertEquals(listaEsperada,listaObtenida,"pruebaGetEstudiantesSinColaboracionActivaOVinculadaPorUniversidadExitosa");
+    }
+
+    @Test
+    void pruebaGetEstudiantesSinColaboracionActivaOVinculadaPorUniversidadIdInexistente () {
+        List<EstudianteDTO> listaObtenida = new ArrayList<>();
+        try {
+            listaObtenida = ESTUDIANTE_DAO.getEstudiantesSinColaboracionActivaOVinculadaPorUniversidad(10);
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaGetEstudiantesSinColaboracionActivaOVinculadaPorUniversidadIdInexistente\n" + error.getMessage());
+        }
+        assertTrue(listaObtenida.isEmpty(),"pruebaGetEstudiantesSinColaboracionActivaOVinculadaPorUniversidadIdInexistente");
+    }
+
+    @Test
+    void pruebaGetEstudiantesSinColaboracionActivaOVinculadaPorUniversidadIdNegativo () {
+        List<EstudianteDTO> listaObtenida = new ArrayList<>();
+        try {
+            listaObtenida = ESTUDIANTE_DAO.getEstudiantesSinColaboracionActivaOVinculadaPorUniversidad(-10);
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaGetEstudiantesSinColaboracionActivaOVinculadaPorUniversidadIdNegativo\n" + error.getMessage());
+        }
+        assertTrue(listaObtenida.isEmpty(),"pruebaGetEstudiantesSinColaboracionActivaOVinculadaPorUniversidadIdNegativo");
+    }
+
+    @Test
+    void pruebaGetEstudiantesSinColaboracionActivaOVinculadaPorUniversidadSinResultados () {
+        List<EstudianteDTO> listaObtenida = new ArrayList<>();
+        try {
+            listaObtenida = ESTUDIANTE_DAO.getEstudiantesSinColaboracionActivaOVinculadaPorUniversidad(2);
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: getEstudiantesSinColaboracionActivaOVinculadaPorUniversidadSinResultados\n" + error.getMessage());
+        }
+        assertTrue(listaObtenida.isEmpty(),"getEstudiantesSinColaboracionActivaOVinculadaPorUniversidadSinResultados");
+    }
+
+    @Test
+    void pruebaGetEstudiantePorMatriculaExitosa () {
+        Optional<EstudianteDTO> estudianteObtenido = Optional.empty();
+        try {
+            estudianteObtenido = ESTUDIANTE_DAO.getEstudiantePorMatricula(estudianteRegistrado1.getMatricula());
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaGetEstudiantePorMatricula\n" + error.getMessage());
+        }
+        assertEquals(estudianteRegistrado1,estudianteObtenido.get(),"pruebaGetEstudiantePorMatriculaExitosa");
+    }
+
+    @Test
+    void pruebaGetEstudiantePorMatriculaInexistente () {
+        try {
+            Optional<EstudianteDTO> estudianteObtenido = ESTUDIANTE_DAO.getEstudiantePorMatricula("zs22013029");
+            assertTrue(estudianteObtenido.isEmpty(),"pruebaGetEstudiantePorMatriculaInexistente");
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaGetEstudiantePorMatriculaInexistente\n" +  error.getMessage());
+        }
+    }
+
+    @Test
+    void pruebaGetEstudiantePorMatriculaNula () {
+        try {
+            Optional<EstudianteDTO> estudianteObtenido = ESTUDIANTE_DAO.getEstudiantePorMatricula(null);
+            assertTrue(estudianteObtenido.isEmpty(),"pruebaGetEstudiantePorMatriculaNula");
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaGetEstudiantePorMatriculaNula\n" +  error.getMessage());
+        }
+    }
+
+    @Test
+    void pruebaGetTodosExitosa () {
+        List<EstudianteDTO> listaEsperada = new ArrayList<>();
+        List<EstudianteDTO> listaObtenida = new ArrayList<>();
+        listaEsperada.add(estudianteRegistrado1);
+        listaEsperada.add(estudianteRegistrado2);
+
+        try {
+            listaObtenida = ESTUDIANTE_DAO.getTodos();
+        }
+        catch (ErrorDAO error) {
+            fail("Fallida: pruebaGetTodosExitosa\n" + error.getMessage());
+        }
+
+        assertEquals(listaEsperada,listaObtenida,"pruebaGetTodosExitosa");
+    }
 }

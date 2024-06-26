@@ -2,33 +2,31 @@ package test.DAO;
 
 import DAO.PaisDAO;
 import DTO.PaisDTO;
+import Utilidades.ErrorDAO;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import test.ConfiguracionPrueba;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class PaisDAOTest {
     private final PaisDAO PAIS_DAO = new PaisDAO();
     @BeforeAll
-    static void setUp() {
-        ConfiguracionPrueba.borrarDatosTablaPais();
+    static void prepararBaseDatos() {
+        ConfiguracionPrueba.borrarDatosTodasLasTablas();
         ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO pais (idPais,Iso,nombre) VALUES (1,'MX','México'),  (2,'US','Estados Unidos'), (3,'BR','Brasil');");
     }
 
     @AfterAll
-    static void afterAll () {
+    static void limpiarBaseDatos () {
         ConfiguracionPrueba.borrarDatosTablaPais();
     }
 
     @Test
     void pruebaPaisesAlfabeticamenteExitosa () {
-        System.out.println("pruebaPaisesAlfabeticamenteExitosa");
         List<PaisDTO> listaEsperada = new ArrayList<>();
         List<PaisDTO> listaObtenida = new ArrayList<>();
         listaEsperada.add(new PaisDTO(3,"BR","Brasil"));
@@ -38,40 +36,33 @@ class PaisDAOTest {
         try {
             listaObtenida = PAIS_DAO.getPaisesAlfabeticamente();
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaPaisesAlfabeticamenteExitosa");
         }
 
-        assertEquals(listaEsperada.size(),listaObtenida.size());
-        while (!listaEsperada.isEmpty()){
-            PaisDTO esperado = listaEsperada.get(0);
-            assert(esperado.equals(listaObtenida.get(0)));
-            listaEsperada.remove(0);
-            listaObtenida.remove(0);
-        }
+        assertEquals(listaEsperada,listaObtenida,"pruebaPaisesAlfabeticamenteExitosa");
     }
 
     @Test
     void pruebaGetPaisPorNombreExitosa () {
-        Optional<PaisDTO> paisObtenidoOptional = Optional.empty();
+        Optional<PaisDTO> paisObtenido = Optional.empty();
         PaisDTO esperado = new PaisDTO(2,"US","Estados Unidos");
         try {
-            paisObtenidoOptional = PAIS_DAO.getPaisPorNombre(esperado.getNombre());
+            paisObtenido = PAIS_DAO.getPaisPorNombre(esperado.getNombre());
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetPaisPorNombreExitosa");
         }
-        assertTrue(paisObtenidoOptional.isPresent());
-        assertEquals(esperado,paisObtenidoOptional.get(),"pruebaGetPaisPorNombreExitosa");
+        assertEquals(esperado,paisObtenido.get(),"pruebaGetPaisPorNombreExitosa");
     }
 
     @Test
     void pruebaGetPaisPorNombreInexistente () {
         try {
-            Optional<PaisDTO> obtenido = PAIS_DAO.getPaisPorNombre("Argentina");
-            assertTrue(obtenido.isEmpty(),"pruebaGetPaisPorNombreInexistente");
+            Optional<PaisDTO> paisObtenido = PAIS_DAO.getPaisPorNombre("Argentina");
+            assertTrue(paisObtenido.isEmpty(),"pruebaGetPaisPorNombreInexistente");
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetPaisPorNombreExitosa");
         }
     }
@@ -79,35 +70,34 @@ class PaisDAOTest {
     @Test
     void pruebaGetPaisPorNombreNulo () {
         try {
-            Optional<PaisDTO> obtenido = PAIS_DAO.getPaisPorNombre(null);
-            assertTrue(obtenido.isEmpty(),"pruebaGetPaisPorNombreNulo");
+            Optional<PaisDTO> paisObtenido = PAIS_DAO.getPaisPorNombre(null);
+            assertTrue(paisObtenido.isEmpty(),"pruebaGetPaisPorNombreNulo");
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetPaisPorNombreNulo");
         }
     }
 
     @Test
     void pruebaGetPaisPorIdExitosa () {
-        Optional<PaisDTO> obtenidoOptional = Optional.empty();
-        PaisDTO esperado = new PaisDTO(2,"US","Estados Unidos");
+        Optional<PaisDTO> paisObtenido = Optional.empty();
+        PaisDTO paisEsperado = new PaisDTO(2,"US","Estados Unidos");
         try {
-            obtenidoOptional = PAIS_DAO.getPaisPorId(esperado.getId());
+            paisObtenido = PAIS_DAO.getPaisPorId(paisEsperado.getId());
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetPaisPorIdExitosa");
         }
-        assertTrue(obtenidoOptional.isPresent());
-        assertEquals(esperado,obtenidoOptional.get(),"pruebaGetPaisPorIdExitosa");
+        assertEquals(paisEsperado,paisObtenido.get(),"pruebaGetPaisPorIdExitosa");
     }
 
     @Test
     void pruebaGetPaisPorIdInexistente () {
         try {
-            Optional<PaisDTO> obtenido = PAIS_DAO.getPaisPorId(0);
-            assertTrue(obtenido.isEmpty(),"pruebaGetPaisPorIdInexistente");
+            Optional<PaisDTO> paisObtenido = PAIS_DAO.getPaisPorId(0);
+            assertTrue(paisObtenido.isEmpty(),"pruebaGetPaisPorIdInexistente");
         }
-        catch (SQLException error) {
+        catch (ErrorDAO error) {
             fail("Fallida: pruebaGetPaisPorIdInexistente");
         }
     }

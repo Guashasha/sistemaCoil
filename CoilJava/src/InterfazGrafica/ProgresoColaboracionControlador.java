@@ -1,14 +1,22 @@
 package InterfazGrafica;
 
 import DAO.ColaboracionDAO;
+import DAO.RetroalimentacionColaboracionAuxiliar;
 import DTO.AcademicoDTO;
 import DTO.ColaboracionDTO;
 import DTO.PeriodoDTO;
+import DTO.RetroalimentacionColaboracionDTO;
 import Utilidades.ErrorDAO;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
-
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 public class ProgresoColaboracionControlador {
@@ -16,6 +24,8 @@ public class ProgresoColaboracionControlador {
     private Button btnIniciar;
     @FXML
     private Button btnFinalizar;
+    @FXML
+    private Button btnRetroalimentar;
 
     @FXML
     private DatePicker dpFechaFin;
@@ -45,16 +55,24 @@ public class ProgresoColaboracionControlador {
     private Label lbPeriodo;
     @FXML
     private Label lbPeriodoTitulo;
+    @FXML
+    private Pane pnActual;
 
     private ColaboracionDTO colaboracionDTO;
 
     private AcademicoDTO academicoDTO;
+    private Optional<RetroalimentacionColaboracionDTO> retroalimentacionColaboracionOpt = Optional.empty();
+    private BorderPane pnVentanaPrincipal;
 
-    public void inicializar() {
-        dpFechaInicio.getEditor().setDisable(true);
-        dpFechaInicio.getEditor().setOpacity(1);
-        dpFechaFin.getEditor().setDisable(true);
-        dpFechaFin.getEditor().setOpacity(1);
+    public void inicializar () {
+        dpFechaInicio.getEditor()
+                     .setDisable(true);
+        dpFechaInicio.getEditor()
+                     .setOpacity(1);
+        dpFechaFin.getEditor()
+                  .setDisable(true);
+        dpFechaFin.getEditor()
+                  .setOpacity(1);
         lbPeriodo.setVisible(false);
         lbPeriodoTitulo.setVisible(false);
         getAcademicoParPorColaboracion();
@@ -62,68 +80,106 @@ public class ProgresoColaboracionControlador {
         actualizarVisibilidadBotones();
     }
 
-    private void cargarLabels() {
-        this.lbAcademicoPar.setText(colaboracionDTO.getAcademicoPar().getNombre() + " " + colaboracionDTO.getAcademicoPar().getApellidoPaterno() + " " + colaboracionDTO.getAcademicoPar().getApellidoMaterno());
+    private void cargarLabels () {
+        this.lbAcademicoPar.setText(colaboracionDTO.getAcademicoPar()
+                                                   .getNombre() + " " + colaboracionDTO.getAcademicoPar()
+                                                                                       .getApellidos());
         this.lbIdioma.setText(colaboracionDTO.getIdioma());
         this.lbObjetivo.setText(colaboracionDTO.getObjetivo());
         this.lbPerfil.setText(colaboracionDTO.getPerfilEstudiante());
         this.lbTemaInteres.setText(colaboracionDTO.getTemaInteres());
-        this.lbTipo.setText(colaboracionDTO.getTipo().toString());
-        if (colaboracionDTO.getPeriodo().getFechaInicio() != null || colaboracionDTO.getPeriodo().getFechaFin() != null) {
-            lbPeriodoTitulo.setVisible(true);
-            lbPeriodo.setVisible(true);
-            lbPeriodo.setText(colaboracionDTO.getPeriodo().getFechaInicio().toString() + " - " + colaboracionDTO.getPeriodo().getFechaFin());
-            actualizarEtiquetaPeriodo(colaboracionDTO.getPeriodo().getFechaInicio(), colaboracionDTO.getPeriodo().getFechaFin());
+        this.lbTipo.setText(colaboracionDTO.getTipo()
+                                           .toString());
+        if (colaboracionDTO.getPeriodo() != null) {
+            if (colaboracionDTO.getPeriodo()
+                               .getFechaInicio() != null || colaboracionDTO.getPeriodo()
+                                                                           .getFechaFin() != null) {
+                lbPeriodoTitulo.setVisible(true);
+                lbPeriodo.setVisible(true);
+                lbPeriodo.setText(colaboracionDTO.getPeriodo()
+                                                 .getFechaInicio()
+                                                 .toString() + " - " + colaboracionDTO.getPeriodo()
+                                                                                      .getFechaFin());
+                actualizarEtiquetaPeriodo(colaboracionDTO.getPeriodo()
+                                                         .getFechaInicio(), colaboracionDTO.getPeriodo()
+                                                                                           .getFechaFin());
+            }
         }
     }
 
-    private void actualizarVisibilidadBotones() {
+    public void actualizarVisibilidadBotones () {
         ColaboracionDTO.EstadoColaboracion estado = this.colaboracionDTO.getEstado();
+
+        if (this.colaboracionDTO.getAnfitrion().equals(this.academicoDTO)) {
+            btnIniciar.setVisible(true);
+            btnFinalizar.setVisible(true);
+        }
+        else {
+            btnIniciar.setVisible(false);
+            btnFinalizar.setVisible(false);
+        }
 
         switch (estado) {
             case finalizada:
+                btnRetroalimentar.setVisible(false);
                 btnIniciar.setVisible(false);
                 btnFinalizar.setVisible(false);
                 break;
             case vinculada:
+                btnRetroalimentar.setVisible(false);
                 btnFinalizar.setVisible(false);
+
                 break;
             case activa:
+                btnRetroalimentar.setVisible(false);
                 btnFinalizar.setVisible(true);
+                dpFechaFin.setVisible(false);
+                dpFechaInicio.setVisible(false);
                 btnIniciar.setVisible(false);
+                break;
+            case enRevision:
+                RetroalimentacionColaboracionAuxiliar retroalimentacionColaboracionAuxiliar = new RetroalimentacionColaboracionAuxiliar();
+                retroalimentacionColaboracionOpt = retroalimentacionColaboracionAuxiliar.getPorPersonaYColaboracion(academicoDTO.getIdPersona(), colaboracionDTO.getIdColaboracion());
+
+                if (retroalimentacionColaboracionOpt.isPresent()) {
+                    btnRetroalimentar.setVisible(false);
+                    btnFinalizar.setVisible(true);
+                }
+                else {
+                    btnRetroalimentar.setVisible(true);
+                    btnFinalizar.setVisible(false);
+                }
+
+                btnIniciar.setVisible(false);
+                dpFechaInicio.setVisible(false);
+                dpFechaFin.setVisible(false);
                 break;
             default:
                 break;
         }
     }
 
-    private void getAcademicoParPorColaboracion() {
+    private void getAcademicoParPorColaboracion () {
         ColaboracionDAO colaboracionDAO = new ColaboracionDAO();
-        Optional<AcademicoDTO> academicoDTOOptional = Optional.empty();
+        List<AcademicoDTO> academicoDTOOptional = null;
         try {
-            academicoDTOOptional = colaboracionDAO.getAcademicoPar(this.colaboracionDTO);
-        } catch (ErrorDAO errorDAO) {
+            academicoDTOOptional = colaboracionDAO.getAcademicosParticipantes(this.colaboracionDTO);
+        }
+        catch (ErrorDAO errorDAO) {
             mostrarMensajeEmergente(errorDAO.getMessage(), Alert.AlertType.ERROR);
         }
-        if (academicoDTOOptional.isPresent()) {
-            this.colaboracionDTO.setAcademicoPar(academicoDTOOptional.get());
-        } else {
+        if (academicoDTOOptional != null) {
+            this.colaboracionDTO.setAnfitrion(academicoDTOOptional.get(0));
+            this.colaboracionDTO.setAcademicoPar(academicoDTOOptional.get(1));
+        }
+        else {
             mostrarMensajeEmergente("Aún no cuenta con un académico par en su colaboración", Alert.AlertType.INFORMATION);
         }
     }
 
-    private void getFechas() throws ErrorDAO {
-        LocalDate hoy = LocalDate.now();
-
+    private void getFechas () throws ErrorDAO {
         LocalDate fechaInicio = dpFechaInicio.getValue();
         LocalDate fechaFin = dpFechaFin.getValue();
-
-        if (fechaInicio == null || fechaFin == null) {
-            mostrarMensajeEmergente("Por favor seleccione ambas fechas", Alert.AlertType.WARNING);
-            return;
-        }
-
-        validarFechas(fechaInicio, fechaFin);
 
         PeriodoDTO periodo = new PeriodoDTO(fechaInicio, fechaFin);
         this.colaboracionDTO.setPeriodo(periodo);
@@ -131,51 +187,65 @@ public class ProgresoColaboracionControlador {
         actualizarEtiquetaPeriodo(fechaInicio, fechaFin);
     }
 
-    private void validarFechas(LocalDate fechaInicio, LocalDate fechaFin) throws ErrorDAO {
+    private boolean sonFechasValidas () throws ErrorDAO {
+        LocalDate fechaInicio = dpFechaInicio.getValue();
+        LocalDate fechaFin = dpFechaFin.getValue();
+
+        if (fechaInicio == null || fechaFin == null) {
+            mostrarMensajeEmergente("Por favor seleccione ambas fechas", Alert.AlertType.WARNING);
+            return false;
+        }
+
         int anioInicio = fechaInicio.getYear();
         int anioFin = fechaFin.getYear();
+        LocalDate fechaActual = LocalDate.now();
 
-        LocalDate hoy = LocalDate.now();
-
-        if (!fechaInicio.isAfter(hoy) || !fechaFin.isAfter(hoy)) {
-            throw new ErrorDAO("Las fechas deben ser posteriores a la fecha actual.", ErrorDAO.Tipo.VALIDACION);
+        if (!fechaInicio.isAfter(fechaActual) || !fechaFin.isAfter(fechaActual)) {
+            mostrarMensajeEmergente("Las fechas deben ser posteriores a la fecha actual.", Alert.AlertType.WARNING);
+            return false;
         }
 
-        if (anioInicio != anioFin) {
-            throw new ErrorDAO("Las fechas deben estar en el mismo año.", ErrorDAO.Tipo.VALIDACION);
+
+        if (anioInicio > anioFin || anioInicio + 1 <= anioFin) {
+            mostrarMensajeEmergente("Las fechas ingresadas no estan dentro del mismo periodo", Alert.AlertType.WARNING);
+            return false;
         }
 
-        if (!fechaFin.isAfter(fechaInicio)) {
-            throw new ErrorDAO("La fecha de fin debe ser posterior a la fecha de inicio.", ErrorDAO.Tipo.VALIDACION);
+        if (fechaInicio.equals(fechaFin)) {
+            mostrarMensajeEmergente("La fecha de inicio no debe ser igual a la del fin.", Alert.AlertType.WARNING);
+            return false;
         }
+
+
 
         int mesInicio = fechaInicio.getMonthValue();
         int mesFin = fechaFin.getMonthValue();
 
-        boolean esPrimerSemestre = (mesInicio >= 1 && mesInicio <= 7) && (mesFin >= 1 && mesFin <= 7);
-        boolean esSegundoSemestre = (mesInicio >= 8 && mesInicio <= 12) && (mesFin >= 8 && mesFin <= 12);
+        boolean esPrimerSemestre = (mesInicio >= 2 && mesInicio <= 8) && (mesFin >= 1 && mesFin <= 8);
+        boolean esSegundoSemestre = (mesInicio >= 9 && mesInicio <= 1) && (mesFin >= 9 && mesFin <= 1);
 
         if (!esPrimerSemestre && !esSegundoSemestre) {
-            throw new ErrorDAO("""
-            Las fechas deben estar dentro del mismo semestre:
-            1. Enero a Julio.
-            2. Agosto a Diciembre.
-            """, ErrorDAO.Tipo.VALIDACION);
+            mostrarMensajeEmergente("""
+                                            Las fechas deben estar dentro del mismo semestre:
+                                            1. Febrero a Julio.
+                                            2. Agosto a Diciembre.
+                                            """, Alert.AlertType.WARNING);
+            return false;
         }
+
+
+        return true;
     }
 
-    private void actualizarEtiquetaPeriodo(LocalDate fechaInicio, LocalDate fechaFin) {
-        int mesInicio = fechaInicio.getMonthValue();
+    private void actualizarEtiquetaPeriodo (LocalDate fechaInicio, LocalDate fechaFin) {
+        DateTimeFormatter monthFormatter = DateTimeFormatter.ofPattern("MMMM", new Locale("es", "ES"));
+        String mesInicio = fechaInicio.format(monthFormatter);
+        String mesFin = fechaFin.format(monthFormatter);
         int anio = fechaInicio.getYear();
 
-        String semestre;
-        if (mesInicio >= 1 && mesInicio <= 7) {
-            semestre = "Enero - Julio " + anio;
-        } else {
-            semestre = "Agosto - Diciembre " + anio;
-        }
+        String periodo = mesInicio + " - " + mesFin + " " + anio;
 
-        lbPeriodo.setText(semestre);
+        lbPeriodo.setText(periodo);
 
         String tooltipText = "Periodo: " + fechaInicio.toString() + " - " + fechaFin.toString();
         Tooltip tooltip = new Tooltip(tooltipText);
@@ -183,54 +253,117 @@ public class ProgresoColaboracionControlador {
     }
 
     @FXML
-    private void iniciarColaboracion() {
+    private void iniciarColaboracion () {
         if (this.colaboracionDTO.getEstado() != ColaboracionDTO.EstadoColaboracion.activa) {
             ColaboracionDAO colaboracionDAO = new ColaboracionDAO();
-            try {
-                getFechas();
-                this.colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.activa);
-                colaboracionDAO.cambiarEstadoColaboracion(colaboracionDTO);
-                colaboracionDAO.agregarPeriodoAColaboracion(colaboracionDTO);
-                cargarLabels();
-                btnFinalizar.setVisible(true);
-                btnIniciar.setVisible(false);
-                mostrarMensajeEmergente("Colaboración iniciada", Alert.AlertType.INFORMATION);
-            } catch (ErrorDAO error) {
-                mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
+            if (sonFechasValidas()) {
+                try {
+                    getFechas();
+                    colaboracionDAO.cambiarEstadoColaboracion("activa", this.colaboracionDTO.getIdColaboracion());
+                    colaboracionDAO.agregarPeriodoAColaboracion(colaboracionDTO);
+                    this.colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.activa);
+                    cargarLabels();
+                    btnFinalizar.setVisible(true);
+                    btnIniciar.setVisible(false);
+                    mostrarMensajeEmergente("Colaboración iniciada", Alert.AlertType.INFORMATION);
+                    dpFechaFin.setVisible(false);
+                    dpFechaInicio.setVisible(false);
+                }
+                catch (ErrorDAO error) {
+                    mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
+                }
             }
-        } else {
+        }
+        else {
             mostrarMensajeEmergente("La colaboracion ya se encuentra activa", Alert.AlertType.INFORMATION);
         }
     }
 
-    private void mostrarMensajeEmergente(String mensaje, Alert.AlertType tipoAlerta) {
+    private void mostrarMensajeEmergente (String mensaje, Alert.AlertType tipoAlerta) {
         Alert alerta = new Alert(tipoAlerta);
         alerta.setContentText(mensaje);
         alerta.setHeaderText(null);
         alerta.show();
     }
 
-    public void setAcademicoDTO(AcademicoDTO academicoDTO) {
+    public void setAcademicoDTO (AcademicoDTO academicoDTO) {
         this.academicoDTO = academicoDTO;
     }
 
-    public void setColaboracionDTO(ColaboracionDTO colaboracionDTO) {
+    public void setColaboracionDTO (ColaboracionDTO colaboracionDTO) {
         this.colaboracionDTO = colaboracionDTO;
     }
 
+    public void setPnVentanaPrincipal (BorderPane pnVentanaPrincipal) {
+        this.pnVentanaPrincipal = pnVentanaPrincipal;
+    }
+
     @FXML
-    private void finalizarColaboracion() {
-        if (this.colaboracionDTO.getEstado() != ColaboracionDTO.EstadoColaboracion.finalizada) {
-            ColaboracionDAO colaboracionDAO = new ColaboracionDAO();
+    private void finalizarColaboracion () {
+        ColaboracionDAO colaboracionDAO = new ColaboracionDAO();
+        RetroalimentacionColaboracionAuxiliar retroalimentacionDAO = new RetroalimentacionColaboracionAuxiliar();
+        if (this.colaboracionDTO.getEstado() == ColaboracionDTO.EstadoColaboracion.activa) {
             try {
-                this.colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.finalizada);
-                colaboracionDAO.cambiarEstadoColaboracion(colaboracionDTO);
-                mostrarMensajeEmergente("Colaboración finalizada", Alert.AlertType.INFORMATION);
+                if (colaboracionDAO.cambiarEstadoColaboracion("enRevision", this.colaboracionDTO.getIdColaboracion()) > 0) {
+                    this.colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.enRevision);
+                }
+            }
+            catch (ErrorDAO error) {
+                mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
+                return;
+            }
+        }
+
+        boolean colaboracionRealizada = false;
+        try {
+            colaboracionRealizada = retroalimentacionDAO.getPorPersonaYColaboracion(this.academicoDTO.getIdPersona(), this.colaboracionDTO.getIdColaboracion()).isPresent();
+        }
+        catch (ErrorDAO error) {
+            Alert alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setHeaderText("Ocurrió un error");
+            alerta.setContentText(error.getMessage());
+            alerta.showAndWait();
+            return;
+        }
+
+        if (this.colaboracionDTO.getEstado() == ColaboracionDTO.EstadoColaboracion.enRevision && colaboracionRealizada) {
+            try {
+                colaboracionDAO.cambiarEstadoColaboracion("finalizada", this.colaboracionDTO.getIdColaboracion());
+                this.colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.enRevision);
+                mostrarMensajeEmergente("Colaboracion finalizada, gracias por participar.", Alert.AlertType.INFORMATION);
             } catch (ErrorDAO error) {
                 mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.ERROR);
+                return;
             }
         } else {
-            mostrarMensajeEmergente("La colaboracion ya se encuentra finalizada", Alert.AlertType.INFORMATION);
+            mostrarMensajeEmergente("Retroalimente la colaboración para poder continuar", Alert.AlertType.INFORMATION);
+            return;
+        }
+
+        actualizarVisibilidadBotones();
+        this.pnVentanaPrincipal.setCenter(null);
+    }
+
+    @FXML
+    private void abrirRetroalimentarColaboracion () {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("RetroalimentacionColaboracion.fxml"));
+        SplitPane pnRetroalimentacion;
+
+        try {
+            pnRetroalimentacion = fxmlLoader.load();
+        }
+        catch (IOException error) {
+            Alert alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setContentText("No se pudo abrir la ventana de retroalimentacion de colaboración");
+            alerta.setHeaderText("Ocurrió un error: " + error.getMessage());
+            alerta.showAndWait();
+            return;
+        }
+
+        if (pnRetroalimentacion != null) {
+            RetroalimentacionColaboracionControlador controlador = fxmlLoader.getController();
+            controlador.initialize(this.colaboracionDTO, this.pnVentanaPrincipal, this.pnActual, this, this.academicoDTO);
+            this.pnVentanaPrincipal.setCenter(pnRetroalimentacion);
         }
     }
 }

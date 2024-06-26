@@ -1,21 +1,25 @@
 package DAO;
 
 import DTO.ColaboracionDTO;
-import DTO.RetroalimentacionActividadDTO;
 import DTO.RetroalimentacionColaboracionDTO;
 import Utilidades.ErrorDAO;
 import Utilidades.ErrorDAO.Tipo;
-import org.apache.log4j.Logger;
 
-import java.util.List;
 import java.util.Optional;
 
+/**
+ * La clase RetroalimentacionColaboracionAuxiliar funciona como intermediario entre el cliente y las clases DAO. Procesa y valida la información de los parámetros antes de mandarla o después de recibirla de las clases DAO.
+ */
 public class RetroalimentacionColaboracionAuxiliar {
-  private static final Logger BITACORA = Logger.getLogger(RetroalimentacionActividadDTO.class.getName());
-
+  /**
+   * Agrega a la base de datos una retroalimentación de colaboración
+   * @param retroalimentacion la retroalimentación que se registrará en la base de datos
+   * @return el numero de filas afectadas en la base de datos
+   * @throws ErrorDAO tipo conexión si ocurre un error de sql, tipo validacion si la retroalimentación es incorrecta o está en un estado diferente a enRevision, tipo duplicidad si la persona ya retroalimentó la colaboración, consulta si no se puede encontrar la colaboración
+   */
   public int agregar(RetroalimentacionColaboracionDTO retroalimentacion) throws ErrorDAO {
     if (!retroalimentacion.esCorrecta()) {
-      throw new ErrorDAO("los datos de la colaboracion son invalidos", Tipo.VALIDACION);
+      throw new ErrorDAO("los datos de la retroalimentacion son invalidos", Tipo.VALIDACION);
     }
 
     if (getPorPersonaYColaboracion(retroalimentacion.getIdUsuario(), retroalimentacion.getColaboracion()).isPresent()) {
@@ -38,17 +42,18 @@ public class RetroalimentacionColaboracionAuxiliar {
     try {
       resultado = retroalimentacionDAO.agregar(retroalimentacion);
     } catch (ErrorDAO error) {
-      BITACORA.error(error);
       throw error;
     }
 
     return resultado;
   }
 
-  public int modificar(RetroalimentacionColaboracionDTO obj) throws ErrorDAO {
-    throw new ErrorDAO("metodo no disponible para el objeto", Tipo.VALIDACION);
-  }
-
+  /**
+   * Consigué una retroalimentación de colaboración por su id
+   * @param id el id de la retroalimentación que se busca
+   * @return la retroalimentación colaboración con el id especificado
+   * @throws ErrorDAO tipo conexión si ocurre un error de sql, tipo consulta si no se encuentra la retroalimentación con la id especificada, tipo validación si la id es incorrecta
+   */
   public Optional<RetroalimentacionColaboracionDTO> getPorId(Integer id) throws ErrorDAO {
     if (id < 1) {
       throw new ErrorDAO("la id proporcionada no es correcta", Tipo.VALIDACION);
@@ -60,12 +65,18 @@ public class RetroalimentacionColaboracionAuxiliar {
     try {
       retroalimentacion = retroalimentacionDAO.getPorId(id);
     } catch (ErrorDAO error) {
-      BITACORA.error(error);
     }
 
     return retroalimentacion;
   }
 
+  /**
+   * Consigue la retroalimentación de colaboración a partir de la persona que realizó la retroalimentación y la colaboración retroalimentada
+   * @param idPersona la id de la persona que realiza la retroalimentación
+   * @param idColaboracion la id de la colaboración retroalimentada
+   * @return la retroalimentación de colaboración especificada que realizó la persona especificada
+   * @throws ErrorDAO tipo conexión si ocurre un error de sql, tipo consulta si no se encuentra la retroalimentación, tipo validación si alguna de las id's es incorrecta
+   */
   public Optional<RetroalimentacionColaboracionDTO> getPorPersonaYColaboracion(int idPersona, int idColaboracion) {
     if (idPersona < 1 || idColaboracion < 1) {
       throw new ErrorDAO("alguna de las id proporcionadas no es correcta", Tipo.VALIDACION);
@@ -74,29 +85,8 @@ public class RetroalimentacionColaboracionAuxiliar {
     Optional<RetroalimentacionColaboracionDTO> retroalimentacion = Optional.empty();
     RetroalimentacionColaboracionDAO retroalimentacionDAO = new RetroalimentacionColaboracionDAO();
 
-    try {
-      retroalimentacion = retroalimentacionDAO.getPorPersonaYColaboracion(idPersona, idColaboracion);
-    } catch (ErrorDAO error) {
-      BITACORA.error(error);
-    }
+    retroalimentacion = retroalimentacionDAO.getPorPersonaYColaboracion(idPersona, idColaboracion);
 
     return retroalimentacion;
-  }
-
-  public List<RetroalimentacionColaboracionDTO> getTodos() throws ErrorDAO {
-    List<RetroalimentacionColaboracionDTO> resultados = null;
-    RetroalimentacionColaboracionDAO retroalimentacionDAO = new RetroalimentacionColaboracionDAO();
-
-    try {
-      resultados = retroalimentacionDAO.getTodos();
-    } catch (ErrorDAO error) {
-      BITACORA.error(error);
-    }
-
-    if (resultados == null) {
-      throw new ErrorDAO("No hay retroalimentaciones registradas", Tipo.CONSULTA);
-    }
-
-    return resultados;
   }
 }

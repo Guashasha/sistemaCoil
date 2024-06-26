@@ -13,7 +13,7 @@ public class ConfiguracionPrueba {
     }
     public static void borrarDatosTablaPersona () {
         ejecutarInstruccionSQL("DELETE FROM persona;");
-        ejecutarInstruccionSQL("ALTER TABLE persona AUTO_INCREMENT = 0;");
+        ejecutarInstruccionSQL("ALTER TABLE persona AUTO_INCREMENT = 0");
     }
     public static void borrarDatosTablaEstudiante () {
         ejecutarInstruccionSQL("DELETE FROM estudiante;");
@@ -24,7 +24,7 @@ public class ConfiguracionPrueba {
         ejecutarInstruccionSQL("ALTER TABLE universidad AUTO_INCREMENT = 0;");
     }
     public static void borrarDatosTablaAcademicoDesarrolla () {
-        ejecutarInstruccionSQL("DELETE FROM academicodesarrolla;");
+        ejecutarInstruccionSQL("DELETE FROM academicoDesarrolla;");
     }
     public static void borrarDatosTablaActividad () {
         ejecutarInstruccionSQL("DELETE FROM actividad;");
@@ -72,6 +72,25 @@ public class ConfiguracionPrueba {
         ejecutarInstruccionSQL("DELETE FROM calendarioActividades;");
     }
 
+    public static void borrarDatosTodasLasTablas () {
+        borrarDatosTablaCuenta();
+        borrarDatosTablaAcademicoDesarrolla();
+        borrarDatosTablaEstudiantesColaboracion();
+        borrarDatosTablaCalendarioActividades();
+        borrarDatosTablaRetroalimentacionColaboracion();
+        borrarDatosTablaRetroalimentacionActividad();
+        borrarDatosTablaRetroalimentacion();
+        borrarDatosTablaActividad();
+        borrarDatosTablaColaboracion();
+        borrarDatosTablaEstudiante();
+        borrarDatosTablaAcademico();
+        borrarDatosTablaPersona();
+        borrarDatosTablaUniversidad();
+        borrarDatosTablaPais();
+        borrarDatosTablaFacultad();
+        borrarDatosTablaRegion();
+    }
+
     public static void ejecutarInstruccionSQL (String instruccionSQL) {
         try {
             String urlBaseDatos = "jdbc:mariadb://localhost:3307/COIL";
@@ -87,7 +106,7 @@ public class ConfiguracionPrueba {
             conexion.close();
         }
         catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
+            BITACORA.info(error.getMessage());
         }
     }
 

@@ -2,7 +2,7 @@ package InterfazGrafica;
 
 import DAO.EstudianteAuxiliar;
 import DAO.EstudianteDAO;
-import DAO.UniversidadAuxiliar;
+import DAO.UniversidadDAO;
 import DTO.EstudianteDTO;
 import DTO.UniversidadDTO;
 import Utilidades.ErrorDAO;
@@ -17,13 +17,11 @@ import javafx.scene.text.Text;
 import java.util.Optional;
 import java.util.Stack;
 
-public class EditarEstudianteControlador {
+public class EdicionEstudianteControlador {
     @FXML
     private TextField tfNombre;
     @FXML
-    private TextField tfApellidoPaterno;
-    @FXML
-    private TextField tfApellidoMaterno;
+    private TextField tfApellidos;
     @FXML
     private Text txtMatriculaActual;
     @FXML
@@ -31,9 +29,7 @@ public class EditarEstudianteControlador {
     @FXML
     private Label txtObligatorioNombre;
     @FXML
-    private Label txtObligatorioApellidoPaterno;
-    @FXML
-    private Label txtObligatorioApellidoMaterno;
+    private Label txtObligatorioApellidos;
     private Stack<Pane> historialPaneles;
     private BorderPane pnVentanaPrincipal;
     private EstudianteDTO estudiante;
@@ -44,13 +40,13 @@ public class EditarEstudianteControlador {
         Optional<UniversidadDTO> universidadOptional = Optional.empty();
 
         if (historialPaneles != null && pnVentanaPrincipal != null && estudiante != null) {
-            EstudianteAuxiliar estudianteAuxiliar = new EstudianteAuxiliar();
-            estudianteOptional = estudianteAuxiliar.getPorId(estudiante.getIdEstudiante());
+            EstudianteDAO estudianteDap = new EstudianteDAO();
+            estudianteOptional = estudianteDap.getPorId(estudiante.getIdEstudiante());
 
             if (estudianteOptional.isPresent()) {
-                UniversidadAuxiliar universidadAuxiliar = new UniversidadAuxiliar();
+                UniversidadDAO universidadAuxiliar = new UniversidadDAO();
                 universidadOptional = universidadAuxiliar.getUniversidadPorId(estudianteOptional.get()
-                        .getIdUniversidad());
+                                                                                                .getIdUniversidad());
 
                 if (universidadOptional.isPresent()) {
                     this.historialPaneles = historialPaneles;
@@ -59,11 +55,10 @@ public class EditarEstudianteControlador {
                     this.listaEstudiantesControlador = listaEstudiantesControlador;
 
                     this.tfNombre.setText(this.estudiante.getNombre());
-                    this.tfApellidoPaterno.setText(this.estudiante.getApellidoPaterno());
-                    this.tfApellidoMaterno.setText(this.estudiante.getApellidoMaterno());
+                    this.tfApellidos.setText(this.estudiante.getApellidos());
                     this.txtMatriculaActual.setText(this.estudiante.getMatricula());
                     this.txtUniversidadActual.setText(universidadOptional.get()
-                            .getNombre());
+                                                                         .getNombre());
                 }
             }
         }
@@ -76,28 +71,31 @@ public class EditarEstudianteControlador {
     @FXML
     private void editarEstudiante () {
         if (!camposVacios() && !camposIguales()) {
-            EstudianteDAO estudianteDAO = new EstudianteDAO();
+            EstudianteAuxiliar estudianteAuxiliar = new EstudianteAuxiliar();
             EstudianteDTO estudianteEditado = new EstudianteDTO();
-            int filasAfectadas = 0;
+            int filasAfectadas;
 
             try {
                 estudianteEditado.setNombre(tfNombre.getText());
-                estudianteEditado.setApellidoPaterno(tfApellidoPaterno.getText());
-                estudianteEditado.setApellidoMaterno(tfApellidoMaterno.getText());
+                estudianteEditado.setApellidos(tfApellidos.getText());
                 estudianteEditado.setMatricula(txtMatriculaActual.getText());
-                estudianteEditado.setIdUniversidad(this.estudiante
-                        .getIdUniversidad());
-                filasAfectadas = estudianteDAO.modificar(estudianteEditado);
+                estudianteEditado.setIdUniversidad(this.estudiante.getIdUniversidad());
+                filasAfectadas = estudianteAuxiliar.modificar(estudianteEditado);
             }
             catch (ErrorDAO error) {
-                mostrarMensajeEmergente(error.getMessage(), Alert.AlertType.WARNING);
+                Alert.AlertType tipoAlerta = Alert.AlertType.WARNING;
+                if (error.getTipo() == ErrorDAO.Tipo.CONEXION) {
+                    tipoAlerta = Alert.AlertType.ERROR;
+                }
+                mostrarMensajeEmergente(error.getMessage(), tipoAlerta);
+                filasAfectadas = -1;
             }
 
             if (filasAfectadas > 0) {
                 this.estudiante = estudianteEditado;
                 mostrarMensajeEmergente("Se han guardado los cambios exitosamente", Alert.AlertType.INFORMATION);
             }
-            else {
+            else if (filasAfectadas == 0) {
                 mostrarMensajeEmergente("Algo salió mal al intentar editar los datos del estudiante", Alert.AlertType.ERROR);
             }
         }
@@ -109,44 +107,34 @@ public class EditarEstudianteControlador {
         Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
         alerta.setContentText("No se guardarán los cambios");
         alerta.setHeaderText(null);
-        alerta.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.OK) {
-                this.pnVentanaPrincipal.setCenter(this.historialPaneles.pop());
-                listaEstudiantesControlador.cargarListaEstudiantes();
-            }
-        });
+        alerta.showAndWait()
+              .ifPresent(response -> {
+                  if (response == ButtonType.OK) {
+                      this.pnVentanaPrincipal.setCenter(this.historialPaneles.pop());
+                      listaEstudiantesControlador.cargarListaEstudiantes();
+                  }
+              });
     }
 
     private boolean camposVacios () {
-        String nombre = this.tfNombre
-                .getText();
-        String apellidoPaterno = this.tfApellidoPaterno
-                .getText();
-        String apellidoMaterno = this.tfApellidoMaterno
-                .getText();
-        return nombre == null || nombre.isBlank() || apellidoPaterno == null || apellidoPaterno.isBlank() || apellidoMaterno == null || apellidoMaterno.isBlank();
+        String nombre = this.tfNombre.getText();
+        String apellidos = this.tfApellidos.getText();
+        return nombre == null || nombre.isBlank() || apellidos == null || apellidos.isBlank();
     }
 
     private boolean camposIguales () {
-        String nuevoNombre = tfNombre.getText().
-                trim();
-        String nuevoApeliidoPaterno = tfApellidoPaterno.getText()
-                .trim();
-        String nuevoApellidoMaterno = tfApellidoMaterno.getText()
-                .trim();
-        return nuevoNombre.equals(this.estudiante
-                .getNombre()) && nuevoApeliidoPaterno.equals(this.estudiante
-                .getApellidoPaterno()) && nuevoApellidoMaterno.equals(this.estudiante
-                .getApellidoMaterno());
+        String nuevoNombre = tfNombre.getText()
+                                     .trim();
+        String nuevosApellidos = tfApellidos.getText()
+                                            .trim();
+        return nuevoNombre.equals(this.estudiante.getNombre()) && nuevosApellidos.equals(this.estudiante.getApellidos());
     }
 
     private void etiquetarCamposVacios () {
         String nombre = tfNombre.getText();
-        String apellidoPaterno = tfApellidoPaterno.getText();
-        String apellidoMaterno = tfApellidoMaterno.getText();
+        String apellidos = tfApellidos.getText();
         txtObligatorioNombre.setVisible(nombre == null || nombre.isBlank());
-        txtObligatorioApellidoPaterno.setVisible(apellidoPaterno == null || apellidoPaterno.isBlank());
-        txtObligatorioApellidoMaterno.setVisible(apellidoMaterno == null || apellidoMaterno.isBlank());
+        txtObligatorioApellidos.setVisible(apellidos == null || apellidos.isBlank());
     }
 
     private void mostrarMensajeEmergente (String mensaje, Alert.AlertType tipoAlerta) {

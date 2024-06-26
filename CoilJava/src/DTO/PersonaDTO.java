@@ -1,24 +1,24 @@
 package DTO;
 
 import Utilidades.ErrorDAO;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * La clase abstracta PersonaDTO funciona como la generalización de EstudianteSTO y AcademicoDTO. Contiene los datos esenciales de ambos objetos.
+ */
 public abstract class PersonaDTO {
     private int idPersona;
     private String nombre;
-    private String apellidoPaterno;
-    private String apellidoMaterno;
+    private String apellidos;
     private int idUniversidad;
 
     public PersonaDTO() {}
 
-    public PersonaDTO(int idPersona, String nombre, String apellidoPaterno, String apellidoMaterno, int idUniversidad) {
+    public PersonaDTO(int idPersona, String nombre, String apellidos, int idUniversidad) {
         this.idPersona = idPersona;
-        this.nombre = nombre;
-        this.apellidoPaterno = apellidoPaterno;
-        this.apellidoMaterno = apellidoMaterno;
+        setNombre(nombre);
+        setApellidos(apellidos);
         this.idUniversidad = idUniversidad;
     }
 
@@ -34,27 +34,18 @@ public abstract class PersonaDTO {
         return this.nombre;
     }
 
-    public String getApellidoPaterno () {
-        return this.apellidoPaterno;
-    }
-
-    public String getApellidoMaterno () {
-        return this.apellidoMaterno;
+    public String getApellidos () {
+        return this.apellidos;
     }
 
     public void setNombre(String nombre) {
-        checarNombre(nombre);
+        verificarNombre(nombre);
         this.nombre = nombre;
     }
 
-    public void setApellidoPaterno(String apellidoPaterno) {
-        checarApellido(apellidoPaterno);
-        this.apellidoPaterno = apellidoPaterno;
-    }
-
-    public void setApellidoMaterno(String apellidoMaterno) {
-        checarApellido(apellidoMaterno);
-        this.apellidoMaterno = apellidoMaterno;
+    public void setApellidos (String apellidos) {
+        verificarApellido(apellidos);
+        this.apellidos = apellidos;
     }
 
     public int getIdUniversidad () {
@@ -65,8 +56,11 @@ public abstract class PersonaDTO {
         this.idUniversidad = idUniversidad;
     }
 
-    private void checarNombre (String nombre) {
-        String nombreRegex = "^[A-Za-záéíóúÁÉÍÓÚñÑ][A-Za-záéíóúÁÉÍÓÚñÑ\\\\s]{0,48}[A-Za-záéíóúÁÉÍÓÚñÑ]$";
+    private void verificarNombre (String nombre) {
+        if (!esCadenaValida(nombre)) {
+            throw new ErrorDAO("El nombre no puede estar vacío o compuesto solo de espacios en blanco", ErrorDAO.Tipo.VALIDACION);
+        }
+        String nombreRegex = "^.{1,100}$";
         Pattern patron = Pattern.compile(nombreRegex);
         if (nombre == null || nombre.isEmpty()) {
             throw new ErrorDAO("El nombre no puede estar vacío", ErrorDAO.Tipo.VALIDACION);
@@ -75,14 +69,14 @@ public abstract class PersonaDTO {
         if (!matcher.matches()) {
             throw new ErrorDAO("""
                                                        El nombre no es válido
-                                                       1. Solo debe tener letras.
-                                                       2. No debe tener espacios.
-                                                       3. Para esta versión, solo puede tener caracteres permitidos en el español.
-                                                       4. Su longitud debe ser máximo 20 caracteres.""", ErrorDAO.Tipo.VALIDACION);
+                                                       1. Su longitud debe ser máximo 100 caracteres.""", ErrorDAO.Tipo.VALIDACION);
         }
     }
-    private void checarApellido (String apellido) {
-        String apellidosRegex = "^[A-Za-záéíóúÁÉÍÓÚñÑ][A-Za-záéíóúÁÉÍÓÚñÑ\\s]*[A-Za-záéíóúÁÉÍÓÚñÑ]$";
+    private void verificarApellido (String apellido) {
+        if (!esCadenaValida(apellido)) {
+            throw new ErrorDAO("El nombre no puede estar vacío o compuesto solo de espacios en blanco", ErrorDAO.Tipo.VALIDACION);
+        }
+        String apellidosRegex = "^.{1,100}$";
         Pattern patron = Pattern.compile(apellidosRegex);
         if (apellido == null || apellido.isEmpty()) {
             throw new ErrorDAO("Los apellidos no pueden estar vacíos", ErrorDAO.Tipo.VALIDACION);
@@ -91,16 +85,14 @@ public abstract class PersonaDTO {
         if (!matcher.matches()) {
             throw new ErrorDAO("""
                                                        El apellido no es válido
-                                                       1. Solo debe tener letras.
-                                                       2. Para esta versión, solo puede tener caracteres permitodos en el español
-                                                       2. Su longitud debe ser máximo 20 caracteres""", ErrorDAO.Tipo.VALIDACION);
+                                                       1. Su longitud debe ser máximo 100 caracteres""", ErrorDAO.Tipo.VALIDACION);
         }
     }
 
     public abstract boolean validarNulos();
 
-    protected boolean cadenaValida(String cadena) {
-        return cadena != null && !cadena.isBlank();
+    protected boolean esCadenaValida (String cadena) {
+        return cadena != null && !cadena.trim().isEmpty();
     }
 
 }

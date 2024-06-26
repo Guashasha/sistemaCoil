@@ -1,50 +1,39 @@
 package InterfazGrafica.Items;
 
+import DAO.ColaboracionAuxiliar;
 import DAO.ColaboracionDAO;
 import DAO.UniversidadAuxiliar;
+import DAO.UniversidadDAO;
 import DTO.AcademicoDTO;
 import DTO.ColaboracionDTO;
 import DTO.UniversidadDTO;
+import InterfazGrafica.SolicitudesAColaboracionControlador;
 import Utilidades.ErrorDAO;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.layout.*;
 
 import java.util.Optional;
 
 public class SolicitudAcademicoItemControlador {
-
     @FXML
-    private Button btnConfirmar;
-
-    @FXML
-    private Button btnEliminar;
-
-    @FXML
-    private Label lbApellidoPaterno;
-
-    @FXML
-    private Label lbApellidoMaterno;
-
-    @FXML
-    private Label lbFacultad;
-
+    private Label lbApellidos;
     @FXML
     private Label lbNombre;
-
     @FXML
     private Label lbUniversidad;
-
-    @FXML
-    private Label lbRegion;
-
     @FXML
     private Label lbAreaEstudios;
-
+    @FXML
+    private AnchorPane paneItem;
     private AcademicoDTO academicoDTO;
     private ColaboracionDTO colaboracionDTO;
+    private SolicitudesAColaboracionControlador solicitudesAColaboracionControlador;
+    public BorderPane pnlVentanaPrincipal;
+    private VBox vbContenedor;
 
     public void setAcademicoDTO (AcademicoDTO academicoDTO) {
         this.academicoDTO = academicoDTO;
@@ -55,22 +44,18 @@ public class SolicitudAcademicoItemControlador {
     }
 
     private String getUniversidad () {
-        UniversidadAuxiliar universidadAuxiliar = new UniversidadAuxiliar();
-        Optional<UniversidadDTO> universidadDTOOptional = universidadAuxiliar.getUniversidadPorId(this.academicoDTO.getIdUniversidad());
+        UniversidadDAO universidadDAO = new UniversidadDAO();
+        Optional<UniversidadDTO> universidadDTOOptional = universidadDAO.getUniversidadPorId(this.academicoDTO.getIdUniversidad());
         if (universidadDTOOptional.isPresent()) {
-            return universidadDTOOptional.get().getNombre();
+            return universidadDTOOptional.get()
+                                         .getNombre();
         }
         throw new IllegalArgumentException("Error al momento de obtener la universidad de LOS académicoS");
     }
 
     public void setLabel () {
-        if (this.academicoDTO.getIdFacultad() == null) {
-            lbFacultad.setVisible(false);
-            lbRegion.setVisible(false);
-        }
         lbNombre.setText(this.academicoDTO.getNombre());
-        lbApellidoPaterno.setText(this.academicoDTO.getApellidoPaterno());
-        lbApellidoMaterno.setText(this.academicoDTO.getApellidoMaterno());
+        lbApellidos.setText(this.academicoDTO.getApellidos());
         lbUniversidad.setText(getUniversidad());
         lbAreaEstudios.setText(this.academicoDTO.getAreaEstudios());
     }
@@ -78,25 +63,37 @@ public class SolicitudAcademicoItemControlador {
     @FXML
     private void rechazarSolicitud () {
         ColaboracionDAO colaboracionDAO = new ColaboracionDAO();
-        try {
-            colaboracionDAO.actualizarEstadoSolicitudDeParticipacion(this.colaboracionDTO.getIdColaboracion(), this.academicoDTO.getCedulaProfesional(), "rechazado");
-        }
-        catch (ErrorDAO error) {
-            mostrarAlert(error.getMessage(), Alert.AlertType.ERROR);
+        boolean deseaEliminar = mostrarConfirmacion("¿Seguro que desea rechazar esta solicitud?");
+        if (deseaEliminar) {
+            try {
+                colaboracionDAO.actualizarEstadoSolicitudDeParticipacion(this.colaboracionDTO.getIdColaboracion(), this.academicoDTO.getCedulaProfesional(), "rechazado");
+                this.vbContenedor.getChildren().remove(this.paneItem);
+            }
+            catch (ErrorDAO error) {
+                mostrarAlert(error.getMessage(), Alert.AlertType.ERROR);
+            }
         }
     }
 
     @FXML
     private void aceptarSolicitud () {
-        ColaboracionDAO colaboracionDAO = new ColaboracionDAO();
+        if (this.colaboracionDTO.getEstado()
+                                .toString() != ColaboracionDTO.EstadoColaboracion.vinculada.toString()) {
 
-        try {
-            colaboracionDAO.actualizarEstadoSolicitudDeParticipacion(this.colaboracionDTO.getIdColaboracion(), this.academicoDTO.getCedulaProfesional(), "aceptado");
-            this.colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.vinculada);
-            colaboracionDAO.cambiarEstadoColaboracion(this.colaboracionDTO);
+            ColaboracionAuxiliar colaboracionAuxiliar = new ColaboracionAuxiliar();
+
+            try {
+                colaboracionAuxiliar.aceptarSolicitud(this.colaboracionDTO.getIdColaboracion(), this.academicoDTO.getCedulaProfesional(), "aceptado");
+                this.colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.vinculada);
+                mostrarAlert("Academico aceptado con exito", Alert.AlertType.INFORMATION);
+                solicitudesAColaboracionControlador.regresar();
+            }
+            catch (ErrorDAO error) {
+                mostrarAlert(error.getMessage(), Alert.AlertType.ERROR);
+            }
         }
-        catch (ErrorDAO error) {
-            mostrarAlert(error.getMessage(), Alert.AlertType.ERROR);
+        else {
+            mostrarAlert("Ya cuenta con un par académico en su colaboración", Alert.AlertType.INFORMATION);
         }
     }
 
@@ -107,12 +104,21 @@ public class SolicitudAcademicoItemControlador {
         alerta.showAndWait();
     }
 
-    private boolean mostrarConfirmacion(String mensaje) {
+    public void setSolicitudesAColaboracionControlador (SolicitudesAColaboracionControlador solicitudesAColaboracionControlador) {
+        this.solicitudesAColaboracionControlador = solicitudesAColaboracionControlador;
+    }
+
+
+    private boolean mostrarConfirmacion (String mensaje) {
         Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
         confirmacion.setContentText(mensaje);
         confirmacion.setHeaderText(null);
 
         Optional<ButtonType> resultado = confirmacion.showAndWait();
         return resultado.isPresent() && resultado.get() == ButtonType.OK;
+    }
+
+    public void setVbContenedor (VBox vbContenedor) {
+        this.vbContenedor = vbContenedor;
     }
 }

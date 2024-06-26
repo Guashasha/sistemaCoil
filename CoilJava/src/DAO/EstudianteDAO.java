@@ -6,7 +6,6 @@ import AccesoDatos.AdministradorBaseDatos;
 import Utilidades.ErrorDAO;
 import Utilidades.ErrorDAO.Tipo;
 import org.apache.log4j.Logger;
-
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,80 +14,103 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * La clase EstudianteDAO se encarga de obtener información de las regiones en la base de datos y mandarlos a capas superiores mediante Transfer Objects.
+ *
+ * @author FerRMZ
+ */
 public class EstudianteDAO implements IEstudianteDAO {
     private static final Logger BITACORA = Logger.getLogger(EstudianteDAO.class);
 
+    /**
+     * Agrega un nuevo estudiante a la base de datos.
+     *
+     * @param estudianteDTO el objeto EstudianteDTO que contiene la información del estudiante a agregar.
+     * @return el número de filas afectadas por la inserción.
+     * @throws ErrorDAO si ocurre un error durante la inserción en la base de datos.
+     */
     @Override
     public int agregar (EstudianteDTO estudianteDTO) throws ErrorDAO {
-        String procedimientoSQL = "{CALL registrar_Estudiante(?, ?, ?, ?, ?)}";
-        int resultado = 0;
+        String procedimientoSQL = "{CALL registrar_Estudiante(?, ?, ?, ?)}";
+        int filasAfectadas;
         try {
-            CallableStatement registrarEstudiante = AdministradorBaseDatos.getInstancia().
-                                                                      prepareCall(procedimientoSQL);
-            registrarEstudiante.setString(1, estudianteDTO.getNombre());
-            registrarEstudiante.setString(2, estudianteDTO.getApellidoPaterno());
-            registrarEstudiante.setString(3, estudianteDTO.getApellidoMaterno());
-            registrarEstudiante.setInt(4, estudianteDTO.getIdUniversidad());
-            registrarEstudiante.setString(5, estudianteDTO.getMatricula());
+            CallableStatement procedimientoEstudiante = AdministradorBaseDatos.getInstancia().
+                                                                              prepareCall(procedimientoSQL);
+            procedimientoEstudiante.setString(1, estudianteDTO.getNombre());
+            procedimientoEstudiante.setString(2, estudianteDTO.getApellidos());
+            procedimientoEstudiante.setInt(3, estudianteDTO.getIdUniversidad());
+            procedimientoEstudiante.setString(4, estudianteDTO.getMatricula());
 
-            resultado = registrarEstudiante.executeUpdate();
-            registrarEstudiante.close();
-
+            filasAfectadas = procedimientoEstudiante.executeUpdate();
+            procedimientoEstudiante.close();
         }
         catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
+            BITACORA.warn(error.getMessage());
             throw new ErrorDAO("Error al agregar estudiantes", Tipo.CONEXION);
         }
         finally {
             AdministradorBaseDatos.desconectar();
         }
-        return resultado;
+        return filasAfectadas;
     }
 
+    /**
+     * Modifica un estudiante existente en la base de datos.
+     *
+     * @param estudianteDTO el objeto EstudianteDTO que contiene la información del estudiante a modificar.
+     * @return el número de filas afectadas por la modificación.
+     * @throws ErrorDAO si ocurre un error durante la modificación en la base de datos.
+     */
     @Override
     public int modificar (EstudianteDTO estudianteDTO) throws ErrorDAO {
-        String procedimientoSQL = "{CALL editar_Estudiante(?, ?, ?, ?, ?)}";
-        int resultado;
+        String procedimientoSQL = "{CALL editar_Estudiante(?, ?, ?, ?)}";
+        int filasAfectadas;
         try {
-            CallableStatement editarEstudiante = AdministradorBaseDatos.getInstancia().
-                                                                       prepareCall(procedimientoSQL);
-            editarEstudiante.setString(1, estudianteDTO.getNombre());
-            editarEstudiante.setString(2, estudianteDTO.getApellidoPaterno());
-            editarEstudiante.setString(3, estudianteDTO.getApellidoMaterno());
-            editarEstudiante.setString(4, estudianteDTO.getMatricula());
-            editarEstudiante.setInt(5, estudianteDTO.getIdUniversidad());
+            CallableStatement procedimientoEstudiante = AdministradorBaseDatos.getInstancia().
+                                                                              prepareCall(procedimientoSQL);
+            procedimientoEstudiante.setString(1, estudianteDTO.getNombre());
+            procedimientoEstudiante.setString(2, estudianteDTO.getApellidos());
+            procedimientoEstudiante.setString(3, estudianteDTO.getMatricula());
+            procedimientoEstudiante.setInt(4, estudianteDTO.getIdUniversidad());
 
-            resultado = editarEstudiante.executeUpdate();
-            editarEstudiante.close();
+            filasAfectadas = procedimientoEstudiante.executeUpdate();
+            procedimientoEstudiante.close();
         }
         catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
+            BITACORA.warn(error.getMessage());
             throw new ErrorDAO("Error al editar al estudianteDTO", Tipo.CONEXION);
         }
         finally {
             AdministradorBaseDatos.desconectar();
         }
-        return resultado;
+        return filasAfectadas;
     }
 
+    /**
+     * Obtiene un estudiante basado en su ID.
+     *
+     * @param id el ID del estudiante que se desea obtener.
+     * @return un objeto Optional que contiene el estudiante encontrado o vacío si no se encuentra el estudiante.
+     * @throws ErrorDAO si ocurre un error durante la consulta a la base de datos.
+     */
     @Override
     public Optional<EstudianteDTO> getPorId (Integer id) throws ErrorDAO {
-        String consulta = "SELECT * from vista_estudiante WHERE idEstudiante = ?";
+        String consultaSQL = "SELECT * from vista_estudiante WHERE idEstudiante = ?";
         EstudianteDTO estudianteDTO = null;
 
         try {
-            PreparedStatement consultaEstudianteId = AdministradorBaseDatos.getInstancia().
-                                                                      prepareStatement(consulta);
-            consultaEstudianteId.setInt(1,id);
-            ResultSet resultadoConsulta = consultaEstudianteId.executeQuery();
-            if (resultadoConsulta.next()) {
-                estudianteDTO = convertirEstudiante(resultadoConsulta);
+            PreparedStatement consultaEstudiante = AdministradorBaseDatos.getInstancia().
+                                                                         prepareStatement(consultaSQL);
+            consultaEstudiante.setInt(1, id);
+            ResultSet resultado = consultaEstudiante.executeQuery();
+            if (resultado.next()) {
+                estudianteDTO = convertirEstudiante(resultado);
             }
-            consultaEstudianteId.close();
-            resultadoConsulta.close();
+            consultaEstudiante.close();
+            resultado.close();
         }
         catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
+            BITACORA.warn(error.getMessage());
             throw new ErrorDAO("Error al obtener un estudianteDTO", Tipo.CONEXION);
         }
         finally {
@@ -97,77 +119,99 @@ public class EstudianteDAO implements IEstudianteDAO {
         return Optional.ofNullable(estudianteDTO);
     }
 
+    /**
+     * Obtiene un estudiante basado en el ID de la persona asociada.
+     *
+     * @param idPersona el ID de la persona asociada al estudiante que se desea obtener.
+     * @return un objeto Optional que contiene el estudiante encontrado o vacío si no se encuentra el estudiante.
+     * @throws ErrorDAO si ocurre un error durante la consulta a la base de datos.
+     */
     @Override
     public Optional<EstudianteDTO> getEstudiantePorIdPersona (int idPersona) throws ErrorDAO {
         String consulta = "SELECT * from vista_estudiante WHERE idPersona = ?";
-        EstudianteDTO estudianteDTO = null;
+        EstudianteDTO estudiante = null;
         try {
-            PreparedStatement cosnsultaEstudianteIdPersona = AdministradorBaseDatos.getInstancia().
-                                                                        prepareStatement(consulta);
-            cosnsultaEstudianteIdPersona.setInt(1,idPersona);
-            ResultSet resultadoConsulta = cosnsultaEstudianteIdPersona.executeQuery();
-            if (resultadoConsulta.next()) {
-                estudianteDTO = convertirEstudiante(resultadoConsulta);
+            PreparedStatement consultaEstudiante = AdministradorBaseDatos.getInstancia().
+                                                                         prepareStatement(consulta);
+            consultaEstudiante.setInt(1, idPersona);
+            ResultSet resultado = consultaEstudiante.executeQuery();
+            if (resultado.next()) {
+                estudiante = convertirEstudiante(resultado);
             }
-            cosnsultaEstudianteIdPersona.close();
-            resultadoConsulta.close();
-
+            consultaEstudiante.close();
+            resultado.close();
         }
         catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
-            throw new ErrorDAO("Error al consultar al estudianteDTO", Tipo.CONEXION);
+            BITACORA.warn(error.getMessage());
+            throw new ErrorDAO("Error al consultar al estudiante", Tipo.CONEXION);
         }
         finally {
             AdministradorBaseDatos.desconectar();
         }
-        return Optional.ofNullable(estudianteDTO);
+        return Optional.ofNullable(estudiante);
     }
 
+
+    /**
+     * Obtiene un estudiante basado en su matrícula y la universidad.
+     *
+     * @param matricula     la matrícula del estudiante.
+     * @param idUniversidad el ID de la universidad.
+     * @return un objeto Optional que contiene el estudiante encontrado o vacío si no se encuentra el estudiante.
+     * @throws ErrorDAO si ocurre un error durante la consulta a la base de datos.
+     */
     @Override
-    public Optional<EstudianteDTO> getEstudiantePorMatricula (String matricula) throws ErrorDAO {
-        String consulta = "SELECT * from vista_estudiante WHERE matricula = ?";
+    public Optional<EstudianteDTO> getEstudiantePorMatriculaYUniversidad (String matricula, int idUniversidad) throws ErrorDAO {
+        String consultaSQL = "SELECT * from vista_estudiante WHERE matricula = ? AND universidad = ?";
         EstudianteDTO estudianteDTO = null;
         try {
-            PreparedStatement cosnsultaEstudianteMatricula = AdministradorBaseDatos.getInstancia().
-                                                                                prepareStatement(consulta);
-            cosnsultaEstudianteMatricula.setString(1,matricula);
-            ResultSet resultadoConsulta = cosnsultaEstudianteMatricula.executeQuery();
-            if (resultadoConsulta.next()) {
-                estudianteDTO = convertirEstudiante(resultadoConsulta);
+            PreparedStatement consultaEstudiante = AdministradorBaseDatos.getInstancia().
+                                                                         prepareStatement(consultaSQL);
+            consultaEstudiante.setString(1, matricula);
+            consultaEstudiante.setInt(2, idUniversidad);
+            ResultSet resultado = consultaEstudiante.executeQuery();
+            if (resultado.next()) {
+                estudianteDTO = convertirEstudiante(resultado);
             }
-            cosnsultaEstudianteMatricula.close();
-            resultadoConsulta.close();
+            consultaEstudiante.close();
+            resultado.close();
         }
         catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
+            BITACORA.warn(error.getMessage());
             throw new ErrorDAO("Error al consultar al estudianteDTO", Tipo.CONEXION);
         }
         finally {
             AdministradorBaseDatos.desconectar();
         }
         return Optional.ofNullable(estudianteDTO);
-
     }
 
+    /**
+     * Obtiene una lista de estudiantes que no tienen una colaboración activa o vinculada, basada en la universidad.
+     *
+     * @param idUniversidad el ID de la universidad.
+     * @return una lista de objetos EstudianteDTO que cumplen con el criterio especificado.
+     * @throws ErrorDAO si ocurre un error durante la consulta a la base de datos.
+     */
     @Override
     public List<EstudianteDTO> getEstudiantesSinColaboracionActivaOVinculadaPorUniversidad (int idUniversidad) throws ErrorDAO {
-        String consulta = "SELECT * from estudiantes_sin_colaboracion_vinculada_activa WHERE universidad = ?";
+        String consultaSQL = "SELECT * from estudiantes_sin_colaboracion_vinculada_activa WHERE universidad = ?";
         ArrayList<EstudianteDTO> listaEstudianteDTOS = new ArrayList<>();
         try {
-            PreparedStatement cosnsultaEstudianteUniversidad = AdministradorBaseDatos.getInstancia().
-                                                                                prepareStatement(consulta);
-            cosnsultaEstudianteUniversidad.setInt(1,idUniversidad);
-            ResultSet resultadoConsulta = cosnsultaEstudianteUniversidad.executeQuery();
+            PreparedStatement consultaEstudiante = AdministradorBaseDatos.getInstancia().
+                                                                         prepareStatement(consultaSQL);
+            consultaEstudiante.setInt(1, idUniversidad);
+            ResultSet resultado = consultaEstudiante.executeQuery();
 
-            while (resultadoConsulta.next()) {
-                EstudianteDTO estudianteDTO = convertirEstudiante(resultadoConsulta);
+            while (resultado.next()) {
+                EstudianteDTO estudianteDTO = convertirEstudiante(resultado);
                 listaEstudianteDTOS.add(estudianteDTO);
             }
-            cosnsultaEstudianteUniversidad.close();
-            resultadoConsulta.close();
+            consultaEstudiante.close();
+            resultado.close();
         }
         catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
+            BITACORA.warn(error.getMessage());
             throw new ErrorDAO("Error al obtener a los estudiantes", Tipo.CONEXION);
         }
         finally {
@@ -176,23 +220,61 @@ public class EstudianteDAO implements IEstudianteDAO {
         return listaEstudianteDTOS;
     }
 
+    /**
+     * Obtiene un estudiante basado en su matrícula.
+     *
+     * @param matricula la matrícula del estudiante que se desea obtener.
+     * @return un objeto Optional que contiene el estudiante encontrado o vacío si no se encuentra el estudiante.
+     * @throws ErrorDAO si ocurre un error durante la consulta a la base de datos.
+     */
+    @Override
+    public Optional<EstudianteDTO> getEstudiantePorMatricula (String matricula) throws ErrorDAO {
+        String consultaSQL = "SELECT * from vista_estudiante WHERE matricula = ?";
+        EstudianteDTO estudianteDTO = null;
+        try {
+            PreparedStatement consultaEstudiante = AdministradorBaseDatos.getInstancia().
+                                                                         prepareStatement(consultaSQL);
+            consultaEstudiante.setString(1, matricula);
+            ResultSet resultado = consultaEstudiante.executeQuery();
+            if (resultado.next()) {
+                estudianteDTO = convertirEstudiante(resultado);
+            }
+            consultaEstudiante.close();
+            resultado.close();
+        }
+        catch (SQLException error) {
+            BITACORA.warn(error.getMessage());
+            throw new ErrorDAO("Error al consultar al estudianteDTO", Tipo.CONEXION);
+        }
+        finally {
+            AdministradorBaseDatos.desconectar();
+        }
+        return Optional.ofNullable(estudianteDTO);
+    }
+
+    /**
+     * Obtiene todos los estudiantes registrados en la base de datos.
+     *
+     * @return una lista de todos los objetos EstudianteDTO registrados en la base de datos.
+     * @throws ErrorDAO si ocurre un error durante la consulta a la base de datos.
+     */
     @Override
     public List<EstudianteDTO> getTodos () throws ErrorDAO {
-        String consulta = "SELECT * FROM vista_estudiante";
+        String consultaSQL = "SELECT * FROM vista_estudiante";
         List<EstudianteDTO> listaEstudianteDTOS = new ArrayList<>();
         try {
             PreparedStatement consultaEstudiante = AdministradorBaseDatos.getInstancia().
-                                                                     prepareStatement(consulta);
-            ResultSet resultadoConsulta = consultaEstudiante.executeQuery();
-            while (resultadoConsulta.next()) {
-                EstudianteDTO estudianteDTO = convertirEstudiante(resultadoConsulta);
+                                                                         prepareStatement(consultaSQL);
+            ResultSet resultado = consultaEstudiante.executeQuery();
+            while (resultado.next()) {
+                EstudianteDTO estudianteDTO = convertirEstudiante(resultado);
                 listaEstudianteDTOS.add(estudianteDTO);
             }
             consultaEstudiante.close();
-            resultadoConsulta.close();
+            resultado.close();
         }
         catch (SQLException error) {
-            BITACORA.fatal(error.getMessage());
+            BITACORA.warn(error.getMessage());
             throw new ErrorDAO("Error al obtener los estudiantes", Tipo.CONEXION);
         }
         finally {
@@ -205,8 +287,7 @@ public class EstudianteDAO implements IEstudianteDAO {
         EstudianteDTO estudianteDTO = new EstudianteDTO();
         estudianteDTO.setIdPersona(resultado.getInt("idPersona"));
         estudianteDTO.setNombre(resultado.getString("nombre"));
-        estudianteDTO.setApellidoPaterno(resultado.getString("apellidoPaterno"));
-        estudianteDTO.setApellidoMaterno(resultado.getString("apellidoMaterno"));
+        estudianteDTO.setApellidos(resultado.getString("apellidos"));
         estudianteDTO.setIdEstudiante(resultado.getInt("idEstudiante"));
         estudianteDTO.setMatricula(resultado.getString("matricula"));
         estudianteDTO.setIdUniversidad(resultado.getInt("universidad"));

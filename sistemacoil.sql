@@ -7,9 +7,8 @@ USE COIL;
 
 CREATE TABLE `persona` (
   `idPersona` int PRIMARY KEY AUTO_INCREMENT,
-  `nombre` varchar(20) NOT NULL,
-  `apellidoPaterno` varchar(20) NOT NULL,
-  `apellidoMaterno` varchar(20) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `apellidos` varchar(100) NOT NULL,
   `universidad` int NOT NULL
 );
 ALTER TABLE persona AUTO_INCREMENT=1;
@@ -24,7 +23,7 @@ ALTER TABLE estudiante AUTO_INCREMENT=1;
 
 CREATE TABLE `universidad` (
   `idUniversidad` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(50) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
   `paisOrigen` int NOT NULL
 );
 ALTER TABLE universidad AUTO_INCREMENT=1;
@@ -37,7 +36,7 @@ ALTER TABLE region AUTO_INCREMENT=1;
 
 CREATE TABLE `facultad` (
   `idFacultad` int PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(50) NOT NULL,
+  `nombre` varchar(80) NOT NULL,
   `region` int NOT NULL
 );
 ALTER TABLE facultad AUTO_INCREMENT=1;
@@ -47,8 +46,8 @@ CREATE TABLE `academico` (
   `numeroDePersonal` varchar(40) NULL,
   `idPersona` int NOT NULL,
   `areaEstudios` ENUM ('economico-administrativo', 'humanidades', 'tecnica', 'ciencias de la salud', 'biologia-agropecuarias', 'dgri') NULL,
-  `correoElectronico` varchar(30) NOT NULL,
-  `numeroTelefonico` char(12) NULL,
+  `correoElectronico` varchar(320) NOT NULL,
+  `numeroTelefonico` char(13) NULL,
   `categoriaContratacion` varchar(40) NULL,
   `facultad` int NULL,
   PRIMARY KEY (`cedulaProfesional`)
@@ -59,12 +58,12 @@ CREATE TABLE `colaboracion` (
   `idColaboracion` int PRIMARY KEY AUTO_INCREMENT,
   `estado` ENUM ('propuesta', 'aceptada', 'rechazada', 'disponible', 'vinculada', 'activa', 'enRevision', 'finalizada') NOT NULL,
   `tipo` ENUM ('claseEspejo', 'COIL') NULL,
-  `temaInteres` varchar(80) NULL,
+  `temaInteres` varchar(100) NULL,
   `idioma` varchar(30) NULL,
-  `objetivo` varchar(80) NULL,
+  `objetivo` varchar(300) NULL,
   `fechaInicio` date NULL,
   `fechaFin` date NULL,
-  `perfilEstudiante` varchar(50) NULL
+  `perfilEstudiante` varchar(200) NULL
 );
 ALTER TABLE colaboracion AUTO_INCREMENT=1;
 
@@ -87,7 +86,7 @@ CREATE TABLE `cuenta` (
   `nombreUsuario` varchar(50) NOT NULL UNIQUE,
   `contrasena` varchar(300) NOT NULL,
   `tipo` ENUM ('academico', 'estudiante', 'administrador') NOT NULL,
-  `estado` ENUM ('pendiente', 'aceptada', 'rechazada') NOT NULL
+  `estado` ENUM ('pendiente', 'aceptada', 'rechazada', 'eliminada') NOT NULL
 );
 ALTER TABLE cuenta AUTO_INCREMENT=1;
 
@@ -122,8 +121,7 @@ ALTER TABLE retroalimentacionColaboracion AUTO_INCREMENT=1;
 CREATE TABLE calendarioActividades (
   idActividad int NOT NULL,
   idColaboracion int NOT NULL,
-  fechaInicio date NOT NULL,
-  fechaFin date NOT NULL
+  fechaFinalizacion date NULL
 );
 ALTER TABLE calendarioActividades AUTO_INCREMENT=1;
 
@@ -180,12 +178,23 @@ ALTER TABLE `calendarioActividades` ADD FOREIGN KEY (`idActividad`) REFERENCES `
 ALTER TABLE `universidad` ADD FOREIGN KEY (`paisOrigen`) REFERENCES `pais` (`idPais`);
 
 SELECT "creando usuarios...";
-DROP USER IF EXISTS "admin_COIL"@"localhost";
+DROP USER IF EXISTS "admin_COIL"@"192.168.116.30";
+DROP USER IF EXISTS "admin_COIL2"@"192.168.116.76";
+DROP USER IF EXISTS "admin_COIL3"@"192.168.125.91";
 DROP USER IF EXISTS "admin_COIL"@"%";
+DROP USER IF EXISTS "admin_COIL"@"localhost";
 
-CREATE USER IF NOT EXISTS "admin_COIL"@"localhost" IDENTIFIED BY "habitacionDeVuelo";
+CREATE USER IF NOT EXISTS "admin_COIL"@"192.168.23.30" IDENTIFIED BY "habitacionDeVuelo";
 
-GRANT INSERT, SELECT, EXECUTE, UPDATE, DELETE ON COIL.* TO "admin_COIL"@"localhost";
+GRANT INSERT, SELECT, EXECUTE, UPDATE, DELETE ON COIL.* TO "admin_COIL"@"192.168.23.30";
+
+CREATE USER IF NOT EXISTS "admin_COIL2"@"192.168.23.76" IDENTIFIED BY "habitacionDeVuelo";
+
+GRANT INSERT, SELECT, EXECUTE, UPDATE, DELETE ON COIL.* TO "admin_COIL2"@"192.168.23.76";
+
+CREATE USER IF NOT EXISTS "admin_COIL3"@"192.168.23.91" IDENTIFIED BY "habitacionDeVuelo";
+
+GRANT INSERT, SELECT, EXECUTE, UPDATE, DELETE ON COIL.* TO "admin_COIL3"@"192.168.23.91";
 
 DROP USER IF EXISTS "CarrionMartinezPale"@"localhost";
 
@@ -203,3 +212,5 @@ SELECT "ingresando datos...";
 SOURCE datosCoil.sql;
 
 SELECT "base de datos creada correctamente";
+
+CALL registrar_cuenta_administrador("david", "carrion romero", 1, "admin", "contrasena");

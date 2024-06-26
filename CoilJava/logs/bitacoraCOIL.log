@@ -139,3 +139,593 @@
 2024-05-28 10:29:28 FATAL AcademicoDAO:221 - (conn=85) Duplicate entry '7489654654654' for key 'PRIMARY'
 2024-05-28 10:40:44 FATAL AcademicoDAO:221 - (conn=98) Duplicate entry '123456456456' for key 'PRIMARY'
 2024-05-28 10:46:05 FATAL ColaboracionDAO:411 - (conn=110) Table 'COIL.academicodesarrolla' doesn't exist
+2024-06-01 14:23:08 FATAL AdministradorBaseDatos:30 - Socket fail to connect to host:address=(host=localhost)(port=3307)(type=primary). Connection refused
+2024-06-03 10:27:34 FATAL ColaboracionDAO:95 - (conn=46) Table 'COIL.estudiantescolaboracion' doesn't exist
+2024-06-03 10:57:48 FATAL ColaboracionDAO:95 - (conn=199) Table 'COIL.estudiantescolaboracion' doesn't exist
+2024-06-03 11:01:15 FATAL ColaboracionDAO:95 - (conn=208) Table 'COIL.estudiantescolaboracion' doesn't exist
+2024-06-03 11:05:22 FATAL ColaboracionDAO:95 - (conn=218) Table 'COIL.estudiantescolaboracion' doesn't exist
+2024-06-05 22:57:53 FATAL AcademicoDAO:221 - (conn=24) Data too long for column 'nombre' at row 1
+2024-06-07 21:42:07 FATAL AdministradorBaseDatos:30 - Socket fail to connect to host:address=(host=localhost)(port=3307)(type=primary). Connection refused
+2024-06-07 21:42:12 FATAL AdministradorBaseDatos:30 - Socket fail to connect to host:address=(host=localhost)(port=3307)(type=primary). Connection refused
+2024-06-09 20:24:10 FATAL AdministradorBaseDatos:30 - Socket fail to connect to host:address=(host=localhost)(port=336)(type=primary). Connection refused: getsockopt
+2024-06-09 20:24:13 FATAL AdministradorBaseDatos:30 - Socket fail to connect to host:address=(host=localhost)(port=336)(type=primary). Connection refused: getsockopt
+2024-06-09 20:24:15 FATAL AdministradorBaseDatos:30 - Socket fail to connect to host:address=(host=localhost)(port=336)(type=primary). Connection refused: getsockopt
+2024-06-09 20:27:24 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=6)(type=primary). Connection refused: getsockopt
+2024-06-09 20:27:26 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=6)(type=primary). Connection refused: getsockopt
+2024-06-09 20:27:28 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=6)(type=primary). Connection refused: getsockopt
+2024-06-09 20:30:39 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=36)(type=primary). Connection refused: getsockopt
+2024-06-09 20:30:42 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=36)(type=primary). Connection refused: getsockopt
+2024-06-09 20:30:44 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=36)(type=primary). Connection refused: getsockopt
+2024-06-09 20:34:59 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=36)(type=primary). Connection refused: getsockopt
+2024-06-09 20:35:02 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=36)(type=primary). Connection refused: getsockopt
+2024-06-09 20:35:04 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=36)(type=primary). Connection refused: getsockopt
+2024-06-09 20:40:14 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=36)(type=primary). Connection refused: getsockopt
+2024-06-09 20:40:16 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=36)(type=primary). Connection refused: getsockopt
+2024-06-09 20:40:18 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=36)(type=primary). Connection refused: getsockopt
+2024-06-09 20:45:26 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=36)(type=primary). Connection refused: getsockopt
+2024-06-09 20:45:37 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=36)(type=primary). Connection refused: getsockopt
+2024-06-09 20:50:12 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=330)(type=primary). Connection refused: getsockopt
+2024-06-09 20:50:45 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=330)(type=primary). Connection refused: getsockopt
+2024-06-09 20:54:06 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=33)(type=primary). Connection refused: getsockopt
+2024-06-09 20:54:51 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=3)(type=primary). Connection refused: getsockopt
+2024-06-09 20:55:17 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=3)(type=primary). Connection refused: getsockopt
+2024-06-09 21:10:31 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=3)(type=primary). Connection refused: getsockopt
+2024-06-09 21:14:01 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=3)(type=primary). Connection refused: getsockopt
+2024-06-09 21:16:23 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=3)(type=primary). Connection refused: getsockopt
+2024-06-09 21:16:27 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=3)(type=primary). Connection refused: getsockopt
+2024-06-09 21:16:32 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=3)(type=primary). Connection refused: getsockopt
+2024-06-09 21:18:00 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=33)(type=primary). Connection refused: getsockopt
+2024-06-09 21:18:29 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=33)(type=primary). Connection refused: getsockopt
+2024-06-09 21:18:34 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=33)(type=primary). Connection refused: getsockopt
+2024-06-09 21:18:37 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=33)(type=primary). Connection refused: getsockopt
+2024-06-09 21:18:44 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=33)(type=primary). Connection refused: getsockopt
+2024-06-09 21:18:48 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=33)(type=primary). Connection refused: getsockopt
+2024-06-09 21:26:37 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=33)(type=primary). Connection refused: getsockopt
+2024-06-09 21:27:05 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=33)(type=primary). Connection refused: getsockopt
+2024-06-09 21:27:08 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=33)(type=primary). Connection refused: getsockopt
+2024-06-09 21:31:52 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=6)(type=primary). Connection refused: getsockopt
+2024-06-09 21:38:32 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=36)(type=primary). Connection refused: getsockopt
+2024-06-09 21:40:58 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=6)(type=primary). Connection refused: getsockopt
+2024-06-09 21:50:33 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=33)(type=primary). Connection refused: getsockopt
+2024-06-09 21:50:38 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=33)(type=primary). Connection refused: getsockopt
+2024-06-09 21:52:43 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=33)(type=primary). Connection refused: getsockopt
+2024-06-09 21:52:45 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=33)(type=primary). Connection refused: getsockopt
+2024-06-09 21:52:50 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=33)(type=primary). Connection refused: getsockopt
+2024-06-09 21:55:37 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=33)(type=primary). Connection refused: getsockopt
+2024-06-09 21:55:44 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=33)(type=primary). Connection refused: getsockopt
+2024-06-09 21:56:58 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=6)(type=primary). Connection refused: getsockopt
+2024-06-09 21:57:20 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=6)(type=primary). Connection refused: getsockopt
+2024-06-09 23:05:45 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=3)(type=primary). Connection refused: getsockopt
+2024-06-09 23:05:48 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=3)(type=primary). Connection refused: getsockopt
+2024-06-09 23:06:37 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=36)(type=primary). Connection refused: getsockopt
+2024-06-09 23:38:22 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=3306)(type=primary). Connection refused
+2024-06-09 23:38:25 ERROR RetroalimentacionActividadDTO:33 - Utilidades.ErrorDAO: No fue posible realizar la conexion con la base de datos.
+Conctacte a un técnico
+2024-06-09 23:38:41 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=3306)(type=primary). Connection refused
+2024-06-09 23:39:24 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=3306)(type=primary). Connection refused
+2024-06-09 23:39:25 ERROR NuevaActividadControlador:156 - Utilidades.ErrorDAO: No fue posible realizar la conexion con la base de datos.
+Conctacte a un técnico
+2024-06-09 23:39:45 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=3306)(type=primary). Connection refused
+2024-06-10 00:13:11 FATAL AcademicoDAO:69 - (conn=28) Socket error
+2024-06-10 00:16:24 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=3306)(type=primary). Connection refused
+2024-06-10 00:21:10 FATAL AcademicoDAO:184 - (conn=8) Data too long for column 'p_numeroTelefono' at row 2
+2024-06-10 01:30:58 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=3306)(type=primary). Connection refused
+2024-06-10 01:39:06 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=3306)(type=primary). Connection refused
+2024-06-10 01:49:06 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=3306)(type=primary). Connection refused
+2024-06-10 01:49:09 ERROR RetroalimentacionActividadDTO:95 - Utilidades.ErrorDAO: No fue posible realizar la conexion con la base de datos.
+Conctacte a un técnico
+2024-06-10 01:49:09 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=3306)(type=primary). Connection refused
+2024-06-10 01:54:47 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=3306)(type=primary). Connection refused
+2024-06-10 01:54:50 ERROR RetroalimentacionActividadDTO:109 - Utilidades.ErrorDAO: No fue posible realizar la conexion con la base de datos.
+Conctacte a un técnico
+2024-06-10 01:54:50 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=3306)(type=primary). Connection refused
+2024-06-10 01:54:51 ERROR RetroalimentacionActividadDTO:58 - Utilidades.ErrorDAO: No fue posible realizar la conexion con la base de datos.
+Conctacte a un técnico
+<<<<<<< HEAD
+2024-06-10 08:53:19 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=3306)(type=primary). Connection refused
+2024-06-10 08:53:25 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=3306)(type=primary). Connection refused
+2024-06-10 09:37:48 FATAL AcademicoDAO:184 - (conn=10) Data too long for column 'p_numeroTelefono' at row 2
+2024-06-10 09:37:48 ERROR VerificadorBitacora:184 - Error al verificar la conexión a internet PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
+2024-06-10 09:39:08 ERROR GestionCuentaControlador:182 - PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
+2024-06-10 11:19:10 FATAL AdministradorBaseDatos:30 - java.sql.SQLException: Host '192.168.125.31' is not allowed to connect to this MariaDB server
+2024-06-16 14:25:33 FATAL ConfiguracionPrueba:90 - (conn=12) Duplicate entry '2' for key 'PRIMARY'
+2024-06-16 14:25:39 FATAL ConfiguracionPrueba:90 - (conn=16) Duplicate entry '1' for key 'PRIMARY'
+2024-06-16 14:25:41 FATAL ConfiguracionPrueba:90 - (conn=18) Duplicate entry '2' for key 'PRIMARY'
+2024-06-16 14:25:43 FATAL ConfiguracionPrueba:90 - (conn=28) Table 'COIL.academicodesarrolla' doesn't exist
+2024-06-16 14:26:15 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.125.31)(port=3306)(type=primary). Connect timed out
+2024-06-16 14:26:17 ERROR RetroalimentacionActividadDTO:33 - Utilidades.ErrorDAO: No fue posible realizar la conexion con la base de datos.
+Conctacte a un técnico
+2024-06-16 14:28:56 FATAL ConfiguracionPrueba:90 - (conn=42) Duplicate entry '2' for key 'PRIMARY'
+2024-06-16 14:29:00 FATAL ConfiguracionPrueba:90 - (conn=46) Duplicate entry '1' for key 'PRIMARY'
+2024-06-16 14:29:03 FATAL ConfiguracionPrueba:90 - (conn=47) Duplicate entry '123' for key 'PRIMARY'
+2024-06-16 14:29:04 FATAL ConfiguracionPrueba:90 - (conn=48) Duplicate entry '2' for key 'PRIMARY'
+2024-06-16 14:29:06 FATAL ConfiguracionPrueba:90 - (conn=49) Duplicate entry '200011' for key 'PRIMARY'
+2024-06-16 14:29:08 FATAL ConfiguracionPrueba:90 - (conn=50) Duplicate entry '3' for key 'PRIMARY'
+2024-06-16 14:29:09 FATAL ConfiguracionPrueba:90 - (conn=51) Duplicate entry '102939' for key 'PRIMARY'
+2024-06-16 14:29:11 FATAL ConfiguracionPrueba:90 - (conn=52) Duplicate entry '4' for key 'PRIMARY'
+2024-06-16 14:29:12 FATAL ConfiguracionPrueba:90 - (conn=53) Duplicate entry '1-4' for key 'PRIMARY'
+2024-06-16 14:29:14 FATAL ConfiguracionPrueba:90 - (conn=54) Duplicate entry '5' for key 'PRIMARY'
+2024-06-16 14:29:15 FATAL ConfiguracionPrueba:90 - (conn=55) Duplicate entry '2-5' for key 'PRIMARY'
+2024-06-16 14:29:17 FATAL ConfiguracionPrueba:90 - (conn=56) Duplicate entry '1' for key 'PRIMARY'
+2024-06-16 14:29:18 FATAL ConfiguracionPrueba:90 - (conn=57) Duplicate entry '2' for key 'PRIMARY'
+2024-06-16 14:29:20 FATAL ConfiguracionPrueba:90 - (conn=58) Table 'COIL.academicodesarrolla' doesn't exist
+2024-06-16 14:29:51 FATAL AdministradorBaseDatos:30 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.125.31)(port=3306)(type=primary). Connect timed out
+2024-06-16 14:29:54 ERROR RetroalimentacionActividadDTO:33 - Utilidades.ErrorDAO: No fue posible realizar la conexion con la base de datos.
+Conctacte a un técnico
+2024-06-16 14:33:57 FATAL ConfiguracionPrueba:90 - (conn=73) Duplicate entry '2' for key 'PRIMARY'
+2024-06-16 14:34:01 FATAL ConfiguracionPrueba:90 - (conn=77) Duplicate entry '1' for key 'PRIMARY'
+2024-06-16 14:34:03 FATAL ConfiguracionPrueba:90 - (conn=78) Duplicate entry '123' for key 'PRIMARY'
+2024-06-16 14:34:04 FATAL ConfiguracionPrueba:90 - (conn=79) Duplicate entry '2' for key 'PRIMARY'
+2024-06-16 14:34:07 FATAL ConfiguracionPrueba:90 - (conn=80) Duplicate entry '200011' for key 'PRIMARY'
+2024-06-16 14:34:10 FATAL ConfiguracionPrueba:90 - (conn=81) Duplicate entry '3' for key 'PRIMARY'
+2024-06-16 14:34:13 FATAL ConfiguracionPrueba:90 - (conn=82) Duplicate entry '102939' for key 'PRIMARY'
+2024-06-16 14:34:15 FATAL ConfiguracionPrueba:90 - (conn=83) Duplicate entry '4' for key 'PRIMARY'
+2024-06-16 14:34:17 FATAL ConfiguracionPrueba:90 - (conn=84) Duplicate entry '1-4' for key 'PRIMARY'
+2024-06-16 14:34:19 FATAL ConfiguracionPrueba:90 - (conn=85) Duplicate entry '5' for key 'PRIMARY'
+2024-06-16 14:34:20 FATAL ConfiguracionPrueba:90 - (conn=86) Duplicate entry '2-5' for key 'PRIMARY'
+2024-06-16 14:34:22 FATAL ConfiguracionPrueba:90 - (conn=87) Duplicate entry '1' for key 'PRIMARY'
+2024-06-16 14:34:23 FATAL ConfiguracionPrueba:90 - (conn=88) Duplicate entry '2' for key 'PRIMARY'
+2024-06-16 14:34:26 FATAL ConfiguracionPrueba:90 - (conn=89) Table 'COIL.academicodesarrolla' doesn't exist
+2024-06-16 14:38:58 FATAL ConfiguracionPrueba:90 - (conn=119) Duplicate entry '2' for key 'PRIMARY'
+2024-06-16 14:39:02 FATAL ConfiguracionPrueba:90 - (conn=123) Duplicate entry '1' for key 'PRIMARY'
+2024-06-16 14:39:05 FATAL ConfiguracionPrueba:90 - (conn=124) Duplicate entry '123' for key 'PRIMARY'
+2024-06-16 14:39:07 FATAL ConfiguracionPrueba:90 - (conn=125) Duplicate entry '2' for key 'PRIMARY'
+2024-06-16 14:39:09 FATAL ConfiguracionPrueba:90 - (conn=126) Duplicate entry '200011' for key 'PRIMARY'
+2024-06-16 14:39:10 FATAL ConfiguracionPrueba:90 - (conn=127) Duplicate entry '3' for key 'PRIMARY'
+2024-06-16 14:39:13 FATAL ConfiguracionPrueba:90 - (conn=128) Duplicate entry '102939' for key 'PRIMARY'
+2024-06-16 14:39:14 FATAL ConfiguracionPrueba:90 - (conn=129) Duplicate entry '4' for key 'PRIMARY'
+2024-06-16 14:39:16 FATAL ConfiguracionPrueba:90 - (conn=130) Duplicate entry '1-4' for key 'PRIMARY'
+2024-06-16 14:39:17 FATAL ConfiguracionPrueba:90 - (conn=131) Duplicate entry '5' for key 'PRIMARY'
+2024-06-16 14:39:19 FATAL ConfiguracionPrueba:90 - (conn=132) Duplicate entry '2-5' for key 'PRIMARY'
+2024-06-16 14:39:22 FATAL ConfiguracionPrueba:90 - (conn=133) Duplicate entry '1' for key 'PRIMARY'
+2024-06-16 14:39:24 FATAL ConfiguracionPrueba:90 - (conn=134) Duplicate entry '2' for key 'PRIMARY'
+2024-06-16 14:39:27 FATAL ConfiguracionPrueba:90 - (conn=135) Table 'COIL.academicodesarrolla' doesn't exist
+2024-06-16 14:42:37 ERROR RetroalimentacionActividadDTO:43 - Utilidades.ErrorDAO: (conn=173) Cannot add or update a child row: a foreign key constraint fails (`COIL`.`retroalimentacion`, CONSTRAINT `retroalimentacion_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`))
+2024-06-16 14:47:42 ERROR RetroalimentacionActividadDTO:44 - Utilidades.ErrorDAO: (conn=197) Cannot add or update a child row: a foreign key constraint fails (`COIL`.`retroalimentacion`, CONSTRAINT `retroalimentacion_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`))
+2024-06-16 14:52:43 ERROR RetroalimentacionActividadDTO:44 - Utilidades.ErrorDAO: (conn=221) Cannot add or update a child row: a foreign key constraint fails (`COIL`.`retroalimentacion`, CONSTRAINT `retroalimentacion_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`))
+2024-06-16 15:03:03 FATAL ConfiguracionPrueba:90 - (conn=271) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionActividad`, CONSTRAINT `retroalimentacionActividad_ibfk_2` FOREIGN KEY (`actividad`) REFERENCES `actividad` (`idActividad`))
+2024-06-16 15:03:08 FATAL ConfiguracionPrueba:90 - (conn=276) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionActividad`, CONSTRAINT `retroalimentacionActividad_ibfk_2` FOREIGN KEY (`actividad`) REFERENCES `actividad` (`idActividad`))
+2024-06-16 15:03:10 FATAL ConfiguracionPrueba:90 - (conn=281) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionActividad`, CONSTRAINT `retroalimentacionActividad_ibfk_2` FOREIGN KEY (`actividad`) REFERENCES `actividad` (`idActividad`))
+2024-06-16 15:03:13 FATAL ConfiguracionPrueba:90 - (conn=286) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionActividad`, CONSTRAINT `retroalimentacionActividad_ibfk_2` FOREIGN KEY (`actividad`) REFERENCES `actividad` (`idActividad`))
+2024-06-16 15:03:16 FATAL ConfiguracionPrueba:90 - (conn=291) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionActividad`, CONSTRAINT `retroalimentacionActividad_ibfk_2` FOREIGN KEY (`actividad`) REFERENCES `actividad` (`idActividad`))
+2024-06-16 15:03:19 FATAL ConfiguracionPrueba:90 - (conn=296) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`academicoDesarrolla`, CONSTRAINT `academicoDesarrolla_ibfk_1` FOREIGN KEY (`idColaboracion`) REFERENCES `colaboracion` (`idColaboracion`))
+2024-06-16 15:03:22 FATAL ConfiguracionPrueba:90 - (conn=298) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionActividad`, CONSTRAINT `retroalimentacionActividad_ibfk_2` FOREIGN KEY (`actividad`) REFERENCES `actividad` (`idActividad`))
+2024-06-16 15:03:25 FATAL ConfiguracionPrueba:90 - (conn=302) Duplicate entry '1' for key 'PRIMARY'
+2024-06-16 15:03:28 FATAL ConfiguracionPrueba:90 - (conn=303) Unknown column 'fechaInicio' in 'field list'
+2024-06-16 15:03:31 FATAL ConfiguracionPrueba:90 - (conn=304) Unknown column 'fechaInicio' in 'field list'
+2024-06-16 15:03:33 FATAL ConfiguracionPrueba:90 - (conn=306) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionActividad`, CONSTRAINT `retroalimentacionActividad_ibfk_2` FOREIGN KEY (`actividad`) REFERENCES `actividad` (`idActividad`))
+2024-06-16 15:03:35 FATAL ConfiguracionPrueba:90 - (conn=311) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionActividad`, CONSTRAINT `retroalimentacionActividad_ibfk_2` FOREIGN KEY (`actividad`) REFERENCES `actividad` (`idActividad`))
+2024-06-16 15:03:36 FATAL ConfiguracionPrueba:90 - (conn=316) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionActividad`, CONSTRAINT `retroalimentacionActividad_ibfk_2` FOREIGN KEY (`actividad`) REFERENCES `actividad` (`idActividad`))
+2024-06-16 15:03:38 FATAL ConfiguracionPrueba:90 - (conn=321) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionActividad`, CONSTRAINT `retroalimentacionActividad_ibfk_2` FOREIGN KEY (`actividad`) REFERENCES `actividad` (`idActividad`))
+2024-06-16 15:03:40 FATAL ConfiguracionPrueba:90 - (conn=325) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionActividad`, CONSTRAINT `retroalimentacionActividad_ibfk_2` FOREIGN KEY (`actividad`) REFERENCES `actividad` (`idActividad`))
+2024-06-16 15:05:31 FATAL ConfiguracionPrueba:90 - (conn=327) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionActividad`, CONSTRAINT `retroalimentacionActividad_ibfk_2` FOREIGN KEY (`actividad`) REFERENCES `actividad` (`idActividad`))
+2024-06-16 15:05:36 FATAL ConfiguracionPrueba:90 - (conn=336) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`academicoDesarrolla`, CONSTRAINT `academicoDesarrolla_ibfk_1` FOREIGN KEY (`idColaboracion`) REFERENCES `colaboracion` (`idColaboracion`))
+2024-06-16 15:05:38 FATAL ConfiguracionPrueba:90 - (conn=338) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionActividad`, CONSTRAINT `retroalimentacionActividad_ibfk_2` FOREIGN KEY (`actividad`) REFERENCES `actividad` (`idActividad`))
+2024-06-16 15:05:42 FATAL ConfiguracionPrueba:90 - (conn=342) Duplicate entry '1' for key 'PRIMARY'
+2024-06-16 15:05:44 FATAL ConfiguracionPrueba:90 - (conn=343) Unknown column 'fechaInicio' in 'field list'
+2024-06-16 15:05:45 FATAL ConfiguracionPrueba:90 - (conn=344) Unknown column 'fechaInicio' in 'field list'
+2024-06-17 16:20:09 FATAL ConfiguracionPrueba:90 - (conn=40) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`academicoDesarrolla`, CONSTRAINT `academicoDesarrolla_ibfk_1` FOREIGN KEY (`idColaboracion`) REFERENCES `colaboracion` (`idColaboracion`))
+2024-06-17 16:20:13 FATAL ConfiguracionPrueba:90 - (conn=46) Duplicate entry '1' for key 'PRIMARY'
+2024-06-17 16:20:15 FATAL ConfiguracionPrueba:90 - (conn=47) Unknown column 'fechaInicio' in 'field list'
+2024-06-17 16:20:19 FATAL ConfiguracionPrueba:90 - (conn=48) Unknown column 'fechaInicio' in 'field list'
+2024-06-17 16:24:56 FATAL ConfiguracionPrueba:90 - (conn=63) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`academicoDesarrolla`, CONSTRAINT `academicoDesarrolla_ibfk_1` FOREIGN KEY (`idColaboracion`) REFERENCES `colaboracion` (`idColaboracion`))
+2024-06-17 16:25:00 FATAL ConfiguracionPrueba:90 - (conn=69) Duplicate entry '1' for key 'PRIMARY'
+2024-06-17 16:25:01 FATAL ConfiguracionPrueba:90 - (conn=70) You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''2024-07-05')' at line 1
+2024-06-17 16:25:03 FATAL ConfiguracionPrueba:90 - (conn=71) Unknown column 'fechaFin' in 'field list'
+2024-06-17 16:25:51 FATAL ConfiguracionPrueba:90 - (conn=87) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`estudiantesColaboracion`, CONSTRAINT `estudiantesColaboracion_ibfk_1` FOREIGN KEY (`idColaboracion`) REFERENCES `colaboracion` (`idColaboracion`))
+2024-06-17 16:25:55 FATAL ConfiguracionPrueba:90 - (conn=93) Duplicate entry '1' for key 'PRIMARY'
+2024-06-17 16:25:57 FATAL ConfiguracionPrueba:90 - (conn=94) You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''2024-07-05')' at line 1
+2024-06-17 16:26:00 FATAL ConfiguracionPrueba:90 - (conn=95) Unknown column 'fechaFin' in 'field list'
+2024-06-17 16:26:19 FATAL ConfiguracionPrueba:90 - (conn=119) You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''2024-07-05')' at line 1
+2024-06-17 16:26:23 FATAL ConfiguracionPrueba:90 - (conn=120) Unknown column 'fechaFin' in 'field list'
+2024-06-17 16:26:45 FATAL ConfiguracionPrueba:90 - (conn=144) Unknown column 'fechaFin' in 'field list'
+2024-06-17 16:26:48 FATAL ConfiguracionPrueba:90 - (conn=145) Unknown column 'fechaFin' in 'field list'
+=======
+2024-06-10 00:44:43 FATAL ConfiguracionPrueba:90 - (conn=8019) Cannot delete or update a parent row: a foreign key constraint fails (`coil`.`academicodesarrolla`, CONSTRAINT `academicodesarrolla_ibfk_2` FOREIGN KEY (`idAcademico`) REFERENCES `academico` (`cedulaProfesional`))
+2024-06-10 00:44:47 FATAL ConfiguracionPrueba:90 - (conn=8020) Cannot delete or update a parent row: a foreign key constraint fails (`coil`.`academico`, CONSTRAINT `academico_ibfk_1` FOREIGN KEY (`idPersona`) REFERENCES `persona` (`idPersona`))
+2024-06-10 00:44:48 FATAL ConfiguracionPrueba:90 - (conn=8022) Cannot delete or update a parent row: a foreign key constraint fails (`coil`.`persona`, CONSTRAINT `persona_ibfk_1` FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`))
+2024-06-10 00:44:50 FATAL ConfiguracionPrueba:90 - (conn=8024) Cannot delete or update a parent row: a foreign key constraint fails (`coil`.`academico`, CONSTRAINT `academico_ibfk_2` FOREIGN KEY (`facultad`) REFERENCES `facultad` (`idFacultad`))
+2024-06-10 00:44:52 FATAL ConfiguracionPrueba:90 - (conn=8026) Cannot delete or update a parent row: a foreign key constraint fails (`coil`.`facultad`, CONSTRAINT `facultad_ibfk_1` FOREIGN KEY (`region`) REFERENCES `region` (`idRegion`))
+2024-06-10 00:44:54 FATAL ConfiguracionPrueba:90 - (conn=8028) Cannot delete or update a parent row: a foreign key constraint fails (`coil`.`universidad`, CONSTRAINT `universidad_ibfk_1` FOREIGN KEY (`paisOrigen`) REFERENCES `pais` (`idPais`))
+2024-06-10 00:44:56 FATAL ConfiguracionPrueba:90 - (conn=8034) Duplicate entry '1' for key 'PRIMARY'
+2024-06-10 00:44:58 FATAL ConfiguracionPrueba:90 - (conn=8036) Duplicate entry '2' for key 'PRIMARY'
+2024-06-10 00:46:20 FATAL ConfiguracionPrueba:90 - (conn=8039) Cannot delete or update a parent row: a foreign key constraint fails (`coil`.`academicodesarrolla`, CONSTRAINT `academicodesarrolla_ibfk_2` FOREIGN KEY (`idAcademico`) REFERENCES `academico` (`cedulaProfesional`))
+2024-06-10 00:46:23 FATAL ConfiguracionPrueba:90 - (conn=8040) Cannot delete or update a parent row: a foreign key constraint fails (`coil`.`academico`, CONSTRAINT `academico_ibfk_1` FOREIGN KEY (`idPersona`) REFERENCES `persona` (`idPersona`))
+2024-06-10 00:46:25 FATAL ConfiguracionPrueba:90 - (conn=8042) Cannot delete or update a parent row: a foreign key constraint fails (`coil`.`persona`, CONSTRAINT `persona_ibfk_1` FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`))
+2024-06-10 00:46:59 FATAL ConfiguracionPrueba:90 - (conn=8152) Duplicate entry '1' for key 'PRIMARY'
+2024-06-10 00:47:02 FATAL ConfiguracionPrueba:90 - (conn=8153) Duplicate entry '123' for key 'PRIMARY'
+2024-06-10 00:47:03 FATAL ConfiguracionPrueba:90 - (conn=8154) Duplicate entry '2' for key 'PRIMARY'
+2024-06-10 00:47:05 FATAL ConfiguracionPrueba:90 - (conn=8155) Duplicate entry '200011' for key 'PRIMARY'
+2024-06-10 00:47:06 FATAL ConfiguracionPrueba:90 - (conn=8156) Duplicate entry '4' for key 'PRIMARY'
+2024-06-10 00:47:08 FATAL ConfiguracionPrueba:90 - (conn=8157) Duplicate entry '1-4' for key 'PRIMARY'
+2024-06-10 00:47:18 FATAL ConfiguracionPrueba:90 - (conn=8162) Duplicate entry '1' for key 'PRIMARY'
+2024-06-10 00:47:21 FATAL ConfiguracionPrueba:90 - (conn=8163) Duplicate entry '123' for key 'PRIMARY'
+2024-06-10 00:47:22 FATAL ConfiguracionPrueba:90 - (conn=8164) Duplicate entry '2' for key 'PRIMARY'
+2024-06-10 00:47:24 FATAL ConfiguracionPrueba:90 - (conn=8165) Duplicate entry '200011' for key 'PRIMARY'
+2024-06-10 00:47:25 FATAL ConfiguracionPrueba:90 - (conn=8166) Duplicate entry '4' for key 'PRIMARY'
+2024-06-10 00:47:27 FATAL ConfiguracionPrueba:90 - (conn=8167) Duplicate entry '1-4' for key 'PRIMARY'
+2024-06-10 00:48:58 FATAL ConfiguracionPrueba:90 - (conn=8171) Cannot delete or update a parent row: a foreign key constraint fails (`coil`.`estudiante`, CONSTRAINT `estudiante_ibfk_1` FOREIGN KEY (`idPersona`) REFERENCES `persona` (`idPersona`))
+2024-06-10 00:49:00 FATAL ConfiguracionPrueba:90 - (conn=8173) Cannot delete or update a parent row: a foreign key constraint fails (`coil`.`persona`, CONSTRAINT `persona_ibfk_1` FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`))
+2024-06-10 00:49:03 FATAL ConfiguracionPrueba:90 - (conn=8179) Cannot delete or update a parent row: a foreign key constraint fails (`coil`.`universidad`, CONSTRAINT `universidad_ibfk_1` FOREIGN KEY (`paisOrigen`) REFERENCES `pais` (`idPais`))
+2024-06-10 00:49:05 FATAL ConfiguracionPrueba:90 - (conn=8186) Duplicate entry '1' for key 'PRIMARY'
+2024-06-10 00:49:11 FATAL ConfiguracionPrueba:90 - (conn=8190) Cannot delete or update a parent row: a foreign key constraint fails (`coil`.`estudiante`, CONSTRAINT `estudiante_ibfk_1` FOREIGN KEY (`idPersona`) REFERENCES `persona` (`idPersona`))
+2024-06-10 00:49:14 FATAL ConfiguracionPrueba:90 - (conn=8192) Cannot delete or update a parent row: a foreign key constraint fails (`coil`.`persona`, CONSTRAINT `persona_ibfk_1` FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`))
+2024-06-10 00:49:17 FATAL ConfiguracionPrueba:90 - (conn=8198) Cannot delete or update a parent row: a foreign key constraint fails (`coil`.`universidad`, CONSTRAINT `universidad_ibfk_1` FOREIGN KEY (`paisOrigen`) REFERENCES `pais` (`idPais`))
+2024-06-10 00:49:35 FATAL ConfiguracionPrueba:90 - (conn=8202) Cannot delete or update a parent row: a foreign key constraint fails (`coil`.`estudiante`, CONSTRAINT `estudiante_ibfk_1` FOREIGN KEY (`idPersona`) REFERENCES `persona` (`idPersona`))
+2024-06-10 00:49:38 FATAL ConfiguracionPrueba:90 - (conn=8204) Cannot delete or update a parent row: a foreign key constraint fails (`coil`.`persona`, CONSTRAINT `persona_ibfk_1` FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`))
+2024-06-10 00:49:40 FATAL ConfiguracionPrueba:90 - (conn=8210) Cannot delete or update a parent row: a foreign key constraint fails (`coil`.`universidad`, CONSTRAINT `universidad_ibfk_1` FOREIGN KEY (`paisOrigen`) REFERENCES `pais` (`idPais`))
+2024-06-10 00:49:43 FATAL ConfiguracionPrueba:90 - (conn=8217) Duplicate entry '1' for key 'PRIMARY'
+2024-06-10 00:49:45 FATAL ConfiguracionPrueba:90 - (conn=8219) Duplicate entry '2' for key 'PRIMARY'
+2024-06-10 00:53:57 FATAL AcademicoDAO:111 - (conn=8259) Column 'nombre' cannot be null
+2024-06-10 00:54:03 FATAL AcademicoDAO:111 - (conn=8299) Cannot add or update a child row: a foreign key constraint fails (`coil`.`persona`, CONSTRAINT `persona_ibfk_1` FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`))
+2024-06-10 00:54:34 FATAL AcademicoDAO:111 - (conn=8576) Cannot add or update a child row: a foreign key constraint fails (`coil`.`persona`, CONSTRAINT `persona_ibfk_1` FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`))
+2024-06-10 00:54:44 FATAL AcademicoDAO:184 - (conn=8656) Cannot add or update a child row: a foreign key constraint fails (`coil`.`persona`, CONSTRAINT `persona_ibfk_1` FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`))
+2024-06-10 00:54:58 FATAL AcademicoDAO:184 - (conn=8775) Cannot add or update a child row: a foreign key constraint fails (`coil`.`academico`, CONSTRAINT `academico_ibfk_2` FOREIGN KEY (`facultad`) REFERENCES `facultad` (`idFacultad`))
+2024-06-10 00:55:08 FATAL AcademicoDAO:111 - (conn=8855) Column 'nombre' cannot be null
+2024-06-10 00:55:41 FATAL ConfiguracionPrueba:103 - (conn=9143) Cannot delete or update a parent row: a foreign key constraint fails (`coil`.`cuenta`, CONSTRAINT `cuenta_ibfk_1` FOREIGN KEY (`idPersona`) REFERENCES `persona` (`idPersona`))
+2024-06-10 00:55:43 FATAL ConfiguracionPrueba:103 - (conn=9145) Cannot delete or update a parent row: a foreign key constraint fails (`coil`.`persona`, CONSTRAINT `persona_ibfk_1` FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`))
+2024-06-10 00:55:45 FATAL ConfiguracionPrueba:103 - (conn=9147) Cannot delete or update a parent row: a foreign key constraint fails (`coil`.`universidad`, CONSTRAINT `universidad_ibfk_1` FOREIGN KEY (`paisOrigen`) REFERENCES `pais` (`idPais`))
+2024-06-10 00:56:07 FATAL AcademicoDAO:111 - (conn=9334) Cannot add or update a child row: a foreign key constraint fails (`coil`.`persona`, CONSTRAINT `persona_ibfk_1` FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`))
+2024-06-10 00:56:32 FATAL AcademicoDAO:111 - (conn=9533) Duplicate entry '200011' for key 'PRIMARY'
+2024-06-10 01:16:36 FATAL CuentaDAO:112 - (conn=9685) Las contrasenas son distintas
+2024-06-10 01:16:51 FATAL CuentaDAO:221 - (conn=9829) Duplicate entry 'EduVillegas' for key 'nombreUsuario'
+2024-06-10 01:17:02 FATAL CuentaDAO:112 - (conn=9945) Las contrasenas son distintas
+2024-06-10 01:18:06 FATAL CuentaDAO:137 - (conn=10607) Data truncated for column 'estado' at row 1
+2024-06-10 01:26:56 FATAL CuentaDAO:112 - (conn=10665) Las contrasenas son distintas
+2024-06-10 01:27:11 FATAL CuentaDAO:221 - (conn=10809) Duplicate entry 'EduVillegas' for key 'nombreUsuario'
+2024-06-10 01:27:23 FATAL CuentaDAO:112 - (conn=10925) Las contrasenas son distintas
+2024-06-10 01:28:24 FATAL CuentaDAO:137 - (conn=11559) Data truncated for column 'estado' at row 12024-06-10 11:03:14 FATAL AdministradorBaseDatos:46 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.125.91)(port=3307)(type=primary). Connection timed out: getsockopt
+2024-06-10 11:06:38 FATAL AdministradorBaseDatos:46 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.125.91)(port=3307)(type=primary). Connection timed out: getsockopt
+2024-06-10 11:07:24 FATAL AdministradorBaseDatos:46 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.125.91)(port=3306)(type=primary). Connection timed out: getsockopt
+2024-06-10 11:12:00 FATAL AdministradorBaseDatos:46 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.125.31)(port=3306)(type=primary). Connection timed out: getsockopt
+2024-06-10 11:24:15 FATAL AdministradorBaseDatos:46 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.125.31)(port=3306)(type=primary). Connection timed out: getsockopt
+2024-06-10 11:24:55 FATAL AdministradorBaseDatos:46 - java.sql.SQLException: Host '192.168.125.76' is not allowed to connect to this MariaDB server
+2024-06-11 08:18:42 FATAL AdministradorBaseDatos:47 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.125.31)(port=3306)(type=primary). Connection timed out: getsockopt
+2024-06-11 08:21:05 FATAL AdministradorBaseDatos:47 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.125.31)(port=3306)(type=primary). Connection timed out: getsockopt
+2024-06-11 08:25:35 FATAL AdministradorBaseDatos:48 - java.sql.SQLInvalidAuthorizationSpecException: (conn=47282) Access denied for user 'admin_COIL'@'localhost' (using password: YES)
+2024-06-11 08:26:03 FATAL AdministradorBaseDatos:48 - java.sql.SQLInvalidAuthorizationSpecException: (conn=47283) Access denied for user 'admin_CO'@'localhost' (using password: YES)
+2024-06-11 08:26:23 FATAL AdministradorBaseDatos:44 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=330)(type=primary). Connection refused: getsockopt
+2024-06-11 08:29:00 FATAL AdministradorBaseDatos:46 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=330)(type=primary). Connection refused: getsockopt
+2024-06-11 08:29:43 FATAL AdministradorBaseDatos:46 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=330)(type=primary). Connection refused: getsockopt
+2024-06-11 08:36:22 FATAL AdministradorBaseDatos:44 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=330)(type=primary). Connection refused: getsockopt
+2024-06-11 08:53:03 FATAL AdministradorBaseDatos:45 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=330)(type=primary). Connection refused: getsockopt
+2024-06-11 08:53:23 FATAL AdministradorBaseDatos:45 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=330)(type=primary). Connection refused: getsockopt
+2024-06-11 08:53:40 FATAL AdministradorBaseDatos:45 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=330)(type=primary). Connection refused: getsockopt
+2024-06-11 08:53:52 FATAL AdministradorBaseDatos:44 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=330)(type=primary). Connection refused: getsockopt
+2024-06-11 08:53:57 FATAL AdministradorBaseDatos:44 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=330)(type=primary). Connection refused: getsockopt
+2024-06-11 08:54:51 FATAL AdministradorBaseDatos:45 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=330)(type=primary). Connection refused: getsockopt
+2024-06-11 08:55:23 FATAL AdministradorBaseDatos:45 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=330)(type=primary). Connection refused: getsockopt
+2024-06-11 08:55:44 FATAL AdministradorBaseDatos:45 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=330)(type=primary). Connection refused: getsockopt
+2024-06-11 08:57:48 FATAL AdministradorBaseDatos:53 - java.sql.SQLException: error parsing url : url parsing error : '//' is not present in the url jdbc:mariadb:localhost:3306COIL
+2024-06-11 08:58:29 FATAL AdministradorBaseDatos:48 - java.sql.SQLInvalidAuthorizationSpecException: (conn=47285) Access denied for user 'admin_COL'@'localhost' (using password: YES)
+2024-06-11 08:58:52 FATAL AdministradorBaseDatos:48 - java.sql.SQLInvalidAuthorizationSpecException: (conn=47286) Access denied for user 'admin_COL'@'localhost' (using password: YES)
+2024-06-11 08:59:29 FATAL AdministradorBaseDatos:53 - java.sql.SQLException: No suitable driver found for jdbc:maria://localhost:3306/COIL
+2024-06-11 09:02:01 FATAL AdministradorBaseDatos:57 - java.sql.SQLException: Incorrect port value : 3306COIL
+2024-06-11 09:06:37 FATAL AdministradorBaseDatos:56 - java.sql.SQLException: No suitable driver found for :mariadb://localhost:3306/COIL
+2024-06-11 09:07:59 FATAL AdministradorBaseDatos:56 - java.sql.SQLException: No suitable driver found for :mariadb://localhost:3306/COIL
+2024-06-11 09:08:40 FATAL AdministradorBaseDatos:52 - java.sql.SQLException: The url cannot be null
+2024-06-11 09:18:13 FATAL AdministradorBaseDatos:72 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=33)(type=primary). Connection refused: getsockopt
+2024-06-11 09:18:42 FATAL AdministradorBaseDatos:72 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localt)(port=3306)(type=primary). localt
+<<<<<<< HEAD
+2024-06-11 09:19:10 FATAL AdministradorBaseDatos:72 - java.sql.SQLInvalidAuthorizationSpecException: (conn=47288) Access denied for user 'admin_COL'@'localhost' (using password: YES)
+>>>>>>> ferDAO
+2024-06-17 18:00:13 FATAL ConfiguracionPrueba:103 - Socket fail to connect to host:address=(host=localhost)(port=3307)(type=primary). Connection refused
+2024-06-17 18:00:23 FATAL ConfiguracionPrueba:103 - Socket fail to connect to host:address=(host=localhost)(port=3307)(type=primary). Connection refused
+2024-06-17 18:01:10 FATAL ConfiguracionPrueba:103 - (conn=176) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`calendarioActividades`, CONSTRAINT `calendarioActividades_ibfk_2` FOREIGN KEY (`idActividad`) REFERENCES `actividad` (`idActividad`))
+2024-06-17 18:02:41 FATAL ConfiguracionPrueba:103 - (conn=189) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`calendarioActividades`, CONSTRAINT `calendarioActividades_ibfk_2` FOREIGN KEY (`idActividad`) REFERENCES `actividad` (`idActividad`))
+2024-06-17 19:05:36 FATAL ConfiguracionPrueba:103 - (conn=281) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`calendarioActividades`, CONSTRAINT `calendarioActividades_ibfk_2` FOREIGN KEY (`idActividad`) REFERENCES `actividad` (`idActividad`))
+2024-06-17 19:05:41 FATAL ConfiguracionPrueba:103 - (conn=287) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 19:05:44 FATAL ConfiguracionPrueba:103 - (conn=291) Unknown column 'apellidos' in 'field list'
+2024-06-17 19:05:47 FATAL ConfiguracionPrueba:103 - (conn=292) Duplicate entry '123' for key 'PRIMARY'
+2024-06-17 19:05:49 FATAL ConfiguracionPrueba:103 - (conn=293) Unknown column 'apellidos' in 'field list'
+2024-06-17 19:05:51 FATAL ConfiguracionPrueba:103 - (conn=294) Duplicate entry '200011' for key 'PRIMARY'
+2024-06-17 19:05:53 FATAL ConfiguracionPrueba:103 - (conn=295) Unknown column 'apellidos' in 'field list'
+2024-06-17 19:05:54 FATAL ConfiguracionPrueba:103 - (conn=296) Duplicate entry '102939' for key 'PRIMARY'
+2024-06-17 19:05:56 FATAL ConfiguracionPrueba:103 - (conn=297) Unknown column 'apellidos' in 'field list'
+2024-06-17 19:05:58 FATAL ConfiguracionPrueba:103 - (conn=298) Duplicate entry '1-4' for key 'PRIMARY'
+2024-06-17 19:06:00 FATAL ConfiguracionPrueba:103 - (conn=299) Unknown column 'apellidos' in 'field list'
+2024-06-17 19:06:01 FATAL ConfiguracionPrueba:103 - (conn=300) Duplicate entry '2-5' for key 'PRIMARY'
+2024-06-17 19:06:05 FATAL ConfiguracionPrueba:103 - (conn=301) Duplicate entry '1' for key 'PRIMARY'
+2024-06-17 19:10:24 FATAL ConfiguracionPrueba:103 - (conn=314) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 19:10:30 FATAL ConfiguracionPrueba:103 - (conn=318) Duplicate entry '1' for key 'PRIMARY'
+2024-06-17 19:10:35 FATAL ConfiguracionPrueba:103 - (conn=320) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 19:10:41 FATAL ConfiguracionPrueba:103 - (conn=330) Table 'COIL.academicodesarrolla' doesn't exist
+2024-06-17 19:23:46 FATAL ConfiguracionPrueba:103 - (conn=359) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`academicoDesarrolla`, CONSTRAINT `academicoDesarrolla_ibfk_1` FOREIGN KEY (`idColaboracion`) REFERENCES `colaboracion` (`idColaboracion`))
+2024-06-17 19:23:52 FATAL ConfiguracionPrueba:103 - (conn=375) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`cuenta`, CONSTRAINT `cuenta_ibfk_1` FOREIGN KEY (`idPersona`) REFERENCES `persona` (`idPersona`))
+2024-06-17 19:23:54 FATAL ConfiguracionPrueba:103 - (conn=377) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`persona`, CONSTRAINT `persona_ibfk_1` FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`))
+2024-06-17 19:23:55 FATAL ConfiguracionPrueba:103 - (conn=379) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`universidad`, CONSTRAINT `universidad_ibfk_1` FOREIGN KEY (`paisOrigen`) REFERENCES `pais` (`idPais`))
+2024-06-17 19:24:45 FATAL ConfiguracionPrueba:103 - (conn=403) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`cuenta`, CONSTRAINT `cuenta_ibfk_1` FOREIGN KEY (`idPersona`) REFERENCES `persona` (`idPersona`))
+2024-06-17 19:24:52 FATAL ConfiguracionPrueba:103 - (conn=405) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`persona`, CONSTRAINT `persona_ibfk_1` FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`))
+2024-06-17 20:01:42 FATAL ConfiguracionPrueba:104 - (conn=689) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionColaboracion`, CONSTRAINT `retroalimentacionColaboracion_ibfk_2` FOREIGN KEY (`colaboracion`) REFERENCES `colaboracion` (`idColaboracion`))
+2024-06-17 20:01:49 FATAL ConfiguracionPrueba:104 - (conn=694) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacion`, CONSTRAINT `retroalimentacion_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`))
+2024-06-17 20:01:54 FATAL ConfiguracionPrueba:104 - (conn=696) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`persona`, CONSTRAINT `persona_ibfk_1` FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`))
+2024-06-17 20:02:01 FATAL ConfiguracionPrueba:104 - (conn=707) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 20:02:07 FATAL ConfiguracionPrueba:104 - (conn=711) Duplicate entry '1' for key 'PRIMARY'
+2024-06-17 20:02:13 FATAL ConfiguracionPrueba:104 - (conn=713) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 20:02:18 FATAL ConfiguracionPrueba:104 - (conn=715) Duplicate entry '3' for key 'PRIMARY'
+2024-06-17 20:02:22 FATAL ConfiguracionPrueba:104 - (conn=717) Duplicate entry '4' for key 'PRIMARY'
+2024-06-17 20:02:26 FATAL ConfiguracionPrueba:104 - (conn=719) Duplicate entry '5' for key 'PRIMARY'
+2024-06-17 20:02:31 FATAL ConfiguracionPrueba:104 - (conn=750) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionColaboracion`, CONSTRAINT `retroalimentacionColaboracion_ibfk_2` FOREIGN KEY (`colaboracion`) REFERENCES `colaboracion` (`idColaboracion`))
+2024-06-17 20:02:35 FATAL ConfiguracionPrueba:104 - (conn=755) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacion`, CONSTRAINT `retroalimentacion_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`))
+2024-06-17 20:02:41 FATAL ConfiguracionPrueba:104 - (conn=757) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`persona`, CONSTRAINT `persona_ibfk_1` FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`))
+2024-06-17 20:02:45 FATAL ConfiguracionPrueba:104 - (conn=759) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`universidad`, CONSTRAINT `universidad_ibfk_1` FOREIGN KEY (`paisOrigen`) REFERENCES `pais` (`idPais`))
+2024-06-17 20:03:34 FATAL ConfiguracionPrueba:104 - (conn=775) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 20:03:41 FATAL ConfiguracionPrueba:104 - (conn=779) Duplicate entry '1' for key 'PRIMARY'
+2024-06-17 20:03:45 FATAL ConfiguracionPrueba:104 - (conn=781) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 20:03:47 FATAL ConfiguracionPrueba:104 - (conn=783) Duplicate entry '3' for key 'PRIMARY'
+2024-06-17 20:03:49 FATAL ConfiguracionPrueba:104 - (conn=785) Duplicate entry '4' for key 'PRIMARY'
+2024-06-17 20:03:51 FATAL ConfiguracionPrueba:104 - (conn=787) Duplicate entry '5' for key 'PRIMARY'
+2024-06-17 20:03:53 FATAL ConfiguracionPrueba:104 - (conn=818) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionColaboracion`, CONSTRAINT `retroalimentacionColaboracion_ibfk_2` FOREIGN KEY (`colaboracion`) REFERENCES `colaboracion` (`idColaboracion`))
+2024-06-17 20:03:55 FATAL ConfiguracionPrueba:104 - (conn=823) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacion`, CONSTRAINT `retroalimentacion_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`))
+2024-06-17 20:03:57 FATAL ConfiguracionPrueba:104 - (conn=825) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`persona`, CONSTRAINT `persona_ibfk_1` FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`))
+2024-06-17 20:03:58 FATAL ConfiguracionPrueba:104 - (conn=827) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`universidad`, CONSTRAINT `universidad_ibfk_1` FOREIGN KEY (`paisOrigen`) REFERENCES `pais` (`idPais`))
+2024-06-17 20:16:43 FATAL ConfiguracionPrueba:104 - (conn=843) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 20:16:48 FATAL ConfiguracionPrueba:104 - (conn=847) Duplicate entry '1' for key 'PRIMARY'
+2024-06-17 20:16:53 FATAL ConfiguracionPrueba:104 - (conn=849) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 20:16:58 FATAL ConfiguracionPrueba:104 - (conn=851) Duplicate entry '3' for key 'PRIMARY'
+2024-06-17 20:17:03 FATAL ConfiguracionPrueba:104 - (conn=853) Duplicate entry '4' for key 'PRIMARY'
+2024-06-17 20:17:08 FATAL ConfiguracionPrueba:104 - (conn=855) Duplicate entry '5' for key 'PRIMARY'
+2024-06-17 20:17:14 FATAL ConfiguracionPrueba:104 - (conn=886) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionColaboracion`, CONSTRAINT `retroalimentacionColaboracion_ibfk_2` FOREIGN KEY (`colaboracion`) REFERENCES `colaboracion` (`idColaboracion`))
+2024-06-17 20:17:18 FATAL ConfiguracionPrueba:104 - (conn=891) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacion`, CONSTRAINT `retroalimentacion_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`))
+2024-06-17 20:17:22 FATAL ConfiguracionPrueba:104 - (conn=893) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`persona`, CONSTRAINT `persona_ibfk_1` FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`))
+2024-06-17 20:17:28 FATAL ConfiguracionPrueba:104 - (conn=895) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`universidad`, CONSTRAINT `universidad_ibfk_1` FOREIGN KEY (`paisOrigen`) REFERENCES `pais` (`idPais`))
+2024-06-17 20:18:13 FATAL ConfiguracionPrueba:104 - (conn=911) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 20:18:18 FATAL ConfiguracionPrueba:104 - (conn=915) Duplicate entry '1' for key 'PRIMARY'
+2024-06-17 20:18:22 FATAL ConfiguracionPrueba:104 - (conn=917) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 20:18:27 FATAL ConfiguracionPrueba:104 - (conn=919) Duplicate entry '3' for key 'PRIMARY'
+2024-06-17 20:18:31 FATAL ConfiguracionPrueba:104 - (conn=921) Duplicate entry '4' for key 'PRIMARY'
+2024-06-17 20:18:36 FATAL ConfiguracionPrueba:104 - (conn=923) Duplicate entry '5' for key 'PRIMARY'
+2024-06-17 20:18:42 FATAL ConfiguracionPrueba:104 - (conn=954) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionColaboracion`, CONSTRAINT `retroalimentacionColaboracion_ibfk_2` FOREIGN KEY (`colaboracion`) REFERENCES `colaboracion` (`idColaboracion`))
+2024-06-17 20:18:47 FATAL ConfiguracionPrueba:104 - (conn=959) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacion`, CONSTRAINT `retroalimentacion_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`))
+2024-06-17 20:18:51 FATAL ConfiguracionPrueba:104 - (conn=961) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`persona`, CONSTRAINT `persona_ibfk_1` FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`))
+2024-06-17 20:18:57 FATAL ConfiguracionPrueba:104 - (conn=963) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`universidad`, CONSTRAINT `universidad_ibfk_1` FOREIGN KEY (`paisOrigen`) REFERENCES `pais` (`idPais`))
+2024-06-17 20:20:13 FATAL ConfiguracionPrueba:104 - (conn=979) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 20:20:18 FATAL ConfiguracionPrueba:104 - (conn=983) Duplicate entry '1' for key 'PRIMARY'
+2024-06-17 20:20:20 FATAL ConfiguracionPrueba:104 - (conn=985) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 20:20:22 FATAL ConfiguracionPrueba:104 - (conn=987) Duplicate entry '3' for key 'PRIMARY'
+2024-06-17 20:20:24 FATAL ConfiguracionPrueba:104 - (conn=989) Duplicate entry '4' for key 'PRIMARY'
+2024-06-17 20:20:26 FATAL ConfiguracionPrueba:104 - (conn=991) Duplicate entry '5' for key 'PRIMARY'
+2024-06-17 20:20:28 FATAL ConfiguracionPrueba:104 - (conn=1022) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionColaboracion`, CONSTRAINT `retroalimentacionColaboracion_ibfk_2` FOREIGN KEY (`colaboracion`) REFERENCES `colaboracion` (`idColaboracion`))
+2024-06-17 20:20:30 FATAL ConfiguracionPrueba:104 - (conn=1027) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacion`, CONSTRAINT `retroalimentacion_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`))
+2024-06-17 20:20:31 FATAL ConfiguracionPrueba:104 - (conn=1029) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`persona`, CONSTRAINT `persona_ibfk_1` FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`))
+2024-06-17 20:20:43 FATAL ConfiguracionPrueba:104 - (conn=1031) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`universidad`, CONSTRAINT `universidad_ibfk_1` FOREIGN KEY (`paisOrigen`) REFERENCES `pais` (`idPais`))
+2024-06-17 20:21:37 FATAL ConfiguracionPrueba:104 - (conn=1047) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 20:21:44 FATAL ConfiguracionPrueba:104 - (conn=1051) Duplicate entry '1' for key 'PRIMARY'
+2024-06-17 20:21:46 FATAL ConfiguracionPrueba:104 - (conn=1053) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 20:21:49 FATAL ConfiguracionPrueba:104 - (conn=1055) Duplicate entry '3' for key 'PRIMARY'
+2024-06-17 20:22:02 FATAL ConfiguracionPrueba:104 - (conn=1057) Duplicate entry '4' for key 'PRIMARY'
+2024-06-17 20:22:06 FATAL ConfiguracionPrueba:104 - (conn=1059) Duplicate entry '5' for key 'PRIMARY'
+2024-06-17 20:22:11 FATAL ConfiguracionPrueba:104 - (conn=1080) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionColaboracion`, CONSTRAINT `retroalimentacionColaboracion_ibfk_2` FOREIGN KEY (`colaboracion`) REFERENCES `colaboracion` (`idColaboracion`))
+2024-06-17 20:22:34 FATAL ConfiguracionPrueba:104 - (conn=1085) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacion`, CONSTRAINT `retroalimentacion_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`))
+2024-06-17 20:22:40 FATAL ConfiguracionPrueba:104 - (conn=1087) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`persona`, CONSTRAINT `persona_ibfk_1` FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`))
+2024-06-17 20:22:44 FATAL ConfiguracionPrueba:104 - (conn=1089) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`universidad`, CONSTRAINT `universidad_ibfk_1` FOREIGN KEY (`paisOrigen`) REFERENCES `pais` (`idPais`))
+2024-06-17 20:24:31 FATAL ConfiguracionPrueba:104 - (conn=1105) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 20:24:34 FATAL ConfiguracionPrueba:104 - (conn=1109) Duplicate entry '1' for key 'PRIMARY'
+2024-06-17 20:25:14 FATAL ConfiguracionPrueba:104 - (conn=1111) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 20:25:25 FATAL ConfiguracionPrueba:104 - (conn=1113) Duplicate entry '3' for key 'PRIMARY'
+2024-06-17 20:26:05 FATAL ConfiguracionPrueba:104 - (conn=1115) Duplicate entry '4' for key 'PRIMARY'
+2024-06-17 20:26:07 FATAL ConfiguracionPrueba:104 - (conn=1117) Duplicate entry '5' for key 'PRIMARY'
+2024-06-17 20:26:08 FATAL ConfiguracionPrueba:104 - (conn=1148) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionColaboracion`, CONSTRAINT `retroalimentacionColaboracion_ibfk_2` FOREIGN KEY (`colaboracion`) REFERENCES `colaboracion` (`idColaboracion`))
+2024-06-17 20:26:10 FATAL ConfiguracionPrueba:104 - (conn=1153) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacion`, CONSTRAINT `retroalimentacion_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`))
+2024-06-17 20:26:12 FATAL ConfiguracionPrueba:104 - (conn=1155) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`persona`, CONSTRAINT `persona_ibfk_1` FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`))
+2024-06-17 20:26:14 FATAL ConfiguracionPrueba:104 - (conn=1157) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`universidad`, CONSTRAINT `universidad_ibfk_1` FOREIGN KEY (`paisOrigen`) REFERENCES `pais` (`idPais`))
+2024-06-17 21:24:55 FATAL ConfiguracionPrueba:104 - (conn=1173) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 21:25:00 FATAL ConfiguracionPrueba:104 - (conn=1177) Duplicate entry '1' for key 'PRIMARY'
+2024-06-17 21:25:04 FATAL ConfiguracionPrueba:104 - (conn=1179) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 21:25:06 FATAL ConfiguracionPrueba:104 - (conn=1181) Duplicate entry '3' for key 'PRIMARY'
+2024-06-17 21:25:08 FATAL ConfiguracionPrueba:104 - (conn=1183) Duplicate entry '4' for key 'PRIMARY'
+2024-06-17 21:25:10 FATAL ConfiguracionPrueba:104 - (conn=1185) Duplicate entry '5' for key 'PRIMARY'
+2024-06-17 21:25:14 FATAL ConfiguracionPrueba:104 - (conn=1216) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionColaboracion`, CONSTRAINT `retroalimentacionColaboracion_ibfk_2` FOREIGN KEY (`colaboracion`) REFERENCES `colaboracion` (`idColaboracion`))
+2024-06-17 21:25:23 FATAL ConfiguracionPrueba:104 - (conn=1221) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacion`, CONSTRAINT `retroalimentacion_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`))
+2024-06-17 21:25:26 FATAL ConfiguracionPrueba:104 - (conn=1223) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`persona`, CONSTRAINT `persona_ibfk_1` FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`))
+2024-06-17 21:25:29 FATAL ConfiguracionPrueba:104 - (conn=1225) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`universidad`, CONSTRAINT `universidad_ibfk_1` FOREIGN KEY (`paisOrigen`) REFERENCES `pais` (`idPais`))
+2024-06-17 21:28:05 FATAL ConfiguracionPrueba:104 - (conn=1241) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 21:28:11 FATAL ConfiguracionPrueba:104 - (conn=1245) Duplicate entry '1' for key 'PRIMARY'
+2024-06-17 21:28:13 FATAL ConfiguracionPrueba:104 - (conn=1247) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 21:28:15 FATAL ConfiguracionPrueba:104 - (conn=1249) Duplicate entry '3' for key 'PRIMARY'
+2024-06-17 21:28:21 FATAL ConfiguracionPrueba:104 - (conn=1251) Duplicate entry '4' for key 'PRIMARY'
+2024-06-17 21:28:26 FATAL ConfiguracionPrueba:104 - (conn=1253) Duplicate entry '5' for key 'PRIMARY'
+2024-06-17 21:28:31 FATAL ConfiguracionPrueba:104 - (conn=1284) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionColaboracion`, CONSTRAINT `retroalimentacionColaboracion_ibfk_2` FOREIGN KEY (`colaboracion`) REFERENCES `colaboracion` (`idColaboracion`))
+2024-06-17 21:28:36 FATAL ConfiguracionPrueba:104 - (conn=1289) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacion`, CONSTRAINT `retroalimentacion_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`))
+2024-06-17 21:28:41 FATAL ConfiguracionPrueba:104 - (conn=1291) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`persona`, CONSTRAINT `persona_ibfk_1` FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`))
+2024-06-17 21:28:45 FATAL ConfiguracionPrueba:104 - (conn=1293) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`universidad`, CONSTRAINT `universidad_ibfk_1` FOREIGN KEY (`paisOrigen`) REFERENCES `pais` (`idPais`))
+2024-06-17 21:30:26 FATAL ConfiguracionPrueba:104 - (conn=1306) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 21:30:31 FATAL ConfiguracionPrueba:104 - (conn=1310) Duplicate entry '1' for key 'PRIMARY'
+2024-06-17 21:30:36 FATAL ConfiguracionPrueba:104 - (conn=1312) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 21:30:41 FATAL ConfiguracionPrueba:104 - (conn=1314) Duplicate entry '3' for key 'PRIMARY'
+2024-06-17 21:30:45 FATAL ConfiguracionPrueba:104 - (conn=1316) Duplicate entry '4' for key 'PRIMARY'
+2024-06-17 21:30:48 FATAL ConfiguracionPrueba:104 - (conn=1318) Duplicate entry '5' for key 'PRIMARY'
+2024-06-17 21:30:50 FATAL ConfiguracionPrueba:104 - (conn=1320) Duplicate entry '1' for key 'PRIMARY'
+2024-06-17 21:30:52 FATAL ConfiguracionPrueba:104 - (conn=1321) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 21:30:53 FATAL ConfiguracionPrueba:104 - (conn=1322) Duplicate entry '3' for key 'PRIMARY'
+2024-06-17 21:30:55 FATAL ConfiguracionPrueba:104 - (conn=1323) Duplicate entry '4' for key 'PRIMARY'
+2024-06-17 21:32:42 FATAL ConfiguracionPrueba:104 - (conn=1450) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionColaboracion`, CONSTRAINT `retroalimentacionColaboracion_ibfk_2` FOREIGN KEY (`colaboracion`) REFERENCES `colaboracion` (`idColaboracion`))
+2024-06-17 21:32:47 FATAL ConfiguracionPrueba:104 - (conn=1455) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacion`, CONSTRAINT `retroalimentacion_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`))
+2024-06-17 21:32:56 FATAL ConfiguracionPrueba:104 - (conn=1457) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`persona`, CONSTRAINT `persona_ibfk_1` FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`))
+2024-06-17 21:32:59 FATAL ConfiguracionPrueba:104 - (conn=1459) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`universidad`, CONSTRAINT `universidad_ibfk_1` FOREIGN KEY (`paisOrigen`) REFERENCES `pais` (`idPais`))
+2024-06-17 21:37:40 FATAL ConfiguracionPrueba:104 - (conn=1472) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 21:37:50 FATAL ConfiguracionPrueba:104 - (conn=1476) Duplicate entry '1' for key 'PRIMARY'
+2024-06-17 21:37:53 FATAL ConfiguracionPrueba:104 - (conn=1478) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 21:37:55 FATAL ConfiguracionPrueba:104 - (conn=1480) Duplicate entry '3' for key 'PRIMARY'
+2024-06-17 21:37:57 FATAL ConfiguracionPrueba:104 - (conn=1482) Duplicate entry '4' for key 'PRIMARY'
+2024-06-17 21:38:00 FATAL ConfiguracionPrueba:104 - (conn=1484) Duplicate entry '5' for key 'PRIMARY'
+2024-06-17 21:38:02 FATAL ConfiguracionPrueba:104 - (conn=1486) Duplicate entry '1' for key 'PRIMARY'
+2024-06-17 21:38:04 FATAL ConfiguracionPrueba:104 - (conn=1487) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 21:38:06 FATAL ConfiguracionPrueba:104 - (conn=1488) Duplicate entry '3' for key 'PRIMARY'
+2024-06-17 21:38:09 FATAL ConfiguracionPrueba:104 - (conn=1489) Duplicate entry '4' for key 'PRIMARY'
+2024-06-17 21:38:14 FATAL ConfiguracionPrueba:104 - (conn=1510) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionColaboracion`, CONSTRAINT `retroalimentacionColaboracion_ibfk_2` FOREIGN KEY (`colaboracion`) REFERENCES `colaboracion` (`idColaboracion`))
+2024-06-17 21:38:18 FATAL ConfiguracionPrueba:104 - (conn=1515) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacion`, CONSTRAINT `retroalimentacion_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`))
+2024-06-17 21:38:21 FATAL ConfiguracionPrueba:104 - (conn=1517) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`persona`, CONSTRAINT `persona_ibfk_1` FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`))
+2024-06-17 21:38:23 FATAL ConfiguracionPrueba:104 - (conn=1519) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`universidad`, CONSTRAINT `universidad_ibfk_1` FOREIGN KEY (`paisOrigen`) REFERENCES `pais` (`idPais`))
+2024-06-17 21:39:42 FATAL ConfiguracionPrueba:104 - (conn=1532) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 21:39:46 FATAL ConfiguracionPrueba:104 - (conn=1536) Duplicate entry '1' for key 'PRIMARY'
+2024-06-17 21:39:49 FATAL ConfiguracionPrueba:104 - (conn=1538) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 21:39:50 FATAL ConfiguracionPrueba:104 - (conn=1540) Duplicate entry '3' for key 'PRIMARY'
+2024-06-17 21:39:52 FATAL ConfiguracionPrueba:104 - (conn=1542) Duplicate entry '4' for key 'PRIMARY'
+2024-06-17 21:39:54 FATAL ConfiguracionPrueba:104 - (conn=1544) Duplicate entry '5' for key 'PRIMARY'
+2024-06-17 21:39:56 FATAL ConfiguracionPrueba:104 - (conn=1546) Duplicate entry '1' for key 'PRIMARY'
+2024-06-17 21:39:58 FATAL ConfiguracionPrueba:104 - (conn=1547) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 21:40:01 FATAL ConfiguracionPrueba:104 - (conn=1548) Duplicate entry '3' for key 'PRIMARY'
+2024-06-17 21:40:06 FATAL ConfiguracionPrueba:104 - (conn=1549) Duplicate entry '4' for key 'PRIMARY'
+2024-06-17 21:40:11 FATAL ConfiguracionPrueba:104 - (conn=1568) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionColaboracion`, CONSTRAINT `retroalimentacionColaboracion_ibfk_2` FOREIGN KEY (`colaboracion`) REFERENCES `colaboracion` (`idColaboracion`))
+2024-06-17 21:40:16 FATAL ConfiguracionPrueba:104 - (conn=1573) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacion`, CONSTRAINT `retroalimentacion_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`))
+2024-06-17 21:40:20 FATAL ConfiguracionPrueba:104 - (conn=1575) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`persona`, CONSTRAINT `persona_ibfk_1` FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`))
+2024-06-17 21:40:24 FATAL ConfiguracionPrueba:104 - (conn=1577) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`universidad`, CONSTRAINT `universidad_ibfk_1` FOREIGN KEY (`paisOrigen`) REFERENCES `pais` (`idPais`))
+2024-06-17 21:42:44 FATAL ConfiguracionPrueba:104 - (conn=1590) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 21:42:51 FATAL ConfiguracionPrueba:104 - (conn=1594) Duplicate entry '1' for key 'PRIMARY'
+2024-06-17 21:42:56 FATAL ConfiguracionPrueba:104 - (conn=1596) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 21:43:00 FATAL ConfiguracionPrueba:104 - (conn=1598) Duplicate entry '3' for key 'PRIMARY'
+2024-06-17 21:43:05 FATAL ConfiguracionPrueba:104 - (conn=1600) Duplicate entry '4' for key 'PRIMARY'
+2024-06-17 21:43:10 FATAL ConfiguracionPrueba:104 - (conn=1602) Duplicate entry '5' for key 'PRIMARY'
+2024-06-17 21:43:12 FATAL ConfiguracionPrueba:104 - (conn=1604) Duplicate entry '1' for key 'PRIMARY'
+2024-06-17 21:43:16 FATAL ConfiguracionPrueba:104 - (conn=1605) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 21:43:19 FATAL ConfiguracionPrueba:104 - (conn=1606) Duplicate entry '3' for key 'PRIMARY'
+2024-06-17 21:43:21 FATAL ConfiguracionPrueba:104 - (conn=1607) Duplicate entry '4' for key 'PRIMARY'
+2024-06-17 21:43:24 FATAL ConfiguracionPrueba:104 - (conn=1625) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionColaboracion`, CONSTRAINT `retroalimentacionColaboracion_ibfk_2` FOREIGN KEY (`colaboracion`) REFERENCES `colaboracion` (`idColaboracion`))
+2024-06-17 21:43:28 FATAL ConfiguracionPrueba:104 - (conn=1630) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacion`, CONSTRAINT `retroalimentacion_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`))
+2024-06-17 21:43:33 FATAL ConfiguracionPrueba:104 - (conn=1632) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`persona`, CONSTRAINT `persona_ibfk_1` FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`))
+2024-06-17 21:43:37 FATAL ConfiguracionPrueba:104 - (conn=1634) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`universidad`, CONSTRAINT `universidad_ibfk_1` FOREIGN KEY (`paisOrigen`) REFERENCES `pais` (`idPais`))
+2024-06-17 22:16:06 FATAL ConfiguracionPrueba:104 - (conn=1647) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 22:16:16 FATAL ConfiguracionPrueba:104 - (conn=1651) Duplicate entry '1' for key 'PRIMARY'
+2024-06-17 22:16:18 FATAL ConfiguracionPrueba:104 - (conn=1653) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 22:16:24 FATAL ConfiguracionPrueba:104 - (conn=1655) Duplicate entry '3' for key 'PRIMARY'
+2024-06-17 22:16:27 FATAL ConfiguracionPrueba:104 - (conn=1657) Duplicate entry '4' for key 'PRIMARY'
+2024-06-17 22:16:29 FATAL ConfiguracionPrueba:104 - (conn=1659) Duplicate entry '5' for key 'PRIMARY'
+2024-06-17 22:16:31 FATAL ConfiguracionPrueba:104 - (conn=1661) Duplicate entry '1' for key 'PRIMARY'
+2024-06-17 22:16:52 FATAL ConfiguracionPrueba:104 - (conn=1662) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 22:17:20 FATAL ConfiguracionPrueba:104 - (conn=1663) Duplicate entry '3' for key 'PRIMARY'
+2024-06-17 22:17:41 ERROR VerificadorBitacora:104 - Error al verificar la conexión a internet Remote host terminated the handshake
+2024-06-17 22:17:41 FATAL ConfiguracionPrueba:104 - (conn=1664) Duplicate entry '4' for key 'PRIMARY'
+2024-06-17 22:17:57 ERROR VerificadorBitacora:104 - Error al verificar la conexión a internet No route to host
+2024-06-17 22:17:58 FATAL ConfiguracionPrueba:104 - (conn=1682) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionColaboracion`, CONSTRAINT `retroalimentacionColaboracion_ibfk_2` FOREIGN KEY (`colaboracion`) REFERENCES `colaboracion` (`idColaboracion`))
+2024-06-17 22:18:00 ERROR VerificadorBitacora:104 - Error al verificar la conexión a internet No route to host
+2024-06-17 22:18:01 FATAL ConfiguracionPrueba:104 - (conn=1687) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacion`, CONSTRAINT `retroalimentacion_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`))
+2024-06-17 22:20:15 ERROR VerificadorBitacora:104 - Error al verificar la conexión a internet Connection timed out
+2024-06-17 22:20:15 FATAL ConfiguracionPrueba:104 - (conn=1689) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`persona`, CONSTRAINT `persona_ibfk_1` FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`))
+2024-06-17 22:20:52 ERROR VerificadorBitacora:104 - Error al verificar la conexión a internet Connection reset
+2024-06-17 22:20:52 FATAL ConfiguracionPrueba:104 - (conn=1691) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`universidad`, CONSTRAINT `universidad_ibfk_1` FOREIGN KEY (`paisOrigen`) REFERENCES `pais` (`idPais`))
+2024-06-17 22:21:25 ERROR VerificadorBitacora:104 - Error al verificar la conexión a internet Connection reset
+2024-06-17 22:33:28 FATAL ConfiguracionPrueba:104 - (conn=1704) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 22:33:34 FATAL ConfiguracionPrueba:104 - (conn=1708) Duplicate entry '1' for key 'PRIMARY'
+2024-06-17 22:33:36 FATAL ConfiguracionPrueba:104 - (conn=1710) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 22:33:38 FATAL ConfiguracionPrueba:104 - (conn=1712) Duplicate entry '3' for key 'PRIMARY'
+2024-06-17 22:33:40 FATAL ConfiguracionPrueba:104 - (conn=1714) Duplicate entry '4' for key 'PRIMARY'
+2024-06-17 22:33:42 FATAL ConfiguracionPrueba:104 - (conn=1716) Duplicate entry '5' for key 'PRIMARY'
+2024-06-17 22:33:45 FATAL ConfiguracionPrueba:104 - (conn=1718) Duplicate entry '1' for key 'PRIMARY'
+2024-06-17 22:33:47 FATAL ConfiguracionPrueba:104 - (conn=1719) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 22:33:50 FATAL ConfiguracionPrueba:104 - (conn=1720) Duplicate entry '3' for key 'PRIMARY'
+2024-06-17 22:33:53 FATAL ConfiguracionPrueba:104 - (conn=1721) Duplicate entry '4' for key 'PRIMARY'
+2024-06-17 22:33:55 FATAL ConfiguracionPrueba:104 - (conn=1740) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionColaboracion`, CONSTRAINT `retroalimentacionColaboracion_ibfk_2` FOREIGN KEY (`colaboracion`) REFERENCES `colaboracion` (`idColaboracion`))
+2024-06-17 22:33:58 FATAL ConfiguracionPrueba:104 - (conn=1745) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacion`, CONSTRAINT `retroalimentacion_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`))
+2024-06-17 22:34:01 FATAL ConfiguracionPrueba:104 - (conn=1747) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`persona`, CONSTRAINT `persona_ibfk_1` FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`))
+2024-06-17 22:34:04 FATAL ConfiguracionPrueba:104 - (conn=1749) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`universidad`, CONSTRAINT `universidad_ibfk_1` FOREIGN KEY (`paisOrigen`) REFERENCES `pais` (`idPais`))
+2024-06-17 22:37:25 FATAL ConfiguracionPrueba:104 - (conn=1762) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 22:37:32 FATAL ConfiguracionPrueba:104 - (conn=1766) Duplicate entry '1' for key 'PRIMARY'
+2024-06-17 22:37:35 FATAL ConfiguracionPrueba:104 - (conn=1768) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 22:37:40 FATAL ConfiguracionPrueba:104 - (conn=1770) Duplicate entry '3' for key 'PRIMARY'
+2024-06-17 22:37:46 FATAL ConfiguracionPrueba:104 - (conn=1772) Duplicate entry '4' for key 'PRIMARY'
+2024-06-17 22:37:49 FATAL ConfiguracionPrueba:104 - (conn=1774) Duplicate entry '5' for key 'PRIMARY'
+2024-06-17 22:37:50 FATAL ConfiguracionPrueba:104 - (conn=1776) Duplicate entry '1' for key 'PRIMARY'
+2024-06-17 22:37:52 FATAL ConfiguracionPrueba:104 - (conn=1777) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 22:37:54 FATAL ConfiguracionPrueba:104 - (conn=1778) Duplicate entry '3' for key 'PRIMARY'
+2024-06-17 22:37:55 FATAL ConfiguracionPrueba:104 - (conn=1779) Duplicate entry '4' for key 'PRIMARY'
+2024-06-17 22:37:57 FATAL ConfiguracionPrueba:104 - (conn=1798) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionColaboracion`, CONSTRAINT `retroalimentacionColaboracion_ibfk_2` FOREIGN KEY (`colaboracion`) REFERENCES `colaboracion` (`idColaboracion`))
+2024-06-17 22:37:59 FATAL ConfiguracionPrueba:104 - (conn=1803) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacion`, CONSTRAINT `retroalimentacion_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`))
+2024-06-17 22:38:01 FATAL ConfiguracionPrueba:104 - (conn=1805) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`persona`, CONSTRAINT `persona_ibfk_1` FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`))
+2024-06-17 22:38:05 FATAL ConfiguracionPrueba:104 - (conn=1807) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`universidad`, CONSTRAINT `universidad_ibfk_1` FOREIGN KEY (`paisOrigen`) REFERENCES `pais` (`idPais`))
+2024-06-17 22:39:03 FATAL ConfiguracionPrueba:104 - (conn=1820) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 22:39:07 FATAL ConfiguracionPrueba:104 - (conn=1824) Duplicate entry '1' for key 'PRIMARY'
+2024-06-17 22:39:09 FATAL ConfiguracionPrueba:104 - (conn=1826) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 22:39:11 FATAL ConfiguracionPrueba:104 - (conn=1828) Duplicate entry '3' for key 'PRIMARY'
+2024-06-17 22:39:20 FATAL ConfiguracionPrueba:104 - (conn=1830) Duplicate entry '4' for key 'PRIMARY'
+2024-06-17 22:39:22 FATAL ConfiguracionPrueba:104 - (conn=1832) Duplicate entry '5' for key 'PRIMARY'
+2024-06-17 22:39:24 FATAL ConfiguracionPrueba:104 - (conn=1834) Duplicate entry '1' for key 'PRIMARY'
+2024-06-17 22:39:25 FATAL ConfiguracionPrueba:104 - (conn=1835) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 22:39:27 FATAL ConfiguracionPrueba:104 - (conn=1836) Duplicate entry '3' for key 'PRIMARY'
+2024-06-17 22:39:29 FATAL ConfiguracionPrueba:104 - (conn=1837) Duplicate entry '4' for key 'PRIMARY'
+2024-06-17 22:39:31 FATAL ConfiguracionPrueba:104 - (conn=1856) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionColaboracion`, CONSTRAINT `retroalimentacionColaboracion_ibfk_2` FOREIGN KEY (`colaboracion`) REFERENCES `colaboracion` (`idColaboracion`))
+2024-06-17 22:39:33 FATAL ConfiguracionPrueba:104 - (conn=1861) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacion`, CONSTRAINT `retroalimentacion_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`))
+2024-06-17 22:39:35 FATAL ConfiguracionPrueba:104 - (conn=1863) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`persona`, CONSTRAINT `persona_ibfk_1` FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`))
+2024-06-17 22:39:37 FATAL ConfiguracionPrueba:104 - (conn=1865) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`universidad`, CONSTRAINT `universidad_ibfk_1` FOREIGN KEY (`paisOrigen`) REFERENCES `pais` (`idPais`))
+2024-06-17 22:42:21 FATAL ConfiguracionPrueba:104 - (conn=1878) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 22:42:25 FATAL ConfiguracionPrueba:104 - (conn=1882) Duplicate entry '1' for key 'PRIMARY'
+2024-06-17 22:42:27 FATAL ConfiguracionPrueba:104 - (conn=1884) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 22:42:30 FATAL ConfiguracionPrueba:104 - (conn=1886) Duplicate entry '3' for key 'PRIMARY'
+2024-06-17 22:42:32 FATAL ConfiguracionPrueba:104 - (conn=1888) Duplicate entry '4' for key 'PRIMARY'
+2024-06-17 22:42:34 FATAL ConfiguracionPrueba:104 - (conn=1890) Duplicate entry '5' for key 'PRIMARY'
+2024-06-17 22:42:36 FATAL ConfiguracionPrueba:104 - (conn=1892) Duplicate entry '1' for key 'PRIMARY'
+2024-06-17 22:42:39 FATAL ConfiguracionPrueba:104 - (conn=1893) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 22:42:41 FATAL ConfiguracionPrueba:104 - (conn=1894) Duplicate entry '3' for key 'PRIMARY'
+2024-06-17 22:42:43 FATAL ConfiguracionPrueba:104 - (conn=1895) Duplicate entry '4' for key 'PRIMARY'
+2024-06-17 22:42:46 FATAL ConfiguracionPrueba:104 - (conn=1913) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionColaboracion`, CONSTRAINT `retroalimentacionColaboracion_ibfk_2` FOREIGN KEY (`colaboracion`) REFERENCES `colaboracion` (`idColaboracion`))
+2024-06-17 22:42:48 FATAL ConfiguracionPrueba:104 - (conn=1918) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacion`, CONSTRAINT `retroalimentacion_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`))
+2024-06-17 22:42:50 FATAL ConfiguracionPrueba:104 - (conn=1920) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`persona`, CONSTRAINT `persona_ibfk_1` FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`))
+2024-06-17 22:42:52 FATAL ConfiguracionPrueba:104 - (conn=1922) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`universidad`, CONSTRAINT `universidad_ibfk_1` FOREIGN KEY (`paisOrigen`) REFERENCES `pais` (`idPais`))
+2024-06-17 22:44:57 FATAL ConfiguracionPrueba:104 - (conn=1935) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 22:45:04 FATAL ConfiguracionPrueba:104 - (conn=1939) Duplicate entry '1' for key 'PRIMARY'
+2024-06-17 22:45:09 FATAL ConfiguracionPrueba:104 - (conn=1941) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 22:45:14 FATAL ConfiguracionPrueba:104 - (conn=1943) Duplicate entry '3' for key 'PRIMARY'
+2024-06-17 22:45:18 FATAL ConfiguracionPrueba:104 - (conn=1945) Duplicate entry '4' for key 'PRIMARY'
+2024-06-17 22:45:20 FATAL ConfiguracionPrueba:104 - (conn=1947) Duplicate entry '5' for key 'PRIMARY'
+2024-06-17 22:45:22 FATAL ConfiguracionPrueba:104 - (conn=1949) Duplicate entry '1' for key 'PRIMARY'
+2024-06-17 22:45:24 FATAL ConfiguracionPrueba:104 - (conn=1950) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 22:45:25 FATAL ConfiguracionPrueba:104 - (conn=1951) Duplicate entry '3' for key 'PRIMARY'
+2024-06-17 22:45:27 FATAL ConfiguracionPrueba:104 - (conn=1952) Duplicate entry '4' for key 'PRIMARY'
+2024-06-17 22:45:29 FATAL ConfiguracionPrueba:104 - (conn=1970) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionColaboracion`, CONSTRAINT `retroalimentacionColaboracion_ibfk_2` FOREIGN KEY (`colaboracion`) REFERENCES `colaboracion` (`idColaboracion`))
+2024-06-17 22:45:31 FATAL ConfiguracionPrueba:104 - (conn=1975) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacion`, CONSTRAINT `retroalimentacion_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`))
+2024-06-17 22:45:33 FATAL ConfiguracionPrueba:104 - (conn=1977) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`persona`, CONSTRAINT `persona_ibfk_1` FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`))
+2024-06-17 22:45:34 FATAL ConfiguracionPrueba:104 - (conn=1979) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`universidad`, CONSTRAINT `universidad_ibfk_1` FOREIGN KEY (`paisOrigen`) REFERENCES `pais` (`idPais`))
+2024-06-17 22:46:02 FATAL ConfiguracionPrueba:104 - (conn=1992) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 22:46:09 FATAL ConfiguracionPrueba:104 - (conn=1996) Duplicate entry '1' for key 'PRIMARY'
+2024-06-17 22:46:14 FATAL ConfiguracionPrueba:104 - (conn=1998) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 22:46:19 FATAL ConfiguracionPrueba:104 - (conn=2000) Duplicate entry '3' for key 'PRIMARY'
+2024-06-17 22:46:24 FATAL ConfiguracionPrueba:104 - (conn=2002) Duplicate entry '4' for key 'PRIMARY'
+2024-06-17 22:46:29 FATAL ConfiguracionPrueba:104 - (conn=2004) Duplicate entry '5' for key 'PRIMARY'
+2024-06-17 22:46:34 FATAL ConfiguracionPrueba:104 - (conn=2006) Duplicate entry '1' for key 'PRIMARY'
+2024-06-17 22:46:39 FATAL ConfiguracionPrueba:104 - (conn=2007) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 22:46:44 FATAL ConfiguracionPrueba:104 - (conn=2008) Duplicate entry '3' for key 'PRIMARY'
+2024-06-17 22:46:48 FATAL ConfiguracionPrueba:104 - (conn=2009) Duplicate entry '4' for key 'PRIMARY'
+2024-06-17 22:46:53 FATAL ConfiguracionPrueba:104 - (conn=2027) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionColaboracion`, CONSTRAINT `retroalimentacionColaboracion_ibfk_2` FOREIGN KEY (`colaboracion`) REFERENCES `colaboracion` (`idColaboracion`))
+2024-06-17 22:46:59 FATAL ConfiguracionPrueba:104 - (conn=2032) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacion`, CONSTRAINT `retroalimentacion_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`))
+2024-06-17 22:47:03 FATAL ConfiguracionPrueba:104 - (conn=2034) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`persona`, CONSTRAINT `persona_ibfk_1` FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`))
+2024-06-17 22:47:08 FATAL ConfiguracionPrueba:104 - (conn=2036) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`universidad`, CONSTRAINT `universidad_ibfk_1` FOREIGN KEY (`paisOrigen`) REFERENCES `pais` (`idPais`))
+2024-06-17 22:47:14 FATAL ConfiguracionPrueba:104 - (conn=2044) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 22:47:20 FATAL ConfiguracionPrueba:104 - (conn=2048) Duplicate entry '1' for key 'PRIMARY'
+2024-06-17 22:47:22 FATAL ConfiguracionPrueba:104 - (conn=2050) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 22:47:24 FATAL ConfiguracionPrueba:104 - (conn=2052) Duplicate entry '3' for key 'PRIMARY'
+2024-06-17 22:47:26 FATAL ConfiguracionPrueba:104 - (conn=2054) Duplicate entry '4' for key 'PRIMARY'
+2024-06-17 22:47:28 FATAL ConfiguracionPrueba:104 - (conn=2056) Duplicate entry '5' for key 'PRIMARY'
+2024-06-17 22:47:29 FATAL ConfiguracionPrueba:104 - (conn=2058) Duplicate entry '1' for key 'PRIMARY'
+2024-06-17 22:47:31 FATAL ConfiguracionPrueba:104 - (conn=2059) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 22:47:33 FATAL ConfiguracionPrueba:104 - (conn=2060) Duplicate entry '3' for key 'PRIMARY'
+2024-06-17 22:47:35 FATAL ConfiguracionPrueba:104 - (conn=2061) Duplicate entry '4' for key 'PRIMARY'
+2024-06-17 22:47:37 FATAL ConfiguracionPrueba:104 - (conn=2079) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionColaboracion`, CONSTRAINT `retroalimentacionColaboracion_ibfk_2` FOREIGN KEY (`colaboracion`) REFERENCES `colaboracion` (`idColaboracion`))
+2024-06-17 22:47:39 FATAL ConfiguracionPrueba:104 - (conn=2084) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacion`, CONSTRAINT `retroalimentacion_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`))
+2024-06-17 22:47:41 FATAL ConfiguracionPrueba:104 - (conn=2086) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`persona`, CONSTRAINT `persona_ibfk_1` FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`))
+2024-06-17 22:53:07 FATAL ConfiguracionPrueba:104 - (conn=2094) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 22:53:11 FATAL ConfiguracionPrueba:104 - (conn=2098) Duplicate entry '1' for key 'PRIMARY'
+2024-06-17 22:53:15 FATAL ConfiguracionPrueba:104 - (conn=2100) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 22:53:19 FATAL ConfiguracionPrueba:104 - (conn=2102) Duplicate entry '3' for key 'PRIMARY'
+2024-06-17 22:53:24 FATAL ConfiguracionPrueba:104 - (conn=2104) Duplicate entry '4' for key 'PRIMARY'
+2024-06-17 22:53:28 FATAL ConfiguracionPrueba:104 - (conn=2106) Duplicate entry '5' for key 'PRIMARY'
+2024-06-17 22:53:32 FATAL ConfiguracionPrueba:104 - (conn=2108) Duplicate entry '1' for key 'PRIMARY'
+2024-06-17 22:53:33 FATAL ConfiguracionPrueba:104 - (conn=2109) Duplicate entry '2' for key 'PRIMARY'
+2024-06-17 22:53:35 FATAL ConfiguracionPrueba:104 - (conn=2110) Duplicate entry '3' for key 'PRIMARY'
+2024-06-17 22:53:37 FATAL ConfiguracionPrueba:104 - (conn=2111) Duplicate entry '4' for key 'PRIMARY'
+2024-06-17 22:53:39 FATAL ConfiguracionPrueba:104 - (conn=2133) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacionColaboracion`, CONSTRAINT `retroalimentacionColaboracion_ibfk_2` FOREIGN KEY (`colaboracion`) REFERENCES `colaboracion` (`idColaboracion`))
+2024-06-17 22:53:41 FATAL ConfiguracionPrueba:104 - (conn=2138) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`retroalimentacion`, CONSTRAINT `retroalimentacion_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `persona` (`idPersona`))
+2024-06-17 22:53:43 FATAL ConfiguracionPrueba:104 - (conn=2140) Cannot delete or update a parent row: a foreign key constraint fails (`COIL`.`persona`, CONSTRAINT `persona_ibfk_1` FOREIGN KEY (`universidad`) REFERENCES `universidad` (`idUniversidad`))
+=======
+2024-06-11 09:19:10 FATAL AdministradorBaseDatos:72 - java.sql.SQLInvalidAuthorizationSpecException: (conn=47288) Access denied for user 'admin_COL'@'localhost' (using password: YES)
+>>>>>>> paleDAO
+2024-06-18 09:48:45 FATAL AdministradorBaseDatos:51 - java.sql.SQLException: Host '192.168.23.30' is not allowed to connect to this MariaDB server
+2024-06-18 10:37:35 FATAL AdministradorBaseDatos:43 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.23.30)(port=3306)(type=primary). Software caused connection abort: getsockopt
+2024-06-18 11:06:07 FATAL AdministradorBaseDatos:43 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.23.30)(port=3306)(type=primary). Connection timed out: getsockopt
+2024-06-18 11:18:53 FATAL AdministradorBaseDatos:43 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.23.30)(port=3306)(type=primary). Software caused connection abort: getsockopt
+2024-06-24 11:08:07 FATAL AdministradorBaseDatos:43 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=3307)(type=primary). Connection refused
+2024-06-24 11:08:55 FATAL AdministradorBaseDatos:43 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=localhost)(port=3307)(type=primary). Connection refused
+2024-06-24 12:27:43 FATAL AdministradorBaseDatos:43 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.241.30)(port=3306)(type=primary). Connect timed out
+2024-06-24 12:30:17 FATAL AdministradorBaseDatos:43 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.241.30)(port=3306)(type=primary). Connection refused
+2024-06-24 12:30:24 ERROR NuevaActividadControlador:147 - Utilidades.ErrorDAO: Tiempo de espera de conexión agotado. Por favor, inténtelo nuevamente.
+2024-06-24 12:30:32 FATAL AdministradorBaseDatos:43 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.241.30)(port=3306)(type=primary). Connection refused
+2024-06-25 09:41:03 FATAL AdministradorBaseDatos:43 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.241.30)(port=3306)(type=primary). Connection timed out: getsockopt

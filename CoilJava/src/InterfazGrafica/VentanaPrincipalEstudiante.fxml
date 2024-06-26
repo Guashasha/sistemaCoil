@@ -36,20 +36,12 @@
          <right>
             <VBox alignment="CENTER_RIGHT" prefHeight="187.0" prefWidth="126.0" BorderPane.alignment="CENTER">
                <children>
-                  <ImageView fitHeight="45.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="45.0" fitWidth="47.0" onMouseClicked="#cerrarVentana" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@Recursos/cerrar.png" />
                      </image>
                      <VBox.margin>
                         <Insets bottom="15.0" right="10.0" />
-                     </VBox.margin>
-                  </ImageView>
-                  <ImageView fitHeight="69.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@Recursos/usuario.png" />
-                     </image>
-                     <VBox.margin>
-                        <Insets right="65.0" />
                      </VBox.margin>
                   </ImageView>
                </children>

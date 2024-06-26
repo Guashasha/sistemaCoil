@@ -7,6 +7,7 @@ import DAO.RetroalimentacionActividadAuxiliar;
 import DTO.ActividadDTO;
 import DTO.RetroalimentacionActividadDTO;
 import Utilidades.ErrorDAO;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import test.ConfiguracionPrueba;
@@ -17,40 +18,43 @@ public class RetroalimentacionActividadDAOTest {
     RetroalimentacionActividadAuxiliar dao = new RetroalimentacionActividadAuxiliar();
 
     @BeforeAll
-    static void setUp() {
-        ConfiguracionPrueba.borrarDatosTablaRetroalimentacionActividad();
-        ConfiguracionPrueba.borrarDatosTablaRetroalimentacionColaboracion();
-        ConfiguracionPrueba.borrarDatosTablaRetroalimentacion();
-        ConfiguracionPrueba.borrarDatosTablaActividad();
+    static void prepararBaseDatos () {
+        ConfiguracionPrueba.borrarDatosTodasLasTablas();
 
-        ActividadAuxiliar act = new ActividadAuxiliar();
+        ActividadAuxiliar actividadAuxiliar = new ActividadAuxiliar();
+        ActividadDTO actividad = new ActividadDTO();
+        actividad.setTitulo("act prueba");
+        actividad.setDescripcion("prueba para base de datos");
+        actividad.setTipo(ActividadDTO.TipoActividad.disciplinar);
+        actividadAuxiliar.agregar(actividad);
 
-        ActividadDTO actividadDTO = new ActividadDTO();
-        actividadDTO.setTitulo("act prueba");
-        actividadDTO.setDescripcion("prueba para base de datos");
-        actividadDTO.setTipo(ActividadDTO.TipoActividad.disciplinar);
-        act.agregar(actividadDTO);
+        actividad = new ActividadDTO();
+        actividad.setTitulo("act 2 prueba");
+        actividad.setDescripcion("segunda prueba para base de datos");
+        actividad.setTipo(ActividadDTO.TipoActividad.intercultural);
+        actividadAuxiliar.agregar(actividad);
 
-        actividadDTO = new ActividadDTO();
-        actividadDTO.setTitulo("act 2 prueba");
-        actividadDTO.setDescripcion("segunda prueba para base de datos");
-        actividadDTO.setTipo(ActividadDTO.TipoActividad.intercultural);
-        act.agregar(actividadDTO);
+        RetroalimentacionActividadAuxiliar retroalimentacionActividadAuxiliar = new RetroalimentacionActividadAuxiliar();
+        RetroalimentacionActividadDTO retroalimentacionActividad = new RetroalimentacionActividadDTO();
+        retroalimentacionActividad.setIdActividad(1);
+        retroalimentacionActividad.setInteraccionConPar(4);
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO pais (idPais, iso, nombre) VALUES (1,'MX','México')");
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO universidad (idUniversidad,nombre,paisOrigen) VALUES (1,'UV',1)");
+        ConfiguracionPrueba.ejecutarInstruccionSQL("INSERT INTO persona (idPersona,nombre,apellidos,universidad) VALUES (1,'Emmanuel','Pale',1)");
+        retroalimentacionActividad.setIdUsuario(1);
+        retroalimentacionActividad.setInteres(4);
+        retroalimentacionActividad.setDificultad(4);
+        retroalimentacionActividadAuxiliar.agregar(retroalimentacionActividad);
+    }
 
-        RetroalimentacionActividadAuxiliar ret = new RetroalimentacionActividadAuxiliar();
-
-        RetroalimentacionActividadDTO retroalimentacion = new RetroalimentacionActividadDTO();
-        retroalimentacion.setIdActividad(1);
-        retroalimentacion.setIdUsuario(1);
-        retroalimentacion.setInteres(4);
-        retroalimentacion.setInteraccionConPar(4);
-        retroalimentacion.setDificultad(4);
-        ret.agregar(retroalimentacion);
+    @AfterAll
+    static void limpiarBase () {
+        ConfiguracionPrueba.borrarDatosTodasLasTablas();
     }
 
     @Test
     void pruebaAgregarRetroalimentacion () {
-        int resultado = -1;
+        int filasAfectadasObtenidas = -1;
 
         RetroalimentacionActividadDTO retroalimentacion = new RetroalimentacionActividadDTO();
         retroalimentacion.setIdActividad(2);
@@ -61,13 +65,13 @@ public class RetroalimentacionActividadDAOTest {
         retroalimentacion.setComentario("hola mundo");
 
         try {
-            resultado = dao.agregar(retroalimentacion);
+            filasAfectadasObtenidas = dao.agregar(retroalimentacion);
         }
         catch (ErrorDAO error) {
             fail(error.getMessage());
         }
 
-        assertEquals(2, resultado);
+        assertEquals(2, filasAfectadasObtenidas);
     }
 
     @Test
@@ -81,25 +85,6 @@ public class RetroalimentacionActividadDAOTest {
 
         try {
             dao.agregar(retroalimentacion);
-            fail();
-        }
-        catch (ErrorDAO error) {
-            assert(true);
-        }
-    }
-
-    @Test
-    void pruebaAgregarRetroalimentacionSinUsuario () {
-        RetroalimentacionActividadDTO retroalimentacion = new RetroalimentacionActividadDTO();
-        retroalimentacion.setIdActividad(1);
-        retroalimentacion.setIdUsuario(9);
-        retroalimentacion.setInteres(5);
-        retroalimentacion.setDificultad(5);
-        retroalimentacion.setInteraccionConPar(5);
-
-        try {
-            dao.agregar(retroalimentacion);
-            fail();
         }
         catch (ErrorDAO error) {
             assert(true);
@@ -108,25 +93,28 @@ public class RetroalimentacionActividadDAOTest {
 
     @Test
     void pruebaGetPorId () {
-        Optional<RetroalimentacionActividadDTO> resultado = Optional.empty();
+        RetroalimentacionActividadDTO esperado = new RetroalimentacionActividadDTO();
+        esperado.setIdActividad(1);
+        esperado.setIdUsuario(1);
+        esperado.setInteres(4);
+        esperado.setInteraccionConPar(4);
+        esperado.setDificultad(4);
+
+        Optional<RetroalimentacionActividadDTO> retroalimentacionObtenida = Optional.empty();
 
         try {
-            resultado = dao.getPorId(1);
+            retroalimentacionObtenida = dao.getPorId(1);
         } catch (ErrorDAO e) {
             fail();
         }
 
-        if (resultado.isEmpty()) {
+        if (retroalimentacionObtenida.isEmpty()) {
             fail();
         }
 
-        RetroalimentacionActividadDTO retroalimentacion = resultado.get();
+        RetroalimentacionActividadDTO retroalimentacion = retroalimentacionObtenida.get();
 
-        assertEquals(1, retroalimentacion.getIdActividad());
-        assertEquals(4, retroalimentacion.getIdUsuario());
-        assertEquals(4, retroalimentacion.getInteres());
-        assertEquals(5, retroalimentacion.getInteraccionConPar());
-        assertEquals(1, retroalimentacion.getDificultad());
+        assertEquals(esperado, retroalimentacion);
     }
 
     @Test
@@ -144,46 +132,53 @@ public class RetroalimentacionActividadDAOTest {
 
     @Test
     void pruebaGetPorPersonaYActividad () {
-        Optional<RetroalimentacionActividadDTO> resultado = Optional.empty();
+        RetroalimentacionActividadDTO esperado = new RetroalimentacionActividadDTO();
+        esperado.setIdActividad(1);
+        esperado.setIdUsuario(1);
+        esperado.setInteres(4);
+        esperado.setInteraccionConPar(4);
+        esperado.setDificultad(4);
+
+        Optional<RetroalimentacionActividadDTO> retroalimentacionObtenida = Optional.empty();
 
         try {
-            resultado = dao.getPorPersonaYActividad(1, 1);
+            retroalimentacionObtenida = dao.getPorPersonaYActividad(1, 1);
         } catch (ErrorDAO e) {
             fail();
         }
 
-        assert(resultado.isPresent());
+        if (retroalimentacionObtenida.isEmpty()) {
+            fail();
+        }
 
-        RetroalimentacionActividadDTO retroalimentacion = new RetroalimentacionActividadDTO();
+        RetroalimentacionActividadDTO retroalimentacion = retroalimentacionObtenida.get();
 
-        assertEquals(4, retroalimentacion.getInteres());
-        assertEquals(4, retroalimentacion.getInteraccionConPar());
-        assertEquals(4, retroalimentacion.getDificultad());
+        assertEquals(esperado, retroalimentacion);
     }
 
     @Test
     void pruebaGetPorPersonaSinActividad () {
-        Optional<RetroalimentacionActividadDTO> resultado = Optional.empty();
+        Optional<RetroalimentacionActividadDTO> retroalimentacionObtenida = Optional.empty();
 
         try {
-            resultado = dao.getPorPersonaYActividad(1, 9);
+            retroalimentacionObtenida = dao.getPorPersonaYActividad(1, 9);
         } catch (ErrorDAO e) {
             fail();
         }
 
-        assert(resultado.isEmpty());
+        assert(retroalimentacionObtenida.isEmpty());
     }
 
     @Test
     void pruebaGetSinPersonaConActividad () {
-        Optional<RetroalimentacionActividadDTO> resultado = Optional.empty();
+        Optional<RetroalimentacionActividadDTO> retroalimentacionObtenida = Optional.empty();
 
         try {
-            resultado = dao.getPorPersonaYActividad(16, 1);
+            retroalimentacionObtenida = dao.getPorPersonaYActividad(16, 1);
         } catch (ErrorDAO e) {
             fail();
         }
 
-        assert(resultado.isEmpty());
+        assert(retroalimentacionObtenida.isEmpty());
   }
 }

@@ -5,7 +5,7 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -53,17 +53,18 @@
       <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <Label layoutX="40.0" layoutY="37.0" styleClass="label-inicioSesion-naranja" text="Perfil del estudiante" />
-            <TextField fx:id="tfPerfil" layoutX="181.0" layoutY="33.0" prefHeight="25.0" prefWidth="651.0" promptText="Ingresa el perfil de los estudiantes" styleClass="label-inicioSesion-naranja" />
-            <ComboBox fx:id="cmbIdioma" layoutX="181.0" layoutY="90.0" prefHeight="25.0" prefWidth="213.0" promptText="Selecciona un idioma" styleClass="label-inicioSesion-rosado" />
-            <Label layoutX="40.0" layoutY="94.0" styleClass="label-inicioSesion-rosado" text="Idioma" />
-            <RadioButton fx:id="rbClaseEspejo" layoutX="181.0" layoutY="153.0" mnemonicParsing="false" styleClass="label-inicioSesion-naranja" text="Clase espejo">
+            <ComboBox fx:id="cmbIdioma" layoutX="185.0" layoutY="263.0" prefHeight="25.0" prefWidth="213.0" promptText="Selecciona un idioma" styleClass="label-inicioSesion-rosado" />
+            <Label layoutX="44.0" layoutY="267.0" styleClass="label-inicioSesion-rosado" text="Idioma" />
+            <RadioButton fx:id="rbClaseEspejo" layoutX="185.0" layoutY="326.0" mnemonicParsing="false" styleClass="label-inicioSesion-naranja" text="Clase espejo">
                <toggleGroup>
                   <ToggleGroup fx:id="colaboracion" />
                </toggleGroup>
             </RadioButton>
-            <RadioButton fx:id="rbCoil" layoutX="337.0" layoutY="153.0" mnemonicParsing="false" styleClass="label-inicioSesion-naranja" text="COIL" toggleGroup="$colaboracion" />
-            <Label layoutX="36.0" layoutY="153.0" styleClass="label-inicioSesion-naranja" text="Tipo de colaboración" />
-            <Button layoutX="662.0" layoutY="255.0" mnemonicParsing="false" onAction="#completarColaboracion" prefHeight="46.0" prefWidth="160.0" styleClass="button-principal" stylesheets="@Recursos/EstiloVentanas.css" text="Completar" />
+            <RadioButton fx:id="rbCoil" layoutX="341.0" layoutY="326.0" mnemonicParsing="false" styleClass="label-inicioSesion-naranja" text="COIL" toggleGroup="$colaboracion" />
+            <Label layoutX="40.0" layoutY="326.0" styleClass="label-inicioSesion-naranja" text="Tipo de colaboración" />
+            <Button layoutX="661.0" layoutY="373.0" mnemonicParsing="false" onAction="#completarColaboracion" prefHeight="46.0" prefWidth="160.0" styleClass="button-principal" stylesheets="@Recursos/EstiloVentanas.css" text="Completar" />
+            <TextArea fx:id="taPerfilEstudiante" layoutX="192.0" layoutY="37.0" prefHeight="200.0" prefWidth="626.0" promptText="Ingresa el perfil de los estudiantes" styleClass="label-inicioSesion-naranja" stylesheets="@Recursos/EstiloLabels.css" wrapText="true" />
+            <Label fx:id="lbContadorPerfilEstudiante" layoutX="638.0" layoutY="20.0" text="a" />
          </children>
       </Pane>
    </center>

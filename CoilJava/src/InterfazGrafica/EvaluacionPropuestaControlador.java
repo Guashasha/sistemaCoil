@@ -22,8 +22,7 @@ import java.util.Stack;
 
 public class EvaluacionPropuestaControlador implements Initializable {
     private static final Logger BITACORA = Logger.getLogger(EvaluacionPropuestaControlador.class);
-    @FXML
-    private Pane pnPropuestaPlantilla;
+
     @FXML
     private VBox vboxContenedor;
     private Stack<Pane> historialPaneles = new Stack<>();
@@ -58,7 +57,6 @@ public class EvaluacionPropuestaControlador implements Initializable {
         catch (ErrorDAO errorDAO) {
             mostrarAlert(errorDAO.getMessage(), Alert.AlertType.ERROR);
         }
-
     }
 
     @FXML
@@ -94,27 +92,29 @@ public class EvaluacionPropuestaControlador implements Initializable {
     private void cambiarEstadoPropuestaAceptado (PropuestaItemControlador propuestaItemControlador, Pane pane) {
         ColaboracionAuxiliar colaboracionAuxiliar = new ColaboracionAuxiliar();
         ColaboracionDTO colaboracionDTO = propuestaItemControlador.getColaboracionDTO();
-        colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.aceptada);
         try {
-            colaboracionAuxiliar.cambiarEstadoColaboracion(colaboracionDTO);
+            colaboracionAuxiliar.cambiarEstadoColaboracion("aceptada", colaboracionDTO.getIdColaboracion());
+            colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.aceptada);
+
             vboxContenedor.getChildren()
                           .remove(pane);
+            mostrarAlert("Propuesta aceptada", Alert.AlertType.INFORMATION);
         }
         catch (ErrorDAO errorDAO) {
             mostrarAlert(errorDAO.getMessage(), Alert.AlertType.ERROR);
         }
     }
 
-
-
     private void cambiarEstadoPropuestaRechazado (PropuestaItemControlador propuestaItemControlador, Pane pane) {
         ColaboracionAuxiliar colaboracionAuxiliar = new ColaboracionAuxiliar();
         ColaboracionDTO colaboracionDTO = propuestaItemControlador.getColaboracionDTO();
-        colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.rechazada);
         try {
-            colaboracionAuxiliar.cambiarEstadoColaboracion(colaboracionDTO);
+            colaboracionAuxiliar.cambiarEstadoColaboracion("rechazada", colaboracionDTO.getIdColaboracion());
+            colaboracionDTO.setEstado(ColaboracionDTO.EstadoColaboracion.rechazada);
+
             vboxContenedor.getChildren()
                           .remove(pane);
+            mostrarAlert("Propuesta rechazada", Alert.AlertType.INFORMATION);
         }
         catch (ErrorDAO errorDAO) {
             mostrarAlert(errorDAO.getMessage(), Alert.AlertType.ERROR);

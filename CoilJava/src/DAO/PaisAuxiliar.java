@@ -2,63 +2,50 @@ package DAO;
 
 import DTO.PaisDTO;
 import Utilidades.ErrorDAO;
-import org.apache.log4j.Logger;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * La clase PaisAuxiliar funciona como intermediario entre el cliente y las clases DAO. Procesa y valida la información de los parámetros antes de mandarla o después de recibirla de las clases DAO.
+ * @author pale
+ */
 public class PaisAuxiliar {
-    private final static Logger BITACORA = Logger.getLogger(PaisAuxiliar.class);
     private final PaisDAO PAIS_DAO = new PaisDAO();
 
+    /**
+     * Procesa todos los países que están registrados y obtiene una lista de los nombres ordenados de manera alfabética
+     * @return Lista de los nombres de todos los países ordenados de manera alfabética.
+     * @throws ErrorDAO si ocurre un error o durante el acceso a la base de datos.
+     */
     public List<String> getNombresPaisesAlfabeticamente () throws ErrorDAO {
-        List<PaisDTO> listaPaises;
-        List<String> nombresPaises = new ArrayList<>();
-
-        try {
-            listaPaises = PAIS_DAO.getPaisesAlfabeticamente();
-        } catch (SQLException error) {
-            BITACORA.info(error.getMessage());
-            throw new ErrorDAO("Error al establecer conexión con la base de datos", ErrorDAO.Tipo.CONEXION);
-        }
+        List<PaisDTO> listaPaises = PAIS_DAO.getPaisesAlfabeticamente();
+        List<String> listaNombresPaises = new ArrayList<>();
 
         for (PaisDTO paisDTO : listaPaises) {
-            nombresPaises.add(paisDTO.getNombre());
+            listaNombresPaises.add(paisDTO.getNombre());
         }
 
-        return nombresPaises;
+        return listaNombresPaises;
     }
 
+    /**
+     * Valida los parámetros para obtener un país de acuerdo a su nombre, utilizando la clase PaisDAO.
+     * @param nombre Nombre del País a buscar.
+     * @return Objeto Optional con el Pais inicializado con su id, iso y nombre; o un objeto Optional vacío si no se encuentran resultados.
+     * @throws ErrorDAO si ocurre un error en la validación de los parámetros o durante el acceso a la base de datos.
+     */
     public Optional<PaisDTO> getPaisPorNombre (String nombre) throws ErrorDAO {
-        Optional<PaisDTO> paisDTOOptional;
-        if (nombre != null && !nombre.isBlank()) {
-            try {
-                paisDTOOptional = PAIS_DAO.getPaisPorNombre(nombre.trim());
-            } catch (SQLException error) {
-                BITACORA.info(error.getMessage());
-                throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
-            }
-        }
-        else {
-            throw new ErrorDAO("Nombre vacío", ErrorDAO.Tipo.VALIDACION);
-        }
-        return paisDTOOptional;
-    }
+        Optional<PaisDTO> paisOptional;
+        PaisDTO paisBuscado = new PaisDTO(nombre);
 
-    public Optional<PaisDTO> getPaisPorId (int id) throws ErrorDAO {
-        Optional<PaisDTO> paisDTOOptional;
-        if (id > 0) {
-            try {
-                paisDTOOptional = PAIS_DAO.getPaisPorId(id);
-            } catch (SQLException error) {
-                BITACORA.info(error.getMessage());
-                throw new ErrorDAO(error.getMessage(), ErrorDAO.Tipo.CONSULTA);
-            }
+        if (paisBuscado.nombreValido()) {
+            paisOptional = PAIS_DAO.getPaisPorNombre(nombre.trim());
         }
         else {
-            throw new ErrorDAO("ID inválido", ErrorDAO.Tipo.VALIDACION);
+            throw new ErrorDAO("Los nombres no pueden contener caracteres especiales.\nSolo son válidas letras del alfabeto en español y guiones en el medio", ErrorDAO.Tipo.VALIDACION);
         }
-        return paisDTOOptional;
+
+        return paisOptional;
     }
 }
