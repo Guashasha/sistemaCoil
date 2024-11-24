@@ -55,18 +55,24 @@ public class RegistroEstudianteControlador {
         }
     }
 
+    private EstudianteDTO getEstudianteDeTextFields() {
+        EstudianteDTO estudiante = new EstudianteDTO();
+        estudiante.setNombre(this.tfNombre.getText());
+        estudiante.setApellidos(this.tfApellidos.getText());
+        estudiante.setIdUniversidad(this.universidad.getId());
+        estudiante.setMatricula(this.tfMatricula.getText());
+        return estudiante;
+    }
+
     @FXML
     private void registrarEstudiante () {
         if (!camposVacios()) {
             EstudianteAuxiliar estudianteAuxiliar = new EstudianteAuxiliar();
-            EstudianteDTO estudiante = new EstudianteDTO();
+            EstudianteDTO estudiante;
             int filasAfectadas;
 
             try {
-                estudiante.setNombre(this.tfNombre.getText());
-                estudiante.setApellidos(this.tfApellidos.getText());
-                estudiante.setIdUniversidad(this.universidad.getId());
-                estudiante.setMatricula(this.tfMatricula.getText());
+                estudiante = getEstudianteDeTextFields();
                 filasAfectadas = estudianteAuxiliar.agregar(estudiante);
             }
             catch (ErrorDAO error) {

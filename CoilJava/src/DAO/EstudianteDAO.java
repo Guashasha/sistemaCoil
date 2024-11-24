@@ -48,6 +48,9 @@ public class EstudianteDAO implements IEstudianteDAO {
             BITACORA.warn(error.getMessage());
             throw new ErrorDAO("Error al agregar estudiantes", Tipo.CONEXION);
         }
+        catch (NullPointerException error) {
+            throw new ErrorDAO("Existen campos vacíos en el estudiante", Tipo.VALIDACION);
+        }
         finally {
             AdministradorBaseDatos.desconectar();
         }

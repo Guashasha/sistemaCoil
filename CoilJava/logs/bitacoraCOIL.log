@@ -729,3 +729,5 @@ Conctacte a un técnico
 2024-06-24 12:30:24 ERROR NuevaActividadControlador:147 - Utilidades.ErrorDAO: Tiempo de espera de conexión agotado. Por favor, inténtelo nuevamente.
 2024-06-24 12:30:32 FATAL AdministradorBaseDatos:43 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.241.30)(port=3306)(type=primary). Connection refused
 2024-06-25 09:41:03 FATAL AdministradorBaseDatos:43 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.241.30)(port=3306)(type=primary). Connection timed out: getsockopt
+2024-11-24 12:05:56 FATAL AdministradorBaseDatos:43 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.241.30)(port=3306)(type=primary). Connect timed out
+2024-11-24 12:06:02 FATAL AdministradorBaseDatos:43 - java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=192.168.241.30)(port=3306)(type=primary). Network is unreachable
